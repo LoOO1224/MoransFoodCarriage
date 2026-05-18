@@ -1,0 +1,17 @@
+[
+  {
+    "Id": "Costume_01",
+    "Name": "맨투맨",
+    "Description": "맨투맨이다"
+  },
+  {
+    "Id": "Costume_02",
+    "Name": "청바지",
+    "Description": "청바지다"
+  },
+  {
+    "Id": "Costume_03",
+    "Name": "머메이드드레스",
+    "Description": "머메이드 드레스다"
+  }
+]

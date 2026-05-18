@@ -1,0 +1,17 @@
+[
+  {
+    "Id": "Weapon_Sword_1",
+    "Name": "검",
+    "Description": "석기시대의 검이다."
+  },
+  {
+    "Id": "Weapon_Braclet_1",
+    "Name": "마법팔찌",
+    "Description": "마법을 사용할 수 있는 팔찌"
+  },
+  {
+    "Id": "Weapon_CoffeeCup_1",
+    "Name": "커피",
+    "Description": "일순간 잉여가 될 수 있는 마법의 커피. 시공간을 분리시킨다."
+  }
+]
