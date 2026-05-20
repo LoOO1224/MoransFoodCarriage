@@ -41,3 +41,4 @@ $RECYCLE.BIN/
 !.vscode/launch.json
 !.vscode/extensions.json
 .history/
+Assets/Scripts/OO_MFC/Cooking/using System;  \[Serializable] public class IngredientData  GameDataBase {     public string Name;     public string Description;     public string IconPath;     public string Grade;            일반, 좋음, 희귀, 신화     public int MaxStackCount; }.cs
