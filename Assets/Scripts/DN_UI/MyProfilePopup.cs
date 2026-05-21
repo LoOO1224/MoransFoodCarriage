@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-
+/*
 public class MyProfilePopup : MonoBehaviour
 {
     [SerializeField] private Text Text_Title;
@@ -61,3 +61,4 @@ public class MyProfilePopup : MonoBehaviour
         //}
     }
 }
+*/

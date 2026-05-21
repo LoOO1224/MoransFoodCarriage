@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+﻿/*using UnityEngine;
 
 public enum UIType
 {
@@ -94,4 +94,5 @@ public static class UIManagerExtension
         }
     }
 }
+*/
 

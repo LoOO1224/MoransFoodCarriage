@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-
+/*
 // 관리주체 역할
 public class DaniTech_SampleInventoryUI : MonoBehaviour
 {
@@ -76,3 +76,4 @@ public class DaniTech_SampleInventoryUI : MonoBehaviour
     }
 
 }
+*/

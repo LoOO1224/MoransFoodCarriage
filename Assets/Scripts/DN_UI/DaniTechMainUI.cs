@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-
+/*
 public class DaniTechMainUI : MonoBehaviour
 {
     [SerializeField] private DaniTechUIButton Btn_MyProfile;
@@ -34,3 +34,4 @@ public class DaniTechMainUI : MonoBehaviour
 
 
 }
+*/

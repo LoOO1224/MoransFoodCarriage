@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/*
 public class DaniTechUIManager : MonoBehaviour
 {
     [SerializeField] GameObject UIRoot;
@@ -70,3 +70,4 @@ public class DaniTechUIManager : MonoBehaviour
 
 
 }
+*/
