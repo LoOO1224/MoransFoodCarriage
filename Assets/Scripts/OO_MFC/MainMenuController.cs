@@ -2,7 +2,10 @@ using UnityEngine;
 
 public class MainMenuController : MonoBehaviour
 {
-    // ==================== Main Menu 버튼 이벤트 ====================
+    [Header("Codex BGM")]
+    [SerializeField] private AudioClip _codexBGM;
+
+    // ==================== 버튼 이벤트 ====================
 
     public void OnStartButtonClicked()
     {
@@ -12,6 +15,9 @@ public class MainMenuController : MonoBehaviour
     public void OnCodexButtonClicked()
     {
         UIManagerExtension.OnCodexButtonClicked();
+
+        if (OOTechSoundManager.Inst != null && _codexBGM != null)
+            OOTechSoundManager.Inst.PlayBGM(_codexBGM);
     }
 
     public void OnExitButtonClicked()

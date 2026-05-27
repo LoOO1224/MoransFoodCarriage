@@ -1,14 +1,19 @@
 using UnityEngine;
 using System.Collections.Generic;
 
+/// <summary>
+/// OOTechUIManager
+/// PDF ìŠ¤íƒ€ì¼ì— ë”°ë¼ UI ê·¸ë£¹ë“¤ì„ ì¤‘ì•™ì—ì„œ ê´€ë¦¬í•˜ëŠ” ë§¤ë‹ˆì €ì…ë‹ˆë‹¤.
+/// </summary>
 public class OOTechUIManager : MonoBehaviour
 {
     public static OOTechUIManager Inst { get; private set; }
 
-    // »ı¼ºµÈ UI °ü¸®
-    private Dictionary<string, GameObject> _createdUIDic = new Dictionary<string, GameObject>();
-    // ÇöÀç ¿­·ÁÀÖ´Â UI °ü¸®
-    private Dictionary<string, GameObject> _openedUIDic = new Dictionary<string, GameObject>();
+    [Header("Scene UI Groups - Inspectorì—ì„œ ê·¸ë£¹ì„ ë“±ë¡í•˜ì„¸ìš”")]
+    [SerializeField] private UIGroupReference[] _initialGroups = new UIGroupReference[0];
+
+    private readonly Dictionary<string, GameObject> _createdUIDic = new Dictionary<string, GameObject>();
+    private readonly Dictionary<string, GameObject> _openedUIDic = new Dictionary<string, GameObject>();
 
     private void Awake()
     {
@@ -17,54 +22,94 @@ public class OOTechUIManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
+
         Inst = this;
         DontDestroyOnLoad(gameObject);
-    }
 
-    // ==================== UI Open / Close ====================
-
-    public void OpenUI(string uiName)
-    {
-        if (string.IsNullOrEmpty(uiName)) return;
-
-        Debug.Log($"[OOTechUIManager] OpenUI: {uiName}");
-
-        if (_openedUIDic.ContainsKey(uiName))
+        foreach (UIGroupReference group in _initialGroups)
         {
-            Debug.LogWarning($"ÀÌ¹Ì ¿­·ÁÀÖ´Â UIÀÔ´Ï´Ù: {uiName}");
-            return;
+            if (group != null && group.Group != null)
+            {
+                RegisterUI(group.Name, group.Group);
+            }
         }
 
-        // TODO: ½ÇÁ¦ UI »ı¼º ·ÎÁ÷ (³ªÁß¿¡ ResourceManager¿Í ¿¬µ¿)
-        if (_createdUIDic.TryGetValue(uiName, out GameObject ui))
+        Debug.Log("[OOTechUIManager] ì´ˆê¸°í™” ì™„ë£Œ");
+    }
+
+    private void OnDestroy()
+    {
+        if (Inst == this)
+            Inst = null;
+    }
+
+    // ==================== UI ë“±ë¡ ====================
+    public void RegisterUI(string uiName, GameObject uiObject)
+    {
+        if (string.IsNullOrEmpty(uiName) || uiObject == null) return;
+
+        _createdUIDic[uiName] = uiObject;
+
+        if (uiObject.activeSelf)
+            _openedUIDic[uiName] = uiObject;
+
+        Debug.Log($"[OOTechUIManager] UI ë“±ë¡ ì™„ë£Œ: {uiName}");
+    }
+
+    // ==================== UI ì œì–´ ====================
+    public bool OpenUI(string uiName)
+    {
+        if (!_createdUIDic.TryGetValue(uiName, out GameObject ui) || ui == null)
         {
-            ui.SetActive(true);
-            _openedUIDic.Add(uiName, ui);
+            Debug.LogWarning($"[OOTechUIManager] ë“±ë¡ë˜ì§€ ì•Šì€ UI: {uiName}");
+            return false;
+        }
+
+        ui.SetActive(true);
+        _openedUIDic[uiName] = ui;
+        Debug.Log($"[OOTechUIManager] OpenUI ì„±ê³µ: {uiName}");
+        return true;
+    }
+
+    public bool CloseUI(string uiName)
+    {
+        if (!_createdUIDic.TryGetValue(uiName, out GameObject ui) || ui == null)
+        {
+            Debug.LogWarning($"[OOTechUIManager] ë“±ë¡ë˜ì§€ ì•Šì€ UI: {uiName}");
+            return false;
+        }
+
+        ui.SetActive(false);
+        _openedUIDic.Remove(uiName);
+        Debug.Log($"[OOTechUIManager] CloseUI ì„±ê³µ: {uiName}");
+        return true;
+    }
+
+    public bool SwitchUI(string closingUIName, string openingUIName)
+    {
+        CloseUI(closingUIName);
+        return OpenUI(openingUIName);
+    }
+
+    // ==================== ë””ë²„ê¹…ìš© ====================
+    public void PrintRegisteredUI()
+    {
+        Debug.Log("=== ë“±ë¡ëœ UI ëª©ë¡ ===");
+        foreach (var pair in _createdUIDic)
+        {
+            Debug.Log($"ë“±ë¡ëœ UI: {pair.Key} (í™œì„±: {pair.Value.activeSelf})");
         }
     }
 
-    public void CloseUI(string uiName)
-    {
-        if (string.IsNullOrEmpty(uiName)) return;
+    // ==================== í¸ì˜ ë©”ì„œë“œ ====================
+    public void ShowMainMenu() => OpenUI("MainMenuGroup");
+    public void HideMainMenu() => CloseUI("MainMenuGroup");
+}
 
-        Debug.Log($"[OOTechUIManager] CloseUI: {uiName}");
-
-        if (_openedUIDic.ContainsKey(uiName))
-        {
-            _openedUIDic[uiName].SetActive(false);
-            _openedUIDic.Remove(uiName);
-        }
-    }
-
-    // ==================== Group °ü¸®¿ë ÆíÀÇ ¸Ş¼­µå ====================
-
-    public void ShowMainMenu()
-    {
-        OpenUI("MainMenuGroup");
-    }
-
-    public void HideMainMenu()
-    {
-        CloseUI("MainMenuGroup");
-    }
+// ==================== Inspectorì—ì„œ ì‚¬ìš©ë˜ëŠ” í´ë˜ìŠ¤ ====================
+[System.Serializable]
+public class UIGroupReference
+{
+    public string Name;
+    public GameObject Group;
 }

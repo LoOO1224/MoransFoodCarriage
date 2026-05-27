@@ -18,14 +18,17 @@ public class OOTechSoundManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    // ==================== BGM 재생 ====================
+    // ==================== BGM ====================
     public void PlayBGM(AudioClip bgmClip, bool loop = true)
     {
         if (bgmClip == null) return;
 
-        _bgmSource.clip = bgmClip;
-        _bgmSource.loop = loop;
-        _bgmSource.Play();
+        if (_bgmSource.clip != bgmClip)
+        {
+            _bgmSource.clip = bgmClip;
+            _bgmSource.loop = loop;
+            _bgmSource.Play();
+        }
     }
 
     public void StopBGM()
@@ -33,7 +36,7 @@ public class OOTechSoundManager : MonoBehaviour
         _bgmSource.Stop();
     }
 
-    // ==================== SFX 재생 ====================
+    // ==================== SFX ====================
     public void PlaySFX(AudioClip sfxClip)
     {
         if (sfxClip == null) return;

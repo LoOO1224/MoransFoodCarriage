@@ -1,42 +1,58 @@
 using UnityEngine;
 
+/// <summary>
+/// ì‹ ê·œ UI ì´ë²¤íŠ¸ë“¤ì„ í™•ì¥ ë©”ì„œë“œë¡œ ê´€ë¦¬í•˜ëŠ” ì •ì  í´ë˜ìŠ¤ì…ë‹ˆë‹¤.
+/// ëª¨ë“  ë²„íŠ¼ í´ë¦­ ë¡œì§ì€ ì´ê³³ì—ì„œ ì¤‘ì•™ ì§‘ì¤‘ ê´€ë¦¬í•˜ì—¬ ìœ ì§€ë³´ìˆ˜ë¥¼ ì‰½ê²Œ í•©ë‹ˆë‹¤.
+/// </summary>
 public static class UIManagerExtension
 {
-    // ==================== Main Menu ¹öÆ° ÀÌº¥Æ® ====================
+    // ==================== Main Menu ë²„íŠ¼ ì´ë²¤íŠ¸ ====================
 
     /// <summary>
-    /// ½ÃÀÛÇÏ±â ¹öÆ° Å¬¸¯ - ÇÁ·Ñ·Î±×·Î ÀÌµ¿
+    /// ì‹œì‘í•˜ê¸° ë²„íŠ¼ í´ë¦­ ì‹œ í˜¸ì¶œë©ë‹ˆë‹¤.
     /// </summary>
     public static void OnStartButtonClicked()
     {
-        Debug.Log("[UIManagerExtension] ½ÃÀÛÇÏ±â ¹öÆ° Å¬¸¯ ¡æ ÇÁ·Ñ·Î±×·Î ÀÌµ¿");
+        Debug.Log("[UIManagerExtension] ì‹œì‘í•˜ê¸° ë²„íŠ¼ í´ë¦­");
 
-        // MainMenuGroup ´İ±â
         if (OOTechUIManager.Inst != null)
-        {
             OOTechUIManager.Inst.CloseUI("MainMenuGroup");
-        }
-
-        // TODO: PrologueGroup ¿­±â (´ÙÀ½ ´Ü°è¿¡¼­ ±¸Çö)
-        Debug.LogWarning("PrologueGroup ¿­±â ·ÎÁ÷Àº ¾ÆÁ÷ ±¸ÇöµÇÁö ¾Ê¾Ò½À´Ï´Ù.");
     }
 
     /// <summary>
-    /// µµ°¨ ¹öÆ° Å¬¸¯
+    /// ë„ê° ë²„íŠ¼ í´ë¦­ ì‹œ í˜¸ì¶œë©ë‹ˆë‹¤.
     /// </summary>
     public static void OnCodexButtonClicked()
     {
-        Debug.Log("[UIManagerExtension] µµ°¨ ¹öÆ° Å¬¸¯");
-        // TODO: CodexGroup ¿­±â
-        Debug.LogWarning("CodexGroup ¿­±â ·ÎÁ÷Àº ¾ÆÁ÷ ±¸ÇöµÇÁö ¾Ê¾Ò½À´Ï´Ù.");
+        Debug.Log("[UIManagerExtension] ë„ê° ë²„íŠ¼ í´ë¦­ â†’ CodexGroup ì—´ê¸°");
+
+        if (OOTechUIManager.Inst != null)
+        {
+            OOTechUIManager.Inst.SwitchUI("MainMenuGroup", "CodexGroup");
+        }
     }
 
     /// <summary>
-    /// Á¾·á ¹öÆ° Å¬¸¯
+    /// ì¢…ë£Œ ë²„íŠ¼ í´ë¦­ ì‹œ í˜¸ì¶œë©ë‹ˆë‹¤.
     /// </summary>
     public static void OnExitButtonClicked()
     {
-        Debug.Log("[UIManagerExtension] Á¾·á ¹öÆ° Å¬¸¯ ¡æ °ÔÀÓ Á¾·á");
+        Debug.Log("[UIManagerExtension] ì¢…ë£Œ ë²„íŠ¼ í´ë¦­ â†’ ê²Œì„ ì¢…ë£Œ");
         Application.Quit();
+    }
+
+    // ==================== BackButton ì´ë²¤íŠ¸ ====================
+
+    /// <summary>
+    /// CommonBackButtonì—ì„œ í˜¸ì¶œë˜ëŠ” ê³µìš© ë’¤ë¡œê°€ê¸° ë©”ì„œë“œ
+    /// </summary>
+    public static void OnBackButtonClicked(string previousGroupName = "MainMenuGroup")
+    {
+        Debug.Log($"[UIManagerExtension] BackButton í´ë¦­ â†’ {previousGroupName}ìœ¼ë¡œ ëŒì•„ê°€ê¸°");
+
+        if (OOTechUIManager.Inst != null)
+        {
+            OOTechUIManager.Inst.SwitchUI("CodexGroup", previousGroupName);
+        }
     }
 }
