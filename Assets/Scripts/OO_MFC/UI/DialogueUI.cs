@@ -9,7 +9,7 @@ public class DialogueUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _dialogueText;
     [SerializeField] private Button _nextButton;
 
-    private DialogueData _currentDialogue;
+    private OO_Dialogue _currentDialogue;
     private System.Action _onDialogueEnd;
 
     private void Awake()
@@ -19,7 +19,7 @@ public class DialogueUI : MonoBehaviour
     }
 
     // ==================== 대화 시작 ====================
-    public void ShowDialogue(DialogueData dialogueData, System.Action onEnd = null)
+    public void ShowDialogue(OO_Dialogue dialogueData, System.Action onEnd = null)
     {
         _currentDialogue = dialogueData;
         _onDialogueEnd = onEnd;
