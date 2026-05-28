@@ -1,16 +1,16 @@
 ﻿using UnityEngine;
 
 /// <summary>
-/// 카메라가 지정된 타겟을 따라가도록 관리하는 컨트롤러입니다.
-/// Tutorial1Group에서는 장영심 Transform을 직접 참조하여 따라가며, 별도의 검색 함수는 사용하지 않습니다.
+/// CameraFollowController
+/// 
+/// 지정된 대상을 부드럽게 따라가는 카메라 컨트롤러입니다.
+/// Senario1Group에서는 Jaeik을 시작으로, 이후 새로운 캐릭터로 대상을 전환할 수 있도록 설계되었습니다.
 /// </summary>
 public class CameraFollowController : MonoBehaviour
 {
-    [Header("Target")]
-    [SerializeField] private Transform _target;
-
-    [Header("Follow Setting")]
-    [SerializeField] private float _smoothSpeed = 8f;
+    [Header("Follow Settings")]
+    [SerializeField] private Transform _target;           // 현재 따라갈 대상
+    [SerializeField] private float _smoothSpeed = 8f;     // 부드러운 따라가기 속도
 
     [Header("Camera Boundary")]
     [SerializeField] private float _minX = -14.3f;
@@ -18,33 +18,38 @@ public class CameraFollowController : MonoBehaviour
     [SerializeField] private float _minY = -8f;
     [SerializeField] private float _maxY = 15f;
 
-    // ==================== 카메라 추적 ====================
-
     private void LateUpdate()
     {
         UpdateCameraPosition();
     }
 
     /// <summary>
-    /// 외부에서 카메라 추적 대상을 직접 지정할 때 사용합니다.
+    /// 카메라가 따라갈 대상을 변경합니다.
+    /// (Jaeik → 다른 캐릭터로 전환할 때 사용)
     /// </summary>
-    public void SetTarget(Transform target)
+    public void SetTarget(Transform newTarget)
     {
-        _target = target;
+        if (newTarget == null)
+        {
+            Debug.LogWarning("[CameraFollowController] 팔로우 대상이 비어 있어 카메라 타겟을 변경하지 않았습니다.");
+            return;
+        }
+
+        _target = newTarget;
+        Debug.Log($"[CameraFollowController] 팔로우 대상 변경 → {newTarget.name}");
     }
 
-    /// <summary>
-    /// 타겟 위치를 기준으로 카메라를 부드럽게 이동시키고, 지정된 범위 밖으로 나가지 않도록 제한합니다.
-    /// </summary>
     private void UpdateCameraPosition()
     {
-        if (_target == null)
-            return;
+        if (_target == null) return;
 
         Vector3 targetPosition = new Vector3(_target.position.x, _target.position.y, transform.position.z);
+
+        // 경계 제한
         targetPosition.x = Mathf.Clamp(targetPosition.x, _minX, _maxX);
         targetPosition.y = Mathf.Clamp(targetPosition.y, _minY, _maxY);
 
+        // 부드럽게 이동
         transform.position = Vector3.Lerp(transform.position, targetPosition, _smoothSpeed * Time.deltaTime);
     }
 }

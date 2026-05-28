@@ -11,7 +11,7 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Characters
   - Water
   - UI
   - Dummy
@@ -52,6 +52,12 @@ TagManager:
     locked: 0
   - name: Moran
     uniqueID: 2925509739
+    locked: 0
+  - name: Jaeik
+    uniqueID: 3975695925
+    locked: 0
+  - name: Characters
+    uniqueID: 2631749565
     locked: 0
   m_RenderingLayers:
   - Default
