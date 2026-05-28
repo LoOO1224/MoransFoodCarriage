@@ -18,10 +18,12 @@ public class JangYoungSimController : MonoBehaviour
     [Header("Animator State Names")]
     [SerializeField] private string _idleStateName = "JangYoungSim_Idle";
     [SerializeField] private string _walkStateName = "JangYoungSim_Walk";
+    [SerializeField] private string _surprisedStateName = "JangYoungSim_Surprised";
 
     // ==================== 이동 상태 ====================
     private Vector2 _moveInput;
     private bool _isMovementLocked;
+    private bool _isPlayingOneShotAnimation;
     private string _currentAnimationStateName;
 
     private void OnEnable()
@@ -44,6 +46,7 @@ public class JangYoungSimController : MonoBehaviour
 
     private void OnDisable()
     {
+        SetAnimatorSpeed(1f);
         StopPlayer();
     }
 
@@ -78,6 +81,38 @@ public class JangYoungSimController : MonoBehaviour
             StopPlayer();
             PlayAnimationState(_idleStateName);
         }
+    }
+
+    /// <summary>
+    /// 장영심의 놀람 애니메이션을 1회성 연출로 재생합니다.
+    /// 이동 애니메이션 갱신이 해당 연출을 덮어쓰지 않도록 별도 상태로 잠급니다.
+    /// </summary>
+    public void PlaySurprisedAnimationOnce()
+    {
+        PlaySurprisedAnimationOnce(1f);
+    }
+
+    /// <summary>
+    /// 장영심의 놀람 애니메이션을 지정한 속도로 1회성 재생합니다.
+    /// 모란 기상 연출과 속도를 맞춰야 할 때 Tutorial1Controller에서 호출합니다.
+    /// </summary>
+    public void PlaySurprisedAnimationOnce(float animationSpeed)
+    {
+        _isPlayingOneShotAnimation = true;
+        _moveInput = Vector2.zero;
+        StopPlayer();
+        SetAnimatorSpeed(animationSpeed);
+        PlayAnimationState(_surprisedStateName);
+    }
+
+    /// <summary>
+    /// 1회성 연출을 종료하고 Idle 상태로 되돌립니다.
+    /// </summary>
+    public void StopOneShotAnimation()
+    {
+        _isPlayingOneShotAnimation = false;
+        SetAnimatorSpeed(1f);
+        PlayAnimationState(_idleStateName);
     }
 
     // ==================== 물리 설정 ====================
@@ -140,6 +175,9 @@ public class JangYoungSimController : MonoBehaviour
 
     private void UpdateAnimationState()
     {
+        if (_isPlayingOneShotAnimation)
+            return;
+
         bool isMoving = !_isMovementLocked && _moveInput.sqrMagnitude > 0.01f;
         PlayAnimationState(isMoving ? _walkStateName : _idleStateName);
     }
@@ -157,5 +195,13 @@ public class JangYoungSimController : MonoBehaviour
 
         _animator.Play(stateName);
         _currentAnimationStateName = stateName;
+    }
+
+    private void SetAnimatorSpeed(float animationSpeed)
+    {
+        if (_animator == null)
+            return;
+
+        _animator.speed = Mathf.Max(0.01f, animationSpeed);
     }
 }

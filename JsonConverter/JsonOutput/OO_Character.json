@@ -6,5 +6,21 @@
     "SkillList": null,
     "UseWeaponId": null,
     "BasicCostumeId": null
+  },
+  {
+    "Id": "character_Moran_02",
+    "Name": "모란",
+    "Description": "이 게임의 주인공",
+    "SkillList": null,
+    "UseWeaponId": null,
+    "BasicCostumeId": null
+  },
+  {
+    "Id": "character_JangYoungSim_03",
+    "Name": "장영심 ",
+    "Description": "이 게임의 주인공의 아버지",
+    "SkillList": null,
+    "UseWeaponId": null,
+    "BasicCostumeId": null
   }
 ]

@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 025b7c47902d5a747ab83fdc3fb4c27c
+guid: 2fa2b2dbc35749c45b1f6c9aa0f02e32
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -97,12 +97,474 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: JangYoungSim-idle-v1_0
+      name: Moran_WakeUp_0
       rect:
         serializedVersion: 2
-        x: 83
-        y: 1067
-        width: 88
+        x: 50
+        y: 878
+        width: 109
+        height: 160
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 990bd7fb5b266b64aab26cd3f98cfb9e
+      internalID: 351191629
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moran_WakeUp_1
+      rect:
+        serializedVersion: 2
+        x: 266
+        y: 878
+        width: 108
+        height: 160
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: da10b816e0ce53e4ba717090244aa3b2
+      internalID: -707289934
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moran_WakeUp_2
+      rect:
+        serializedVersion: 2
+        x: 481
+        y: 878
+        width: 109
+        height: 160
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: deefdbd4ef5536443bcd7c4c79c08329
+      internalID: -1199610289
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moran_WakeUp_3
+      rect:
+        serializedVersion: 2
+        x: 698
+        y: 878
+        width: 108
+        height: 160
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c035dcda9e5cabe4892186d3d3389315
+      internalID: -753216664
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moran_WakeUp_4
+      rect:
+        serializedVersion: 2
+        x: 913
+        y: 878
+        width: 108
+        height: 160
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 49bb978fe8d5b02428738698bad40dc5
+      internalID: -1681380693
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moran_WakeUp_5
+      rect:
+        serializedVersion: 2
+        x: 51
+        y: 662
+        width: 108
+        height: 159
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d39a9069149ba674cb32b33dfb75d03c
+      internalID: 476010443
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moran_WakeUp_6
+      rect:
+        serializedVersion: 2
+        x: 266
+        y: 662
+        width: 108
+        height: 159
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ffa85c2928436014989bb2c670e9422b
+      internalID: 141412771
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moran_WakeUp_7
+      rect:
+        serializedVersion: 2
+        x: 481
+        y: 662
+        width: 109
+        height: 159
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2707c0e0c1175b542ae9e4c8dad9cc68
+      internalID: 1608049633
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moran_WakeUp_8
+      rect:
+        serializedVersion: 2
+        x: 698
+        y: 662
+        width: 108
+        height: 159
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 715240ff842ee104c8e5bf0610d97a11
+      internalID: -1312032114
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moran_WakeUp_9
+      rect:
+        serializedVersion: 2
+        x: 913
+        y: 662
+        width: 108
+        height: 159
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e94c4c8c6cff3fa44afb0bb6e1633570
+      internalID: -1007418102
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moran_WakeUp_10
+      rect:
+        serializedVersion: 2
+        x: 50
+        y: 447
+        width: 109
+        height: 157
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c3af6812fa8d2e846b9e1e93a28bd5bc
+      internalID: -453878505
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moran_WakeUp_11
+      rect:
+        serializedVersion: 2
+        x: 265
+        y: 449
+        width: 109
+        height: 156
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4f7e9652dbcd13c44b729dd36ffb7ea6
+      internalID: 1776343563
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moran_WakeUp_12
+      rect:
+        serializedVersion: 2
+        x: 480
+        y: 448
+        width: 110
+        height: 156
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 70aff9df9520183468faa4ccf680d054
+      internalID: -1368595709
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moran_WakeUp_13
+      rect:
+        serializedVersion: 2
+        x: 696
+        y: 449
+        width: 110
+        height: 156
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 724174862a8f7b741b8cadc17af04713
+      internalID: -788906237
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moran_WakeUp_14
+      rect:
+        serializedVersion: 2
+        x: 912
+        y: 449
+        width: 109
+        height: 155
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bc5b5e936e97e7b46a694828177da0b8
+      internalID: -1626942106
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moran_WakeUp_15
+      rect:
+        serializedVersion: 2
+        x: 50
+        y: 234
+        width: 109
+        height: 151
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 68cac686244b43e45a324b62d8aae4af
+      internalID: 188164968
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moran_WakeUp_16
+      rect:
+        serializedVersion: 2
+        x: 265
+        y: 250
+        width: 108
+        height: 125
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 416bfc2d36fa2824494ceb9cde225c84
+      internalID: -1162923250
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moran_WakeUp_17
+      rect:
+        serializedVersion: 2
+        x: 482
+        y: 250
+        width: 107
+        height: 125
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2774e8b0b9e5c7746bf5b30a2df9b414
+      internalID: -795623299
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moran_WakeUp_18
+      rect:
+        serializedVersion: 2
+        x: 696
+        y: 250
+        width: 108
+        height: 125
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5177adffc4ab0c54ebeeb672f825c156
+      internalID: 1662128468
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moran_WakeUp_19
+      rect:
+        serializedVersion: 2
+        x: 912
+        y: 250
+        width: 109
+        height: 125
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 15ea5f4f4236a0442b18572c109b7aa1
+      internalID: 1105948906
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moran_WakeUp_20
+      rect:
+        serializedVersion: 2
+        x: 57
+        y: 7
+        width: 95
+        height: 170
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 746fe0051a42f9e4e9a4110a39516a1e
+      internalID: 2144899695
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moran_WakeUp_21
+      rect:
+        serializedVersion: 2
+        x: 280
+        y: 10
+        width: 79
         height: 168
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -112,20 +574,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 76f738bb527061d48968f9d90766d43c
-      internalID: -1580919946
+      spriteID: ab9ffe1f3d2a3c1458c7433f942e90fa
+      internalID: -235797439
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: JangYoungSim-idle-v1_1
+      name: Moran_WakeUp_22
       rect:
         serializedVersion: 2
-        x: 339
-        y: 1067
-        width: 88
-        height: 168
+        x: 491
+        y: 12
+        width: 83
+        height: 170
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -134,20 +596,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 57dc6b37f2c17744f95527ddf447fa6b
-      internalID: 1163756618
+      spriteID: a9e85d6e2b1446e42a53e9bd45feb967
+      internalID: 987138318
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: JangYoungSim-idle-v1_2
+      name: Moran_WakeUp_23
       rect:
         serializedVersion: 2
-        x: 595
-        y: 1067
-        width: 88
-        height: 168
+        x: 712
+        y: 10
+        width: 79
+        height: 172
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -156,20 +618,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 48b1a03c14d206c40a11cd8caf006d45
-      internalID: -443288217
+      spriteID: d6c8eb8af89113f48a035d2276b7e431
+      internalID: -1659955639
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: JangYoungSim-idle-v1_3
+      name: Moran_WakeUp_24
       rect:
         serializedVersion: 2
-        x: 852
-        y: 1067
-        width: 89
-        height: 168
+        x: 922
+        y: 12
+        width: 93
+        height: 171
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -178,470 +640,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4fb0874d353470a40ba9892378816062
-      internalID: 1440855736
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: JangYoungSim-idle-v1_4
-      rect:
-        serializedVersion: 2
-        x: 1110
-        y: 1067
-        width: 88
-        height: 169
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 7924f004d9218364cb3027bbf31bc83e
-      internalID: -1646970459
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: JangYoungSim-idle-v1_5
-      rect:
-        serializedVersion: 2
-        x: 86
-        y: 811
-        width: 88
-        height: 168
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: e9b441810a00ebd44951600aba78cf9a
-      internalID: 700572697
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: JangYoungSim-idle-v1_6
-      rect:
-        serializedVersion: 2
-        x: 342
-        y: 811
-        width: 88
-        height: 168
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: f5902c821b7f54b44ab98e47baf0ddd0
-      internalID: 1185453549
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: JangYoungSim-idle-v1_7
-      rect:
-        serializedVersion: 2
-        x: 598
-        y: 811
-        width: 88
-        height: 168
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 18d7b5acce677fd4a8e845992bb70526
-      internalID: 1226419977
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: JangYoungSim-idle-v1_8
-      rect:
-        serializedVersion: 2
-        x: 853
-        y: 811
-        width: 89
-        height: 169
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 33eb3b67d13dfbc4cbf20e207762bc00
-      internalID: -1113510831
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: JangYoungSim-idle-v1_9
-      rect:
-        serializedVersion: 2
-        x: 1107
-        y: 811
-        width: 89
-        height: 168
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 2298075ebc1571047a59dabbd3bf5447
-      internalID: -1227725841
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: JangYoungSim-idle-v1_10
-      rect:
-        serializedVersion: 2
-        x: 83
-        y: 555
-        width: 88
-        height: 168
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: a7ad7721cfdeea041a9e0b96ae0ebc83
-      internalID: -705823359
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: JangYoungSim-idle-v1_11
-      rect:
-        serializedVersion: 2
-        x: 339
-        y: 555
-        width: 88
-        height: 168
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 0c891750531fb2c47866433a51c25f8a
-      internalID: 464737259
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: JangYoungSim-idle-v1_12
-      rect:
-        serializedVersion: 2
-        x: 595
-        y: 555
-        width: 88
-        height: 168
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: e473d40750950a947aff2724a51680e0
-      internalID: 1816477674
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: JangYoungSim-idle-v1_13
-      rect:
-        serializedVersion: 2
-        x: 851
-        y: 555
-        width: 88
-        height: 168
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 5193b5525203edb44b41e28c1110e0fe
-      internalID: 1314392641
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: JangYoungSim-idle-v1_14
-      rect:
-        serializedVersion: 2
-        x: 1107
-        y: 555
-        width: 88
-        height: 168
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: ccf831602a0b3f442b7cc2fc5fe1498e
-      internalID: -1428336719
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: JangYoungSim-idle-v1_15
-      rect:
-        serializedVersion: 2
-        x: 83
-        y: 299
-        width: 88
-        height: 168
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 152ea0e69783cef47afe6c39585ad1af
-      internalID: -1626178670
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: JangYoungSim-idle-v1_16
-      rect:
-        serializedVersion: 2
-        x: 339
-        y: 299
-        width: 88
-        height: 168
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 35f262fadf6354144a798df030d69749
-      internalID: -325185747
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: JangYoungSim-idle-v1_17
-      rect:
-        serializedVersion: 2
-        x: 595
-        y: 299
-        width: 88
-        height: 168
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 4d5e9db81c5cec147927633e059c4a47
-      internalID: 2131675918
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: JangYoungSim-idle-v1_18
-      rect:
-        serializedVersion: 2
-        x: 851
-        y: 299
-        width: 88
-        height: 168
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 5bfd3cdc31d8b3a4aa03bbd986cdf30c
-      internalID: 1110865976
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: JangYoungSim-idle-v1_19
-      rect:
-        serializedVersion: 2
-        x: 1107
-        y: 299
-        width: 88
-        height: 168
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 31d63275a4186864f8fb9d0124af34fb
-      internalID: 1746872924
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: JangYoungSim-idle-v1_20
-      rect:
-        serializedVersion: 2
-        x: 83
-        y: 43
-        width: 88
-        height: 168
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 5c0b76d8553df1e4e9188768f80b1483
-      internalID: -403590627
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: JangYoungSim-idle-v1_21
-      rect:
-        serializedVersion: 2
-        x: 339
-        y: 43
-        width: 88
-        height: 168
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 729b2cbbca390be41b690bba606b53e6
-      internalID: 1911236884
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: JangYoungSim-idle-v1_22
-      rect:
-        serializedVersion: 2
-        x: 595
-        y: 43
-        width: 88
-        height: 168
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 1a1891b2c73ca564cabba77e3840cd33
-      internalID: 205290750
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: JangYoungSim-idle-v1_23
-      rect:
-        serializedVersion: 2
-        x: 851
-        y: 43
-        width: 88
-        height: 168
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 776e999bb6cb8e8429ea935a03552b2b
-      internalID: -553546886
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: JangYoungSim-idle-v1_24
-      rect:
-        serializedVersion: 2
-        x: 1106
-        y: 43
-        width: 89
-        height: 168
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 97d76334811b4c14fab56b186696e5c5
-      internalID: 617724504
+      spriteID: e81048bf40bfd794a8be9f0c22ec34af
+      internalID: -1149935070
       vertices: []
       indices: 
       edges: []
@@ -650,7 +650,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: ce17d09d3bb39c540ba07eb4b6291d78
+    spriteID: b1aa17d8a1362144cac8572c03899246
     internalID: 0
     vertices: []
     indices: 
@@ -662,31 +662,31 @@ TextureImporter:
       - key: SpriteEditor.SliceSettings
         value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      JangYoungSim-idle-v1_0: -1580919946
-      JangYoungSim-idle-v1_1: 1163756618
-      JangYoungSim-idle-v1_10: -705823359
-      JangYoungSim-idle-v1_11: 464737259
-      JangYoungSim-idle-v1_12: 1816477674
-      JangYoungSim-idle-v1_13: 1314392641
-      JangYoungSim-idle-v1_14: -1428336719
-      JangYoungSim-idle-v1_15: -1626178670
-      JangYoungSim-idle-v1_16: -325185747
-      JangYoungSim-idle-v1_17: 2131675918
-      JangYoungSim-idle-v1_18: 1110865976
-      JangYoungSim-idle-v1_19: 1746872924
-      JangYoungSim-idle-v1_2: -443288217
-      JangYoungSim-idle-v1_20: -403590627
-      JangYoungSim-idle-v1_21: 1911236884
-      JangYoungSim-idle-v1_22: 205290750
-      JangYoungSim-idle-v1_23: -553546886
-      JangYoungSim-idle-v1_24: 617724504
-      JangYoungSim-idle-v1_3: 1440855736
-      JangYoungSim-idle-v1_4: -1646970459
-      JangYoungSim-idle-v1_5: 700572697
-      JangYoungSim-idle-v1_6: 1185453549
-      JangYoungSim-idle-v1_7: 1226419977
-      JangYoungSim-idle-v1_8: -1113510831
-      JangYoungSim-idle-v1_9: -1227725841
+      Moran_WakeUp_0: 351191629
+      Moran_WakeUp_1: -707289934
+      Moran_WakeUp_10: -453878505
+      Moran_WakeUp_11: 1776343563
+      Moran_WakeUp_12: -1368595709
+      Moran_WakeUp_13: -788906237
+      Moran_WakeUp_14: -1626942106
+      Moran_WakeUp_15: 188164968
+      Moran_WakeUp_16: -1162923250
+      Moran_WakeUp_17: -795623299
+      Moran_WakeUp_18: 1662128468
+      Moran_WakeUp_19: 1105948906
+      Moran_WakeUp_2: -1199610289
+      Moran_WakeUp_20: 2144899695
+      Moran_WakeUp_21: -235797439
+      Moran_WakeUp_22: 987138318
+      Moran_WakeUp_23: -1659955639
+      Moran_WakeUp_24: -1149935070
+      Moran_WakeUp_3: -753216664
+      Moran_WakeUp_4: -1681380693
+      Moran_WakeUp_5: 476010443
+      Moran_WakeUp_6: 141412771
+      Moran_WakeUp_7: 1608049633
+      Moran_WakeUp_8: -1312032114
+      Moran_WakeUp_9: -1007418102
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

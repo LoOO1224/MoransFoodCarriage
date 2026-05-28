@@ -1,0 +1,18 @@
+[
+  {
+    "Id": "character_Moran_01",
+    "Name": "모란",
+    "Description": "\"치.직... 시.스.템. 가.동. 아.버.지! 저. 말.도. 하.고. 움.직.여.요. 가.슴.속. 태.엽.이. 진짜. 심.장. 처.럼. 쿵.쾅.거.립.니.다. 소.녀. 다.시. 인.사. 올.려.드.리.옵.니.다.\"",
+    "SkillList": null,
+    "UseWeaponId": null,
+    "BasicCostumeId": null
+  },
+  {
+    "Id": "character_JangYoungSim_01",
+    "Name": "장영심",
+    "Description": "“……장, 장금아……! 네가 정녕 돌아온 것이냐……!”",
+    "SkillList": null,
+    "UseWeaponId": null,
+    "BasicCostumeId": null
+  }
+]

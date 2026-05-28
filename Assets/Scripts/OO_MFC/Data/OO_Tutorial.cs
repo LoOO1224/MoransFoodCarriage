@@ -1,11 +1,15 @@
-using System;
+ï»¿using System;
 
 [Serializable]
 public class OO_Tutorial : GameDataBase
 {
-    public string Title;                       // Æ©Åä¸®¾ó Á¦¸ñ
-    public string Description;                 // Æ©Åä¸®¾ó ¼³¸í
-    public string TargetStageId;               // ÇØ´ç Æ©Åä¸®¾óÀÌ ³ª¿À´Â ½ºÅ×ÀÌÁö
-    public string TriggerCondition;            // Æ®¸®°Å Á¶°Ç (FirstCooking µî)
-    public string DialogueGroupId;             // º¸¿©ÁÙ ´ëÈ­ ±×·ì ID
+    public string Name;                        // ì—‘ì…€ì—ì„œ ì‚¬ìš©í•˜ëŠ” í‘œì‹œ ì´ë¦„
+    public string Title;                       // íŠœí† ë¦¬ì–¼ ì œëª©
+    public string Description;                 // íŠœí† ë¦¬ì–¼ ì„¤ëª…
+    public string TargetStageId;               // í•´ë‹¹ íŠœí† ë¦¬ì–¼ì´ ë‚˜ì˜¤ëŠ” ìŠ¤í…Œì´ì§€
+    public string TriggerCondition;            // íŠ¸ë¦¬ê±° ì¡°ê±´ (FirstCooking ë“±)
+    public string DialogueGroupId;             // ë³´ì—¬ì¤„ ëŒ€í™” ê·¸ë£¹ ID
+    public string SkillList;                   // ì—‘ì…€ ê³µí†µ ì»¬ëŸ¼ í˜¸í™˜ìš©
+    public string UseWeaponId;                 // ì—‘ì…€ ê³µí†µ ì»¬ëŸ¼ í˜¸í™˜ìš©
+    public string BasicCostumeId;              // ì—‘ì…€ ê³µí†µ ì»¬ëŸ¼ í˜¸í™˜ìš©
 }

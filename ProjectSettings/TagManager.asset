@@ -50,6 +50,9 @@ TagManager:
   - name: JangYoungSim
     uniqueID: 809961521
     locked: 0
+  - name: Moran
+    uniqueID: 2925509739
+    locked: 0
   m_RenderingLayers:
   - Default
   - Light Layer 1

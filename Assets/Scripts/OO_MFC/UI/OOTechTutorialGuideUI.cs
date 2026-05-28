@@ -41,11 +41,21 @@ public class OOTechTutorialGuideUI : MonoBehaviour
     [SerializeField] private string _nextButtonText = "이어가기";
     [SerializeField] private bool _isCreateDefaultViewOnAwake = true;
 
+    [Header("Complete Emphasis Effect")]
+    [SerializeField] private Color _titleEmphasisColorA = Color.white;
+    [SerializeField] private Color _titleEmphasisColorB = new Color(1f, 0.82f, 0.05f, 1f);
+    [SerializeField] private float _titleEmphasisSpeed = 7f;
+    [SerializeField] private float _titleEmphasisScalePower = 0.08f;
+
     // ==================== 가이드 상태 ====================
     private readonly List<string> _guideTextList = new List<string>();
     private int _currentGuideTextIndex;
     private Action _onGuideEnd;
     private Coroutine _refreshScrollCoroutine;
+    private Coroutine _titleEmphasisCoroutine;
+    private Color _originTitleColor = Color.white;
+    private Vector3 _originTitleScale = Vector3.one;
+    private bool _isCachedTitleOrigin;
 
     private void Awake()
     {
@@ -61,6 +71,7 @@ public class OOTechTutorialGuideUI : MonoBehaviour
     {
         UnbindButtonEvent();
         StopRefreshScrollCoroutine();
+        StopTitleEmphasisEffect();
     }
 
     // ==================== 버튼 바인딩 ====================
@@ -116,12 +127,57 @@ public class OOTechTutorialGuideUI : MonoBehaviour
     }
 
     /// <summary>
-    /// 외부에서 가이드를 강제로 닫을 때 사용합니다.
+    /// OO_Tutorial 데이터를 기반으로 튜토리얼 가이드 팝업을 표시합니다.
+    /// Tutorial1Group의 시작 안내와 임무 완수 안내처럼 상단 가이드 전용 데이터에 사용합니다.
     /// </summary>
+    public void ShowGuide(OO_Tutorial tutorialData, Action onGuideEnd = null)
+    {
+        if (tutorialData == null)
+        {
+            Debug.LogWarning("[OOTechTutorialGuideUI] 표시할 튜토리얼 데이터가 없습니다.");
+            return;
+        }
+
+        gameObject.SetActive(true);
+
+        _onGuideEnd = onGuideEnd;
+        _currentGuideTextIndex = 0;
+        _guideTextList.Clear();
+
+        AddGuideText(tutorialData.Description);
+
+        if (_guideTextList.Count == 0)
+        {
+            Debug.LogWarning($"[OOTechTutorialGuideUI] 튜토리얼 안내 문장이 비어 있습니다: {tutorialData.Id}");
+            FinishGuide();
+            return;
+        }
+
+        SetTitle(string.IsNullOrEmpty(tutorialData.Title) ? _guideTitle : tutorialData.Title);
+        SetNextButtonText(_nextButtonText);
+        ShowCurrentGuideText();
+    }
+
     public void CloseGuide()
     {
+        StopTitleEmphasisEffect();
         ClearGuideState();
         gameObject.SetActive(false);
+    }
+
+    /// <summary>
+    /// 임무 완수처럼 성취감을 강조해야 하는 안내에서 제목을 반짝이게 합니다.
+    /// 일반 튜토리얼 안내와 대화 UI에는 영향을 주지 않습니다.
+    /// </summary>
+    public void SetTitleEmphasisActive(bool isActive)
+    {
+        if (isActive)
+        {
+            StartTitleEmphasisEffect();
+            return;
+        }
+
+        StopTitleEmphasisEffect();
     }
 
     private void AddGuideTextList(List<string> narrationTexts)
@@ -191,6 +247,60 @@ public class OOTechTutorialGuideUI : MonoBehaviour
         _guideTextList.Clear();
         _currentGuideTextIndex = 0;
         _onGuideEnd = null;
+    }
+
+    // ==================== 완료 강조 효과 ====================
+
+    private void StartTitleEmphasisEffect()
+    {
+        StopTitleEmphasisEffect();
+
+        if (Text_Title == null)
+            return;
+
+        CacheTitleOriginIfNeeded();
+        _titleEmphasisCoroutine = StartCoroutine(PlayTitleEmphasisEffectRoutine());
+    }
+
+    private IEnumerator PlayTitleEmphasisEffectRoutine()
+    {
+        while (true)
+        {
+            float lerpValue = (Mathf.Sin(Time.unscaledTime * _titleEmphasisSpeed) + 1f) * 0.5f;
+
+            if (Text_Title != null)
+            {
+                Text_Title.color = Color.Lerp(_titleEmphasisColorA, _titleEmphasisColorB, lerpValue);
+                Text_Title.rectTransform.localScale = _originTitleScale * (1f + (_titleEmphasisScalePower * lerpValue));
+            }
+
+            yield return null;
+        }
+    }
+
+    private void StopTitleEmphasisEffect()
+    {
+        if (_titleEmphasisCoroutine != null)
+        {
+            StopCoroutine(_titleEmphasisCoroutine);
+            _titleEmphasisCoroutine = null;
+        }
+
+        if (!_isCachedTitleOrigin || Text_Title == null)
+            return;
+
+        Text_Title.color = _originTitleColor;
+        Text_Title.rectTransform.localScale = _originTitleScale;
+    }
+
+    private void CacheTitleOriginIfNeeded()
+    {
+        if (_isCachedTitleOrigin || Text_Title == null)
+            return;
+
+        _originTitleColor = Text_Title.color;
+        _originTitleScale = Text_Title.rectTransform.localScale;
+        _isCachedTitleOrigin = true;
     }
 
     // ==================== UI 값 설정 ====================
