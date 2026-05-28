@@ -1,0 +1,694 @@
+fileFormatVersion: 2
+guid: 432c4b1862c07d749a2100a35a136f14
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 0
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: JangYoungSim-idle-v1_0
+      rect:
+        serializedVersion: 2
+        x: 83
+        y: 1067
+        width: 88
+        height: 168
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fcbfbfa655397534b8f59e6bddb3ca61
+      internalID: -1338496372
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: JangYoungSim-idle-v1_1
+      rect:
+        serializedVersion: 2
+        x: 339
+        y: 1067
+        width: 88
+        height: 168
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 641b975cbfd48134ca317cffaf0f81ce
+      internalID: -1726851005
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: JangYoungSim-idle-v1_2
+      rect:
+        serializedVersion: 2
+        x: 595
+        y: 1067
+        width: 88
+        height: 168
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e6cd348047f962342a997ac1f84a7167
+      internalID: -1182763913
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: JangYoungSim-idle-v1_3
+      rect:
+        serializedVersion: 2
+        x: 852
+        y: 1067
+        width: 89
+        height: 168
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 718a6d4c12c927e428baaa9bd78c0951
+      internalID: 1524760829
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: JangYoungSim-idle-v1_4
+      rect:
+        serializedVersion: 2
+        x: 1110
+        y: 1067
+        width: 88
+        height: 169
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 98e049973f0473e429895fed261ca33f
+      internalID: 2045362894
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: JangYoungSim-idle-v1_5
+      rect:
+        serializedVersion: 2
+        x: 86
+        y: 811
+        width: 88
+        height: 168
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f6b26aad6975944459f00568e6bad7c8
+      internalID: -2095276614
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: JangYoungSim-idle-v1_6
+      rect:
+        serializedVersion: 2
+        x: 342
+        y: 811
+        width: 88
+        height: 168
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c196332747c57884287eb98cd2cd674c
+      internalID: 60162655
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: JangYoungSim-idle-v1_7
+      rect:
+        serializedVersion: 2
+        x: 598
+        y: 811
+        width: 88
+        height: 168
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e2f922c57baeef44c8e8bfc8ca7e76f4
+      internalID: -1312876607
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: JangYoungSim-idle-v1_8
+      rect:
+        serializedVersion: 2
+        x: 853
+        y: 811
+        width: 89
+        height: 169
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2c38b26655555144084fef577ff956b9
+      internalID: -230316784
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: JangYoungSim-idle-v1_9
+      rect:
+        serializedVersion: 2
+        x: 1107
+        y: 811
+        width: 89
+        height: 168
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b75d1fa7220160a43a04cacc05d67f0c
+      internalID: -1001681598
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: JangYoungSim-idle-v1_10
+      rect:
+        serializedVersion: 2
+        x: 83
+        y: 555
+        width: 88
+        height: 168
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d0e995d45aa53e04ab6d8f47e560cbba
+      internalID: 753074736
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: JangYoungSim-idle-v1_11
+      rect:
+        serializedVersion: 2
+        x: 339
+        y: 555
+        width: 88
+        height: 168
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0019e1c2b3832aa4d96e64d1e72a4d79
+      internalID: -1785097724
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: JangYoungSim-idle-v1_12
+      rect:
+        serializedVersion: 2
+        x: 595
+        y: 555
+        width: 88
+        height: 168
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 77ebb32b853921e49941391f94480f5d
+      internalID: 1150838175
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: JangYoungSim-idle-v1_13
+      rect:
+        serializedVersion: 2
+        x: 851
+        y: 555
+        width: 88
+        height: 168
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d50ba70ad58fa7a498f48088842f9d64
+      internalID: -1326756559
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: JangYoungSim-idle-v1_14
+      rect:
+        serializedVersion: 2
+        x: 1107
+        y: 555
+        width: 88
+        height: 168
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4391a9cc871c1d2408a30b5b4aee6612
+      internalID: 1775746840
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: JangYoungSim-idle-v1_15
+      rect:
+        serializedVersion: 2
+        x: 83
+        y: 299
+        width: 88
+        height: 168
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c30c73da1ffaa3e4f9cc6eb9dde79830
+      internalID: 1769048019
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: JangYoungSim-idle-v1_16
+      rect:
+        serializedVersion: 2
+        x: 339
+        y: 299
+        width: 88
+        height: 168
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 88d2544a3d977174f9bce619737ad06f
+      internalID: 1109542487
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: JangYoungSim-idle-v1_17
+      rect:
+        serializedVersion: 2
+        x: 595
+        y: 299
+        width: 88
+        height: 168
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 465ed0af2e544de48b5518fa0f28ec52
+      internalID: 2122104062
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: JangYoungSim-idle-v1_18
+      rect:
+        serializedVersion: 2
+        x: 851
+        y: 299
+        width: 88
+        height: 168
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8ba2bbf99909a2e4891047d334172986
+      internalID: -1191412718
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: JangYoungSim-idle-v1_19
+      rect:
+        serializedVersion: 2
+        x: 1107
+        y: 299
+        width: 88
+        height: 168
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3170ffd5b65cc5841a46e48749884282
+      internalID: 1432278397
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: JangYoungSim-idle-v1_20
+      rect:
+        serializedVersion: 2
+        x: 83
+        y: 43
+        width: 88
+        height: 168
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e4db05d807d3d464cb8d73550f4c885a
+      internalID: 806200122
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: JangYoungSim-idle-v1_21
+      rect:
+        serializedVersion: 2
+        x: 339
+        y: 43
+        width: 88
+        height: 168
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0e2a65a9b8bee5d43a5c5d3de0170fe1
+      internalID: -1491233198
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: JangYoungSim-idle-v1_22
+      rect:
+        serializedVersion: 2
+        x: 595
+        y: 43
+        width: 88
+        height: 168
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c8d0faee4e169a941a342f556d5defa0
+      internalID: -1898636877
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: JangYoungSim-idle-v1_23
+      rect:
+        serializedVersion: 2
+        x: 851
+        y: 43
+        width: 88
+        height: 168
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 96c00ada275154442bd4a48887e30765
+      internalID: 350618445
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: JangYoungSim-idle-v1_24
+      rect:
+        serializedVersion: 2
+        x: 1106
+        y: 43
+        width: 89
+        height: 168
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3078576fa11df574e9d6e610b9ee494a
+      internalID: -96968256
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 55c770fa306d88642aa817d398819784
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      JangYoungSim-idle-v1_0: -1338496372
+      JangYoungSim-idle-v1_1: -1726851005
+      JangYoungSim-idle-v1_10: 753074736
+      JangYoungSim-idle-v1_11: -1785097724
+      JangYoungSim-idle-v1_12: 1150838175
+      JangYoungSim-idle-v1_13: -1326756559
+      JangYoungSim-idle-v1_14: 1775746840
+      JangYoungSim-idle-v1_15: 1769048019
+      JangYoungSim-idle-v1_16: 1109542487
+      JangYoungSim-idle-v1_17: 2122104062
+      JangYoungSim-idle-v1_18: -1191412718
+      JangYoungSim-idle-v1_19: 1432278397
+      JangYoungSim-idle-v1_2: -1182763913
+      JangYoungSim-idle-v1_20: 806200122
+      JangYoungSim-idle-v1_21: -1491233198
+      JangYoungSim-idle-v1_22: -1898636877
+      JangYoungSim-idle-v1_23: 350618445
+      JangYoungSim-idle-v1_24: -96968256
+      JangYoungSim-idle-v1_3: 1524760829
+      JangYoungSim-idle-v1_4: 2045362894
+      JangYoungSim-idle-v1_5: -2095276614
+      JangYoungSim-idle-v1_6: 60162655
+      JangYoungSim-idle-v1_7: -1312876607
+      JangYoungSim-idle-v1_8: -230316784
+      JangYoungSim-idle-v1_9: -1001681598
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

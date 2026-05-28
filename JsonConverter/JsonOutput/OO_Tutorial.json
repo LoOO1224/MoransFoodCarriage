@@ -1,0 +1,26 @@
+[
+  {
+    "Id": "narration_tutorial_01",
+    "Name": "튜토리얼 가이드1",
+    "Description": "WASD를 눌러 캐릭터를 움직여보세요! 앉아 있는 목각인형에 다가가 E를 누르시고 퀘스트를 완료하세요.",
+    "SkillList": null,
+    "UseWeaponId": null,
+    "BasicCostumeId": null
+  },
+  {
+    "Id": "narration_tutorial_02",
+    "Name": null,
+    "Description": null,
+    "SkillList": null,
+    "UseWeaponId": null,
+    "BasicCostumeId": null
+  },
+  {
+    "Id": "narration_tutorial_03",
+    "Name": null,
+    "Description": null,
+    "SkillList": null,
+    "UseWeaponId": null,
+    "BasicCostumeId": null
+  }
+]
