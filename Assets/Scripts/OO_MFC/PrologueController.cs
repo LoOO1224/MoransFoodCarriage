@@ -1,12 +1,11 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 /// <summary>
-/// PrologueController
-/// Prologue1Group에 붙어서 프롤로그 컷씬 3개와 나레이션 진행을 관리합니다.
-/// UI 오픈 / 클로즈는 OOTechUIManager를 통해 처리하고,
-/// 나레이션 데이터는 OOTechGameDataManager에서 가져옵니다.
+/// Prologue1Group, Prologue2Group처럼 프롤로그 그룹에 붙어서 컷씬과 나레이션 진행을 관리합니다.
+/// 컷씬 오브젝트와 DialogueUI는 인스펙터 직접 참조만 사용하며, UI 열기와 닫기는 OOTechUIManager를 통해 처리합니다.
 /// </summary>
 public class PrologueController : MonoBehaviour
 {
@@ -25,11 +24,19 @@ public class PrologueController : MonoBehaviour
 
     [Header("Button")]
     [SerializeField] private Button Button_Skip;
+    [SerializeField] private Button Button_OpenDialogueArea;
 
     [Header("UI Group Names")]
     [SerializeField] private string _prologueGroupName = "Prologue1Group";
     [SerializeField] private string _dialogueGroupName = "DialogueGroup";
-    [SerializeField] private string _tutorialGroupName = "TutorialGroup";
+    [SerializeField] private string _tutorialGroupName = "Tutorial1Group";
+
+    [Header("Dialogue Open Rule")]
+    [FormerlySerializedAs("_isRequireFirstClickToShowDialogue")]
+    [SerializeField] private bool _isRequireClickToShowDialogue = true;
+    [SerializeField] private bool _isAllowScreenClickToShowDialogue = true;
+    [SerializeField] private bool _isIgnorePointerOverUI = true;
+    [SerializeField] private bool _isCloseDialogueGroupOnDisable = true;
 
     [Header("Narration Id")]
     [SerializeField] private string[] _narrationIdArray =
@@ -41,6 +48,8 @@ public class PrologueController : MonoBehaviour
 
     // ==================== 프롤로그 상태 ====================
     private int _currentCutSceneIndex;
+    private int _dialogueOpenBlockFrame;
+    private bool _isWaitingDialogueOpen;
 
     private void OnEnable()
     {
@@ -48,40 +57,55 @@ public class PrologueController : MonoBehaviour
         StartPrologue();
     }
 
+    private void Update()
+    {
+        UpdateScreenClickToOpenDialogue();
+    }
+
     private void OnDisable()
     {
         UnbindButtonEvent();
+        CloseDialogueGroupOnDisabled();
     }
 
     // ==================== 버튼 바인딩 ====================
 
     private void BindButtonEvent()
     {
-        if (Button_Skip == null)
-            return;
+        if (Button_Skip != null)
+        {
+            Button_Skip.onClick.RemoveListener(OnSkipButtonClicked);
+            Button_Skip.onClick.AddListener(OnSkipButtonClicked);
+        }
 
-        Button_Skip.onClick.RemoveListener(OnSkipButtonClicked);
-        Button_Skip.onClick.AddListener(OnSkipButtonClicked);
+        if (Button_OpenDialogueArea != null)
+        {
+            Button_OpenDialogueArea.onClick.RemoveListener(OnOpenDialogueAreaClicked);
+            Button_OpenDialogueArea.onClick.AddListener(OnOpenDialogueAreaClicked);
+        }
     }
 
     private void UnbindButtonEvent()
     {
-        if (Button_Skip == null)
-            return;
+        if (Button_Skip != null)
+            Button_Skip.onClick.RemoveListener(OnSkipButtonClicked);
 
-        Button_Skip.onClick.RemoveListener(OnSkipButtonClicked);
+        if (Button_OpenDialogueArea != null)
+            Button_OpenDialogueArea.onClick.RemoveListener(OnOpenDialogueAreaClicked);
     }
 
     // ==================== 프롤로그 시작 ====================
 
+    /// <summary>
+    /// 프롤로그가 켜질 때 첫 컷씬을 먼저 보여주고, 클릭 후 DialogueGroup과 나레이션을 표시합니다.
+    /// </summary>
     private void StartPrologue()
     {
         _currentCutSceneIndex = 0;
 
         Debug.Log("[PrologueController] 프롤로그 시작");
 
-        ShowCurrentCutScene();
-        ShowCurrentNarration();
+        ShowCutSceneThenWaitDialogueOpen();
     }
 
     private void ShowCurrentCutScene()
@@ -95,6 +119,82 @@ public class PrologueController : MonoBehaviour
     {
         if (cutScene != null)
             cutScene.SetActive(isActive);
+    }
+
+    // ==================== 컷씬 후 대화 열기 ====================
+
+    /// <summary>
+    /// 현재 컷씬을 먼저 전체 화면으로 보여준 뒤 DialogueGroup을 닫고 클릭 입력을 기다립니다.
+    /// Prologue1CutScene2, Prologue1CutScene3도 같은 규칙으로 배경을 먼저 보여줍니다.
+    /// </summary>
+    private void ShowCutSceneThenWaitDialogueOpen()
+    {
+        ShowCurrentCutScene();
+
+        if (!_isRequireClickToShowDialogue)
+        {
+            OpenDialogueForCurrentCutScene();
+            return;
+        }
+
+        CloseDialogueForCutSceneView();
+
+        _isWaitingDialogueOpen = true;
+        _dialogueOpenBlockFrame = Time.frameCount;
+    }
+
+    /// <summary>
+    /// 컷씬 전체 화면을 먼저 보여주기 위해 DialogueGroup과 DialoguePanel을 함께 닫습니다.
+    /// </summary>
+    private void CloseDialogueForCutSceneView()
+    {
+        if (UI_Dialogue != null)
+            UI_Dialogue.CloseDialogue();
+
+        if (OOTechUIManager.Inst != null)
+            OOTechUIManager.Inst.CloseUI(_dialogueGroupName);
+    }
+
+    private void UpdateScreenClickToOpenDialogue()
+    {
+        if (!_isWaitingDialogueOpen)
+            return;
+
+        if (!_isAllowScreenClickToShowDialogue)
+            return;
+
+        if (Time.frameCount <= _dialogueOpenBlockFrame)
+            return;
+
+        if (!Input.GetMouseButtonDown(0))
+            return;
+
+        if (IsPointerOverUI())
+            return;
+
+        OpenDialogueForCurrentCutScene();
+    }
+
+    private bool IsPointerOverUI()
+    {
+        return _isIgnorePointerOverUI && EventSystem.current != null && EventSystem.current.IsPointerOverGameObject();
+    }
+
+    /// <summary>
+    /// 컷씬 위에 투명 버튼을 둘 경우 해당 버튼의 OnClick에 연결해서 현재 컷씬의 나레이션을 엽니다.
+    /// </summary>
+    public void OnOpenDialogueAreaClicked()
+    {
+        if (!_isWaitingDialogueOpen)
+            return;
+
+        OpenDialogueForCurrentCutScene();
+    }
+
+    private void OpenDialogueForCurrentCutScene()
+    {
+        _isWaitingDialogueOpen = false;
+        ShowCurrentNarration();
     }
 
     // ==================== 나레이션 진행 ====================
@@ -120,15 +220,25 @@ public class PrologueController : MonoBehaviour
         if (narrationData == null)
             return;
 
-        DialogueUI dialogueUI = GetDialogueUI();
-        if (dialogueUI == null)
+        if (UI_Dialogue == null)
         {
-            Debug.LogError("[PrologueController] DialogueUI 참조를 찾을 수 없습니다.");
+            Debug.LogError("[PrologueController] DialogueUI 직접 참조가 연결되어 있지 않습니다.");
             return;
         }
 
-        OOTechUIManager.Inst?.OpenUI(_dialogueGroupName);
-        dialogueUI.ShowNarration(narrationData, OnNarrationEnd);
+        if (OOTechUIManager.Inst == null)
+        {
+            Debug.LogError("[PrologueController] OOTechUIManager를 찾을 수 없어 DialogueGroup을 열 수 없습니다.");
+            return;
+        }
+
+        if (!OOTechUIManager.Inst.OpenUI(_dialogueGroupName))
+        {
+            Debug.LogError($"[PrologueController] DialogueGroup을 열 수 없습니다: {_dialogueGroupName}");
+            return;
+        }
+
+        UI_Dialogue.ShowNarration(narrationData, OnNarrationEnd);
     }
 
     private string GetCurrentNarrationId()
@@ -142,22 +252,6 @@ public class PrologueController : MonoBehaviour
         return _narrationIdArray[_currentCutSceneIndex];
     }
 
-    private DialogueUI GetDialogueUI()
-    {
-        if (UI_Dialogue != null)
-            return UI_Dialogue;
-
-        if (OOTechUIManager.Inst == null)
-            return null;
-
-        GameObject dialogueGroup = OOTechUIManager.Inst.GetCreatedUI(_dialogueGroupName);
-        if (dialogueGroup == null)
-            return null;
-
-        UI_Dialogue = dialogueGroup.GetComponentInChildren<DialogueUI>(true);
-        return UI_Dialogue;
-    }
-
     private void OnNarrationEnd()
     {
         MoveNextCutSceneOrComplete();
@@ -169,8 +263,7 @@ public class PrologueController : MonoBehaviour
 
         if (_currentCutSceneIndex < GetCutSceneCount())
         {
-            ShowCurrentCutScene();
-            ShowCurrentNarration();
+            ShowCutSceneThenWaitDialogueOpen();
             return;
         }
 
@@ -189,7 +282,7 @@ public class PrologueController : MonoBehaviour
 
     private void CompletePrologue()
     {
-        Debug.Log("[PrologueController] 프롤로그 완료 → TutorialGroup으로 이동");
+        Debug.Log($"[PrologueController] 프롤로그 완료 → {_tutorialGroupName}으로 이동");
 
         if (OOTechUIManager.Inst == null)
         {
@@ -201,7 +294,18 @@ public class PrologueController : MonoBehaviour
         OOTechUIManager.Inst.CloseUI(_prologueGroupName);
 
         if (!OOTechUIManager.Inst.OpenUI(_tutorialGroupName))
-            OOTechUIManager.Inst.OpenUI("Tutorial1Group");
+            OOTechUIManager.Inst.OpenUI("TutorialGroup");
+    }
+
+    private void CloseDialogueGroupOnDisabled()
+    {
+        if (!_isCloseDialogueGroupOnDisable)
+            return;
+
+        if (OOTechUIManager.Inst == null)
+            return;
+
+        OOTechUIManager.Inst.CloseUI(_dialogueGroupName);
     }
 
     // ==================== 버튼 이벤트 ====================
@@ -212,13 +316,13 @@ public class PrologueController : MonoBehaviour
     /// </summary>
     public void OnNextDialogueClicked()
     {
-        DialogueUI dialogueUI = GetDialogueUI();
-        if (dialogueUI != null)
-            dialogueUI.NextDialogue();
+        if (UI_Dialogue != null)
+            UI_Dialogue.NextDialogue();
     }
 
     /// <summary>
     /// SkipButton 클릭 시 현재 컷씬을 건너뛰고 다음 컷씬 또는 튜토리얼로 이동합니다.
+    /// CommonSkipButton은 NextButtonController를 사용하지만, 기존 직접 연결 버튼과도 호환되도록 유지합니다.
     /// </summary>
     public void OnSkipButtonClicked()
     {
@@ -237,9 +341,8 @@ public class PrologueController : MonoBehaviour
     {
         Debug.Log($"[PrologueController] 컷씬 스킵: {_currentCutSceneIndex + 1}");
 
-        DialogueUI dialogueUI = GetDialogueUI();
-        if (dialogueUI != null)
-            dialogueUI.CloseDialogue();
+        if (UI_Dialogue != null)
+            UI_Dialogue.CloseDialogue();
 
         MoveNextCutSceneOrComplete();
     }

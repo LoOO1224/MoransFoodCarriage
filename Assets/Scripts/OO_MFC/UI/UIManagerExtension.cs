@@ -11,12 +11,12 @@ public static class UIManagerExtension
     // ==================== Main Menu 버튼 이벤트 ====================
 
     /// <summary>
-    /// 시작하기 버튼 클릭 시 메인 메뉴를 닫고 프롤로그와 대화창을 엽니다.
-    /// 프롤로그 내부의 실제 나레이션 시작은 PrologueController.OnEnable에서 처리합니다.
+    /// 시작하기 버튼 클릭 시 메인 메뉴를 닫고 프롤로그 그룹만 엽니다.
+    /// DialogueGroup은 PrologueController가 컷씬 클릭 입력을 받은 뒤 직접 엽니다.
     /// </summary>
     public static void OnStartButtonClicked()
     {
-        Debug.Log("[UIManagerExtension] 시작하기 버튼 클릭 → Prologue1Group 열기");
+        Debug.Log("[UIManagerExtension] 시작하기 버튼 클릭 → Prologue1Group 열기, DialogueGroup은 클릭 후 열기");
 
         if (OOTechUIManager.Inst == null)
         {
@@ -24,8 +24,9 @@ public static class UIManagerExtension
             return;
         }
 
-        OOTechUIManager.Inst.SwitchUI("MainMenuGroup", "Prologue1Group");
-        OOTechUIManager.Inst.OpenUI("DialogueGroup");
+        OOTechUIManager.Inst.CloseUI("MainMenuGroup");
+        OOTechUIManager.Inst.CloseUI("DialogueGroup");
+        OOTechUIManager.Inst.OpenUI("Prologue1Group");
     }
 
     /// <summary>
@@ -41,7 +42,8 @@ public static class UIManagerExtension
             return;
         }
 
-        OOTechUIManager.Inst.SwitchUI("MainMenuGroup", "CodexGroup");
+        OOTechUIManager.Inst.CloseUI("MainMenuGroup");
+        OOTechUIManager.Inst.OpenUI("CodexGroup");
     }
 
     /// <summary>
@@ -69,6 +71,7 @@ public static class UIManagerExtension
             return;
         }
 
-        OOTechUIManager.Inst.SwitchUI("CodexGroup", previousGroupName);
+        OOTechUIManager.Inst.CloseUI("CodexGroup");
+        OOTechUIManager.Inst.OpenUI(previousGroupName);
     }
 }

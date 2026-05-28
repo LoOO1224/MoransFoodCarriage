@@ -1,0 +1,694 @@
+fileFormatVersion: 2
+guid: b93e19338b068dc49979f4071d8fe64d
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 0
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: JangYoungSim-walk-v1_0
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 1067
+        width: 91
+        height: 168
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 264e09213acccf64c98bc84231b377a7
+      internalID: 925236566
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: JangYoungSim-walk-v1_1
+      rect:
+        serializedVersion: 2
+        x: 336
+        y: 1068
+        width: 93
+        height: 167
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 82a930896d05705428c283061c14fb04
+      internalID: -1056828875
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: JangYoungSim-walk-v1_2
+      rect:
+        serializedVersion: 2
+        x: 594
+        y: 1067
+        width: 91
+        height: 168
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 521aac8b15d5e8b4e983a38b2ad9edc2
+      internalID: 1960522676
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: JangYoungSim-walk-v1_3
+      rect:
+        serializedVersion: 2
+        x: 850
+        y: 1067
+        width: 91
+        height: 170
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ce1357a23077e3e4c92b04ba390c346d
+      internalID: 1193865264
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: JangYoungSim-walk-v1_4
+      rect:
+        serializedVersion: 2
+        x: 1106
+        y: 1067
+        width: 91
+        height: 171
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a07d6c2cef527be4f9d1913f80c93168
+      internalID: -1952947905
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: JangYoungSim-walk-v1_5
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 810
+        width: 91
+        height: 171
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 799f7baf6645011479ee1b6503b61d68
+      internalID: -471545130
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: JangYoungSim-walk-v1_6
+      rect:
+        serializedVersion: 2
+        x: 338
+        y: 810
+        width: 91
+        height: 170
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5bf564c82c78d854fa28bb3c8b87ff4b
+      internalID: -1286028256
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: JangYoungSim-walk-v1_7
+      rect:
+        serializedVersion: 2
+        x: 594
+        y: 811
+        width: 91
+        height: 167
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3cbea68593151a64a8c8b043cbd25fb4
+      internalID: 2096025440
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: JangYoungSim-walk-v1_8
+      rect:
+        serializedVersion: 2
+        x: 850
+        y: 811
+        width: 91
+        height: 169
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1d74c8e67d42d9744a7357c332746e08
+      internalID: -1557389171
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: JangYoungSim-walk-v1_9
+      rect:
+        serializedVersion: 2
+        x: 1106
+        y: 811
+        width: 91
+        height: 170
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e7efd97e99147f046bf31eb858130c64
+      internalID: 572824580
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: JangYoungSim-walk-v1_10
+      rect:
+        serializedVersion: 2
+        x: 83
+        y: 556
+        width: 90
+        height: 170
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7409e81080ed63649aaafb948bef9a16
+      internalID: 2067119614
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: JangYoungSim-walk-v1_11
+      rect:
+        serializedVersion: 2
+        x: 338
+        y: 556
+        width: 91
+        height: 169
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8473540ce5dd1f44a9615b5b4d1dd2db
+      internalID: -1947179456
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: JangYoungSim-walk-v1_12
+      rect:
+        serializedVersion: 2
+        x: 594
+        y: 556
+        width: 91
+        height: 167
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1fa7bba827dead74e88666c7d2ff24b2
+      internalID: -1147586940
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: JangYoungSim-walk-v1_13
+      rect:
+        serializedVersion: 2
+        x: 849
+        y: 555
+        width: 92
+        height: 168
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5fa5e37a24ac3a840bf0518b31124e25
+      internalID: -65253784
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: JangYoungSim-walk-v1_14
+      rect:
+        serializedVersion: 2
+        x: 1106
+        y: 555
+        width: 91
+        height: 169
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dcddfe54e7f94d147bc4f35844f222e2
+      internalID: -1549408344
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: JangYoungSim-walk-v1_15
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 299
+        width: 91
+        height: 171
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 41bf6ce0213684d4f98dbc08b3032d29
+      internalID: 1485471542
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: JangYoungSim-walk-v1_16
+      rect:
+        serializedVersion: 2
+        x: 339
+        y: 299
+        width: 90
+        height: 171
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b6fa7a50860d3484b96d7059efd55620
+      internalID: -1845206722
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: JangYoungSim-walk-v1_17
+      rect:
+        serializedVersion: 2
+        x: 594
+        y: 298
+        width: 91
+        height: 171
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ed5f243360428814ba160da9d1398478
+      internalID: -149354894
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: JangYoungSim-walk-v1_18
+      rect:
+        serializedVersion: 2
+        x: 850
+        y: 298
+        width: 91
+        height: 169
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 58e5a96b918cdc94091970f78b252692
+      internalID: -1213588880
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: JangYoungSim-walk-v1_19
+      rect:
+        serializedVersion: 2
+        x: 1106
+        y: 299
+        width: 91
+        height: 168
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5a68021a23fcce947b779de7f2b35d08
+      internalID: 2086854575
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: JangYoungSim-walk-v1_20
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 43
+        width: 91
+        height: 169
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dfed2992d0af7fe4a82a4db990bc1cf9
+      internalID: -616875905
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: JangYoungSim-walk-v1_21
+      rect:
+        serializedVersion: 2
+        x: 338
+        y: 43
+        width: 91
+        height: 171
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5ce7a078018de574887289427cacb5c9
+      internalID: -666682090
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: JangYoungSim-walk-v1_22
+      rect:
+        serializedVersion: 2
+        x: 595
+        y: 44
+        width: 90
+        height: 170
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 12421bc14f009a74790afc04d3234beb
+      internalID: 303470807
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: JangYoungSim-walk-v1_23
+      rect:
+        serializedVersion: 2
+        x: 850
+        y: 43
+        width: 91
+        height: 170
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 466013435ddfbed43b963358f0f51fa9
+      internalID: -2102310679
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: JangYoungSim-walk-v1_24
+      rect:
+        serializedVersion: 2
+        x: 1106
+        y: 44
+        width: 91
+        height: 167
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 49aef64aaca2ef54db85abbcbc439e57
+      internalID: -1028305532
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 86458d4a66e84ca4682ae8f4c8f43863
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      JangYoungSim-walk-v1_0: 925236566
+      JangYoungSim-walk-v1_1: -1056828875
+      JangYoungSim-walk-v1_10: 2067119614
+      JangYoungSim-walk-v1_11: -1947179456
+      JangYoungSim-walk-v1_12: -1147586940
+      JangYoungSim-walk-v1_13: -65253784
+      JangYoungSim-walk-v1_14: -1549408344
+      JangYoungSim-walk-v1_15: 1485471542
+      JangYoungSim-walk-v1_16: -1845206722
+      JangYoungSim-walk-v1_17: -149354894
+      JangYoungSim-walk-v1_18: -1213588880
+      JangYoungSim-walk-v1_19: 2086854575
+      JangYoungSim-walk-v1_2: 1960522676
+      JangYoungSim-walk-v1_20: -616875905
+      JangYoungSim-walk-v1_21: -666682090
+      JangYoungSim-walk-v1_22: 303470807
+      JangYoungSim-walk-v1_23: -2102310679
+      JangYoungSim-walk-v1_24: -1028305532
+      JangYoungSim-walk-v1_3: 1193865264
+      JangYoungSim-walk-v1_4: -1952947905
+      JangYoungSim-walk-v1_5: -471545130
+      JangYoungSim-walk-v1_6: -1286028256
+      JangYoungSim-walk-v1_7: 2096025440
+      JangYoungSim-walk-v1_8: -1557389171
+      JangYoungSim-walk-v1_9: 572824580
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
