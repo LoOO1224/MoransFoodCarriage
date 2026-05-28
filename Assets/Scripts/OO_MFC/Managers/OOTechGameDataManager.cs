@@ -1,11 +1,20 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
+/// <summary>
+/// OOTechGameDataManager
+/// ê²Œì„ì—ì„œ ì‚¬ìš©í•˜ëŠ” Static Data Jsonì„ ë¡œë“œí•˜ê³  ì¡°íšŒí•˜ëŠ” ë§¤ë‹ˆì €ì…ë‹ˆë‹¤.
+/// ëŸ°íƒ€ì„ ì¤‘ ì €ì¥ë˜ëŠ” ì¸ìŠ¤í„´ìŠ¤ ë°ì´í„°ëŠ” GameManagerì˜ Modelì—ì„œ ê´€ë¦¬í•˜ê³ ,
+/// ì´ í´ë˜ìŠ¤ëŠ” ë³€í•˜ì§€ ì•ŠëŠ” í‘œ ë°ì´í„°ë§Œ ë‹´ë‹¹í•©ë‹ˆë‹¤.
+/// </summary>
 public class OOTechGameDataManager : MonoBehaviour
 {
     public static OOTechGameDataManager Inst { get; private set; }
+
+    // ==================== ë°ì´í„° Dictionary ====================
+    private readonly Dictionary<string, OO_Narration> _narrationDic = new Dictionary<string, OO_Narration>();
+    private readonly Dictionary<string, OO_Character> _characterDic = new Dictionary<string, OO_Character>();
 
     private void Awake()
     {
@@ -14,31 +23,228 @@ public class OOTechGameDataManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
+
         Inst = this;
         DontDestroyOnLoad(gameObject);
 
         LoadAllData();
     }
 
-    // ==================== µ¥ÀÌÅÍ ·Îµå ====================
-    public void LoadAllData()
+    private void OnDestroy()
     {
-        Debug.Log("[OOTechGameDataManager] ¸ğµç µ¥ÀÌÅÍ ·Îµå ½ÃÀÛ");
-
-        // TODO: ½ÇÁ¦ JSON ·Îµå ·ÎÁ÷Àº ³ªÁß¿¡ ±¸Çö
-        // ÇöÀç´Â ºó »óÅÂ·Î ½ÃÀÛ
+        if (Inst == this)
+            Inst = null;
     }
 
-    // ==================== µ¥ÀÌÅÍ Á¶È¸ ¸Ş¼­µå (¿¹½Ã) ====================
-    public T GetData<T>(string id) where T : class
+    // ==================== ë°ì´í„° ë¡œë“œ ====================
+
+    /// <summary>
+    /// ê²Œì„ ì‹œì‘ ì‹œ í•„ìš”í•œ ëª¨ë“  Static Dataë¥¼ ë¡œë“œí•©ë‹ˆë‹¤.
+    /// </summary>
+    public void LoadAllData()
     {
-        // TODO: ½ÇÁ¦ µ¥ÀÌÅÍ ¹İÈ¯ ·ÎÁ÷ ±¸Çö
-        Debug.LogWarning($"[GetData] ¾ÆÁ÷ ±¸ÇöµÇÁö ¾ÊÀ½ - ID: {id}");
+        Debug.Log("[OOTechGameDataManager] ëª¨ë“  ë°ì´í„° ë¡œë“œ ì‹œì‘");
+
+        LoadNarrationData();
+        LoadCharacterData();
+
+        Debug.Log("[OOTechGameDataManager] ëª¨ë“  ë°ì´í„° ë¡œë“œ ì™„ë£Œ");
+    }
+
+    private void LoadNarrationData()
+    {
+        TextAsset jsonFile = Resources.Load<TextAsset>("OO_MFC/Data/OO_Narration");
+
+        if (jsonFile == null)
+        {
+            Debug.LogWarning("[OOTechGameDataManager] OO_Narration.json íŒŒì¼ì„ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤. ê²½ë¡œ: Assets/Resources/OO_MFC/Data/OO_Narration.json");
+            return;
+        }
+
+        OOTechNarrationJsonWrapper wrapper = JsonUtility.FromJson<OOTechNarrationJsonWrapper>(WrapJsonArray(jsonFile.text));
+
+        _narrationDic.Clear();
+
+        if (wrapper == null || wrapper.Items == null)
+        {
+            Debug.LogWarning("[OOTechGameDataManager] OO_Narration.json ë°ì´í„°ê°€ ë¹„ì–´ ìˆìŠµë‹ˆë‹¤.");
+            return;
+        }
+
+        foreach (OOTechNarrationJsonData jsonData in wrapper.Items)
+        {
+            OO_Narration narrationData = CreateNarrationData(jsonData);
+
+            if (narrationData == null || string.IsNullOrEmpty(narrationData.Id))
+                continue;
+
+            _narrationDic[narrationData.Id] = narrationData;
+        }
+
+        Debug.Log($"[OOTechGameDataManager] Narration ë°ì´í„° ë¡œë“œ ì™„ë£Œ: {_narrationDic.Count}ê°œ");
+    }
+
+    private void LoadCharacterData()
+    {
+        TextAsset jsonFile = Resources.Load<TextAsset>("OO_MFC/Data/OO_Character");
+
+        if (jsonFile == null)
+            return;
+
+        OOTechCharacterJsonWrapper wrapper = JsonUtility.FromJson<OOTechCharacterJsonWrapper>(WrapJsonArray(jsonFile.text));
+
+        _characterDic.Clear();
+
+        if (wrapper == null || wrapper.Items == null)
+            return;
+
+        foreach (OO_Character characterData in wrapper.Items)
+        {
+            if (characterData == null || string.IsNullOrEmpty(characterData.Id))
+                continue;
+
+            _characterDic[characterData.Id] = characterData;
+        }
+
+        Debug.Log($"[OOTechGameDataManager] Character ë°ì´í„° ë¡œë“œ ì™„ë£Œ: {_characterDic.Count}ê°œ");
+    }
+
+    private string WrapJsonArray(string jsonText)
+    {
+        if (string.IsNullOrWhiteSpace(jsonText))
+            return "{\"Items\":[]}";
+
+        string trimmedJsonText = jsonText.Trim();
+
+        if (trimmedJsonText.StartsWith("{"))
+            return trimmedJsonText;
+
+        return "{\"Items\":" + trimmedJsonText + "}";
+    }
+
+    private OO_Narration CreateNarrationData(OOTechNarrationJsonData jsonData)
+    {
+        if (jsonData == null)
+            return null;
+
+        OO_Narration narrationData = new OO_Narration
+        {
+            Id = jsonData.Id,
+            Title = jsonData.Title,
+            PartNumber = ParseInt(jsonData.PartNumber),
+            NarrationTexts = CreateTextList(jsonData.NarrationTexts),
+            BackgroundImagePaths = CreateBackgroundImagePathList(jsonData),
+            BGMPath = jsonData.BGMPath,
+            NextGroup = jsonData.NextGroup
+        };
+
+        return narrationData;
+    }
+
+    private int ParseInt(string value)
+    {
+        return int.TryParse(value, out int result) ? result : 0;
+    }
+
+    private List<string> CreateTextList(string rawText)
+    {
+        List<string> textList = new List<string>();
+
+        string normalizedText = NormalizeJsonText(rawText);
+
+        if (!string.IsNullOrWhiteSpace(normalizedText))
+            textList.Add(normalizedText);
+
+        return textList;
+    }
+
+    private List<string> CreateBackgroundImagePathList(OOTechNarrationJsonData jsonData)
+    {
+        List<string> pathList = new List<string>();
+
+        string singlePath = NormalizeJsonText(jsonData.BackgroundImagePath);
+        if (!string.IsNullOrWhiteSpace(singlePath))
+            pathList.Add(singlePath);
+
+        string multiPath = NormalizeJsonText(jsonData.BackgroundImagePaths);
+        if (!string.IsNullOrWhiteSpace(multiPath))
+            pathList.Add(multiPath);
+
+        return pathList;
+    }
+
+    private string NormalizeJsonText(string rawText)
+    {
+        if (string.IsNullOrWhiteSpace(rawText))
+            return string.Empty;
+
+        string normalizedText = rawText.Trim();
+
+        if (normalizedText.Length >= 2 && normalizedText[0] == '"' && normalizedText[normalizedText.Length - 1] == '"')
+            normalizedText = normalizedText.Substring(1, normalizedText.Length - 2);
+
+        normalizedText = normalizedText.Replace("\\n", "\n");
+        normalizedText = normalizedText.Replace("\\\"", "\"");
+
+        return normalizedText.Trim();
+    }
+
+    // ==================== ë°ì´í„° ì¡°íšŒ ====================
+
+    public OO_Narration GetNarrationData(string id)
+    {
+        if (string.IsNullOrEmpty(id))
+        {
+            Debug.LogWarning("[OOTechGameDataManager] ì¡°íšŒí•  Narration IDê°€ ë¹„ì–´ ìˆìŠµë‹ˆë‹¤.");
+            return null;
+        }
+
+        if (_narrationDic.TryGetValue(id, out OO_Narration data))
+            return data;
+
+        Debug.LogWarning($"[OOTechGameDataManager] Narration ë°ì´í„°ë¥¼ ì°¾ì„ ìˆ˜ ì—†ìŒ: {id}");
         return null;
     }
 
-    // ==================== ³ªÁß¿¡ Ãß°¡ÇÒ ¸Ş¼­µå ¿¹½Ã ====================
-    // public IngredientData GetIngredientData(string id) { ... }
-    // public RecipeData GetRecipeData(string id) { ... }
-    // public StageData GetStageData(int stageId) { ... }
+    public OO_Character GetCharacterData(string id)
+    {
+        if (string.IsNullOrEmpty(id))
+        {
+            Debug.LogWarning("[OOTechGameDataManager] ì¡°íšŒí•  Character IDê°€ ë¹„ì–´ ìˆìŠµë‹ˆë‹¤.");
+            return null;
+        }
+
+        if (_characterDic.TryGetValue(id, out OO_Character data))
+            return data;
+
+        Debug.LogWarning($"[OOTechGameDataManager] Character ë°ì´í„°ë¥¼ ì°¾ì„ ìˆ˜ ì—†ìŒ: {id}");
+        return null;
+    }
+}
+
+// ==================== Json Wrapper ====================
+
+[Serializable]
+public class OOTechNarrationJsonWrapper
+{
+    public OOTechNarrationJsonData[] Items;
+}
+
+[Serializable]
+public class OOTechNarrationJsonData
+{
+    public string Id;
+    public string Title;
+    public string PartNumber;
+    public string NarrationTexts;
+    public string BackgroundImagePath;
+    public string BackgroundImagePaths;
+    public string BGMPath;
+    public string NextGroup;
+}
+
+[Serializable]
+public class OOTechCharacterJsonWrapper
+{
+    public OO_Character[] Items;
 }

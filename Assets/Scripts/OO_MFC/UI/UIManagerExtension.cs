@@ -1,39 +1,51 @@
 using UnityEngine;
 
 /// <summary>
-/// 신규 UI 이벤트들을 확장 메서드로 관리하는 정적 클래스입니다.
-/// 모든 버튼 클릭 로직은 이곳에서 중앙 집중 관리하여 유지보수를 쉽게 합니다.
+/// UIManagerExtension
+/// 버튼 이벤트처럼 콘텐츠별로 추가되는 UI 흐름을 모아두는 확장 클래스입니다.
+/// UIManager는 Open / Close의 핵심 기능만 담당하고,
+/// 실제 화면 전환 시나리오는 이 클래스에서 조합합니다.
 /// </summary>
 public static class UIManagerExtension
 {
     // ==================== Main Menu 버튼 이벤트 ====================
 
     /// <summary>
-    /// 시작하기 버튼 클릭 시 호출됩니다.
+    /// 시작하기 버튼 클릭 시 메인 메뉴를 닫고 프롤로그와 대화창을 엽니다.
+    /// 프롤로그 내부의 실제 나레이션 시작은 PrologueController.OnEnable에서 처리합니다.
     /// </summary>
     public static void OnStartButtonClicked()
     {
-        Debug.Log("[UIManagerExtension] 시작하기 버튼 클릭");
+        Debug.Log("[UIManagerExtension] 시작하기 버튼 클릭 → Prologue1Group 열기");
 
-        if (OOTechUIManager.Inst != null)
-            OOTechUIManager.Inst.CloseUI("MainMenuGroup");
+        if (OOTechUIManager.Inst == null)
+        {
+            Debug.LogError("[UIManagerExtension] OOTechUIManager를 찾을 수 없습니다.");
+            return;
+        }
+
+        OOTechUIManager.Inst.SwitchUI("MainMenuGroup", "Prologue1Group");
+        OOTechUIManager.Inst.OpenUI("DialogueGroup");
     }
 
     /// <summary>
-    /// 도감 버튼 클릭 시 호출됩니다.
+    /// 도감 버튼 클릭 시 메인 메뉴를 닫고 도감 UI를 엽니다.
     /// </summary>
     public static void OnCodexButtonClicked()
     {
         Debug.Log("[UIManagerExtension] 도감 버튼 클릭 → CodexGroup 열기");
 
-        if (OOTechUIManager.Inst != null)
+        if (OOTechUIManager.Inst == null)
         {
-            OOTechUIManager.Inst.SwitchUI("MainMenuGroup", "CodexGroup");
+            Debug.LogError("[UIManagerExtension] OOTechUIManager를 찾을 수 없습니다.");
+            return;
         }
+
+        OOTechUIManager.Inst.SwitchUI("MainMenuGroup", "CodexGroup");
     }
 
     /// <summary>
-    /// 종료 버튼 클릭 시 호출됩니다.
+    /// 종료 버튼 클릭 시 게임을 종료합니다.
     /// </summary>
     public static void OnExitButtonClicked()
     {
@@ -41,18 +53,22 @@ public static class UIManagerExtension
         Application.Quit();
     }
 
-    // ==================== BackButton 이벤트 ====================
+    // ==================== BackButton 버튼 이벤트 ====================
 
     /// <summary>
-    /// CommonBackButton에서 호출되는 공용 뒤로가기 메서드
+    /// 공용 뒤로가기 버튼 클릭 시 이전 그룹으로 돌아갑니다.
+    /// 현재는 CodexGroup에서 MainMenuGroup으로 돌아가는 용도로 사용합니다.
     /// </summary>
     public static void OnBackButtonClicked(string previousGroupName = "MainMenuGroup")
     {
         Debug.Log($"[UIManagerExtension] BackButton 클릭 → {previousGroupName}으로 돌아가기");
 
-        if (OOTechUIManager.Inst != null)
+        if (OOTechUIManager.Inst == null)
         {
-            OOTechUIManager.Inst.SwitchUI("CodexGroup", previousGroupName);
+            Debug.LogError("[UIManagerExtension] OOTechUIManager를 찾을 수 없습니다.");
+            return;
         }
+
+        OOTechUIManager.Inst.SwitchUI("CodexGroup", previousGroupName);
     }
 }
