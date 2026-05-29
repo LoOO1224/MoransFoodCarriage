@@ -25,6 +25,8 @@
 *.booproj
 
 # 빌드 결과물 및 캐시
+Build_2nd/
+Build/
 [Bb]in/
 .vs/
 
