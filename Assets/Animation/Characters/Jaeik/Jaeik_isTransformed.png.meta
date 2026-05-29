@@ -1,0 +1,700 @@
+fileFormatVersion: 2
+guid: 6a12ba5ef2d246a4984878da770b6b04
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 0
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Jaeik_isTransformed_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 2000
+        width: 409
+        height: 400
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0ede46ccedf5ee7459453b309c30c9e6
+      internalID: -1645113378
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Jaeik_isTransformed_1
+      rect:
+        serializedVersion: 2
+        x: 550
+        y: 2000
+        width: 339
+        height: 310
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e49634565faafff4fba6f0adbe89f34b
+      internalID: -515608877
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Jaeik_isTransformed_2
+      rect:
+        serializedVersion: 2
+        x: 1030
+        y: 2000
+        width: 339
+        height: 311
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2307d08d4055eea4da5b4d61ee535ef5
+      internalID: -1176553295
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Jaeik_isTransformed_3
+      rect:
+        serializedVersion: 2
+        x: 1509
+        y: 2000
+        width: 339
+        height: 311
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 277ca5e6269a7ba489abf3c73b6cd9b5
+      internalID: -2126656925
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Jaeik_isTransformed_4
+      rect:
+        serializedVersion: 2
+        x: 1954
+        y: 1987
+        width: 410
+        height: 334
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 640743933ae336d46bfd7a43125bc804
+      internalID: 1532809682
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Jaeik_isTransformed_5
+      rect:
+        serializedVersion: 2
+        x: 38
+        y: 1483
+        width: 401
+        height: 391
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2409b42360222234e987873ab7e1192d
+      internalID: 1120383473
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Jaeik_isTransformed_6
+      rect:
+        serializedVersion: 2
+        x: 505
+        y: 1491
+        width: 418
+        height: 385
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 81d12c8662bd26445a78cfc5e5867de0
+      internalID: 1531139609
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Jaeik_isTransformed_7
+      rect:
+        serializedVersion: 2
+        x: 996
+        y: 1481
+        width: 411
+        height: 412
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c14ba7a5832284d45b2f7075e183c680
+      internalID: 14033571
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Jaeik_isTransformed_8
+      rect:
+        serializedVersion: 2
+        x: 1467
+        y: 1474
+        width: 423
+        height: 431
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 202ecafa524fe634cb73e725cdf21f22
+      internalID: 1285172127
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Jaeik_isTransformed_9
+      rect:
+        serializedVersion: 2
+        x: 1938
+        y: 1479
+        width: 439
+        height: 448
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e3b6fa0989907bc4ca5453b17ac4d7a0
+      internalID: 1579057189
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Jaeik_isTransformed_10
+      rect:
+        serializedVersion: 2
+        x: 42
+        y: 988
+        width: 403
+        height: 414
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7e783ea936719e24cbfd81b2108a20a9
+      internalID: 360103157
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Jaeik_isTransformed_11
+      rect:
+        serializedVersion: 2
+        x: 507
+        y: 976
+        width: 428
+        height: 440
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6a477ba43b6c98a489910d1054ec8ebb
+      internalID: 646261096
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Jaeik_isTransformed_12
+      rect:
+        serializedVersion: 2
+        x: 986
+        y: 977
+        width: 428
+        height: 437
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3ecf946a9dc63c740967f9360ab201bb
+      internalID: -2058139010
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Jaeik_isTransformed_13
+      rect:
+        serializedVersion: 2
+        x: 1465
+        y: 979
+        width: 426
+        height: 441
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9ef76b2da34dfba4189019678252bc64
+      internalID: 420499730
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Jaeik_isTransformed_14
+      rect:
+        serializedVersion: 2
+        x: 1969
+        y: 998
+        width: 375
+        height: 389
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 14063ec21ebac684a8e678b2119ac885
+      internalID: 2092574255
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Jaeik_isTransformed_15
+      rect:
+        serializedVersion: 2
+        x: 112
+        y: 552
+        width: 267
+        height: 344
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 01357a2d217afda449a75ef0837f7df5
+      internalID: -2074420786
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Jaeik_isTransformed_16
+      rect:
+        serializedVersion: 2
+        x: 586
+        y: 552
+        width: 250
+        height: 344
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 260a9baa1abfe1f43991a1f6f39943b6
+      internalID: 796725283
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Jaeik_isTransformed_18
+      rect:
+        serializedVersion: 2
+        x: 1066
+        y: 552
+        width: 255
+        height: 342
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6e591e6c6036e78438895bc3a54f6cbc
+      internalID: 681408341
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Jaeik_isTransformed_19
+      rect:
+        serializedVersion: 2
+        x: 1554
+        y: 552
+        width: 213
+        height: 342
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cb002f460ed6e85428e86dc2a68e1b16
+      internalID: -1293227892
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Jaeik_isTransformed_20
+      rect:
+        serializedVersion: 2
+        x: 2075
+        y: 552
+        width: 159
+        height: 342
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 452507ba8b31daf4c8bf2c7547cfd190
+      internalID: -2115092172
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Jaeik_isTransformed_26
+      rect:
+        serializedVersion: 2
+        x: 152
+        y: 74
+        width: 164
+        height: 341
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 038e21690a13f3041b31738d82f9f587
+      internalID: 1361418757
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Jaeik_isTransformed_27
+      rect:
+        serializedVersion: 2
+        x: 639
+        y: 72
+        width: 156
+        height: 343
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 26044d7aa58519243a5bc2ca0ec7d39d
+      internalID: 314310087
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Jaeik_isTransformed_28
+      rect:
+        serializedVersion: 2
+        x: 1090
+        y: 72
+        width: 215
+        height: 343
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 106c41db7e2d7ff46be524362d9312c3
+      internalID: 2046285334
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Jaeik_isTransformed_29
+      rect:
+        serializedVersion: 2
+        x: 1581
+        y: 79
+        width: 188
+        height: 336
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cfd6a1061cd89604590fba0630aef2cc
+      internalID: 10716047
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Jaeik_isTransformed_30
+      rect:
+        serializedVersion: 2
+        x: 1997
+        y: 71
+        width: 270
+        height: 335
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 48, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0408faa3bda851d478906f88870e7e49
+      internalID: 1202014848
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 391594f2552ee924a8f02e4e0fd8bdef
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      Jaeik_isTransformed_0: -1645113378
+      Jaeik_isTransformed_1: -515608877
+      Jaeik_isTransformed_10: 360103157
+      Jaeik_isTransformed_11: 646261096
+      Jaeik_isTransformed_12: -2058139010
+      Jaeik_isTransformed_13: 420499730
+      Jaeik_isTransformed_14: 2092574255
+      Jaeik_isTransformed_15: -2074420786
+      Jaeik_isTransformed_16: 796725283
+      Jaeik_isTransformed_17: -1237832165
+      Jaeik_isTransformed_18: 681408341
+      Jaeik_isTransformed_19: -1293227892
+      Jaeik_isTransformed_2: -1176553295
+      Jaeik_isTransformed_20: -2115092172
+      Jaeik_isTransformed_21: 262193295
+      Jaeik_isTransformed_22: 73207466
+      Jaeik_isTransformed_23: -780519002
+      Jaeik_isTransformed_24: -1204985021
+      Jaeik_isTransformed_25: -1052544495
+      Jaeik_isTransformed_26: 1361418757
+      Jaeik_isTransformed_27: 314310087
+      Jaeik_isTransformed_28: 2046285334
+      Jaeik_isTransformed_29: 10716047
+      Jaeik_isTransformed_3: -2126656925
+      Jaeik_isTransformed_30: 1202014848
+      Jaeik_isTransformed_4: 1532809682
+      Jaeik_isTransformed_5: 1120383473
+      Jaeik_isTransformed_6: 1531139609
+      Jaeik_isTransformed_7: 14033571
+      Jaeik_isTransformed_8: 1285172127
+      Jaeik_isTransformed_9: 1579057189
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
