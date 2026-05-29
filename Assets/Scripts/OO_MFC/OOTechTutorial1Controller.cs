@@ -81,12 +81,6 @@ public class OOTechTutorial1Controller : MonoBehaviour
     [SerializeField] private string _skipButtonText = "넘어가기";
 
     // ==================== 튜토리얼 상태 ====================
-    [SerializeField] private string _tutorialBackgroundName = "Tutorial1Background";
-    [SerializeField] private Vector2 _skipButtonWorldSize = new Vector2(240f, 72f);
-    [SerializeField] private float _skipButtonWorldScale = 0.01f;
-    [SerializeField] private Vector2 _skipButtonViewportMarginWorld = new Vector2(1.35f, 0.85f);
-    [SerializeField] private int _skipButtonSortingOrder = 120;
-
     private Coroutine _openGuideCoroutine;
     private Coroutine _interactionCoroutine;
     private Coroutine _eButtonBlinkCoroutine;
@@ -103,9 +97,6 @@ public class OOTechTutorial1Controller : MonoBehaviour
     private Image Image_InteractionFlash;
     private GameObject Object_CommonSkipButton;
     private NextButtonController Button_CommonSkip;
-    private RectTransform Rect_CommonSkipButton;
-    private Transform Transform_TutorialBackground;
-    private SpriteRenderer SpriteRenderer_TutorialBackground;
 
     private void OnEnable()
     {
@@ -115,7 +106,6 @@ public class OOTechTutorial1Controller : MonoBehaviour
     private void Update()
     {
         UpdateInteractionInput();
-        UpdateCommonSkipButtonPosition();
     }
 
     private void OnDisable()
@@ -164,35 +154,6 @@ public class OOTechTutorial1Controller : MonoBehaviour
     {
         if (Transform_JangYoungSim == null && Character_JangYoungSim != null)
             Transform_JangYoungSim = Character_JangYoungSim.transform;
-
-        CacheTutorialBackgroundReference();
-    }
-
-    private void CacheTutorialBackgroundReference()
-    {
-        if (Transform_TutorialBackground != null)
-            return;
-
-        if (string.IsNullOrEmpty(_tutorialBackgroundName))
-            return;
-
-        Transform_TutorialBackground = transform.Find(_tutorialBackgroundName);
-
-        if (Transform_TutorialBackground == null)
-        {
-            Transform[] childTransforms = transform.GetComponentsInChildren<Transform>(true);
-            foreach (Transform childTransform in childTransforms)
-            {
-                if (childTransform != null && childTransform.name == _tutorialBackgroundName)
-                {
-                    Transform_TutorialBackground = childTransform;
-                    break;
-                }
-            }
-        }
-
-        if (Transform_TutorialBackground != null)
-            Transform_TutorialBackground.TryGetComponent(out SpriteRenderer_TutorialBackground);
     }
 
     private IEnumerator OpenInitialTutorialGuideRoutine()
@@ -780,8 +741,6 @@ public class OOTechTutorial1Controller : MonoBehaviour
             Button_CommonSkip.SetGroupName(_tutorialGroupName, _nextGroupName);
             Button_CommonSkip.SetButtonText(_skipButtonText);
         }
-
-        UpdateCommonSkipButtonPosition();
     }
 
     private void HideCommonSkipButton()
@@ -801,128 +760,10 @@ public class OOTechTutorial1Controller : MonoBehaviour
             return;
         }
 
-        CacheTutorialBackgroundReference();
-
-        Transform skipButtonParent = Transform_TutorialBackground != null ? Transform_TutorialBackground : transform;
-        Object_CommonSkipButton = Instantiate(Prefab_CommonSkipButton, skipButtonParent, false);
+        Object_CommonSkipButton = Instantiate(Prefab_CommonSkipButton, transform, false);
         Object_CommonSkipButton.name = "CommonSkipButton_Tutorial1";
         Button_CommonSkip = Object_CommonSkipButton.GetComponent<NextButtonController>();
-        Rect_CommonSkipButton = Object_CommonSkipButton.transform as RectTransform;
-        ConfigureCommonSkipButtonForTutorialBackground();
-        UpdateCommonSkipButtonPosition();
         Object_CommonSkipButton.SetActive(false);
-    }
-
-    private void ConfigureCommonSkipButtonForTutorialBackground()
-    {
-        if (Object_CommonSkipButton == null)
-            return;
-
-        if (Rect_CommonSkipButton == null)
-            Rect_CommonSkipButton = Object_CommonSkipButton.transform as RectTransform;
-
-        if (Rect_CommonSkipButton != null)
-        {
-            Rect_CommonSkipButton.anchorMin = new Vector2(0.5f, 0.5f);
-            Rect_CommonSkipButton.anchorMax = new Vector2(0.5f, 0.5f);
-            Rect_CommonSkipButton.pivot = new Vector2(0.5f, 0.5f);
-            Rect_CommonSkipButton.sizeDelta = _skipButtonWorldSize;
-            Rect_CommonSkipButton.localRotation = Quaternion.identity;
-            Rect_CommonSkipButton.localScale = Vector3.one * Mathf.Max(0.0001f, _skipButtonWorldScale);
-        }
-
-        Canvas[] canvases = Object_CommonSkipButton.GetComponentsInChildren<Canvas>(true);
-        foreach (Canvas canvas in canvases)
-        {
-            if (canvas == null)
-                continue;
-
-            canvas.renderMode = RenderMode.WorldSpace;
-            canvas.worldCamera = Camera.main;
-            canvas.overrideSorting = true;
-            canvas.sortingOrder = _skipButtonSortingOrder;
-        }
-
-        CanvasScaler[] canvasScalers = Object_CommonSkipButton.GetComponentsInChildren<CanvasScaler>(true);
-        foreach (CanvasScaler canvasScaler in canvasScalers)
-        {
-            if (canvasScaler != null)
-                canvasScaler.uiScaleMode = CanvasScaler.ScaleMode.ConstantPixelSize;
-        }
-
-        RectTransform backgroundRect = FindChildRectTransform(Object_CommonSkipButton.transform, "Background");
-        StretchFullScreen(backgroundRect);
-    }
-
-    private void UpdateCommonSkipButtonPosition()
-    {
-        if (Object_CommonSkipButton == null || !Object_CommonSkipButton.activeSelf)
-            return;
-
-        if (Rect_CommonSkipButton == null)
-            Rect_CommonSkipButton = Object_CommonSkipButton.transform as RectTransform;
-
-        CacheTutorialBackgroundReference();
-
-        if (Rect_CommonSkipButton == null || Transform_TutorialBackground == null)
-            return;
-
-        Bounds backgroundBounds = GetTutorialBackgroundBounds();
-        Vector2 buttonHalfSize = _skipButtonWorldSize * Mathf.Max(0.0001f, _skipButtonWorldScale) * 0.5f;
-        Vector3 desiredPosition = GetSkipButtonTopRightWorldPosition(backgroundBounds);
-
-        desiredPosition.x = ClampInsideRange(desiredPosition.x, backgroundBounds.min.x + buttonHalfSize.x, backgroundBounds.max.x - buttonHalfSize.x);
-        desiredPosition.y = ClampInsideRange(desiredPosition.y, backgroundBounds.min.y + buttonHalfSize.y, backgroundBounds.max.y - buttonHalfSize.y);
-        desiredPosition.z = Transform_TutorialBackground.position.z;
-
-        Rect_CommonSkipButton.position = desiredPosition;
-        Rect_CommonSkipButton.rotation = Quaternion.identity;
-    }
-
-    private Bounds GetTutorialBackgroundBounds()
-    {
-        if (SpriteRenderer_TutorialBackground != null)
-            return SpriteRenderer_TutorialBackground.bounds;
-
-        return new Bounds(Transform_TutorialBackground.position, Vector3.one * 10f);
-    }
-
-    private Vector3 GetSkipButtonTopRightWorldPosition(Bounds backgroundBounds)
-    {
-        Camera mainCamera = Camera.main;
-        if (mainCamera == null)
-            return new Vector3(backgroundBounds.max.x - _skipButtonViewportMarginWorld.x, backgroundBounds.max.y - _skipButtonViewportMarginWorld.y, Transform_TutorialBackground.position.z);
-
-        float distanceToBackground = Mathf.Abs(mainCamera.transform.position.z - Transform_TutorialBackground.position.z);
-        Vector3 topRightWorld = mainCamera.ViewportToWorldPoint(new Vector3(1f, 1f, distanceToBackground));
-        topRightWorld.x -= _skipButtonViewportMarginWorld.x;
-        topRightWorld.y -= _skipButtonViewportMarginWorld.y;
-        topRightWorld.z = Transform_TutorialBackground.position.z;
-
-        return topRightWorld;
-    }
-
-    private float ClampInsideRange(float value, float min, float max)
-    {
-        if (min > max)
-            return (min + max) * 0.5f;
-
-        return Mathf.Clamp(value, min, max);
-    }
-
-    private RectTransform FindChildRectTransform(Transform root, string childName)
-    {
-        if (root == null)
-            return null;
-
-        RectTransform[] childRects = root.GetComponentsInChildren<RectTransform>(true);
-        foreach (RectTransform childRect in childRects)
-        {
-            if (childRect != null && childRect.name == childName)
-                return childRect;
-        }
-
-        return null;
     }
 
     // ==================== 코루틴 정리 ====================

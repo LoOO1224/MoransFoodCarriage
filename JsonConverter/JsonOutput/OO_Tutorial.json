@@ -17,8 +17,8 @@
   },
   {
     "Id": "narration_tutorial_03",
-    "Name": null,
-    "Description": null,
+    "Name": "튜토리얼 가이드2",
+    "Description": "배고픈 재익이 음식을 찾고 있습니다. 어디서 맛있는 냄새가 나는군요! 장애물이 있다면 Space바를 눌러 점프해 넘어가세요. 음식과 상호작용 키는 E입니다.",
     "SkillList": null,
     "UseWeaponId": null,
     "BasicCostumeId": null

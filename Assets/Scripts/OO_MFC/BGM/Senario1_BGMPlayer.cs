@@ -1,31 +1,76 @@
 using UnityEngine;
 
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
 /// <summary>
-/// Senario1_BGMPlayer
-/// 
-/// Senario1Group에서 사용되는 전용 BGM을 관리합니다.
-/// 그룹이 활성화되는 동안 BGM을 재생하고, 그룹이 비활성화되면 자동으로 정지합니다.
+/// Plays and switches Senario1Group-focused BGM tracks.
+/// AudioClip fields can be assigned in the inspector; editor asset paths are used as a fallback during Play Mode.
 /// </summary>
 public class Senario1_BGMPlayer : MonoBehaviour
 {
-    [Header("BGM Settings")]
+    [Header("Fallback BGM")]
     [SerializeField] private AudioClip _senario1BGM;
+
+    [Header("Focused BGM")]
+    [SerializeField] private AudioClip _jaeikFocusedBGM;
+    [SerializeField] private AudioClip _chunyangFocusedBGM;
+
+    [Header("Editor Asset Fallback")]
+    [SerializeField] private string _jaeikFocusedBGMAssetPath = "Assets/Sounds/BGM/Senario1Group_JaeikCameraFocused_BGM.mp3";
+    [SerializeField] private string _chunyangFocusedBGMAssetPath = "Assets/Sounds/BGM/Senario1Group_Chunyang_CameraFocused_BGM.mp3";
 
     private void OnEnable()
     {
-        if (OOTechSoundManager.Inst != null && _senario1BGM != null)
-        {
-            OOTechSoundManager.Inst.PlayBGM(_senario1BGM, loop: true);
-            Debug.Log("[Senario1_BGMPlayer] Senario1Group BGM 재생 시작");
-        }
+        PlayJaeikFocusedBGM();
     }
 
     private void OnDisable()
     {
         if (OOTechSoundManager.Inst != null)
-        {
             OOTechSoundManager.Inst.StopBGM();
-            Debug.Log("[Senario1_BGMPlayer] BGM 정지");
-        }
+    }
+
+    public void PlayJaeikFocusedBGM()
+    {
+        AudioClip bgmClip = ResolveClip(_jaeikFocusedBGM, _jaeikFocusedBGMAssetPath);
+
+        if (bgmClip == null)
+            bgmClip = _senario1BGM;
+
+        PlayBGM(bgmClip, "Jaeik focused");
+    }
+
+    public void PlayChunyangFocusedBGM()
+    {
+        AudioClip bgmClip = ResolveClip(_chunyangFocusedBGM, _chunyangFocusedBGMAssetPath);
+
+        if (bgmClip == null)
+            bgmClip = _senario1BGM;
+
+        PlayBGM(bgmClip, "Chunyang focused");
+    }
+
+    private void PlayBGM(AudioClip bgmClip, string label)
+    {
+        if (OOTechSoundManager.Inst == null || bgmClip == null)
+            return;
+
+        OOTechSoundManager.Inst.PlayBGM(bgmClip, true);
+        Debug.Log($"[Senario1_BGMPlayer] Play {label} BGM: {bgmClip.name}");
+    }
+
+    private AudioClip ResolveClip(AudioClip assignedClip, string editorAssetPath)
+    {
+        if (assignedClip != null)
+            return assignedClip;
+
+#if UNITY_EDITOR
+        if (!string.IsNullOrEmpty(editorAssetPath))
+            return AssetDatabase.LoadAssetAtPath<AudioClip>(editorAssetPath);
+#endif
+
+        return null;
     }
 }

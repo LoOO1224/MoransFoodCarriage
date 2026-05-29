@@ -2,16 +2,36 @@ using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 /// <summary>
-/// Senario1Group에서 재익의 이동, 점프, 상호작용 요청을 담당하는 캐릭터 컨트롤러입니다.
-/// 실제 화면 번쩍임, 페이드, 외형 변경 같은 그룹 연출은 OOTechSenario1Controller가 처리합니다.
+/// Handles Jaeik movement, jump physics, and the S1_Object_Quest interaction.
 /// </summary>
 public class OOTechJaeikController : MonoBehaviour
 {
     [Header("Movement Settings")]
     [SerializeField] private float _moveSpeed = 6f;
-    [SerializeField] private bool _isMovementLockedOnStart;
+    [SerializeField] private float _jumpVelocity = 19.5f;
+    [SerializeField] private float _gravityScale = 4.8f;
+    [SerializeField] private float _apexGravityScale = 2.2f;
+    [SerializeField] private float _fallGravityScale = 8.8f;
+    [SerializeField] private float _maxFallSpeed = 24f;
+    [SerializeField] private float _coyoteTimeSeconds = 0.12f;
+    [SerializeField] private float _minimumJumpInterval = 0.18f;
+    [SerializeField] private bool _isMovementLockedOnStart = false;
+    [SerializeField] private bool _isUseClickMove = true;
+    [SerializeField] private float _clickMoveStopDistance = 0.16f;
+    [SerializeField] private float _clickMoveMinWorldDistance = 0.08f;
+
+    [Header("Ground Check")]
+    [SerializeField] private Collider2D Collider_Jaeik;
+    [SerializeField] private LayerMask _groundLayerMask = ~0;
+    [SerializeField] private float _groundCheckDistance = 0.1f;
+    [SerializeField] private float _groundNormalYThreshold = 0.35f;
+    [SerializeField] private float _groundCheckIgnoreAfterJumpSeconds = 0.08f;
+    [SerializeField] private bool _isCreateColliderIfMissing = true;
+    [SerializeField] private Vector2 _fallbackColliderSize = new Vector2(1f, 1.8f);
+    [SerializeField] private Vector2 _fallbackColliderOffset = new Vector2(0f, 0.85f);
 
     [Header("Component References")]
     [SerializeField] private Rigidbody2D Rigidbody_Jaeik;
@@ -28,22 +48,22 @@ public class OOTechJaeikController : MonoBehaviour
     [SerializeField] private string _walkStateName = "Jaeik_isWalking";
     [SerializeField] private string _jumpStateName = "Jaeik_isJumping";
     [SerializeField] private string _eatStateName = "Jaeik_isEatting";
-
-    [Header("One Shot Animation")]
-    [SerializeField] private float _jumpAnimationSeconds = 1f;
-    [SerializeField] private float _eatAnimationSeconds = 2.1f;
+    [SerializeField] private string _transformedStateName = "Jaeik_isTransformed";
+    [SerializeField] private float _jumpAnimationMinimumSeconds = 0.25f;
+    [SerializeField] private float _eatAnimationSeconds = 2.15f;
+    [SerializeField] private float _transformedAnimationSeconds = 2.1f;
     [SerializeField] private bool _isUseDirectStatePlay = true;
 
-    [Header("Interaction")]
+    [Header("Interaction Settings")]
     [SerializeField] private Transform Transform_InteractionTarget;
-    [SerializeField] private float _interactionDistance = 2.2f;
+    [SerializeField] private float _interactionDistance = 2.8f;
     [SerializeField] private KeyCode _interactionKey = KeyCode.E;
-    [SerializeField] private bool _isInteractionCompleted;
+    [SerializeField] private bool _isInteractionCompleted = false;
 
     [Header("Interaction Prompt")]
     [SerializeField] private GameObject Group_InteractionPrompt;
     [SerializeField] private TextMeshPro Text_InteractionPrompt;
-    [SerializeField] private string _interactionPromptText = "[E] 먹기";
+    [SerializeField] private string _interactionPromptText = "[E] Eat";
     [SerializeField] private Vector3 _interactionPromptOffset = new Vector3(0f, 1.2f, 0f);
     [SerializeField] private float _interactionPromptScale = 0.18f;
     [SerializeField] private float _interactionPromptFontSize = 6f;
@@ -51,113 +71,151 @@ public class OOTechJaeikController : MonoBehaviour
     [SerializeField] private int _interactionPromptSortingOrder = 60;
     [SerializeField] private bool _isCreateDefaultPrompt = true;
 
-    // ==================== 입력 / 이동 상태 ====================
-    private Vector2 _moveInput;
-    private bool _isMovementLocked;
-    private bool _isPlayingOneShotAnimation;
-    private string _currentAnimationStateName;
-    private Coroutine _oneShotAnimationCoroutine;
+    public bool IsGrounded { get; private set; }
+    public bool IsInputEnabled { get; private set; }
 
-    // ==================== 이벤트 ====================
-    private event Action _onEatInteractionRequested;
+    private readonly RaycastHit2D[] _groundHitArray = new RaycastHit2D[8];
+    private readonly ContactPoint2D[] _contactPointArray = new ContactPoint2D[8];
+
+    private Action _eatInteractionRequestEvent;
+    private Coroutine _oneShotAnimationCoroutine;
+    private string _currentAnimationStateName;
+    private float _moveInputX;
+    private float _clickMoveTargetX;
+    private float _lastGroundedTime;
+    private float _lastJumpTime = -999f;
+    private bool _isMovementLocked;
+    private bool _isClickMoveActive;
+    private bool _isPlayingOneShotAnimation;
 
     private void Awake()
     {
-        CreateDefaultPromptIfNeeded();
+        CacheComponentReferences();
+        CreateFallbackColliderIfNeeded();
+        CreateDefaultInteractionPromptIfNeeded();
     }
 
     private void OnEnable()
     {
+        ApplyRequiredScenarioPhysics();
         ApplyDefaultPhysicsSetting();
         SetMovementLocked(_isMovementLockedOnStart);
+        SetInputEnabled(!_isMovementLockedOnStart);
         HideInteractionPrompt();
     }
 
     private void Update()
     {
+        // Update는 배우의 즉석 입력을 받는 시간입니다.
+        // 감독이 입력을 잠근 장면에서는 이동, 점프, E 상호작용을 모두 받지 않습니다.
+        RefreshGroundedState();
+
+        if (!IsInputEnabled || _isMovementLocked)
+        {
+            _moveInputX = 0f;
+            HideInteractionPrompt();
+            return;
+        }
+
         UpdateMoveInput();
         UpdateJumpInput();
-        UpdateEatInteractionInput();
+        UpdateInteractionInput();
+        UpdateInteractionPrompt();
         UpdateSpriteFlip();
         UpdateAnimationState();
     }
 
     private void FixedUpdate()
     {
-        MovePlayer();
+        // FixedUpdate는 무대 장치 담당입니다.
+        // Rigidbody2D 이동과 중력은 물리 프레임에서 처리해야 계단/천장 콜리더와 안정적으로 맞물립니다.
+        RefreshGroundedState();
+        ApplyHorizontalMovement();
+        ApplyGravityScale();
+        ClampFallSpeed();
     }
 
     private void OnDisable()
     {
-        StopOneShotAnimationCoroutine();
+        StopOneShotAnimation();
         SetAnimatorSpeed(1f);
-        SetAnimatorMoving(false);
-        _currentAnimationStateName = string.Empty;
-        HideInteractionPrompt();
         StopPlayer();
+        HideInteractionPrompt();
     }
 
-    // ==================== 외부 제어 ====================
-
-    /// <summary>
-    /// 씬 직렬화 참조가 비어 있을 때 Senario1Controller가 직접 알고 있는 Jaeik 오브젝트의 컴포넌트를 주입합니다.
-    /// 씬 전체 검색을 사용하지 않고, 이미 연결된 Transform 내부 컴포넌트만 전달받습니다.
-    /// </summary>
-    public void SetComponentReference(Rigidbody2D rigidbodyJaeik, SpriteRenderer spriteRendererJaeik, Animator animatorJaeik)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        Rigidbody_Jaeik = rigidbodyJaeik;
-        SpriteRenderer_Jaeik = spriteRendererJaeik;
-        Animator_Jaeik = animatorJaeik;
-
-        ApplyDefaultPhysicsSetting();
+        ResolveCollisionContact(collision);
     }
 
-    /// <summary>
-    /// 튜토리얼 안내나 연출 중 플레이어 입력을 잠글 때 호출합니다.
-    /// </summary>
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        ResolveCollisionContact(collision);
+    }
+
+    public void SetComponentReference(Rigidbody2D rigidbody, SpriteRenderer spriteRenderer, Animator animator, Collider2D collider)
+    {
+        if (rigidbody != null)
+            Rigidbody_Jaeik = rigidbody;
+
+        if (spriteRenderer != null)
+            SpriteRenderer_Jaeik = spriteRenderer;
+
+        if (animator != null)
+            Animator_Jaeik = animator;
+
+        if (collider != null)
+            Collider_Jaeik = collider;
+    }
+
     public void LockMovement()
     {
         SetMovementLocked(true);
     }
 
-    /// <summary>
-    /// 잠긴 플레이어 입력을 다시 허용할 때 호출합니다.
-    /// </summary>
     public void UnlockMovement()
     {
         SetMovementLocked(false);
     }
 
-    /// <summary>
-    /// 이동 잠금 상태를 직접 지정합니다.
-    /// </summary>
+    public void SetInputEnabled(bool enabled)
+    {
+        IsInputEnabled = enabled;
+
+        if (!IsInputEnabled)
+        {
+            _moveInputX = 0f;
+            _isClickMoveActive = false;
+            StopPlayer();
+        }
+    }
+
     public void SetMovementLocked(bool isLocked)
     {
         _isMovementLocked = isLocked;
 
-        if (_isMovementLocked)
-        {
-            _moveInput = Vector2.zero;
-            StopPlayer();
-            SetAnimatorMoving(false);
+        if (!_isMovementLocked)
+            return;
+
+        _moveInputX = 0f;
+        _isClickMoveActive = false;
+        StopPlayer();
+
+        if (!_isPlayingOneShotAnimation)
             PlayAnimationState(_idleStateName);
-        }
     }
 
-    /// <summary>
-    /// 상호작용 대상 Transform을 설정합니다.
-    /// Senario1Controller가 직접 참조로 연결한 Cube를 전달합니다.
-    /// </summary>
-    public void SetInteractionTarget(Transform interactionTarget)
+    public void SetInteractionTarget(Transform target)
     {
-        Transform_InteractionTarget = interactionTarget;
-        CreateDefaultPromptIfNeeded();
+        Transform_InteractionTarget = target;
+        UpdateInteractionPrompt();
     }
 
-    /// <summary>
-    /// 상호작용 완료 여부를 설정합니다.
-    /// 완료 후에는 E 프롬프트와 입력 요청을 막습니다.
-    /// </summary>
+    public void SetInteractionDistance(float distance)
+    {
+        _interactionDistance = Mathf.Max(0.1f, distance);
+    }
+
     public void SetInteractionCompleted(bool isCompleted)
     {
         _isInteractionCompleted = isCompleted;
@@ -166,124 +224,107 @@ public class OOTechJaeikController : MonoBehaviour
             HideInteractionPrompt();
     }
 
-    /// <summary>
-    /// E 상호작용 요청 이벤트를 등록합니다.
-    /// 화면 번쩍임과 외형 변경은 Senario1Controller에서 처리합니다.
-    /// </summary>
-    public void BindEatInteractionRequestEvent(Action onEatInteractionRequested)
+    public void BindEatInteractionRequestEvent(Action callback)
     {
-        _onEatInteractionRequested -= onEatInteractionRequested;
-        _onEatInteractionRequested += onEatInteractionRequested;
+        _eatInteractionRequestEvent -= callback;
+        _eatInteractionRequestEvent += callback;
     }
 
-    /// <summary>
-    /// E 상호작용 요청 이벤트 등록을 해제합니다.
-    /// </summary>
-    public void UnbindEatInteractionRequestEvent(Action onEatInteractionRequested)
+    public void UnbindEatInteractionRequestEvent(Action callback)
     {
-        _onEatInteractionRequested -= onEatInteractionRequested;
+        _eatInteractionRequestEvent -= callback;
     }
 
-    /// <summary>
-    /// 재익의 먹기 애니메이션을 1회 재생합니다.
-    /// 상호작용 연출이 끝난 뒤 Senario1Controller가 호출합니다.
-    /// </summary>
-    public void PlayEatAnimationOnce(Action onAnimationEnd = null)
+    public void PlayEatAnimationOnce(Action onComplete = null)
     {
-        PlayOneShotAnimation(_eatStateName, _eatTriggerName, _eatAnimationSeconds, onAnimationEnd);
+        PlayEatAnimationOnce(0.3f, onComplete);
     }
 
-    /// <summary>
-    /// 재익의 점프 애니메이션을 1회 재생합니다.
-    /// Space 입력 또는 외부 연출에서 사용할 수 있습니다.
-    /// </summary>
-    public void PlayJumpAnimationOnce(Action onAnimationEnd = null)
+    public void PlayEatAnimationOnce(float animationSpeed, Action onComplete = null)
     {
-        PlayOneShotAnimation(_jumpStateName, _jumpTriggerName, _jumpAnimationSeconds, onAnimationEnd);
+        StartOneShotAnimation(_eatStateName, _eatAnimationSeconds, animationSpeed, false, onComplete);
     }
 
-    /// <summary>
-    /// 외부 연출에서 프롬프트를 명시적으로 숨겨야 할 때 호출합니다.
-    /// </summary>
+    public void PlayTransformedAnimationOnce(float animationSpeed, Action onComplete = null)
+    {
+        StartOneShotAnimation(_transformedStateName, _transformedAnimationSeconds, animationSpeed, true, onComplete);
+    }
+
+    public void PlayJumpingAnimationOnce(Action onComplete = null)
+    {
+        StartOneShotAnimation(_jumpStateName, _jumpAnimationMinimumSeconds, 1f, false, onComplete);
+    }
+
+    public void StopOneShotAnimation()
+    {
+        if (_oneShotAnimationCoroutine != null)
+        {
+            StopCoroutine(_oneShotAnimationCoroutine);
+            _oneShotAnimationCoroutine = null;
+        }
+
+        _isPlayingOneShotAnimation = false;
+        SetAnimatorSpeed(1f);
+    }
+
     public void HideInteractionPrompt()
     {
         if (Group_InteractionPrompt != null)
             Group_InteractionPrompt.SetActive(false);
     }
 
-    // ==================== 입력 처리 ====================
-
-    private void UpdateMoveInput()
-    {
-        if (_isMovementLocked || _isPlayingOneShotAnimation)
-        {
-            _moveInput = Vector2.zero;
-            return;
-        }
-
-        float moveX = Input.GetAxisRaw("Horizontal");
-        float moveY = Input.GetAxisRaw("Vertical");
-        _moveInput = new Vector2(moveX, moveY).normalized;
-    }
-
-    private void UpdateJumpInput()
-    {
-        if (_isMovementLocked || _isPlayingOneShotAnimation)
-            return;
-
-        if (!Input.GetKeyDown(KeyCode.Space))
-            return;
-
-        PlayJumpAnimationOnce();
-    }
-
-    private void UpdateEatInteractionInput()
-    {
-        if (_isMovementLocked || _isPlayingOneShotAnimation || _isInteractionCompleted)
-        {
-            HideInteractionPrompt();
-            return;
-        }
-
-        bool isNearInteractionTarget = IsNearInteractionTarget();
-        SetInteractionPromptActive(isNearInteractionTarget);
-
-        if (!isNearInteractionTarget)
-            return;
-
-        if (!Input.GetKeyDown(_interactionKey))
-            return;
-
-        RequestEatInteraction();
-    }
-
-    private void RequestEatInteraction()
-    {
-        HideInteractionPrompt();
-
-        if (_onEatInteractionRequested != null)
-        {
-            _onEatInteractionRequested.Invoke();
-            return;
-        }
-
-        PlayEatAnimationOnce();
-    }
-
-    // ==================== 이동 처리 ====================
-
-    private void MovePlayer()
+    private void CacheComponentReferences()
     {
         if (Rigidbody_Jaeik == null)
-            return;
+            Rigidbody_Jaeik = GetComponent<Rigidbody2D>();
 
-        Rigidbody_Jaeik.linearVelocity = _moveInput * _moveSpeed;
+        if (SpriteRenderer_Jaeik == null)
+            SpriteRenderer_Jaeik = GetComponent<SpriteRenderer>();
+
+        if (Animator_Jaeik == null)
+            Animator_Jaeik = GetComponent<Animator>();
+
+        if (Collider_Jaeik == null)
+            Collider_Jaeik = FindBestBodyCollider();
     }
 
-    private void StopPlayer()
+    private Collider2D FindBestBodyCollider()
     {
-        if (Rigidbody_Jaeik != null)
-            Rigidbody_Jaeik.linearVelocity = Vector2.zero;
+        Collider2D[] colliderArray = GetComponents<Collider2D>();
+
+        foreach (Collider2D collider in colliderArray)
+        {
+            if (collider != null && collider.enabled && !collider.isTrigger && collider is BoxCollider2D)
+                return collider;
+        }
+
+        foreach (Collider2D collider in colliderArray)
+        {
+            if (collider != null && collider.enabled && !collider.isTrigger)
+                return collider;
+        }
+
+        return null;
+    }
+
+    private void CreateFallbackColliderIfNeeded()
+    {
+        if (!_isCreateColliderIfMissing || Collider_Jaeik != null)
+            return;
+
+        BoxCollider2D boxCollider = gameObject.AddComponent<BoxCollider2D>();
+        boxCollider.size = _fallbackColliderSize;
+        boxCollider.offset = _fallbackColliderOffset;
+        Collider_Jaeik = boxCollider;
+    }
+
+    private void ApplyRequiredScenarioPhysics()
+    {
+        _jumpVelocity = Mathf.Max(_jumpVelocity, 19.5f);
+        _gravityScale = Mathf.Max(_gravityScale, 4.8f);
+        _apexGravityScale = Mathf.Clamp(_apexGravityScale, 1.2f, _gravityScale);
+        _fallGravityScale = Mathf.Max(_fallGravityScale, 8.8f);
+        _maxFallSpeed = Mathf.Max(_maxFallSpeed, 24f);
     }
 
     private void ApplyDefaultPhysicsSetting()
@@ -291,106 +332,116 @@ public class OOTechJaeikController : MonoBehaviour
         if (Rigidbody_Jaeik == null)
             return;
 
-        Rigidbody_Jaeik.gravityScale = 0f;
+        Rigidbody_Jaeik.bodyType = RigidbodyType2D.Dynamic;
+        Rigidbody_Jaeik.gravityScale = _gravityScale;
         Rigidbody_Jaeik.constraints |= RigidbodyConstraints2D.FreezeRotation;
+        Rigidbody_Jaeik.interpolation = RigidbodyInterpolation2D.Interpolate;
+        Rigidbody_Jaeik.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
     }
 
-    // ==================== 애니메이션 처리 ====================
-
-    private void UpdateSpriteFlip()
+    private void UpdateMoveInput()
     {
-        if (SpriteRenderer_Jaeik == null)
-            return;
+        float keyboardX = Input.GetAxisRaw("Horizontal");
 
-        if (Mathf.Abs(_moveInput.x) <= 0.01f)
-            return;
-
-        SpriteRenderer_Jaeik.flipX = _moveInput.x < 0f;
-    }
-
-    private void UpdateAnimationState()
-    {
-        if (_isPlayingOneShotAnimation)
-            return;
-
-        bool isMoving = !_isMovementLocked && _moveInput.sqrMagnitude > 0.01f;
-        SetAnimatorMoving(isMoving);
-
-        if (_isUseDirectStatePlay)
-            PlayAnimationState(isMoving ? _walkStateName : _idleStateName);
-    }
-
-    private void PlayOneShotAnimation(string stateName, string triggerName, float animationSeconds, Action onAnimationEnd)
-    {
-        StopOneShotAnimationCoroutine();
-        _oneShotAnimationCoroutine = StartCoroutine(PlayOneShotAnimationRoutine(stateName, triggerName, animationSeconds, onAnimationEnd));
-    }
-
-    private IEnumerator PlayOneShotAnimationRoutine(string stateName, string triggerName, float animationSeconds, Action onAnimationEnd)
-    {
-        _isPlayingOneShotAnimation = true;
-        _moveInput = Vector2.zero;
-        StopPlayer();
-        SetAnimatorMoving(false);
-
-        if (Animator_Jaeik != null)
+        if (Mathf.Abs(keyboardX) > 0.01f)
         {
-            if (!string.IsNullOrEmpty(triggerName))
-                Animator_Jaeik.SetTrigger(triggerName);
-
-            if (_isUseDirectStatePlay)
-                PlayAnimationState(stateName);
+            _isClickMoveActive = false;
+            _moveInputX = Mathf.Sign(keyboardX);
+            return;
         }
 
-        yield return new WaitForSeconds(Mathf.Max(0.01f, animationSeconds));
-
-        _isPlayingOneShotAnimation = false;
-        PlayAnimationState(_idleStateName);
-        onAnimationEnd?.Invoke();
-
-        _oneShotAnimationCoroutine = null;
+        TrySetClickMoveTarget();
+        _moveInputX = GetClickMoveInputX();
     }
 
-    private void StopOneShotAnimationCoroutine()
+    private void TrySetClickMoveTarget()
     {
-        if (_oneShotAnimationCoroutine == null)
+        if (!_isUseClickMove || !Input.GetMouseButtonDown(0))
             return;
 
-        StopCoroutine(_oneShotAnimationCoroutine);
-        _oneShotAnimationCoroutine = null;
-        _isPlayingOneShotAnimation = false;
+        if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())
+            return;
+
+        Camera camera = Camera.main;
+        if (camera == null)
+            return;
+
+        Vector3 clickWorldPosition = camera.ScreenToWorldPoint(Input.mousePosition);
+
+        if (Mathf.Abs(clickWorldPosition.x - transform.position.x) < _clickMoveMinWorldDistance)
+            return;
+
+        _clickMoveTargetX = clickWorldPosition.x;
+        _isClickMoveActive = true;
     }
 
-    private void PlayAnimationState(string stateName)
+    private float GetClickMoveInputX()
     {
-        if (Animator_Jaeik == null)
-            return;
+        if (!_isClickMoveActive)
+            return 0f;
 
-        if (string.IsNullOrEmpty(stateName))
-            return;
+        float distanceX = _clickMoveTargetX - transform.position.x;
 
-        if (_currentAnimationStateName == stateName)
-            return;
+        if (Mathf.Abs(distanceX) <= _clickMoveStopDistance)
+        {
+            _isClickMoveActive = false;
+            return 0f;
+        }
 
-        Animator_Jaeik.Play(stateName, 0, 0f);
-        _currentAnimationStateName = stateName;
+        return Mathf.Sign(distanceX);
     }
 
-    private void SetAnimatorMoving(bool isMoving)
+    private void UpdateJumpInput()
     {
-        if (Animator_Jaeik == null || string.IsNullOrEmpty(_isMovingParameterName))
+        if (!Input.GetKeyDown(KeyCode.Space))
             return;
 
-        Animator_Jaeik.SetBool(_isMovingParameterName, isMoving);
+        RequestJump();
     }
 
-    private void SetAnimatorSpeed(float speed)
+    private void RequestJump()
     {
-        if (Animator_Jaeik != null)
-            Animator_Jaeik.speed = Mathf.Max(0.01f, speed);
+        // 점프는 배우를 와이어로 들어 올리는 큐와 비슷합니다.
+        // Space를 누르면 위쪽 속도를 한 번 크게 주고, 이후 낙하는 Physics2D 중력에게 맡깁니다.
+        if (!CanJump())
+            return;
+
+        _lastJumpTime = Time.time;
+        IsGrounded = false;
+
+        if (Rigidbody_Jaeik != null)
+            Rigidbody_Jaeik.linearVelocity = new Vector2(Rigidbody_Jaeik.linearVelocity.x, _jumpVelocity);
+
+        TriggerAnimator(_jumpTriggerName);
+        PlayAnimationState(_jumpStateName, true);
     }
 
-    // ==================== 상호작용 프롬프트 ====================
+    private bool CanJump()
+    {
+        if (_isPlayingOneShotAnimation)
+            return false;
+
+        if (Time.time - _lastJumpTime < _minimumJumpInterval)
+            return false;
+
+        return IsGrounded || Time.time - _lastGroundedTime <= _coyoteTimeSeconds;
+    }
+
+    private void UpdateInteractionInput()
+    {
+        if (_isInteractionCompleted || Transform_InteractionTarget == null)
+            return;
+
+        if (!IsNearInteractionTarget())
+            return;
+
+        if (!Input.GetKeyDown(_interactionKey))
+            return;
+
+        _isInteractionCompleted = true;
+        HideInteractionPrompt();
+        _eatInteractionRequestEvent?.Invoke();
+    }
 
     private bool IsNearInteractionTarget()
     {
@@ -401,37 +452,31 @@ public class OOTechJaeikController : MonoBehaviour
         return distance <= _interactionDistance;
     }
 
-    private void SetInteractionPromptActive(bool isActive)
+    private void UpdateInteractionPrompt()
     {
-        if (Group_InteractionPrompt == null)
+        if (_isInteractionCompleted || Transform_InteractionTarget == null)
+        {
+            HideInteractionPrompt();
             return;
+        }
 
-        if (isActive)
-            UpdateInteractionPromptPosition();
+        bool isActive = IsInputEnabled && !_isMovementLocked && IsNearInteractionTarget();
+        SetInteractionPromptActive(isActive);
 
-        Group_InteractionPrompt.SetActive(isActive);
-    }
-
-    private void UpdateInteractionPromptPosition()
-    {
-        if (Group_InteractionPrompt == null || Transform_InteractionTarget == null)
+        if (!isActive || Group_InteractionPrompt == null)
             return;
 
         Group_InteractionPrompt.transform.position = Transform_InteractionTarget.position + _interactionPromptOffset;
     }
 
-    private void CreateDefaultPromptIfNeeded()
+    private void CreateDefaultInteractionPromptIfNeeded()
     {
-        if (!_isCreateDefaultPrompt)
-            return;
-
-        if (Group_InteractionPrompt != null || Transform_InteractionTarget == null)
+        if (!_isCreateDefaultPrompt || Group_InteractionPrompt != null)
             return;
 
         Group_InteractionPrompt = new GameObject("Text_JaeikInteractionPrompt");
-        Group_InteractionPrompt.transform.SetParent(Transform_InteractionTarget, false);
+        Group_InteractionPrompt.transform.SetParent(transform, false);
         Group_InteractionPrompt.transform.localPosition = _interactionPromptOffset;
-        Group_InteractionPrompt.transform.localRotation = Quaternion.identity;
         Group_InteractionPrompt.transform.localScale = Vector3.one * _interactionPromptScale;
 
         Text_InteractionPrompt = Group_InteractionPrompt.AddComponent<TextMeshPro>();
@@ -442,7 +487,299 @@ public class OOTechJaeikController : MonoBehaviour
         Text_InteractionPrompt.raycastTarget = false;
         Text_InteractionPrompt.textWrappingMode = TextWrappingModes.NoWrap;
         Text_InteractionPrompt.sortingOrder = _interactionPromptSortingOrder;
+    }
 
+    private void SetInteractionPromptActive(bool isActive)
+    {
+        if (Group_InteractionPrompt == null)
+            return;
+
+        if (Group_InteractionPrompt.activeSelf != isActive)
+            Group_InteractionPrompt.SetActive(isActive);
+    }
+
+    private void ApplyHorizontalMovement()
+    {
+        if (Rigidbody_Jaeik == null)
+            return;
+
+        if (!IsInputEnabled || _isMovementLocked || _isPlayingOneShotAnimation)
+        {
+            Rigidbody_Jaeik.linearVelocity = new Vector2(0f, Rigidbody_Jaeik.linearVelocity.y);
+            return;
+        }
+
+        Rigidbody_Jaeik.linearVelocity = new Vector2(_moveInputX * _moveSpeed, Rigidbody_Jaeik.linearVelocity.y);
+    }
+
+    private void StopPlayer()
+    {
+        if (Rigidbody_Jaeik != null)
+            Rigidbody_Jaeik.linearVelocity = Vector2.zero;
+    }
+
+    private void RefreshGroundedState()
+    {
+        // isGrounded는 배우 발이 무대 바닥에 닿았는지 확인하는 장치입니다.
+        // 이 값이 true일 때만 다음 점프를 허용해서 공중 2단 점프를 막습니다.
+        bool isGrounded = CheckGroundByCast();
+
+        if (!isGrounded && Rigidbody_Jaeik != null && Mathf.Abs(Rigidbody_Jaeik.linearVelocity.y) < 0.01f)
+            isGrounded = CheckGroundByOverlapFallback();
+
+        IsGrounded = isGrounded;
+
+        if (IsGrounded)
+            _lastGroundedTime = Time.time;
+    }
+
+    private bool CheckGroundByCast()
+    {
+        if (Collider_Jaeik == null)
+            return false;
+
+        if (Time.time - _lastJumpTime < _groundCheckIgnoreAfterJumpSeconds)
+            return false;
+
+        ContactFilter2D contactFilter = new ContactFilter2D
+        {
+            useTriggers = false,
+            useLayerMask = true,
+            layerMask = _groundLayerMask
+        };
+
+        int hitCount = Collider_Jaeik.Cast(Vector2.down, contactFilter, _groundHitArray, _groundCheckDistance);
+
+        for (int i = 0; i < hitCount; i++)
+        {
+            if (_groundHitArray[i].collider == null)
+                continue;
+
+            if (_groundHitArray[i].normal.y >= _groundNormalYThreshold)
+                return true;
+        }
+
+        return false;
+    }
+
+    private bool CheckGroundByOverlapFallback()
+    {
+        if (Collider_Jaeik == null)
+            return false;
+
+        ContactFilter2D contactFilter = new ContactFilter2D
+        {
+            useTriggers = false,
+            useLayerMask = true,
+            layerMask = _groundLayerMask
+        };
+
+        int contactCount = Collider_Jaeik.GetContacts(contactFilter, _contactPointArray);
+
+        for (int i = 0; i < contactCount; i++)
+        {
+            if (_contactPointArray[i].normal.y >= _groundNormalYThreshold)
+                return true;
+        }
+
+        return false;
+    }
+
+    private void ApplyGravityScale()
+    {
+        // 상승 끝부분에서는 살짝 느리게, 떨어질 때는 더 빠르게 중력을 바꿉니다.
+        // 화면에서는 크게 튀어 오른 뒤 너무 둥둥 떠 보이지 않고 콜리더 위에 빨리 안착합니다.
+        if (Rigidbody_Jaeik == null)
+            return;
+
+        float velocityY = Rigidbody_Jaeik.linearVelocity.y;
+
+        if (IsGrounded && velocityY <= 0.01f)
+        {
+            Rigidbody_Jaeik.gravityScale = _gravityScale;
+            return;
+        }
+
+        if (Mathf.Abs(velocityY) < 1.2f)
+        {
+            Rigidbody_Jaeik.gravityScale = _apexGravityScale;
+            return;
+        }
+
+        Rigidbody_Jaeik.gravityScale = velocityY < 0f ? _fallGravityScale : _gravityScale;
+    }
+
+    private void ClampFallSpeed()
+    {
+        if (Rigidbody_Jaeik == null)
+            return;
+
+        if (Rigidbody_Jaeik.linearVelocity.y >= -_maxFallSpeed)
+            return;
+
+        Rigidbody_Jaeik.linearVelocity = new Vector2(Rigidbody_Jaeik.linearVelocity.x, -_maxFallSpeed);
+    }
+
+    private void ResolveCollisionContact(Collision2D collision)
+    {
+        int contactCount = collision.GetContacts(_contactPointArray);
+
+        for (int i = 0; i < contactCount; i++)
+        {
+            Vector2 normal = _contactPointArray[i].normal;
+
+            if (normal.y >= _groundNormalYThreshold)
+            {
+                IsGrounded = true;
+                _lastGroundedTime = Time.time;
+            }
+
+            if (normal.y <= -_groundNormalYThreshold)
+                StopUpwardVelocity();
+        }
+    }
+
+    private void StopUpwardVelocity()
+    {
+        if (Rigidbody_Jaeik == null || Rigidbody_Jaeik.linearVelocity.y <= 0f)
+            return;
+
+        Rigidbody_Jaeik.linearVelocity = new Vector2(Rigidbody_Jaeik.linearVelocity.x, 0f);
+    }
+
+    private void UpdateSpriteFlip()
+    {
+        if (SpriteRenderer_Jaeik == null || Mathf.Abs(_moveInputX) <= 0.01f)
+            return;
+
+        SpriteRenderer_Jaeik.flipX = _moveInputX < 0f;
+    }
+
+    private void UpdateAnimationState()
+    {
+        if (_isPlayingOneShotAnimation || Animator_Jaeik == null)
+            return;
+
+        bool isMoving = Mathf.Abs(_moveInputX) > 0.01f && IsGrounded;
+        SetAnimatorBool(_isMovingParameterName, isMoving);
+
+        if (!IsGrounded)
+        {
+            PlayAnimationState(_jumpStateName);
+            return;
+        }
+
+        PlayAnimationState(isMoving ? _walkStateName : _idleStateName);
+    }
+
+    private void StartOneShotAnimation(string stateName, float animationSeconds, float animationSpeed, bool isHoldLastFrame, Action onComplete)
+    {
+        StopOneShotAnimation();
+
+        _oneShotAnimationCoroutine = StartCoroutine(PlayOneShotAnimationRoutine(stateName, animationSeconds, animationSpeed, isHoldLastFrame, onComplete));
+    }
+
+    private IEnumerator PlayOneShotAnimationRoutine(string stateName, float animationSeconds, float animationSpeed, bool isHoldLastFrame, Action onComplete)
+    {
+        _isPlayingOneShotAnimation = true;
+        _moveInputX = 0f;
+        _isClickMoveActive = false;
+        StopPlayer();
         HideInteractionPrompt();
+        TriggerAnimator(stateName == _eatStateName ? _eatTriggerName : string.Empty);
+        SetAnimatorSpeed(animationSpeed);
+        PlayAnimationState(stateName, true);
+
+        float waitSeconds = Mathf.Max(0.05f, animationSeconds / Mathf.Max(0.01f, animationSpeed));
+        yield return new WaitForSeconds(waitSeconds);
+
+        if (isHoldLastFrame)
+        {
+            SetAnimatorSpeed(0f);
+        }
+        else
+        {
+            SetAnimatorSpeed(1f);
+            _isPlayingOneShotAnimation = false;
+            PlayAnimationState(_idleStateName, true);
+        }
+
+        _oneShotAnimationCoroutine = null;
+        onComplete?.Invoke();
+    }
+
+    private void PlayAnimationState(string stateName, bool isForce = false)
+    {
+        if (!_isUseDirectStatePlay || Animator_Jaeik == null || string.IsNullOrEmpty(stateName))
+            return;
+
+        if (!isForce && _currentAnimationStateName == stateName)
+            return;
+
+        PlayAnimatorState(Animator_Jaeik, stateName);
+        _currentAnimationStateName = stateName;
+    }
+
+    private void TriggerAnimator(string triggerName)
+    {
+        if (Animator_Jaeik == null || string.IsNullOrEmpty(triggerName))
+            return;
+
+        if (!HasAnimatorParameter(Animator_Jaeik, triggerName, AnimatorControllerParameterType.Trigger))
+            return;
+
+        Animator_Jaeik.SetTrigger(triggerName);
+    }
+
+    private void SetAnimatorBool(string parameterName, bool value)
+    {
+        if (Animator_Jaeik == null || string.IsNullOrEmpty(parameterName))
+            return;
+
+        if (HasAnimatorParameter(Animator_Jaeik, parameterName, AnimatorControllerParameterType.Bool))
+            Animator_Jaeik.SetBool(parameterName, value);
+    }
+
+    private void SetAnimatorSpeed(float speed)
+    {
+        if (Animator_Jaeik != null)
+            Animator_Jaeik.speed = Mathf.Max(0f, speed);
+    }
+
+    private bool HasAnimatorParameter(Animator animator, string parameterName, AnimatorControllerParameterType parameterType)
+    {
+        if (animator == null || string.IsNullOrEmpty(parameterName))
+            return false;
+
+        foreach (AnimatorControllerParameter parameter in animator.parameters)
+        {
+            if (parameter.type == parameterType && parameter.name == parameterName)
+                return true;
+        }
+
+        return false;
+    }
+
+    private void PlayAnimatorState(Animator animator, string stateName)
+    {
+        if (animator == null || string.IsNullOrEmpty(stateName))
+            return;
+
+        int shortHash = Animator.StringToHash(stateName);
+        int fullPathHash = Animator.StringToHash("Base Layer." + stateName);
+
+        if (animator.HasState(0, shortHash))
+        {
+            animator.Play(shortHash, 0, 0f);
+            return;
+        }
+
+        if (animator.HasState(0, fullPathHash))
+        {
+            animator.Play(fullPathHash, 0, 0f);
+            return;
+        }
+
+        animator.Play(stateName, 0, 0f);
     }
 }

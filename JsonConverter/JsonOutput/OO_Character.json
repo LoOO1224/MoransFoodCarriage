@@ -22,5 +22,21 @@
     "SkillList": null,
     "UseWeaponId": null,
     "BasicCostumeId": null
+  },
+  {
+    "Id": "character_Mr.Jaeik_04",
+    "Name": "재익군",
+    "Description": "주인공의 첫번째 동료",
+    "SkillList": null,
+    "UseWeaponId": null,
+    "BasicCostumeId": null
+  },
+  {
+    "Id": "character_Chunyang_05",
+    "Name": "춘양",
+    "Description": "주인공의 두번째 동료이자 재익의 주인",
+    "SkillList": null,
+    "UseWeaponId": null,
+    "BasicCostumeId": null
   }
 ]
