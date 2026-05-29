@@ -46,6 +46,7 @@ public class JangYoungSimController : MonoBehaviour
 
     private void OnDisable()
     {
+        _isPlayingOneShotAnimation = false;
         SetAnimatorSpeed(1f);
         StopPlayer();
     }
@@ -79,7 +80,9 @@ public class JangYoungSimController : MonoBehaviour
         {
             _moveInput = Vector2.zero;
             StopPlayer();
-            PlayAnimationState(_idleStateName);
+
+            if (!_isPlayingOneShotAnimation)
+                PlayAnimationState(_idleStateName);
         }
     }
 
@@ -113,6 +116,24 @@ public class JangYoungSimController : MonoBehaviour
         _isPlayingOneShotAnimation = false;
         SetAnimatorSpeed(1f);
         PlayAnimationState(_idleStateName);
+    }
+
+    /// <summary>
+    /// 놀람 연출을 마지막 프레임에 고정하고 기본 애니메이션 갱신을 막습니다.
+    /// </summary>
+    public void HoldSurprisedAnimationLastFrame()
+    {
+        _isPlayingOneShotAnimation = true;
+        _moveInput = Vector2.zero;
+        StopPlayer();
+
+        if (_animator == null || string.IsNullOrEmpty(_surprisedStateName))
+            return;
+
+        _animator.Play(_surprisedStateName, 0, 1f);
+        _animator.Update(0f);
+        _animator.speed = 0f;
+        _currentAnimationStateName = _surprisedStateName;
     }
 
     // ==================== 물리 설정 ====================
