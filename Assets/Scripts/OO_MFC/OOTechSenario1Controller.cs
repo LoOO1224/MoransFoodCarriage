@@ -65,8 +65,13 @@ public class OOTechSenario1Controller : MonoBehaviour
     [SerializeField] private string _dialogueMrJaeikSecondId = "character_Mr.Jaeik_02";
     [SerializeField] private string _dialogueMoranId = "character_Moran_02";
     [SerializeField] private string _dialogueChunyangSecondId = "character_Chunyang_02";
-    [SerializeField] private string _chunyangIdleStateName = "ChunYang_Idle";
+    [SerializeField] private string _mrJaeikIdleStateName = "Mr.Jaeik_Idle";
+    [SerializeField] private string _chunyangIdleStateName = "Chunyang_Idle";
     [SerializeField] private string _moranIdleStateName = "Moran_Idle";
+
+    [Header("Character Idle Clip")]
+    [SerializeField] private AnimationClip Clip_MrJaeikIdle;
+    [SerializeField] private AnimationClip Clip_ChunyangIdle;
 
     [Header("BGM")]
     [SerializeField] private Senario1_BGMPlayer BGM_Player;
@@ -319,8 +324,8 @@ public class OOTechSenario1Controller : MonoBehaviour
         SetObjectActive(Transform_MrJaeik, false);
         SetObjectActive(Transform_Chunyang, false);
         SetObjectActive(Transform_Moran, false);
-        PrepareCharacterIdleAnimator(Transform_Chunyang, _chunyangIdleStateName);
-        PrepareCharacterIdleAnimator(Transform_Moran, _moranIdleStateName);
+        PrepareCharacterIdleAnimation(Transform_Chunyang, _chunyangIdleStateName, Clip_ChunyangIdle);
+        PrepareCharacterIdleAnimation(Transform_Moran, _moranIdleStateName);
 
         if (Character_Jaeik != null)
             Character_Jaeik.SetInteractionCompleted(false);
@@ -365,10 +370,21 @@ public class OOTechSenario1Controller : MonoBehaviour
         spriteRenderer.color = color;
     }
 
-    private void PrepareCharacterIdleAnimator(Transform target, string idleStateName)
+    private void PrepareCharacterIdleAnimation(Transform target, string idleStateName, AnimationClip idleClip = null)
     {
-        if (target == null)
+        if (target == null || !target.gameObject.activeInHierarchy)
             return;
+
+        if (idleClip != null)
+        {
+            OOTechIdleAnimationPlayer idleAnimationPlayer = target.GetComponent<OOTechIdleAnimationPlayer>();
+
+            if (idleAnimationPlayer == null)
+                idleAnimationPlayer = target.gameObject.AddComponent<OOTechIdleAnimationPlayer>();
+
+            idleAnimationPlayer.PlayIdle(idleClip);
+            return;
+        }
 
         Animator animator = target.GetComponent<Animator>();
         if (animator == null || string.IsNullOrEmpty(idleStateName))
@@ -585,6 +601,7 @@ public class OOTechSenario1Controller : MonoBehaviour
 
         SetObjectActive(Transform_MrJaeik, true);
         SetObjectActive(Transform_Jaeik, false);
+        PrepareCharacterIdleAnimation(Transform_MrJaeik, _mrJaeikIdleStateName, Clip_MrJaeikIdle);
         FocusCamera(Transform_MrJaeik, true);
 
         if (BGM_Player != null)
@@ -608,7 +625,7 @@ public class OOTechSenario1Controller : MonoBehaviour
         // 다음 장면은 춘양 등장이므로 패널을 잠깐 닫고,
         // 카메라 조명을 춘양 배우에게 넘긴 뒤 다시 대사 패널을 엽니다.
         SetObjectActive(Transform_Chunyang, true);
-        PrepareCharacterIdleAnimator(Transform_Chunyang, _chunyangIdleStateName);
+        PrepareCharacterIdleAnimation(Transform_Chunyang, _chunyangIdleStateName, Clip_ChunyangIdle);
         FocusCamera(Transform_Chunyang, false);
 
         if (BGM_Player != null)
@@ -622,7 +639,7 @@ public class OOTechSenario1Controller : MonoBehaviour
         yield return OpenDialogueAndWait(_dialogueMrJaeikSecondId, _mrJaeikSpeakerId, Transform_MrJaeik, false);
 
         SetObjectActive(Transform_Moran, true);
-        PrepareCharacterIdleAnimator(Transform_Moran, _moranIdleStateName);
+        PrepareCharacterIdleAnimation(Transform_Moran, _moranIdleStateName);
         yield return OpenDialogueAndWait(_dialogueMoranId, _moranSpeakerId, Transform_Moran, false);
         yield return OpenDialogueAndWait(_dialogueChunyangSecondId, _chunyangSpeakerId, Transform_Chunyang, false);
 

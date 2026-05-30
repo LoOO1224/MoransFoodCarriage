@@ -43,6 +43,7 @@ public class OOTechTutorial1Controller : MonoBehaviour
 
     [Header("Interaction Rule")]
     [SerializeField] private float _interactionDistance = 2.2f;
+    [SerializeField] private float _minimumInteractionDistance = 3f;
     [SerializeField] private KeyCode _interactionKey = KeyCode.E;
     [SerializeField] private float _interactionAnimationWaitSeconds = 2.1f;
     [SerializeField] private float _interactionAnimationSpeed = 0.6f;
@@ -63,6 +64,7 @@ public class OOTechTutorial1Controller : MonoBehaviour
     [SerializeField] private float _eButtonMinAlpha = 0.35f;
     [SerializeField] private float _eButtonMaxAlpha = 1f;
     [SerializeField] private float _eButtonScalePower = 0.12f;
+    [SerializeField] private float _eButtonMinimumWorldScale = 0.018f;
     [SerializeField] private string _interactionPromptText = "[E] 깨우기";
     [SerializeField] private Vector3 _interactionPromptOffset = new Vector3(0f, 1.4f, 0f);
     [SerializeField] private float _interactionPromptScale = 0.25f;
@@ -276,7 +278,7 @@ public class OOTechTutorial1Controller : MonoBehaviour
             return false;
 
         float distance = Vector2.Distance(Transform_JangYoungSim.position, Transform_Moran.position);
-        return distance <= _interactionDistance;
+        return distance <= Mathf.Max(_interactionDistance, _minimumInteractionDistance);
     }
 
     /// <summary>
@@ -524,6 +526,7 @@ public class OOTechTutorial1Controller : MonoBehaviour
         if (CanvasGroup_EButton == null)
             CanvasGroup_EButton = Group_EButton.AddComponent<CanvasGroup>();
 
+        ApplyEButtonPresentation();
         CreateEButtonTextIfNeeded();
 
         if (Text_EButton != null)
@@ -532,6 +535,17 @@ public class OOTechTutorial1Controller : MonoBehaviour
         CacheEButtonOriginIfNeeded();
         UpdateInteractionPromptPosition();
         Group_EButton.SetActive(false);
+    }
+
+    private void ApplyEButtonPresentation()
+    {
+        if (Rect_EButton == null)
+            return;
+
+        float minimumScale = Mathf.Max(0.001f, _eButtonMinimumWorldScale);
+
+        if (Rect_EButton.localScale.x < minimumScale)
+            Rect_EButton.localScale = Vector3.one * minimumScale;
     }
 
     private void CreateEButtonTextIfNeeded()

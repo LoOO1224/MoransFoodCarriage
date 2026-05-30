@@ -1,0 +1,68 @@
+#!/usr/bin/env bash
+
+set -u
+
+# Guard rail before the commit is recorded.
+# Think of this as the assistant director checking the scene list:
+# build outputs are stage recordings, not source material, so they must not enter Git.
+
+large_file_limit=$((100 * 1024 * 1024))
+blocked_count=0
+
+print_blocked_path() {
+    if [ "$blocked_count" -eq 0 ]; then
+        echo
+        echo "[pre-commit] Commit blocked: build output paths are staged."
+        echo
+    fi
+
+    blocked_count=$((blocked_count + 1))
+    echo "  - $1"
+}
+
+print_large_file() {
+    if [ "$blocked_count" -eq 0 ]; then
+        echo
+        echo "[pre-commit] Commit blocked: files over GitHub's 100MB limit are staged."
+        echo
+    fi
+
+    blocked_count=$((blocked_count + 1))
+    echo "  - $1"
+}
+
+is_build_output_path() {
+    case "/$1" in
+        */[Bb]uild/*) return 0 ;;
+        */[Bb]uilds/*) return 0 ;;
+        */[Bb]uild_*/*) return 0 ;;
+        */[Bb]uild-*/*) return 0 ;;
+        */[Bb]uild.*/*) return 0 ;;
+        *) return 1 ;;
+    esac
+}
+
+while IFS= read -r -d '' staged_path; do
+    if is_build_output_path "$staged_path"; then
+        print_blocked_path "$staged_path"
+        continue
+    fi
+
+    staged_size=$(git cat-file -s ":$staged_path" 2>/dev/null || echo 0)
+
+    if [ "$staged_size" -ge "$large_file_limit" ]; then
+        staged_size_mb=$(awk "BEGIN { printf \"%.2f\", $staged_size / 1024 / 1024 }")
+        print_large_file "${staged_size_mb} MB  $staged_path"
+    fi
+done < <(git diff --cached --name-only --diff-filter=ACMR -z)
+
+if [ "$blocked_count" -gt 0 ]; then
+    echo
+    echo "Remove these from the commit, then try again:"
+    echo "  git restore --staged <path>"
+    echo
+    echo "If this is a Unity build, keep it outside Git or rebuild it later."
+    exit 1
+fi
+
+exit 0

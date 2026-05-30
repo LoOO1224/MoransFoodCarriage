@@ -59,7 +59,10 @@ public static class GameUtil
 
     public static async UniTask<Sprite> LoadAndSetSpriteImage(Image targetImage, string spritePath)
     {
-        Sprite sprite = await DaniTechResourceManager.Inst.LoadSprite(spritePath);
+        // Sprite sprite = await DaniTechResourceManager.Inst.LoadSprite(spritePath);
+        // TODO: DaniTechResourceManager 활성화 후 주석 해제
+        Sprite sprite = null; // 임시 처리
+
         if (sprite != null)
         {
             targetImage.sprite = sprite;

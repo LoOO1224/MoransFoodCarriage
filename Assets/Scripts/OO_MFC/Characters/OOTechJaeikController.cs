@@ -57,6 +57,7 @@ public class OOTechJaeikController : MonoBehaviour
     [Header("Interaction Settings")]
     [SerializeField] private Transform Transform_InteractionTarget;
     [SerializeField] private float _interactionDistance = 2.8f;
+    [SerializeField] private float _minimumInteractionDistance = 3.3f;
     [SerializeField] private KeyCode _interactionKey = KeyCode.E;
     [SerializeField] private bool _isInteractionCompleted = false;
 
@@ -449,7 +450,7 @@ public class OOTechJaeikController : MonoBehaviour
             return false;
 
         float distance = Vector2.Distance(transform.position, Transform_InteractionTarget.position);
-        return distance <= _interactionDistance;
+        return distance <= Mathf.Max(_interactionDistance, _minimumInteractionDistance);
     }
 
     private void UpdateInteractionPrompt()
@@ -477,16 +478,16 @@ public class OOTechJaeikController : MonoBehaviour
         Group_InteractionPrompt = new GameObject("Text_JaeikInteractionPrompt");
         Group_InteractionPrompt.transform.SetParent(transform, false);
         Group_InteractionPrompt.transform.localPosition = _interactionPromptOffset;
-        Group_InteractionPrompt.transform.localScale = Vector3.one * _interactionPromptScale;
+        Group_InteractionPrompt.transform.localScale = Vector3.one * Mathf.Max(_interactionPromptScale, 0.28f);
 
         Text_InteractionPrompt = Group_InteractionPrompt.AddComponent<TextMeshPro>();
         Text_InteractionPrompt.text = _interactionPromptText;
-        Text_InteractionPrompt.fontSize = _interactionPromptFontSize;
+        Text_InteractionPrompt.fontSize = Mathf.Max(_interactionPromptFontSize, 7f);
         Text_InteractionPrompt.alignment = TextAlignmentOptions.Center;
         Text_InteractionPrompt.color = _interactionPromptColor;
         Text_InteractionPrompt.raycastTarget = false;
         Text_InteractionPrompt.textWrappingMode = TextWrappingModes.NoWrap;
-        Text_InteractionPrompt.sortingOrder = _interactionPromptSortingOrder;
+        Text_InteractionPrompt.sortingOrder = Mathf.Max(_interactionPromptSortingOrder, 160);
     }
 
     private void SetInteractionPromptActive(bool isActive)

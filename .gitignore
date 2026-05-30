@@ -27,8 +27,13 @@
 # 빌드 결과물 및 캐시
 Build_2nd/
 Build/
+[Bb]uild_*/
+[Bb]uild-*/
+[Bb]uild.*/
 [Bb]in/
 .vs/
+.git.bfg-report/
+bfg.jar
 
 ### [ OS & 도구 관련 ] ###
 .DS_Store

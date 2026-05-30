@@ -934,9 +934,9 @@ GameObject:
   m_Component:
   - component: {fileID: 357961588006811271}
   - component: {fileID: 860508052590167595}
-  - component: {fileID: 220335105065579641}
   - component: {fileID: 5808683591721650359}
   - component: {fileID: 2164802345646211046}
+  - component: {fileID: 220335105065579641}
   m_Layer: 0
   m_Name: UIManager
   m_TagString: Untagged
@@ -989,19 +989,6 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 110
   m_TargetDisplay: 0
---- !u!114 &220335105065579641
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4290482773801034447}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9ba0dd4d775a9d04f8fc63ff80087d01, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::UIManager
-  UIRoot: {fileID: 4290482773801034447}
 --- !u!114 &5808683591721650359
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1042,6 +1029,19 @@ MonoBehaviour:
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
   m_PresetInfoIsWorld: 0
+--- !u!114 &220335105065579641
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4290482773801034447}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ba0dd4d775a9d04f8fc63ff80087d01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIManager
+  UIRoot: {fileID: 4290482773801034447}
 --- !u!1 &4305694658808049835
 GameObject:
   m_ObjectHideFlags: 0
