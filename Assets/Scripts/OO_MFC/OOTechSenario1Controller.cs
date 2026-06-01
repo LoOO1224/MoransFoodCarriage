@@ -10,43 +10,78 @@ using UnityEngine.UI;
 /// </summary>
 public class OOTechSenario1Controller : MonoBehaviour
 {
-    [Header("Character Reference")]
+    private const string _roleJaeik = "Jaeik";
+    private const string _roleQuestObject = "QuestObject";
+    private const string _roleMrJaeik = "MrJaeik";
+    private const string _roleChunyang = "Chunyang";
+    private const string _roleMoran = "Moran";
+    private const string _roleBackgroundBeforeTransformation = "BackgroundBeforeTransformation";
+    private const string _roleBackgroundAfterTransformation = "BackgroundAfterTransformation";
+
+    [Header("Scene Components")]
+    [SerializeField] private OOTechSceneContext Context_Scene;
+
+    [HideInInspector]
     [SerializeField] private OOTechJaeikController Character_Jaeik;
+    [HideInInspector]
     [SerializeField] private Transform Transform_Jaeik;
+    [HideInInspector]
     [SerializeField] private SpriteRenderer SpriteRenderer_Jaeik;
     [SerializeField] private Sprite Sprite_JaeikAfterInteraction;
 
-    [Header("Object Names (Fallback)")]
+    [HideInInspector]
     [SerializeField] private string _jaeikObjectName = "Jaeik";
+    [HideInInspector]
     [SerializeField] private string _questObjectName = "S1_Object_Quest";
+    [HideInInspector]
     [SerializeField] private string _mrJaeikObjectName = "Mr.Jaeik";
+    [HideInInspector]
     [SerializeField] private string _chunyangObjectName = "Chunyang";
+    [HideInInspector]
     [SerializeField] private string _chunyangFallbackObjectName = "ChunYang_Idle";
+    [HideInInspector]
     [SerializeField] private string _moranObjectName = "Moran";
+    [HideInInspector]
     [SerializeField] private string _moranFallbackObjectName = "Moran_Idle";
+    [HideInInspector]
     [SerializeField] private string _backgroundObjectName = "Senario1Background";
+    [HideInInspector]
     [SerializeField] private string _background2ObjectName = "Senario1Background2";
 
-    [Header("Senario1 Objects")]
+    [HideInInspector]
     [SerializeField] private Transform Transform_InteractionCube;
+    [HideInInspector]
     [SerializeField] private Transform Transform_QuestObject;
+    [HideInInspector]
     [SerializeField] private Transform Transform_MrJaeik;
+    [HideInInspector]
     [SerializeField] private Transform Transform_Chunyang;
+    [HideInInspector]
     [SerializeField] private Transform Transform_Moran;
+    [HideInInspector]
     [SerializeField] private GameObject Object_Senario1Background;
+    [HideInInspector]
     [SerializeField] private GameObject Object_Senario1Background2;
+
+    [Header("Senario1 Rule")]
     [SerializeField] private bool _isSnapMrJaeikToJaeikPosition = true;
     [SerializeField] private float _questInteractionDistance = 2.9f;
 
     [Header("Camera")]
+    [HideInInspector]
     [SerializeField] private CameraFollowController Camera_Follow;
+    [HideInInspector]
     [SerializeField] private Camera Camera_Main;
     [SerializeField] private float _cameraFocusWaitSeconds = 0.65f;
 
     [Header("UI & Tutorial")]
+    [HideInInspector]
     [SerializeField] private GameObject Group_TutorialGuide;
+    [HideInInspector]
     [SerializeField] private OOTechTutorialGuideUI UI_TutorialGuide;
+    [HideInInspector]
     [SerializeField] private GameObject Group_Dialogue;
+    [HideInInspector]
     [SerializeField] private DialogueUI UI_Dialogue;
     [SerializeField] private string _tutorialGuideGroupName = "TutorialGuideGroup";
     [SerializeField] private string _dialogueGroupName = "DialogueGroup";
@@ -73,13 +108,13 @@ public class OOTechSenario1Controller : MonoBehaviour
     [SerializeField] private AnimationClip Clip_MrJaeikIdle;
     [SerializeField] private AnimationClip Clip_ChunyangIdle;
 
-    [Header("BGM")]
+    [HideInInspector]
     [SerializeField] private Senario1_BGMPlayer BGM_Player;
 
     [Header("Skip Button")]
     [SerializeField] private NextButtonController Prefab_CommonSkipButton;
     [SerializeField] private string _currentGroupName = "Senario1Group";
-    [SerializeField] private string _nextGroupName = "WorldMapGroup";
+    [SerializeField] private string _nextGroupName = "1st_Road_to_Stage1";
     [SerializeField] private string _skipButtonText = "\uB118\uC5B4\uAC00\uAE30";
     [SerializeField] private Vector2 _skipButtonAnchoredPosition = new Vector2(-90f, -70f);
 
@@ -160,6 +195,8 @@ public class OOTechSenario1Controller : MonoBehaviour
 
     private void CacheAllReferences()
     {
+        CacheSceneContextReference();
+
         if (Transform_Jaeik == null)
             Transform_Jaeik = FindChildTransform(_jaeikObjectName);
 
@@ -199,6 +236,48 @@ public class OOTechSenario1Controller : MonoBehaviour
         CacheUIReference();
         CacheBackgroundOriginSprite(Object_Senario1Background);
         CacheBackgroundOriginSprite(Object_Senario1Background2);
+    }
+
+    /// <summary>
+    /// Reads the casting labels first. The old name lookup below remains only
+    /// as a compatibility net for older scene copies that do not have labels.
+    /// </summary>
+    private void CacheSceneContextReference()
+    {
+        if (Context_Scene == null)
+            Context_Scene = GetComponent<OOTechSceneContext>();
+
+        if (Context_Scene == null)
+            return;
+
+        Context_Scene.CacheSceneObjects();
+
+        Transform_Jaeik = ResolveRoleTransform(_roleJaeik, Transform_Jaeik);
+        Transform_QuestObject = ResolveRoleTransform(_roleQuestObject, Transform_QuestObject);
+        Transform_InteractionCube = ResolveRoleTransform(_roleQuestObject, Transform_InteractionCube);
+        Transform_MrJaeik = ResolveRoleTransform(_roleMrJaeik, Transform_MrJaeik);
+        Transform_Chunyang = ResolveRoleTransform(_roleChunyang, Transform_Chunyang);
+        Transform_Moran = ResolveRoleTransform(_roleMoran, Transform_Moran);
+        Object_Senario1Background = ResolveRoleObject(_roleBackgroundBeforeTransformation, Object_Senario1Background);
+        Object_Senario1Background2 = ResolveRoleObject(_roleBackgroundAfterTransformation, Object_Senario1Background2);
+
+        if (Transform_Jaeik != null)
+        {
+            Character_Jaeik = Transform_Jaeik.GetComponent<OOTechJaeikController>();
+            SpriteRenderer_Jaeik = Transform_Jaeik.GetComponent<SpriteRenderer>();
+        }
+    }
+
+    private Transform ResolveRoleTransform(string roleId, Transform fallback)
+    {
+        Transform roleTransform = Context_Scene.GetRoleTransform(roleId);
+        return roleTransform != null ? roleTransform : fallback;
+    }
+
+    private GameObject ResolveRoleObject(string roleId, GameObject fallback)
+    {
+        GameObject roleObject = Context_Scene.GetRoleObject(roleId);
+        return roleObject != null ? roleObject : fallback;
     }
 
     private void CacheJaeikController()
@@ -318,6 +397,7 @@ public class OOTechSenario1Controller : MonoBehaviour
         HideCommonSkipButton();
         HideEffectOverlay();
         HideOpeningUIGroup();
+        HideScenarioColliderRenderer();
         PrepareBackgroundObject(Object_Senario1Background, true);
         PrepareBackgroundObject(Object_Senario1Background2, false);
         SetObjectActive(Transform_Jaeik, true);
@@ -343,6 +423,27 @@ public class OOTechSenario1Controller : MonoBehaviour
 
         if (Group_Dialogue != null)
             Group_Dialogue.SetActive(false);
+    }
+
+    private void HideScenarioColliderRenderer()
+    {
+        Transform[] childTransformArray = GetComponentsInChildren<Transform>(true);
+
+        foreach (Transform childTransform in childTransformArray)
+        {
+            if (childTransform == null || !childTransform.name.StartsWith("Coliider_"))
+                continue;
+
+            SpriteRenderer spriteRenderer = childTransform.GetComponent<SpriteRenderer>();
+
+            if (spriteRenderer != null)
+                spriteRenderer.enabled = false;
+
+            Renderer renderer = childTransform.GetComponent<Renderer>();
+
+            if (renderer != null)
+                renderer.enabled = false;
+        }
     }
 
     private void PrepareBackgroundObject(GameObject backgroundObject, bool isActive)

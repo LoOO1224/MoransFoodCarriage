@@ -1,0 +1,711 @@
+fileFormatVersion: 2
+guid: 739d83e2bd50d0947be0a21d3be5018a
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 0
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: MFC_Walk_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1034
+        width: 255
+        height: 157
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 248bbe5fd57a24145b2388f0f50cc87a
+      internalID: -33438775
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MFC_Walk_1
+      rect:
+        serializedVersion: 2
+        x: 262
+        y: 1036
+        width: 234
+        height: 153
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7778f85876fcc4b40a4ae546a5f536b8
+      internalID: 12810486
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MFC_Walk_2
+      rect:
+        serializedVersion: 2
+        x: 508
+        y: 1036
+        width: 238
+        height: 152
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 531a02dc6243c4d4a9bd01a45bc76783
+      internalID: -806839224
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MFC_Walk_3
+      rect:
+        serializedVersion: 2
+        x: 755
+        y: 1036
+        width: 237
+        height: 152
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4a2c1d188a6c21149ada9c24eac79bf3
+      internalID: -1881262833
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MFC_Walk_5
+      rect:
+        serializedVersion: 2
+        x: 1004
+        y: 1036
+        width: 250
+        height: 148
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dd5b36069b6242849aa03be723bd26a7
+      internalID: 1488607783
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MFC_Walk_7
+      rect:
+        serializedVersion: 2
+        x: 15
+        y: 787
+        width: 237
+        height: 146
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 66075a76729362d4a825be9b867eb99e
+      internalID: 1018421659
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MFC_Walk_9
+      rect:
+        serializedVersion: 2
+        x: 262
+        y: 787
+        width: 237
+        height: 152
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e04824bc39bd2594d823c3897e708b51
+      internalID: 94358811
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MFC_Walk_10
+      rect:
+        serializedVersion: 2
+        x: 508
+        y: 787
+        width: 238
+        height: 157
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a07ed3b38e713e546a16ef4937784c19
+      internalID: 469384327
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MFC_Walk_11
+      rect:
+        serializedVersion: 2
+        x: 755
+        y: 787
+        width: 237
+        height: 146
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ba17904254ae944449754aae6449f54b
+      internalID: -62759880
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MFC_Walk_13
+      rect:
+        serializedVersion: 2
+        x: 1004
+        y: 787
+        width: 237
+        height: 155
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c917a9daa44eca9449c0df16c83a15d4
+      internalID: 1892984126
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MFC_Walk_14
+      rect:
+        serializedVersion: 2
+        x: 15
+        y: 540
+        width: 237
+        height: 145
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dfa89fae92098b248a3419d6e1597617
+      internalID: 1982538790
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MFC_Walk_16
+      rect:
+        serializedVersion: 2
+        x: 259
+        y: 540
+        width: 237
+        height: 154
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 45676f25fcaed0b49ae18c656ba986d1
+      internalID: -1652215976
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MFC_Walk_17
+      rect:
+        serializedVersion: 2
+        x: 507
+        y: 540
+        width: 238
+        height: 155
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 35e2f3c4e5e4ea54190a8d7b31d6525f
+      internalID: 1396396519
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MFC_Walk_18
+      rect:
+        serializedVersion: 2
+        x: 755
+        y: 540
+        width: 237
+        height: 145
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5063155248539fa47bb3929088908e86
+      internalID: 1590768566
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MFC_Walk_20
+      rect:
+        serializedVersion: 2
+        x: 1004
+        y: 540
+        width: 236
+        height: 145
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 13b8981c7415e0446aca682e207ea6a4
+      internalID: -398260026
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MFC_Walk_24
+      rect:
+        serializedVersion: 2
+        x: 259
+        y: 292
+        width: 237
+        height: 161
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 8}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 230e982e05bd2ed4f991d4a0bf1a50cb
+      internalID: -1380929966
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MFC_Walk_27
+      rect:
+        serializedVersion: 2
+        x: 1004
+        y: 292
+        width: 237
+        height: 154
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3c50cf2e9ae6a73449ece8cb0620bbd1
+      internalID: 1302133274
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MFC_Walk_28
+      rect:
+        serializedVersion: 2
+        x: 13
+        y: 292
+        width: 236
+        height: 152
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 12cc3fcc861354749bd81339b87dd94c
+      internalID: -1937056045
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MFC_Walk_29
+      rect:
+        serializedVersion: 2
+        x: 507
+        y: 291
+        width: 238
+        height: 147
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a86cc1dda46a0d5499c858dedaf06e4e
+      internalID: -704560304
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MFC_Walk_31
+      rect:
+        serializedVersion: 2
+        x: 755
+        y: 291
+        width: 237
+        height: 146
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 226c7354a57fa1545bf9f6b337902f2d
+      internalID: -1405073374
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MFC_Walk_32
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 57
+        width: 254
+        height: 162
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 30f30a46323dcb34bafb67a09db6a772
+      internalID: 160950474
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MFC_Walk_33
+      rect:
+        serializedVersion: 2
+        x: 259
+        y: 58
+        width: 237
+        height: 157
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e7068f95e7c525b4eaccd808f6dab57e
+      internalID: -1157529103
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MFC_Walk_35
+      rect:
+        serializedVersion: 2
+        x: 755
+        y: 58
+        width: 237
+        height: 156
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 69bc9b02dc3612c4eb2c993f25723dda
+      internalID: -1451098969
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MFC_Walk_39
+      rect:
+        serializedVersion: 2
+        x: 508
+        y: 58
+        width: 237
+        height: 154
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 74a8e1efdbec44945a17983c63382b9c
+      internalID: 1671011321
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MFC_Walk_41
+      rect:
+        serializedVersion: 2
+        x: 1004
+        y: 53
+        width: 245
+        height: 152
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ef35a72a1c7cafb4fb66567f89e570df
+      internalID: -1145589140
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: d12358c0d9cdb3443972b03f13b1d56b
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      MFC_Walk_0: -33438775
+      MFC_Walk_1: 12810486
+      MFC_Walk_10: 469384327
+      MFC_Walk_11: -62759880
+      MFC_Walk_12: -1795383291
+      MFC_Walk_13: 1892984126
+      MFC_Walk_14: 1982538790
+      MFC_Walk_15: -640659048
+      MFC_Walk_16: -1652215976
+      MFC_Walk_17: 1396396519
+      MFC_Walk_18: 1590768566
+      MFC_Walk_19: 619854394
+      MFC_Walk_2: -806839224
+      MFC_Walk_20: -398260026
+      MFC_Walk_21: 1413016718
+      MFC_Walk_22: -807205315
+      MFC_Walk_23: -17481539
+      MFC_Walk_24: -1380929966
+      MFC_Walk_25: 301525533
+      MFC_Walk_26: -1721129853
+      MFC_Walk_27: 1302133274
+      MFC_Walk_28: -1937056045
+      MFC_Walk_29: -704560304
+      MFC_Walk_3: -1881262833
+      MFC_Walk_30: -1536875875
+      MFC_Walk_31: -1405073374
+      MFC_Walk_32: 160950474
+      MFC_Walk_33: -1157529103
+      MFC_Walk_34: -1398530388
+      MFC_Walk_35: -1451098969
+      MFC_Walk_36: -1521535695
+      MFC_Walk_37: -1078411270
+      MFC_Walk_38: -143018410
+      MFC_Walk_39: 1671011321
+      MFC_Walk_4: -402780250
+      MFC_Walk_40: -1998825623
+      MFC_Walk_41: -1145589140
+      MFC_Walk_5: 1488607783
+      MFC_Walk_6: 856276119
+      MFC_Walk_7: 1018421659
+      MFC_Walk_8: 855614093
+      MFC_Walk_9: 94358811
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

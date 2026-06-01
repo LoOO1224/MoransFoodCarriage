@@ -15,8 +15,93 @@ MonoBehaviour:
   m_GroupName: Default Local Group
   m_GUID: 80e8e0aaab7e37b4084b72f287df5f5d
   m_SerializeEntries:
+  - m_GUID: 0d079c0737bf2f246b127fb22a014fa1
+    m_Address: Sound/Voice_Pug_2_failed
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 144604d9ace6eb748aea35ecebf0cc27
+    m_Address: Texture2D/Texture2D_Loading_1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 23d71935d14f56a4487dbbaf3a022958
+    m_Address: Sound/Pugmia_Bgm_1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 37d307305e9528a48a2e0ffdadfe5760
+    m_Address: Texture2D/Texture2D_Loading_2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 43237ee419ec47b49a6349f963676aa1
+    m_Address: 2DPrefab/Harvest_Potato
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 667b719d1d688874a8f6a8ad59d98106
     m_Address: Icon/Icon_Item_Box_1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6caf508fb2c9a304cbab300f30d5cf19
+    m_Address: Sound/Voice_Pug_1_I_WantToEatPizza
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6f44f0509ed049e4dbe0904fd8318ca5
+    m_Address: 2DPrefab/Harvest_Corn
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 988485599ab6ecb4db508e35e6b5086a
+    m_Address: Sound/Pugmia_Bgm_Housing_1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a4d5da601618ed9428524268ae8d1abc
+    m_Address: 2DObject/Monster_Slime
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: adb5bb06f191c2c4298194cd3cfc7c4d
+    m_Address: Icon/Icon_Bear
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b7325cc89a7726d46b0fbb47a03aec4b
+    m_Address: 2DObject/Npc_Queen
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bab0dab329b3a2e45bff7ba9f9c889b4
+    m_Address: Sound/Pugmia_Bgm_2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: cfc5f99017f834a4aa425168d9f3048d
+    m_Address: Icon/Icon_Item_Corn
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d8d61a3cf509c944a9072703554e32fb
+    m_Address: Sound/Voice_Pug_1_success
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ef57a9a2d00610546a0d5a2f7d51c3e6
+    m_Address: Icon/Icon_Slime
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f5ff25177269bce4289b904b57f787cd
+    m_Address: 2DObject/Monster_Bear
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: fa10f0e6a7fa0194585cc5d634b0a558
+    m_Address: 2DPrefab/DropItem_Gold
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

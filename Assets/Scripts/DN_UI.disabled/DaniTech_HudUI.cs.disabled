@@ -1,0 +1,92 @@
+﻿using System;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class DaniTech_HudUI : DaniTechUIBase
+{
+    [SerializeField] private GameObject Prefab_HudSlot;
+    [SerializeField] private GameObject Prefab_InteractionSlot;
+
+    [SerializeField] private Transform Transform_SlotRoot;
+
+    // [SerializeField] private GameObject Prefab_HudSlot_Monster; // UI가 되게 다르다면 이렇게 별도로 추가해도 됨!
+
+    private Dictionary<int, DaniTech_HudSlotUI> _hudSlotList = new Dictionary<int, DaniTech_HudSlotUI>();
+    private Dictionary<int, DaniTech_InteractionSlotUI> _InteractionSlotList = new Dictionary<int, DaniTech_InteractionSlotUI>();
+
+
+
+    // =================== Hud Slot
+
+    public void AddHudSlot(int instanceId, Transform targetTransform)
+    {
+        CreateHudSlot(instanceId, targetTransform);
+    }
+
+    private void CreateHudSlot(int instanceId, Transform targetTransform)
+    {
+        var gObj = Instantiate(Prefab_HudSlot, Transform_SlotRoot);
+        if (gObj == null) return;
+
+        var slotComponent = gObj.GetComponent<DaniTech_HudSlotUI>();
+        if (slotComponent == null) return;
+
+        //// 동적 생성된 자식 슬롯(게임오브젝트) 안에 있는 컴포넌트도 잘 가져왔다
+        slotComponent.InitSlot(instanceId, targetTransform);
+
+        _hudSlotList.Add(instanceId, slotComponent);
+    }
+
+    public void RemoveHudSlot(int instanceId)
+    {
+        // 생성이 된게 맞다면!
+        if (_hudSlotList.ContainsKey(instanceId) == true)
+        {
+            var slot = _hudSlotList[instanceId];
+            // Destroy는 컴포넌트인 slot이 아니라 slot.gameObject
+            Destroy(slot.gameObject);
+
+            _hudSlotList.Remove(instanceId);
+        }
+    }
+
+
+
+    // =================== 인터렉션 Slot
+
+    public void AddInteractionSlot(int instanceId, string interactionKey, string interactionTitle
+        , Transform targetTransform
+        , Action<string> onClickCallback)
+    {
+        CreatenIteractionSlot(instanceId, interactionKey, interactionTitle, targetTransform, onClickCallback);
+    }
+
+    private void CreatenIteractionSlot(int instanceId, string interactionKey, string interactionTitle, Transform targetTransform, Action<string> onClickCallback)
+    {
+        var gObj = Instantiate(Prefab_InteractionSlot, Transform_SlotRoot);
+        if (gObj == null) return;
+
+        var slotComponent = gObj.GetComponent<DaniTech_InteractionSlotUI>();
+        if (slotComponent == null) return;
+
+        //// 동적 생성된 자식 슬롯(게임오브젝트) 안에 있는 컴포넌트도 잘 가져왔다
+        slotComponent.InitSlot(instanceId, interactionKey, interactionTitle, targetTransform, onClickCallback);
+
+        _InteractionSlotList.Add(instanceId, slotComponent);
+    }
+
+    public void RemoveIteractionSlot(int instanceId)
+    {
+        // 생성이 된게 맞다면!
+        if (_InteractionSlotList.ContainsKey(instanceId) == true)
+        {
+            var slot = _InteractionSlotList[instanceId];
+            // Destroy는 컴포넌트인 slot이 아니라 slot.gameObject
+            Destroy(slot.gameObject);
+
+            _InteractionSlotList.Remove(instanceId);
+        }
+    }
+
+
+}

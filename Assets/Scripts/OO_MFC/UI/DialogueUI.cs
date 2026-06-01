@@ -35,9 +35,21 @@ public class DialogueUI : MonoBehaviour
     private int _currentNarrationTextIndex;
     private Action _onDialogueEnd;
     private Coroutine _refreshScrollCoroutine;
+    private OOTechDialogueLayout Layout_Dialogue;
+    private OOTechDialogueSpeakerNameBackdrop Backdrop_SpeakerName;
+
+    private void Awake()
+    {
+        ApplyProjectFont();
+        PrepareSpeakerNameBackdrop();
+        ApplyDialogueLayout();
+    }
 
     private void OnEnable()
     {
+        ApplyProjectFont();
+        PrepareSpeakerNameBackdrop();
+        ApplyDialogueLayout();
         BindButtonEvent();
     }
 
@@ -53,6 +65,30 @@ public class DialogueUI : MonoBehaviour
     /// Dialogue_NextButton은 현재 표시 중인 문장 묶음만 진행합니다.
     /// 프롤로그 컷씬 전환은 DialogueUI가 끝났음을 PrologueController에 알려서 처리합니다.
     /// </summary>
+    private void ApplyDialogueLayout()
+    {
+        if (Layout_Dialogue == null)
+            Layout_Dialogue = GetComponent<OOTechDialogueLayout>();
+
+        if (Layout_Dialogue != null)
+            Layout_Dialogue.ApplyLayout();
+    }
+
+    private void ApplyProjectFont()
+    {
+        OOTechTMPFontUtility.ApplyProjectFont(Text_SpeakerName);
+        OOTechTMPFontUtility.ApplyProjectFont(Text_Dialogue);
+    }
+
+    private void PrepareSpeakerNameBackdrop()
+    {
+        if (Backdrop_SpeakerName == null)
+            Backdrop_SpeakerName = GetComponent<OOTechDialogueSpeakerNameBackdrop>();
+
+        if (Backdrop_SpeakerName == null)
+            Backdrop_SpeakerName = gameObject.AddComponent<OOTechDialogueSpeakerNameBackdrop>();
+    }
+
     private void BindButtonEvent()
     {
         if (Button_Next == null)

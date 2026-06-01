@@ -4,15 +4,36 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 /// <summary>
-/// Repairs only missing OO_MFC scene references after instructor sample files are imported.
-/// Existing inspector assignments are preserved.
+/// Repairs missing OO_MFC scene references after instructor sample files are imported.
+/// Existing scene objects are preserved; missing road actors are restored from the
+/// first road group template instead of deleting the user's work.
 /// </summary>
 [InitializeOnLoad]
 public static class OOTechOO_MFCSceneRepair
 {
     private const string _targetSceneName = "OO_MFC";
+    private const string _templateRoadGroupName = "1st_Road_to_Stage1";
     private const string _mrJaeikIdleClipPath = "Assets/Animation/Characters/Mr.Jaeik/Mr.Jaeik_Idle.anim";
     private const string _chunyangIdleClipPath = "Assets/Animation/Characters/ChunYang/Chunyang_Idle.anim";
+
+    private static readonly RoadStageFlowData[] _roadStageFlowDataArray =
+    {
+        new RoadStageFlowData("1st_Road_to_Stage1", "Stage1Group"),
+        new RoadStageFlowData("2nd_Road_to_Stage2", "Stage2Group"),
+        new RoadStageFlowData("3rd_Road_to_Stage3", "Stage3Group"),
+        new RoadStageFlowData("4th_Road_to_Stage4", "Stage4Group"),
+        new RoadStageFlowData("Final_Road_to_FinalStage", "FinalStageGroup")
+    };
+
+    private static readonly StageNextFlowData[] _stageNextFlowDataArray =
+    {
+        new StageNextFlowData("Stage1Group", "2nd_Road_to_Stage2", "넘어가기"),
+        new StageNextFlowData("Stage2Group", "3rd_Road_to_Stage3", "넘어가기"),
+        new StageNextFlowData("Stage3Group", "4th_Road_to_Stage4", "넘어가기"),
+        new StageNextFlowData("Stage4Group", "Final_Road_to_FinalStage", "넘어가기"),
+        new StageNextFlowData("FinalStageGroup", "EpilogueGroup", "넘어가기")
+    };
+
     private static readonly string[] _mainFlowGroupNameArray =
     {
         "MainMenuGroup",
@@ -21,7 +42,19 @@ public static class OOTechOO_MFCSceneRepair
         "Prologue2Group",
         "Tutorial1Group",
         "Senario1Group",
-        "WorldMapGroup"
+        "WorldMapGroup",
+        "1st_Road_to_Stage1",
+        "2nd_Road_to_Stage2",
+        "3rd_Road_to_Stage3",
+        "4th_Road_to_Stage4",
+        "Final_Road_to_FinalStage",
+        "CookingGroup",
+        "Stage1Group",
+        "Stage2Group",
+        "Stage3Group",
+        "Stage4Group",
+        "FinalStageGroup",
+        "EpilogueGroup"
     };
 
     static OOTechOO_MFCSceneRepair()
@@ -31,7 +64,6 @@ public static class OOTechOO_MFCSceneRepair
         EditorApplication.delayCall -= RepairActiveScene;
         EditorApplication.delayCall += RepairActiveScene;
         EditorApplication.delayCall -= FrameActiveMainMenuInSceneView;
-        EditorApplication.delayCall += FrameActiveMainMenuInSceneView;
     }
 
     [MenuItem("Tools/OO MFC/Repair Scenario1 References")]
@@ -54,7 +86,6 @@ public static class OOTechOO_MFCSceneRepair
     private static void OnSceneOpened(Scene scene, OpenSceneMode openSceneMode)
     {
         RepairScene(scene);
-        EditorApplication.delayCall += () => FrameMainMenuInSceneView(scene);
     }
 
     private static void RepairScene(Scene scene)
@@ -62,7 +93,12 @@ public static class OOTechOO_MFCSceneRepair
         if (!scene.IsValid() || scene.name != _targetSceneName)
             return;
 
-        bool isChanged = OpenMainMenuIfNoFlowGroupActive(scene);
+        bool isChanged = RenameLegacyRootGroup(scene, "Frist_Road_to_Stage1", "1st_Road_to_Stage1");
+        isChanged |= OpenMainMenuIfNoFlowGroupActive(scene);
+        isChanged |= RepairDialogueBackdrop(scene);
+        isChanged |= RepairRoadStageRelay(scene);
+        isChanged |= RepairTransparentScenarioCollider(scene);
+        isChanged |= RepairEpilogue(scene);
 
         foreach (GameObject rootObject in scene.GetRootGameObjects())
         {
@@ -112,24 +148,15 @@ public static class OOTechOO_MFCSceneRepair
     }
 
     /// <summary>
-    /// Scene View is a free editor camera. This command seats the editor camera in front of
-    /// the main-menu stage so the director can compare the composition with Game View quickly.
+    /// Scene View is a free editor camera. This optional command seats the editor
+    /// camera in front of MainMenuGroup for a quick director-monitor check.
     /// </summary>
     private static void FrameMainMenuInSceneView(Scene scene)
     {
         if (!scene.IsValid() || scene.name != _targetSceneName)
             return;
 
-        GameObject mainMenuGroup = null;
-
-        foreach (GameObject rootObject in scene.GetRootGameObjects())
-        {
-            if (rootObject.name == "MainMenuGroup")
-            {
-                mainMenuGroup = rootObject;
-                break;
-            }
-        }
+        GameObject mainMenuGroup = FindSceneObjectByName(scene, "MainMenuGroup");
 
         if (mainMenuGroup == null || !mainMenuGroup.activeSelf)
             return;
@@ -192,6 +219,282 @@ public static class OOTechOO_MFCSceneRepair
         return isChanged;
     }
 
+    private static bool RenameLegacyRootGroup(Scene scene, string legacyName, string newName)
+    {
+        GameObject legacyGroup = FindSceneObjectByName(scene, legacyName);
+
+        if (legacyGroup == null)
+            return false;
+
+        legacyGroup.name = newName;
+        return true;
+    }
+
+    private static bool RepairDialogueBackdrop(Scene scene)
+    {
+        GameObject dialoguePanel = FindSceneObjectByName(scene, "DialoguePanel");
+
+        if (dialoguePanel == null || dialoguePanel.GetComponent<OOTechDialogueSpeakerNameBackdrop>() != null)
+            return false;
+
+        dialoguePanel.AddComponent<OOTechDialogueSpeakerNameBackdrop>();
+        return true;
+    }
+
+    private static bool RepairRoadStageRelay(Scene scene)
+    {
+        bool isChanged = false;
+        GameObject templateRoadGroup = FindSceneObjectByName(scene, _templateRoadGroupName);
+
+        foreach (RoadStageFlowData flowData in _roadStageFlowDataArray)
+        {
+            GameObject roadGroup = EnsureRoadGroup(scene, flowData, templateRoadGroup, ref isChanged);
+
+            if (roadGroup != null)
+            {
+                OOTechRoadToStage1Controller roadController = roadGroup.GetComponent<OOTechRoadToStage1Controller>();
+
+                if (roadController == null)
+                {
+                    roadController = roadGroup.AddComponent<OOTechRoadToStage1Controller>();
+                    isChanged = true;
+                }
+
+                SerializedObject serializedRoad = new SerializedObject(roadController);
+                isChanged |= SetStringProperty(serializedRoad, "_currentGroupName", flowData.RoadGroupName);
+                isChanged |= SetStringProperty(serializedRoad, "_targetStageGroupName", flowData.StageGroupName);
+                serializedRoad.ApplyModifiedPropertiesWithoutUndo();
+            }
+
+            GameObject stageGroup = EnsureRootGroup(scene, flowData.StageGroupName, ref isChanged);
+            isChanged |= RegisterUIGroup(scene, flowData.RoadGroupName, roadGroup);
+            isChanged |= RegisterUIGroup(scene, flowData.StageGroupName, stageGroup);
+        }
+
+        foreach (StageNextFlowData flowData in _stageNextFlowDataArray)
+        {
+            GameObject stageGroup = EnsureRootGroup(scene, flowData.StageGroupName, ref isChanged);
+            OOTechStagePlaceholderController stageController = stageGroup.GetComponent<OOTechStagePlaceholderController>();
+
+            if (stageController == null)
+            {
+                stageController = stageGroup.AddComponent<OOTechStagePlaceholderController>();
+                isChanged = true;
+            }
+
+            stageController.Configure(flowData.StageGroupName, flowData.NextGroupName, flowData.ButtonText);
+            isChanged |= RegisterUIGroup(scene, flowData.StageGroupName, stageGroup);
+        }
+
+        return isChanged;
+    }
+
+    private static GameObject EnsureRoadGroup(Scene scene, RoadStageFlowData flowData, GameObject templateRoadGroup, ref bool isChanged)
+    {
+        GameObject roadGroup = FindSceneObjectByName(scene, flowData.RoadGroupName);
+
+        if (roadGroup == null)
+        {
+            if (templateRoadGroup == null)
+                return null;
+
+            roadGroup = UnityEngine.Object.Instantiate(templateRoadGroup);
+            roadGroup.name = flowData.RoadGroupName;
+            roadGroup.SetActive(false);
+            isChanged = true;
+        }
+        else if (templateRoadGroup != null && roadGroup != templateRoadGroup)
+        {
+            isChanged |= RestoreMissingRoadTemplateChildren(roadGroup, templateRoadGroup);
+        }
+
+        return roadGroup;
+    }
+
+    private static bool RestoreMissingRoadTemplateChildren(GameObject roadGroup, GameObject templateRoadGroup)
+    {
+        bool isChanged = false;
+
+        for (int index = 0; index < templateRoadGroup.transform.childCount; index++)
+        {
+            Transform templateChild = templateRoadGroup.transform.GetChild(index);
+
+            if (!ShouldCopyRoadTemplateChild(templateChild.name))
+                continue;
+
+            if (roadGroup.transform.Find(templateChild.name) != null)
+                continue;
+
+            GameObject copiedChild = UnityEngine.Object.Instantiate(templateChild.gameObject, roadGroup.transform);
+            copiedChild.name = templateChild.name;
+            isChanged = true;
+        }
+
+        return isChanged;
+    }
+
+    private static bool ShouldCopyRoadTemplateChild(string childName)
+    {
+        return childName != "RoadHUDCanvas" && childName != "RoadMapFadeCanvas";
+    }
+
+    private static bool RepairTransparentScenarioCollider(Scene scene)
+    {
+        bool isChanged = false;
+        GameObject senario1Group = FindSceneObjectByName(scene, "Senario1Group");
+
+        if (senario1Group == null)
+            return false;
+
+        Transform[] childTransformArray = senario1Group.GetComponentsInChildren<Transform>(true);
+
+        foreach (Transform childTransform in childTransformArray)
+        {
+            if (childTransform == null || !childTransform.name.StartsWith("Coliider_"))
+                continue;
+
+            SpriteRenderer spriteRenderer = childTransform.GetComponent<SpriteRenderer>();
+
+            if (spriteRenderer != null && spriteRenderer.enabled)
+            {
+                spriteRenderer.enabled = false;
+                isChanged = true;
+            }
+        }
+
+        return isChanged;
+    }
+
+    private static bool RepairEpilogue(Scene scene)
+    {
+        bool isChanged = false;
+        GameObject epilogueGroup = EnsureRootGroup(scene, "EpilogueGroup", ref isChanged);
+        OOTechEpiloguePlaceholderController epilogueController = epilogueGroup.GetComponent<OOTechEpiloguePlaceholderController>();
+
+        if (epilogueController == null)
+        {
+            epilogueGroup.AddComponent<OOTechEpiloguePlaceholderController>();
+            isChanged = true;
+        }
+
+        isChanged |= RegisterUIGroup(scene, "EpilogueGroup", epilogueGroup);
+        return isChanged;
+    }
+
+    private static GameObject EnsureRootGroup(Scene scene, string groupName, ref bool isChanged)
+    {
+        GameObject groupObject = FindSceneObjectByName(scene, groupName);
+
+        if (groupObject != null)
+            return groupObject;
+
+        groupObject = new GameObject(groupName);
+        groupObject.SetActive(false);
+        isChanged = true;
+        return groupObject;
+    }
+
+    private static bool RegisterUIGroup(Scene scene, string groupName, GameObject groupObject)
+    {
+        if (string.IsNullOrEmpty(groupName) || groupObject == null)
+            return false;
+
+        OOTechUIManager uiManager = FindUIManager(scene);
+
+        if (uiManager == null)
+            return false;
+
+        SerializedObject serializedUIManager = new SerializedObject(uiManager);
+        SerializedProperty groupArrayProperty = serializedUIManager.FindProperty("UIGroup_InitialArray");
+
+        if (groupArrayProperty == null || !groupArrayProperty.isArray)
+            return false;
+
+        for (int index = 0; index < groupArrayProperty.arraySize; index++)
+        {
+            SerializedProperty groupProperty = groupArrayProperty.GetArrayElementAtIndex(index);
+            SerializedProperty nameProperty = groupProperty.FindPropertyRelative("Name");
+            SerializedProperty objectProperty = groupProperty.FindPropertyRelative("Group");
+
+            if (nameProperty == null || nameProperty.stringValue != groupName)
+                continue;
+
+            if (objectProperty == null || objectProperty.objectReferenceValue == groupObject)
+                return false;
+
+            objectProperty.objectReferenceValue = groupObject;
+            serializedUIManager.ApplyModifiedPropertiesWithoutUndo();
+            return true;
+        }
+
+        int newIndex = groupArrayProperty.arraySize;
+        groupArrayProperty.InsertArrayElementAtIndex(newIndex);
+        SerializedProperty newGroupProperty = groupArrayProperty.GetArrayElementAtIndex(newIndex);
+        newGroupProperty.FindPropertyRelative("Name").stringValue = groupName;
+        newGroupProperty.FindPropertyRelative("Group").objectReferenceValue = groupObject;
+        serializedUIManager.ApplyModifiedPropertiesWithoutUndo();
+        return true;
+    }
+
+    private static OOTechUIManager FindUIManager(Scene scene)
+    {
+        foreach (GameObject rootObject in scene.GetRootGameObjects())
+        {
+            OOTechUIManager uiManager = rootObject.GetComponentInChildren<OOTechUIManager>(true);
+
+            if (uiManager != null)
+                return uiManager;
+        }
+
+        return null;
+    }
+
+    private static bool SetStringProperty(SerializedObject serializedObject, string propertyName, string value)
+    {
+        SerializedProperty property = serializedObject.FindProperty(propertyName);
+
+        if (property == null || property.stringValue == value)
+            return false;
+
+        property.stringValue = value;
+        return true;
+    }
+
+    private static GameObject FindSceneObjectByName(Scene scene, string objectName)
+    {
+        if (!scene.IsValid() || string.IsNullOrEmpty(objectName))
+            return null;
+
+        foreach (GameObject rootObject in scene.GetRootGameObjects())
+        {
+            GameObject foundObject = FindChildByName(rootObject.transform, objectName);
+
+            if (foundObject != null)
+                return foundObject;
+        }
+
+        return null;
+    }
+
+    private static GameObject FindChildByName(Transform rootTransform, string objectName)
+    {
+        if (rootTransform == null)
+            return null;
+
+        if (rootTransform.name == objectName)
+            return rootTransform.gameObject;
+
+        for (int index = 0; index < rootTransform.childCount; index++)
+        {
+            GameObject foundObject = FindChildByName(rootTransform.GetChild(index), objectName);
+
+            if (foundObject != null)
+                return foundObject;
+        }
+
+        return null;
+    }
+
     private static bool AssignAnimationClipIfMissing(SerializedObject serializedController, string propertyName, string assetPath)
     {
         SerializedProperty clipProperty = serializedController.FindProperty(propertyName);
@@ -220,5 +523,31 @@ public static class OOTechOO_MFCSceneRepair
 
         stringProperty.stringValue = correctedValue;
         return true;
+    }
+
+    private readonly struct RoadStageFlowData
+    {
+        public readonly string RoadGroupName;
+        public readonly string StageGroupName;
+
+        public RoadStageFlowData(string roadGroupName, string stageGroupName)
+        {
+            RoadGroupName = roadGroupName;
+            StageGroupName = stageGroupName;
+        }
+    }
+
+    private readonly struct StageNextFlowData
+    {
+        public readonly string StageGroupName;
+        public readonly string NextGroupName;
+        public readonly string ButtonText;
+
+        public StageNextFlowData(string stageGroupName, string nextGroupName, string buttonText)
+        {
+            StageGroupName = stageGroupName;
+            NextGroupName = nextGroupName;
+            ButtonText = buttonText;
+        }
     }
 }

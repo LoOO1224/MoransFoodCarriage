@@ -1,0 +1,26 @@
+[
+  {
+    "Id": "character_hellena_01",
+    "Name": "헬레나",
+    "Description": "모든 마법을 사용할 수 있는 캐릭터",
+    "SkillList": "skill_fireball_01,skill_normalSword_01",
+    "UseWeaponId": "Weapon_Braclet_1",
+    "BasicCostumeId": "Costume_03"
+  },
+  {
+    "Id": "character_victor_01",
+    "Name": "빅토르",
+    "Description": "소환 마법을 사용할 수 있는 캐릭터",
+    "SkillList": "skill_normalSword_01",
+    "UseWeaponId": "Weapon_Sword_1",
+    "BasicCostumeId": null
+  },
+  {
+    "Id": "character_daniel_01",
+    "Name": "다니엘",
+    "Description": "잉여로운 버프 캐릭터",
+    "SkillList": "skill_rest_coffee_01",
+    "UseWeaponId": "Weapon_CoffeeCup_1",
+    "BasicCostumeId": null
+  }
+]

@@ -22,6 +22,7 @@ public class NextButtonController : MonoBehaviour
 
     private void OnEnable()
     {
+        OOTechTMPFontUtility.ApplyProjectFont(Text_Button);
         BindButtonEvent();
     }
 
@@ -66,7 +67,10 @@ public class NextButtonController : MonoBehaviour
     public void SetButtonText(string buttonText)
     {
         if (Text_Button != null)
+        {
+            OOTechTMPFontUtility.ApplyProjectFont(Text_Button);
             Text_Button.text = buttonText;
+        }
     }
 
     // ==================== 버튼 이벤트 ====================

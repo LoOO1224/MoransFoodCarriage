@@ -19,10 +19,8 @@ public static class OOTechUILayoutNormalizer
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
     private static void RegisterSceneLoaded()
     {
-        SceneManager.sceneLoaded -= OnSceneLoaded;
-        SceneManager.sceneLoaded += OnSceneLoaded;
-
-        NormalizeSceneUI(SceneManager.GetActiveScene());
+        // UI size and placement are now directed by the user in the Unity editor.
+        // This normalizer stays silent so it cannot resize a canvas behind the director's back.
     }
 
     private static void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
@@ -88,10 +86,8 @@ public static class OOTechUILayoutNormalizer
     [UnityEditor.InitializeOnLoadMethod]
     private static void RegisterEditorSceneOpened()
     {
-        UnityEditor.SceneManagement.EditorSceneManager.sceneOpened -= OnEditorSceneOpened;
-        UnityEditor.SceneManagement.EditorSceneManager.sceneOpened += OnEditorSceneOpened;
-        UnityEditor.EditorApplication.delayCall -= NormalizeActiveEditorSceneUI;
-        UnityEditor.EditorApplication.delayCall += NormalizeActiveEditorSceneUI;
+        // Editor-time auto layout is intentionally disabled.
+        // The scene view and game view should show the user's saved UI staging, not a runtime rewrite.
     }
 
     private static void OnEditorSceneOpened(Scene scene, UnityEditor.SceneManagement.OpenSceneMode openSceneMode)
@@ -100,6 +96,7 @@ public static class OOTechUILayoutNormalizer
             UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(scene);
     }
 
+    [UnityEditor.MenuItem("Tools/OO MFC/Normalize Canvas Scalers Manually")]
     private static void NormalizeActiveEditorSceneUI()
     {
         if (UnityEditor.EditorApplication.isPlayingOrWillChangePlaymode)

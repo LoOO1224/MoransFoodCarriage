@@ -1,0 +1,78 @@
+[
+  {
+    "Id": "dialogue_mainstream_1_1_100",
+    "CharacterDataId": null,
+    "Description": "새로운 세계에 접속 하셨습니다…<np>오랜시간 기다리셨는데..<np>제가 많이 늦었군요...",
+    "NextDialogueId": "dialogue_mainstream_1_1_200",
+    "SelectionNameList": null,
+    "SelectionDialogueIdList": null,
+    "TexturePath": "Texture2D/Texture2D_Loading_1",
+    "VoicePath": null
+  },
+  {
+    "Id": "dialogue_mainstream_1_1_200",
+    "CharacterDataId": null,
+    "Description": "용사님이시어..고생하셨군요",
+    "NextDialogueId": "dialogue_mainstream_1_1_300",
+    "SelectionNameList": null,
+    "SelectionDialogueIdList": null,
+    "TexturePath": null,
+    "VoicePath": null
+  },
+  {
+    "Id": "dialogue_mainstream_1_1_300",
+    "CharacterDataId": null,
+    "Description": "다만 아직 야근이 남아 있습니다. 좀 더 고생해주세요.",
+    "NextDialogueId": null,
+    "SelectionNameList": null,
+    "SelectionDialogueIdList": null,
+    "TexturePath": null,
+    "VoicePath": "Sound/Voice_Pug_1_I_WantToEatPizza"
+  },
+  {
+    "Id": "dialogue_group_mainstream_1_2_100",
+    "CharacterDataId": null,
+    "Description": "두둥..지금.. 배가 고픕니다!",
+    "NextDialogueId": null,
+    "SelectionNameList": [
+      "아무 대답하지 않는다",
+      "대답한다"
+    ],
+    "SelectionDialogueIdList": [
+      "dialogue_mainstream_1_2_200",
+      "dialogue_mainstream_1_2_300"
+    ],
+    "TexturePath": null,
+    "VoicePath": null
+  },
+  {
+    "Id": "dialogue_group_mainstream_1_2_200",
+    "CharacterDataId": null,
+    "Description": "커피인가..",
+    "NextDialogueId": null,
+    "SelectionNameList": null,
+    "SelectionDialogueIdList": null,
+    "TexturePath": null,
+    "VoicePath": null
+  },
+  {
+    "Id": "dialogue_group_mainstream_1_2_300",
+    "CharacterDataId": null,
+    "Description": "피자인가..",
+    "NextDialogueId": null,
+    "SelectionNameList": null,
+    "SelectionDialogueIdList": null,
+    "TexturePath": null,
+    "VoicePath": "Sound/Voice_Pug_1_I_WantToEatPizza"
+  },
+  {
+    "Id": "dialogue_group_mainstream_1_2_400",
+    "CharacterDataId": null,
+    "Description": "일단 밥을 먹지 않고 조금 더 진행해본다!",
+    "NextDialogueId": null,
+    "SelectionNameList": null,
+    "SelectionDialogueIdList": null,
+    "TexturePath": null,
+    "VoicePath": null
+  }
+]

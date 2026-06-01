@@ -1,0 +1,51 @@
+[
+  {
+    "Id": "mob_slim_1",
+    "Name": "슬라이무",
+    "Description": "슬라이무는 공격을 받을 때마다 딸기맛, 초코맛, 바닐라맛으로 변한다",
+    "BaseHp": 500,
+    "BaseAtk": 20,
+    "NormalAtkMultiple": 1,
+    "SkillAtkMultipleList": [
+      2
+    ],
+    "IconPath": "Icon/Icon_Slime",
+    "PrefabPath": "2DObject/Monster_Slime"
+  },
+  {
+    "Id": "mob_dog_1",
+    "Name": "도그",
+    "Description": "도그는 도그다",
+    "BaseHp": null,
+    "BaseAtk": null,
+    "NormalAtkMultiple": null,
+    "SkillAtkMultipleList": null,
+    "IconPath": null,
+    "PrefabPath": null
+  },
+  {
+    "Id": "mob_pigme_1",
+    "Name": "피그미",
+    "Description": "피그미는 충돌하면 사라진다. 간헐적으로 금화가 터져나온다.",
+    "BaseHp": null,
+    "BaseAtk": null,
+    "NormalAtkMultiple": null,
+    "SkillAtkMultipleList": null,
+    "IconPath": null,
+    "PrefabPath": null
+  },
+  {
+    "Id": "mob_bear_1",
+    "Name": "곰저씨",
+    "Description": "곰 아저씨다. 아무 의미 없다",
+    "BaseHp": 1000,
+    "BaseAtk": 100,
+    "NormalAtkMultiple": 0.5,
+    "SkillAtkMultipleList": [
+      1.5,
+      5
+    ],
+    "IconPath": "Icon/Icon_Bear",
+    "PrefabPath": "2DObject/Monster_Bear"
+  }
+]

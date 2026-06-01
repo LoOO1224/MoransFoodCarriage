@@ -13,6 +13,7 @@ public class OOTechTutorial1Controller : MonoBehaviour
     [SerializeField] private JangYoungSimController Character_JangYoungSim;
     [SerializeField] private Transform Transform_JangYoungSim;
     [SerializeField] private Transform Transform_Moran;
+    [SerializeField] private SpriteRenderer Renderer_Moran;
     [SerializeField] private Animator Animator_Moran;
 
     [Header("Tutorial Guide UI")]
@@ -65,6 +66,13 @@ public class OOTechTutorial1Controller : MonoBehaviour
     [SerializeField] private float _eButtonMaxAlpha = 1f;
     [SerializeField] private float _eButtonScalePower = 0.12f;
     [SerializeField] private float _eButtonMinimumWorldScale = 0.018f;
+    [SerializeField] private int _eButtonSortingOrder = 9000;
+    [SerializeField] private Vector2 _eButtonReferenceResolution = new Vector2(1920f, 1080f);
+    [SerializeField] private Vector2 _eButtonScreenAnchor = new Vector2(0.78f, 0.28f);
+    [SerializeField] private float _eButtonFixedPixelSize = 120f;
+    [SerializeField] private float _eButtonMoranSizeRatio = 0.5f;
+    [SerializeField] private float _eButtonMinimumPixelSize = 36f;
+    [SerializeField] private float _eButtonMaximumPixelSize = 180f;
     [SerializeField] private string _interactionPromptText = "[E] 깨우기";
     [SerializeField] private Vector3 _interactionPromptOffset = new Vector3(0f, 1.4f, 0f);
     [SerializeField] private float _interactionPromptScale = 0.25f;
@@ -91,6 +99,7 @@ public class OOTechTutorial1Controller : MonoBehaviour
     private bool _isInteractionCompleted;
     private Vector3 _originEButtonScale = Vector3.one;
     private bool _isCachedEButtonOrigin;
+    private Canvas Canvas_EButton;
 
     // ==================== 런타임 생성 객체 ====================
     private GameObject Object_InteractionPrompt;
@@ -156,6 +165,9 @@ public class OOTechTutorial1Controller : MonoBehaviour
     {
         if (Transform_JangYoungSim == null && Character_JangYoungSim != null)
             Transform_JangYoungSim = Character_JangYoungSim.transform;
+
+        if (Renderer_Moran == null && Transform_Moran != null)
+            Renderer_Moran = Transform_Moran.GetComponentInChildren<SpriteRenderer>(true);
     }
 
     private IEnumerator OpenInitialTutorialGuideRoutine()
@@ -258,7 +270,7 @@ public class OOTechTutorial1Controller : MonoBehaviour
         if (_isInteractionRunning || _isInteractionCompleted)
             return;
 
-        bool isNearMoran = IsPlayerNearMoran();
+        bool isNearMoran = IsPlayerNearMoran() && IsMoranVisibleToCamera();
         SetInteractionPromptActive(isNearMoran);
 
         if (!isNearMoran)
@@ -279,6 +291,21 @@ public class OOTechTutorial1Controller : MonoBehaviour
 
         float distance = Vector2.Distance(Transform_JangYoungSim.position, Transform_Moran.position);
         return distance <= Mathf.Max(_interactionDistance, _minimumInteractionDistance);
+    }
+
+    private bool IsMoranVisibleToCamera()
+    {
+        Camera mainCamera = Camera.main;
+
+        if (mainCamera == null || Transform_Moran == null)
+            return true;
+
+        Vector3 viewportPosition = mainCamera.WorldToViewportPoint(Transform_Moran.position);
+        return viewportPosition.z >= 0f &&
+               viewportPosition.x >= 0f &&
+               viewportPosition.x <= 1f &&
+               viewportPosition.y >= 0f &&
+               viewportPosition.y <= 1f;
     }
 
     /// <summary>
@@ -496,9 +523,14 @@ public class OOTechTutorial1Controller : MonoBehaviour
                 Group_EButton.SetActive(isActive);
 
             if (isActive)
+            {
+                UpdateInteractionPromptPosition();
                 StartEButtonBlinkEffect();
+            }
             else
+            {
                 StopEButtonBlinkEffect();
+            }
 
             return;
         }
@@ -517,8 +549,14 @@ public class OOTechTutorial1Controller : MonoBehaviour
         if (Group_EButton == null)
             return;
 
-        if (Rect_EButton == null)
+        Transform buttonTransform = Group_EButton.transform.Find("Button");
+
+        if (buttonTransform != null)
+            Rect_EButton = buttonTransform as RectTransform;
+        else if (Rect_EButton == null)
             Rect_EButton = Group_EButton.transform as RectTransform;
+
+        Rect_EButtonTextParent = Rect_EButton;
 
         if (CanvasGroup_EButton == null)
             CanvasGroup_EButton = Group_EButton.GetComponent<CanvasGroup>();
@@ -526,6 +564,9 @@ public class OOTechTutorial1Controller : MonoBehaviour
         if (CanvasGroup_EButton == null)
             CanvasGroup_EButton = Group_EButton.AddComponent<CanvasGroup>();
 
+        CanvasGroup_EButton.interactable = false;
+        CanvasGroup_EButton.blocksRaycasts = false;
+        PrepareEButtonCanvas();
         ApplyEButtonPresentation();
         CreateEButtonTextIfNeeded();
 
@@ -542,10 +583,49 @@ public class OOTechTutorial1Controller : MonoBehaviour
         if (Rect_EButton == null)
             return;
 
+        if (IsEButtonOverlayCanvas())
+        {
+            ApplyFixedEButtonOverlayLayout();
+            return;
+        }
+
         float minimumScale = Mathf.Max(0.001f, _eButtonMinimumWorldScale);
 
         if (Rect_EButton.localScale.x < minimumScale)
             Rect_EButton.localScale = Vector3.one * minimumScale;
+    }
+
+    private void PrepareEButtonCanvas()
+    {
+        if (Group_EButton == null)
+            return;
+
+        Canvas_EButton = Group_EButton.GetComponent<Canvas>();
+
+        if (Canvas_EButton == null)
+            Canvas_EButton = Group_EButton.AddComponent<Canvas>();
+
+        Canvas_EButton.renderMode = RenderMode.ScreenSpaceOverlay;
+        Canvas_EButton.overrideSorting = true;
+        Canvas_EButton.sortingOrder = _eButtonSortingOrder;
+
+        RectTransform rootRect = Group_EButton.transform as RectTransform;
+
+        if (rootRect != null)
+            rootRect.localScale = Vector3.one;
+
+        CanvasScaler canvasScaler = Group_EButton.GetComponent<CanvasScaler>();
+
+        if (canvasScaler == null)
+            canvasScaler = Group_EButton.AddComponent<CanvasScaler>();
+
+        canvasScaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+        canvasScaler.referenceResolution = _eButtonReferenceResolution;
+        canvasScaler.screenMatchMode = CanvasScaler.ScreenMatchMode.MatchWidthOrHeight;
+        canvasScaler.matchWidthOrHeight = 0.5f;
+
+        if (Group_EButton.GetComponent<GraphicRaycaster>() == null)
+            Group_EButton.AddComponent<GraphicRaycaster>();
     }
 
     private void CreateEButtonTextIfNeeded()
@@ -576,8 +656,68 @@ public class OOTechTutorial1Controller : MonoBehaviour
 
     private void UpdateInteractionPromptPosition()
     {
-        if (Group_EButton != null && Transform_Moran != null)
-            Group_EButton.transform.position = Transform_Moran.position + _eButtonWorldOffset;
+        if (Group_EButton == null)
+            return;
+
+        if (IsEButtonOverlayCanvas())
+        {
+            ApplyFixedEButtonOverlayLayout();
+            return;
+        }
+
+        if (Transform_Moran == null)
+            return;
+
+        Vector3 worldPosition = Transform_Moran.position + _eButtonWorldOffset;
+        Group_EButton.transform.position = worldPosition;
+    }
+
+    private bool IsEButtonOverlayCanvas()
+    {
+        return Canvas_EButton != null && Canvas_EButton.renderMode == RenderMode.ScreenSpaceOverlay;
+    }
+
+    private void ApplyFixedEButtonOverlayLayout()
+    {
+        if (Rect_EButton == null)
+            return;
+
+        Vector2 clampedAnchor = new Vector2(Mathf.Clamp01(_eButtonScreenAnchor.x), Mathf.Clamp01(_eButtonScreenAnchor.y));
+        float pixelSize = Mathf.Clamp(_eButtonFixedPixelSize, _eButtonMinimumPixelSize, _eButtonMaximumPixelSize);
+
+        Rect_EButton.anchorMin = clampedAnchor;
+        Rect_EButton.anchorMax = clampedAnchor;
+        Rect_EButton.pivot = new Vector2(0.5f, 0.5f);
+        Rect_EButton.anchoredPosition = Vector2.zero;
+        Rect_EButton.localScale = Vector3.one;
+        Rect_EButton.sizeDelta = new Vector2(pixelSize, pixelSize);
+
+        Button button = Rect_EButton.GetComponent<Button>();
+
+        if (button != null)
+            button.interactable = false;
+
+        Image buttonImage = Rect_EButton.GetComponent<Image>();
+
+        if (buttonImage != null)
+            buttonImage.raycastTarget = false;
+
+        if (_isCachedEButtonOrigin)
+            _originEButtonScale = Vector3.one;
+    }
+
+    private float CalculateEButtonPixelSize(Camera mainCamera)
+    {
+        if (Renderer_Moran == null || mainCamera == null)
+            return Mathf.Clamp(96f, _eButtonMinimumPixelSize, _eButtonMaximumPixelSize);
+
+        Bounds bounds = Renderer_Moran.bounds;
+        Vector3 minScreen = mainCamera.WorldToScreenPoint(bounds.min);
+        Vector3 maxScreen = mainCamera.WorldToScreenPoint(bounds.max);
+        float moranPixelHeight = Mathf.Abs(maxScreen.y - minScreen.y);
+        float moranPixelWidth = Mathf.Abs(maxScreen.x - minScreen.x);
+        float baseSize = Mathf.Min(moranPixelWidth, moranPixelHeight) * Mathf.Clamp01(_eButtonMoranSizeRatio);
+        return Mathf.Clamp(baseSize, _eButtonMinimumPixelSize, _eButtonMaximumPixelSize);
     }
 
     private void StartEButtonBlinkEffect()

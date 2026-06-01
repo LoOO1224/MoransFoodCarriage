@@ -1,0 +1,41 @@
+[
+  {
+    "Id": "harv_corn_1",
+    "FieldObjectType": "Harvest",
+    "Name": "옥수수",
+    "Description": "필드 채집용 옥수수",
+    "DropCountRange": [
+      10,
+      100
+    ],
+    "DropItemDataId": "Item_Corn_1",
+    "IconPath": null,
+    "PrefabPath": "2DPrefab/Harvest_Corn"
+  },
+  {
+    "Id": "dropItem_gold_1",
+    "FieldObjectType": "DropItem",
+    "Name": "금화",
+    "Description": "드랍된 금화",
+    "DropCountRange": [
+      10,
+      1000
+    ],
+    "DropItemDataId": "Item_Gold_1",
+    "IconPath": null,
+    "PrefabPath": "2DPrefab/DropItem_Gold"
+  },
+  {
+    "Id": "harv_potate_1",
+    "FieldObjectType": "Harvest",
+    "Name": "감자",
+    "Description": "필드 채집용 감자",
+    "DropCountRange": [
+      10,
+      100
+    ],
+    "DropItemDataId": "Item_Potato_1",
+    "IconPath": null,
+    "PrefabPath": "2DPrefab/Harvest_Potato"
+  }
+]
