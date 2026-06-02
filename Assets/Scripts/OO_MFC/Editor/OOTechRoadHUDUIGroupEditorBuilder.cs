@@ -101,12 +101,23 @@ public static class OOTechRoadHUDUIGroupEditorBuilder
             isChanged = true;
         }
 
+        if (!hudSystemObject.activeSelf)
+        {
+            hudSystemObject.SetActive(true);
+            isChanged = true;
+        }
+
         GameObject hudObject = FindDirectChild(hudSystemObject.transform, _sharedHUDGroupName);
 
         if (hudObject == null)
         {
             hudObject = new GameObject(_sharedHUDGroupName, typeof(RectTransform));
             hudObject.transform.SetParent(hudSystemObject.transform, false);
+            isChanged = true;
+        }
+
+        if (hudObject.activeSelf)
+        {
             hudObject.SetActive(false);
             isChanged = true;
         }
@@ -1234,6 +1245,19 @@ public static class OOTechRoadHUDUIGroupEditorBuilder
 
     private static GameObject FindSceneObjectByName(Scene scene, string objectName)
     {
+        GameObject[] objectArray = Resources.FindObjectsOfTypeAll<GameObject>();
+
+        foreach (GameObject targetObject in objectArray)
+        {
+            if (targetObject == null || targetObject.name != objectName)
+                continue;
+
+            if (!targetObject.scene.IsValid() || targetObject.scene.path != scene.path)
+                continue;
+
+            return targetObject;
+        }
+
         foreach (GameObject rootObject in scene.GetRootGameObjects())
         {
             GameObject foundObject = FindChildByName(rootObject.transform, objectName);

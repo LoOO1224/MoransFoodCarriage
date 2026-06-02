@@ -157,11 +157,11 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
     /// </summary>
     private void OnDisable()
     {
+        StopOpeningTutorial();
         StopAllCoroutines();
         _openingTutorialCoroutine = null;
         _isChangingMap = false;
         SetMFCAnimationPlaying(false);
-        StopOpeningTutorial();
         SetRoadHUDVisible(false);
         HideFadeOverlay();
     }

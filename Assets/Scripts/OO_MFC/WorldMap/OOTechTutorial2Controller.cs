@@ -77,6 +77,13 @@ public class OOTechTutorial2Controller : MonoBehaviour
 
     public bool IsTutorialRunning { get; private set; }
 
+    private void OnDisable()
+    {
+        IsTutorialRunning = false;
+        CloseDialogueGroup();
+        CloseTutorialGuideGroup();
+    }
+
     /// <summary>
     /// RoadMap1에 처음 도착했을 때 재익군, 춘양, 모란 대화와 요리 준비 안내를 재생합니다.
     /// </summary>

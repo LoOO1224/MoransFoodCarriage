@@ -151,8 +151,27 @@ public class OOTechRoadHUDController : MonoBehaviour
     /// </summary>
     public void SetHUDVisible(bool isVisible)
     {
+        if (isVisible)
+            RequestActivateParentChain(Root_HUD);
+
         if (Root_HUD != null)
             Root_HUD.SetActive(isVisible);
+    }
+
+    private void RequestActivateParentChain(GameObject targetObject)
+    {
+        if (targetObject == null)
+            return;
+
+        Transform parentTransform = targetObject.transform.parent;
+
+        while (parentTransform != null)
+        {
+            if (!parentTransform.gameObject.activeSelf)
+                parentTransform.gameObject.SetActive(true);
+
+            parentTransform = parentTransform.parent;
+        }
     }
 
     /// <summary>
@@ -280,7 +299,10 @@ public class OOTechRoadHUDController : MonoBehaviour
         CreateGuideOverlayIfNeeded();
 
         if (Root_GuideOverlay == null)
+        {
+            onNext?.Invoke();
             return;
+        }
 
         RectTransform targetRect = GetButtonRect(buttonKind);
         Vector2 targetLocalPosition = GetTargetLocalPosition(targetRect);
@@ -297,7 +319,10 @@ public class OOTechRoadHUDController : MonoBehaviour
         CreateGuideOverlayIfNeeded();
 
         if (Root_GuideOverlay == null)
+        {
+            onNext?.Invoke();
             return;
+        }
 
         Root_GuideOverlay.SetActive(true);
         ApplyGuideOverlayLayout(new Vector2(0f, 260f), title, description, onNext);
