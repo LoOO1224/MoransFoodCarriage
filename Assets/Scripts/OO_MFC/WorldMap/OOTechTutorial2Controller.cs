@@ -40,8 +40,8 @@ public class OOTechTutorial2Controller : MonoBehaviour
     [Header("Ingredient Data Id")]
     [SerializeField] private string _riceIngredientId = "Ing_Rice_01";
     [SerializeField] private string _vegetableIngredientId = "Ing_Pumpkin_01";
-    [SerializeField] private int _riceIngredientCount = 2;
-    [SerializeField] private int _vegetableIngredientCount = 2;
+    [SerializeField] private int _riceIngredientCount = 12;
+    [SerializeField] private int _vegetableIngredientCount = 12;
 
     private readonly OOTechRoadHUDButtonKind[] _hudButtonKindArray =
     {

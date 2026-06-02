@@ -51,6 +51,14 @@ public class OOTechItemCatalogManager : MonoBehaviour
             return;
 
         definitionObject.ResolveReferences();
+        if (_itemDefinitionDic.TryGetValue(definitionObject.ItemDataId, out OOTechItemDefinitionObject currentDefinition) &&
+            currentDefinition != null &&
+            currentDefinition.ResolveIconSprite() != null &&
+            definitionObject.ResolveIconSprite() == null)
+        {
+            return;
+        }
+
         _itemDefinitionDic[definitionObject.ItemDataId] = definitionObject;
     }
 
@@ -165,10 +173,13 @@ public class OOTechItemCatalogManager : MonoBehaviour
         if (itemDataId == "Ing_Rice_01")
             return "쌀";
 
-        if (itemDataId == "Ing_Veggie_01" || itemDataId == "Ing_Pumpkin_01")
+        if (itemDataId == "Ing_Veggie_01")
             return "채소";
 
-        if (itemDataId == "OO_Cook_1")
+        if (itemDataId == "Ing_Pumpkin_01")
+            return "호박";
+
+        if (itemDataId == "OO_VegetableSoup_1")
             return "채소죽";
 
         return string.IsNullOrEmpty(itemDataId) ? "알 수 없는 아이템" : itemDataId;

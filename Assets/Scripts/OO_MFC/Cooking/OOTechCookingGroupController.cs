@@ -15,12 +15,23 @@ public class OOTechCookingGroupController : MonoBehaviour
 {
     [Header("Data Id")]
     [SerializeField] private string _cauldronTutorialId = "narration_tutorial_11";
+    [SerializeField] private string _cuttingboardTutorialId = "narration_tutorial_12";
+    [SerializeField] private string _moranCookingCompleteDialogueId = "character_Moran_05";
     [SerializeField] private string _cookingCompleteDialogueGroupId = "dialogue_group_cooking_vegetable_porridge_complete_01";
     [SerializeField] private string _dialogueGroupName = "DialogueGroup";
 
     [Header("Scene Role")]
     [SerializeField] private string _cauldronObjectName = "Cauldron";
+    [SerializeField] private string _cuttingboardObjectName = "Cuttingboard";
     [SerializeField] private float _cauldronDropAreaPadding = 1.18f;
+    [SerializeField] private float _cuttingboardDropAreaPadding = 1.18f;
+
+    [Header("Ingredient Rule")]
+    [SerializeField] private string _riceIngredientId = "Ing_Rice_01";
+    [SerializeField] private string _vegetableIngredientId = "Ing_Veggie_01";
+    [SerializeField] private string _pumpkinIngredientId = "Ing_Pumpkin_01";
+    [SerializeField] private string[] _defaultCauldronAcceptedIngredientIdArray = { "Ing_Rice_01" };
+    [SerializeField] private string[] _defaultCuttingboardAcceptedIngredientIdArray = { "Ing_Veggie_01", "Ing_Pumpkin_01" };
 
     [Header("Canvas")]
     [SerializeField] private int _sortingOrder = 1260;
@@ -33,6 +44,10 @@ public class OOTechCookingGroupController : MonoBehaviour
     [Header("New Badge")]
     [SerializeField] private float _newBadgeBlinkSpeed = 7f;
     [SerializeField] private float _newBadgeMinimumAlpha = 0.25f;
+
+    [Header("Guide Arrow")]
+    [SerializeField] private float _guideArrowBlinkSpeed = 6f;
+    [SerializeField] private float _guideArrowMinimumAlpha = 0.25f;
 
     private readonly List<string> _selectedIngredientIdList = new List<string>();
 
@@ -47,24 +62,39 @@ public class OOTechCookingGroupController : MonoBehaviour
     private RectTransform Rect_Root;
     private RectTransform Rect_InventoryContent;
     private RectTransform Rect_Cauldron;
+    private RectTransform Rect_Cuttingboard;
     private Transform Transform_Cauldron;
+    private Transform Transform_Cuttingboard;
     private SpriteRenderer Renderer_Cauldron;
+    private SpriteRenderer Renderer_Cuttingboard;
     private Collider2D Collider_Cauldron;
+    private Collider2D Collider_Cuttingboard;
+    private OOTechCookingToolDropTarget Tool_Cauldron;
+    private OOTechCookingToolDropTarget Tool_Cuttingboard;
     private GameObject Root_GuideBubble;
+    private GameObject Root_CuttingboardGuideBubble;
     private GameObject Root_InventoryGuideArrow;
     private GameObject Root_CauldronGuideArrow;
+    private GameObject Root_CuttingboardGuideArrow;
     private TextMeshProUGUI Text_Status;
     private TextMeshProUGUI Text_Pot;
     private TextMeshProUGUI Text_GuideTitle;
     private TextMeshProUGUI Text_GuideBody;
+    private TextMeshProUGUI Text_CuttingboardGuideTitle;
+    private TextMeshProUGUI Text_CuttingboardGuideBody;
     private TextMeshProUGUI Text_InventoryNewBadge;
     private Button Button_GuideConfirm;
+    private Button Button_CuttingboardGuideConfirm;
     private RectTransform Rect_DragGhostTemplate;
     private OOTechCookingGroupView View_Cooking;
     private GameObject Group_Dialogue;
     private DialogueUI UI_Dialogue;
     private Coroutine _inventoryNewBadgeCoroutine;
+    private Coroutine _toolGuideCoroutine;
+    private Coroutine _cauldronArrowBlinkCoroutine;
+    private Coroutine _cuttingboardArrowBlinkCoroutine;
     private UnityAction _guideConfirmAction;
+    private bool _isToolGuideComplete;
     private bool _isCookingCompleteDialoguePlaying;
 
     /// <summary>
@@ -75,11 +105,12 @@ public class OOTechCookingGroupController : MonoBehaviour
         NormalizeCookingGroupTransformIfNeeded();
         EnsureCookingManager();
         ResolveCauldronReference();
+        ResolveCuttingboardReference();
         ApplyKitchenCameraView();
         PrepareCookingView();
         RefreshInventorySlots();
         RefreshPotView();
-        ShowCauldronGuide();
+        ShowToolGuideSequence();
     }
 
     /// <summary>
@@ -91,6 +122,7 @@ public class OOTechCookingGroupController : MonoBehaviour
             return;
 
         UpdateCauldronDropArea();
+        UpdateCuttingboardDropArea();
         UpdateGuideArrowLayout();
     }
 
@@ -101,6 +133,10 @@ public class OOTechCookingGroupController : MonoBehaviour
     {
         _guideConfirmAction = null;
         _isCookingCompleteDialoguePlaying = false;
+        _isToolGuideComplete = false;
+        StopToolGuideRoutine();
+        StopGuideArrowBlink(Root_CauldronGuideArrow, ref _cauldronArrowBlinkCoroutine);
+        StopGuideArrowBlink(Root_CuttingboardGuideArrow, ref _cuttingboardArrowBlinkCoroutine);
         StopInventoryNewBadgeBlink();
         CloseDialogueGroup();
         RestoreCameraView();
@@ -182,7 +218,7 @@ public class OOTechCookingGroupController : MonoBehaviour
     {
         ResolveCauldronReference();
 
-        if (IsPointerInsideSceneCauldron(screenPosition))
+        if (IsPointerInsideSceneTool(screenPosition, Tool_Cauldron, Transform_Cauldron, Renderer_Cauldron, Collider_Cauldron, _cauldronDropAreaPadding))
             return true;
 
         UpdateCauldronDropArea();
@@ -191,6 +227,50 @@ public class OOTechCookingGroupController : MonoBehaviour
             return false;
 
         return RectTransformUtility.RectangleContainsScreenPoint(Rect_Cauldron, screenPosition, null);
+    }
+
+    /// <summary>
+    /// 마우스 포인터가 도마 위에 있는지 확인합니다.
+    /// </summary>
+    public bool IsPointerInsideCuttingboard(Vector2 screenPosition)
+    {
+        ResolveCuttingboardReference();
+
+        if (IsPointerInsideSceneTool(screenPosition, Tool_Cuttingboard, Transform_Cuttingboard, Renderer_Cuttingboard, Collider_Cuttingboard, _cuttingboardDropAreaPadding))
+            return true;
+
+        UpdateCuttingboardDropArea();
+
+        if (Rect_Cuttingboard == null)
+            return false;
+
+        return RectTransformUtility.RectangleContainsScreenPoint(Rect_Cuttingboard, screenPosition, null);
+    }
+
+    /// <summary>
+    /// 재료를 놓은 화면 좌표가 어느 조리도구 위인지 판정하고, 맞는 역할표에만 투입합니다.
+    /// </summary>
+    public void RequestDropIngredientAtPosition(string itemDataId, Vector2 screenPosition)
+    {
+        if (!_isToolGuideComplete)
+        {
+            SetStatus("조리도구 안내를 확인한 뒤 재료를 넣어주세요.");
+            return;
+        }
+
+        if (IsPointerInsideCauldron(screenPosition))
+        {
+            RequestDropIngredientToTool(itemDataId, Tool_Cauldron, _cauldronObjectName, "가마솥");
+            return;
+        }
+
+        if (IsPointerInsideCuttingboard(screenPosition))
+        {
+            RequestDropIngredientToTool(itemDataId, Tool_Cuttingboard, _cuttingboardObjectName, "도마");
+            return;
+        }
+
+        SetStatus("재료를 조리도구 위에 올려놓으세요.");
     }
 
     /// <summary>
@@ -227,6 +307,45 @@ public class OOTechCookingGroupController : MonoBehaviour
     }
 
     /// <summary>
+    /// 실제 조리도구 역할표를 확인한 뒤 재료를 소비하고 레시피 판정을 요청합니다.
+    /// </summary>
+    private void RequestDropIngredientToTool(string itemDataId, OOTechCookingToolDropTarget toolTarget, string fallbackToolId, string fallbackToolName)
+    {
+        if (string.IsNullOrEmpty(itemDataId))
+            return;
+
+        if (OOTechGameManager.Inst == null || OOTechGameManager.Inst.GetItemCount(itemDataId) <= 0)
+        {
+            SetStatus("인벤토리에 재료가 없습니다.");
+            return;
+        }
+
+        if (!CanToolAcceptIngredient(itemDataId, toolTarget, fallbackToolId))
+        {
+            SetStatus("올바르지 않은 조리도구입니다!");
+            return;
+        }
+
+        if (!CanAcceptIngredient(itemDataId))
+        {
+            SetStatus("이미 들어갔거나 레시피에 맞지 않는 재료입니다.");
+            return;
+        }
+
+        if (!OOTechGameManager.Inst.RemoveItem(itemDataId, 1))
+        {
+            SetStatus("재료를 꺼낼 수 없습니다.");
+            return;
+        }
+
+        _selectedIngredientIdList.Add(itemDataId);
+        RefreshInventorySlots();
+        RefreshPotView();
+        SetStatus($"{GetItemDisplayName(itemDataId)}을(를) {GetToolDisplayName(toolTarget, fallbackToolName)}에 올렸습니다.");
+        TryCompleteCooking();
+    }
+
+    /// <summary>
     /// 현재까지 들어간 재료 조합이 완성 레시피인지 확인하고, 성공 시 완성 음식을 인벤토리에 넣습니다.
     /// </summary>
     private void TryCompleteCooking()
@@ -254,6 +373,45 @@ public class OOTechCookingGroupController : MonoBehaviour
     /// <summary>
     /// 지금 선택한 재료가 레시피의 중간 단계로 허용되는지 확인합니다.
     /// </summary>
+    /// <summary>
+    /// 재료가 해당 조리도구의 역할표와 맞는지 확인합니다.
+    /// </summary>
+    private bool CanToolAcceptIngredient(string itemDataId, OOTechCookingToolDropTarget toolTarget, string fallbackToolId)
+    {
+        if (toolTarget != null)
+            return toolTarget.CanAcceptIngredient(itemDataId);
+
+        if (fallbackToolId == _cauldronObjectName)
+            return IsIngredientInArray(itemDataId, _defaultCauldronAcceptedIngredientIdArray);
+
+        if (fallbackToolId == _cuttingboardObjectName)
+            return IsIngredientInArray(itemDataId, _defaultCuttingboardAcceptedIngredientIdArray);
+
+        return false;
+    }
+
+    private bool IsIngredientInArray(string itemDataId, string[] acceptedIngredientIdArray)
+    {
+        if (string.IsNullOrEmpty(itemDataId) || acceptedIngredientIdArray == null)
+            return false;
+
+        for (int index = 0; index < acceptedIngredientIdArray.Length; index++)
+        {
+            if (acceptedIngredientIdArray[index] == itemDataId)
+                return true;
+        }
+
+        return false;
+    }
+
+    private string GetToolDisplayName(OOTechCookingToolDropTarget toolTarget, string fallbackToolName)
+    {
+        if (toolTarget != null && !string.IsNullOrEmpty(toolTarget.DisplayName))
+            return toolTarget.DisplayName;
+
+        return fallbackToolName;
+    }
+
     private bool CanAcceptIngredient(string itemDataId)
     {
         List<OO_Recipe> recipeList = OOTechGameDataManager.Inst != null ? OOTechGameDataManager.Inst.GetRecipeDataList() : new List<OO_Recipe>();
@@ -321,11 +479,11 @@ public class OOTechCookingGroupController : MonoBehaviour
     /// </summary>
     private bool IsFallbackIngredientAccepted(string itemDataId)
     {
-        if (itemDataId != "Ing_Rice_01" && itemDataId != "Ing_Veggie_01" && itemDataId != "Ing_Pumpkin_01")
+        if (itemDataId != _riceIngredientId && itemDataId != _vegetableIngredientId && itemDataId != _pumpkinIngredientId)
             return false;
 
-        if (itemDataId == "Ing_Veggie_01" || itemDataId == "Ing_Pumpkin_01")
-            return !_selectedIngredientIdList.Contains("Ing_Veggie_01") && !_selectedIngredientIdList.Contains("Ing_Pumpkin_01");
+        if (itemDataId == _vegetableIngredientId || itemDataId == _pumpkinIngredientId)
+            return !_selectedIngredientIdList.Contains(_vegetableIngredientId) && !_selectedIngredientIdList.Contains(_pumpkinIngredientId);
 
         return !_selectedIngredientIdList.Contains(itemDataId);
     }
@@ -363,13 +521,19 @@ public class OOTechCookingGroupController : MonoBehaviour
         Rect_Root = View_Cooking.RootRect;
         NormalizeCookingCanvasRoot();
         Rect_Cauldron = View_Cooking.CauldronDropAreaRect;
+        Rect_Cuttingboard = View_Cooking.CuttingboardDropAreaRect;
         Text_Pot = View_Cooking.PotContentText;
         Root_GuideBubble = View_Cooking.GuideBubble;
         Text_GuideTitle = View_Cooking.GuideTitleText;
         Text_GuideBody = View_Cooking.GuideBodyText;
         Button_GuideConfirm = View_Cooking.GuideConfirmButton;
+        Root_CuttingboardGuideBubble = View_Cooking.CuttingboardGuideBubble;
+        Text_CuttingboardGuideTitle = View_Cooking.CuttingboardGuideTitleText;
+        Text_CuttingboardGuideBody = View_Cooking.CuttingboardGuideBodyText;
+        Button_CuttingboardGuideConfirm = View_Cooking.CuttingboardGuideConfirmButton;
         Root_InventoryGuideArrow = View_Cooking.InventoryGuideArrow;
         Root_CauldronGuideArrow = View_Cooking.CauldronGuideArrow;
+        Root_CuttingboardGuideArrow = View_Cooking.CuttingboardGuideArrow;
         Text_Status = View_Cooking.StatusText;
         Rect_DragGhostTemplate = View_Cooking.DragGhostTemplateRect;
 
@@ -398,7 +562,14 @@ public class OOTechCookingGroupController : MonoBehaviour
         if (Root_GuideBubble != null)
             Root_GuideBubble.SetActive(false);
 
+        if (Root_CuttingboardGuideBubble != null)
+            Root_CuttingboardGuideBubble.SetActive(false);
+
+        if (Root_InventoryGuideArrow != null)
+            Root_InventoryGuideArrow.SetActive(false);
+
         SetGuidePointerActive(false);
+        SetCuttingboardGuidePointerActive(false);
     }
 
     /// <summary>
@@ -441,11 +612,84 @@ public class OOTechCookingGroupController : MonoBehaviour
 
         if (Collider_Cauldron == null)
             Collider_Cauldron = Transform_Cauldron.GetComponentInChildren<Collider2D>(true);
+
+        Tool_Cauldron = Transform_Cauldron.GetComponent<OOTechCookingToolDropTarget>();
+
+        if (Tool_Cauldron == null)
+            Tool_Cauldron = Transform_Cauldron.gameObject.AddComponent<OOTechCookingToolDropTarget>();
+
+        Tool_Cauldron.RequestSetupDefaultTool(_cauldronObjectName, "가마솥", _defaultCauldronAcceptedIngredientIdArray, _cauldronDropAreaPadding);
+    }
+
+    /// <summary>
+    /// CookingGroup 자식 Cuttingboard 오브젝트의 Transform, Renderer, Collider, 역할표를 찾습니다.
+    /// </summary>
+    private void ResolveCuttingboardReference()
+    {
+        if (Transform_Cuttingboard != null && Transform_Cuttingboard.gameObject.scene.IsValid())
+            return;
+
+        Transform_Cuttingboard = FindChildByName(transform, _cuttingboardObjectName);
+        Renderer_Cuttingboard = null;
+        Collider_Cuttingboard = null;
+        Tool_Cuttingboard = null;
+
+        if (Transform_Cuttingboard == null)
+            return;
+
+        Renderer_Cuttingboard = Transform_Cuttingboard.GetComponent<SpriteRenderer>();
+
+        if (Renderer_Cuttingboard == null)
+            Renderer_Cuttingboard = Transform_Cuttingboard.GetComponentInChildren<SpriteRenderer>(true);
+
+        Collider_Cuttingboard = Transform_Cuttingboard.GetComponent<Collider2D>();
+
+        if (Collider_Cuttingboard == null)
+            Collider_Cuttingboard = Transform_Cuttingboard.GetComponentInChildren<Collider2D>(true);
+
+        Tool_Cuttingboard = Transform_Cuttingboard.GetComponent<OOTechCookingToolDropTarget>();
+
+        if (Tool_Cuttingboard == null)
+            Tool_Cuttingboard = Transform_Cuttingboard.gameObject.AddComponent<OOTechCookingToolDropTarget>();
+
+        Tool_Cuttingboard.RequestSetupDefaultTool(_cuttingboardObjectName, "도마", _defaultCuttingboardAcceptedIngredientIdArray, _cuttingboardDropAreaPadding);
     }
 
     /// <summary>
     /// 화면 좌표를 실제 월드 좌표로 바꿔 가마솥 Collider 또는 Sprite Bounds 안인지 확인합니다.
     /// </summary>
+    private bool IsPointerInsideSceneTool(Vector2 screenPosition, OOTechCookingToolDropTarget toolTarget, Transform toolTransform, SpriteRenderer toolRenderer, Collider2D toolCollider, float dropAreaPadding)
+    {
+        ResolveCameraReference();
+
+        if (Camera_Main == null || toolTransform == null)
+            return false;
+
+        if (toolTarget != null && toolTarget.IsPointerInside(screenPosition, Camera_Main))
+            return true;
+
+        Vector3 worldPoint = GetWorldPointOnToolPlane(screenPosition, toolTransform);
+
+        if (toolCollider != null && toolCollider.OverlapPoint(worldPoint))
+            return true;
+
+        if (toolRenderer == null)
+            return false;
+
+        Bounds bounds = toolRenderer.bounds;
+        bounds.Expand(bounds.size * Mathf.Max(0f, dropAreaPadding - 1f));
+        worldPoint.z = bounds.center.z;
+        return bounds.Contains(worldPoint);
+    }
+
+    private Vector3 GetWorldPointOnToolPlane(Vector2 screenPosition, Transform toolTransform)
+    {
+        float planeDistance = Mathf.Abs(Camera_Main.transform.position.z - toolTransform.position.z);
+        Vector3 worldPoint = Camera_Main.ScreenToWorldPoint(new Vector3(screenPosition.x, screenPosition.y, planeDistance));
+        worldPoint.z = toolTransform.position.z;
+        return worldPoint;
+    }
+
     private bool IsPointerInsideSceneCauldron(Vector2 screenPosition)
     {
         if (Transform_Cauldron == null)
@@ -508,6 +752,33 @@ public class OOTechCookingGroupController : MonoBehaviour
         Rect_Cauldron.sizeDelta = new Vector2(Mathf.Max(180f, sizeDelta.x), Mathf.Max(120f, sizeDelta.y));
     }
 
+    private void UpdateCuttingboardDropArea()
+    {
+        if (Rect_Cuttingboard == null || Transform_Cuttingboard == null)
+            return;
+
+        ResolveCameraReference();
+
+        if (Camera_Main == null || Rect_Root == null)
+            return;
+
+        Bounds bounds = GetCuttingboardBounds();
+        Vector2 minLocalPoint;
+        Vector2 maxLocalPoint;
+        Vector3 minScreenPoint = Camera_Main.WorldToScreenPoint(new Vector3(bounds.min.x, bounds.min.y, bounds.center.z));
+        Vector3 maxScreenPoint = Camera_Main.WorldToScreenPoint(new Vector3(bounds.max.x, bounds.max.y, bounds.center.z));
+
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(Rect_Root, minScreenPoint, null, out minLocalPoint);
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(Rect_Root, maxScreenPoint, null, out maxLocalPoint);
+
+        Vector2 centerPoint = (minLocalPoint + maxLocalPoint) * 0.5f;
+        Vector2 sizeDelta = new Vector2(Mathf.Abs(maxLocalPoint.x - minLocalPoint.x), Mathf.Abs(maxLocalPoint.y - minLocalPoint.y));
+        sizeDelta *= Mathf.Max(1f, _cuttingboardDropAreaPadding);
+
+        Rect_Cuttingboard.anchoredPosition = centerPoint;
+        Rect_Cuttingboard.sizeDelta = new Vector2(Mathf.Max(180f, sizeDelta.x), Mathf.Max(120f, sizeDelta.y));
+    }
+
     private Bounds GetCauldronBounds()
     {
         if (Collider_Cauldron != null)
@@ -517,6 +788,20 @@ public class OOTechCookingGroupController : MonoBehaviour
             return Renderer_Cauldron.bounds;
 
         return new Bounds(Transform_Cauldron.position, Vector3.one);
+    }
+
+    private Bounds GetCuttingboardBounds()
+    {
+        if (Tool_Cuttingboard != null)
+            return Tool_Cuttingboard.GetWorldBounds();
+
+        if (Collider_Cuttingboard != null)
+            return Collider_Cuttingboard.bounds;
+
+        if (Renderer_Cuttingboard != null)
+            return Renderer_Cuttingboard.bounds;
+
+        return new Bounds(Transform_Cuttingboard.position, Vector3.one);
     }
 
     /// <summary>
@@ -537,10 +822,12 @@ public class OOTechCookingGroupController : MonoBehaviour
 
         if (_selectedIngredientIdList.Count == 0)
         {
-            Text_Pot.text = "비어 있음";
+            Text_Pot.text = string.Empty;
+            Text_Pot.gameObject.SetActive(false);
             return;
         }
 
+        Text_Pot.gameObject.SetActive(true);
         string text = string.Empty;
 
         foreach (string ingredientId in _selectedIngredientIdList)
@@ -552,6 +839,46 @@ public class OOTechCookingGroupController : MonoBehaviour
     /// <summary>
     /// 처음 부엌에 들어왔을 때 가마솥 사용법 말풍선과 화살표를 보여줍니다.
     /// </summary>
+    private void ShowToolGuideSequence()
+    {
+        StopToolGuideRoutine();
+        _isToolGuideComplete = false;
+        _toolGuideCoroutine = StartCoroutine(PlayToolGuideSequenceRoutine());
+    }
+
+    private IEnumerator PlayToolGuideSequenceRoutine()
+    {
+        bool isCauldronGuideDone = false;
+        ShowCauldronGuide();
+        _guideConfirmAction = delegate
+        {
+            isCauldronGuideDone = true;
+        };
+
+        yield return new WaitUntil(() => isCauldronGuideDone);
+
+        bool isCuttingboardGuideDone = false;
+        ShowCuttingboardGuide(delegate
+        {
+            isCuttingboardGuideDone = true;
+        });
+
+        yield return new WaitUntil(() => isCuttingboardGuideDone);
+
+        _isToolGuideComplete = true;
+        _toolGuideCoroutine = null;
+        SetStatus("쌀은 가마솥에, 채소는 도마에 올려 요리를 완성하세요.");
+    }
+
+    private void StopToolGuideRoutine()
+    {
+        if (_toolGuideCoroutine == null)
+            return;
+
+        StopCoroutine(_toolGuideCoroutine);
+        _toolGuideCoroutine = null;
+    }
+
     private void ShowCauldronGuide()
     {
         _guideConfirmAction = null;
@@ -585,6 +912,33 @@ public class OOTechCookingGroupController : MonoBehaviour
     /// <summary>
     /// Tutorial 데이터에서 가마솥 설명을 읽고, 없으면 기본 안내 문구를 사용합니다.
     /// </summary>
+    private void ShowCuttingboardGuide(UnityAction onConfirm)
+    {
+        GetCuttingboardGuideData(out string title, out string description);
+
+        if (Root_CuttingboardGuideBubble == null)
+        {
+            Debug.LogWarning("[OOTechCookingGroupController] Panel_CuttingboardGuide is missing from CookingUIGroup.");
+            onConfirm?.Invoke();
+            return;
+        }
+
+        ApplyCuttingboardGuideText(title, description);
+        Root_CuttingboardGuideBubble.SetActive(true);
+        SetCuttingboardGuidePointerActive(true);
+        UpdateGuideArrowLayout();
+
+        if (Button_CuttingboardGuideConfirm != null)
+        {
+            Button_CuttingboardGuideConfirm.onClick.RemoveAllListeners();
+            Button_CuttingboardGuideConfirm.onClick.AddListener(delegate
+            {
+                HideCuttingboardGuideBubble();
+                onConfirm?.Invoke();
+            });
+        }
+    }
+
     private void GetCauldronGuideData(out string title, out string description)
     {
         OO_Tutorial tutorialData = OOTechGameDataManager.Inst != null ? OOTechGameDataManager.Inst.GetTutorialData(_cauldronTutorialId) : null;
@@ -604,6 +958,22 @@ public class OOTechCookingGroupController : MonoBehaviour
     /// <summary>
     /// 말풍선 제목과 본문 텍스트를 적용합니다.
     /// </summary>
+    private void GetCuttingboardGuideData(out string title, out string description)
+    {
+        OO_Tutorial tutorialData = OOTechGameDataManager.Inst != null ? OOTechGameDataManager.Inst.GetTutorialData(_cuttingboardTutorialId) : null;
+        title = tutorialData != null && !string.IsNullOrEmpty(tutorialData.Title) ? tutorialData.Title : string.Empty;
+
+        if (string.IsNullOrEmpty(title) && tutorialData != null)
+            title = tutorialData.Name;
+
+        if (string.IsNullOrEmpty(title))
+            title = "도마";
+
+        description = tutorialData != null && !string.IsNullOrEmpty(tutorialData.Description)
+            ? tutorialData.Description
+            : "채소는 도마에 올려놓으세요.\n가마솥에 쌀, 도마에 채소가 준비되면 채소죽이 완성됩니다.";
+    }
+
     private void ApplyGuideText(string title, string description)
     {
         if (Root_GuideBubble != null)
@@ -616,6 +986,18 @@ public class OOTechCookingGroupController : MonoBehaviour
             Text_GuideBody.text = description;
     }
 
+    private void ApplyCuttingboardGuideText(string title, string description)
+    {
+        if (Root_CuttingboardGuideBubble != null)
+            Root_CuttingboardGuideBubble.SetActive(true);
+
+        if (Text_CuttingboardGuideTitle != null)
+            Text_CuttingboardGuideTitle.text = title;
+
+        if (Text_CuttingboardGuideBody != null)
+            Text_CuttingboardGuideBody.text = description;
+    }
+
     /// <summary>
     /// 요리 성공처럼 다음 컷으로 바로 넘어가야 할 때 현재 안내 말풍선과 화살표를 정리합니다.
     /// </summary>
@@ -626,20 +1008,32 @@ public class OOTechCookingGroupController : MonoBehaviour
         if (Root_GuideBubble != null)
             Root_GuideBubble.SetActive(false);
 
+        if (Root_CuttingboardGuideBubble != null)
+            Root_CuttingboardGuideBubble.SetActive(false);
+
         SetGuidePointerActive(false);
+        SetCuttingboardGuidePointerActive(false);
+    }
+
+    private void HideCuttingboardGuideBubble()
+    {
+        if (Root_CuttingboardGuideBubble != null)
+            Root_CuttingboardGuideBubble.SetActive(false);
+
+        SetCuttingboardGuidePointerActive(false);
     }
 
     /// <summary>
-    /// 씬에 배치된 인벤토리/가마솥 화살표를 켜고 위치를 갱신합니다.
+    /// 씬에 배치된 가마솥 화살표만 켜고 위치를 갱신합니다.
     /// </summary>
     private void CreateGuidePointersIfNeeded()
     {
         if (Rect_Root == null)
             return;
 
-        if (Root_InventoryGuideArrow == null || Root_CauldronGuideArrow == null)
+        if (Root_CauldronGuideArrow == null)
         {
-            Debug.LogWarning("[OOTechCookingGroupController] Cooking guide arrow objects are missing from CookingUIGroup.");
+            Debug.LogWarning("[OOTechCookingGroupController] Text_CauldronGuideArrow is missing from CookingUIGroup.");
             return;
         }
 
@@ -650,23 +1044,159 @@ public class OOTechCookingGroupController : MonoBehaviour
     private void SetGuidePointerActive(bool isActive)
     {
         if (Root_InventoryGuideArrow != null)
-            Root_InventoryGuideArrow.SetActive(isActive);
+            Root_InventoryGuideArrow.SetActive(false);
 
         if (Root_CauldronGuideArrow != null)
+        {
             Root_CauldronGuideArrow.SetActive(isActive);
+
+            if (isActive)
+                StartGuideArrowBlink(Root_CauldronGuideArrow, ref _cauldronArrowBlinkCoroutine);
+            else
+                StopGuideArrowBlink(Root_CauldronGuideArrow, ref _cauldronArrowBlinkCoroutine);
+        }
+    }
+
+    private void SetCuttingboardGuidePointerActive(bool isActive)
+    {
+        if (Root_CuttingboardGuideArrow == null)
+            return;
+
+        Root_CuttingboardGuideArrow.SetActive(isActive);
+
+        if (isActive)
+            StartGuideArrowBlink(Root_CuttingboardGuideArrow, ref _cuttingboardArrowBlinkCoroutine);
+        else
+            StopGuideArrowBlink(Root_CuttingboardGuideArrow, ref _cuttingboardArrowBlinkCoroutine);
     }
 
     private void UpdateGuideArrowLayout()
     {
-        if (Root_CauldronGuideArrow == null || Rect_Cauldron == null)
+        if (Root_CauldronGuideArrow != null && TryGetCauldronTopLocalPoint(out Vector2 cauldronTopLocalPoint))
+        {
+            RectTransform cauldronArrowRect = Root_CauldronGuideArrow.transform as RectTransform;
+
+            if (cauldronArrowRect != null)
+            {
+                cauldronArrowRect.anchorMin = new Vector2(0.5f, 0.5f);
+                cauldronArrowRect.anchorMax = new Vector2(0.5f, 0.5f);
+                cauldronArrowRect.pivot = new Vector2(0.5f, 0.5f);
+                cauldronArrowRect.anchoredPosition = cauldronTopLocalPoint + new Vector2(0f, 62f);
+            }
+        }
+        else if (Root_CauldronGuideArrow != null && Rect_Cauldron != null)
+        {
+            RectTransform cauldronArrowRect = Root_CauldronGuideArrow.transform as RectTransform;
+
+            if (cauldronArrowRect != null)
+                cauldronArrowRect.anchoredPosition = Rect_Cauldron.anchoredPosition + new Vector2(0f, Rect_Cauldron.sizeDelta.y * 0.5f + 72f);
+        }
+
+        if (Root_CuttingboardGuideArrow != null && TryGetCuttingboardTopLocalPoint(out Vector2 cuttingboardTopLocalPoint))
+        {
+            RectTransform cuttingboardArrowRect = Root_CuttingboardGuideArrow.transform as RectTransform;
+
+            if (cuttingboardArrowRect != null)
+            {
+                cuttingboardArrowRect.anchorMin = new Vector2(0.5f, 0.5f);
+                cuttingboardArrowRect.anchorMax = new Vector2(0.5f, 0.5f);
+                cuttingboardArrowRect.pivot = new Vector2(0.5f, 0.5f);
+                cuttingboardArrowRect.anchoredPosition = cuttingboardTopLocalPoint + new Vector2(0f, 62f);
+            }
+        }
+        else if (Root_CuttingboardGuideArrow != null && Rect_Cuttingboard != null)
+        {
+            RectTransform cuttingboardArrowRect = Root_CuttingboardGuideArrow.transform as RectTransform;
+
+            if (cuttingboardArrowRect != null)
+                cuttingboardArrowRect.anchoredPosition = Rect_Cuttingboard.anchoredPosition + new Vector2(0f, Rect_Cuttingboard.sizeDelta.y * 0.5f + 72f);
+        }
+    }
+
+    /// <summary>
+    /// 실제 Cauldron 오브젝트의 윗부분을 UI 로컬 좌표로 바꿉니다.
+    /// 화살표가 드롭 영역이 아니라 가마솥 소품 바로 위를 가리키게 하는 기준점입니다.
+    /// </summary>
+    private bool TryGetCauldronTopLocalPoint(out Vector2 localPoint)
+    {
+        localPoint = Vector2.zero;
+
+        if (Transform_Cauldron == null || Rect_Root == null)
+            return false;
+
+        ResolveCameraReference();
+
+        if (Camera_Main == null)
+            return false;
+
+        Bounds bounds = GetCauldronBounds();
+        Vector3 worldPoint = new Vector3(bounds.center.x, bounds.max.y, bounds.center.z);
+        Vector3 screenPoint = Camera_Main.WorldToScreenPoint(worldPoint);
+        return RectTransformUtility.ScreenPointToLocalPointInRectangle(Rect_Root, screenPoint, null, out localPoint);
+    }
+
+    private bool TryGetCuttingboardTopLocalPoint(out Vector2 localPoint)
+    {
+        localPoint = Vector2.zero;
+
+        if (Transform_Cuttingboard == null || Rect_Root == null)
+            return false;
+
+        ResolveCameraReference();
+
+        if (Camera_Main == null)
+            return false;
+
+        Bounds bounds = GetCuttingboardBounds();
+        Vector3 worldPoint = new Vector3(bounds.center.x, bounds.max.y, bounds.center.z);
+        Vector3 screenPoint = Camera_Main.WorldToScreenPoint(worldPoint);
+        return RectTransformUtility.ScreenPointToLocalPointInRectangle(Rect_Root, screenPoint, null, out localPoint);
+    }
+
+    private void StartGuideArrowBlink(GameObject arrowObject, ref Coroutine blinkCoroutine)
+    {
+        if (arrowObject == null || blinkCoroutine != null || !gameObject.activeInHierarchy)
             return;
 
-        RectTransform arrowRect = Root_CauldronGuideArrow.transform as RectTransform;
+        TextMeshProUGUI arrowText = arrowObject.GetComponent<TextMeshProUGUI>();
 
-        if (arrowRect == null)
+        if (arrowText == null)
             return;
 
-        arrowRect.anchoredPosition = Rect_Cauldron.anchoredPosition + new Vector2(0f, Rect_Cauldron.sizeDelta.y * 0.5f + 72f);
+        blinkCoroutine = StartCoroutine(BlinkGuideArrowRoutine(arrowText));
+    }
+
+    private IEnumerator BlinkGuideArrowRoutine(TextMeshProUGUI arrowText)
+    {
+        while (arrowText != null && arrowText.gameObject.activeSelf)
+        {
+            Color arrowColor = arrowText.color;
+            float wave = (Mathf.Sin(Time.unscaledTime * _guideArrowBlinkSpeed) + 1f) * 0.5f;
+            arrowColor.a = Mathf.Lerp(_guideArrowMinimumAlpha, 1f, wave);
+            arrowText.color = arrowColor;
+            yield return null;
+        }
+    }
+
+    private void StopGuideArrowBlink(GameObject arrowObject, ref Coroutine blinkCoroutine)
+    {
+        if (blinkCoroutine != null)
+        {
+            StopCoroutine(blinkCoroutine);
+            blinkCoroutine = null;
+        }
+
+        if (arrowObject == null)
+            return;
+
+        TextMeshProUGUI arrowText = arrowObject.GetComponent<TextMeshProUGUI>();
+
+        if (arrowText == null)
+            return;
+
+        Color arrowColor = arrowText.color;
+        arrowColor.a = 1f;
+        arrowText.color = arrowColor;
     }
 
     /// <summary>
@@ -816,6 +1346,23 @@ public class OOTechCookingGroupController : MonoBehaviour
             yield break;
         }
 
+        OO_Dialogue moranDialogueData = OOTechGameDataManager.Inst != null ? OOTechGameDataManager.Inst.GetDialogueData(_moranCookingCompleteDialogueId) : null;
+
+        if (moranDialogueData != null)
+            yield return ShowDialogueDataAndWait(moranDialogueData);
+
+        yield return ShowDialogueDataAndWait(dialogueData);
+        CloseDialogueGroup();
+        NotifyRoadHUDCookingQuestComplete();
+        ShowCookingMissionCompleteGuide();
+        _isCookingCompleteDialoguePlaying = false;
+    }
+
+    private IEnumerator ShowDialogueDataAndWait(OO_Dialogue dialogueData)
+    {
+        if (dialogueData == null || UI_Dialogue == null)
+            yield break;
+
         bool isDone = false;
         UI_Dialogue.ShowDialogue(dialogueData, delegate
         {
@@ -823,10 +1370,6 @@ public class OOTechCookingGroupController : MonoBehaviour
         });
 
         yield return new WaitUntil(() => isDone);
-        CloseDialogueGroup();
-        NotifyRoadHUDCookingQuestComplete();
-        ShowCookingMissionCompleteGuide();
-        _isCookingCompleteDialoguePlaying = false;
     }
 
     /// <summary>
@@ -1118,16 +1661,16 @@ public class OOTechCookingGroupController : MonoBehaviour
                 return cookData.Name;
         }
 
-        if (itemDataId == "Ing_Rice_01")
+        if (itemDataId == _riceIngredientId)
             return "쌀";
 
-        if (itemDataId == "Ing_Veggie_01")
+        if (itemDataId == _vegetableIngredientId)
             return "채소";
 
-        if (itemDataId == "Ing_Pumpkin_01")
+        if (itemDataId == _pumpkinIngredientId)
             return "호박";
 
-        if (itemDataId == "OO_Cook_1")
+        if (itemDataId == "OO_VegetableSoup_1")
             return "채소죽";
 
         return string.IsNullOrEmpty(itemDataId) ? "알 수 없는 아이템" : itemDataId;

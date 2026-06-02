@@ -1,4 +1,4 @@
-%YAML 1.1
+﻿%YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
 --- !u!29 &1
 OcclusionCullingSettings:
@@ -11052,7 +11052,7 @@ GameObject:
   - component: {fileID: 261927382}
   - component: {fileID: 261927381}
   m_Layer: 0
-  m_Name: Item_VegetablePorridge_01
+  m_Name: Item_VegetableSoup_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11085,9 +11085,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d74f2dae9c5222147b50851d6c37c95f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OOTechItemDefinitionObject
-  _itemDataId: OO_Cook_1
+  _itemDataId: OO_VegetableSoup_1
   _displayName: "\uCC44\uC18C\uC8FD"
-  _iconResourcePath: OO_MFC/Items/OO_Cook_1
+  _iconResourcePath: OO_MFC/Items/OO_VegetableSoup_1
   Sprite_Icon: {fileID: 0}
   Renderer_Preview: {fileID: 261927382}
   Image_Preview: {fileID: 0}
@@ -24125,7 +24125,7 @@ GameObject:
   - component: {fileID: 516882006}
   - component: {fileID: 516882005}
   m_Layer: 0
-  m_Name: Item_VegetablePorridge_01
+  m_Name: Item_VegetableSoup_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -24158,9 +24158,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d74f2dae9c5222147b50851d6c37c95f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OOTechItemDefinitionObject
-  _itemDataId: OO_Cook_1
+  _itemDataId: OO_VegetableSoup_1
   _displayName: "\uCC44\uC18C\uC8FD"
-  _iconResourcePath: OO_MFC/Items/OO_Cook_1
+  _iconResourcePath: OO_MFC/Items/OO_VegetableSoup_1
   Sprite_Icon: {fileID: 0}
   Renderer_Preview: {fileID: 516882006}
   Image_Preview: {fileID: 0}
@@ -55464,7 +55464,7 @@ GameObject:
   - component: {fileID: 1138754132}
   - component: {fileID: 1138754131}
   m_Layer: 0
-  m_Name: Item_VegetablePorridge_01
+  m_Name: Item_VegetableSoup_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -55497,9 +55497,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d74f2dae9c5222147b50851d6c37c95f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OOTechItemDefinitionObject
-  _itemDataId: OO_Cook_1
+  _itemDataId: OO_VegetableSoup_1
   _displayName: "\uCC44\uC18C\uC8FD"
-  _iconResourcePath: OO_MFC/Items/OO_Cook_1
+  _iconResourcePath: OO_MFC/Items/OO_VegetableSoup_1
   Sprite_Icon: {fileID: 0}
   Renderer_Preview: {fileID: 1138754132}
   Image_Preview: {fileID: 0}
@@ -88395,7 +88395,7 @@ GameObject:
   - component: {fileID: 1855778023}
   - component: {fileID: 1855778022}
   m_Layer: 0
-  m_Name: Item_VegetablePorridge_01
+  m_Name: Item_VegetableSoup_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -88428,9 +88428,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d74f2dae9c5222147b50851d6c37c95f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OOTechItemDefinitionObject
-  _itemDataId: OO_Cook_1
+  _itemDataId: OO_VegetableSoup_1
   _displayName: "\uCC44\uC18C\uC8FD"
-  _iconResourcePath: OO_MFC/Items/OO_Cook_1
+  _iconResourcePath: OO_MFC/Items/OO_VegetableSoup_1
   Sprite_Icon: {fileID: 0}
   Renderer_Preview: {fileID: 1855778023}
   Image_Preview: {fileID: 0}
@@ -98694,7 +98694,7 @@ GameObject:
   - component: {fileID: 2112763893}
   - component: {fileID: 2112763892}
   m_Layer: 0
-  m_Name: Item_VegetablePorridge_01
+  m_Name: Item_VegetableSoup_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -98727,9 +98727,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d74f2dae9c5222147b50851d6c37c95f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OOTechItemDefinitionObject
-  _itemDataId: OO_Cook_1
+  _itemDataId: OO_VegetableSoup_1
   _displayName: "\uCC44\uC18C\uC8FD"
-  _iconResourcePath: OO_MFC/Items/OO_Cook_1
+  _iconResourcePath: OO_MFC/Items/OO_VegetableSoup_1
   Sprite_Icon: {fileID: 0}
   Renderer_Preview: {fileID: 2112763893}
   Image_Preview: {fileID: 0}

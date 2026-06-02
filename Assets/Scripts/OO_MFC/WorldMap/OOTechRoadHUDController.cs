@@ -52,6 +52,10 @@ public class OOTechRoadHUDController : MonoBehaviour
     [SerializeField] private float _newBadgeBlinkSpeed = 7f;
     [SerializeField] private float _newBadgeMinimumAlpha = 0.25f;
 
+    [Header("Mission Effect")]
+    [SerializeField] private float _missionCompleteHoldDuration = 0.25f;
+    [SerializeField] private float _missionCompleteFadeDuration = 0.85f;
+
     private GameObject Root_HUD;
     private RectTransform Rect_HUD;
     private Canvas Canvas_HUD;
@@ -87,6 +91,7 @@ public class OOTechRoadHUDController : MonoBehaviour
     private Button Button_MainMenuConfirmYes;
     private Button Button_MainMenuConfirmNo;
     private OOTechCookingGroupController Controller_CookingOverlay;
+    private UnityAction _guideClickAction;
 
     private bool _isDefaultInventoryPrepared;
     private bool _isCookingUnlocked;
@@ -94,9 +99,12 @@ public class OOTechRoadHUDController : MonoBehaviour
     private bool _isCookingOverlayOpen;
     private bool _isCookingQuestActive;
     private bool _isCookingQuestComplete;
+    private bool _isCookingMissionRemoved;
+    private float _missionCompleteEffectAlpha = 1f;
     private Coroutine _inventoryNewBadgeCoroutine;
     private Coroutine _codexNewBadgeCoroutine;
     private Coroutine _missionNewBadgeCoroutine;
+    private Coroutine _missionCompleteEffectCoroutine;
 
     public bool IsCookingUnlocked => _isCookingUnlocked;
     public bool IsOverlayOpen => _isOverlayOpen;
@@ -121,6 +129,7 @@ public class OOTechRoadHUDController : MonoBehaviour
 
         PrepareDefaultInventoryItem();
         CreateHUDCanvasIfNeeded();
+        SetHUDVisible(true);
         ApplyBottomHUDLayout();
         BindHUDViewReferences();
         ApplyMissionPanelBottomRightLayoutIfNeeded();
@@ -133,6 +142,7 @@ public class OOTechRoadHUDController : MonoBehaviour
         SetCodexNewBadgeActive(false);
         SetMissionNewBadgeActive(false);
         RefreshCookingButtonView();
+        SetBottomHUDActive(true);
     }
 
     /// <summary>
@@ -186,18 +196,32 @@ public class OOTechRoadHUDController : MonoBehaviour
     {
         _isCookingQuestActive = true;
         _isCookingQuestComplete = false;
+        _isCookingMissionRemoved = false;
+        _missionCompleteEffectAlpha = 1f;
+        StopMissionCompleteEffect();
         RefreshMissionText();
         SetMissionNewBadgeActive(true);
     }
 
     /// <summary>
-    /// 채소죽 제작이 끝나면 첫 번째 임무 줄에 완료 체크를 붙입니다.
+    /// 채소죽 제작이 끝나면 첫 번째 임무 줄에 취소선과 페이드아웃 연출을 재생합니다.
     /// </summary>
     public void RequestCompleteCookingQuest()
     {
         _isCookingQuestActive = true;
         _isCookingQuestComplete = true;
-        RefreshMissionText();
+
+        if (isActiveAndEnabled)
+        {
+            StopMissionCompleteEffect();
+            _missionCompleteEffectCoroutine = StartCoroutine(PlayMissionCompleteEffectRoutine());
+        }
+        else
+        {
+            _isCookingMissionRemoved = true;
+            RefreshMissionText();
+        }
+
         SetMissionNewBadgeActive(true);
     }
 
@@ -243,6 +267,7 @@ public class OOTechRoadHUDController : MonoBehaviour
     /// </summary>
     private void Update()
     {
+        UpdateHUDGuideClickInput();
         RecoverExternalOverlayCloseIfNeeded();
     }
 
@@ -283,6 +308,8 @@ public class OOTechRoadHUDController : MonoBehaviour
     /// </summary>
     public void CloseHUDGuide()
     {
+        _guideClickAction = null;
+
         if (Root_GuideOverlay != null)
             Root_GuideOverlay.SetActive(false);
     }
@@ -438,6 +465,7 @@ public class OOTechRoadHUDController : MonoBehaviour
         Text_GuideTitle = View_HUD.GuideTitleText;
         Text_GuideBody = View_HUD.GuideBodyText;
         Button_GuideNext = View_HUD.GuideNextButton;
+        DisableLegacyGuideNextButtonObject();
 
         Root_ConfirmPopup = View_HUD.MainMenuConfirmPopup;
         Text_MainMenuConfirmMessage = View_HUD.MainMenuConfirmMessageText;
@@ -821,11 +849,66 @@ public class OOTechRoadHUDController : MonoBehaviour
         if (Text_MissionContent == null)
             return;
 
-        string cookingMissionText = _isCookingQuestActive
-            ? "○ 배고픈 모란과 동료들을 위해 요리하세요." + (_isCookingQuestComplete ? " \u2713" : string.Empty) + "\n"
-            : string.Empty;
+        Text_MissionContent.richText = true;
+        string cookingMissionText = CreateCookingMissionText();
 
         Text_MissionContent.text = "현재 임무\n" + cookingMissionText + "○ 동쪽의 마을로 가시오";
+    }
+
+    /// <summary>
+    /// 요리 임무 줄의 현재 표시 상태를 만듭니다.
+    /// 완료 연출 중에는 취소선과 알파값으로 첫 번째 줄만 점점 사라지게 합니다.
+    /// </summary>
+    private string CreateCookingMissionText()
+    {
+        if (!_isCookingQuestActive || _isCookingMissionRemoved)
+            return string.Empty;
+
+        string missionText = "○ 배고픈 모란과 동료들을 위해 요리하세요.";
+
+        if (!_isCookingQuestComplete)
+            return missionText + "\n";
+
+        string alphaHex = Mathf.Clamp(Mathf.RoundToInt(_missionCompleteEffectAlpha * 255f), 0, 255).ToString("X2");
+        return $"<color=#FFFFFF{alphaHex}><s>{missionText}</s></color>\n";
+    }
+
+    /// <summary>
+    /// 완료된 임무 줄을 잠깐 보여준 뒤 천천히 지우고, 남은 임무가 위로 올라오게 합니다.
+    /// </summary>
+    private IEnumerator PlayMissionCompleteEffectRoutine()
+    {
+        _isCookingMissionRemoved = false;
+        _missionCompleteEffectAlpha = 1f;
+        RefreshMissionText();
+
+        if (_missionCompleteHoldDuration > 0f)
+            yield return new WaitForSecondsRealtime(_missionCompleteHoldDuration);
+
+        float elapsedTime = 0f;
+        float duration = Mathf.Max(0.05f, _missionCompleteFadeDuration);
+
+        while (elapsedTime < duration)
+        {
+            elapsedTime += Time.unscaledDeltaTime;
+            _missionCompleteEffectAlpha = Mathf.Lerp(1f, 0f, elapsedTime / duration);
+            RefreshMissionText();
+            yield return null;
+        }
+
+        _missionCompleteEffectAlpha = 1f;
+        _isCookingMissionRemoved = true;
+        _missionCompleteEffectCoroutine = null;
+        RefreshMissionText();
+    }
+
+    private void StopMissionCompleteEffect()
+    {
+        if (_missionCompleteEffectCoroutine == null)
+            return;
+
+        StopCoroutine(_missionCompleteEffectCoroutine);
+        _missionCompleteEffectCoroutine = null;
     }
 
     /// <summary>
@@ -897,7 +980,7 @@ public class OOTechRoadHUDController : MonoBehaviour
         if (ingredientDataId == "Ing_Pumpkin_01")
             return "호박";
 
-        if (ingredientDataId == "OO_Cook_1")
+        if (ingredientDataId == "OO_VegetableSoup_1")
             return "채소죽";
 
         return string.IsNullOrEmpty(ingredientDataId) ? "알 수 없는 아이템" : ingredientDataId;
@@ -1076,6 +1159,8 @@ public class OOTechRoadHUDController : MonoBehaviour
     {
         _isCookingOverlayOpen = true;
         SetHUDVisible(true);
+        CloseHUDGuide();
+        HideMainMenuConfirmPopup();
         ApplyCookingSupportPanelLayout();
 
         if (Canvas_HUD != null)
@@ -1327,15 +1412,96 @@ public class OOTechRoadHUDController : MonoBehaviour
         if (Text_GuideBody != null)
             Text_GuideBody.text = string.IsNullOrEmpty(description) ? "이 기능은 나중에 데이터로 교체됩니다." : description;
 
-        if (Button_GuideNext != null)
+        UnityAction guideNextAction = delegate
         {
-            Button_GuideNext.onClick.RemoveAllListeners();
-            Button_GuideNext.onClick.AddListener(delegate
-            {
-                CloseHUDGuide();
-                onNext?.Invoke();
-            });
+            _guideClickAction = null;
+            CloseHUDGuide();
+            onNext?.Invoke();
+        };
+
+        _guideClickAction = guideNextAction;
+        DisableLegacyGuideNextButtonObject();
+        BindGuideClickArea(ResolveGuideTextPanelButton(), guideNextAction);
+        BindGuideClickArea(ResolveGuideOverlayButton(), guideNextAction);
+    }
+
+    private void UpdateHUDGuideClickInput()
+    {
+        if (_guideClickAction == null || Root_GuideOverlay == null || !Root_GuideOverlay.activeInHierarchy)
+            return;
+
+        if (!Input.GetMouseButtonDown(0))
+            return;
+
+        UnityAction guideClickAction = _guideClickAction;
+        _guideClickAction = null;
+        guideClickAction.Invoke();
+    }
+
+    private Button ResolveGuideTextPanelButton()
+    {
+        if (Rect_GuideTextPanel == null)
+            return null;
+
+        Button guidePanelButton = Rect_GuideTextPanel.GetComponent<Button>();
+
+        if (guidePanelButton == null)
+            guidePanelButton = Rect_GuideTextPanel.gameObject.AddComponent<Button>();
+
+        Graphic targetGraphic = Rect_GuideTextPanel.GetComponent<Graphic>();
+
+        if (targetGraphic != null)
+        {
+            targetGraphic.raycastTarget = true;
+            guidePanelButton.targetGraphic = targetGraphic;
         }
+
+        return guidePanelButton;
+    }
+
+    private Button ResolveGuideOverlayButton()
+    {
+        if (Root_GuideOverlay == null)
+            return null;
+
+        Button guideOverlayButton = Root_GuideOverlay.GetComponent<Button>();
+
+        if (guideOverlayButton == null)
+            guideOverlayButton = Root_GuideOverlay.AddComponent<Button>();
+
+        Graphic targetGraphic = Root_GuideOverlay.GetComponent<Graphic>();
+
+        if (targetGraphic != null)
+        {
+            targetGraphic.raycastTarget = true;
+            guideOverlayButton.targetGraphic = targetGraphic;
+        }
+
+        return guideOverlayButton;
+    }
+
+    private void BindGuideClickArea(Button guideClickButton, UnityAction guideNextAction)
+    {
+        if (guideClickButton == null || guideNextAction == null)
+            return;
+
+        guideClickButton.onClick.RemoveAllListeners();
+        guideClickButton.onClick.AddListener(guideNextAction);
+    }
+
+    /// <summary>
+    /// 예전 Button_GuideNext 소품은 숨기고, HUD 가이드는 패널이나 배경 클릭으로만 다음 큐로 넘깁니다.
+    /// </summary>
+    private void DisableLegacyGuideNextButtonObject()
+    {
+        if (Button_GuideNext == null)
+            return;
+
+        if (Rect_GuideTextPanel != null && Button_GuideNext.transform == Rect_GuideTextPanel)
+            return;
+
+        Button_GuideNext.onClick.RemoveAllListeners();
+        Button_GuideNext.gameObject.SetActive(false);
     }
 
     private Vector2 GetTargetLocalPosition(RectTransform targetRect)

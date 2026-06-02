@@ -3,7 +3,7 @@
     "Id": "OO_Recipe_1",
     "Name": "채소죽 만들기",
     "Description": "쌀과 채소를 함께 넣고 오래 끓여 굶주린 이들에게 나눌 채소죽을 만든다.",
-    "ResultItemId": "OO_Cook_1",
+    "ResultItemId": "OO_VegetableSoup_1",
     "RequiredIngredients": "Ing_Rice_01|Ing_Veggie_01",
     "MaxDuplicateCount": 1,
     "RequiredTool": "가마솥"

@@ -22,5 +22,13 @@
     "IconPath": null,
     "Grade": "일반",
     "MaxStackCount": 99
+  },
+  {
+    "Id": null,
+    "Name": "조기",
+    "Description": null,
+    "IconPath": null,
+    "Grade": null,
+    "MaxStackCount": null
   }
 ]

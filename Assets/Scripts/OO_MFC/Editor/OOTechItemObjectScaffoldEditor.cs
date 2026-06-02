@@ -19,9 +19,10 @@ public static class OOTechItemObjectScaffoldEditor
 
     private static readonly ItemDefinitionScaffoldData[] _itemDefinitionDataArray =
     {
-        new ItemDefinitionScaffoldData("Item_Rice_01", "Ing_Rice_01", "쌀", "OO_MFC/Items/Ing_Rice_01", new Vector3(-2f, -2.6f, 0f)),
-        new ItemDefinitionScaffoldData("Item_Vegetable_01", "Ing_Pumpkin_01", "채소", "OO_MFC/Items/Ing_Pumpkin_01", new Vector3(-1.2f, -2.6f, 0f)),
-        new ItemDefinitionScaffoldData("Item_VegetablePorridge_01", "OO_Cook_1", "채소죽", "OO_MFC/Items/OO_Cook_1", new Vector3(-0.4f, -2.6f, 0f))
+        new ItemDefinitionScaffoldData("Item_Rice_01", "Ing_Rice_01", "쌀", "OO_MFC/Items/Ing_Rice_01", "Assets/Images/Food/Rice.png", new Vector3(-2f, -2.6f, 0f)),
+        new ItemDefinitionScaffoldData("Item_Vegetable_01", "Ing_Veggie_01", "채소", "OO_MFC/Items/Ing_Veggie_01", "Assets/Images/Food/Vegetable.png", new Vector3(-1.2f, -2.6f, 0f)),
+        new ItemDefinitionScaffoldData("Item_Pumpkin_01", "Ing_Pumpkin_01", "호박", "OO_MFC/Items/Ing_Pumpkin_01", "Assets/Images/Food/Pumpkin.png", new Vector3(-0.4f, -2.6f, 0f)),
+        new ItemDefinitionScaffoldData("Item_VegetableSoup_01", "OO_VegetableSoup_1", "채소죽", "OO_MFC/Items/OO_VegetableSoup_1", "Assets/Images/Food/VegetableSoup.png", new Vector3(0.4f, -2.6f, 0f))
     };
 
     private static readonly string[] _roadGroupNameArray =
@@ -178,6 +179,16 @@ public static class OOTechItemObjectScaffoldEditor
         }
 
         definitionObject.RequestSetupDefinition(data.ItemDataId, data.DisplayName, data.IconResourcePath);
+        Sprite iconSprite = AssetDatabase.LoadAssetAtPath<Sprite>(data.IconAssetPath);
+
+        if (iconSprite != null)
+        {
+            SerializedObject serializedDefinition = new SerializedObject(definitionObject);
+            isChanged |= SetObjectProperty(serializedDefinition, "Sprite_Icon", iconSprite);
+            spriteRenderer.sprite = iconSprite;
+            definitionObject.RequestRefreshPreview();
+        }
+
         EditorUtility.SetDirty(definitionObject);
         EditorUtility.SetDirty(itemObject);
         return itemObject;
@@ -352,14 +363,16 @@ public static class OOTechItemObjectScaffoldEditor
         public readonly string ItemDataId;
         public readonly string DisplayName;
         public readonly string IconResourcePath;
+        public readonly string IconAssetPath;
         public readonly Vector3 LocalPosition;
 
-        public ItemDefinitionScaffoldData(string objectName, string itemDataId, string displayName, string iconResourcePath, Vector3 localPosition)
+        public ItemDefinitionScaffoldData(string objectName, string itemDataId, string displayName, string iconResourcePath, string iconAssetPath, Vector3 localPosition)
         {
             ObjectName = objectName;
             ItemDataId = itemDataId;
             DisplayName = displayName;
             IconResourcePath = iconResourcePath;
+            IconAssetPath = iconAssetPath;
             LocalPosition = localPosition;
         }
     }

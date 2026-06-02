@@ -16,13 +16,21 @@ public class OOTechCookingGroupView : MonoBehaviour
     [SerializeField] private RectTransform Rect_CauldronDropArea;
     [SerializeField] private TextMeshProUGUI Text_PotContent;
 
+    [Header("Cuttingboard")]
+    [SerializeField] private RectTransform Rect_CuttingboardDropArea;
+
     [Header("Guide")]
     [SerializeField] private GameObject Root_GuideBubble;
     [SerializeField] private TextMeshProUGUI Text_GuideTitle;
     [SerializeField] private TextMeshProUGUI Text_GuideBody;
     [SerializeField] private Button Button_GuideConfirm;
+    [SerializeField] private GameObject Root_CuttingboardGuideBubble;
+    [SerializeField] private TextMeshProUGUI Text_CuttingboardGuideTitle;
+    [SerializeField] private TextMeshProUGUI Text_CuttingboardGuideBody;
+    [SerializeField] private Button Button_CuttingboardGuideConfirm;
     [SerializeField] private GameObject Root_InventoryGuideArrow;
     [SerializeField] private GameObject Root_CauldronGuideArrow;
+    [SerializeField] private GameObject Root_CuttingboardGuideArrow;
 
     [Header("Status")]
     [SerializeField] private TextMeshProUGUI Text_Status;
@@ -33,12 +41,18 @@ public class OOTechCookingGroupView : MonoBehaviour
     public RectTransform RootRect => Rect_Root;
     public RectTransform CauldronDropAreaRect => Rect_CauldronDropArea;
     public TextMeshProUGUI PotContentText => Text_PotContent;
+    public RectTransform CuttingboardDropAreaRect => Rect_CuttingboardDropArea;
     public GameObject GuideBubble => Root_GuideBubble;
     public TextMeshProUGUI GuideTitleText => Text_GuideTitle;
     public TextMeshProUGUI GuideBodyText => Text_GuideBody;
     public Button GuideConfirmButton => Button_GuideConfirm;
+    public GameObject CuttingboardGuideBubble => Root_CuttingboardGuideBubble;
+    public TextMeshProUGUI CuttingboardGuideTitleText => Text_CuttingboardGuideTitle;
+    public TextMeshProUGUI CuttingboardGuideBodyText => Text_CuttingboardGuideBody;
+    public Button CuttingboardGuideConfirmButton => Button_CuttingboardGuideConfirm;
     public GameObject InventoryGuideArrow => Root_InventoryGuideArrow;
     public GameObject CauldronGuideArrow => Root_CauldronGuideArrow;
+    public GameObject CuttingboardGuideArrow => Root_CuttingboardGuideArrow;
     public TextMeshProUGUI StatusText => Text_Status;
     public RectTransform DragGhostTemplateRect => Rect_DragGhostTemplate;
 
@@ -52,12 +66,18 @@ public class OOTechCookingGroupView : MonoBehaviour
 
         Rect_CauldronDropArea = ResolveRect(Rect_CauldronDropArea, "Rect_CauldronDropArea");
         Text_PotContent = ResolveText(Text_PotContent, "Text_PotContent");
+        Rect_CuttingboardDropArea = ResolveRect(Rect_CuttingboardDropArea, "Rect_CuttingboardDropArea");
         Root_GuideBubble = ResolveGameObject(Root_GuideBubble, "Panel_CauldronGuide");
-        Text_GuideTitle = ResolveText(Text_GuideTitle, "Text_GuideTitle");
-        Text_GuideBody = ResolveText(Text_GuideBody, "Text_GuideBody");
-        Button_GuideConfirm = ResolveButton(Button_GuideConfirm, "Button_GuideConfirm");
+        Text_GuideTitle = ResolveTextInRoot(Text_GuideTitle, Root_GuideBubble, "Text_GuideTitle");
+        Text_GuideBody = ResolveTextInRoot(Text_GuideBody, Root_GuideBubble, "Text_GuideBody");
+        Button_GuideConfirm = ResolveButtonInRoot(Button_GuideConfirm, Root_GuideBubble, "Button_GuideConfirm");
+        Root_CuttingboardGuideBubble = ResolveGameObject(Root_CuttingboardGuideBubble, "Panel_CuttingboardGuide");
+        Text_CuttingboardGuideTitle = ResolveTextInRoot(Text_CuttingboardGuideTitle, Root_CuttingboardGuideBubble, "Text_GuideTitle");
+        Text_CuttingboardGuideBody = ResolveTextInRoot(Text_CuttingboardGuideBody, Root_CuttingboardGuideBubble, "Text_GuideBody");
+        Button_CuttingboardGuideConfirm = ResolveButtonInRoot(Button_CuttingboardGuideConfirm, Root_CuttingboardGuideBubble, "Button_GuideConfirm");
         Root_InventoryGuideArrow = ResolveGameObject(Root_InventoryGuideArrow, "Text_InventoryGuideArrow");
         Root_CauldronGuideArrow = ResolveGameObject(Root_CauldronGuideArrow, "Text_CauldronGuideArrow");
+        Root_CuttingboardGuideArrow = ResolveGameObject(Root_CuttingboardGuideArrow, "Text_CuttingboardGuideArrow");
         Text_Status = ResolveText(Text_Status, "Text_Status");
         Rect_DragGhostTemplate = ResolveRect(Rect_DragGhostTemplate, "Slot_DragGhostTemplate");
     }
@@ -89,12 +109,30 @@ public class OOTechCookingGroupView : MonoBehaviour
         return targetTransform != null ? targetTransform.GetComponent<Button>() : null;
     }
 
+    private Button ResolveButtonInRoot(Button currentButton, GameObject rootObject, string objectName)
+    {
+        if (currentButton != null)
+            return currentButton;
+
+        Transform targetTransform = rootObject != null ? FindChildByName(rootObject.transform, objectName) : null;
+        return targetTransform != null ? targetTransform.GetComponent<Button>() : null;
+    }
+
     private TextMeshProUGUI ResolveText(TextMeshProUGUI currentText, string objectName)
     {
         if (currentText != null)
             return currentText;
 
         Transform targetTransform = FindChildByName(transform, objectName);
+        return targetTransform != null ? targetTransform.GetComponent<TextMeshProUGUI>() : null;
+    }
+
+    private TextMeshProUGUI ResolveTextInRoot(TextMeshProUGUI currentText, GameObject rootObject, string objectName)
+    {
+        if (currentText != null)
+            return currentText;
+
+        Transform targetTransform = rootObject != null ? FindChildByName(rootObject.transform, objectName) : null;
         return targetTransform != null ? targetTransform.GetComponent<TextMeshProUGUI>() : null;
     }
 

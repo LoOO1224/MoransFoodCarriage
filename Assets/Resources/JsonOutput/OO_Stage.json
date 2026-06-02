@@ -11,7 +11,7 @@
     "StartDialogueGroupId": "dialogue_stage1_start",
     "QuestTitle": "동쪽 마을의 구원",
     "QuestDescription": "채소죽을 만들어 굶주린 백성에게 전하라.",
-    "RequiredCookId": "OO_Cook_1",
+    "RequiredCookId": "OO_VegetableSoup_1",
     "NextRoadGroupId": "2nd_Road_to_Stage2"
   }
 ]

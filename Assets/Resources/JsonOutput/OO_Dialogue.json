@@ -89,7 +89,7 @@
   },
   {
     "Id": "character_Mr.Jaeik_04",
-    "Name": null,
+    "Name": "재익군",
     "Description": "“슬슬 날이 저무니 배가 고프지 않습니까요, 아씨? 제가 배고파서 그런 건 절대 아니구멍유……! 모란 님이 우리를 위해 맛난 요리를 해주신다면 참말로 감사하겠서요!”\n(그의 꼬리를 흔들리는걸 멈추지 않는 탓일가)",
     "SkillList": null,
     "UseWeaponId": null,
@@ -97,7 +97,7 @@
   },
   {
     "Id": "character_Chunyang_05",
-    "Name": null,
+    "Name": "춘양",
     "Description": "“그러고 보니 벌써 저녁때가 되었구려. 마침 다들 지쳤을 터인데, 낭자에게 염치 불고하고 따뜻한 식사를 부탁드려도 되겠소?”",
     "SkillList": null,
     "UseWeaponId": null,
@@ -105,8 +105,16 @@
   },
   {
     "Id": "character_Moran_04",
-    "Name": null,
+    "Name": "모란",
     "Description": "“당연히 해드려야죠! 가마솥을 뜨겁게 달굴 테니, 두 분 다 조금만 기다려주세요. 세상에서 가장 배부른 요리를 지어드릴게요!”",
+    "SkillList": null,
+    "UseWeaponId": null,
+    "BasicCostumeId": null
+  },
+  {
+    "Id": "character_Moran_05",
+    "Name": "모란",
+    "Description": "“따끈따끈한 ‘야채죽’이 완성되었어요! 소박하지만 지친 몸을 따뜻하게 데워줄 거예요. 어서 맛있게 드세요!”",
     "SkillList": null,
     "UseWeaponId": null,
     "BasicCostumeId": null

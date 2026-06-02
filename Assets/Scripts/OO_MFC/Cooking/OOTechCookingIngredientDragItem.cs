@@ -55,8 +55,8 @@ public class OOTechCookingIngredientDragItem : MonoBehaviour, IBeginDragHandler,
     /// </summary>
     public void OnEndDrag(PointerEventData eventData)
     {
-        if (Controller_Cooking != null && Controller_Cooking.IsPointerInsideCauldron(eventData.position))
-            Controller_Cooking.RequestDropIngredient(_itemDataId);
+        if (Controller_Cooking != null)
+            Controller_Cooking.RequestDropIngredientAtPosition(_itemDataId, eventData.position);
 
         if (Rect_DragGhost != null)
             Destroy(Rect_DragGhost.gameObject);

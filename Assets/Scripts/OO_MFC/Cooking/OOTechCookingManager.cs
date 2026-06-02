@@ -58,7 +58,7 @@ public class OOTechCookingManager : MonoBehaviour
             return new CookingResult
             {
                 IsSuccess = true,
-                ResultItemId = "OO_Cook_1",
+                ResultItemId = "OO_VegetableSoup_1",
                 FailReason = string.Empty
             };
         }
