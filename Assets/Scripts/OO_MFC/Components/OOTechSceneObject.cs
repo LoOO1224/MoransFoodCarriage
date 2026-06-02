@@ -1,9 +1,8 @@
 using UnityEngine;
 
 /// <summary>
-/// Gives a scene object a stable role name.
-/// Like a casting label on an actor's chair, the label lets a scene director
-/// find the right object without storing a long list of inspector references.
+/// 씬 오브젝트에 안정적인 역할 이름을 붙입니다.
+/// 배우 의자에 붙은 이름표처럼, 감독 스크립트가 긴 참조 목록 없이 올바른 배우를 찾게 합니다.
 /// </summary>
 [DisallowMultipleComponent]
 public class OOTechSceneObject : MonoBehaviour
@@ -12,6 +11,9 @@ public class OOTechSceneObject : MonoBehaviour
 
     public string RoleId { get { return _roleId; } }
 
+    /// <summary>
+    /// 이 배우에게 붙은 지정 타입 컴포넌트를 반환합니다.
+    /// </summary>
     public T GetRoleComponent<T>() where T : Component
     {
         return GetComponent<T>();

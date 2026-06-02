@@ -51,17 +51,26 @@ public class PrologueController : MonoBehaviour
     private int _dialogueOpenBlockFrame;
     private bool _isWaitingDialogueOpen;
 
+    /// <summary>
+    /// 프롤로그 무대가 켜지면 버튼을 연결하고 첫 컷씬을 시작합니다.
+    /// </summary>
     private void OnEnable()
     {
         BindButtonEvent();
         StartPrologue();
     }
 
+    /// <summary>
+    /// 클릭으로 대화를 열어야 하는 컷씬인지 매 프레임 확인합니다.
+    /// </summary>
     private void Update()
     {
         UpdateScreenClickToOpenDialogue();
     }
 
+    /// <summary>
+    /// 프롤로그 무대가 닫히면 버튼 이벤트와 DialogueGroup을 정리합니다.
+    /// </summary>
     private void OnDisable()
     {
         UnbindButtonEvent();
@@ -70,6 +79,9 @@ public class PrologueController : MonoBehaviour
 
     // ==================== 버튼 바인딩 ====================
 
+    /// <summary>
+    /// 스킵 버튼과 컷씬 클릭 영역 버튼을 현재 프롤로그 이벤트에 연결합니다.
+    /// </summary>
     private void BindButtonEvent()
     {
         if (Button_Skip != null)
@@ -85,6 +97,9 @@ public class PrologueController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 버튼 이벤트를 해제해 다시 열릴 때 중복 호출되지 않게 합니다.
+    /// </summary>
     private void UnbindButtonEvent()
     {
         if (Button_Skip != null)
@@ -108,6 +123,9 @@ public class PrologueController : MonoBehaviour
         ShowCutSceneThenWaitDialogueOpen();
     }
 
+    /// <summary>
+    /// 현재 컷씬 오브젝트만 켜고 나머지는 끕니다.
+    /// </summary>
     private void ShowCurrentCutScene()
     {
         SetCutSceneActive(CutScene_01, _currentCutSceneIndex == 0);
@@ -155,6 +173,9 @@ public class PrologueController : MonoBehaviour
             OOTechUIManager.Inst.CloseUI(_dialogueGroupName);
     }
 
+    /// <summary>
+    /// 화면 클릭이 들어오면 현재 컷씬의 DialogueGroup을 엽니다.
+    /// </summary>
     private void UpdateScreenClickToOpenDialogue()
     {
         if (!_isWaitingDialogueOpen)
@@ -199,6 +220,9 @@ public class PrologueController : MonoBehaviour
 
     // ==================== 나레이션 진행 ====================
 
+    /// <summary>
+    /// 현재 컷씬 번호에 맞는 Narration ID를 가져와 DialogueUI에 표시합니다.
+    /// </summary>
     private void ShowCurrentNarration()
     {
         string narrationId = GetCurrentNarrationId();
@@ -257,6 +281,9 @@ public class PrologueController : MonoBehaviour
         MoveNextCutSceneOrComplete();
     }
 
+    /// <summary>
+    /// 나레이션이 끝나면 다음 컷씬 또는 다음 그룹으로 진행합니다.
+    /// </summary>
     private void MoveNextCutSceneOrComplete()
     {
         _currentCutSceneIndex++;
@@ -337,6 +364,9 @@ public class PrologueController : MonoBehaviour
         SkipCurrentCutScene();
     }
 
+    /// <summary>
+    /// 현재 컷씬을 스킵하고 다음 컷씬 또는 튜토리얼로 진행합니다.
+    /// </summary>
     private void SkipCurrentCutScene()
     {
         Debug.Log($"[PrologueController] 컷씬 스킵: {_currentCutSceneIndex + 1}");

@@ -18,6 +18,9 @@ public class CameraFollowController : MonoBehaviour
     [SerializeField] private float _minY = -8f;
     [SerializeField] private float _maxY = 15f;
 
+    /// <summary>
+    /// 모든 배우 이동이 끝난 뒤 카메라 위치를 따라가게 해 흔들림을 줄입니다.
+    /// </summary>
     private void LateUpdate()
     {
         UpdateCameraPosition();
@@ -39,6 +42,9 @@ public class CameraFollowController : MonoBehaviour
         Debug.Log($"[CameraFollowController] 팔로우 대상 변경 → {newTarget.name}");
     }
 
+    /// <summary>
+    /// 현재 타겟을 따라 카메라를 부드럽게 이동하고, 지정된 경계 안에 묶습니다.
+    /// </summary>
     private void UpdateCameraPosition()
     {
         if (_target == null) return;

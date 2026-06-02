@@ -1,0 +1,42 @@
+[
+  {
+    "Id": "character_narrator_01",
+    "Name": "나레이션",
+    "Description": "프롤로그와 에필로그를 진행하는 서술자",
+    "SkillList": null,
+    "UseWeaponId": null,
+    "BasicCostumeId": null
+  },
+  {
+    "Id": "character_Moran_02",
+    "Name": "모란",
+    "Description": "이 게임의 주인공",
+    "SkillList": null,
+    "UseWeaponId": null,
+    "BasicCostumeId": null
+  },
+  {
+    "Id": "character_JangYoungSim_03",
+    "Name": "장영심 ",
+    "Description": "이 게임의 주인공의 아버지",
+    "SkillList": null,
+    "UseWeaponId": null,
+    "BasicCostumeId": null
+  },
+  {
+    "Id": "character_Mr.Jaeik_04",
+    "Name": "재익군",
+    "Description": "주인공의 첫번째 동료",
+    "SkillList": null,
+    "UseWeaponId": null,
+    "BasicCostumeId": null
+  },
+  {
+    "Id": "character_Chunyang_05",
+    "Name": "춘양",
+    "Description": "주인공의 두번째 동료이자 재익의 주인",
+    "SkillList": null,
+    "UseWeaponId": null,
+    "BasicCostumeId": null
+  }
+]

@@ -2,9 +2,8 @@ using UnityEngine;
 using UnityEngine.UI;
 
 /// <summary>
-/// Applies the shared 1920 x 1080 dialogue staging rule.
-/// The speaker label sits above the dialogue frame, while the larger continue
-/// button remains inside the lower-right corner of the frame.
+/// DialoguePanel의 배치를 담당하는 보조 컴포넌트입니다.
+/// 기본 배치는 사용자가 씬에서 잡고, Road View처럼 HUD와 겹치는 장면만 중앙 무대로 살짝 올립니다.
 /// </summary>
 [DisallowMultipleComponent]
 public class OOTechDialogueLayout : MonoBehaviour
@@ -17,26 +16,45 @@ public class OOTechDialogueLayout : MonoBehaviour
     [SerializeField] private Vector2 _nextButtonSize = new Vector2(270f, 78f);
     [SerializeField] private Vector2 _nextButtonAnchoredPosition = new Vector2(-46f, 32f);
 
+    [Header("Road View Layout")]
+    [SerializeField] private Vector2 _roadViewPanelSizeDelta = new Vector2(1320f, 360f);
+    [SerializeField] private Vector2 _roadViewPanelAnchoredPosition = new Vector2(0f, 105f);
+
     private RectTransform Rect_Panel;
     private RectTransform Rect_SpeakerName;
     private RectTransform Rect_NextButton;
 
     private void Awake()
     {
-        // Dialogue UI layout is manually staged in the scene.
-        // This component no longer moves or resizes the panel automatically.
+        // 기본 대화창 배치는 씬에서 수동 연출합니다.
+        // 이 컴포넌트는 Road View처럼 별도 요청이 들어올 때만 배치를 보정합니다.
     }
 
     private void OnEnable()
     {
-        // Kept empty on purpose so reopening DialogueGroup does not rewrite user placement.
+        // DialogueGroup을 다시 열 때마다 사용자가 잡아 둔 위치를 덮어쓰지 않기 위해 비워 둡니다.
     }
 
     public void ApplyLayout()
     {
-        // Manual layout mode: the user's RectTransform values are the source of truth.
+        // 수동 배치 모드: RectTransform 값은 감독이 씬에서 잡아 둔 값을 기준으로 삼습니다.
     }
 
+    /// <summary>
+    /// RoadMap에서는 HUD가 하단에 고정되어 있으므로 대화창을 화면 중앙 쪽으로 올립니다.
+    /// Game View에서는 이어가기 버튼이 HUD에 가려지지 않게 보입니다.
+    /// </summary>
+    public void ApplyRoadViewLayout()
+    {
+        CacheComponentReferences();
+        ApplyRoadViewPanelLayout();
+        ApplySpeakerNameLayout();
+        ApplyNextButtonLayout();
+    }
+
+    /// <summary>
+    /// DialoguePanel, SpeakerNameText, NextButton의 RectTransform을 찾아 둡니다.
+    /// </summary>
     private void CacheComponentReferences()
     {
         if (Rect_Panel == null)
@@ -57,6 +75,9 @@ public class OOTechDialogueLayout : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 기본 대화창 배치 값입니다. 현재는 수동 배치를 보호하기 위해 자동 호출하지 않습니다.
+    /// </summary>
     private void ApplyPanelLayout()
     {
         if (Rect_Panel == null)
@@ -70,6 +91,25 @@ public class OOTechDialogueLayout : MonoBehaviour
         Rect_Panel.localScale = Vector3.one;
     }
 
+    /// <summary>
+    /// Road View 전용으로 대화창 전체를 중앙 무대 쪽에 배치합니다.
+    /// </summary>
+    private void ApplyRoadViewPanelLayout()
+    {
+        if (Rect_Panel == null)
+            return;
+
+        Rect_Panel.anchorMin = new Vector2(0.5f, 0.5f);
+        Rect_Panel.anchorMax = new Vector2(0.5f, 0.5f);
+        Rect_Panel.pivot = new Vector2(0.5f, 0.5f);
+        Rect_Panel.anchoredPosition = _roadViewPanelAnchoredPosition;
+        Rect_Panel.sizeDelta = _roadViewPanelSizeDelta;
+        Rect_Panel.localScale = Vector3.one;
+    }
+
+    /// <summary>
+    /// 화자 이름표를 대화창 위쪽에 붙여 읽기 쉽게 만듭니다.
+    /// </summary>
     private void ApplySpeakerNameLayout()
     {
         if (Rect_SpeakerName == null)
@@ -83,6 +123,9 @@ public class OOTechDialogueLayout : MonoBehaviour
         Rect_SpeakerName.localScale = Vector3.one;
     }
 
+    /// <summary>
+    /// 이어가기 버튼을 대화창 오른쪽 아래에 고정합니다.
+    /// </summary>
     private void ApplyNextButtonLayout()
     {
         if (Rect_NextButton == null)

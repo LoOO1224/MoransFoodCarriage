@@ -14,8 +14,15 @@ public class OOTechGameDataManager : MonoBehaviour
     private readonly Dictionary<string, OO_Narration> _narrationDic = new Dictionary<string, OO_Narration>();
     private readonly Dictionary<string, OO_Character> _characterDic = new Dictionary<string, OO_Character>();
     private readonly Dictionary<string, OO_Dialogue> _dialogueDic = new Dictionary<string, OO_Dialogue>();
+    private readonly Dictionary<string, OO_DialogueGroup> _dialogueGroupDic = new Dictionary<string, OO_DialogueGroup>();
     private readonly Dictionary<string, OO_Tutorial> _tutorialDic = new Dictionary<string, OO_Tutorial>();
+    private readonly Dictionary<string, OO_Ingredient> _ingredientDic = new Dictionary<string, OO_Ingredient>();
+    private readonly Dictionary<string, OO_Recipe> _recipeDic = new Dictionary<string, OO_Recipe>();
+    private readonly Dictionary<string, OO_Cook> _cookDic = new Dictionary<string, OO_Cook>();
 
+    /// <summary>
+    /// 중복 매니저를 정리하고 Static Data를 로드합니다.
+    /// </summary>
     private void Awake()
     {
         if (Inst != null && Inst != this)
@@ -30,6 +37,9 @@ public class OOTechGameDataManager : MonoBehaviour
         LoadAllData();
     }
 
+    /// <summary>
+    /// 매니저가 파괴될 때 전역 참조를 비웁니다.
+    /// </summary>
     private void OnDestroy()
     {
         if (Inst == this)
@@ -49,142 +59,244 @@ public class OOTechGameDataManager : MonoBehaviour
         LoadNarrationData();
         LoadCharacterData();
         LoadDialogueData();
+        LoadDialogueGroupData();
         LoadTutorialData();
+        LoadIngredientData();
+        LoadRecipeData();
+        LoadCookData();
 
         Debug.Log("[OOTechGameDataManager] 모든 데이터 로드 완료");
     }
 
+    /// <summary>
+    /// OO_Narration.json을 읽어 프롤로그/나레이션 대본으로 등록합니다.
+    /// </summary>
     private void LoadNarrationData()
     {
-        TextAsset jsonFile = Resources.Load<TextAsset>("OO_MFC/Data/OO_Narration");
-
-        if (jsonFile == null)
-        {
-            Debug.LogWarning("[OOTechGameDataManager] OO_Narration.json 파일을 찾을 수 없습니다. 경로: Assets/Resources/OO_MFC/Data/OO_Narration.json");
-            return;
-        }
-
-        OOTechNarrationJsonWrapper wrapper = JsonUtility.FromJson<OOTechNarrationJsonWrapper>(WrapJsonArray(jsonFile.text));
-
         _narrationDic.Clear();
 
-        if (wrapper == null || wrapper.Items == null)
+        foreach (TextAsset jsonFile in LoadDataTextAssetArray("OO_Narration"))
         {
-            Debug.LogWarning("[OOTechGameDataManager] OO_Narration.json 데이터가 비어 있습니다.");
-            return;
-        }
+            OOTechNarrationJsonWrapper wrapper = JsonUtility.FromJson<OOTechNarrationJsonWrapper>(WrapJsonArray(jsonFile.text));
 
-        foreach (OOTechNarrationJsonData jsonData in wrapper.Items)
-        {
-            OO_Narration narrationData = CreateNarrationData(jsonData);
-
-            if (narrationData == null || string.IsNullOrEmpty(narrationData.Id))
+            if (wrapper == null || wrapper.Items == null)
                 continue;
 
-            _narrationDic[narrationData.Id] = narrationData;
+            foreach (OOTechNarrationJsonData jsonData in wrapper.Items)
+            {
+                OO_Narration narrationData = CreateNarrationData(jsonData);
+
+                if (narrationData == null || string.IsNullOrEmpty(narrationData.Id))
+                    continue;
+
+                _narrationDic[narrationData.Id] = narrationData;
+            }
         }
 
         Debug.Log($"[OOTechGameDataManager] Narration 데이터 로드 완료: {_narrationDic.Count}개");
     }
 
+    /// <summary>
+    /// OO_Character.json을 읽어 화자 이름과 캐릭터 정보를 등록합니다.
+    /// </summary>
     private void LoadCharacterData()
     {
-        TextAsset jsonFile = Resources.Load<TextAsset>("OO_MFC/Data/OO_Character");
-
-        if (jsonFile == null)
-        {
-            Debug.LogWarning("[OOTechGameDataManager] OO_Character.json 파일을 찾을 수 없습니다.");
-            return;
-        }
-
-        OOTechCharacterJsonWrapper wrapper = JsonUtility.FromJson<OOTechCharacterJsonWrapper>(WrapJsonArray(jsonFile.text));
-
         _characterDic.Clear();
 
-        if (wrapper == null || wrapper.Items == null)
-            return;
-
-        foreach (OO_Character characterData in wrapper.Items)
+        foreach (TextAsset jsonFile in LoadDataTextAssetArray("OO_Character"))
         {
-            if (characterData == null || string.IsNullOrEmpty(characterData.Id))
+            OOTechCharacterJsonWrapper wrapper = JsonUtility.FromJson<OOTechCharacterJsonWrapper>(WrapJsonArray(jsonFile.text));
+
+            if (wrapper == null || wrapper.Items == null)
                 continue;
 
-            characterData.Name = NormalizeJsonText(characterData.Name);
-            characterData.Description = NormalizeJsonText(characterData.Description);
-            _characterDic[characterData.Id] = characterData;
+            foreach (OO_Character characterData in wrapper.Items)
+            {
+                if (characterData == null || string.IsNullOrEmpty(characterData.Id))
+                    continue;
+
+                characterData.Name = NormalizeJsonText(characterData.Name);
+                characterData.Description = NormalizeJsonText(characterData.Description);
+                _characterDic[characterData.Id] = characterData;
+            }
         }
 
         Debug.Log($"[OOTechGameDataManager] Character 데이터 로드 완료: {_characterDic.Count}개");
     }
 
+    /// <summary>
+    /// OO_Dialogue.json을 읽어 캐릭터 대사를 등록합니다.
+    /// </summary>
     private void LoadDialogueData()
     {
-        TextAsset jsonFile = Resources.Load<TextAsset>("OO_MFC/Data/OO_Dialogue");
-
-        if (jsonFile == null)
-        {
-            Debug.LogWarning("[OOTechGameDataManager] OO_Dialogue.json 파일을 찾을 수 없습니다.");
-            return;
-        }
-
-        OOTechDialogueJsonWrapper wrapper = JsonUtility.FromJson<OOTechDialogueJsonWrapper>(WrapJsonArray(jsonFile.text));
-
         _dialogueDic.Clear();
 
-        if (wrapper == null || wrapper.Items == null)
+        foreach (TextAsset jsonFile in LoadDataTextAssetArray("OO_Dialogue"))
         {
-            Debug.LogWarning("[OOTechGameDataManager] OO_Dialogue.json 데이터가 비어 있습니다.");
-            return;
-        }
+            OOTechDialogueJsonWrapper wrapper = JsonUtility.FromJson<OOTechDialogueJsonWrapper>(WrapJsonArray(jsonFile.text));
 
-        foreach (OOTechDialogueJsonData jsonData in wrapper.Items)
-        {
-            OO_Dialogue dialogueData = CreateDialogueData(jsonData);
-
-            if (dialogueData == null || string.IsNullOrEmpty(dialogueData.Id))
+            if (wrapper == null || wrapper.Items == null)
                 continue;
 
-            _dialogueDic[dialogueData.Id] = dialogueData;
+            foreach (OOTechDialogueJsonData jsonData in wrapper.Items)
+            {
+                OO_Dialogue dialogueData = CreateDialogueData(jsonData);
+
+                if (dialogueData == null || string.IsNullOrEmpty(dialogueData.Id))
+                    continue;
+
+                _dialogueDic[dialogueData.Id] = dialogueData;
+            }
         }
 
         Debug.Log($"[OOTechGameDataManager] Dialogue 데이터 로드 완료: {_dialogueDic.Count}개");
     }
 
-    private void LoadTutorialData()
+    /// <summary>
+    /// OO_DialogueGroup.json을 읽어 여러 인물이 동시에 말하는 대사 묶음을 등록합니다.
+    /// </summary>
+    private void LoadDialogueGroupData()
     {
-        TextAsset jsonFile = Resources.Load<TextAsset>("OO_MFC/Data/OO_Tutorial");
+        _dialogueGroupDic.Clear();
 
-        if (jsonFile == null)
+        foreach (TextAsset jsonFile in LoadDataTextAssetArray("OO_DialogueGroup"))
         {
-            Debug.LogWarning("[OOTechGameDataManager] OO_Tutorial.json 파일을 찾을 수 없습니다.");
-            return;
-        }
+            OOTechDialogueGroupJsonWrapper wrapper = JsonUtility.FromJson<OOTechDialogueGroupJsonWrapper>(WrapJsonArray(jsonFile.text));
 
-        OOTechTutorialJsonWrapper wrapper = JsonUtility.FromJson<OOTechTutorialJsonWrapper>(WrapJsonArray(jsonFile.text));
-
-        _tutorialDic.Clear();
-
-        if (wrapper == null || wrapper.Items == null)
-        {
-            Debug.LogWarning("[OOTechGameDataManager] OO_Tutorial.json 데이터가 비어 있습니다.");
-            return;
-        }
-
-        foreach (OOTechTutorialJsonData jsonData in wrapper.Items)
-        {
-            OO_Tutorial tutorialData = CreateTutorialData(jsonData);
-
-            if (tutorialData == null || string.IsNullOrEmpty(tutorialData.Id))
+            if (wrapper == null || wrapper.Items == null)
                 continue;
 
-            _tutorialDic[tutorialData.Id] = tutorialData;
+            foreach (OOTechDialogueGroupJsonData jsonData in wrapper.Items)
+            {
+                OO_DialogueGroup dialogueGroupData = CreateDialogueGroupData(jsonData);
+
+                if (dialogueGroupData == null || string.IsNullOrEmpty(dialogueGroupData.Id))
+                    continue;
+
+                _dialogueGroupDic[dialogueGroupData.Id] = dialogueGroupData;
+            }
+        }
+
+        Debug.Log($"[OOTechGameDataManager] DialogueGroup 데이터 로드 완료: {_dialogueGroupDic.Count}개");
+    }
+
+    /// <summary>
+    /// OO_Tutorial.json을 읽어 HUD/가이드 설명 데이터를 등록합니다.
+    /// </summary>
+    private void LoadTutorialData()
+    {
+        _tutorialDic.Clear();
+
+        foreach (TextAsset jsonFile in LoadDataTextAssetArray("OO_Tutorial"))
+        {
+            OOTechTutorialJsonWrapper wrapper = JsonUtility.FromJson<OOTechTutorialJsonWrapper>(WrapJsonArray(jsonFile.text));
+
+            if (wrapper == null || wrapper.Items == null)
+                continue;
+
+            foreach (OOTechTutorialJsonData jsonData in wrapper.Items)
+            {
+                OO_Tutorial tutorialData = CreateTutorialData(jsonData);
+
+                if (tutorialData == null || string.IsNullOrEmpty(tutorialData.Id))
+                    continue;
+
+                _tutorialDic[tutorialData.Id] = tutorialData;
+            }
         }
 
         Debug.Log($"[OOTechGameDataManager] Tutorial 데이터 로드 완료: {_tutorialDic.Count}개");
     }
 
+    /// <summary>
+    /// OO_Ingredient.json을 읽어 쌀, 채소 같은 재료 데이터를 등록합니다.
+    /// </summary>
+    private void LoadIngredientData()
+    {
+        _ingredientDic.Clear();
+
+        foreach (TextAsset jsonFile in LoadDataTextAssetArray("OO_Ingredient"))
+        {
+            OOTechIngredientJsonWrapper wrapper = JsonUtility.FromJson<OOTechIngredientJsonWrapper>(WrapJsonArray(jsonFile.text));
+
+            if (wrapper == null || wrapper.Items == null)
+                continue;
+
+            foreach (OOTechIngredientJsonData jsonData in wrapper.Items)
+            {
+                OO_Ingredient ingredientData = CreateIngredientData(jsonData);
+
+                if (ingredientData == null || string.IsNullOrEmpty(ingredientData.Id))
+                    continue;
+
+                _ingredientDic[ingredientData.Id] = ingredientData;
+            }
+        }
+
+        Debug.Log($"[OOTechGameDataManager] Ingredient 데이터 로드 완료: {_ingredientDic.Count}개");
+    }
+
     // ==================== 데이터 생성 ====================
 
+    /// <summary>
+    /// OO_Recipe.json을 읽어 재료 조합과 결과 음식 규칙을 등록합니다.
+    /// </summary>
+    private void LoadRecipeData()
+    {
+        _recipeDic.Clear();
+
+        foreach (TextAsset jsonFile in LoadDataTextAssetArray("OO_Recipe"))
+        {
+            OOTechRecipeJsonWrapper wrapper = JsonUtility.FromJson<OOTechRecipeJsonWrapper>(WrapJsonArray(jsonFile.text));
+
+            if (wrapper == null || wrapper.Items == null)
+                continue;
+
+            foreach (OOTechRecipeJsonData jsonData in wrapper.Items)
+            {
+                OO_Recipe recipeData = CreateRecipeData(jsonData);
+
+                if (recipeData == null || string.IsNullOrEmpty(recipeData.Id))
+                    continue;
+
+                _recipeDic[recipeData.Id] = recipeData;
+            }
+        }
+
+        Debug.Log($"[OOTechGameDataManager] Recipe data loaded: {_recipeDic.Count}");
+    }
+
+    /// <summary>
+    /// OO_Cook.json을 읽어 완성 음식 데이터를 등록합니다.
+    /// </summary>
+    private void LoadCookData()
+    {
+        _cookDic.Clear();
+
+        foreach (TextAsset jsonFile in LoadDataTextAssetArray("OO_Cook"))
+        {
+            OOTechCookJsonWrapper wrapper = JsonUtility.FromJson<OOTechCookJsonWrapper>(WrapJsonArray(jsonFile.text));
+
+            if (wrapper == null || wrapper.Items == null)
+                continue;
+
+            foreach (OOTechCookJsonData jsonData in wrapper.Items)
+            {
+                OO_Cook cookData = CreateCookData(jsonData);
+
+                if (cookData == null || string.IsNullOrEmpty(cookData.Id))
+                    continue;
+
+                _cookDic[cookData.Id] = cookData;
+            }
+        }
+
+        Debug.Log($"[OOTechGameDataManager] Cook data loaded: {_cookDic.Count}");
+    }
+
+    /// <summary>
+    /// JSON 한 줄을 OO_Narration 모델로 변환합니다.
+    /// </summary>
     private OO_Narration CreateNarrationData(OOTechNarrationJsonData jsonData)
     {
         if (jsonData == null)
@@ -204,6 +316,9 @@ public class OOTechGameDataManager : MonoBehaviour
         return narrationData;
     }
 
+    /// <summary>
+    /// JSON 한 줄을 OO_Dialogue 모델로 변환하고 화자 이름을 보정합니다.
+    /// </summary>
     private OO_Dialogue CreateDialogueData(OOTechDialogueJsonData jsonData)
     {
         if (jsonData == null)
@@ -224,6 +339,32 @@ public class OOTechGameDataManager : MonoBehaviour
         return dialogueData;
     }
 
+    /// <summary>
+    /// JSON 한 줄을 여러 화자 대사 묶음 모델로 변환합니다.
+    /// </summary>
+    private OO_DialogueGroup CreateDialogueGroupData(OOTechDialogueGroupJsonData jsonData)
+    {
+        if (jsonData == null)
+            return null;
+
+        OO_DialogueGroup dialogueGroupData = new OO_DialogueGroup
+        {
+            Id = NormalizeJsonText(jsonData.Id),
+            Name = NormalizeJsonText(jsonData.Name),
+            Description = NormalizeJsonText(jsonData.Description),
+            SpeakerCharacterIdList = CreateStringList(jsonData.SpeakerCharacterIdList),
+            SpeakerNameList = CreateStringList(jsonData.SpeakerNameList),
+            Text = NormalizeJsonText(GetFirstNotEmpty(jsonData.Text, jsonData.Description)),
+            DialogueIdList = CreateStringList(jsonData.DialogueIdList),
+            NextDialogueGroupId = NormalizeJsonText(jsonData.NextDialogueGroupId)
+        };
+
+        return dialogueGroupData;
+    }
+
+    /// <summary>
+    /// JSON 한 줄을 튜토리얼 가이드 모델로 변환합니다.
+    /// </summary>
     private OO_Tutorial CreateTutorialData(OOTechTutorialJsonData jsonData)
     {
         if (jsonData == null)
@@ -248,10 +389,81 @@ public class OOTechGameDataManager : MonoBehaviour
         return tutorialData;
     }
 
+    /// <summary>
+    /// JSON 한 줄을 재료 모델로 변환합니다.
+    /// </summary>
+    private OO_Ingredient CreateIngredientData(OOTechIngredientJsonData jsonData)
+    {
+        if (jsonData == null)
+            return null;
+
+        OO_Ingredient ingredientData = new OO_Ingredient
+        {
+            Id = NormalizeJsonText(jsonData.Id),
+            Name = NormalizeJsonText(jsonData.Name),
+            Description = NormalizeJsonText(jsonData.Description),
+            IconPath = NormalizeJsonText(jsonData.IconPath),
+            Grade = NormalizeJsonText(jsonData.Grade),
+            MaxStackCount = Mathf.Max(1, ParseInt(jsonData.MaxStackCount))
+        };
+
+        return ingredientData;
+    }
+
+    /// <summary>
+    /// JSON 한 줄을 레시피 모델로 변환합니다.
+    /// </summary>
+    private OO_Recipe CreateRecipeData(OOTechRecipeJsonData jsonData)
+    {
+        if (jsonData == null)
+            return null;
+
+        OO_Recipe recipeData = new OO_Recipe
+        {
+            Id = NormalizeJsonText(jsonData.Id),
+            Name = NormalizeJsonText(jsonData.Name),
+            Description = NormalizeJsonText(jsonData.Description),
+            ResultItemId = NormalizeJsonText(jsonData.ResultItemId),
+            RequiredIngredients = CreateStringList(jsonData.RequiredIngredients),
+            MaxDuplicateCount = Mathf.Max(1, ParseInt(jsonData.MaxDuplicateCount)),
+            RequiredTool = NormalizeJsonText(jsonData.RequiredTool)
+        };
+
+        return recipeData;
+    }
+
+    /// <summary>
+    /// JSON 한 줄을 완성 음식 모델로 변환합니다.
+    /// </summary>
+    private OO_Cook CreateCookData(OOTechCookJsonData jsonData)
+    {
+        if (jsonData == null)
+            return null;
+
+        OO_Cook cookData = new OO_Cook
+        {
+            Id = NormalizeJsonText(jsonData.Id),
+            Name = NormalizeJsonText(jsonData.Name),
+            Description = NormalizeJsonText(jsonData.Description),
+            IconPath = NormalizeJsonText(jsonData.IconPath),
+            Grade = NormalizeJsonText(jsonData.Grade),
+            MaxStackCount = Mathf.Max(1, ParseInt(jsonData.MaxStackCount)),
+            EffectDescription = NormalizeJsonText(jsonData.EffectDescription)
+        };
+
+        return cookData;
+    }
+
+    /// <summary>
+    /// Dialogue 데이터의 화자 ID를 Character 데이터의 실제 이름으로 바꿉니다.
+    /// </summary>
     private string ResolveDialogueSpeakerName(OOTechDialogueJsonData jsonData)
     {
         string speakerId = NormalizeJsonText(GetFirstNotEmpty(jsonData.SpeakerCharacterId, jsonData.CharacterId));
         string speakerName = NormalizeJsonText(GetFirstNotEmpty(jsonData.SpeakerName, jsonData.Name));
+
+        if (string.IsNullOrEmpty(speakerId))
+            speakerId = InferSpeakerCharacterIdFromDialogueId(jsonData.Id);
 
         if (!string.IsNullOrEmpty(speakerId) && _characterDic.TryGetValue(speakerId, out OO_Character speakerData))
             speakerName = NormalizeJsonText(speakerData.Name);
@@ -262,8 +474,37 @@ public class OOTechGameDataManager : MonoBehaviour
         return speakerName;
     }
 
+    /// <summary>
+    /// Dialogue 행에 화자 칸이 비어 있어도 ID 접두사로 배우 이름표를 추론합니다.
+    /// 예: character_Moran_04는 모란 캐릭터 데이터 character_Moran_02를 화자로 사용합니다.
+    /// </summary>
+    private string InferSpeakerCharacterIdFromDialogueId(string dialogueId)
+    {
+        string normalizedId = NormalizeJsonText(dialogueId);
+
+        if (string.IsNullOrEmpty(normalizedId))
+            return string.Empty;
+
+        if (normalizedId.StartsWith("character_Moran_"))
+            return "character_Moran_02";
+
+        if (normalizedId.StartsWith("character_Chunyang_"))
+            return "character_Chunyang_05";
+
+        if (normalizedId.StartsWith("character_Mr.Jaeik_"))
+            return "character_Mr.Jaeik_04";
+
+        if (normalizedId.StartsWith("character_narrator_"))
+            return "character_narrator_01";
+
+        return string.Empty;
+    }
+
     // ==================== 변환 유틸 ====================
 
+    /// <summary>
+    /// JsonUtility가 배열을 읽을 수 있도록 배열 JSON을 Items 래퍼로 감쌉니다.
+    /// </summary>
     private string WrapJsonArray(string jsonText)
     {
         if (string.IsNullOrWhiteSpace(jsonText))
@@ -275,6 +516,32 @@ public class OOTechGameDataManager : MonoBehaviour
             return trimmedJsonText;
 
         return "{\"Items\":" + trimmedJsonText + "}";
+    }
+
+    /// <summary>
+    /// Resources/OO_MFC/Data와 Resources/JsonOutput에서 데이터 TextAsset을 찾습니다.
+    /// </summary>
+    private List<TextAsset> LoadDataTextAssetArray(string dataName)
+    {
+        List<TextAsset> textAssetList = new List<TextAsset>();
+        string[] resourcePathArray =
+        {
+            $"OO_MFC/Data/{dataName}",
+            $"JsonOutput/{dataName}"
+        };
+
+        foreach (string resourcePath in resourcePathArray)
+        {
+            TextAsset jsonFile = Resources.Load<TextAsset>(resourcePath);
+
+            if (jsonFile != null)
+                textAssetList.Add(jsonFile);
+        }
+
+        if (textAssetList.Count == 0)
+            Debug.LogWarning($"[OOTechGameDataManager] {dataName}.json 파일을 찾을 수 없습니다.");
+
+        return textAssetList;
     }
 
     private int ParseInt(string value)
@@ -365,6 +632,9 @@ public class OOTechGameDataManager : MonoBehaviour
     /// <summary>
     /// 나레이션 데이터를 ID로 조회합니다.
     /// </summary>
+    /// <summary>
+    /// ID로 나레이션 데이터를 조회합니다.
+    /// </summary>
     public OO_Narration GetNarrationData(string id)
     {
         if (string.IsNullOrEmpty(id))
@@ -382,6 +652,9 @@ public class OOTechGameDataManager : MonoBehaviour
 
     /// <summary>
     /// 캐릭터 데이터를 ID로 조회합니다.
+    /// </summary>
+    /// <summary>
+    /// ID로 캐릭터 데이터를 조회합니다.
     /// </summary>
     public OO_Character GetCharacterData(string id)
     {
@@ -401,6 +674,9 @@ public class OOTechGameDataManager : MonoBehaviour
     /// <summary>
     /// 캐릭터 대화 데이터를 ID로 조회합니다.
     /// </summary>
+    /// <summary>
+    /// ID로 대사 데이터를 조회합니다.
+    /// </summary>
     public OO_Dialogue GetDialogueData(string id)
     {
         if (string.IsNullOrEmpty(id))
@@ -417,7 +693,28 @@ public class OOTechGameDataManager : MonoBehaviour
     }
 
     /// <summary>
+    /// ID로 동시 대사 그룹 데이터를 조회합니다.
+    /// </summary>
+    public OO_DialogueGroup GetDialogueGroupData(string id)
+    {
+        if (string.IsNullOrEmpty(id))
+        {
+            Debug.LogWarning("[OOTechGameDataManager] 조회할 DialogueGroup ID가 비어 있습니다.");
+            return null;
+        }
+
+        if (_dialogueGroupDic.TryGetValue(id, out OO_DialogueGroup data))
+            return data;
+
+        Debug.LogWarning($"[OOTechGameDataManager] DialogueGroup 데이터를 찾을 수 없음: {id}");
+        return null;
+    }
+
+    /// <summary>
     /// 튜토리얼 안내 데이터를 ID로 조회합니다.
+    /// </summary>
+    /// <summary>
+    /// ID로 튜토리얼 데이터를 조회합니다.
     /// </summary>
     public OO_Tutorial GetTutorialData(string id)
     {
@@ -432,6 +729,115 @@ public class OOTechGameDataManager : MonoBehaviour
 
         Debug.LogWarning($"[OOTechGameDataManager] Tutorial 데이터를 찾을 수 없음: {id}");
         return null;
+    }
+
+    /// <summary>
+    /// ID로 재료 데이터를 조회합니다.
+    /// </summary>
+    public OO_Ingredient GetIngredientData(string id)
+    {
+        if (string.IsNullOrEmpty(id))
+        {
+            Debug.LogWarning("[OOTechGameDataManager] 조회할 Ingredient ID가 비어 있습니다.");
+            return null;
+        }
+
+        if (_ingredientDic.TryGetValue(id, out OO_Ingredient data))
+            return data;
+
+        Debug.LogWarning($"[OOTechGameDataManager] Ingredient 데이터를 찾을 수 없음: {id}");
+        return null;
+    }
+    /// <summary>
+    /// ID로 레시피 데이터를 조회합니다.
+    /// </summary>
+    public OO_Recipe GetRecipeData(string id)
+    {
+        if (string.IsNullOrEmpty(id))
+            return null;
+
+        return _recipeDic.TryGetValue(id, out OO_Recipe data) ? data : null;
+    }
+
+    /// <summary>
+    /// ID로 완성 음식 데이터를 조회합니다.
+    /// </summary>
+    public OO_Cook GetCookData(string id)
+    {
+        if (string.IsNullOrEmpty(id))
+            return null;
+
+        return _cookDic.TryGetValue(id, out OO_Cook data) ? data : null;
+    }
+
+    /// <summary>
+    /// 현재 등록된 모든 레시피를 반환합니다.
+    /// </summary>
+    public List<OO_Recipe> GetRecipeDataList()
+    {
+        return new List<OO_Recipe>(_recipeDic.Values);
+    }
+
+    /// <summary>
+    /// 투입된 재료 목록과 완전히 일치하는 레시피를 찾습니다.
+    /// </summary>
+    public OO_Recipe FindRecipeByIngredientList(List<string> ingredientIdList)
+    {
+        if (ingredientIdList == null || ingredientIdList.Count == 0)
+            return null;
+
+        foreach (OO_Recipe recipeData in _recipeDic.Values)
+        {
+            if (recipeData != null && IsSameIngredientSet(recipeData.RequiredIngredients, ingredientIdList))
+                return recipeData;
+        }
+
+        return null;
+    }
+
+    private bool IsSameIngredientSet(List<string> requiredIngredientList, List<string> inputIngredientList)
+    {
+        if (requiredIngredientList == null || inputIngredientList == null)
+            return false;
+
+        if (requiredIngredientList.Count != inputIngredientList.Count)
+            return false;
+
+        Dictionary<string, int> countDic = new Dictionary<string, int>();
+
+        foreach (string requiredIngredientId in requiredIngredientList)
+        {
+            string normalizedId = NormalizeJsonText(requiredIngredientId);
+
+            if (string.IsNullOrEmpty(normalizedId))
+                continue;
+
+            if (!countDic.ContainsKey(normalizedId))
+                countDic[normalizedId] = 0;
+
+            countDic[normalizedId]++;
+        }
+
+        foreach (string inputIngredientId in inputIngredientList)
+        {
+            string normalizedId = NormalizeJsonText(inputIngredientId);
+
+            if (string.IsNullOrEmpty(normalizedId) || !countDic.ContainsKey(normalizedId))
+                return false;
+
+            countDic[normalizedId]--;
+
+            if (countDic[normalizedId] < 0)
+                return false;
+        }
+
+        foreach (int count in countDic.Values)
+        {
+            if (count != 0)
+                return false;
+        }
+
+        return true;
     }
 }
 
@@ -486,6 +892,25 @@ public class OOTechDialogueJsonData
 }
 
 [Serializable]
+public class OOTechDialogueGroupJsonWrapper
+{
+    public OOTechDialogueGroupJsonData[] Items;
+}
+
+[Serializable]
+public class OOTechDialogueGroupJsonData
+{
+    public string Id;
+    public string Name;
+    public string Description;
+    public string SpeakerCharacterIdList;
+    public string SpeakerNameList;
+    public string Text;
+    public string DialogueIdList;
+    public string NextDialogueGroupId;
+}
+
+[Serializable]
 public class OOTechTutorialJsonWrapper
 {
     public OOTechTutorialJsonData[] Items;
@@ -504,4 +929,57 @@ public class OOTechTutorialJsonData
     public string SkillList;
     public string UseWeaponId;
     public string BasicCostumeId;
+}
+
+[Serializable]
+public class OOTechIngredientJsonWrapper
+{
+    public OOTechIngredientJsonData[] Items;
+}
+
+[Serializable]
+public class OOTechIngredientJsonData
+{
+    public string Id;
+    public string Name;
+    public string Description;
+    public string IconPath;
+    public string Grade;
+    public string MaxStackCount;
+}
+
+[Serializable]
+public class OOTechRecipeJsonWrapper
+{
+    public OOTechRecipeJsonData[] Items;
+}
+
+[Serializable]
+public class OOTechRecipeJsonData
+{
+    public string Id;
+    public string Name;
+    public string Description;
+    public string ResultItemId;
+    public string RequiredIngredients;
+    public string MaxDuplicateCount;
+    public string RequiredTool;
+}
+
+[Serializable]
+public class OOTechCookJsonWrapper
+{
+    public OOTechCookJsonData[] Items;
+}
+
+[Serializable]
+public class OOTechCookJsonData
+{
+    public string Id;
+    public string Name;
+    public string Description;
+    public string IconPath;
+    public string Grade;
+    public string MaxStackCount;
+    public string EffectDescription;
 }

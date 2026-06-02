@@ -1,0 +1,74 @@
+[
+  {
+    "Id": "narration_tutorial_01",
+    "Name": "튜토리얼 가이드1",
+    "Description": "WASD를 눌러 캐릭터를 움직여보세요! 앉아 있는 목각인형을 찾아 E를 누르시고 임무를 완수하세요.",
+    "SkillList": null,
+    "UseWeaponId": null,
+    "BasicCostumeId": null
+  },
+  {
+    "Id": "narration_tutorial_02",
+    "Name": "튜토리얼 완수",
+    "Description": "임무 완수! 우측 상단의 넘어가기 버튼을 누르세요.",
+    "SkillList": null,
+    "UseWeaponId": null,
+    "BasicCostumeId": null
+  },
+  {
+    "Id": "narration_tutorial_03",
+    "Name": "튜토리얼 가이드2",
+    "Description": "배고픈 재익이 음식을 찾고 있습니다. 어디서 맛있는 냄새가 나는군요! 장애물이 있다면 Space바를 눌러 점프해 넘어가세요. 음식과 상호작용 키는 E입니다.",
+    "SkillList": null,
+    "UseWeaponId": null,
+    "BasicCostumeId": null
+  },
+  {
+    "Id": "narration_tutorial_04",
+    "Name": "인벤토리 ",
+    "Description": "새로운 물건을 확인하세요",
+    "SkillList": null,
+    "UseWeaponId": null,
+    "BasicCostumeId": null
+  },
+  {
+    "Id": "narration_tutorial_05",
+    "Name": "도감",
+    "Description": "이 게임에 대해 알아보세요",
+    "SkillList": null,
+    "UseWeaponId": null,
+    "BasicCostumeId": null
+  },
+  {
+    "Id": "narration_tutorial_06",
+    "Name": "임무",
+    "Description": "임무를 확인하시고 완료하세요",
+    "SkillList": null,
+    "UseWeaponId": null,
+    "BasicCostumeId": null
+  },
+  {
+    "Id": "narration_tutorial_07",
+    "Name": "요리하기",
+    "Description": "임무를 완수하기 위한 요리를 만드는 곳입니다",
+    "SkillList": null,
+    "UseWeaponId": null,
+    "BasicCostumeId": null
+  },
+  {
+    "Id": "narration_tutorial_08",
+    "Name": "월드맵",
+    "Description": "지도를 확인하시고 다음 목적지를 찾으세요",
+    "SkillList": null,
+    "UseWeaponId": null,
+    "BasicCostumeId": null
+  },
+  {
+    "Id": "narration_tutorial_09",
+    "Name": "퀘스트 지시1",
+    "Description": "메인 퀘스트: 동쪽 마을의 구원\n목표: 탐관오리의 수탈로 굶주린 동쪽 백성들을 위해 배부른 음식을 만들어 주세요!\n조작 안내: [D] 키를 눌러 요리마차를 동쪽으로 이동시키세요. (오직 [D] 키로만 전진할 수 있습니다.)",
+    "SkillList": null,
+    "UseWeaponId": null,
+    "BasicCostumeId": null
+  }
+]

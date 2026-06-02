@@ -4,13 +4,17 @@ using UnityEditor;
 using UnityEngine;
 
 /// <summary>
-/// Plays the first road-trip BGM while the road group is active.
+/// RoadGroup이 켜져 있는 동안 월드맵 이동 BGM을 재생합니다.
+/// Game View에서는 마차가 길을 달리는 장면의 배경음악 큐입니다.
 /// </summary>
 public class OOTechRoadToStage1BGMPlayer : MonoBehaviour
 {
     [SerializeField] private AudioClip _worldMapRoadBGM;
     [SerializeField] private string _worldMapRoadBGMAssetPath = "Assets/Sounds/BGM/WorldMap_Road_BGM.mp3";
 
+    /// <summary>
+    /// RoadGroup이 열리면 이동 BGM을 반복 재생합니다.
+    /// </summary>
     private void OnEnable()
     {
         AudioClip bgmClip = ResolveClip();
@@ -19,12 +23,18 @@ public class OOTechRoadToStage1BGMPlayer : MonoBehaviour
             OOTechSoundManager.Inst.PlayBGM(bgmClip, true);
     }
 
+    /// <summary>
+    /// RoadGroup이 닫히면 다음 무대 음악과 겹치지 않도록 정리합니다.
+    /// </summary>
     private void OnDisable()
     {
         if (OOTechSoundManager.Inst != null)
             OOTechSoundManager.Inst.StopBGM();
     }
 
+    /// <summary>
+    /// 인스펙터 클립을 우선 사용하고, 에디터에서는 경로 기반 클립을 보조로 찾습니다.
+    /// </summary>
     private AudioClip ResolveClip()
     {
         if (_worldMapRoadBGM != null)

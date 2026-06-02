@@ -1,0 +1,10 @@
+[
+  {
+    "Id": "OO_Codex_1",
+    "Category": "Ingredient",
+    "Title": "쌀",
+    "Description": "춘향이 건넨 첫 여정의 재료. 모란의 요리마차에서 따뜻한 밥으로 다시 태어날 수 있다.",
+    "ImagePath": null,
+    "UnlockCondition": "StartRoad_FirstInventory"
+  }
+]

@@ -109,16 +109,25 @@ public class OOTechTutorial1Controller : MonoBehaviour
     private GameObject Object_CommonSkipButton;
     private NextButtonController Button_CommonSkip;
 
+    /// <summary>
+    /// Tutorial1Group이 켜지면 시작 가이드와 이동 잠금부터 진행합니다.
+    /// </summary>
     private void OnEnable()
     {
         StartTutorial();
     }
 
+    /// <summary>
+    /// 매 프레임 모란 근처 E 상호작용 입력을 확인합니다.
+    /// </summary>
     private void Update()
     {
         UpdateInteractionInput();
     }
 
+    /// <summary>
+    /// Tutorial1Group이 꺼지면 진행 중인 가이드, 대화, E 버튼, 이펙트를 정리합니다.
+    /// </summary>
     private void OnDisable()
     {
         StopOpenGuideCoroutine();
@@ -161,6 +170,9 @@ public class OOTechTutorial1Controller : MonoBehaviour
         _openGuideCoroutine = StartCoroutine(OpenInitialTutorialGuideRoutine());
     }
 
+    /// <summary>
+    /// 장영심과 모란 참조를 보정합니다. 인스펙터 참조가 있으면 그 값을 우선 사용합니다.
+    /// </summary>
     private void CacheRuntimeReference()
     {
         if (Transform_JangYoungSim == null && Character_JangYoungSim != null)
@@ -170,6 +182,9 @@ public class OOTechTutorial1Controller : MonoBehaviour
             Renderer_Moran = Transform_Moran.GetComponentInChildren<SpriteRenderer>(true);
     }
 
+    /// <summary>
+    /// 매니저 준비를 기다린 뒤 시작 튜토리얼 가이드를 엽니다.
+    /// </summary>
     private IEnumerator OpenInitialTutorialGuideRoutine()
     {
         yield return null;
@@ -183,6 +198,9 @@ public class OOTechTutorial1Controller : MonoBehaviour
         _openGuideCoroutine = null;
     }
 
+    /// <summary>
+    /// TutorialGuideGroup을 UIManager에 등록해 OpenUI로 열 수 있게 합니다.
+    /// </summary>
     private void RegisterTutorialGuideGroup()
     {
         if (OOTechUIManager.Inst == null)
@@ -197,6 +215,9 @@ public class OOTechTutorial1Controller : MonoBehaviour
         OOTechUIManager.Inst.RegisterUI(_tutorialGuideGroupName, Group_TutorialGuide);
     }
 
+    /// <summary>
+    /// Tutorial 데이터 또는 Narration 데이터를 찾아 첫 안내 패널을 보여줍니다.
+    /// </summary>
     private void OpenInitialTutorialGuide()
     {
         if (!TryOpenTutorialGuide())
@@ -226,6 +247,9 @@ public class OOTechTutorial1Controller : MonoBehaviour
         FinishInitialGuide();
     }
 
+    /// <summary>
+    /// TutorialGuideGroup을 열고 OOTechTutorialGuideUI 참조가 있는지 확인합니다.
+    /// </summary>
     private bool TryOpenTutorialGuide()
     {
         if (OOTechUIManager.Inst == null)
@@ -262,6 +286,10 @@ public class OOTechTutorial1Controller : MonoBehaviour
 
     // ==================== 상호작용 입력 ====================
 
+    /// <summary>
+    /// 모란이 화면에 보이고 장영심이 가까이 있을 때만 E 버튼을 보여줍니다.
+    /// E를 누르면 모란 기상 연출이 시작됩니다.
+    /// </summary>
     private void UpdateInteractionInput()
     {
         if (!_isInitialGuideFinished)
@@ -284,6 +312,9 @@ public class OOTechTutorial1Controller : MonoBehaviour
         StartMoranInteraction();
     }
 
+    /// <summary>
+    /// 장영심과 모란 사이의 거리가 상호작용 범위 안인지 확인합니다.
+    /// </summary>
     private bool IsPlayerNearMoran()
     {
         if (Transform_JangYoungSim == null || Transform_Moran == null)
@@ -293,6 +324,9 @@ public class OOTechTutorial1Controller : MonoBehaviour
         return distance <= Mathf.Max(_interactionDistance, _minimumInteractionDistance);
     }
 
+    /// <summary>
+    /// 모란 오브젝트가 카메라 안에 들어와 있는지 확인합니다.
+    /// </summary>
     private bool IsMoranVisibleToCamera()
     {
         Camera mainCamera = Camera.main;
@@ -312,12 +346,18 @@ public class OOTechTutorial1Controller : MonoBehaviour
     /// 모란과 상호작용을 시작합니다.
     /// 두 캐릭터의 1회성 애니메이션을 재생한 뒤 캐릭터 대화로 넘어갑니다.
     /// </summary>
+    /// <summary>
+    /// 모란 기상 연출 코루틴을 시작합니다.
+    /// </summary>
     private void StartMoranInteraction()
     {
         StopInteractionCoroutine();
         _interactionCoroutine = StartCoroutine(PlayMoranInteractionRoutine());
     }
 
+    /// <summary>
+    /// 화면 플래시, 장영심 놀람, 모란 WakeUp 애니메이션을 순서대로 재생합니다.
+    /// </summary>
     private IEnumerator PlayMoranInteractionRoutine()
     {
         _isInteractionRunning = true;
@@ -353,6 +393,9 @@ public class OOTechTutorial1Controller : MonoBehaviour
 
     // ==================== 캐릭터 대화 ====================
 
+    /// <summary>
+    /// 모란 대화와 장영심 대화를 DialogueGroup에 이어서 표시합니다.
+    /// </summary>
     private void OpenCharacterDialogueSequence()
     {
         if (OOTechUIManager.Inst == null || OOTechGameDataManager.Inst == null)
@@ -399,6 +442,9 @@ public class OOTechTutorial1Controller : MonoBehaviour
         UI_Dialogue.ShowDialogue(jangYoungSimDialogueData, EndCharacterDialogueSequence);
     }
 
+    /// <summary>
+    /// 캐릭터 대화가 끝나면 임무 완료 튜토리얼 가이드를 엽니다.
+    /// </summary>
     private void EndCharacterDialogueSequence()
     {
         CloseDialogueGroup();
@@ -407,6 +453,9 @@ public class OOTechTutorial1Controller : MonoBehaviour
 
     // ==================== 임무 완료 가이드 ====================
 
+    /// <summary>
+    /// 임무 완료 안내를 보여주고 완료 후 넘어가기 버튼을 띄웁니다.
+    /// </summary>
     private void ShowCompleteTutorialGuide()
     {
         LockPlayerMovement();
@@ -438,6 +487,9 @@ public class OOTechTutorial1Controller : MonoBehaviour
         FinishInitialGuide();
     }
 
+    /// <summary>
+    /// 시작 가이드가 끝났을 때 장영심 조작을 풀어 실제 튜토리얼 플레이를 시작합니다.
+    /// </summary>
     private void FinishInitialGuide()
     {
         if (_isInitialGuideFinished)
@@ -456,6 +508,9 @@ public class OOTechTutorial1Controller : MonoBehaviour
         FinishCompleteGuide();
     }
 
+    /// <summary>
+    /// 완료 가이드가 끝나면 다음 그룹으로 넘어갈 CommonSkipButton을 보여줍니다.
+    /// </summary>
     private void FinishCompleteGuide()
     {
         _isInteractionCompleted = true;
@@ -489,6 +544,9 @@ public class OOTechTutorial1Controller : MonoBehaviour
 
     // ==================== 상호작용 표시 ====================
 
+    /// <summary>
+    /// 장영심 머리 위에 뜨는 월드 텍스트 E 프롬프트를 준비합니다.
+    /// </summary>
     private void CreateInteractionPromptIfNeeded()
     {
         PrepareEButtonPrompt();
@@ -515,6 +573,9 @@ public class OOTechTutorial1Controller : MonoBehaviour
         Text_InteractionPrompt.sortingOrder = _interactionPromptSortingOrder;
     }
 
+    /// <summary>
+    /// E 프롬프트와 화면 Overlay E 버튼을 함께 켜거나 끕니다.
+    /// </summary>
     private void SetInteractionPromptActive(bool isActive)
     {
         if (Group_EButton != null)
@@ -544,6 +605,9 @@ public class OOTechTutorial1Controller : MonoBehaviour
         SetInteractionPromptActive(false);
     }
 
+    /// <summary>
+    /// 화면 우측 하단에 고정되는 E 버튼 UI를 연결하고 표시 설정을 적용합니다.
+    /// </summary>
     private void PrepareEButtonPrompt()
     {
         if (Group_EButton == null)
@@ -578,6 +642,9 @@ public class OOTechTutorial1Controller : MonoBehaviour
         Group_EButton.SetActive(false);
     }
 
+    /// <summary>
+    /// E 버튼이 배경에 묻히지 않도록 크기, 색, 텍스트, Sorting Order를 보정합니다.
+    /// </summary>
     private void ApplyEButtonPresentation()
     {
         if (Rect_EButton == null)
@@ -595,6 +662,9 @@ public class OOTechTutorial1Controller : MonoBehaviour
             Rect_EButton.localScale = Vector3.one * minimumScale;
     }
 
+    /// <summary>
+    /// E 버튼 Canvas를 최상단 Overlay로 설정합니다.
+    /// </summary>
     private void PrepareEButtonCanvas()
     {
         if (Group_EButton == null)
@@ -628,6 +698,9 @@ public class OOTechTutorial1Controller : MonoBehaviour
             Group_EButton.AddComponent<GraphicRaycaster>();
     }
 
+    /// <summary>
+    /// 기존 E 버튼 텍스트가 없으면 Button 자식으로 TMP 텍스트를 보조 생성합니다.
+    /// </summary>
     private void CreateEButtonTextIfNeeded()
     {
         if (Text_EButton != null)
@@ -654,6 +727,9 @@ public class OOTechTutorial1Controller : MonoBehaviour
         Text_EButton.raycastTarget = false;
     }
 
+    /// <summary>
+    /// 모란 위치나 화면 고정 규칙에 맞춰 E 버튼 위치를 갱신합니다.
+    /// </summary>
     private void UpdateInteractionPromptPosition()
     {
         if (Group_EButton == null)
@@ -677,6 +753,9 @@ public class OOTechTutorial1Controller : MonoBehaviour
         return Canvas_EButton != null && Canvas_EButton.renderMode == RenderMode.ScreenSpaceOverlay;
     }
 
+    /// <summary>
+    /// E 버튼을 화면 우측 하단 근처 고정 위치에 배치합니다.
+    /// </summary>
     private void ApplyFixedEButtonOverlayLayout()
     {
         if (Rect_EButton == null)
@@ -706,6 +785,9 @@ public class OOTechTutorial1Controller : MonoBehaviour
             _originEButtonScale = Vector3.one;
     }
 
+    /// <summary>
+    /// 모란 크기의 절반 정도를 기준으로 E 버튼 픽셀 크기를 계산합니다.
+    /// </summary>
     private float CalculateEButtonPixelSize(Camera mainCamera)
     {
         if (Renderer_Moran == null || mainCamera == null)
@@ -729,6 +811,9 @@ public class OOTechTutorial1Controller : MonoBehaviour
         _eButtonBlinkCoroutine = StartCoroutine(PlayEButtonBlinkEffectRoutine());
     }
 
+    /// <summary>
+    /// E 버튼이 반짝이도록 알파와 스케일을 흔듭니다.
+    /// </summary>
     private IEnumerator PlayEButtonBlinkEffectRoutine()
     {
         while (true)
@@ -785,6 +870,9 @@ public class OOTechTutorial1Controller : MonoBehaviour
 
     // ==================== 상호작용 화면 번쩍임 ====================
 
+    /// <summary>
+    /// 모란 상호작용 시작 전에 짧은 전체 화면 플래시를 재생합니다.
+    /// </summary>
     private IEnumerator PlayInteractionFlashRoutine()
     {
         if (!_isUseInteractionFlash)
@@ -870,6 +958,9 @@ public class OOTechTutorial1Controller : MonoBehaviour
 
     // ==================== 모란 애니메이션 준비 ====================
 
+    /// <summary>
+    /// Moran_WakeUp 애니메이션이 상호작용 전에는 자동 재생되지 않도록 준비합니다.
+    /// </summary>
     private void PrepareMoranAnimator()
     {
         if (!_isDisableMoranAnimatorUntilInteraction)
@@ -881,6 +972,9 @@ public class OOTechTutorial1Controller : MonoBehaviour
 
     // ==================== 공용 넘어가기 버튼 ====================
 
+    /// <summary>
+    /// 튜토리얼 완료 후 다음 그룹으로 가는 넘어가기 버튼을 보여줍니다.
+    /// </summary>
     private void ShowCommonSkipButton()
     {
         CreateCommonSkipButtonIfNeeded();
@@ -903,6 +997,9 @@ public class OOTechTutorial1Controller : MonoBehaviour
             Object_CommonSkipButton.SetActive(false);
     }
 
+    /// <summary>
+    /// CommonSkipButton 프리팹을 Tutorial1Group 자식으로 한 번만 생성합니다.
+    /// </summary>
     private void CreateCommonSkipButtonIfNeeded()
     {
         if (Object_CommonSkipButton != null)

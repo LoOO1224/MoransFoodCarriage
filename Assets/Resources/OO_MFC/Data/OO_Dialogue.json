@@ -54,5 +54,37 @@
     "SkillList": null,
     "UseWeaponId": null,
     "BasicCostumeId": null
+  },
+  {
+    "Id": "character_Chunyang_03",
+    "Name": "춘양",
+    "Description": "“모란님, 길을 나서기 전에 쌀을 챙기시지요.”",
+    "SkillList": null,
+    "UseWeaponId": null,
+    "BasicCostumeId": null
+  },
+  {
+    "Id": "character_Moran_03",
+    "Name": "모란",
+    "Description": "“좋아요. 호박도 함께 챙겨 둘게요.”",
+    "SkillList": null,
+    "UseWeaponId": null,
+    "BasicCostumeId": null
+  },
+  {
+    "Id": "character_Mr.Jaeik_03",
+    "Name": "재익군",
+    "Description": "“아씨, 저도 준비됐구멍요. 길만 열리면 힘껏 나아가겠멍요!”",
+    "SkillList": null,
+    "UseWeaponId": null,
+    "BasicCostumeId": null
+  },
+  {
+    "Id": "character_Chunyang_04",
+    "Name": "춘양",
+    "Description": "“모란님, 이 미련한 놈의 허물은 내 대신 사죄하겠소. 밥값을 하려면 부지런히 길을 나서야 할 터…… 먼저는 동쪽으로 가시지요. 그곳에 탐관오리의 수탈로 배 굶주린 자들이 유독 많다 들었습니다.”",
+    "SkillList": null,
+    "UseWeaponId": null,
+    "BasicCostumeId": null
   }
 ]

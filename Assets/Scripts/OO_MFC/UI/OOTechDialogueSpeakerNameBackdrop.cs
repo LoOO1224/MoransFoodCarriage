@@ -3,15 +3,14 @@ using UnityEngine.UI;
 using TMPro;
 
 /// <summary>
-/// Adds a strong white plate behind DialoguePanel/SpeakerNameText.
-/// The speaker name is treated like an actor name card: black text on a white
-/// prop so it stays readable over every scene background.
+/// DialoguePanel의 SpeakerNameText 뒤에 흰색 반투명 이름표를 붙입니다.
+/// 화자 이름은 검은색으로 바꿔 어떤 배경 위에서도 배우 이름이 잘 보이게 합니다.
 /// </summary>
 [DisallowMultipleComponent]
 public class OOTechDialogueSpeakerNameBackdrop : MonoBehaviour
 {
     [SerializeField] private string _speakerNameObjectName = "SpeakerNameText";
-    [SerializeField] private Color _backdropColor = new Color(1f, 1f, 1f, 0.94f);
+    [SerializeField] private Color _backdropColor = new Color(1f, 1f, 1f, 0.5f);
     [SerializeField] private Color _speakerNameColor = Color.black;
     [SerializeField] private Vector2 _padding = new Vector2(32f, 18f);
 
@@ -20,22 +19,34 @@ public class OOTechDialogueSpeakerNameBackdrop : MonoBehaviour
     private Image Image_Backdrop;
     private TextMeshProUGUI Text_SpeakerName;
 
+    /// <summary>
+    /// 대화창이 처음 준비될 때 이름표 배경을 생성하거나 연결합니다.
+    /// </summary>
     private void Awake()
     {
         PrepareBackdrop();
     }
 
+    /// <summary>
+    /// DialogueGroup이 다시 열릴 때 이름표 스타일과 위치를 다시 맞춥니다.
+    /// </summary>
     private void OnEnable()
     {
         PrepareBackdrop();
         ApplyBackdropLayout();
     }
 
+    /// <summary>
+    /// SpeakerNameText가 움직여도 배경판이 같은 위치를 따라가게 합니다.
+    /// </summary>
     private void LateUpdate()
     {
         ApplyBackdropLayout();
     }
 
+    /// <summary>
+    /// SpeakerNameText 뒤에 들어갈 Image_SpeakerNameBackdrop 오브젝트를 준비합니다.
+    /// </summary>
     private void PrepareBackdrop()
     {
         ApplyRequestedStyle();
@@ -58,6 +69,9 @@ public class OOTechDialogueSpeakerNameBackdrop : MonoBehaviour
         Image_Backdrop.raycastTarget = false;
     }
 
+    /// <summary>
+    /// 이름표로 쓰는 SpeakerNameText 참조를 찾습니다.
+    /// </summary>
     private void CacheSpeakerNameReference()
     {
         if (Rect_SpeakerName != null)
@@ -75,6 +89,9 @@ public class OOTechDialogueSpeakerNameBackdrop : MonoBehaviour
             Text_SpeakerName = Rect_SpeakerName.GetComponent<TextMeshProUGUI>();
     }
 
+    /// <summary>
+    /// 흰색 50% 반투명 배경과 검은 화자 이름 색상을 적용합니다.
+    /// </summary>
     private void ApplyBackdropLayout()
     {
         if (Rect_SpeakerName == null || Rect_Backdrop == null)
@@ -94,9 +111,12 @@ public class OOTechDialogueSpeakerNameBackdrop : MonoBehaviour
             Text_SpeakerName.color = _speakerNameColor;
     }
 
+    /// <summary>
+    /// 사용자가 요청한 이름표 스타일을 기본값으로 강제합니다.
+    /// </summary>
     private void ApplyRequestedStyle()
     {
-        _backdropColor = new Color(1f, 1f, 1f, 0.94f);
+        _backdropColor = new Color(1f, 1f, 1f, 0.5f);
         _speakerNameColor = Color.black;
     }
 }

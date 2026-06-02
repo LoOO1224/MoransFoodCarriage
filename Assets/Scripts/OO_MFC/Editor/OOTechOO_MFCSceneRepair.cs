@@ -99,6 +99,7 @@ public static class OOTechOO_MFCSceneRepair
         isChanged |= RepairRoadStageRelay(scene);
         isChanged |= RepairTransparentScenarioCollider(scene);
         isChanged |= RepairEpilogue(scene);
+        isChanged |= OOTechRoadHUDUIGroupEditorBuilder.RepairSceneHUDUIGroups(scene);
 
         foreach (GameObject rootObject in scene.GetRootGameObjects())
         {
@@ -264,6 +265,18 @@ public static class OOTechOO_MFCSceneRepair
                 isChanged |= SetStringProperty(serializedRoad, "_currentGroupName", flowData.RoadGroupName);
                 isChanged |= SetStringProperty(serializedRoad, "_targetStageGroupName", flowData.StageGroupName);
                 serializedRoad.ApplyModifiedPropertiesWithoutUndo();
+
+                if (roadGroup.GetComponent<OOTechRoadHUDController>() == null)
+                {
+                    roadGroup.AddComponent<OOTechRoadHUDController>();
+                    isChanged = true;
+                }
+
+                if (roadGroup.GetComponent<OOTechTutorial2Controller>() == null)
+                {
+                    roadGroup.AddComponent<OOTechTutorial2Controller>();
+                    isChanged = true;
+                }
             }
 
             GameObject stageGroup = EnsureRootGroup(scene, flowData.StageGroupName, ref isChanged);
@@ -283,6 +296,13 @@ public static class OOTechOO_MFCSceneRepair
             }
 
             stageController.Configure(flowData.StageGroupName, flowData.NextGroupName, flowData.ButtonText);
+
+            if (stageGroup.GetComponent<OOTechRoadHUDController>() == null)
+            {
+                stageGroup.AddComponent<OOTechRoadHUDController>();
+                isChanged = true;
+            }
+
             isChanged |= RegisterUIGroup(scene, flowData.StageGroupName, stageGroup);
         }
 
@@ -335,7 +355,7 @@ public static class OOTechOO_MFCSceneRepair
 
     private static bool ShouldCopyRoadTemplateChild(string childName)
     {
-        return childName != "RoadHUDCanvas" && childName != "RoadMapFadeCanvas";
+        return childName != "RoadHUDCanvas" && childName != "HUDUIGroup" && childName != "RoadMapFadeCanvas";
     }
 
     private static bool RepairTransparentScenarioCollider(Scene scene)

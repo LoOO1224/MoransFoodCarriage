@@ -57,16 +57,25 @@ public class OOTechTutorialGuideUI : MonoBehaviour
     private Vector3 _originTitleScale = Vector3.one;
     private bool _isCachedTitleOrigin;
 
+    /// <summary>
+    /// 가이드 UI가 처음 준비될 때 씬 소품이 없으면 최소 기본 뷰를 준비합니다.
+    /// </summary>
     private void Awake()
     {
         CreateDefaultViewIfNeeded();
     }
 
+    /// <summary>
+    /// TutorialGuideGroup이 열릴 때 이어가기 버튼 이벤트를 연결합니다.
+    /// </summary>
     private void OnEnable()
     {
         BindButtonEvent();
     }
 
+    /// <summary>
+    /// TutorialGuideGroup이 닫힐 때 버튼 이벤트와 강조/스크롤 코루틴을 정리합니다.
+    /// </summary>
     private void OnDisable()
     {
         UnbindButtonEvent();
@@ -76,6 +85,9 @@ public class OOTechTutorialGuideUI : MonoBehaviour
 
     // ==================== 버튼 바인딩 ====================
 
+    /// <summary>
+    /// 이어가기 버튼을 현재 가이드 진행 함수에 연결합니다.
+    /// </summary>
     private void BindButtonEvent()
     {
         if (Button_Next == null)
@@ -85,6 +97,9 @@ public class OOTechTutorialGuideUI : MonoBehaviour
         Button_Next.onClick.AddListener(NextGuide);
     }
 
+    /// <summary>
+    /// 이어가기 버튼 이벤트를 해제해 중복 호출을 막습니다.
+    /// </summary>
     private void UnbindButtonEvent()
     {
         if (Button_Next == null)
@@ -158,6 +173,9 @@ public class OOTechTutorialGuideUI : MonoBehaviour
         ShowCurrentGuideText();
     }
 
+    /// <summary>
+    /// 가이드 패널을 닫고 현재 표시 상태를 비웁니다.
+    /// </summary>
     public void CloseGuide()
     {
         StopTitleEmphasisEffect();
@@ -180,6 +198,9 @@ public class OOTechTutorialGuideUI : MonoBehaviour
         StopTitleEmphasisEffect();
     }
 
+    /// <summary>
+    /// 데이터 문장 목록을 표시 페이지 목록으로 옮깁니다.
+    /// </summary>
     private void AddGuideTextList(List<string> narrationTexts)
     {
         if (narrationTexts == null)
@@ -189,6 +210,9 @@ public class OOTechTutorialGuideUI : MonoBehaviour
             AddGuideText(narrationText);
     }
 
+    /// <summary>
+    /// &lt;np&gt; 태그를 기준으로 튜토리얼 문장을 여러 페이지로 나눕니다.
+    /// </summary>
     private void AddGuideText(string guideText)
     {
         if (string.IsNullOrWhiteSpace(guideText))
@@ -205,6 +229,9 @@ public class OOTechTutorialGuideUI : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 현재 페이지의 튜토리얼 문장을 본문에 표시합니다.
+    /// </summary>
     private void ShowCurrentGuideText()
     {
         if (_currentGuideTextIndex < 0 || _currentGuideTextIndex >= _guideTextList.Count)
@@ -235,6 +262,9 @@ public class OOTechTutorialGuideUI : MonoBehaviour
         FinishGuide();
     }
 
+    /// <summary>
+    /// 가이드가 끝났음을 외부 컨트롤러에 알립니다.
+    /// </summary>
     private void FinishGuide()
     {
         Action onGuideEnd = _onGuideEnd;
@@ -242,6 +272,9 @@ public class OOTechTutorialGuideUI : MonoBehaviour
         onGuideEnd?.Invoke();
     }
 
+    /// <summary>
+    /// 현재 가이드 데이터와 콜백을 초기화합니다.
+    /// </summary>
     private void ClearGuideState()
     {
         _guideTextList.Clear();
@@ -251,6 +284,9 @@ public class OOTechTutorialGuideUI : MonoBehaviour
 
     // ==================== 완료 강조 효과 ====================
 
+    /// <summary>
+    /// 임무 완료 같은 장면에서 제목을 반짝이게 하는 강조 연출을 시작합니다.
+    /// </summary>
     private void StartTitleEmphasisEffect()
     {
         StopTitleEmphasisEffect();
@@ -262,6 +298,9 @@ public class OOTechTutorialGuideUI : MonoBehaviour
         _titleEmphasisCoroutine = StartCoroutine(PlayTitleEmphasisEffectRoutine());
     }
 
+    /// <summary>
+    /// 제목 색상과 크기를 반복해서 흔들어 완료감을 강조합니다.
+    /// </summary>
     private IEnumerator PlayTitleEmphasisEffectRoutine()
     {
         while (true)
@@ -278,6 +317,9 @@ public class OOTechTutorialGuideUI : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 제목 강조 연출을 멈추고 원래 스타일로 되돌립니다.
+    /// </summary>
     private void StopTitleEmphasisEffect()
     {
         if (_titleEmphasisCoroutine != null)
@@ -293,6 +335,9 @@ public class OOTechTutorialGuideUI : MonoBehaviour
         Text_Title.rectTransform.localScale = _originTitleScale;
     }
 
+    /// <summary>
+    /// 제목 강조 전 원래 색과 크기를 저장합니다.
+    /// </summary>
     private void CacheTitleOriginIfNeeded()
     {
         if (_isCachedTitleOrigin || Text_Title == null)
@@ -305,12 +350,18 @@ public class OOTechTutorialGuideUI : MonoBehaviour
 
     // ==================== UI 값 설정 ====================
 
+    /// <summary>
+    /// 튜토리얼 제목 텍스트를 적용합니다.
+    /// </summary>
     private void SetTitle(string title)
     {
         if (Text_Title != null)
             Text_Title.text = title;
     }
 
+    /// <summary>
+    /// 튜토리얼 본문을 적용하고 스크롤 크기를 갱신합니다.
+    /// </summary>
     private void SetDialogueText(string dialogueText)
     {
         if (Text_Dialogue != null)
@@ -331,6 +382,9 @@ public class OOTechTutorialGuideUI : MonoBehaviour
         RequestRefreshScrollOnNextFrame();
     }
 
+    /// <summary>
+    /// 이어가기 버튼 문구를 적용합니다.
+    /// </summary>
     private void SetNextButtonText(string buttonText)
     {
         if (Text_NextButton != null)

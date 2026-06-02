@@ -29,6 +29,11 @@ public class DialogueUI : MonoBehaviour
     [SerializeField] private RectTransform Rect_DialogueContent;
     [SerializeField] private float _scrollContentPadding = 16f;
 
+    [Header("Outside Click")]
+    [SerializeField] private bool _isAdvanceByOutsideClick = true;
+    [SerializeField] private float _outsideClickDelay = 0.08f;
+    [SerializeField] private int _roadViewSortingOrder = 1400;
+
     // ==================== 대화 상태 ====================
     private OO_Dialogue _currentDialogue;
     private readonly List<string> _narrationTextList = new List<string>();
@@ -37,7 +42,13 @@ public class DialogueUI : MonoBehaviour
     private Coroutine _refreshScrollCoroutine;
     private OOTechDialogueLayout Layout_Dialogue;
     private OOTechDialogueSpeakerNameBackdrop Backdrop_SpeakerName;
+    private GameObject Root_OutsideClickBlocker;
+    private Button Button_OutsideClickBlocker;
+    private float _outsideClickReadyTime;
 
+    /// <summary>
+    /// 대화 UI가 처음 준비될 때 폰트, 화자 이름 배경, 기본 레이아웃을 준비합니다.
+    /// </summary>
     private void Awake()
     {
         ApplyProjectFont();
@@ -45,6 +56,9 @@ public class DialogueUI : MonoBehaviour
         ApplyDialogueLayout();
     }
 
+    /// <summary>
+    /// DialogueGroup이 열릴 때 버튼 이벤트와 표시 스타일을 다시 연결합니다.
+    /// </summary>
     private void OnEnable()
     {
         ApplyProjectFont();
@@ -53,10 +67,25 @@ public class DialogueUI : MonoBehaviour
         BindButtonEvent();
     }
 
+    /// <summary>
+    /// DialogueGroup이 닫힐 때 버튼 이벤트, 스크롤 갱신, 바깥 클릭 블로커를 정리합니다.
+    /// </summary>
     private void OnDisable()
     {
         UnbindButtonEvent();
         StopRefreshScrollCoroutine();
+        SetOutsideClickBlockerActive(false);
+    }
+
+    /// <summary>
+    /// 버튼이 아니라 대화창 밖을 클릭해도 이어가기처럼 진행되도록 감시합니다.
+    /// </summary>
+    private void Update()
+    {
+        if (!CanAdvanceByOutsideClick())
+            return;
+
+        NextDialogue();
     }
 
     // ==================== 버튼 바인딩 ====================
@@ -74,12 +103,33 @@ public class DialogueUI : MonoBehaviour
             Layout_Dialogue.ApplyLayout();
     }
 
+    /// <summary>
+    /// Road View에서는 HUD가 하단에 있으므로 대화창을 중앙 무대로 올리고 HUD보다 위에 렌더링합니다.
+    /// </summary>
+    public void RequestRoadViewLayout()
+    {
+        if (Layout_Dialogue == null)
+            Layout_Dialogue = GetComponent<OOTechDialogueLayout>();
+
+        if (Layout_Dialogue == null)
+            Layout_Dialogue = gameObject.AddComponent<OOTechDialogueLayout>();
+
+        Layout_Dialogue.ApplyRoadViewLayout();
+        RaiseCanvasForRoadViewDialogue();
+    }
+
+    /// <summary>
+    /// 프로젝트 공통 한글 폰트를 화자 이름과 본문에 적용합니다.
+    /// </summary>
     private void ApplyProjectFont()
     {
         OOTechTMPFontUtility.ApplyProjectFont(Text_SpeakerName);
         OOTechTMPFontUtility.ApplyProjectFont(Text_Dialogue);
     }
 
+    /// <summary>
+    /// SpeakerNameText 뒤의 반투명 이름표 컴포넌트를 준비합니다.
+    /// </summary>
     private void PrepareSpeakerNameBackdrop()
     {
         if (Backdrop_SpeakerName == null)
@@ -89,6 +139,9 @@ public class DialogueUI : MonoBehaviour
             Backdrop_SpeakerName = gameObject.AddComponent<OOTechDialogueSpeakerNameBackdrop>();
     }
 
+    /// <summary>
+    /// Next 버튼을 현재 대화 진행 함수에 연결합니다.
+    /// </summary>
     private void BindButtonEvent()
     {
         if (Button_Next == null)
@@ -98,6 +151,9 @@ public class DialogueUI : MonoBehaviour
         Button_Next.onClick.AddListener(NextDialogue);
     }
 
+    /// <summary>
+    /// Next 버튼 이벤트를 해제해 중복 호출을 막습니다.
+    /// </summary>
     private void UnbindButtonEvent()
     {
         if (Button_Next == null)
@@ -125,6 +181,7 @@ public class DialogueUI : MonoBehaviour
         _currentNarrationTextIndex = 0;
 
         gameObject.SetActive(true);
+        BlockOutsideClickBriefly();
 
         SetSpeakerName(dialogueData.SpeakerName);
         SetDialogueText(dialogueData.Text);
@@ -162,6 +219,7 @@ public class DialogueUI : MonoBehaviour
         gameObject.SetActive(true);
 
         SetSpeakerName("나레이션");
+        BlockOutsideClickBriefly();
         SetNextButtonActive(true);
         ShowCurrentNarrationText();
     }
@@ -169,6 +227,9 @@ public class DialogueUI : MonoBehaviour
     /// <summary>
     /// 나레이션 텍스트를 표시 단위로 정리합니다.
     /// 기본은 JSON의 한 항목을 한 번에 보여주며, 필요하면 텍스트 안의 &lt;np&gt; 태그로 페이지를 나눌 수 있습니다.
+    /// </summary>
+    /// <summary>
+    /// 나레이션 문장 묶음을 현재 페이지 단위로 추가합니다.
     /// </summary>
     private void AddNarrationTextList(List<string> narrationTexts)
     {
@@ -179,6 +240,9 @@ public class DialogueUI : MonoBehaviour
             AddNarrationText(narrationText);
     }
 
+    /// <summary>
+    /// 긴 나레이션 안의 &lt;np&gt; 태그를 기준으로 표시 페이지를 나눕니다.
+    /// </summary>
     private void AddNarrationText(string narrationText)
     {
         if (string.IsNullOrWhiteSpace(narrationText))
@@ -196,6 +260,9 @@ public class DialogueUI : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 현재 나레이션 페이지를 대화창 본문에 보여줍니다.
+    /// </summary>
     private void ShowCurrentNarrationText()
     {
         if (_currentNarrationTextIndex < 0 || _currentNarrationTextIndex >= _narrationTextList.Count)
@@ -225,6 +292,9 @@ public class DialogueUI : MonoBehaviour
         MoveNextDialogue();
     }
 
+    /// <summary>
+    /// 나레이션이면 다음 페이지로, 일반 대화면 현재 대화를 종료합니다.
+    /// </summary>
     private void MoveNextNarrationText()
     {
         _currentNarrationTextIndex++;
@@ -238,6 +308,9 @@ public class DialogueUI : MonoBehaviour
         FinishDialogue();
     }
 
+    /// <summary>
+    /// 일반 대화는 한 번 읽으면 종료 콜백으로 다음 콜시트에 넘깁니다.
+    /// </summary>
     private void MoveNextDialogue()
     {
         if (_currentDialogue == null)
@@ -260,13 +333,18 @@ public class DialogueUI : MonoBehaviour
     /// </summary>
     public void CloseDialogue()
     {
+        SetOutsideClickBlockerActive(false);
         ClearDialogueState();
         gameObject.SetActive(false);
     }
 
+    /// <summary>
+    /// 대화가 끝났음을 외부 컨트롤러에 알리고 현재 상태를 비웁니다.
+    /// </summary>
     private void FinishDialogue()
     {
         Action onDialogueEnd = _onDialogueEnd;
+        SetOutsideClickBlockerActive(false);
         ClearDialogueState();
         onDialogueEnd?.Invoke();
     }
@@ -281,12 +359,18 @@ public class DialogueUI : MonoBehaviour
 
     // ==================== UI 값 설정 ====================
 
+    /// <summary>
+    /// 화자 이름 칸에 표시할 이름을 적용합니다. 비어 있으면 나레이션으로 표시합니다.
+    /// </summary>
     private void SetSpeakerName(string speakerName)
     {
         if (Text_SpeakerName != null)
             Text_SpeakerName.text = string.IsNullOrEmpty(speakerName) ? "나레이션" : speakerName;
     }
 
+    /// <summary>
+    /// 본문 텍스트를 적용하고 스크롤/높이를 즉시 갱신합니다.
+    /// </summary>
     private void SetDialogueText(string dialogueText)
     {
         if (Text_Dialogue != null)
@@ -307,10 +391,162 @@ public class DialogueUI : MonoBehaviour
         RequestRefreshScrollOnNextFrame();
     }
 
+    /// <summary>
+    /// 이어가기 버튼 표시와 바깥 클릭 진행 가능 상태를 함께 맞춥니다.
+    /// </summary>
     private void SetNextButtonActive(bool isActive)
     {
         if (Button_Next != null)
             Button_Next.gameObject.SetActive(isActive);
+
+        SetOutsideClickBlockerActive(isActive && HasActiveDialogueText());
+    }
+
+    // ==================== Outside click advance ====================
+
+    /// <summary>
+    /// 대화창 바깥 클릭이 이어가기 입력으로 처리될 수 있는지 확인합니다.
+    /// </summary>
+    private bool CanAdvanceByOutsideClick()
+    {
+        if (!_isAdvanceByOutsideClick)
+            return false;
+
+        if (Root_OutsideClickBlocker != null && Root_OutsideClickBlocker.activeInHierarchy)
+            return false;
+
+        if (!gameObject.activeInHierarchy)
+            return false;
+
+        if (!HasActiveDialogueText())
+            return false;
+
+        if (Time.unscaledTime < _outsideClickReadyTime)
+            return false;
+
+        if (Button_Next != null && !Button_Next.gameObject.activeInHierarchy)
+            return false;
+
+        if (!Input.GetMouseButtonDown(0))
+            return false;
+
+        return !IsPointerInsideDialoguePanel();
+    }
+
+    /// <summary>
+    /// 대화창 뒤에 투명 버튼을 깔아 바깥 클릭을 받을 준비를 합니다.
+    /// </summary>
+    private void PrepareOutsideClickBlocker()
+    {
+        if (Root_OutsideClickBlocker != null)
+            return;
+
+        Transform parentTransform = transform.parent;
+
+        if (parentTransform == null)
+            return;
+
+        Root_OutsideClickBlocker = new GameObject("Button_DialogueOutsideClickBlocker", typeof(RectTransform));
+        Root_OutsideClickBlocker.transform.SetParent(parentTransform, false);
+
+        RectTransform blockerRect = Root_OutsideClickBlocker.transform as RectTransform;
+
+        if (blockerRect != null)
+        {
+            blockerRect.anchorMin = Vector2.zero;
+            blockerRect.anchorMax = Vector2.one;
+            blockerRect.pivot = new Vector2(0.5f, 0.5f);
+            blockerRect.offsetMin = Vector2.zero;
+            blockerRect.offsetMax = Vector2.zero;
+            blockerRect.localScale = Vector3.one;
+        }
+
+        Image blockerImage = Root_OutsideClickBlocker.AddComponent<Image>();
+        blockerImage.color = new Color(0f, 0f, 0f, 0f);
+        blockerImage.raycastTarget = true;
+
+        Button_OutsideClickBlocker = Root_OutsideClickBlocker.AddComponent<Button>();
+        Button_OutsideClickBlocker.transition = Selectable.Transition.None;
+        Button_OutsideClickBlocker.onClick.AddListener(HandleOutsideClickBlockerClicked);
+        Root_OutsideClickBlocker.SetActive(false);
+    }
+
+    /// <summary>
+    /// 바깥 클릭 블로커를 켜고 끕니다.
+    /// </summary>
+    private void SetOutsideClickBlockerActive(bool isActive)
+    {
+        if (!_isAdvanceByOutsideClick)
+            isActive = false;
+
+        if (isActive)
+            PrepareOutsideClickBlocker();
+
+        if (Root_OutsideClickBlocker == null)
+            return;
+
+        Root_OutsideClickBlocker.SetActive(isActive);
+
+        if (!isActive)
+            return;
+
+        Root_OutsideClickBlocker.transform.SetSiblingIndex(transform.GetSiblingIndex());
+        transform.SetAsLastSibling();
+    }
+
+    /// <summary>
+    /// 투명 블로커가 클릭되면 NextDialogue와 같은 동작을 실행합니다.
+    /// </summary>
+    private void HandleOutsideClickBlockerClicked()
+    {
+        if (Time.unscaledTime < _outsideClickReadyTime)
+            return;
+
+        NextDialogue();
+    }
+
+    private bool HasActiveDialogueText()
+    {
+        return _currentDialogue != null || _narrationTextList.Count > 0;
+    }
+
+    private bool IsPointerInsideDialoguePanel()
+    {
+        RectTransform panelRect = transform as RectTransform;
+
+        if (panelRect == null)
+            return false;
+
+        return RectTransformUtility.RectangleContainsScreenPoint(panelRect, Input.mousePosition, GetCanvasCamera());
+    }
+
+    private Camera GetCanvasCamera()
+    {
+        Canvas canvas = GetComponentInParent<Canvas>();
+
+        if (canvas == null || canvas.renderMode == RenderMode.ScreenSpaceOverlay)
+            return null;
+
+        return canvas.worldCamera;
+    }
+
+    private void BlockOutsideClickBriefly()
+    {
+        _outsideClickReadyTime = Time.unscaledTime + _outsideClickDelay;
+    }
+
+    /// <summary>
+    /// Road View 대화창이 HUD보다 앞에 보이도록 Canvas 정렬 순서를 올립니다.
+    /// </summary>
+    private void RaiseCanvasForRoadViewDialogue()
+    {
+        Canvas canvas = GetComponentInParent<Canvas>();
+
+        if (canvas == null)
+            return;
+
+        canvas.overrideSorting = true;
+        canvas.sortingOrder = Mathf.Max(canvas.sortingOrder, _roadViewSortingOrder);
     }
 
     // ==================== 스크롤 갱신 ====================
@@ -318,6 +554,9 @@ public class DialogueUI : MonoBehaviour
     /// <summary>
     /// TMP 텍스트의 실제 선호 높이를 Content에 반영합니다.
     /// 이 보정이 없으면 긴 나레이션이 마스크 밖으로 밀려 보이거나 Content 높이가 0으로 남을 수 있습니다.
+    /// </summary>
+    /// <summary>
+    /// 본문 내용 길이에 맞춰 TMP 텍스트와 스크롤 Content 높이를 갱신합니다.
     /// </summary>
     private void ResizeDialogueTextToPreferredHeight()
     {

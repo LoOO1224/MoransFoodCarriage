@@ -1,0 +1,114 @@
+[
+  {
+    "Id": "character_Moran_01",
+    "Name": "모란",
+    "Description": "\"치.직... 시.스.템. 가.동. 아.버.지! 저. 말.도. 하.고. 움.직.여.요. 가.슴.속. 태.엽.이. 진짜. 심.장. 처.럼. 쿵.쾅.거.립.니.다. 소.녀. 다.시. 인.사. 올.려.드.리.옵.니.다.\"",
+    "SkillList": null,
+    "UseWeaponId": null,
+    "BasicCostumeId": null
+  },
+  {
+    "Id": "character_JangYoungSim_01",
+    "Name": "장영심",
+    "Description": "“……장, 장금아……! 네가 정녕 돌아온 것이냐……!”",
+    "SkillList": null,
+    "UseWeaponId": null,
+    "BasicCostumeId": null
+  },
+  {
+    "Id": "character_Mr.Jaeik_01",
+    "Name": "재익군",
+    "Description": "\"끄응…! 어이쿠, 이 맛은 당최 무엇이구멍유?! 가슴 깊은 곳에서 뜨거운 기운이 확 솟구치는구멍! ……어라? 내, 내가 왜 두 발로 서 있는 거래유? 게다가 사람 말이 입 밖으로 막 나오잖습지멍?! 아이고 대감 천지신명이시여, 이게 무슨 기적이란 말이멍유!\"",
+    "SkillList": null,
+    "UseWeaponId": null,
+    "BasicCostumeId": null
+  },
+  {
+    "Id": "character_Chunyang_01",
+    "Name": "춘양",
+    "Description": "“재익아! 네 이놈, 어디 갔나 했더니 여기서 뭘 먹고…… 아니, 네가 어찌 사람의 옷을 입고 두 발로 서 있는 게냐? 귀신이 곡할 노릇이로구나!”",
+    "SkillList": null,
+    "UseWeaponId": null,
+    "BasicCostumeId": null
+  },
+  {
+    "Id": "character_Mr.Jaeik_02",
+    "Name": "재익군",
+    "Description": "“아씨! 글쎄 이 신비로운 요리를 한 입 먹었더니만, 온몸의 털이 곤두서며 진짜로 말하는 사람이 되었구멍요!”",
+    "SkillList": null,
+    "UseWeaponId": null,
+    "BasicCostumeId": null
+  },
+  {
+    "Id": "character_Moran_02",
+    "Name": "모란",
+    "Description": "“안녕하세요, 여러분! 음식으로 세상을 치유하는 멋진 여정을 떠나보려고 해요. 제 동료가 되어서 이 모험을 함께해 주시지 않겠어요?”",
+    "SkillList": null,
+    "UseWeaponId": null,
+    "BasicCostumeId": null
+  },
+  {
+    "Id": "character_Chunyang_02",
+    "Name": "춘양",
+    "Description": "“나는 홀연히 자취를 감춘 서방님, 몽령 나으리를 찾기 위해 온 팔도를 헤매는 중이라오. 갈 길이 멀고 험난한 여정이 되겠으나…… 그대들의 이 신비로운 음식을 여정 내내 맛볼 수만 있다면, 내 기꺼이 길잡이가 되어 드리겠소.”",
+    "SkillList": null,
+    "UseWeaponId": null,
+    "BasicCostumeId": null
+  },
+  {
+    "Id": "character_Chunyang_03",
+    "Name": "춘양",
+    "Description": "“우리 아버님께서 내어주신 참으로 귀한 쌀이라오. 자네들의 여정에 조금이나마 보탬이 되었으면 좋겠소.”",
+    "SkillList": null,
+    "UseWeaponId": null,
+    "BasicCostumeId": null
+  },
+  {
+    "Id": "character_Moran_03",
+    "Name": "모란",
+    "Description": "“우리 집 마당에서 기른 귀한 채소들이에요. 참 맛좋은 음식들이 가득했었는데… 아쉽게도 다른 음식은 재익 군이 남김없이 다 먹어버렸지요! 하하.”",
+    "SkillList": null,
+    "UseWeaponId": null,
+    "BasicCostumeId": null
+  },
+  {
+    "Id": "character_Mr.Jaeik_03",
+    "Name": "재익군",
+    "Description": "“아이고, 모란님… 면목이 없구멍유. 그 참을 수 없는 냄새에 저도 모르게 개 버릇을 못 고치고 주둥이가 먼저 나가버렸지 멍유……. 정말 미안하구멍유…….”",
+    "SkillList": null,
+    "UseWeaponId": null,
+    "BasicCostumeId": null
+  },
+  {
+    "Id": "character_Chunyang_04",
+    "Name": "춘양",
+    "Description": "“모란님, 이 미련한 놈의 허물은 내 대신 사죄하겠소. 밥값을 하려면 부지런히 길을 나서야 할 터…… 먼저는 동쪽으로 가시지요. 그곳에 탐관오리의 수탈로 배 굶주린 자들이 유독 많다 들었습니다.”",
+    "SkillList": null,
+    "UseWeaponId": null,
+    "BasicCostumeId": null
+  },
+  {
+    "Id": "character_Mr.Jaeik_04",
+    "Name": null,
+    "Description": "“슬슬 날이 저무니 배가 고프지 않습니까요, 아씨? 제가 배고파서 그런 건 절대 아니구멍유……! 모란 님이 우리를 위해 맛난 요리를 해주신다면 참말로 감사하겠서요!”\n(그의 꼬리를 흔들리는걸 멈추지 않는 탓일가)",
+    "SkillList": null,
+    "UseWeaponId": null,
+    "BasicCostumeId": null
+  },
+  {
+    "Id": "character_Chunyang_05",
+    "Name": null,
+    "Description": "“그러고 보니 벌써 저녁때가 되었구려. 마침 다들 지쳤을 터인데, 낭자에게 염치 불고하고 따뜻한 식사를 부탁드려도 되겠소?”",
+    "SkillList": null,
+    "UseWeaponId": null,
+    "BasicCostumeId": null
+  },
+  {
+    "Id": "character_Moran_04",
+    "Name": null,
+    "Description": "“당연히 해드려야죠! 가마솥을 뜨겁게 달굴 테니, 두 분 다 조금만 기다려주세요. 세상에서 가장 배부른 요리를 지어드릴게요!”",
+    "SkillList": null,
+    "UseWeaponId": null,
+    "BasicCostumeId": null
+  }
+]

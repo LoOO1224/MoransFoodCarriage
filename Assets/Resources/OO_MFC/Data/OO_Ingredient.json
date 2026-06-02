@@ -1,0 +1,18 @@
+[
+  {
+    "Id": "Ing_Rice_01",
+    "Name": "쌀",
+    "Description": "밥과 죽의 기본이 되는 곡식입니다.",
+    "IconPath": "",
+    "Grade": "일반",
+    "MaxStackCount": "99"
+  },
+  {
+    "Id": "Ing_Pumpkin_01",
+    "Name": "호박",
+    "Description": "달큰한 맛을 내는 채소입니다.",
+    "IconPath": "",
+    "Grade": "일반",
+    "MaxStackCount": "99"
+  }
+]

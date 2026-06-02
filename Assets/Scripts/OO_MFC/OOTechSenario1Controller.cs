@@ -5,8 +5,8 @@ using UnityEngine;
 using UnityEngine.UI;
 
 /// <summary>
-/// Directs the full Senario1Group flow: opening guide, Jaeik control,
-/// quest interaction, transformation, camera focus, dialogue, and completion.
+/// Senario1Group 전체 흐름을 지휘하는 콜시트 컨트롤러입니다.
+/// 시작 튜토리얼, 재익 조작, 음식 상호작용, 변신, 카메라 포커스, 대화, 완료 버튼 순서를 관리합니다.
 /// </summary>
 public class OOTechSenario1Controller : MonoBehaviour
 {
@@ -149,12 +149,18 @@ public class OOTechSenario1Controller : MonoBehaviour
     private bool _isQuestSequenceStarted;
     private float _originCameraOrthographicSize;
 
+    /// <summary>
+    /// Scenario1 무대가 켜지면 전체 진행 루틴을 시작합니다.
+    /// </summary>
     private void OnEnable()
     {
         StopMainRoutine();
         _mainRoutine = StartCoroutine(StartSenario1GroupRoutine());
     }
 
+    /// <summary>
+    /// Scenario1 무대가 꺼질 때 코루틴, UI, 시간 정지, 이펙트를 모두 정리합니다.
+    /// </summary>
     private void OnDisable()
     {
         StopAllCoroutines();
@@ -193,6 +199,10 @@ public class OOTechSenario1Controller : MonoBehaviour
         _mainRoutine = null;
     }
 
+    /// <summary>
+    /// 씬에 있는 배우, 배경, UI, BGM 참조를 모두 수집합니다.
+    /// 역할표가 있으면 먼저 쓰고, 없으면 이름 검색으로 보조합니다.
+    /// </summary>
     private void CacheAllReferences()
     {
         CacheSceneContextReference();
@@ -239,8 +249,8 @@ public class OOTechSenario1Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// Reads the casting labels first. The old name lookup below remains only
-    /// as a compatibility net for older scene copies that do not have labels.
+    /// OOTechSceneObject 역할표를 먼저 읽습니다.
+    /// 예전 씬 복사본을 위해 이름 검색은 뒤쪽 보조망으로만 남겨 둡니다.
     /// </summary>
     private void CacheSceneContextReference()
     {
@@ -280,6 +290,9 @@ public class OOTechSenario1Controller : MonoBehaviour
         return roleObject != null ? roleObject : fallback;
     }
 
+    /// <summary>
+    /// Jaeik 오브젝트에 이동/점프/상호작용 컨트롤러를 연결합니다.
+    /// </summary>
     private void CacheJaeikController()
     {
         if (Transform_Jaeik == null)
@@ -320,6 +333,9 @@ public class OOTechSenario1Controller : MonoBehaviour
         return null;
     }
 
+    /// <summary>
+    /// 메인 카메라와 CameraFollowController를 찾아 카메라 큐에 사용할 준비를 합니다.
+    /// </summary>
     private void CacheCameraReference()
     {
         if (Camera_Main == null)
@@ -341,6 +357,9 @@ public class OOTechSenario1Controller : MonoBehaviour
             BGM_Player = GetComponentInChildren<Senario1_BGMPlayer>(true);
     }
 
+    /// <summary>
+    /// DialogueGroup과 TutorialGuideGroup을 찾아 데이터 표시용 UI로 연결합니다.
+    /// </summary>
     private void CacheUIReference()
     {
         if (Group_TutorialGuide == null)
@@ -381,6 +400,9 @@ public class OOTechSenario1Controller : MonoBehaviour
             _backgroundOriginSpriteDic[backgroundObject] = spriteRenderer.sprite;
     }
 
+    /// <summary>
+    /// Scenario1 연출 시간 값을 요구사항 기준으로 고정합니다.
+    /// </summary>
     private void ApplyRequiredScenarioTiming()
     {
         _eatAnimatorSpeed = 0.3f;
@@ -390,6 +412,10 @@ public class OOTechSenario1Controller : MonoBehaviour
         _blinkCount = 4;
     }
 
+    /// <summary>
+    /// 재익이 움직이기 전 첫 무대 상태를 만듭니다.
+    /// 배경1과 Jaeik은 보이고, 변신 후 등장할 배우들은 무대 뒤에 둡니다.
+    /// </summary>
     private void PrepareInitialState()
     {
         // 첫 장면 세팅:
@@ -425,6 +451,10 @@ public class OOTechSenario1Controller : MonoBehaviour
             Group_Dialogue.SetActive(false);
     }
 
+    /// <summary>
+    /// Coliider_ 계열 오브젝트가 흰 벽처럼 보이지 않도록 Renderer를 끕니다.
+    /// Collider 자체는 살아 있어서 투명 벽으로 충돌합니다.
+    /// </summary>
     private void HideScenarioColliderRenderer()
     {
         Transform[] childTransformArray = GetComponentsInChildren<Transform>(true);
@@ -446,6 +476,9 @@ public class OOTechSenario1Controller : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 배경 오브젝트의 활성화, Animator, SpriteRenderer 상태를 초기화합니다.
+    /// </summary>
     private void PrepareBackgroundObject(GameObject backgroundObject, bool isActive)
     {
         if (backgroundObject == null)
@@ -471,6 +504,9 @@ public class OOTechSenario1Controller : MonoBehaviour
         spriteRenderer.color = color;
     }
 
+    /// <summary>
+    /// 대화 장면에 등장할 캐릭터의 Idle 애니메이션을 미리 준비합니다.
+    /// </summary>
     private void PrepareCharacterIdleAnimation(Transform target, string idleStateName, AnimationClip idleClip = null)
     {
         if (target == null || !target.gameObject.activeInHierarchy)
@@ -497,6 +533,9 @@ public class OOTechSenario1Controller : MonoBehaviour
         PlayAnimatorState(animator, idleStateName);
     }
 
+    /// <summary>
+    /// UIManager가 TutorialGuideGroup과 DialogueGroup을 열 수 있도록 등록합니다.
+    /// </summary>
     private void RegisterRuntimeUIGroup()
     {
         if (OOTechUIManager.Inst == null)
@@ -509,6 +548,9 @@ public class OOTechSenario1Controller : MonoBehaviour
             OOTechUIManager.Inst.RegisterUI(_dialogueGroupName, Group_Dialogue);
     }
 
+    /// <summary>
+    /// Jaeik에게 음식 상호작용 대상과 E키 콜백을 연결합니다.
+    /// </summary>
     private void PrepareForPlayerControl()
     {
         if (Character_Jaeik == null)
@@ -521,6 +563,9 @@ public class OOTechSenario1Controller : MonoBehaviour
         Character_Jaeik.BindEatInteractionRequestEvent(OnEatInteractionRequested);
     }
 
+    /// <summary>
+    /// 대화/연출 중 Jaeik 조작권을 잠급니다.
+    /// </summary>
     private void LockJaeikControl()
     {
         if (Character_Jaeik == null)
@@ -531,6 +576,9 @@ public class OOTechSenario1Controller : MonoBehaviour
         Character_Jaeik.HideInteractionPrompt();
     }
 
+    /// <summary>
+    /// 시작 가이드가 끝난 뒤 Jaeik 조작권을 플레이어에게 넘깁니다.
+    /// </summary>
     private void UnlockJaeikControl()
     {
         if (Character_Jaeik == null)
@@ -540,6 +588,9 @@ public class OOTechSenario1Controller : MonoBehaviour
         Character_Jaeik.SetInputEnabled(true);
     }
 
+    /// <summary>
+    /// 시작 튜토리얼을 마치고 시간 정지를 풀어 실제 플레이를 시작합니다.
+    /// </summary>
     private void FinishInitialGuide()
     {
         if (_isInitialGuideFinished)
@@ -552,6 +603,9 @@ public class OOTechSenario1Controller : MonoBehaviour
         UnlockJaeikControl();
     }
 
+    /// <summary>
+    /// 음식 근처에서 E 상호작용이 들어오면 변신 퀘스트 루틴을 한 번 시작합니다.
+    /// </summary>
     private void OnEatInteractionRequested()
     {
         if (_isQuestSequenceStarted)
@@ -560,6 +614,9 @@ public class OOTechSenario1Controller : MonoBehaviour
         _questRoutine = StartCoroutine(PlayQuestSequenceRoutine());
     }
 
+    /// <summary>
+    /// 먹기 애니메이션, 변신 이펙트, 배경 교체, 후속 데이터 대화를 순서대로 실행합니다.
+    /// </summary>
     private IEnumerator PlayQuestSequenceRoutine()
     {
         // 음식과 상호작용한 순간부터는 플레이어 입력을 잠급니다.
@@ -590,6 +647,9 @@ public class OOTechSenario1Controller : MonoBehaviour
         _questRoutine = null;
     }
 
+    /// <summary>
+    /// Jaeik_isEatting 애니메이션을 재생하고 끝날 때까지 기다립니다.
+    /// </summary>
     private IEnumerator PlayEatAnimationAndWait()
     {
         if (Character_Jaeik == null)
@@ -602,6 +662,9 @@ public class OOTechSenario1Controller : MonoBehaviour
             yield return null;
     }
 
+    /// <summary>
+    /// 변신 스프라이트 1사이클 동안 카메라를 줌인하고, 끝나면 원래 크기로 줌아웃합니다.
+    /// </summary>
     private IEnumerator PlayTransformedZoomAnimationAndWait()
     {
         if (Character_Jaeik == null)
@@ -618,12 +681,18 @@ public class OOTechSenario1Controller : MonoBehaviour
         yield return ZoomCameraRoutine(GetCurrentCameraSize(), GetOriginCameraSize(), _transformZoomOutSeconds);
     }
 
+    /// <summary>
+    /// 음식 상호작용 이후 필요하면 Jaeik 스프라이트를 교체합니다.
+    /// </summary>
     private void ChangeJaeikAppearance()
     {
         if (SpriteRenderer_Jaeik != null && Sprite_JaeikAfterInteraction != null)
             SpriteRenderer_Jaeik.sprite = Sprite_JaeikAfterInteraction;
     }
 
+    /// <summary>
+    /// 전체 화면 깜빡임으로 변신 에너지가 터지는 연출을 만듭니다.
+    /// </summary>
     private IEnumerator PlayTransformationBlinkRoutine()
     {
         CreateEffectOverlayIfNeeded();
@@ -647,6 +716,9 @@ public class OOTechSenario1Controller : MonoBehaviour
         HideEffectOverlay();
     }
 
+    /// <summary>
+    /// 배경 교체 전후로 검은 페이드 인/아웃을 재생합니다.
+    /// </summary>
     private IEnumerator PlayBlackFadeRoutine()
     {
         CreateEffectOverlayIfNeeded();
@@ -664,6 +736,9 @@ public class OOTechSenario1Controller : MonoBehaviour
         HideEffectOverlay();
     }
 
+    /// <summary>
+    /// 화면 전체 오버레이 색과 알파를 보간해 플래시/페이드 효과를 만듭니다.
+    /// </summary>
     private IEnumerator FadeEffectOverlay(Color color, float startAlpha, float endAlpha, float duration)
     {
         float elapsedTime = 0f;
@@ -680,6 +755,9 @@ public class OOTechSenario1Controller : MonoBehaviour
         SetEffectOverlayColor(color, endAlpha);
     }
 
+    /// <summary>
+    /// Senario1Background를 끄고 Senario1Background2를 켭니다.
+    /// </summary>
     private void SwitchToSecondBackground()
     {
         // 세트 전환:
@@ -688,6 +766,9 @@ public class OOTechSenario1Controller : MonoBehaviour
         PrepareBackgroundObject(Object_Senario1Background2, true);
     }
 
+    /// <summary>
+    /// 변신 후 원래 Jaeik을 끄고 Mr.Jaeik을 켠 뒤 카메라 포커스를 옮깁니다.
+    /// </summary>
     private void ActivateMrJaeik()
     {
         if (Transform_MrJaeik == null)
@@ -709,6 +790,9 @@ public class OOTechSenario1Controller : MonoBehaviour
             BGM_Player.PlayJaeikFocusedBGM();
     }
 
+    /// <summary>
+    /// 변신 후 나레이션, 재익군/춘양/모란 대화, 완료 가이드, 넘어가기 버튼을 순서대로 실행합니다.
+    /// </summary>
     private IEnumerator PlayAfterTransformDataSequenceRoutine()
     {
         // 감독 노트:
@@ -750,6 +834,9 @@ public class OOTechSenario1Controller : MonoBehaviour
         ShowCommonSkipButton();
     }
 
+    /// <summary>
+    /// Narration 데이터를 DialogueUI가 표시할 수 있는 대화 형태로 바꿔 한 파트 보여줍니다.
+    /// </summary>
     private IEnumerator OpenNarrationAsDialogueAndWait(string narrationId, string speakerCharacterId)
     {
         if (!TryOpenDialogueGroup())
@@ -764,6 +851,9 @@ public class OOTechSenario1Controller : MonoBehaviour
         yield return ShowDialogueDataAndWait(dialogueData);
     }
 
+    /// <summary>
+    /// 특정 화자의 Dialogue 데이터를 띄우고, 카메라를 해당 배우에게 이동시킨 뒤 기다립니다.
+    /// </summary>
     private IEnumerator OpenDialogueAndWait(string dialogueId, string speakerCharacterId, Transform focusTarget, bool isSnapCamera)
     {
         FocusCamera(focusTarget, isSnapCamera);
@@ -778,6 +868,9 @@ public class OOTechSenario1Controller : MonoBehaviour
         yield return ShowDialogueDataAndWait(dialogueData);
     }
 
+    /// <summary>
+    /// DialogueUI에 데이터를 표시하고 플레이어가 이어가기 할 때까지 기다립니다.
+    /// </summary>
     private IEnumerator ShowDialogueDataAndWait(OO_Dialogue dialogueData)
     {
         if (UI_Dialogue == null || dialogueData == null)
@@ -790,6 +883,9 @@ public class OOTechSenario1Controller : MonoBehaviour
             yield return null;
     }
 
+    /// <summary>
+    /// Narration의 첫 텍스트를 Dialogue 형태로 감싸 화자 이름을 붙입니다.
+    /// </summary>
     private OO_Dialogue CreateDialogueFromNarration(OO_Narration narrationData, string speakerCharacterId)
     {
         // OO_Narration 하나를 DialogueGroup이 읽을 수 있는 임시 대본 카드로 바꿉니다.
@@ -823,6 +919,9 @@ public class OOTechSenario1Controller : MonoBehaviour
         return string.Empty;
     }
 
+    /// <summary>
+    /// Dialogue 데이터에 데이터 드리븐 화자 이름을 보정해 반환합니다.
+    /// </summary>
     private OO_Dialogue GetDialogueDataWithSpeaker(string dialogueId, string speakerCharacterId)
     {
         OO_Dialogue sourceData = OOTechGameDataManager.Inst != null ? OOTechGameDataManager.Inst.GetDialogueData(dialogueId) : null;
@@ -853,6 +952,9 @@ public class OOTechSenario1Controller : MonoBehaviour
         return string.IsNullOrEmpty(fallbackName) ? characterId : fallbackName;
     }
 
+    /// <summary>
+    /// TutorialGuideGroup을 열고 튜토리얼 데이터 한 건을 표시한 뒤 완료까지 기다립니다.
+    /// </summary>
     private IEnumerator OpenTutorialGuideAndWait(string tutorialId, bool isEmphasis)
     {
         if (!TryOpenTutorialGuide())
@@ -944,11 +1046,17 @@ public class OOTechSenario1Controller : MonoBehaviour
             Group_Dialogue.SetActive(false);
     }
 
+    /// <summary>
+    /// 카메라를 즉시 Jaeik에게 맞춰 Scenario1 시작 초점이 어긋나지 않게 합니다.
+    /// </summary>
     private void FocusCameraOnJaeikImmediately()
     {
         FocusCamera(Transform_Jaeik, true);
     }
 
+    /// <summary>
+    /// CameraFollowController의 타겟을 해당 배우로 바꾸고, 필요하면 카메라를 즉시 스냅합니다.
+    /// </summary>
     private void FocusCamera(Transform target, bool isSnapImmediately)
     {
         if (target == null)
@@ -972,6 +1080,9 @@ public class OOTechSenario1Controller : MonoBehaviour
         cameraTransform.position = new Vector3(target.position.x, target.position.y, cameraTransform.position.z);
     }
 
+    /// <summary>
+    /// 카메라 orthographicSize를 보간해 변신 줌인/줌아웃을 만듭니다.
+    /// </summary>
     private IEnumerator ZoomCameraRoutine(float startSize, float endSize, float duration)
     {
         if (Camera_Main == null || !Camera_Main.orthographic)
@@ -1009,6 +1120,9 @@ public class OOTechSenario1Controller : MonoBehaviour
         return Mathf.Max(1f, GetOriginCameraSize() * _transformZoomMultiplier);
     }
 
+    /// <summary>
+    /// 전체 화면 이펙트용 Canvas와 Image 오버레이를 준비합니다.
+    /// </summary>
     private void CreateEffectOverlayIfNeeded()
     {
         if (Object_EffectCanvas != null)
@@ -1062,6 +1176,9 @@ public class OOTechSenario1Controller : MonoBehaviour
             Object_EffectCanvas.SetActive(false);
     }
 
+    /// <summary>
+    /// 임무 완료 후 공용 넘어가기 버튼을 보여줍니다.
+    /// </summary>
     private void ShowCommonSkipButton()
     {
         CreateCommonSkipButtonIfNeeded();
@@ -1084,6 +1201,9 @@ public class OOTechSenario1Controller : MonoBehaviour
             Object_CommonSkipButton.SetActive(false);
     }
 
+    /// <summary>
+    /// CommonSkipButton 프리팹을 Scenario1Group 자식으로 한 번만 생성합니다.
+    /// </summary>
     private void CreateCommonSkipButtonIfNeeded()
     {
         if (Object_CommonSkipButton != null)
@@ -1110,17 +1230,26 @@ public class OOTechSenario1Controller : MonoBehaviour
         rectTransform.anchoredPosition = _skipButtonAnchoredPosition;
     }
 
+    /// <summary>
+    /// GameDataManager와 UIManager가 준비될 때까지 기다립니다.
+    /// </summary>
     private IEnumerator WaitForManagersReady()
     {
         while (OOTechGameDataManager.Inst == null || OOTechUIManager.Inst == null)
             yield return null;
     }
 
+    /// <summary>
+    /// 튜토리얼 안내 중 게임 진행을 멈추기 위해 TimeScale을 0으로 둡니다.
+    /// </summary>
     private void FreezeTimeForTutorial()
     {
         Time.timeScale = 0f;
     }
 
+    /// <summary>
+    /// 튜토리얼 종료 후 TimeScale을 1로 복구합니다.
+    /// </summary>
     private void RestoreTimeScale()
     {
         Time.timeScale = 1f;

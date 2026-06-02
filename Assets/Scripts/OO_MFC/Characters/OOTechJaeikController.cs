@@ -5,7 +5,8 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 /// <summary>
-/// Handles Jaeik movement, jump physics, and the S1_Object_Quest interaction.
+/// Jaeik의 이동, 점프 물리, S1_Object_Quest 상호작용을 담당합니다.
+/// Game View에서는 플레이어가 WASD/마우스/Space/E로 재익을 조종하는 배우 컨트롤러입니다.
 /// </summary>
 public class OOTechJaeikController : MonoBehaviour
 {
@@ -89,6 +90,9 @@ public class OOTechJaeikController : MonoBehaviour
     private bool _isClickMoveActive;
     private bool _isPlayingOneShotAnimation;
 
+    /// <summary>
+    /// Rigidbody, SpriteRenderer, Animator, Collider를 준비하고 E 상호작용 표시를 세팅합니다.
+    /// </summary>
     private void Awake()
     {
         CacheComponentReferences();
@@ -96,6 +100,9 @@ public class OOTechJaeikController : MonoBehaviour
         CreateDefaultInteractionPromptIfNeeded();
     }
 
+    /// <summary>
+    /// 재익이 무대에 등장할 때 점프 가능한 물리 세팅과 입력 잠금 상태를 적용합니다.
+    /// </summary>
     private void OnEnable()
     {
         ApplyRequiredScenarioPhysics();
@@ -169,16 +176,25 @@ public class OOTechJaeikController : MonoBehaviour
             Collider_Jaeik = collider;
     }
 
+    /// <summary>
+    /// 튜토리얼/대화 중에는 플레이어 이동을 잠급니다.
+    /// </summary>
     public void LockMovement()
     {
         SetMovementLocked(true);
     }
 
+    /// <summary>
+    /// 튜토리얼/대화가 끝나면 플레이어 이동을 다시 허용합니다.
+    /// </summary>
     public void UnlockMovement()
     {
         SetMovementLocked(false);
     }
 
+    /// <summary>
+    /// 입력 자체를 켜고 끕니다. 꺼질 때는 현재 이동과 클릭 이동 목표를 함께 정리합니다.
+    /// </summary>
     public void SetInputEnabled(bool enabled)
     {
         IsInputEnabled = enabled;
@@ -191,6 +207,9 @@ public class OOTechJaeikController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 외부 감독 스크립트가 이동 잠금 상태를 직접 지정할 때 사용합니다.
+    /// </summary>
     public void SetMovementLocked(bool isLocked)
     {
         _isMovementLocked = isLocked;
@@ -206,17 +225,26 @@ public class OOTechJaeikController : MonoBehaviour
             PlayAnimationState(_idleStateName);
     }
 
+    /// <summary>
+    /// E키 상호작용 대상, 즉 음식 오브젝트 위치를 연결합니다.
+    /// </summary>
     public void SetInteractionTarget(Transform target)
     {
         Transform_InteractionTarget = target;
         UpdateInteractionPrompt();
     }
 
+    /// <summary>
+    /// E키가 반응하는 거리 값을 설정합니다.
+    /// </summary>
     public void SetInteractionDistance(float distance)
     {
         _interactionDistance = Mathf.Max(0.1f, distance);
     }
 
+    /// <summary>
+    /// 음식 상호작용이 끝났는지 기록해 E 프롬프트가 다시 뜨지 않게 합니다.
+    /// </summary>
     public void SetInteractionCompleted(bool isCompleted)
     {
         _isInteractionCompleted = isCompleted;
@@ -225,37 +253,58 @@ public class OOTechJaeikController : MonoBehaviour
             HideInteractionPrompt();
     }
 
+    /// <summary>
+    /// 음식 E 상호작용이 들어왔을 때 Scenario1Controller가 받을 콜백을 등록합니다.
+    /// </summary>
     public void BindEatInteractionRequestEvent(Action callback)
     {
         _eatInteractionRequestEvent -= callback;
         _eatInteractionRequestEvent += callback;
     }
 
+    /// <summary>
+    /// 음식 E 상호작용 콜백을 해제합니다.
+    /// </summary>
     public void UnbindEatInteractionRequestEvent(Action callback)
     {
         _eatInteractionRequestEvent -= callback;
     }
 
+    /// <summary>
+    /// 먹기 애니메이션을 기본 속도 0.3으로 한 번 재생합니다.
+    /// </summary>
     public void PlayEatAnimationOnce(Action onComplete = null)
     {
         PlayEatAnimationOnce(0.3f, onComplete);
     }
 
+    /// <summary>
+    /// 먹기 애니메이션을 지정 속도로 한 번 재생하고 끝나면 콜백을 호출합니다.
+    /// </summary>
     public void PlayEatAnimationOnce(float animationSpeed, Action onComplete = null)
     {
         StartOneShotAnimation(_eatStateName, _eatAnimationSeconds, animationSpeed, false, onComplete);
     }
 
+    /// <summary>
+    /// 변신 애니메이션을 한 번 재생하고 마지막 프레임에 멈춥니다.
+    /// </summary>
     public void PlayTransformedAnimationOnce(float animationSpeed, Action onComplete = null)
     {
         StartOneShotAnimation(_transformedStateName, _transformedAnimationSeconds, animationSpeed, true, onComplete);
     }
 
+    /// <summary>
+    /// 점프 애니메이션을 짧은 1회성 연출로 재생합니다.
+    /// </summary>
     public void PlayJumpingAnimationOnce(Action onComplete = null)
     {
         StartOneShotAnimation(_jumpStateName, _jumpAnimationMinimumSeconds, 1f, false, onComplete);
     }
 
+    /// <summary>
+    /// 먹기/변신 같은 1회성 애니메이션 코루틴을 정리합니다.
+    /// </summary>
     public void StopOneShotAnimation()
     {
         if (_oneShotAnimationCoroutine != null)
@@ -268,6 +317,9 @@ public class OOTechJaeikController : MonoBehaviour
         SetAnimatorSpeed(1f);
     }
 
+    /// <summary>
+    /// E 상호작용 안내 문구를 숨깁니다.
+    /// </summary>
     public void HideInteractionPrompt()
     {
         if (Group_InteractionPrompt != null)
@@ -340,6 +392,9 @@ public class OOTechJaeikController : MonoBehaviour
         Rigidbody_Jaeik.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
     }
 
+    /// <summary>
+    /// 키보드 입력이 없을 때 마우스 클릭 이동 목표를 확인합니다.
+    /// </summary>
     private void UpdateMoveInput()
     {
         float keyboardX = Input.GetAxisRaw("Horizontal");
@@ -355,6 +410,9 @@ public class OOTechJaeikController : MonoBehaviour
         _moveInputX = GetClickMoveInputX();
     }
 
+    /// <summary>
+    /// 화면을 클릭한 지점을 월드 좌표로 바꿔 재익이 그 방향으로 걷게 합니다.
+    /// </summary>
     private void TrySetClickMoveTarget()
     {
         if (!_isUseClickMove || !Input.GetMouseButtonDown(0))
@@ -392,6 +450,9 @@ public class OOTechJaeikController : MonoBehaviour
         return Mathf.Sign(distanceX);
     }
 
+    /// <summary>
+    /// Space 입력을 받으면 점프 큐를 요청합니다.
+    /// </summary>
     private void UpdateJumpInput()
     {
         if (!Input.GetKeyDown(KeyCode.Space))
@@ -417,6 +478,9 @@ public class OOTechJaeikController : MonoBehaviour
         PlayAnimationState(_jumpStateName, true);
     }
 
+    /// <summary>
+    /// 점프 가능 조건을 확인합니다. 바닥에 있거나 아주 짧은 코요테 타임 안에서만 허용합니다.
+    /// </summary>
     private bool CanJump()
     {
         if (_isPlayingOneShotAnimation)
@@ -428,6 +492,9 @@ public class OOTechJaeikController : MonoBehaviour
         return IsGrounded || Time.time - _lastGroundedTime <= _coyoteTimeSeconds;
     }
 
+    /// <summary>
+    /// 음식 근처에서 E키를 누르면 상호작용 이벤트를 한 번만 발생시킵니다.
+    /// </summary>
     private void UpdateInteractionInput()
     {
         if (_isInteractionCompleted || Transform_InteractionTarget == null)
@@ -444,6 +511,9 @@ public class OOTechJaeikController : MonoBehaviour
         _eatInteractionRequestEvent?.Invoke();
     }
 
+    /// <summary>
+    /// 재익과 음식 오브젝트 사이의 거리가 상호작용 범위 안인지 확인합니다.
+    /// </summary>
     private bool IsNearInteractionTarget()
     {
         if (Transform_InteractionTarget == null)
@@ -453,6 +523,9 @@ public class OOTechJaeikController : MonoBehaviour
         return distance <= Mathf.Max(_interactionDistance, _minimumInteractionDistance);
     }
 
+    /// <summary>
+    /// 음식 근처에 있을 때만 E 안내 문구를 음식 위에 표시합니다.
+    /// </summary>
     private void UpdateInteractionPrompt()
     {
         if (_isInteractionCompleted || Transform_InteractionTarget == null)
@@ -470,6 +543,9 @@ public class OOTechJaeikController : MonoBehaviour
         Group_InteractionPrompt.transform.position = Transform_InteractionTarget.position + _interactionPromptOffset;
     }
 
+    /// <summary>
+    /// 씬에 E 프롬프트가 없을 경우 재익 자식으로 최소 텍스트 프롬프트를 준비합니다.
+    /// </summary>
     private void CreateDefaultInteractionPromptIfNeeded()
     {
         if (!_isCreateDefaultPrompt || Group_InteractionPrompt != null)
@@ -499,6 +575,9 @@ public class OOTechJaeikController : MonoBehaviour
             Group_InteractionPrompt.SetActive(isActive);
     }
 
+    /// <summary>
+    /// Rigidbody2D에 가로 이동 속도를 적용합니다.
+    /// </summary>
     private void ApplyHorizontalMovement()
     {
         if (Rigidbody_Jaeik == null)
@@ -640,6 +719,9 @@ public class OOTechJaeikController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 천장에 부딪히면 위쪽 속도를 즉시 0으로 만들어 다시 떨어지게 합니다.
+    /// </summary>
     private void StopUpwardVelocity()
     {
         if (Rigidbody_Jaeik == null || Rigidbody_Jaeik.linearVelocity.y <= 0f)
@@ -648,6 +730,9 @@ public class OOTechJaeikController : MonoBehaviour
         Rigidbody_Jaeik.linearVelocity = new Vector2(Rigidbody_Jaeik.linearVelocity.x, 0f);
     }
 
+    /// <summary>
+    /// 이동 방향에 맞춰 스프라이트 좌우 반전을 적용합니다.
+    /// </summary>
     private void UpdateSpriteFlip()
     {
         if (SpriteRenderer_Jaeik == null || Mathf.Abs(_moveInputX) <= 0.01f)
@@ -656,6 +741,9 @@ public class OOTechJaeikController : MonoBehaviour
         SpriteRenderer_Jaeik.flipX = _moveInputX < 0f;
     }
 
+    /// <summary>
+    /// 이동/점프/Idle 상태를 현재 입력과 바닥 판정에 맞춰 갱신합니다.
+    /// </summary>
     private void UpdateAnimationState()
     {
         if (_isPlayingOneShotAnimation || Animator_Jaeik == null)
@@ -673,6 +761,9 @@ public class OOTechJaeikController : MonoBehaviour
         PlayAnimationState(isMoving ? _walkStateName : _idleStateName);
     }
 
+    /// <summary>
+    /// 먹기/변신처럼 플레이어 입력을 잠그는 1회성 애니메이션을 시작합니다.
+    /// </summary>
     private void StartOneShotAnimation(string stateName, float animationSeconds, float animationSpeed, bool isHoldLastFrame, Action onComplete)
     {
         StopOneShotAnimation();
@@ -680,6 +771,9 @@ public class OOTechJaeikController : MonoBehaviour
         _oneShotAnimationCoroutine = StartCoroutine(PlayOneShotAnimationRoutine(stateName, animationSeconds, animationSpeed, isHoldLastFrame, onComplete));
     }
 
+    /// <summary>
+    /// 1회성 애니메이션 동안 이동을 멈추고, 끝나면 Idle 복귀 또는 마지막 프레임 고정을 처리합니다.
+    /// </summary>
     private IEnumerator PlayOneShotAnimationRoutine(string stateName, float animationSeconds, float animationSpeed, bool isHoldLastFrame, Action onComplete)
     {
         _isPlayingOneShotAnimation = true;

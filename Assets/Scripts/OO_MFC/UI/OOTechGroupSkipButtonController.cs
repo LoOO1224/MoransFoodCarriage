@@ -21,12 +21,18 @@ public class OOTechGroupSkipButtonController : MonoBehaviour
     private GameObject Object_CommonSkipButton;
     private NextButtonController Button_CommonSkip;
 
+    /// <summary>
+    /// 그룹이 열리면 설정에 따라 넘어가기 버튼을 표시합니다.
+    /// </summary>
     private void OnEnable()
     {
         if (_isShowOnEnable)
             ShowButton();
     }
 
+    /// <summary>
+    /// 그룹이 닫히면 넘어가기 버튼을 숨깁니다.
+    /// </summary>
     private void OnDisable()
     {
         HideButton();
@@ -62,6 +68,9 @@ public class OOTechGroupSkipButtonController : MonoBehaviour
             Object_CommonSkipButton.SetActive(false);
     }
 
+    /// <summary>
+    /// CommonSkipButton 프리팹을 한 번만 생성하고 NextButtonController를 연결합니다.
+    /// </summary>
     private void CreateButtonIfNeeded()
     {
         if (Object_CommonSkipButton != null)

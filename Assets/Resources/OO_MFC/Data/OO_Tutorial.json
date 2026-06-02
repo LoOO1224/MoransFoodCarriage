@@ -22,5 +22,13 @@
     "SkillList": null,
     "UseWeaponId": null,
     "BasicCostumeId": null
+  },
+  {
+    "Id": "narration_tutorial_09",
+    "Name": "임무 갱신",
+    "Description": "임무가 갱신되었습니다. 임무 UI를 확인한 뒤 동쪽으로 이동하세요.",
+    "SkillList": null,
+    "UseWeaponId": null,
+    "BasicCostumeId": null
   }
 ]

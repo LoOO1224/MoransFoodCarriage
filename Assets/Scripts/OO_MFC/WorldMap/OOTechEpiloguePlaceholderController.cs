@@ -4,8 +4,8 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 /// <summary>
-/// Temporary epilogue screen.
-/// It first offers ending credits, then returns the audience to the main menu.
+/// EpilogueGroup의 임시 엔딩 무대입니다.
+/// 엔딩 크레딧 보기 버튼을 먼저 보여주고, 이후 메인 메뉴로 돌아가는 큐를 제공합니다.
 /// </summary>
 [DisallowMultipleComponent]
 public class OOTechEpiloguePlaceholderController : MonoBehaviour
@@ -19,79 +19,71 @@ public class OOTechEpiloguePlaceholderController : MonoBehaviour
     private Button Button_Credits;
     private Button Button_ReturnMainMenu;
 
+    /// <summary>
+    /// 에필로그 무대가 열리면 크레딧 패널은 숨기고 첫 버튼만 보여줍니다.
+    /// </summary>
     private void OnEnable()
     {
         PrepareView();
         SetCreditsViewActive(false);
     }
 
+    /// <summary>
+    /// 씬에 배치된 Canvas_EpiloguePlaceholder에서 버튼과 크레딧 패널을 연결합니다.
+    /// </summary>
     private void PrepareView()
     {
         if (Root_Canvas != null)
             return;
 
-        Root_Canvas = new GameObject("Canvas_EpiloguePlaceholder", typeof(RectTransform));
-        Root_Canvas.transform.SetParent(transform, false);
+        Root_Canvas = FindChildByName(transform, "Canvas_EpiloguePlaceholder");
 
-        Canvas canvas = Root_Canvas.AddComponent<Canvas>();
-        canvas.renderMode = RenderMode.ScreenSpaceOverlay;
-        canvas.overrideSorting = true;
-        canvas.sortingOrder = _sortingOrder;
+        if (Root_Canvas == null)
+        {
+            Debug.LogWarning("[OOTechEpiloguePlaceholderController] EpilogueGroup needs Canvas_EpiloguePlaceholder as a child object.");
+            return;
+        }
 
-        CanvasScaler canvasScaler = Root_Canvas.AddComponent<CanvasScaler>();
-        canvasScaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
-        canvasScaler.referenceResolution = new Vector2(1920f, 1080f);
-        canvasScaler.screenMatchMode = CanvasScaler.ScreenMatchMode.MatchWidthOrHeight;
-        canvasScaler.matchWidthOrHeight = 0.5f;
+        Canvas canvas = Root_Canvas.GetComponent<Canvas>();
 
-        Root_Canvas.AddComponent<GraphicRaycaster>();
-        CreateWhiteBackground();
-        CreateCreditsButton();
-        CreateCreditsView();
+        if (canvas != null)
+        {
+            canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+            canvas.overrideSorting = true;
+            canvas.sortingOrder = _sortingOrder;
+        }
+
+        GameObject creditsButtonObject = FindChildByName(Root_Canvas.transform, "Button_ShowEndingCredits");
+        Button_Credits = creditsButtonObject != null ? creditsButtonObject.GetComponent<Button>() : null;
+
+        if (Button_Credits != null)
+        {
+            Button_Credits.onClick.RemoveListener(OnCreditsButtonClicked);
+            Button_Credits.onClick.AddListener(OnCreditsButtonClicked);
+        }
+
+        Root_Credits = FindChildByName(Root_Canvas.transform, "Panel_EndingCredits");
+        GameObject returnButtonObject = Root_Credits != null ? FindChildByName(Root_Credits.transform, "Button_ReturnMainMenu") : null;
+        Button_ReturnMainMenu = returnButtonObject != null ? returnButtonObject.GetComponent<Button>() : null;
+
+        if (Button_ReturnMainMenu != null)
+        {
+            Button_ReturnMainMenu.onClick.RemoveListener(OnReturnMainMenuButtonClicked);
+            Button_ReturnMainMenu.onClick.AddListener(OnReturnMainMenuButtonClicked);
+        }
     }
 
-    private void CreateWhiteBackground()
-    {
-        GameObject backgroundObject = CreateUIObject("Image_WhiteBackground", Root_Canvas.transform);
-        StretchFull(backgroundObject.transform as RectTransform);
-
-        Image image = backgroundObject.AddComponent<Image>();
-        image.color = Color.white;
-        image.raycastTarget = false;
-    }
-
-    private void CreateCreditsButton()
-    {
-        Button_Credits = CreateButton("Button_ShowEndingCredits", Root_Canvas.transform, "엔딩 크레딧 보기");
-        Button_Credits.onClick.AddListener(OnCreditsButtonClicked);
-    }
-
-    private void CreateCreditsView()
-    {
-        Root_Credits = CreateUIObject("Panel_EndingCredits", Root_Canvas.transform);
-        RectTransform creditsRect = Root_Credits.transform as RectTransform;
-        StretchFull(creditsRect);
-
-        Image image = Root_Credits.AddComponent<Image>();
-        image.color = new Color(0f, 0f, 0f, 0.88f);
-
-        TextMeshProUGUI creditsText = CreateText("Text_EndingCredits", Root_Credits.transform, "엔딩 크레딧", 46, FontStyles.Bold, Color.white);
-        RectTransform creditsTextRect = creditsText.transform as RectTransform;
-        creditsTextRect.anchorMin = new Vector2(0.5f, 0.5f);
-        creditsTextRect.anchorMax = new Vector2(0.5f, 0.5f);
-        creditsTextRect.pivot = new Vector2(0.5f, 0.5f);
-        creditsTextRect.anchoredPosition = new Vector2(0f, 90f);
-        creditsTextRect.sizeDelta = new Vector2(700f, 120f);
-
-        Button_ReturnMainMenu = CreateButton("Button_ReturnMainMenu", Root_Credits.transform, "메인메뉴 돌아가기");
-        Button_ReturnMainMenu.onClick.AddListener(OnReturnMainMenuButtonClicked);
-    }
-
+    /// <summary>
+    /// 엔딩 크레딧 보기 버튼을 누르면 크레딧 패널로 전환합니다.
+    /// </summary>
     private void OnCreditsButtonClicked()
     {
         SetCreditsViewActive(true);
     }
 
+    /// <summary>
+    /// 크레딧 이후 메인 메뉴 무대로 돌아갑니다.
+    /// </summary>
     private void OnReturnMainMenuButtonClicked()
     {
         GameObject currentGroupObject = FindSceneObjectByName(_currentGroupName);
@@ -118,6 +110,9 @@ public class OOTechEpiloguePlaceholderController : MonoBehaviour
             mainMenuGroupObject.SetActive(true);
     }
 
+    /// <summary>
+    /// 크레딧 패널과 첫 버튼의 표시 상태를 서로 반대로 맞춥니다.
+    /// </summary>
     private void SetCreditsViewActive(bool isActive)
     {
         if (Root_Credits != null)
@@ -125,61 +120,6 @@ public class OOTechEpiloguePlaceholderController : MonoBehaviour
 
         if (Button_Credits != null)
             Button_Credits.gameObject.SetActive(!isActive);
-    }
-
-    private Button CreateButton(string objectName, Transform parent, string text)
-    {
-        GameObject buttonObject = CreateUIObject(objectName, parent);
-        RectTransform buttonRect = buttonObject.transform as RectTransform;
-        buttonRect.anchorMin = new Vector2(1f, 1f);
-        buttonRect.anchorMax = new Vector2(1f, 1f);
-        buttonRect.pivot = new Vector2(1f, 1f);
-        buttonRect.anchoredPosition = new Vector2(-36f, -36f);
-        buttonRect.sizeDelta = new Vector2(320f, 76f);
-
-        Image image = buttonObject.AddComponent<Image>();
-        image.color = new Color(0.08f, 0.08f, 0.08f, 0.9f);
-
-        Button button = buttonObject.AddComponent<Button>();
-        button.targetGraphic = image;
-
-        TextMeshProUGUI label = CreateText("Text_Button", buttonObject.transform, text, 28, FontStyles.Bold, Color.white);
-        StretchFull(label.transform as RectTransform);
-        return button;
-    }
-
-    private TextMeshProUGUI CreateText(string objectName, Transform parent, string text, int fontSize, FontStyles fontStyle, Color color)
-    {
-        GameObject textObject = CreateUIObject(objectName, parent);
-        TextMeshProUGUI textComponent = textObject.AddComponent<TextMeshProUGUI>();
-        textComponent.text = text;
-        textComponent.fontSize = fontSize;
-        textComponent.fontStyle = fontStyle;
-        textComponent.alignment = TextAlignmentOptions.Center;
-        textComponent.color = color;
-        textComponent.raycastTarget = false;
-        OOTechTMPFontUtility.ApplyProjectFont(textComponent);
-        return textComponent;
-    }
-
-    private GameObject CreateUIObject(string objectName, Transform parent)
-    {
-        GameObject uiObject = new GameObject(objectName, typeof(RectTransform));
-        uiObject.transform.SetParent(parent, false);
-        uiObject.layer = parent != null ? parent.gameObject.layer : gameObject.layer;
-        return uiObject;
-    }
-
-    private void StretchFull(RectTransform rectTransform)
-    {
-        if (rectTransform == null)
-            return;
-
-        rectTransform.anchorMin = Vector2.zero;
-        rectTransform.anchorMax = Vector2.one;
-        rectTransform.offsetMin = Vector2.zero;
-        rectTransform.offsetMax = Vector2.zero;
-        rectTransform.localScale = Vector3.one;
     }
 
     private GameObject FindSceneObjectByName(string objectName)

@@ -4,9 +4,8 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 /// <summary>
-/// Temporary stage screen used until each stage receives its full quest scene.
-/// The controller is the stage manager: it shows a simple white set, keeps the
-/// shared HUD alive, and opens the next road or epilogue group when cued.
+/// 각 StageGroup의 세부 퀘스트가 들어오기 전까지 쓰는 임시 무대 컨트롤러입니다.
+/// 흰 배경 세트, 공용 HUD, 다음 RoadGroup으로 넘어가는 버튼 큐를 관리합니다.
 /// </summary>
 [DisallowMultipleComponent]
 public class OOTechStagePlaceholderController : MonoBehaviour
@@ -25,6 +24,9 @@ public class OOTechStagePlaceholderController : MonoBehaviour
     private TextMeshProUGUI Text_Button;
     private OOTechRoadHUDController HUD_Shared;
 
+    /// <summary>
+    /// 에디터 보수 스크립트가 Stage 번호에 맞춰 현재/다음 그룹 이름을 세팅할 때 사용합니다.
+    /// </summary>
     public void Configure(string currentGroupName, string nextGroupName, string buttonText)
     {
         _currentGroupName = currentGroupName;
@@ -37,6 +39,9 @@ public class OOTechStagePlaceholderController : MonoBehaviour
             Text_Button.text = _buttonText;
     }
 
+    /// <summary>
+    /// StageGroup이 켜지면 임시 무대 UI와 HUD를 준비합니다.
+    /// </summary>
     private void OnEnable()
     {
         NormalizeButtonTextIfNeeded();
@@ -45,6 +50,9 @@ public class OOTechStagePlaceholderController : MonoBehaviour
         BindButton();
     }
 
+    /// <summary>
+    /// StageGroup이 꺼질 때 버튼 이벤트와 HUD 표시를 정리합니다.
+    /// </summary>
     private void OnDisable()
     {
         UnbindButton();
@@ -53,67 +61,51 @@ public class OOTechStagePlaceholderController : MonoBehaviour
             HUD_Shared.SetHUDVisible(false);
     }
 
+    /// <summary>
+    /// 씬에 배치된 Canvas_StagePlaceholder에서 버튼 소품을 찾아 연결합니다.
+    /// </summary>
     private void PrepareView()
     {
         if (Root_Canvas != null)
             return;
 
-        Root_Canvas = new GameObject("Canvas_StagePlaceholder", typeof(RectTransform));
-        Root_Canvas.transform.SetParent(transform, false);
+        Root_Canvas = FindChildByName(transform, "Canvas_StagePlaceholder");
 
-        Canvas canvas = Root_Canvas.AddComponent<Canvas>();
-        canvas.renderMode = RenderMode.ScreenSpaceOverlay;
-        canvas.overrideSorting = true;
-        canvas.sortingOrder = _sortingOrder;
+        if (Root_Canvas == null)
+        {
+            Debug.LogWarning($"[OOTechStagePlaceholderController] {gameObject.name} needs Canvas_StagePlaceholder as a child object.");
+            return;
+        }
 
-        CanvasScaler canvasScaler = Root_Canvas.AddComponent<CanvasScaler>();
-        canvasScaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
-        canvasScaler.referenceResolution = _referenceResolution;
-        canvasScaler.screenMatchMode = CanvasScaler.ScreenMatchMode.MatchWidthOrHeight;
-        canvasScaler.matchWidthOrHeight = 0.5f;
+        Canvas canvas = Root_Canvas.GetComponent<Canvas>();
 
-        Root_Canvas.AddComponent<GraphicRaycaster>();
-        CreateWhiteBackground();
-        CreateNextButton();
+        if (canvas != null)
+        {
+            canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+            canvas.overrideSorting = true;
+            canvas.sortingOrder = _sortingOrder;
+        }
+
+        GameObject buttonObject = FindChildByName(Root_Canvas.transform, "Button_NextStage");
+        Button_Next = buttonObject != null ? buttonObject.GetComponent<Button>() : null;
+        Text_Button = buttonObject != null ? buttonObject.GetComponentInChildren<TextMeshProUGUI>(true) : null;
+
+        if (Text_Button != null)
+            Text_Button.text = _buttonText;
     }
 
+    /// <summary>
+    /// 버튼 텍스트가 깨진 상태라면 기본 한글 텍스트로 복구합니다.
+    /// </summary>
     private void NormalizeButtonTextIfNeeded()
     {
         if (string.IsNullOrWhiteSpace(_buttonText) || _buttonText.Contains("?"))
             _buttonText = "넘어가기";
     }
 
-    private void CreateWhiteBackground()
-    {
-        GameObject backgroundObject = CreateUIObject("Image_WhiteBackground", Root_Canvas.transform);
-        RectTransform backgroundRect = backgroundObject.transform as RectTransform;
-        StretchFull(backgroundRect);
-
-        Image image = backgroundObject.AddComponent<Image>();
-        image.color = Color.white;
-        image.raycastTarget = false;
-    }
-
-    private void CreateNextButton()
-    {
-        GameObject buttonObject = CreateUIObject("Button_NextStage", Root_Canvas.transform);
-        RectTransform buttonRect = buttonObject.transform as RectTransform;
-        buttonRect.anchorMin = new Vector2(1f, 1f);
-        buttonRect.anchorMax = new Vector2(1f, 1f);
-        buttonRect.pivot = new Vector2(1f, 1f);
-        buttonRect.anchoredPosition = new Vector2(-36f, -36f);
-        buttonRect.sizeDelta = new Vector2(260f, 72f);
-
-        Image image = buttonObject.AddComponent<Image>();
-        image.color = new Color(0.08f, 0.08f, 0.08f, 0.9f);
-
-        Button_Next = buttonObject.AddComponent<Button>();
-        Button_Next.targetGraphic = image;
-
-        Text_Button = CreateText("Text_Button", buttonObject.transform, _buttonText, 28, FontStyles.Bold, Color.white);
-        StretchFull(Text_Button.transform as RectTransform);
-    }
-
+    /// <summary>
+    /// 넘어가기 버튼을 다음 그룹 이동 큐에 연결합니다.
+    /// </summary>
     private void BindButton()
     {
         if (Button_Next == null)
@@ -123,16 +115,23 @@ public class OOTechStagePlaceholderController : MonoBehaviour
         Button_Next.onClick.AddListener(OnNextButtonClicked);
     }
 
+    /// <summary>
+    /// StageGroup에서도 인벤토리/임무 확인이 가능하도록 공용 HUD를 켭니다.
+    /// </summary>
     private void PrepareSharedHUD()
     {
         if (HUD_Shared == null)
             HUD_Shared = GetComponent<OOTechRoadHUDController>();
 
         if (HUD_Shared == null)
-            HUD_Shared = gameObject.AddComponent<OOTechRoadHUDController>();
+        {
+            Debug.LogWarning($"[OOTechStagePlaceholderController] {gameObject.name} needs OOTechRoadHUDController attached in the scene.");
+            return;
+        }
 
         HUD_Shared.SetOwnerGroupName(_currentGroupName);
         HUD_Shared.PrepareHUD();
+        HUD_Shared.SetCookingUnlocked(true);
         HUD_Shared.SetHUDVisible(true);
     }
 
@@ -144,18 +143,21 @@ public class OOTechStagePlaceholderController : MonoBehaviour
         Button_Next.onClick.RemoveListener(OnNextButtonClicked);
     }
 
+    /// <summary>
+    /// 버튼 클릭 시 현재 StageGroup을 닫고 다음 RoadGroup 또는 EpilogueGroup을 엽니다.
+    /// </summary>
     private void OnNextButtonClicked()
     {
         RequestSwitchSceneGroup(_currentGroupName, _nextGroupName);
     }
 
+    /// <summary>
+    /// UIManager 등록 상태를 우선 사용하고, 실패하면 씬 오브젝트 활성화로 그룹을 전환합니다.
+    /// </summary>
     private bool RequestSwitchSceneGroup(string closingGroupName, string openingGroupName)
     {
         GameObject closingGroupObject = FindSceneObjectByName(closingGroupName);
         GameObject openingGroupObject = FindSceneObjectByName(openingGroupName);
-
-        if (openingGroupObject == null)
-            openingGroupObject = CreateRuntimeRoadGroupFromTemplate(openingGroupName);
 
         if (OOTechUIManager.Inst != null)
         {
@@ -182,82 +184,6 @@ public class OOTechStagePlaceholderController : MonoBehaviour
 
         openingGroupObject.SetActive(true);
         return true;
-    }
-
-    private GameObject CreateRuntimeRoadGroupFromTemplate(string roadGroupName)
-    {
-        string targetStageGroupName = GetTargetStageGroupName(roadGroupName);
-
-        if (string.IsNullOrEmpty(targetStageGroupName))
-            return null;
-
-        GameObject templateRoadGroup = FindSceneObjectByName("1st_Road_to_Stage1");
-
-        if (templateRoadGroup == null)
-            return null;
-
-        GameObject roadGroup = Instantiate(templateRoadGroup);
-        roadGroup.name = roadGroupName;
-        roadGroup.SetActive(false);
-
-        OOTechRoadToStage1Controller roadController = roadGroup.GetComponent<OOTechRoadToStage1Controller>();
-
-        if (roadController == null)
-            roadController = roadGroup.AddComponent<OOTechRoadToStage1Controller>();
-
-        roadController.ConfigureRoadFlow(roadGroupName, targetStageGroupName);
-        return roadGroup;
-    }
-
-    private string GetTargetStageGroupName(string roadGroupName)
-    {
-        if (roadGroupName == "2nd_Road_to_Stage2")
-            return "Stage2Group";
-
-        if (roadGroupName == "3rd_Road_to_Stage3")
-            return "Stage3Group";
-
-        if (roadGroupName == "4th_Road_to_Stage4")
-            return "Stage4Group";
-
-        if (roadGroupName == "Final_Road_to_FinalStage")
-            return "FinalStageGroup";
-
-        return string.Empty;
-    }
-
-    private TextMeshProUGUI CreateText(string objectName, Transform parent, string text, int fontSize, FontStyles fontStyle, Color color)
-    {
-        GameObject textObject = CreateUIObject(objectName, parent);
-        TextMeshProUGUI textComponent = textObject.AddComponent<TextMeshProUGUI>();
-        textComponent.text = text;
-        textComponent.fontSize = fontSize;
-        textComponent.fontStyle = fontStyle;
-        textComponent.alignment = TextAlignmentOptions.Center;
-        textComponent.color = color;
-        textComponent.raycastTarget = false;
-        OOTechTMPFontUtility.ApplyProjectFont(textComponent);
-        return textComponent;
-    }
-
-    private GameObject CreateUIObject(string objectName, Transform parent)
-    {
-        GameObject uiObject = new GameObject(objectName, typeof(RectTransform));
-        uiObject.transform.SetParent(parent, false);
-        uiObject.layer = parent != null ? parent.gameObject.layer : gameObject.layer;
-        return uiObject;
-    }
-
-    private void StretchFull(RectTransform rectTransform)
-    {
-        if (rectTransform == null)
-            return;
-
-        rectTransform.anchorMin = Vector2.zero;
-        rectTransform.anchorMax = Vector2.one;
-        rectTransform.offsetMin = Vector2.zero;
-        rectTransform.offsetMax = Vector2.zero;
-        rectTransform.localScale = Vector3.one;
     }
 
     private GameObject FindSceneObjectByName(string objectName)

@@ -11,7 +11,7 @@ using UnityEngine.UI;
 /// </summary>
 public static class OOTechRoadStageScaffoldEditor
 {
-    private const string _prefabFolderPath = "Assets/Prefabs/OO_MFC/RoadGroups";
+    private const string _prefabFolderPath = "Assets/Prefabs/OO_MFC/Groups/RoadGroups";
     private const string _templateRoadGroupName = "1st_Road_to_Stage1";
 
     private static readonly RoadStageScaffoldData[] _roadStageScaffoldDataArray =

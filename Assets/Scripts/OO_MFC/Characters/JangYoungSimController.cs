@@ -26,12 +26,18 @@ public class JangYoungSimController : MonoBehaviour
     private bool _isPlayingOneShotAnimation;
     private string _currentAnimationStateName;
 
+    /// <summary>
+    /// 장영심이 등장할 때 기본 물리와 시작 이동 잠금 상태를 적용합니다.
+    /// </summary>
     private void OnEnable()
     {
         ApplyDefaultPhysicsSetting();
         SetMovementLocked(_isMovementLockedOnStart);
     }
 
+    /// <summary>
+    /// WASD 입력, 방향 전환, Idle/Walk 애니메이션 상태를 갱신합니다.
+    /// </summary>
     private void Update()
     {
         UpdateMoveInput();
@@ -39,11 +45,17 @@ public class JangYoungSimController : MonoBehaviour
         UpdateAnimationState();
     }
 
+    /// <summary>
+    /// Rigidbody2D 속도로 실제 장영심 위치를 이동시킵니다.
+    /// </summary>
     private void FixedUpdate()
     {
         MovePlayer();
     }
 
+    /// <summary>
+    /// 튜토리얼 무대가 꺼질 때 연출 상태와 속도를 초기화합니다.
+    /// </summary>
     private void OnDisable()
     {
         _isPlayingOneShotAnimation = false;
@@ -153,6 +165,9 @@ public class JangYoungSimController : MonoBehaviour
 
     // ==================== 이동 처리 ====================
 
+    /// <summary>
+    /// 이동 잠금이 풀려 있을 때만 WASD 입력을 읽습니다.
+    /// </summary>
     private void UpdateMoveInput()
     {
         if (_isMovementLocked)
@@ -167,6 +182,9 @@ public class JangYoungSimController : MonoBehaviour
         _moveInput = new Vector2(moveX, moveY).normalized;
     }
 
+    /// <summary>
+    /// 입력 방향에 맞춰 Rigidbody2D 속도를 적용합니다.
+    /// </summary>
     private void MovePlayer()
     {
         if (_rigidbody == null)
@@ -175,6 +193,9 @@ public class JangYoungSimController : MonoBehaviour
         _rigidbody.linearVelocity = _moveInput * _moveSpeed;
     }
 
+    /// <summary>
+    /// 이동을 즉시 멈춥니다.
+    /// </summary>
     private void StopPlayer()
     {
         if (_rigidbody != null)
@@ -183,6 +204,9 @@ public class JangYoungSimController : MonoBehaviour
 
     // ==================== 방향 / 애니메이션 ====================
 
+    /// <summary>
+    /// 좌우 이동 방향에 맞춰 스프라이트를 뒤집습니다.
+    /// </summary>
     private void UpdateSpriteFlip()
     {
         if (_spriteRenderer == null)
@@ -194,6 +218,9 @@ public class JangYoungSimController : MonoBehaviour
         _spriteRenderer.flipX = _moveInput.x < 0f;
     }
 
+    /// <summary>
+    /// 이동 중이면 Walk, 멈춰 있으면 Idle 애니메이션으로 전환합니다.
+    /// </summary>
     private void UpdateAnimationState()
     {
         if (_isPlayingOneShotAnimation)
@@ -203,6 +230,9 @@ public class JangYoungSimController : MonoBehaviour
         PlayAnimationState(isMoving ? _walkStateName : _idleStateName);
     }
 
+    /// <summary>
+    /// 같은 애니메이션을 반복 재생하지 않도록 상태 이름을 비교해 재생합니다.
+    /// </summary>
     private void PlayAnimationState(string stateName)
     {
         if (_animator == null)
@@ -218,6 +248,9 @@ public class JangYoungSimController : MonoBehaviour
         _currentAnimationStateName = stateName;
     }
 
+    /// <summary>
+    /// Animator 속도를 지정합니다.
+    /// </summary>
     private void SetAnimatorSpeed(float animationSpeed)
     {
         if (_animator == null)

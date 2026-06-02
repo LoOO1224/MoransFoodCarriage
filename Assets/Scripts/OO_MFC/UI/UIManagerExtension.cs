@@ -73,5 +73,25 @@ public static class UIManagerExtension
 
         OOTechUIManager.Inst.CloseUI("CodexGroup");
         OOTechUIManager.Inst.OpenUI(previousGroupName);
+        RestoreRoadHUDIfNeeded(previousGroupName);
+    }
+
+    /// <summary>
+    /// Road/Stage에서 도감으로 갔다가 돌아온 경우 HUD와 MFC 입력 잠금을 복구합니다.
+    /// </summary>
+    private static void RestoreRoadHUDIfNeeded(string previousGroupName)
+    {
+        if (OOTechUIManager.Inst == null || string.IsNullOrEmpty(previousGroupName))
+            return;
+
+        GameObject previousGroupObject = OOTechUIManager.Inst.GetCreatedUI(previousGroupName);
+
+        if (previousGroupObject == null)
+            return;
+
+        OOTechRoadHUDController hudController = previousGroupObject.GetComponent<OOTechRoadHUDController>();
+
+        if (hudController != null)
+            hudController.RequestRestoreFromOverlayReturn();
     }
 }

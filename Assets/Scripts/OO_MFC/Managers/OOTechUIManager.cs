@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// OOTechUIManager
@@ -15,10 +17,38 @@ public class OOTechUIManager : MonoBehaviour
     [Header("Scene UI Groups")]
     [SerializeField] private OOTechUIGroupReference[] UIGroup_InitialArray = Array.Empty<OOTechUIGroupReference>();
 
+    private static readonly string[] _autoRegisterGroupNameArray =
+    {
+        "MainMenuGroup",
+        "CodexGroup",
+        "Prologue1Group",
+        "Prologue2Group",
+        "Tutorial1Group",
+        "Senario1Group",
+        "WorldMapGroup",
+        "1st_Road_to_Stage1",
+        "2nd_Road_to_Stage2",
+        "3rd_Road_to_Stage3",
+        "4th_Road_to_Stage4",
+        "Final_Road_to_FinalStage",
+        "CookingGroup",
+        "Stage1Group",
+        "Stage2Group",
+        "Stage3Group",
+        "Stage4Group",
+        "FinalStageGroup",
+        "EpilogueGroup",
+        "DialogueGroup",
+        "TutorialGuideGroup"
+    };
+
     // ==================== UI Dictionary ====================
     private readonly Dictionary<string, GameObject> _createdUIDic = new Dictionary<string, GameObject>();
     private readonly Dictionary<string, GameObject> _openedUIDic = new Dictionary<string, GameObject>();
 
+    /// <summary>
+    /// 씬 전환 후에도 유지되는 단일 UI 매니저로 등록하고 초기 UI 그룹을 등록합니다.
+    /// </summary>
     private void Awake()
     {
         if (Inst != null && Inst != this)
@@ -31,10 +61,15 @@ public class OOTechUIManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         RegisterInitialUIGroupArray();
+        RegisterKnownSceneGroupArray();
+        EnsureEventSystem();
 
         Debug.Log("[OOTechUIManager] 초기화 완료");
     }
 
+    /// <summary>
+    /// 매니저가 파괴될 때 전역 참조를 비웁니다.
+    /// </summary>
     private void OnDestroy()
     {
         if (Inst == this)
@@ -56,6 +91,41 @@ public class OOTechUIManager : MonoBehaviour
 
             RegisterUI(uiGroupReference.Name, uiGroupReference.Group);
         }
+    }
+
+    /// <summary>
+    /// 인스펙터 등록표가 빠진 그룹도 씬 이름표를 기준으로 자동 등록합니다.
+    /// 감독이 그룹 오브젝트를 복사해도 UIManager가 다시 무대를 찾는 안전망입니다.
+    /// </summary>
+    private void RegisterKnownSceneGroupArray()
+    {
+        foreach (string groupName in _autoRegisterGroupNameArray)
+        {
+            if (string.IsNullOrEmpty(groupName) || _createdUIDic.ContainsKey(groupName))
+                continue;
+
+            GameObject groupObject = FindSceneObjectByName(groupName);
+
+            if (groupObject != null)
+                RegisterUI(groupName, groupObject);
+        }
+    }
+
+    /// <summary>
+    /// EventSystem이 없으면 UI 버튼 클릭이 먹지 않으므로 최소 입력 소품을 준비합니다.
+    /// </summary>
+    private void EnsureEventSystem()
+    {
+        EventSystem eventSystem = FindAnyObjectByType<EventSystem>();
+
+        if (eventSystem == null)
+        {
+            GameObject eventSystemObject = new GameObject("EventSystem");
+            eventSystem = eventSystemObject.AddComponent<EventSystem>();
+        }
+
+        if (eventSystem.GetComponent<BaseInputModule>() == null)
+            eventSystem.gameObject.AddComponent<StandaloneInputModule>();
     }
 
     /// <summary>
@@ -124,7 +194,7 @@ public class OOTechUIManager : MonoBehaviour
     /// </summary>
     public bool SwitchUI(string closingUIName, string openingUIName)
     {
-        if (!ContainsCreatedUI(openingUIName))
+        if (!ContainsCreatedUI(openingUIName) && !TryAutoRegisterSceneGroup(openingUIName))
         {
             Debug.LogWarning($"[OOTechUIManager] 전환 대상 UI가 등록되지 않았습니다: {openingUIName}");
             return false;
@@ -169,12 +239,63 @@ public class OOTechUIManager : MonoBehaviour
         }
 
         if (!_createdUIDic.TryGetValue(uiName, out uiObject) || uiObject == null)
+            TryAutoRegisterSceneGroup(uiName);
+
+        if (!_createdUIDic.TryGetValue(uiName, out uiObject) || uiObject == null)
         {
             Debug.LogWarning($"[OOTechUIManager] 등록되지 않은 UI입니다: {uiName}");
             return false;
         }
 
         return true;
+    }
+
+    private bool TryAutoRegisterSceneGroup(string uiName)
+    {
+        GameObject groupObject = FindSceneObjectByName(uiName);
+
+        if (groupObject == null)
+            return false;
+
+        RegisterUI(uiName, groupObject);
+        return true;
+    }
+
+    private GameObject FindSceneObjectByName(string objectName)
+    {
+        Scene scene = SceneManager.GetActiveScene();
+
+        if (!scene.IsValid())
+            return null;
+
+        foreach (GameObject rootObject in scene.GetRootGameObjects())
+        {
+            GameObject foundObject = FindChildByName(rootObject.transform, objectName);
+
+            if (foundObject != null)
+                return foundObject;
+        }
+
+        return null;
+    }
+
+    private GameObject FindChildByName(Transform rootTransform, string objectName)
+    {
+        if (rootTransform == null)
+            return null;
+
+        if (rootTransform.name == objectName)
+            return rootTransform.gameObject;
+
+        for (int index = 0; index < rootTransform.childCount; index++)
+        {
+            GameObject foundObject = FindChildByName(rootTransform.GetChild(index), objectName);
+
+            if (foundObject != null)
+                return foundObject;
+        }
+
+        return null;
     }
 
     // ==================== 디버그 ====================
@@ -192,11 +313,17 @@ public class OOTechUIManager : MonoBehaviour
 
     // ==================== 편의 메서드 ====================
 
+    /// <summary>
+    /// MainMenuGroup을 엽니다. 다른 컨트롤러의 간단 호출용 편의 메서드입니다.
+    /// </summary>
     public void ShowMainMenu()
     {
         OpenUI("MainMenuGroup");
     }
 
+    /// <summary>
+    /// MainMenuGroup을 닫습니다. 다른 컨트롤러의 간단 호출용 편의 메서드입니다.
+    /// </summary>
     public void HideMainMenu()
     {
         CloseUI("MainMenuGroup");
