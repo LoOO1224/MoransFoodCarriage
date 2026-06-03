@@ -239,6 +239,7 @@ public class OOTechTutorial2Controller : MonoBehaviour
         });
 
         yield return new WaitUntil(() => isDone);
+        CloseTutorialGuideGroup();
     }
 
     /// <summary>
@@ -261,6 +262,7 @@ public class OOTechTutorial2Controller : MonoBehaviour
         });
 
         yield return new WaitUntil(() => isDone);
+        CloseTutorialGuideGroup();
     }
 
     /// <summary>

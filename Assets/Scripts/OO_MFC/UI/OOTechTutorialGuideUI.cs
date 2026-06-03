@@ -56,6 +56,7 @@ public class OOTechTutorialGuideUI : MonoBehaviour
     private Color _originTitleColor = Color.white;
     private Vector3 _originTitleScale = Vector3.one;
     private bool _isCachedTitleOrigin;
+    private int _lastGuideAdvanceFrame = -1;
 
     /// <summary>
     /// 가이드 UI가 처음 준비될 때 씬 소품이 없으면 최소 기본 뷰를 준비합니다.
@@ -81,6 +82,21 @@ public class OOTechTutorialGuideUI : MonoBehaviour
         UnbindButtonEvent();
         StopRefreshScrollCoroutine();
         StopTitleEmphasisEffect();
+    }
+
+    /// <summary>
+    /// 안내 패널이 떠 있는 동안에는 화면 어디를 클릭해도 이어가기 버튼과 같은 큐로 넘깁니다.
+    /// 버튼 클릭과 배경 클릭이 같은 프레임에 겹쳐도 한 번만 처리되도록 막습니다.
+    /// </summary>
+    private void Update()
+    {
+        if (_guideTextList.Count == 0)
+            return;
+
+        if (!Input.GetMouseButtonDown(0))
+            return;
+
+        NextGuide();
     }
 
     // ==================== 버튼 바인딩 ====================
@@ -125,6 +141,7 @@ public class OOTechTutorialGuideUI : MonoBehaviour
 
         _onGuideEnd = onGuideEnd;
         _currentGuideTextIndex = 0;
+        _lastGuideAdvanceFrame = Time.frameCount;
         _guideTextList.Clear();
 
         AddGuideTextList(narrationData.NarrationTexts);
@@ -157,6 +174,7 @@ public class OOTechTutorialGuideUI : MonoBehaviour
 
         _onGuideEnd = onGuideEnd;
         _currentGuideTextIndex = 0;
+        _lastGuideAdvanceFrame = Time.frameCount;
         _guideTextList.Clear();
 
         AddGuideText(tutorialData.Description);
@@ -251,6 +269,10 @@ public class OOTechTutorialGuideUI : MonoBehaviour
     /// </summary>
     public void NextGuide()
     {
+        if (_lastGuideAdvanceFrame == Time.frameCount)
+            return;
+
+        _lastGuideAdvanceFrame = Time.frameCount;
         _currentGuideTextIndex++;
 
         if (_currentGuideTextIndex < _guideTextList.Count)
@@ -269,6 +291,10 @@ public class OOTechTutorialGuideUI : MonoBehaviour
     {
         Action onGuideEnd = _onGuideEnd;
         ClearGuideState();
+
+        if (gameObject.activeSelf)
+            gameObject.SetActive(false);
+
         onGuideEnd?.Invoke();
     }
 

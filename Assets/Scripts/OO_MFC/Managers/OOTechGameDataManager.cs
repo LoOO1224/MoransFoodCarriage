@@ -19,6 +19,8 @@ public class OOTechGameDataManager : MonoBehaviour
     private readonly Dictionary<string, OO_Ingredient> _ingredientDic = new Dictionary<string, OO_Ingredient>();
     private readonly Dictionary<string, OO_Recipe> _recipeDic = new Dictionary<string, OO_Recipe>();
     private readonly Dictionary<string, OO_Cook> _cookDic = new Dictionary<string, OO_Cook>();
+    private readonly Dictionary<string, OO_Stage> _stageDic = new Dictionary<string, OO_Stage>();
+    private readonly Dictionary<string, OO_StageQuest> _stageQuestDic = new Dictionary<string, OO_StageQuest>();
 
     /// <summary>
     /// 중복 매니저를 정리하고 Static Data를 로드합니다.
@@ -64,6 +66,8 @@ public class OOTechGameDataManager : MonoBehaviour
         LoadIngredientData();
         LoadRecipeData();
         LoadCookData();
+        LoadStageData();
+        LoadStageQuestData();
 
         Debug.Log("[OOTechGameDataManager] 모든 데이터 로드 완료");
     }
@@ -295,6 +299,62 @@ public class OOTechGameDataManager : MonoBehaviour
     }
 
     /// <summary>
+    /// OO_Stage.json을 읽어 스테이지 이름, 설명, 이동 정보를 등록합니다.
+    /// </summary>
+    private void LoadStageData()
+    {
+        _stageDic.Clear();
+
+        foreach (TextAsset jsonFile in LoadDataTextAssetArray("OO_Stage"))
+        {
+            OOTechStageJsonWrapper wrapper = JsonUtility.FromJson<OOTechStageJsonWrapper>(WrapJsonArray(jsonFile.text));
+
+            if (wrapper == null || wrapper.Items == null)
+                continue;
+
+            foreach (OOTechStageJsonData jsonData in wrapper.Items)
+            {
+                OO_Stage stageData = CreateStageData(jsonData);
+
+                if (stageData == null || string.IsNullOrEmpty(stageData.Id))
+                    continue;
+
+                _stageDic[stageData.Id] = stageData;
+            }
+        }
+
+        Debug.Log($"[OOTechGameDataManager] Stage data loaded: {_stageDic.Count}");
+    }
+
+    /// <summary>
+    /// OO_StageQuest.json을 읽어 StageGroup HUD에 표시할 임무 데이터를 등록합니다.
+    /// </summary>
+    private void LoadStageQuestData()
+    {
+        _stageQuestDic.Clear();
+
+        foreach (TextAsset jsonFile in LoadDataTextAssetArray("OO_StageQuest"))
+        {
+            OOTechStageQuestJsonWrapper wrapper = JsonUtility.FromJson<OOTechStageQuestJsonWrapper>(WrapJsonArray(jsonFile.text));
+
+            if (wrapper == null || wrapper.Items == null)
+                continue;
+
+            foreach (OOTechStageQuestJsonData jsonData in wrapper.Items)
+            {
+                OO_StageQuest stageQuestData = CreateStageQuestData(jsonData);
+
+                if (stageQuestData == null || string.IsNullOrEmpty(stageQuestData.Id))
+                    continue;
+
+                _stageQuestDic[stageQuestData.Id] = stageQuestData;
+            }
+        }
+
+        Debug.Log($"[OOTechGameDataManager] StageQuest data loaded: {_stageQuestDic.Count}");
+    }
+
+    /// <summary>
     /// JSON 한 줄을 OO_Narration 모델로 변환합니다.
     /// </summary>
     private OO_Narration CreateNarrationData(OOTechNarrationJsonData jsonData)
@@ -452,6 +512,58 @@ public class OOTechGameDataManager : MonoBehaviour
         };
 
         return cookData;
+    }
+
+    /// <summary>
+    /// JSON 한 줄을 스테이지 모델로 변환합니다.
+    /// </summary>
+    private OO_Stage CreateStageData(OOTechStageJsonData jsonData)
+    {
+        if (jsonData == null)
+            return null;
+
+        OO_Stage stageData = new OO_Stage
+        {
+            Id = NormalizeJsonText(jsonData.Id),
+            Name = NormalizeJsonText(jsonData.Name),
+            StageNumber = ParseInt(jsonData.StageNumber),
+            Description = NormalizeJsonText(jsonData.Description),
+            BackgroundImagePath = NormalizeJsonText(jsonData.BackgroundImagePath),
+            BGMPath = NormalizeJsonText(jsonData.BGMPath),
+            RequiredPreviousStageId = NormalizeJsonText(jsonData.RequiredPreviousStageId),
+            RewardItemIds = CreateStringList(jsonData.RewardItemIds),
+            StartDialogueGroupId = NormalizeJsonText(jsonData.StartDialogueGroupId),
+            QuestTitle = NormalizeJsonText(jsonData.QuestTitle),
+            QuestDescription = NormalizeJsonText(jsonData.QuestDescription),
+            RequiredCookId = NormalizeJsonText(jsonData.RequiredCookId),
+            NextRoadGroupId = NormalizeJsonText(jsonData.NextRoadGroupId)
+        };
+
+        return stageData;
+    }
+
+    /// <summary>
+    /// JSON 한 줄을 스테이지 임무 모델로 변환합니다.
+    /// </summary>
+    private OO_StageQuest CreateStageQuestData(OOTechStageQuestJsonData jsonData)
+    {
+        if (jsonData == null)
+            return null;
+
+        OO_StageQuest stageQuestData = new OO_StageQuest
+        {
+            Id = NormalizeJsonText(jsonData.Id),
+            StageId = NormalizeJsonText(jsonData.StageId),
+            Name = NormalizeJsonText(jsonData.Name),
+            Description = NormalizeJsonText(jsonData.Description),
+            ObjectiveType = NormalizeJsonText(jsonData.ObjectiveType),
+            ObjectiveId = NormalizeJsonText(jsonData.ObjectiveId),
+            RequiredCount = ParseInt(jsonData.RequiredCount),
+            RewardItemIds = CreateStringList(jsonData.RewardItemIds),
+            NextGroupId = NormalizeJsonText(jsonData.NextGroupId)
+        };
+
+        return stageQuestData;
     }
 
     /// <summary>
@@ -771,6 +883,28 @@ public class OOTechGameDataManager : MonoBehaviour
     }
 
     /// <summary>
+    /// ID로 스테이지 데이터를 조회합니다.
+    /// </summary>
+    public OO_Stage GetStageData(string id)
+    {
+        if (string.IsNullOrEmpty(id))
+            return null;
+
+        return _stageDic.TryGetValue(id, out OO_Stage data) ? data : null;
+    }
+
+    /// <summary>
+    /// ID로 스테이지 임무 데이터를 조회합니다.
+    /// </summary>
+    public OO_StageQuest GetStageQuestData(string id)
+    {
+        if (string.IsNullOrEmpty(id))
+            return null;
+
+        return _stageQuestDic.TryGetValue(id, out OO_StageQuest data) ? data : null;
+    }
+
+    /// <summary>
     /// 현재 등록된 모든 레시피를 반환합니다.
     /// </summary>
     public List<OO_Recipe> GetRecipeDataList()
@@ -982,4 +1116,48 @@ public class OOTechCookJsonData
     public string Grade;
     public string MaxStackCount;
     public string EffectDescription;
+}
+
+[Serializable]
+public class OOTechStageJsonWrapper
+{
+    public OOTechStageJsonData[] Items;
+}
+
+[Serializable]
+public class OOTechStageJsonData
+{
+    public string Id;
+    public string Name;
+    public string StageNumber;
+    public string Description;
+    public string BackgroundImagePath;
+    public string BGMPath;
+    public string RequiredPreviousStageId;
+    public string RewardItemIds;
+    public string StartDialogueGroupId;
+    public string QuestTitle;
+    public string QuestDescription;
+    public string RequiredCookId;
+    public string NextRoadGroupId;
+}
+
+[Serializable]
+public class OOTechStageQuestJsonWrapper
+{
+    public OOTechStageQuestJsonData[] Items;
+}
+
+[Serializable]
+public class OOTechStageQuestJsonData
+{
+    public string Id;
+    public string StageId;
+    public string Name;
+    public string Description;
+    public string ObjectiveType;
+    public string ObjectiveId;
+    public string RequiredCount;
+    public string RewardItemIds;
+    public string NextGroupId;
 }

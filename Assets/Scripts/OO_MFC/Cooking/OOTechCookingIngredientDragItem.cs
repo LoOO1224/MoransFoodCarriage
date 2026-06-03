@@ -8,12 +8,18 @@ using UnityEngine.UI;
 /// 플레이어가 슬롯을 끌어 가마솥에 놓으면 CookingGroupController가 요리를 판정합니다.
 /// </summary>
 [DisallowMultipleComponent]
-public class OOTechCookingIngredientDragItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
+public class OOTechCookingIngredientDragItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerEnterHandler, IPointerExitHandler
 {
+    [Header("Preview")]
+    [SerializeField] private float _hoverPreviewScale = 1.5f;
+
     private OOTechCookingGroupController Controller_Cooking;
     private string _itemDataId;
     private TextMeshProUGUI Text_Label;
+    private RectTransform Rect_Item;
     private RectTransform Rect_DragGhost;
+    private Vector3 _originScale = Vector3.one;
+    private bool _isOriginScaleCached;
 
     /// <summary>
     /// 슬롯이 어떤 재료를 대표하는지 요리 컨트롤러와 함께 설정합니다.
@@ -22,6 +28,7 @@ public class OOTechCookingIngredientDragItem : MonoBehaviour, IBeginDragHandler,
     {
         Controller_Cooking = controller;
         _itemDataId = itemDataId;
+        CacheOriginScale();
 
         if (Text_Label == null)
             Text_Label = GetComponentInChildren<TextMeshProUGUI>(true);
@@ -38,7 +45,11 @@ public class OOTechCookingIngredientDragItem : MonoBehaviour, IBeginDragHandler,
         if (Controller_Cooking == null)
             return;
 
+        SetPreviewScale(true);
         Rect_DragGhost = Controller_Cooking.CreateDragGhost(_itemDataId, eventData.position);
+
+        if (Rect_DragGhost != null)
+            Rect_DragGhost.localScale = Vector3.one * GetPreviewScale();
     }
 
     /// <summary>
@@ -62,5 +73,50 @@ public class OOTechCookingIngredientDragItem : MonoBehaviour, IBeginDragHandler,
             Destroy(Rect_DragGhost.gameObject);
 
         Rect_DragGhost = null;
+        SetPreviewScale(false);
+    }
+
+    /// <summary>
+    /// 마우스를 올리면 재료 아이콘이 크게 보여서 어떤 아이템인지 바로 알아볼 수 있게 합니다.
+    /// </summary>
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        SetPreviewScale(true);
+    }
+
+    /// <summary>
+    /// 마우스가 슬롯을 떠나면 원래 인벤토리 크기로 되돌립니다.
+    /// </summary>
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        if (Rect_DragGhost != null)
+            return;
+
+        SetPreviewScale(false);
+    }
+
+    private void CacheOriginScale()
+    {
+        if (_isOriginScaleCached)
+            return;
+
+        Rect_Item = transform as RectTransform;
+        _originScale = transform.localScale;
+        _isOriginScaleCached = true;
+    }
+
+    private void SetPreviewScale(bool isPreview)
+    {
+        CacheOriginScale();
+
+        transform.localScale = isPreview ? _originScale * GetPreviewScale() : _originScale;
+
+        if (Rect_Item != null)
+            Rect_Item.SetAsLastSibling();
+    }
+
+    private float GetPreviewScale()
+    {
+        return Mathf.Clamp(_hoverPreviewScale, 1f, 1.5f);
     }
 }

@@ -12,6 +12,14 @@ public class OOTechSceneObject : MonoBehaviour
     public string RoleId { get { return _roleId; } }
 
     /// <summary>
+    /// 에디터 수리 도구나 초기 세팅 코드가 배우의 역할 이름표를 붙일 때 사용합니다.
+    /// </summary>
+    public void RequestSetRoleId(string roleId)
+    {
+        _roleId = roleId;
+    }
+
+    /// <summary>
     /// 이 배우에게 붙은 지정 타입 컴포넌트를 반환합니다.
     /// </summary>
     public T GetRoleComponent<T>() where T : Component

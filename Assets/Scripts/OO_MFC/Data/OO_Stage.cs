@@ -1,15 +1,23 @@
-using System;
+ï»¿using System;
 using System.Collections.Generic;
 
+/// <summary>
+/// StageGroupì˜ ì´ë¦„, ì„¤ëª…, ë°°ê²½, ì‹œì‘ ëŒ€í™”, ë‹¤ìŒ ì´ë™ ì •ë³´ë¥¼ ë‹´ëŠ” ì •ì  ë°ì´í„°ì…ë‹ˆë‹¤.
+/// Game Viewì—ì„œëŠ” ìŠ¤í…Œì´ì§€ ì…ì¥ íƒ€ì´í‹€ê³¼ ë„ê°/ì„ë¬´ ì„¤ëª…ì˜ ì›ë³¸ ëŒ€ë³¸ìœ¼ë¡œ ì‚¬ìš©ë©ë‹ˆë‹¤.
+/// </summary>
 [Serializable]
 public class OO_Stage : GameDataBase
 {
-    public string Name;                        // ½ºÅ×ÀÌÁö ÀÌ¸§ (¿¹: µ¿ÂÊÀÇ ±¾ÁÖ¸° ¸¶À»)
-    public int StageNumber;                    // ½ºÅ×ÀÌÁö ¹øÈ£
-    public string Description;                 // ½ºÅ×ÀÌÁö ¼³¸í
-    public string BackgroundImagePath;         // ¹è°æ ÀÌ¹ÌÁö °æ·Î
-    public string BGMPath;                     // ¹è°æ À½¾Ç °æ·Î
-    public string RequiredPreviousStageId;     // ¼±Çà ½ºÅ×ÀÌÁö ID
-    public List<string> RewardItemIds;         // Å¬¸®¾î º¸»ó ¾ÆÀÌÅÛ ID ¸ñ·Ï
-    public string StartDialogueGroupId;        // ½ÃÀÛ ´ëÈ­ ±×·ì ID
+    public string Name;                        // ìŠ¤í…Œì´ì§€ ì´ë¦„
+    public int StageNumber;                    // ìŠ¤í…Œì´ì§€ ë²ˆí˜¸
+    public string Description;                 // ìŠ¤í…Œì´ì§€ ì„¤ëª…
+    public string BackgroundImagePath;         // ë°°ê²½ ì´ë¯¸ì§€ ê²½ë¡œ
+    public string BGMPath;                     // ë°°ê²½ ìŒì•… ê²½ë¡œ
+    public string RequiredPreviousStageId;     // ì„ í–‰ ìŠ¤í…Œì´ì§€ ID
+    public List<string> RewardItemIds;         // í´ë¦¬ì–´ ë³´ìƒ ì•„ì´í…œ ID ëª©ë¡
+    public string StartDialogueGroupId;        // ì‹œì‘ ëŒ€í™” ê·¸ë£¹ ID
+    public string QuestTitle;                  // ë©”ì¸ ì„ë¬´ ì œëª©
+    public string QuestDescription;            // ë©”ì¸ ì„ë¬´ ì„¤ëª…
+    public string RequiredCookId;              // ì™„ë£Œì— í•„ìš”í•œ ìŒì‹ ID
+    public string NextRoadGroupId;             // ì™„ë£Œ í›„ ì´ë™í•  RoadGroup ID
 }

@@ -1,5 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 /// <summary>
 /// 씬/프리팹에 배치된 아이템 역할표를 모아 HUD와 요리 시스템에 전달하는 소품 창고 매니저입니다.
@@ -152,7 +155,17 @@ public class OOTechItemCatalogManager : MonoBehaviour
         if (string.IsNullOrEmpty(iconPath))
             return null;
 
-        return Resources.Load<Sprite>(NormalizeResourcesPath(iconPath));
+        string normalizedPath = NormalizeResourcesPath(iconPath);
+        Sprite resourceSprite = Resources.Load<Sprite>(normalizedPath);
+
+        if (resourceSprite != null)
+            return resourceSprite;
+
+#if UNITY_EDITOR
+        return AssetDatabase.LoadAssetAtPath<Sprite>("Assets/" + normalizedPath + ".png");
+#else
+        return null;
+#endif
     }
 
     private string NormalizeResourcesPath(string iconPath)

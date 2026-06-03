@@ -100,6 +100,9 @@ public class OOTechRoadHUDController : MonoBehaviour
     private bool _isCookingQuestActive;
     private bool _isCookingQuestComplete;
     private bool _isCookingMissionRemoved;
+    private bool _isEastRoadMissionComplete;
+    private bool _isEastRoadMissionRemoved;
+    private string _stageQuestMissionText;
     private float _missionCompleteEffectAlpha = 1f;
     private Coroutine _inventoryNewBadgeCoroutine;
     private Coroutine _codexNewBadgeCoroutine;
@@ -242,6 +245,19 @@ public class OOTechRoadHUDController : MonoBehaviour
         }
 
         SetMissionNewBadgeActive(true);
+    }
+
+    /// <summary>
+    /// Stage1Group에 도착했을 때 Road 임무를 완료 처리하고 새 StageQuest 문구를 임무판에 표시합니다.
+    /// </summary>
+    public void RequestSetStageQuestMission(string stageQuestText)
+    {
+        PrepareHUD();
+        _isEastRoadMissionComplete = true;
+        _isEastRoadMissionRemoved = true;
+        _stageQuestMissionText = stageQuestText;
+        SetMissionNewBadgeActive(true);
+        RefreshMissionText();
     }
 
     /// <summary>
@@ -877,7 +893,9 @@ public class OOTechRoadHUDController : MonoBehaviour
         Text_MissionContent.richText = true;
         string cookingMissionText = CreateCookingMissionText();
 
-        Text_MissionContent.text = "현재 임무\n" + cookingMissionText + "○ 동쪽의 마을로 가시오";
+        string eastRoadMissionText = _isEastRoadMissionRemoved ? string.Empty : "○ 동쪽의 마을로 가시오\n";
+        string stageQuestText = string.IsNullOrWhiteSpace(_stageQuestMissionText) ? string.Empty : "○ " + _stageQuestMissionText + "\n";
+        Text_MissionContent.text = "현재 임무\n" + cookingMissionText + eastRoadMissionText + stageQuestText;
     }
 
     /// <summary>
