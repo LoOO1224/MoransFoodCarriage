@@ -3,8 +3,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 /// <summary>
-/// 1st_Road_to_Stage1의 HUD 소개와 시작 대화 큐시트를 담당합니다.
-/// 이동과 카메라는 Road 컨트롤러가 맡고, 이 컴포넌트는 UI 가이드/데이터 대화/재료 지급 순서만 맡습니다.
+/// 1st_Road_to_Stage1의 HUD 소개와 초반 대화 큐시트를 담당합니다.
+/// Road 감독은 이동만 맡고, 이 배우는 UI 가이드와 데이터 대사 순서만 맡습니다.
 /// </summary>
 [DisallowMultipleComponent]
 public class OOTechTutorial2Controller : MonoBehaviour
@@ -64,9 +64,9 @@ public class OOTechTutorial2Controller : MonoBehaviour
     private readonly string[] _fallbackDescriptionArray =
     {
         "새로 얻은 재료와 물건을 확인합니다.",
-        "새로 알게 된 정보를 확인합니다.",
+        "새로 알게 된 정보와 기록을 확인합니다.",
         "현재 해야 할 일을 확인합니다.",
-        "요리 재료를 사용해 음식을 만듭니다. 첫 번째 길을 지나면 열립니다.",
+        "재료를 사용해 음식을 만듭니다. 첫 번째 길을 지나면 열립니다.",
         "전체 이동 경로와 다음 목적지를 확인합니다."
     };
 
@@ -77,6 +77,10 @@ public class OOTechTutorial2Controller : MonoBehaviour
 
     public bool IsTutorialRunning { get; private set; }
 
+    /// <summary>
+    /// 그룹이 꺼질 때 남은 대사창과 가이드창을 정리합니다.
+    /// 이전 공연의 큐가 남아 다음 Road 재시작을 막지 않게 하는 안전장치입니다.
+    /// </summary>
     private void OnDisable()
     {
         IsTutorialRunning = false;
@@ -101,7 +105,7 @@ public class OOTechTutorial2Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// 1st_Road_to_Stage1에 진입하자마자 HUD 기능 소개와 시작 대화를 순서대로 보여줍니다.
+    /// 1st_Road_to_Stage1에 진입하자마자 HUD 소개, 초반 대사, 재료 지급, 임무 안내를 순서대로 진행합니다.
     /// </summary>
     public IEnumerator PlayOpeningTutorialRoutine(OOTechRoadHUDController hudController, string currentGroupName)
     {
@@ -128,7 +132,7 @@ public class OOTechTutorial2Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// RoadGroup이 꺼지거나 재시작될 때 진행 중인 튜토리얼 UI를 정리합니다.
+    /// RoadGroup이 꺼지거나 다시 시작될 때 진행 중인 튜토리얼 UI를 정리합니다.
     /// </summary>
     public void StopTutorial(OOTechRoadHUDController hudController)
     {
@@ -142,7 +146,7 @@ public class OOTechTutorial2Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// 인벤토리, 도감, 임무, 요리하기, 월드맵 버튼을 왼쪽부터 차례로 화살표 포커싱합니다.
+    /// 인벤토리, 도감, 임무, 요리하기, 월드맵 버튼을 왼쪽부터 차례로 포커싱합니다.
     /// </summary>
     private IEnumerator PlayHUDGuideRoutine(OOTechRoadHUDController hudController)
     {
@@ -165,7 +169,7 @@ public class OOTechTutorial2Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// HUD 소개 뒤에 캐릭터 대화를 보여주고 쌀/채소 재료를 인벤토리에 지급합니다.
+    /// HUD 소개 뒤 캐릭터 대사를 보여주고 쌀/채소 재료를 인벤토리에 지급합니다.
     /// </summary>
     private IEnumerator PlayOpeningDialogueRoutine(OOTechRoadHUDController hudController)
     {
@@ -181,37 +185,32 @@ public class OOTechTutorial2Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// GameManager 인벤토리에 재료를 넣고 HUD NEW 배지를 켭니다.
+    /// 대사 보상으로 들어온 재료를 모델에 추가하고 HUD에 NEW 배지를 띄웁니다.
     /// </summary>
     private void RequestGiveIngredient(OOTechRoadHUDController hudController, string ingredientId, int count)
     {
-        if (OOTechGameManager.Inst != null)
-            OOTechGameManager.Inst.AddItem(ingredientId, Mathf.Max(1, count));
-
-        if (hudController == null)
+        if (OOTechGameManager.Inst == null || string.IsNullOrEmpty(ingredientId) || count <= 0)
             return;
 
-        hudController.RequestRefreshInventoryView();
-        hudController.SetInventoryNewBadgeActive(true);
+        OOTechGameManager.Inst.AddItem(ingredientId, count);
+
+        if (hudController != null)
+        {
+            hudController.RequestRefreshInventoryView();
+            hudController.SetInventoryNewBadgeActive(true);
+        }
     }
 
     /// <summary>
-    /// Dialogue 데이터를 찾아 DialogueGroup에 표시하고, 플레이어가 넘길 때까지 기다립니다.
+    /// DialogueGroup을 열고 데이터 ID에 해당하는 대사를 한 줄 재생합니다.
     /// </summary>
     private IEnumerator ShowDialogueDataAndWait(string dialogueId)
     {
-        if (!TryOpenDialogueGroup())
-            yield break;
-
-        OO_Dialogue dialogueData = GetDialogueData(dialogueId);
-
-        if (dialogueData == null)
-            dialogueData = CreateFallbackDialogueData(dialogueId);
-
-        if (dialogueData == null || UI_Dialogue == null)
+        if (TryOpenDialogueGroup() == false || UI_Dialogue == null)
             yield break;
 
         bool isDone = false;
+        OO_Dialogue dialogueData = GetDialogueData(dialogueId);
         UI_Dialogue.ShowDialogue(dialogueData, delegate
         {
             isDone = true;
@@ -221,11 +220,11 @@ public class OOTechTutorial2Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// 시작 대화가 끝난 뒤 임무 갱신 튜토리얼 가이드를 보여줍니다.
+    /// 임무 안내 TutorialGuideGroup을 열고 확인 입력까지 기다립니다.
     /// </summary>
     private IEnumerator OpenMissionTutorialGuideAndWait()
     {
-        if (!TryOpenTutorialGuideGroup())
+        if (TryOpenTutorialGuideGroup() == false || UI_TutorialGuide == null)
             yield break;
 
         bool isDone = false;
@@ -234,22 +233,20 @@ public class OOTechTutorial2Controller : MonoBehaviour
         if (tutorialData == null)
             tutorialData = CreateFallbackMissionTutorialData();
 
-        UI_TutorialGuide.SetTitleEmphasisActive(false);
         UI_TutorialGuide.ShowGuide(tutorialData, delegate
         {
             isDone = true;
         });
 
         yield return new WaitUntil(() => isDone);
-        CloseTutorialGuideGroup();
     }
 
     /// <summary>
-    /// RoadMap1 도착 후 요리하기 안내 튜토리얼 가이드를 보여줍니다.
+    /// RoadMap1 도착 후 요리하기 버튼을 눌러보라는 안내를 재생합니다.
     /// </summary>
     private IEnumerator OpenRoadMap1TutorialGuideAndWait()
     {
-        if (!TryOpenTutorialGuideGroup())
+        if (TryOpenTutorialGuideGroup() == false || UI_TutorialGuide == null)
             yield break;
 
         bool isDone = false;
@@ -258,18 +255,16 @@ public class OOTechTutorial2Controller : MonoBehaviour
         if (tutorialData == null)
             tutorialData = CreateFallbackRoadMap1TutorialData();
 
-        UI_TutorialGuide.SetTitleEmphasisActive(false);
         UI_TutorialGuide.ShowGuide(tutorialData, delegate
         {
             isDone = true;
         });
 
         yield return new WaitUntil(() => isDone);
-        CloseTutorialGuideGroup();
     }
 
     /// <summary>
-    /// DialogueGroup을 열고 DialogueUI를 Road View 배치로 준비합니다.
+    /// 씬에 놓인 DialogueGroup을 찾아 켜고 DialogueUI 컴포넌트를 확보합니다.
     /// </summary>
     private bool TryOpenDialogueGroup()
     {
@@ -279,32 +274,20 @@ public class OOTechTutorial2Controller : MonoBehaviour
         if (Group_Dialogue == null)
             return false;
 
+        Group_Dialogue.SetActive(true);
+
         if (UI_Dialogue == null)
             UI_Dialogue = Group_Dialogue.GetComponentInChildren<DialogueUI>(true);
 
-        if (UI_Dialogue == null)
-            return false;
+        if (UI_Dialogue != null)
+            return true;
 
-        UI_Dialogue.RequestRoadViewLayout();
-
-        if (OOTechUIManager.Inst != null)
-        {
-            OOTechUIManager.Inst.RegisterUI(_dialogueGroupName, Group_Dialogue);
-
-            if (OOTechUIManager.Inst.OpenUI(_dialogueGroupName))
-            {
-                UI_Dialogue.RequestRoadViewLayout();
-                return true;
-            }
-        }
-
-        Group_Dialogue.SetActive(true);
-        UI_Dialogue.RequestRoadViewLayout();
-        return true;
+        CloseDialogueGroup();
+        return false;
     }
 
     /// <summary>
-    /// TutorialGuideGroup을 열어 일반 튜토리얼 패널을 사용할 수 있게 합니다.
+    /// 씬에 놓인 TutorialGuideGroup을 찾아 켜고 가이드 UI 컴포넌트를 확보합니다.
     /// </summary>
     private bool TryOpenTutorialGuideGroup()
     {
@@ -314,188 +297,184 @@ public class OOTechTutorial2Controller : MonoBehaviour
         if (Group_TutorialGuide == null)
             return false;
 
+        Group_TutorialGuide.SetActive(true);
+
         if (UI_TutorialGuide == null)
             UI_TutorialGuide = Group_TutorialGuide.GetComponentInChildren<OOTechTutorialGuideUI>(true);
 
-        if (UI_TutorialGuide == null)
-            return false;
+        if (UI_TutorialGuide != null)
+            return true;
 
-        if (OOTechUIManager.Inst != null)
-        {
-            OOTechUIManager.Inst.RegisterUI(_tutorialGuideGroupName, Group_TutorialGuide);
-
-            if (OOTechUIManager.Inst.OpenUI(_tutorialGuideGroupName))
-                return true;
-        }
-
-        Group_TutorialGuide.SetActive(true);
-        return true;
+        CloseTutorialGuideGroup();
+        return false;
     }
 
+    /// <summary>
+    /// 대사 무대를 닫아 다음 연출이나 플레이 입력을 가리지 않게 합니다.
+    /// </summary>
     private void CloseDialogueGroup()
     {
-        if (UI_Dialogue != null)
-            UI_Dialogue.CloseDialogue();
-
-        if (OOTechUIManager.Inst != null && OOTechUIManager.Inst.CloseUI(_dialogueGroupName))
-            return;
-
         if (Group_Dialogue != null)
             Group_Dialogue.SetActive(false);
     }
 
+    /// <summary>
+    /// 튜토리얼 가이드 무대를 닫아 다음 연출이나 플레이 입력을 가리지 않게 합니다.
+    /// </summary>
     private void CloseTutorialGuideGroup()
     {
-        if (UI_TutorialGuide != null)
-        {
-            UI_TutorialGuide.SetTitleEmphasisActive(false);
-            UI_TutorialGuide.CloseGuide();
-        }
-
-        if (OOTechUIManager.Inst != null && OOTechUIManager.Inst.CloseUI(_tutorialGuideGroupName))
-            return;
-
         if (Group_TutorialGuide != null)
             Group_TutorialGuide.SetActive(false);
     }
 
+    /// <summary>
+    /// OO_Dialogue.json에서 대사 데이터를 가져오고, 없으면 임시 대사를 만들어 진행이 끊기지 않게 합니다.
+    /// </summary>
     private OO_Dialogue GetDialogueData(string dialogueId)
     {
-        if (OOTechGameDataManager.Inst == null)
-            return null;
+        if (OOTechGameDataManager.Inst != null)
+            return OOTechGameDataManager.Inst.GetDialogueData(dialogueId) ?? CreateFallbackDialogueData(dialogueId);
 
-        return OOTechGameDataManager.Inst.GetDialogueData(dialogueId);
+        return CreateFallbackDialogueData(dialogueId);
     }
 
+    /// <summary>
+    /// OO_Tutorial.json에서 가이드 데이터를 가져옵니다.
+    /// </summary>
     private OO_Tutorial GetTutorialData(string tutorialId)
     {
-        if (OOTechGameDataManager.Inst == null)
-            return null;
+        if (OOTechGameDataManager.Inst != null)
+            return OOTechGameDataManager.Inst.GetTutorialData(tutorialId);
 
-        return OOTechGameDataManager.Inst.GetTutorialData(tutorialId);
+        return null;
     }
 
+    /// <summary>
+    /// 데이터가 비어 있을 때도 각 HUD 버튼의 이름이 자연스럽게 보이도록 예비 제목을 제공합니다.
+    /// </summary>
     private string GetGuideTitle(int index, OO_Tutorial tutorialData)
     {
-        if (tutorialData != null && !string.IsNullOrEmpty(tutorialData.Name))
-            return tutorialData.Name;
+        if (tutorialData != null && string.IsNullOrEmpty(tutorialData.Title) == false)
+            return tutorialData.Title;
 
         if (index >= 0 && index < _fallbackTitleArray.Length)
             return _fallbackTitleArray[index];
 
-        return "튜토리얼";
+        return "안내";
     }
 
+    /// <summary>
+    /// 데이터가 비어 있을 때도 튜토리얼이 멈추지 않도록 예비 설명을 제공합니다.
+    /// </summary>
     private string GetGuideDescription(int index, OO_Tutorial tutorialData)
     {
-        if (tutorialData != null && !string.IsNullOrEmpty(tutorialData.Description))
+        if (tutorialData != null && string.IsNullOrEmpty(tutorialData.Description) == false)
             return tutorialData.Description;
 
         if (index >= 0 && index < _fallbackDescriptionArray.Length)
             return _fallbackDescriptionArray[index];
 
-        return "이 기능은 나중에 데이터로 교체됩니다.";
+        return string.Empty;
     }
 
     /// <summary>
-    /// 데이터가 아직 준비되지 않았을 때도 플레이 흐름이 끊기지 않도록 임시 대화를 만듭니다.
+    /// 대사 데이터 누락 시 플레이가 멈추지 않도록 최소 대사를 만듭니다.
     /// </summary>
     private OO_Dialogue CreateFallbackDialogueData(string dialogueId)
     {
-        if (dialogueId == _chunyangRiceDialogueId)
-            return CreateDialogueData(dialogueId, "춘양", "모란님, 길을 나서기 전에 쌀을 챙기시지요.");
-
-        if (dialogueId == _moranPumpkinDialogueId)
-            return CreateDialogueData(dialogueId, "모란", "좋아요. 호박도 함께 챙겨 둘게요.");
-
-        if (dialogueId == _mrJaeikReadyDialogueId)
-            return CreateDialogueData(dialogueId, "재익군", "아씨, 저도 준비됐구멍요. 길만 열리면 힘껏 나아가겠멍요!");
-
-        if (dialogueId == _chunyangEastDialogueId)
-            return CreateDialogueData(dialogueId, "춘양", "모란님, 이 미련한 놈의 허물은 내 대신 사죄하겠소. 밥값을 하려면 부지런히 길을 나서야 할 터…… 먼저는 동쪽으로 가시지요. 그곳에 탐관오리의 수탈로 배 굶주린 자들이 유독 많다 들었습니다.");
-
-        if (dialogueId == _roadMap1MrJaeikDialogueId)
-            return CreateDialogueData(dialogueId, "재익군", "슬슬 배가 고프지 않습니까요? 모란 님의 따뜻한 요리가 있으면 힘이 나겠구먼유.");
-
-        if (dialogueId == _roadMap1ChunyangDialogueId)
-            return CreateDialogueData(dialogueId, "춘양", "마침 다들 지쳤을 터이니 따뜻한 식사를 부탁드려도 되겠소?");
-
-        if (dialogueId == _roadMap1MoranDialogueId)
-            return CreateDialogueData(dialogueId, "모란", "당연히 해드려야죠! 가마솥을 뜨겁게 달궈볼게요.");
-
-        return null;
-    }
-
-    private OO_Dialogue CreateDialogueData(string dialogueId, string speakerName, string text)
-    {
-        return new OO_Dialogue
+        switch (dialogueId)
         {
-            Id = dialogueId,
-            SpeakerName = speakerName,
-            Text = text
-        };
+            case "character_Chunyang_03":
+                return CreateDialogueData(dialogueId, "춘양", "내가 가져온 쌀이네.");
+            case "character_Moran_03":
+                return CreateDialogueData(dialogueId, "모란", "채소도 챙겨 두었어요.");
+            case "character_Mr.Jaeik_03":
+                return CreateDialogueData(dialogueId, "재익군", "이제 길을 나서면 되겠군.");
+            case "character_Chunyang_04":
+                return CreateDialogueData(dialogueId, "춘양", "먼저는 동쪽으로 가시지요.");
+            case "character_Mr.Jaeik_04":
+                return CreateDialogueData(dialogueId, "재익군", "길이 이어지는군.");
+            case "character_Chunyang_05":
+                return CreateDialogueData(dialogueId, "춘양", "요리를 준비해야겠소.");
+            case "character_Moran_04":
+                return CreateDialogueData(dialogueId, "모란", "따뜻한 음식이 필요해요.");
+            default:
+                return CreateDialogueData(dialogueId, "나레이션", dialogueId);
+        }
     }
 
     /// <summary>
-    /// 임무 갱신 데이터가 없을 때 쓰는 임시 튜토리얼 문구입니다.
+    /// DialogueUI가 요구하는 최소 필드를 채워 임시 대사 데이터를 만듭니다.
+    /// </summary>
+    private OO_Dialogue CreateDialogueData(string dialogueId, string speakerName, string text)
+    {
+        OO_Dialogue dialogueData = new OO_Dialogue();
+        dialogueData.Id = dialogueId;
+        dialogueData.SpeakerName = speakerName;
+        dialogueData.Text = text;
+        return dialogueData;
+    }
+
+    /// <summary>
+    /// 임무 안내 데이터가 없을 때 보여줄 예비 Tutorial 데이터를 만듭니다.
     /// </summary>
     private OO_Tutorial CreateFallbackMissionTutorialData()
     {
-        return new OO_Tutorial
-        {
-            Id = _missionTutorialId,
-            Name = "임무 갱신",
-            Title = "임무 갱신",
-            Description = "임무가 갱신되었습니다. 임무 UI를 확인한 뒤 동쪽으로 이동하세요."
-        };
+        OO_Tutorial tutorialData = new OO_Tutorial();
+        tutorialData.Id = _missionTutorialId;
+        tutorialData.Title = "임무";
+        tutorialData.Description = "배고픈 모란과 동료들을 위해 요리하세요.";
+        return tutorialData;
     }
 
     /// <summary>
-    /// RoadMap1 요리 준비 데이터가 없을 때 쓰는 임시 튜토리얼 문구입니다.
+    /// RoadMap1 도착 안내 데이터가 없을 때 보여줄 예비 Tutorial 데이터를 만듭니다.
     /// </summary>
     private OO_Tutorial CreateFallbackRoadMap1TutorialData()
     {
-        return new OO_Tutorial
-        {
-            Id = _roadMap1TutorialId,
-            Name = "요리 준비",
-            Title = "요리 준비",
-            Description = "요리하기 버튼을 눌러 부엌으로 들어가세요. 가마솥에 알맞은 재료를 넣으면 음식이 완성됩니다."
-        };
+        OO_Tutorial tutorialData = new OO_Tutorial();
+        tutorialData.Id = _roadMap1TutorialId;
+        tutorialData.Title = "요리하기";
+        tutorialData.Description = "요리하기 버튼을 눌러 부엌으로 이동하세요.";
+        return tutorialData;
     }
 
+    /// <summary>
+    /// 비활성화된 씬 오브젝트까지 포함해 이름으로 무대 오브젝트를 찾습니다.
+    /// </summary>
     private GameObject FindSceneObjectByName(string objectName)
     {
-        Scene scene = SceneManager.GetActiveScene();
+        Scene activeScene = SceneManager.GetActiveScene();
+        GameObject[] rootObjectArray = activeScene.GetRootGameObjects();
 
-        if (!scene.IsValid())
-            return null;
-
-        foreach (GameObject rootObject in scene.GetRootGameObjects())
+        foreach (GameObject rootObject in rootObjectArray)
         {
-            GameObject foundObject = FindChildByName(rootObject.transform, objectName);
+            if (rootObject.name == objectName)
+                return rootObject;
 
-            if (foundObject != null)
-                return foundObject;
+            GameObject childObject = FindChildByName(rootObject.transform, objectName);
+
+            if (childObject != null)
+                return childObject;
         }
 
         return null;
     }
 
+    /// <summary>
+    /// 자식 무대 안쪽까지 재귀적으로 내려가 이름이 같은 오브젝트를 찾습니다.
+    /// </summary>
     private GameObject FindChildByName(Transform rootTransform, string objectName)
     {
-        if (rootTransform == null)
-            return null;
-
-        if (rootTransform.name == objectName)
-            return rootTransform.gameObject;
-
-        for (int index = 0; index < rootTransform.childCount; index++)
+        foreach (Transform childTransform in rootTransform)
         {
-            GameObject foundObject = FindChildByName(rootTransform.GetChild(index), objectName);
+            if (childTransform.name == objectName)
+                return childTransform.gameObject;
 
-            if (foundObject != null)
-                return foundObject;
+            GameObject resultObject = FindChildByName(childTransform, objectName);
+
+            if (resultObject != null)
+                return resultObject;
         }
 
         return null;

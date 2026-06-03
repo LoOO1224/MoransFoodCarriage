@@ -6,6 +6,6 @@
     "ResultItemId": "OO_VegetableSoup_1",
     "RequiredIngredients": "Ing_Rice_01|Ing_Veggie_01",
     "MaxDuplicateCount": 1,
-    "RequiredTool": "가마솥"
+    "RequiredTool": "가마솥|도마"
   }
 ]

@@ -4,11 +4,9 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 /// <summary>
-/// Repairs missing OO_MFC scene references after instructor sample files are imported.
-/// Existing scene objects are preserved; missing road actors are restored from the
-/// first road group template instead of deleting the user's work.
+/// OO_MFC 씬의 누락된 참조를 필요할 때만 수동으로 복구하는 에디터 도구입니다.
+/// 자동 실행을 막아 사용자가 직접 배치한 UI와 오브젝트가 씬을 열 때마다 되돌아가지 않게 합니다.
 /// </summary>
-[InitializeOnLoad]
 public static class OOTechOO_MFCSceneRepair
 {
     private const string _targetSceneName = "OO_MFC";
@@ -57,15 +55,6 @@ public static class OOTechOO_MFCSceneRepair
         "EpilogueGroup"
     };
 
-    static OOTechOO_MFCSceneRepair()
-    {
-        EditorSceneManager.sceneOpened -= OnSceneOpened;
-        EditorSceneManager.sceneOpened += OnSceneOpened;
-        EditorApplication.delayCall -= RepairActiveScene;
-        EditorApplication.delayCall += RepairActiveScene;
-        EditorApplication.delayCall -= FrameActiveMainMenuInSceneView;
-    }
-
     [MenuItem("Tools/OO MFC/Repair Scenario1 References")]
     private static void RepairActiveScene()
     {
@@ -76,16 +65,6 @@ public static class OOTechOO_MFCSceneRepair
     private static void FrameMainMenuInSceneView()
     {
         FrameMainMenuInSceneView(SceneManager.GetActiveScene());
-    }
-
-    private static void FrameActiveMainMenuInSceneView()
-    {
-        FrameMainMenuInSceneView(SceneManager.GetActiveScene());
-    }
-
-    private static void OnSceneOpened(Scene scene, OpenSceneMode openSceneMode)
-    {
-        RepairScene(scene);
     }
 
     private static void RepairScene(Scene scene)

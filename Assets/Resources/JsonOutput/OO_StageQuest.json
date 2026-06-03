@@ -1,0 +1,13 @@
+[
+  {
+    "Id": "Stage1_Quest_01",
+    "StageId": "OO_Stage_1",
+    "Name": "동쪽 마을 도착",
+    "Description": "이 마을의 촌장을 만나세요",
+    "ObjectiveType": "TalkToNPC",
+    "ObjectiveId": "Stage1_NPC_Chief",
+    "RequiredCount": 1,
+    "RewardItemIds": null,
+    "NextGroupId": null
+  }
+]

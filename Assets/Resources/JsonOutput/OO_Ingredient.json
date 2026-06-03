@@ -3,32 +3,24 @@
     "Id": "Ing_Rice_01",
     "Name": "쌀",
     "Description": "춘향의 아버님이 내어주신 기름진 쌀. 모란의 기계 솥을 거치면 백성들의 허기를 단숨에 채워줄 따스한 밥과 떡이 된다.",
-    "IconPath": null,
+    "IconPath": "Images/Food/Rice",
     "Grade": "일반",
-    "MaxStackCount": 99
-  },
-  {
-    "Id": "Ing_Pumpkin_01",
-    "Name": "호박",
-    "Description": "굶주린 동쪽 마을 마당구석에서 자라난 호박. 쌀과 함께 푹 고아내면 얼어붙은 몸을 녹이는 달콤한 호박죽이 완성된다.",
-    "IconPath": null,
-    "Grade": "일반",
-    "MaxStackCount": 99
+    "MaxStackCount": 12
   },
   {
     "Id": "Ing_Veggie_01",
     "Name": "채소",
-    "Description": "모란의 집 텃밭에서 정성껏 기른 소박한 채소 바구니. 비록 재익 군이 다른 음식을 다 먹어치우는 바람에 이것만 남았지만, 갓 따낸 싱그러운 생기가 가득하다.",
-    "IconPath": null,
+    "Description": "동쪽 마을에서 얻은 싱싱한 채소. 손질한 뒤 쌀과 함께 끓이면 따뜻한 채소죽이 된다.",
+    "IconPath": "Images/Food/Vegetable",
     "Grade": "일반",
-    "MaxStackCount": 99
+    "MaxStackCount": 12
   },
   {
-    "Id": null,
-    "Name": "조기",
-    "Description": null,
-    "IconPath": null,
-    "Grade": null,
-    "MaxStackCount": null
+    "Id": "Ing_Pumpkin_01",
+    "Name": "호박",
+    "Description": "나중에 호박죽과 다른 요리에 쓰일 달큰한 호박.",
+    "IconPath": "Images/Food/Pumpkin",
+    "Grade": "일반",
+    "MaxStackCount": 12
   }
 ]
