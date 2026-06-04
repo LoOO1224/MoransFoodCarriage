@@ -1,0 +1,694 @@
+fileFormatVersion: 2
+guid: e8c8816e97bb02e46bcc46a4e7739d1b
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 0
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Mr.Jaeik_isSurprised_0
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 1062
+        width: 91
+        height: 181
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0ba0e97d8bf54a74db13ffd9a2bbf4f3
+      internalID: 2049068731
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_isSurprised_1
+      rect:
+        serializedVersion: 2
+        x: 334
+        y: 1062
+        width: 93
+        height: 179
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bb9f27978771ce648b692468e648d909
+      internalID: 1372290153
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_isSurprised_2
+      rect:
+        serializedVersion: 2
+        x: 590
+        y: 1062
+        width: 93
+        height: 179
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8d452991dc02abc4d97ee497849165e0
+      internalID: -654962444
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_isSurprised_3
+      rect:
+        serializedVersion: 2
+        x: 847
+        y: 1062
+        width: 89
+        height: 183
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 97f0b14aac72b2f459f2fbc642dc1cea
+      internalID: -534680294
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_isSurprised_4
+      rect:
+        serializedVersion: 2
+        x: 1105
+        y: 1062
+        width: 86
+        height: 184
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bd23055711488e44592084e34136489c
+      internalID: -312123181
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_isSurprised_5
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 806
+        width: 88
+        height: 184
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cb3e77d95b81dff4ab6d0b9b290733f4
+      internalID: -1517253311
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_isSurprised_6
+      rect:
+        serializedVersion: 2
+        x: 336
+        y: 806
+        width: 88
+        height: 184
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bf5489d9ea5c34d4bb80e39db9fa4334
+      internalID: 672009909
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_isSurprised_7
+      rect:
+        serializedVersion: 2
+        x: 592
+        y: 806
+        width: 87
+        height: 184
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5efa2179f2573ec468431d2fe069061a
+      internalID: -1533307778
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_isSurprised_8
+      rect:
+        serializedVersion: 2
+        x: 848
+        y: 806
+        width: 87
+        height: 184
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9bc79b2bf8be4aa4eae5ed75e71fca08
+      internalID: -1747767774
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_isSurprised_9
+      rect:
+        serializedVersion: 2
+        x: 1103
+        y: 806
+        width: 88
+        height: 184
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 206504e88bf19bf4489470c5086036af
+      internalID: 1888036902
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_isSurprised_10
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 550
+        width: 88
+        height: 184
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a59ad1a1cb5edd141a3d664331c66b01
+      internalID: -1687244264
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_isSurprised_11
+      rect:
+        serializedVersion: 2
+        x: 336
+        y: 550
+        width: 87
+        height: 184
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 62a693e19d0f3614aa66b6ec6c5ae236
+      internalID: 1496941099
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_isSurprised_12
+      rect:
+        serializedVersion: 2
+        x: 592
+        y: 550
+        width: 87
+        height: 184
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cf3c87beaac374a4da566b03617a13d8
+      internalID: 412268081
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_isSurprised_13
+      rect:
+        serializedVersion: 2
+        x: 848
+        y: 550
+        width: 87
+        height: 184
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b598d4985d1ca8a41ab8ab83b834012c
+      internalID: -628536180
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_isSurprised_14
+      rect:
+        serializedVersion: 2
+        x: 1104
+        y: 550
+        width: 87
+        height: 184
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1d0294b5c76c66d4a948572872ed5d49
+      internalID: 1640013100
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_isSurprised_15
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 294
+        width: 87
+        height: 184
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dbf7f8ff707c1c44d873335dac9e0340
+      internalID: -1285544251
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_isSurprised_16
+      rect:
+        serializedVersion: 2
+        x: 336
+        y: 294
+        width: 88
+        height: 183
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e185e5523617f8648a6c1fc2ea7f6ac6
+      internalID: 231328731
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_isSurprised_17
+      rect:
+        serializedVersion: 2
+        x: 592
+        y: 294
+        width: 89
+        height: 183
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 30689bc4e667e7345a77b43f58c29603
+      internalID: 1315031125
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_isSurprised_18
+      rect:
+        serializedVersion: 2
+        x: 848
+        y: 294
+        width: 89
+        height: 183
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f2cf35a5f7c8cee4bb3929ecb5cd0bcb
+      internalID: -1740725072
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_isSurprised_19
+      rect:
+        serializedVersion: 2
+        x: 1104
+        y: 294
+        width: 89
+        height: 183
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6b780c73ee506d144b4cb5ff1cfba005
+      internalID: 686967317
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_isSurprised_20
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 38
+        width: 89
+        height: 183
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0bfbca8fa0d1c3b4bade87e7e2b4c940
+      internalID: 1413624299
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_isSurprised_21
+      rect:
+        serializedVersion: 2
+        x: 336
+        y: 38
+        width: 88
+        height: 183
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b11361aa8e23133449040640f9023b22
+      internalID: -1352843700
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_isSurprised_22
+      rect:
+        serializedVersion: 2
+        x: 592
+        y: 38
+        width: 88
+        height: 183
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ec695469630926d4a92f6a34fa452a2e
+      internalID: 1411656893
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_isSurprised_23
+      rect:
+        serializedVersion: 2
+        x: 847
+        y: 38
+        width: 89
+        height: 183
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 92d4e2efdcc80614497b6b3fd0b89b57
+      internalID: 1610700785
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_isSurprised_24
+      rect:
+        serializedVersion: 2
+        x: 1104
+        y: 38
+        width: 88
+        height: 183
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 70cf60305a208f045afffdf03f5c3b91
+      internalID: -1392606316
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 63cbc85699b40344fa7a01267361990f
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      Mr.Jaeik_isSurprised_0: 2049068731
+      Mr.Jaeik_isSurprised_1: 1372290153
+      Mr.Jaeik_isSurprised_10: -1687244264
+      Mr.Jaeik_isSurprised_11: 1496941099
+      Mr.Jaeik_isSurprised_12: 412268081
+      Mr.Jaeik_isSurprised_13: -628536180
+      Mr.Jaeik_isSurprised_14: 1640013100
+      Mr.Jaeik_isSurprised_15: -1285544251
+      Mr.Jaeik_isSurprised_16: 231328731
+      Mr.Jaeik_isSurprised_17: 1315031125
+      Mr.Jaeik_isSurprised_18: -1740725072
+      Mr.Jaeik_isSurprised_19: 686967317
+      Mr.Jaeik_isSurprised_2: -654962444
+      Mr.Jaeik_isSurprised_20: 1413624299
+      Mr.Jaeik_isSurprised_21: -1352843700
+      Mr.Jaeik_isSurprised_22: 1411656893
+      Mr.Jaeik_isSurprised_23: 1610700785
+      Mr.Jaeik_isSurprised_24: -1392606316
+      Mr.Jaeik_isSurprised_3: -534680294
+      Mr.Jaeik_isSurprised_4: -312123181
+      Mr.Jaeik_isSurprised_5: -1517253311
+      Mr.Jaeik_isSurprised_6: 672009909
+      Mr.Jaeik_isSurprised_7: -1533307778
+      Mr.Jaeik_isSurprised_8: -1747767774
+      Mr.Jaeik_isSurprised_9: 1888036902
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

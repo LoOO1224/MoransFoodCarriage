@@ -1,0 +1,694 @@
+fileFormatVersion: 2
+guid: 1624c656a7c812a47b16fea8f73a5993
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 0
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: LeeMongRyong_isWalking_0
+      rect:
+        serializedVersion: 2
+        x: 85
+        y: 1067
+        width: 88
+        height: 164
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b45d7071dddb2664ba074f86eb1dee64
+      internalID: 1575681267
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LeeMongRyong_isWalking_1
+      rect:
+        serializedVersion: 2
+        x: 336
+        y: 1067
+        width: 95
+        height: 163
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bcc1d350275dab343b7eea2887d2dc33
+      internalID: -678147110
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LeeMongRyong_isWalking_2
+      rect:
+        serializedVersion: 2
+        x: 592
+        y: 1066
+        width: 96
+        height: 164
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: df95f1af398bcbf4889f61ad265c2458
+      internalID: -75041504
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LeeMongRyong_isWalking_3
+      rect:
+        serializedVersion: 2
+        x: 859
+        y: 1065
+        width: 78
+        height: 167
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 06f1fa7aa404d8145b0fbb0e13ec4842
+      internalID: -1460214886
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LeeMongRyong_isWalking_4
+      rect:
+        serializedVersion: 2
+        x: 1116
+        y: 1065
+        width: 76
+        height: 169
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b155f61a0753eff449ea93a0c0d0f1b4
+      internalID: 1582499335
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LeeMongRyong_isWalking_5
+      rect:
+        serializedVersion: 2
+        x: 92
+        y: 809
+        width: 75
+        height: 169
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4fd88e0a5909e524db5e2c990fa87208
+      internalID: -446701584
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LeeMongRyong_isWalking_6
+      rect:
+        serializedVersion: 2
+        x: 348
+        y: 810
+        width: 74
+        height: 166
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3ca20080a00f89340a812de80dd8ab52
+      internalID: 1233628869
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LeeMongRyong_isWalking_7
+      rect:
+        serializedVersion: 2
+        x: 601
+        y: 809
+        width: 78
+        height: 165
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1a8d75bd7e23e274a8759efd60f5c436
+      internalID: 1144519342
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LeeMongRyong_isWalking_8
+      rect:
+        serializedVersion: 2
+        x: 857
+        y: 810
+        width: 79
+        height: 164
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b5890c8ac20cb9e4bace9c4ed10bfa47
+      internalID: 637460369
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LeeMongRyong_isWalking_9
+      rect:
+        serializedVersion: 2
+        x: 1118
+        y: 809
+        width: 74
+        height: 167
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e2750273abbb1e24ab4f2163fe1cf3a0
+      internalID: 266357601
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LeeMongRyong_isWalking_10
+      rect:
+        serializedVersion: 2
+        x: 93
+        y: 553
+        width: 75
+        height: 169
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b0d04ca74fa050f4f962195ca066fdc6
+      internalID: -256489174
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LeeMongRyong_isWalking_11
+      rect:
+        serializedVersion: 2
+        x: 348
+        y: 554
+        width: 75
+        height: 167
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eb70aacaec09011408fd4176eb15a176
+      internalID: 904639126
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LeeMongRyong_isWalking_12
+      rect:
+        serializedVersion: 2
+        x: 597
+        y: 555
+        width: 87
+        height: 165
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f2c500d9edeb7c44ca7defde9c8ae95c
+      internalID: 71562744
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LeeMongRyong_isWalking_13
+      rect:
+        serializedVersion: 2
+        x: 847
+        y: 555
+        width: 97
+        height: 163
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 54b55f26d5e134e4db57efa4afb0e059
+      internalID: 883089063
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LeeMongRyong_isWalking_14
+      rect:
+        serializedVersion: 2
+        x: 1104
+        y: 554
+        width: 96
+        height: 164
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f63d61493a1fa9c4d9828d32858dbf26
+      internalID: 1848458401
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LeeMongRyong_isWalking_15
+      rect:
+        serializedVersion: 2
+        x: 91
+        y: 297
+        width: 78
+        height: 167
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 19371c806ca3637409c45802568770eb
+      internalID: -1759676186
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LeeMongRyong_isWalking_16
+      rect:
+        serializedVersion: 2
+        x: 347
+        y: 297
+        width: 77
+        height: 169
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4b60d16553770ef4c8e8130847f42a30
+      internalID: -480048791
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LeeMongRyong_isWalking_17
+      rect:
+        serializedVersion: 2
+        x: 604
+        y: 297
+        width: 75
+        height: 168
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a102c5d82935dca4f8e94761196d392c
+      internalID: 1849708050
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LeeMongRyong_isWalking_18
+      rect:
+        serializedVersion: 2
+        x: 860
+        y: 298
+        width: 74
+        height: 165
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dc9bb02d1aae5304f82caf0b9227f691
+      internalID: -1423868078
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LeeMongRyong_isWalking_19
+      rect:
+        serializedVersion: 2
+        x: 1113
+        y: 297
+        width: 78
+        height: 165
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f1d7aed626552984b903d6056e2f4a9b
+      internalID: 467796616
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LeeMongRyong_isWalking_20
+      rect:
+        serializedVersion: 2
+        x: 89
+        y: 42
+        width: 79
+        height: 164
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e71305a0b3229a242b5ef812f3352efa
+      internalID: -861656656
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LeeMongRyong_isWalking_21
+      rect:
+        serializedVersion: 2
+        x: 350
+        y: 41
+        width: 75
+        height: 167
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 56ab0f6e327f9ce44a9ff66d769bb067
+      internalID: 1442755137
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LeeMongRyong_isWalking_22
+      rect:
+        serializedVersion: 2
+        x: 605
+        y: 41
+        width: 75
+        height: 169
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b5d2586baae5ace49b8793067b804c12
+      internalID: -658002721
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LeeMongRyong_isWalking_23
+      rect:
+        serializedVersion: 2
+        x: 860
+        y: 42
+        width: 75
+        height: 167
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e4c9b9397198dee4ca2caffc6fe92137
+      internalID: 832061755
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LeeMongRyong_isWalking_24
+      rect:
+        serializedVersion: 2
+        x: 1109
+        y: 43
+        width: 88
+        height: 164
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6af44b37b32ff1e41bebba860bb678a7
+      internalID: 1338584144
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 340ce3b29dc88b84c89b8320ffd85aa7
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      LeeMongRyong_isWalking_0: 1575681267
+      LeeMongRyong_isWalking_1: -678147110
+      LeeMongRyong_isWalking_10: -256489174
+      LeeMongRyong_isWalking_11: 904639126
+      LeeMongRyong_isWalking_12: 71562744
+      LeeMongRyong_isWalking_13: 883089063
+      LeeMongRyong_isWalking_14: 1848458401
+      LeeMongRyong_isWalking_15: -1759676186
+      LeeMongRyong_isWalking_16: -480048791
+      LeeMongRyong_isWalking_17: 1849708050
+      LeeMongRyong_isWalking_18: -1423868078
+      LeeMongRyong_isWalking_19: 467796616
+      LeeMongRyong_isWalking_2: -75041504
+      LeeMongRyong_isWalking_20: -861656656
+      LeeMongRyong_isWalking_21: 1442755137
+      LeeMongRyong_isWalking_22: -658002721
+      LeeMongRyong_isWalking_23: 832061755
+      LeeMongRyong_isWalking_24: 1338584144
+      LeeMongRyong_isWalking_3: -1460214886
+      LeeMongRyong_isWalking_4: 1582499335
+      LeeMongRyong_isWalking_5: -446701584
+      LeeMongRyong_isWalking_6: 1233628869
+      LeeMongRyong_isWalking_7: 1144519342
+      LeeMongRyong_isWalking_8: 637460369
+      LeeMongRyong_isWalking_9: 266357601
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

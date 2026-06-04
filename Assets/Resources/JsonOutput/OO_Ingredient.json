@@ -10,7 +10,7 @@
   {
     "Id": "Ing_Veggie_01",
     "Name": "채소",
-    "Description": "동쪽 마을에서 얻은 싱싱한 채소. 손질한 뒤 쌀과 함께 끓이면 따뜻한 채소죽이 된다.",
+    "Description": "?? ???? ?? ??? ??. ??? ? ?? ?? ??? ??? ???? ??.",
     "IconPath": "Images/Food/Vegetable",
     "Grade": "일반",
     "MaxStackCount": 12
@@ -28,6 +28,30 @@
     "Name": "청양고추",
     "Description": "청양고추",
     "IconPath": "Images/Food/ChiliPepper",
+    "Grade": "일반",
+    "MaxStackCount": 99
+  },
+  {
+    "Id": "Ing_Fish_01",
+    "Name": "??",
+    "Description": "???? ?? ??. ??? ??? ??? ??.",
+    "IconPath": "Images/Food/Fish",
+    "Grade": "??",
+    "MaxStackCount": 99
+  },
+  {
+    "Id": "Ing_Kimch_01",
+    "Name": "김치",
+    "Description": "Stage1 보상으로 받은 김치. 얼큰한 찌개를 만들 때 깊은 맛을 더합니다.",
+    "IconPath": "Images/Food/Kimch",
+    "Grade": "일반",
+    "MaxStackCount": 99
+  },
+  {
+    "Id": "Ing_Honey_01",
+    "Name": "꿀",
+    "Description": "Stage2 보상으로 받는 달콤한 재료입니다.",
+    "IconPath": "Images/Food/Honey",
     "Grade": "일반",
     "MaxStackCount": 99
   }

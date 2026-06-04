@@ -1,0 +1,694 @@
+fileFormatVersion: 2
+guid: cdf54817c9e20f648b4a3ff2be760626
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 0
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: LeeMongRyong_isArrived_0
+      rect:
+        serializedVersion: 2
+        x: 62
+        y: 1056
+        width: 173
+        height: 189
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eb11b821cb54fc449ab0d20ffc0f0763
+      internalID: -285872400
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LeeMongRyong_isArrived_1
+      rect:
+        serializedVersion: 2
+        x: 318
+        y: 1056
+        width: 176
+        height: 189
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b6bee4204795d4c4db4717c5497f9c8f
+      internalID: 1471402222
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LeeMongRyong_isArrived_2
+      rect:
+        serializedVersion: 2
+        x: 575
+        y: 1056
+        width: 178
+        height: 189
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ba1f0847c4ef2924fa234aa7c3c22363
+      internalID: 1968769332
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LeeMongRyong_isArrived_3
+      rect:
+        serializedVersion: 2
+        x: 830
+        y: 1056
+        width: 175
+        height: 189
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e581fe2b73a19754b884797060154fbd
+      internalID: -1468025160
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LeeMongRyong_isArrived_4
+      rect:
+        serializedVersion: 2
+        x: 1086
+        y: 1056
+        width: 178
+        height: 188
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2445ba1d03782f64b9a1e332808d45a5
+      internalID: 1466291501
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LeeMongRyong_isArrived_5
+      rect:
+        serializedVersion: 2
+        x: 62
+        y: 800
+        width: 178
+        height: 188
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7c0f32cc33f36254d880a128c707ead1
+      internalID: 1574618813
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LeeMongRyong_isArrived_6
+      rect:
+        serializedVersion: 2
+        x: 318
+        y: 800
+        width: 175
+        height: 190
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 12a47418a92ee554ca864249fae0ecff
+      internalID: 349141780
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LeeMongRyong_isArrived_7
+      rect:
+        serializedVersion: 2
+        x: 571
+        y: 800
+        width: 182
+        height: 190
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4c582b5f30e52b542a00e1c08bb2ce9a
+      internalID: -1962115923
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LeeMongRyong_isArrived_8
+      rect:
+        serializedVersion: 2
+        x: 827
+        y: 800
+        width: 182
+        height: 190
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f33ca889786a65b4da53c02444ff42db
+      internalID: 1731181489
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LeeMongRyong_isArrived_9
+      rect:
+        serializedVersion: 2
+        x: 1083
+        y: 800
+        width: 180
+        height: 190
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6dfa642f711fd994ea8152aad4373763
+      internalID: -904142702
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LeeMongRyong_isArrived_10
+      rect:
+        serializedVersion: 2
+        x: 59
+        y: 544
+        width: 182
+        height: 190
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 867cbac0d6a222d47b8593a7538366b5
+      internalID: -622086421
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LeeMongRyong_isArrived_11
+      rect:
+        serializedVersion: 2
+        x: 315
+        y: 544
+        width: 181
+        height: 190
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 62c57ff488b7d4547921970a6a32d2b8
+      internalID: -1804010429
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LeeMongRyong_isArrived_12
+      rect:
+        serializedVersion: 2
+        x: 571
+        y: 544
+        width: 182
+        height: 190
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5fc420b8b67225a4ab27a4ee17b1a475
+      internalID: 512460345
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LeeMongRyong_isArrived_13
+      rect:
+        serializedVersion: 2
+        x: 827
+        y: 544
+        width: 182
+        height: 190
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f29dfe8f8713b0546a7410dab7de40bc
+      internalID: 1242049630
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LeeMongRyong_isArrived_14
+      rect:
+        serializedVersion: 2
+        x: 1083
+        y: 544
+        width: 182
+        height: 190
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d2f465bf951efda42bca6f5608b75e46
+      internalID: 540814842
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LeeMongRyong_isArrived_15
+      rect:
+        serializedVersion: 2
+        x: 59
+        y: 288
+        width: 182
+        height: 190
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8ec384c7b2851a244aab17398934d2d6
+      internalID: -1054675361
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LeeMongRyong_isArrived_16
+      rect:
+        serializedVersion: 2
+        x: 317
+        y: 288
+        width: 180
+        height: 189
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 141f84fb98c42d64cb59e1a29920f49c
+      internalID: 1829335985
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LeeMongRyong_isArrived_17
+      rect:
+        serializedVersion: 2
+        x: 574
+        y: 288
+        width: 176
+        height: 189
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7e3dd75477738464eb959d94af6e86d9
+      internalID: 2009426688
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LeeMongRyong_isArrived_18
+      rect:
+        serializedVersion: 2
+        x: 830
+        y: 288
+        width: 167
+        height: 189
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7a8ba9d020e2bc040ad5e8cd9e52d86c
+      internalID: 1313040552
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LeeMongRyong_isArrived_19
+      rect:
+        serializedVersion: 2
+        x: 1087
+        y: 288
+        width: 171
+        height: 189
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 307ce82cd69f4b84f8fb2f83966b598b
+      internalID: 1131316096
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LeeMongRyong_isArrived_20
+      rect:
+        serializedVersion: 2
+        x: 63
+        y: 32
+        width: 175
+        height: 189
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: abfdbc63bbd85a342a393ad5974b05e6
+      internalID: 11300306
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LeeMongRyong_isArrived_21
+      rect:
+        serializedVersion: 2
+        x: 319
+        y: 32
+        width: 176
+        height: 190
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6e5b9f4ded621e8468e1bdfd8ff5128f
+      internalID: 375994950
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LeeMongRyong_isArrived_22
+      rect:
+        serializedVersion: 2
+        x: 575
+        y: 32
+        width: 174
+        height: 190
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9f47a6be57acf6847bc01d05a93ad7d8
+      internalID: 1340474721
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LeeMongRyong_isArrived_23
+      rect:
+        serializedVersion: 2
+        x: 830
+        y: 32
+        width: 176
+        height: 190
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 81de4dbd4d9b1df4fa7e85286a483789
+      internalID: -1269467375
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LeeMongRyong_isArrived_24
+      rect:
+        serializedVersion: 2
+        x: 1086
+        y: 32
+        width: 179
+        height: 190
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 83d514cce310e944ba0b9ea82dfef3ca
+      internalID: 313902611
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 88e84c24820dc7642b946e24c9b42307
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      LeeMongRyong_isArrived_0: -285872400
+      LeeMongRyong_isArrived_1: 1471402222
+      LeeMongRyong_isArrived_10: -622086421
+      LeeMongRyong_isArrived_11: -1804010429
+      LeeMongRyong_isArrived_12: 512460345
+      LeeMongRyong_isArrived_13: 1242049630
+      LeeMongRyong_isArrived_14: 540814842
+      LeeMongRyong_isArrived_15: -1054675361
+      LeeMongRyong_isArrived_16: 1829335985
+      LeeMongRyong_isArrived_17: 2009426688
+      LeeMongRyong_isArrived_18: 1313040552
+      LeeMongRyong_isArrived_19: 1131316096
+      LeeMongRyong_isArrived_2: 1968769332
+      LeeMongRyong_isArrived_20: 11300306
+      LeeMongRyong_isArrived_21: 375994950
+      LeeMongRyong_isArrived_22: 1340474721
+      LeeMongRyong_isArrived_23: -1269467375
+      LeeMongRyong_isArrived_24: 313902611
+      LeeMongRyong_isArrived_3: -1468025160
+      LeeMongRyong_isArrived_4: 1466291501
+      LeeMongRyong_isArrived_5: 1574618813
+      LeeMongRyong_isArrived_6: 349141780
+      LeeMongRyong_isArrived_7: -1962115923
+      LeeMongRyong_isArrived_8: 1731181489
+      LeeMongRyong_isArrived_9: -904142702
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

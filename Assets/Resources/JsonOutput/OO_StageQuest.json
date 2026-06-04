@@ -42,5 +42,27 @@
     "RequiredCount": 1,
     "RewardItemIds": "Ing_ChiliPepper_01",
     "NextGroupId": "2nd_Road_to_Stage2"
+  },
+  {
+    "Id": "Stage2_Quest_01",
+    "StageId": "OO_Stage_2",
+    "Name": "김치찌개를 만들어 탐욕스러운 오리에게 건네세요.",
+    "Description": "김치 10개는 가마솥에, 청양고추 10개는 도마에 올려 김치찌개를 완성한 뒤 GreedyDuck에게 전달합니다.",
+    "ObjectiveType": "CookAndDeliver",
+    "ObjectiveId": "OO_KimchiStew_1",
+    "RequiredCount": 1,
+    "RewardItemIds": null,
+    "NextGroupId": null
+  },
+  {
+    "Id": "Stage2_Road_Quest_01",
+    "StageId": "OO_Stage_2",
+    "Name": "서쪽 도시 이동",
+    "Description": "서쪽 도시에 가 탐관오리의 자택을 방문하세요.",
+    "ObjectiveType": "GoToStage",
+    "ObjectiveId": "Stage2Group",
+    "RequiredCount": 1,
+    "RewardItemIds": null,
+    "NextGroupId": "Stage2Group"
   }
 ]

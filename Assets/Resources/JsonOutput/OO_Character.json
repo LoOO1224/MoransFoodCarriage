@@ -46,5 +46,21 @@
     "SkillList": null,
     "UseWeaponId": null,
     "BasicCostumeId": null
+  },
+  {
+    "Id": "character_GreedyDuck_01",
+    "Name": "탐관오리",
+    "Description": "Stage2 보스 ",
+    "SkillList": null,
+    "UseWeaponId": null,
+    "BasicCostumeId": null
+  },
+  {
+    "Id": "character_LeeMongRyong_01",
+    "Name": "이몽령",
+    "Description": "Stage2 히어로",
+    "SkillList": "깜짝 등장해 분위기를 반전 시키고 퀘스트를 돕니다.",
+    "UseWeaponId": null,
+    "BasicCostumeId": null
   }
 ]

@@ -6,6 +6,7 @@
 // - 유지보수 포인트: 배경/버튼/캐릭터 배치는 오브젝트와 View가 맡고, 이 스크립트는 순서 지휘만 맡아야 합니다.
 // =============================================================================
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -94,14 +95,31 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
         "FinalStageGroup"
     };
 
+    [Header("Road Opening Dialogue")]
+    [SerializeField] private string _dialogueGroupName = "DialogueGroup";
+    [SerializeField] private string _secondRoadGroupName = "2nd_Road_to_Stage2";
+    [SerializeField] private string _secondRoadMissionDataId = "Stage2_Road_Quest_01";
+    [SerializeField] private string _secondRoadMissionFallbackText = "서쪽 도시에 가 탐관오리의 자택을 방문하세요.";
+    [SerializeField] private string[] _secondRoadOpeningDialogueIdArray =
+    {
+        "character_Chunyang_06",
+        "character_Mr.Jaeik_05",
+        "character_Chunyang_07",
+        "character_Mr.Jaeik_06",
+        "character_Moran_06"
+    };
+
     private GameObject[] _mapObjectArray;
     private int _currentMapIndex;
     private bool _isChangingMap;
     private bool _isRoadTripComplete;
     private bool _isRoadMap1ArrivalCuePlayed;
+    private bool _isOpeningDialoguePlaying;
     private Coroutine _openingTutorialCoroutine;
+    private Coroutine _openingDialogueCoroutine;
     private Canvas _fadeCanvas;
     private Image Image_FadeOverlay;
+    private DialogueUI UI_Dialogue;
 
     private readonly string[] _blockingGroupNameArray =
     {
@@ -168,6 +186,7 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
         PrepareRoadHUD();
         PrepareRoadTrip();
         StartOpeningTutorialIfNeeded();
+        StartRoadOpeningDialogueIfNeeded();
     }
 
     /// <summary>
@@ -176,8 +195,11 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
     private void OnDisable()
     {
         StopOpeningTutorial();
+        StopRoadOpeningDialogue();
         StopAllCoroutines();
         _openingTutorialCoroutine = null;
+        _openingDialogueCoroutine = null;
+        _isOpeningDialoguePlaying = false;
         _isChangingMap = false;
         SetMFCAnimationPlaying(false);
         SetRoadHUDVisible(false);
@@ -190,6 +212,12 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
     private void Update()
     {
         if (Tutorial2_Controller != null && Tutorial2_Controller.IsTutorialRunning)
+        {
+            SetMFCAnimationPlaying(false);
+            return;
+        }
+
+        if (_isOpeningDialoguePlaying)
         {
             SetMFCAnimationPlaying(false);
             return;
@@ -230,19 +258,32 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
         Animator_MFC = ResolveComponent(Animator_MFC, Object_MFC);
         Renderer_MFC = ResolveComponent(Renderer_MFC, Object_MFC);
 
-        Object_StartPointMap = ResolveChild(Object_StartPointMap, "StartPointMap", "RoadMap1");
-        Object_RoadMap1 = ResolveChild(Object_RoadMap1, "RoadMap1", "RoadMap2");
+        Object_StartPointMap = ResolveChild(Object_StartPointMap, "StartPointMap");
+        Object_RoadMap1 = ResolveChild(Object_RoadMap1, "RoadMap1", "RoadMap");
         Object_RoadMap2 = ResolveChild(Object_RoadMap2, "RoadMap2", "RoadMap3");
-        Object_Stage1EntryMap = ResolveChild(Object_Stage1EntryMap, "Stage1EntryMap", "Stage1_Entry");
+        Object_Stage1EntryMap = ResolveChild(Object_Stage1EntryMap, "Stage1EntryMap", "Stage2EntryMap", "Stage3EntryMap", "Stage4EntryMap", "FinalStageEntryMap", "Stage1_Entry", "Stage2_Entry");
         Transform_MFCStartPoint = ResolveChildTransform(Transform_MFCStartPoint, "MFC_StartPoint", "StartPoint_MFC");
 
-        _mapObjectArray = new[]
+        _mapObjectArray = CreateValidMapObjectArray(Object_StartPointMap, Object_RoadMap1, Object_RoadMap2, Object_Stage1EntryMap);
+    }
+
+    /// <summary>
+    /// 실제로 무대에 존재하는 Road 배경만 큐시트 배열에 넣습니다.
+    /// 영화 비유로는 공연장에 없는 배경막은 큐시트에서 빼고, 준비된 배경막만 순서대로 넘기는 일입니다.
+    /// </summary>
+    private GameObject[] CreateValidMapObjectArray(params GameObject[] mapObjectArray)
+    {
+        List<GameObject> validMapList = new List<GameObject>();
+
+        foreach (GameObject mapObject in mapObjectArray)
         {
-            Object_StartPointMap,
-            Object_RoadMap1,
-            Object_RoadMap2,
-            Object_Stage1EntryMap
-        };
+            if (mapObject == null || validMapList.Contains(mapObject))
+                continue;
+
+            validMapList.Add(mapObject);
+        }
+
+        return validMapList.ToArray();
     }
 
     /// <summary>
@@ -730,7 +771,37 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
         HUD_Road.SetOwnerGroupName(_currentGroupName);
         HUD_Road.PrepareHUD();
         HUD_Road.SetCookingUnlocked(_currentGroupName != "1st_Road_to_Stage1");
+        ApplyRoadMissionForCurrentGroup();
         HUD_Road.SetHUDVisible(true);
+    }
+
+    /// <summary>
+    /// RoadGroup 이름에 맞춰 HUD의 길 안내 임무를 데이터로 교체합니다.
+    /// 영화로 치면 이동 장면마다 배우에게 다른 콜시트를 나눠주는 큐입니다.
+    /// </summary>
+    private void ApplyRoadMissionForCurrentGroup()
+    {
+        if (HUD_Road == null)
+            return;
+
+        if (_currentGroupName != _secondRoadGroupName)
+            return;
+
+        string roadMissionText = ResolveStageQuestDescription(_secondRoadMissionDataId, _secondRoadMissionFallbackText);
+        HUD_Road.RequestSetRoadMissionText(roadMissionText, true);
+    }
+
+    /// <summary>
+    /// OO_StageQuest에서 임무 설명을 읽고, 데이터가 아직 비어 있으면 안전 문구를 사용합니다.
+    /// </summary>
+    private string ResolveStageQuestDescription(string stageQuestDataId, string fallbackText)
+    {
+        OO_StageQuest questData = OOTechGameDataManager.Inst != null ? OOTechGameDataManager.Inst.GetStageQuestData(stageQuestDataId) : null;
+
+        if (questData != null && !string.IsNullOrWhiteSpace(questData.Description))
+            return questData.Description;
+
+        return fallbackText;
     }
 
     private void SetRoadHUDVisible(bool isVisible)
@@ -777,6 +848,128 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
             return;
 
         _openingTutorialCoroutine = StartCoroutine(Tutorial2_Controller.PlayOpeningTutorialRoutine(HUD_Road, _currentGroupName));
+    }
+
+    /// <summary>
+    /// 2nd Road 진입 직후 대화 큐시트를 재생합니다.
+    /// Game View에서는 DialoguePanel이 먼저 뜨고, 모든 대사를 넘긴 뒤에야 MFC 이동 입력이 풀립니다.
+    /// </summary>
+    private void StartRoadOpeningDialogueIfNeeded()
+    {
+        StopRoadOpeningDialogue();
+
+        if (_currentGroupName != _secondRoadGroupName)
+            return;
+
+        _openingDialogueCoroutine = StartCoroutine(PlayRoadOpeningDialogueRoutine(_secondRoadOpeningDialogueIdArray));
+    }
+
+    private IEnumerator PlayRoadOpeningDialogueRoutine(string[] dialogueIdArray)
+    {
+        _isOpeningDialoguePlaying = true;
+        SetMFCAnimationPlaying(false);
+
+        yield return null;
+
+        if (dialogueIdArray == null || dialogueIdArray.Length == 0)
+        {
+            _isOpeningDialoguePlaying = false;
+            yield break;
+        }
+
+        if (!TryOpenDialogueGroup())
+        {
+            _isOpeningDialoguePlaying = false;
+            yield break;
+        }
+
+        foreach (string dialogueId in dialogueIdArray)
+        {
+            if (string.IsNullOrEmpty(dialogueId))
+                continue;
+
+            OO_Dialogue dialogueData = OOTechGameDataManager.Inst != null ? OOTechGameDataManager.Inst.GetDialogueData(dialogueId) : null;
+
+            if (dialogueData == null)
+            {
+                Debug.LogWarning($"[OOTechRoadToStage1Controller] Dialogue data is missing: {dialogueId}");
+                continue;
+            }
+
+            yield return ShowDialogueDataAndWait(dialogueData);
+        }
+
+        CloseDialogueGroup();
+        _isOpeningDialoguePlaying = false;
+    }
+
+    private IEnumerator ShowDialogueDataAndWait(OO_Dialogue dialogueData)
+    {
+        if (UI_Dialogue == null || dialogueData == null)
+            yield break;
+
+        bool isDone = false;
+        UI_Dialogue.RequestRoadViewLayout();
+        UI_Dialogue.ShowDialogue(dialogueData, delegate
+        {
+            isDone = true;
+        });
+
+        yield return new WaitUntil(() => isDone);
+    }
+
+    private bool TryOpenDialogueGroup()
+    {
+        GameObject dialogueGroup = FindSceneObjectByName(_dialogueGroupName);
+
+        if (dialogueGroup == null)
+        {
+            Debug.LogWarning($"[OOTechRoadToStage1Controller] DialogueGroup is missing: {_dialogueGroupName}");
+            UI_Dialogue = null;
+            return false;
+        }
+
+        if (OOTechUIManager.Inst != null)
+        {
+            OOTechUIManager.Inst.RegisterUI(_dialogueGroupName, dialogueGroup);
+            OOTechUIManager.Inst.OpenUI(_dialogueGroupName);
+        }
+        else
+        {
+            dialogueGroup.SetActive(true);
+        }
+
+        UI_Dialogue = dialogueGroup.GetComponentInChildren<DialogueUI>(true);
+
+        if (UI_Dialogue != null)
+            UI_Dialogue.RequestRoadViewLayout();
+
+        return UI_Dialogue != null;
+    }
+
+    private void CloseDialogueGroup()
+    {
+        if (OOTechUIManager.Inst != null && OOTechUIManager.Inst.CloseUI(_dialogueGroupName))
+            return;
+
+        GameObject dialogueGroup = FindSceneObjectByName(_dialogueGroupName);
+
+        if (dialogueGroup != null)
+            dialogueGroup.SetActive(false);
+    }
+
+    private void StopRoadOpeningDialogue()
+    {
+        if (_openingDialogueCoroutine != null)
+        {
+            StopCoroutine(_openingDialogueCoroutine);
+            _openingDialogueCoroutine = null;
+        }
+
+        if (_isOpeningDialoguePlaying)
+            CloseDialogueGroup();
+
+        _isOpeningDialoguePlaying = false;
     }
 
     private void StopOpeningTutorial()

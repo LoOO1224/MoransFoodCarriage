@@ -1,8 +1,8 @@
 [
   {
     "Id": "dialogue_group_cooking_vegetable_porridge_complete_01",
-    "Name": "첫 채소죽 완성 합창",
-    "Description": "채소죽을 완성한 뒤 춘양, 재익군, 모란이 함께 감사 인사를 하는 대화 그룹.",
+    "Name": "? ??? ?? ??",
+    "Description": "???? ??? ? ??, ???, ??? ?? ?? ??? ?? ?? ??.",
     "SpeakerCharacterIdList": "character_Chunyang_05|character_Mr.Jaeik_04|character_Moran_02",
     "SpeakerNameList": "춘양|재익군|모란",
     "Text": "잘 먹었습니다!",

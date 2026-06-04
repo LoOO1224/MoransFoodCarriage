@@ -41,7 +41,7 @@ public class OOTechItemCatalogManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 씬에 비활성으로 놓인 쌀/채소/채소죽 오브젝트까지 찾아 데이터 ID 사전으로 묶습니다.
+    /// 씬에 비활성으로 놓인 쌀/채소/야채죽 오브젝트까지 찾아 데이터 ID 사전으로 묶습니다.
     /// </summary>
     public void RequestCacheItemDefinitionObjects()
     {
@@ -359,11 +359,26 @@ public class OOTechItemCatalogManager : MonoBehaviour
         if (itemDataId == "Ing_ChiliPepper_01")
             return "청양고추";
 
+        if (itemDataId == "Ing_Fish_01")
+            return "조기";
+
+        if (itemDataId == "Ing_Kimch_01")
+            return "김치";
+
+        if (itemDataId == "Ing_Honey_01")
+            return "꿀";
+
         if (itemDataId == "OO_PumpkinSoup_1")
             return "호박죽";
 
         if (itemDataId == "OO_VegetableSoup_1")
-            return "채소죽";
+            return "야채죽";
+
+        if (itemDataId == "OO_GrilledFishMeal_1")
+            return "조기밥상";
+
+        if (itemDataId == "OO_KimchiStew_1")
+            return "김치찌개";
 
         return string.IsNullOrEmpty(itemDataId) ? "알 수 없는 아이템" : itemDataId;
     }

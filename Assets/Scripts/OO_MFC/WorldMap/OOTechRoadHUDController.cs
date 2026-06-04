@@ -120,6 +120,7 @@ public class OOTechRoadHUDController : MonoBehaviour
     private bool _isCookingQuestComplete;
     private bool _isCookingMissionRemoved;
     private bool _isEastRoadMissionRemoved;
+    private string _roadMissionText = "동쪽의 마을로 가시오";
     private string _stageQuestMissionText;
     private float _missionCompleteEffectAlpha = 1f;
     private Coroutine _inventoryNewBadgeCoroutine;
@@ -262,7 +263,7 @@ public class OOTechRoadHUDController : MonoBehaviour
     }
 
     /// <summary>
-    /// 채소죽 제작이 끝나면 첫 번째 임무 줄에 취소선과 페이드아웃 연출을 재생합니다.
+    /// 야채죽 제작이 끝나면 첫 번째 임무 줄에 취소선과 페이드아웃 연출을 재생합니다.
     /// </summary>
     public void RequestCompleteCookingQuest()
     {
@@ -293,6 +294,23 @@ public class OOTechRoadHUDController : MonoBehaviour
         _stageQuestMissionText = stageQuestText;
         SetMissionNewBadgeActive(true);
         RefreshMissionText();
+    }
+
+    /// <summary>
+    /// RoadGroup마다 기본 길 안내 임무를 교체합니다.
+    /// 영화로 치면 다음 촬영 장소를 적은 콜시트를 HUD 배우에게 새로 붙이는 장면입니다.
+    /// </summary>
+    public void RequestSetRoadMissionText(string roadMissionText, bool isShowNewBadge)
+    {
+        if (Text_MissionContent == null)
+            PrepareHUD();
+
+        _roadMissionText = roadMissionText;
+        _isEastRoadMissionRemoved = string.IsNullOrWhiteSpace(_roadMissionText);
+        RefreshMissionText();
+
+        if (isShowNewBadge)
+            SetMissionNewBadgeActive(true);
     }
 
     /// <summary>
@@ -996,7 +1014,7 @@ public class OOTechRoadHUDController : MonoBehaviour
         Text_MissionContent.richText = true;
         string cookingMissionText = CreateCookingMissionText();
 
-        string eastRoadMissionText = _isEastRoadMissionRemoved ? string.Empty : "○ 동쪽의 마을로 가시오\n";
+        string eastRoadMissionText = _isEastRoadMissionRemoved || string.IsNullOrWhiteSpace(_roadMissionText) ? string.Empty : "○ " + _roadMissionText + "\n";
         string stageQuestText = string.IsNullOrWhiteSpace(_stageQuestMissionText) ? string.Empty : "○ " + _stageQuestMissionText + "\n";
         Text_MissionContent.text = "현재 임무\n" + cookingMissionText + eastRoadMissionText + stageQuestText;
     }
@@ -1127,7 +1145,7 @@ public class OOTechRoadHUDController : MonoBehaviour
             return "호박";
 
         if (ingredientDataId == "OO_VegetableSoup_1")
-            return "채소죽";
+            return "야채죽";
 
         return string.IsNullOrEmpty(ingredientDataId) ? "알 수 없는 아이템" : ingredientDataId;
     }

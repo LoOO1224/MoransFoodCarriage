@@ -168,5 +168,165 @@
     "SelectionDialogueIdList": null,
     "TexturePath": null,
     "VoicePath": null
+  },
+  {
+    "Id": "character_Chunyang_06",
+    "SpeakerName": "춘양 ",
+    "Text": "“이런 횡포를 부린 자인 탐관오리에게 가셔서 담판을 내시죠, 모란님.”",
+    "NextDialogueId": null,
+    "SelectionNameList": null,
+    "SelectionDialogueIdList": null,
+    "TexturePath": null,
+    "VoicePath": null
+  },
+  {
+    "Id": "character_Mr.Jaeik_05",
+    "SpeakerName": "재익군 ",
+    "Text": "“아씨~! 탐관오리란 자가 얼마나 무서운 자인디 굳이 거길 가시려 하십니까유? 지금은 저희를 지켜줄 이몽령 도련님도 안 계신단 마류~!”",
+    "NextDialogueId": null,
+    "SelectionNameList": null,
+    "SelectionDialogueIdList": null,
+    "TexturePath": null,
+    "VoicePath": null
+  },
+  {
+    "Id": "character_Chunyang_07",
+    "SpeakerName": "춘양",
+    "Text": "“네 이놈! 감히 그 주둥이에 내 서방님의 이름을 함부로 올리지 마라!”",
+    "NextDialogueId": null,
+    "SelectionNameList": null,
+    "SelectionDialogueIdList": null,
+    "TexturePath": null,
+    "VoicePath": null
+  },
+  {
+    "Id": "character_Mr.Jaeik_06",
+    "SpeakerName": "재익군",
+    "Text": "“이익!!! 죄송하구멍유! (깜짝 놀라 읍! 하고 앞 발이였던 손으로 입을 틀어막는다)”",
+    "NextDialogueId": null,
+    "SelectionNameList": null,
+    "SelectionDialogueIdList": null,
+    "TexturePath": null,
+    "VoicePath": null
+  },
+  {
+    "Id": "character_Moran_06",
+    "SpeakerName": "모란",
+    "Text": "“춘양 아씨, 너무 마음 쓰지 마세요. 도련님을 향한 아씨의 깊은 마음을 재익이가 미처 몰라보고 말실수를 한 모양입니다. 재익군, 무서운 건 당연하지만 우리가 힘을 합치면 괜찮을 거야. 촌장님이 주신 청양고추도 있으니 기운 내서 수레를 움직여볼까?”",
+    "NextDialogueId": null,
+    "SelectionNameList": null,
+    "SelectionDialogueIdList": null,
+    "TexturePath": null,
+    "VoicePath": null
+  },
+  {
+    "Id": "character_GreedyDuck_01",
+    "SpeakerName": "탐관오리",
+    "Text": "“네 이놈들! 감히 내 수청을 들지 않고 도망친 춘양을 숨겨준 것도 모자라, 요상한 수레로 천한 백성들을 선동하며 내 호박들을 훔쳐가다니! 당장 저 고약한 역적 놈들을 포박하라!”",
+    "NextDialogueId": null,
+    "SelectionNameList": null,
+    "SelectionDialogueIdList": null,
+    "TexturePath": null,
+    "VoicePath": null
+  },
+  {
+    "Id": "character_GreedyDuck_02",
+    "SpeakerName": "탐관오리",
+    "Text": "\"저건 또 어디서 굴러먹다 온 거렁뱅이 놈이냐! 감히 이 귀한 곳에 함부로 발을 디디다니! 여봐라, 저 고얀 놈까지 당장 포승줄로 꽁꽁 묶어라! 저 발칙한 역적 패당 네 놈과 함께 볼기를 곤장으로 매우 쳐……!\"",
+    "NextDialogueId": null,
+    "SelectionNameList": null,
+    "SelectionDialogueIdList": null,
+    "TexturePath": null,
+    "VoicePath": null
+  },
+  {
+    "Id": "character_LeeMongRyong_01",
+    "SpeakerName": "이몽령",
+    "Text": "“암행어사 출두야—! 백성들의 고혈을 짜내어 자신의 배만 불리던 탐관오리 놈아, 네 죄를 네가 알렷다!\"",
+    "NextDialogueId": null,
+    "SelectionNameList": null,
+    "SelectionDialogueIdList": null,
+    "TexturePath": null,
+    "VoicePath": null
+  },
+  {
+    "Id": "character_LeeMongRyong_02",
+    "SpeakerName": "이몽령",
+    "Text": "\"모란아, 네 소문은 익히 들었다. 이 자를 벌 하기 위한 음식을 만들어보려구나.”",
+    "NextDialogueId": null,
+    "SelectionNameList": null,
+    "SelectionDialogueIdList": null,
+    "TexturePath": null,
+    "VoicePath": null
+  },
+  {
+    "Id": "character_Moran_07",
+    "SpeakerName": "모란 ",
+    "Text": "“예, 도련님. 마침 마을 촌장님께 얻은 귀한 청양고추가 있으니, 아주 매콤한 찌개를 끓여 대접하겠습니다.”",
+    "NextDialogueId": null,
+    "SelectionNameList": null,
+    "SelectionDialogueIdList": null,
+    "TexturePath": null,
+    "VoicePath": null
+  },
+  {
+    "Id": "character_GreedyDuck_03",
+    "SpeakerName": "탐관오리 ",
+    "Text": "탐관오리: \"아이고, 나 죽네! 입안에서 화룡이 불을 뿜는구나!! 물! 당장 물을 가져오너라어어억—!!\"",
+    "NextDialogueId": null,
+    "SelectionNameList": null,
+    "SelectionDialogueIdList": null,
+    "TexturePath": null,
+    "VoicePath": null
+  },
+  {
+    "Id": "character_LeeMongRyong_03",
+    "SpeakerName": "이몽령",
+    "Text": "(떠내려가는 탐관오리를 보며 헛기침을 하다가, 이내 춘향을 돌아보며) \"덕분에 큰 소동 없이 의로운 일을 마쳤소. ……춘양아, 그동안 무탈하였느냐. 내 오느라 너무 늦었다. 그간 고생이 많았구나.\"",
+    "NextDialogueId": null,
+    "SelectionNameList": null,
+    "SelectionDialogueIdList": null,
+    "TexturePath": null,
+    "VoicePath": null
+  },
+  {
+    "Id": "character_Chunyang_08",
+    "SpeakerName": "춘양",
+    "Text": "\"나으리…… 밤낮으로 오직 서방님만을 그리워하며 이 모진 시간을 버텨왔나이다.\"",
+    "NextDialogueId": null,
+    "SelectionNameList": null,
+    "SelectionDialogueIdList": null,
+    "TexturePath": null,
+    "VoicePath": null
+  },
+  {
+    "Id": "character_LeeMongRyong_04 ",
+    "SpeakerName": "이몽령",
+    "Text": "\"(춘양을 따뜻하게 바라보며) 참으로 마음이 비단결 같은 동료들과 함께하고 있구나.\"",
+    "NextDialogueId": null,
+    "SelectionNameList": null,
+    "SelectionDialogueIdList": null,
+    "TexturePath": null,
+    "VoicePath": null
+  },
+  {
+    "Id": "character_LeeMongRyong_05",
+    "SpeakerName": "이몽령",
+    "Text": "\"나는 이곳에 남아 흩어진 민심을 바로잡고 왕실의 어둠을 살필 테니, 춘양 자네는 저들과 함께 고통받는 세상을 구하는 아름다운 여정을 계속 이어가 주시게.\"",
+    "NextDialogueId": null,
+    "SelectionNameList": null,
+    "SelectionDialogueIdList": null,
+    "TexturePath": null,
+    "VoicePath": null
+  },
+  {
+    "Id": "character_Chunyang_09",
+    "SpeakerName": "춘양",
+    "Text": "\"(흐르는 눈물을 닦고 입을 가리며 수줍게 미소 짓는다) 나으리의 깊은 뜻을 어찌 거스르겠나이다. 서방님께서 주신 영약과 이 비단결 같은 동료들이 있으니, 제 앞길에 두려울 것이 없사옵니다. 부디 몸조심하시옵소서. 이 모험의 끝에서, 더 밝아진 세상에서 반드시 다시 만나기를 기약하겠나이다.\"",
+    "NextDialogueId": null,
+    "SelectionNameList": null,
+    "SelectionDialogueIdList": null,
+    "TexturePath": null,
+    "VoicePath": null
   }
 ]

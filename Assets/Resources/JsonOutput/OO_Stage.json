@@ -1,7 +1,7 @@
 [
   {
     "Id": "OO_Stage_1",
-    "Name": "?? ??",
+    "Name": "동쪽 마을",
     "StageNumber": 1,
     "Description": "탐관오리의 수탈로 굶주린 동쪽 백성들을 위해 첫 음식을 준비하는 스테이지.",
     "BackgroundImagePath": "Images/Background/Stage1",
@@ -10,7 +10,7 @@
     "RewardItemIds": null,
     "StartDialogueGroupId": "dialogue_stage1_start",
     "QuestTitle": "동쪽 마을의 구원",
-    "QuestDescription": "채소죽을 만들어 굶주린 백성에게 전하라.",
+    "QuestDescription": "야채죽을 만들어 굶주린 백성에게 전하라.",
     "RequiredCookId": "OO_VegetableSoup_1",
     "NextRoadGroupId": "2nd_Road_to_Stage2"
   }

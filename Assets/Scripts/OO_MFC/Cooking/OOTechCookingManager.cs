@@ -80,6 +80,16 @@ public class OOTechCookingManager : MonoBehaviour
             };
         }
 
+        if (IsFallbackKimchiStewRecipe(ingredientIds))
+        {
+            return new CookingResult
+            {
+                IsSuccess = true,
+                ResultItemId = "OO_KimchiStew_1",
+                FailReason = string.Empty
+            };
+        }
+
         return new CookingResult
         {
             IsSuccess = false,
@@ -97,7 +107,7 @@ public class OOTechCookingManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Recipe 데이터가 비어 있어도 튜토리얼 채소죽은 플레이 가능하도록 남겨둔 안전망입니다.
+    /// Recipe 데이터가 비어 있어도 튜토리얼 야채죽은 플레이 가능하도록 남겨둔 안전망입니다.
     /// </summary>
     private bool IsFallbackVegetablePorridgeRecipe(List<string> ingredientIds)
     {
@@ -119,5 +129,18 @@ public class OOTechCookingManager : MonoBehaviour
 
         return ingredientIds.Contains("Ing_Rice_01") &&
                ingredientIds.Contains("Ing_Pumpkin_01");
+    }
+
+    /// <summary>
+    /// Stage2 김치찌개 레시피가 JSON에서 빠져 있어도 시연이 멈추지 않도록 최소 안전망을 둡니다.
+    /// 감독 비유로는 큐시트가 늦게 도착해도 배우가 기본 동선만큼은 계속 공연하게 하는 임시 큐입니다.
+    /// </summary>
+    private bool IsFallbackKimchiStewRecipe(List<string> ingredientIds)
+    {
+        if (ingredientIds == null || ingredientIds.Count != 2)
+            return false;
+
+        return ingredientIds.Contains("Ing_Kimch_01") &&
+               ingredientIds.Contains("Ing_ChiliPepper_01");
     }
 }

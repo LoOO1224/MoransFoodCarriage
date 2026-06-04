@@ -50,8 +50,10 @@ public class OOTechCookingGroupController : MonoBehaviour
     [SerializeField] private string _riceIngredientId = "Ing_Rice_01";
     [SerializeField] private string _vegetableIngredientId = "Ing_Veggie_01";
     [SerializeField] private string _pumpkinIngredientId = "Ing_Pumpkin_01";
-    [SerializeField] private string[] _defaultCauldronAcceptedIngredientIdArray = { "Ing_Rice_01" };
-    [SerializeField] private string[] _defaultCuttingboardAcceptedIngredientIdArray = { "Ing_Veggie_01", "Ing_Pumpkin_01" };
+    [SerializeField] private string _kimchIngredientId = "Ing_Kimch_01";
+    [SerializeField] private string _chiliPepperIngredientId = "Ing_ChiliPepper_01";
+    [SerializeField] private string[] _defaultCauldronAcceptedIngredientIdArray = { "Ing_Rice_01", "Ing_Kimch_01" };
+    [SerializeField] private string[] _defaultCuttingboardAcceptedIngredientIdArray = { "Ing_Veggie_01", "Ing_Pumpkin_01", "Ing_ChiliPepper_01" };
 
     [Header("Canvas")]
     [SerializeField] private int _sortingOrder = 1260;
@@ -445,6 +447,9 @@ public class OOTechCookingGroupController : MonoBehaviour
     /// </summary>
     private int CalculateCookingResultCount(string resultItemId)
     {
+        if (resultItemId == "OO_KimchiStew_1")
+            return CalculateKimchiStewResultCount();
+
         if (resultItemId != "OO_PumpkinSoup_1" || OOTechGameManager.Inst == null)
             return 1;
 
@@ -458,6 +463,28 @@ public class OOTechCookingGroupController : MonoBehaviour
         OOTechGameManager.Inst.RemoveItem(_riceIngredientId, additionalCount);
         OOTechGameManager.Inst.RemoveItem(_pumpkinIngredientId, additionalCount);
         return 1 + additionalCount;
+    }
+
+    /// <summary>
+    /// Stage2 김치찌개는 김치 10개와 청양고추 10개를 한 번에 소모해 1그릇을 완성합니다.
+    /// 영화로 보면 이미 냄비와 도마에 올라간 첫 소품을 제외하고, 남은 재료 9개씩을 소품팀에서 추가로 회수하는 장면입니다.
+    /// </summary>
+    private int CalculateKimchiStewResultCount()
+    {
+        if (OOTechGameManager.Inst == null)
+            return 1;
+
+        int remainingKimchCount = OOTechGameManager.Inst.GetItemCount(_kimchIngredientId);
+        int remainingChiliPepperCount = OOTechGameManager.Inst.GetItemCount(_chiliPepperIngredientId);
+        int additionalCount = Mathf.Min(9, Mathf.Min(remainingKimchCount, remainingChiliPepperCount));
+
+        if (additionalCount > 0)
+        {
+            OOTechGameManager.Inst.RemoveItem(_kimchIngredientId, additionalCount);
+            OOTechGameManager.Inst.RemoveItem(_chiliPepperIngredientId, additionalCount);
+        }
+
+        return 1;
     }
 
     private bool CanToolAcceptIngredient(string itemDataId, OOTechCookingToolDropTarget toolTarget, string fallbackToolId)
@@ -560,11 +587,24 @@ public class OOTechCookingGroupController : MonoBehaviour
     /// </summary>
     private bool IsFallbackIngredientAccepted(string itemDataId)
     {
-        if (itemDataId != _riceIngredientId && itemDataId != _vegetableIngredientId && itemDataId != _pumpkinIngredientId)
+        if (itemDataId != _riceIngredientId &&
+            itemDataId != _vegetableIngredientId &&
+            itemDataId != _pumpkinIngredientId &&
+            itemDataId != _kimchIngredientId &&
+            itemDataId != _chiliPepperIngredientId)
             return false;
 
-        if (itemDataId == _vegetableIngredientId || itemDataId == _pumpkinIngredientId)
-            return !_selectedIngredientIdList.Contains(_vegetableIngredientId) && !_selectedIngredientIdList.Contains(_pumpkinIngredientId);
+        if (itemDataId == _vegetableIngredientId ||
+            itemDataId == _pumpkinIngredientId ||
+            itemDataId == _chiliPepperIngredientId)
+        {
+            return !_selectedIngredientIdList.Contains(_vegetableIngredientId) &&
+                   !_selectedIngredientIdList.Contains(_pumpkinIngredientId) &&
+                   !_selectedIngredientIdList.Contains(_chiliPepperIngredientId);
+        }
+
+        if (itemDataId == _riceIngredientId || itemDataId == _kimchIngredientId)
+            return !_selectedIngredientIdList.Contains(_riceIngredientId) && !_selectedIngredientIdList.Contains(_kimchIngredientId);
 
         return !_selectedIngredientIdList.Contains(itemDataId);
     }
@@ -1034,7 +1074,7 @@ public class OOTechCookingGroupController : MonoBehaviour
 
         description = tutorialData != null && !string.IsNullOrEmpty(tutorialData.Description)
             ? tutorialData.Description
-            : "왼쪽 인벤토리의 쌀과 채소를 가운데 가마솥으로 끌어다 놓으세요.\n재료는 하나씩 넣는 것이 기본입니다.\n쌀 + 채소가 들어가면 채소죽이 완성됩니다.";
+            : "왼쪽 인벤토리의 쌀과 채소를 가운데 가마솥과 도마로 끌어다 놓으세요.\n재료는 하나씩 넣는 것이 기본입니다.\n쌀 + 채소가 준비되면 야채죽이 완성됩니다.";
     }
 
     /// <summary>
@@ -1053,7 +1093,7 @@ public class OOTechCookingGroupController : MonoBehaviour
 
         description = tutorialData != null && !string.IsNullOrEmpty(tutorialData.Description)
             ? tutorialData.Description
-            : "채소는 도마에 올려놓으세요.\n가마솥에 쌀, 도마에 채소가 준비되면 채소죽이 완성됩니다.";
+            : "채소는 도마에 올려놓으세요.\n가마솥에 쌀, 도마에 채소가 준비되면 야채죽이 완성됩니다.";
     }
 
     private void ApplyGuideText(string title, string description)
@@ -1358,7 +1398,7 @@ public class OOTechCookingGroupController : MonoBehaviour
     }
 
     /// <summary>
-    /// 채소죽 제작이 끝났다고 Road HUD에 알려 임무판 체크 표시를 갱신합니다.
+    /// 야채죽 제작이 끝났다고 Road HUD에 알려 임무판 체크 표시를 갱신합니다.
     /// </summary>
     private void NotifyRoadHUDCookingQuestComplete()
     {
@@ -1378,7 +1418,7 @@ public class OOTechCookingGroupController : MonoBehaviour
     /// </summary>
     private void ShowCookingMissionCompleteGuide()
     {
-        ApplyGuideText("임무 완수", "채소죽을 완성했습니다.\n임무 UI에 완료 표시가 추가되었습니다.");
+        ApplyGuideText("임무 완수", "야채죽을 완성했습니다.\n임무 UI에 완료 표시가 추가되었습니다.");
         SetGuidePointerActive(false);
 
         if (Button_GuideConfirm == null)
@@ -1454,7 +1494,7 @@ public class OOTechCookingGroupController : MonoBehaviour
 
     /// <summary>
     /// 첫 요리 튜토리얼의 완성 음식은 대사로 먹은 뒤 인벤토리에서 1개 제거합니다.
-    /// Game View에서는 "잘 먹었습니다" 대사가 끝난 다음 채소죽 슬롯이 사라집니다.
+    /// Game View에서는 "잘 먹었습니다" 대사가 끝난 다음 야채죽 슬롯이 사라집니다.
     /// </summary>
     private void ConsumePendingCookingCompleteResult()
     {
@@ -1790,11 +1830,23 @@ public class OOTechCookingGroupController : MonoBehaviour
         if (itemDataId == "Ing_ChiliPepper_01")
             return "청양고추";
 
+        if (itemDataId == "Ing_Fish_01")
+            return "조기";
+
+        if (itemDataId == "Ing_Kimch_01")
+            return "김치";
+
         if (itemDataId == "OO_PumpkinSoup_1")
             return "호박죽";
 
         if (itemDataId == "OO_VegetableSoup_1")
-            return "채소죽";
+            return "야채죽";
+
+        if (itemDataId == "OO_GrilledFishMeal_1")
+            return "조기밥상";
+
+        if (itemDataId == "OO_KimchiStew_1")
+            return "김치찌개";
 
         return string.IsNullOrEmpty(itemDataId) ? "알 수 없는 아이템" : itemDataId;
     }

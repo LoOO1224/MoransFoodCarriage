@@ -95,6 +95,7 @@ public class OOTechStage1GroupController : MonoBehaviour
     [SerializeField] private string _pumpkinIngredientId = "Ing_Pumpkin_01";
     [SerializeField] private string _pumpkinSoupCookId = "OO_PumpkinSoup_1";
     [SerializeField] private string _chiliPepperIngredientId = "Ing_ChiliPepper_01";
+    [SerializeField] private string _kimchIngredientId = "Ing_Kimch_01";
     [SerializeField] private int _pumpkinRewardCount = 10;
     [SerializeField] private int _requiredPumpkinSoupCount = 10;
     [SerializeField] private int _chiefRewardCount = 10;
@@ -103,15 +104,15 @@ public class OOTechStage1GroupController : MonoBehaviour
     [SerializeField] private KeyCode _interactionKey = KeyCode.E;
     [SerializeField] private float _villageChiefInteractionDistance = 5.5f;
     [SerializeField] private float _cartInteractionDistance = 4.4f;
-    [SerializeField] private Vector3 _villageChiefMarkerOffset = new Vector3(0f, 1.85f, 0f);
-    [SerializeField] private Vector3 _cartMarkerOffset = new Vector3(0f, 1.75f, 0f);
+    [SerializeField] private Vector3 _villageChiefMarkerOffset = new Vector3(0f, 0.95f, 0f);
+    [SerializeField] private Vector3 _cartMarkerOffset = new Vector3(0f, 1.1f, 0f);
     [SerializeField] private string _markerText = "\u25BC";
     [SerializeField] private Color _villageChiefMarkerColor = Color.red;
     [SerializeField] private Color _cartMarkerColor = Color.red;
 
     [Header("Stage Clear")]
     [SerializeField] private string _stageClearTitle = "동쪽 마을 임무 완수";
-    [SerializeField] private string _stageClearMessage = "촌장의 부탁을 마치고 다음 길로 나설 준비가 끝났습니다.";
+    [SerializeField] private string _stageClearMessage = "촌장이 감사의 뜻으로 청양고추 10개와 김치 10개를 건넸습니다. 다음 길로 나설 준비가 끝났습니다.";
     [SerializeField] private string _nextRoadGroupName = "2nd_Road_to_Stage2";
 
     private GameObject Object_StageMap1;
@@ -183,6 +184,7 @@ public class OOTechStage1GroupController : MonoBehaviour
         _isInputLocked = false;
         _isDialoguePlaying = false;
         _isEntryTutorialFinished = false;
+        _isStageClearSequencePlaying = false;
         SetFadeAlpha(0f);
         SetClearPanelActive(false);
         CloseEntryTutorialFallback();
@@ -364,7 +366,7 @@ public class OOTechStage1GroupController : MonoBehaviour
     /// </summary>
     private void PrepareInteractionActors()
     {
-        Actor_VillageChief = PrepareActor(Object_VillageChief, false);
+        Actor_VillageChief = PrepareActor(Object_VillageChief);
 
         if (Actor_VillageChief != null)
         {
@@ -377,7 +379,7 @@ public class OOTechStage1GroupController : MonoBehaviour
             Actor_VillageChief.RequestSetInteractable(false);
         }
 
-        Actor_Cart = PrepareActor(Object_Cart, true);
+        Actor_Cart = PrepareActor(Object_Cart);
 
         if (Actor_Cart != null)
         {
@@ -391,15 +393,12 @@ public class OOTechStage1GroupController : MonoBehaviour
         }
     }
 
-    private OOTechNPCInteractionActor PrepareActor(GameObject actorObject, bool isAllowRuntimeAdd)
+    private OOTechNPCInteractionActor PrepareActor(GameObject actorObject)
     {
         if (actorObject == null)
             return null;
 
         OOTechNPCInteractionActor actor = actorObject.GetComponent<OOTechNPCInteractionActor>();
-
-        if (actor == null && isAllowRuntimeAdd)
-            actor = actorObject.AddComponent<OOTechNPCInteractionActor>();
 
         if (actor == null)
             Debug.LogWarning($"[OOTechStage1GroupController] {actorObject.name} needs OOTechNPCInteractionActor.");
@@ -439,15 +438,21 @@ public class OOTechStage1GroupController : MonoBehaviour
         GameObject markerObject = FindChildByName(transform, markerObjectName);
 
         if (markerObject == null)
+            markerObject = FindSceneObjectByName(markerObjectName);
+
+        if (markerObject == null)
         {
-            markerObject = new GameObject(markerObjectName);
-            markerObject.transform.SetParent(transform, false);
+            Debug.LogWarning($"[OOTechStage1GroupController] {markerObjectName} scene marker is missing.");
+            return null;
         }
 
         OOTechWorldInteractionMarker marker = markerObject.GetComponent<OOTechWorldInteractionMarker>();
 
         if (marker == null)
-            marker = markerObject.AddComponent<OOTechWorldInteractionMarker>();
+        {
+            Debug.LogWarning($"[OOTechStage1GroupController] {markerObjectName} needs OOTechWorldInteractionMarker.");
+            return null;
+        }
 
         marker.RequestSetup(targetObject.transform, worldOffset, _markerText, markerColor);
         marker.RequestSetVisible(false);
@@ -537,7 +542,7 @@ public class OOTechStage1GroupController : MonoBehaviour
 
         if (!_isEntryTutorialFinished && !IsTutorialGuideActuallyVisible())
         {
-            Debug.LogWarning("[OOTechStage1GroupController] TutorialGuideGroup was opened but is not visible. Fallback guide is shown.");
+            Debug.Log("[OOTechStage1GroupController] TutorialGuideGroup was opened but is not visible. Fallback guide is shown.");
             ShowEntryTutorialFallback(tutorialData.Title, tutorialData.Description);
         }
     }
@@ -658,7 +663,7 @@ public class OOTechStage1GroupController : MonoBehaviour
         if (Canvas_EntryTutorialFallback != null)
             Canvas_EntryTutorialFallback.gameObject.SetActive(true);
 
-        Debug.LogWarning("[OOTechStage1GroupController] Fallback entry tutorial is visible. Click the panel to unlock player control.");
+        Debug.Log("[OOTechStage1GroupController] Fallback entry tutorial is visible. Click the panel to unlock player control.");
     }
 
     private void CreateEntryTutorialFallbackIfNeeded()
@@ -930,6 +935,7 @@ public class OOTechStage1GroupController : MonoBehaviour
     {
         _isVillageChiefFinalRewardComplete = true;
         AddInventoryItem(_chiliPepperIngredientId, _chiefRewardCount);
+        AddInventoryItem(_kimchIngredientId, _chiefRewardCount);
         UpdateInteractionState();
 
         yield return PlayStageClearSequenceRoutine();
@@ -941,16 +947,15 @@ public class OOTechStage1GroupController : MonoBehaviour
             yield break;
 
         _isStageClearSequencePlaying = true;
-        yield return PlayMoranVictoryRoutine();
+        StartCoroutine(PlayMoranVictoryRoutine());
         SetClearPanelActive(true);
     }
 
     private IEnumerator PlayMoranVictoryRoutine()
     {
-        float remainSeconds = Mathf.Max(0.1f, _victorySeconds);
         float clipLength = GetMoranAnimationClipLength(_victoryStateName, 0.65f);
 
-        while (remainSeconds > 0f)
+        while (_isStageClearSequencePlaying && gameObject.activeInHierarchy)
         {
             if (!PlayMoranState(_victoryStateName, 1f, true))
             {
@@ -958,9 +963,7 @@ public class OOTechStage1GroupController : MonoBehaviour
                 yield break;
             }
 
-            float waitSeconds = Mathf.Min(clipLength, remainSeconds);
-            yield return new WaitForSeconds(waitSeconds);
-            remainSeconds -= waitSeconds;
+            yield return new WaitForSeconds(clipLength);
         }
     }
 
@@ -1345,6 +1348,12 @@ public class OOTechStage1GroupController : MonoBehaviour
         if (Canvas_Fade != null)
             return;
 
+        if (ResolveFadeCanvasFromScene())
+        {
+            SetFadeAlpha(0f);
+            return;
+        }
+
         GameObject canvasObject = new GameObject("Canvas_Stage1Fade");
         canvasObject.transform.SetParent(transform, false);
         Canvas_Fade = canvasObject.AddComponent<Canvas>();
@@ -1365,6 +1374,31 @@ public class OOTechStage1GroupController : MonoBehaviour
         imageRect.offsetMin = Vector2.zero;
         imageRect.offsetMax = Vector2.zero;
         SetFadeAlpha(0f);
+    }
+
+    /// <summary>
+    /// Stage1 무대에 미리 놓인 페이드 소품을 찾아 연결합니다.
+    /// 영화 비유로는 암전 조명을 새로 만드는 것이 아니라, 조명팀이 설치해 둔 암전 장치를 큐시트에 연결하는 단계입니다.
+    /// </summary>
+    private bool ResolveFadeCanvasFromScene()
+    {
+        GameObject canvasObject = FindChildByName(transform, "Canvas_Stage1Fade");
+
+        if (canvasObject == null)
+            return false;
+
+        Canvas_Fade = canvasObject.GetComponent<Canvas>();
+        Image_Fade = canvasObject.GetComponentInChildren<Image>(true);
+
+        if (Canvas_Fade == null || Image_Fade == null)
+        {
+            Canvas_Fade = null;
+            Image_Fade = null;
+            return false;
+        }
+
+        ApplyStageCanvas(Canvas_Fade, 5000);
+        return true;
     }
 
     private IEnumerator FadeRoutine(float fromAlpha, float toAlpha, float duration)
@@ -1397,6 +1431,12 @@ public class OOTechStage1GroupController : MonoBehaviour
         if (Canvas_Clear != null)
             return;
 
+        if (ResolveClearCanvasFromScene())
+        {
+            SetClearPanelActive(false);
+            return;
+        }
+
         GameObject canvasObject = new GameObject("Canvas_Stage1Clear");
         canvasObject.transform.SetParent(transform, false);
         Canvas_Clear = canvasObject.AddComponent<Canvas>();
@@ -1425,6 +1465,76 @@ public class OOTechStage1GroupController : MonoBehaviour
 
         Button_NextRoad = CreateClearButton(panelObject.transform);
         SetClearPanelActive(false);
+    }
+
+    /// <summary>
+    /// Stage1 무대에 미리 놓인 임무완수 패널을 찾아 연결합니다.
+    /// Game View에서는 임무 완료 후 이 Canvas가 켜지고, 버튼은 다음 Road 그룹을 여는 큐를 호출합니다.
+    /// </summary>
+    private bool ResolveClearCanvasFromScene()
+    {
+        GameObject canvasObject = FindChildByName(transform, "Canvas_Stage1Clear");
+
+        if (canvasObject == null)
+            return false;
+
+        Canvas_Clear = canvasObject.GetComponent<Canvas>();
+        Button_NextRoad = canvasObject.GetComponentInChildren<Button>(true);
+
+        if (Canvas_Clear == null || Button_NextRoad == null)
+        {
+            Canvas_Clear = null;
+            Button_NextRoad = null;
+            return false;
+        }
+
+        ApplyStageCanvas(Canvas_Clear, 5200);
+        Button_NextRoad.onClick.RemoveListener(OnNextRoadButtonClicked);
+        Button_NextRoad.onClick.AddListener(OnNextRoadButtonClicked);
+        ApplyClearPanelText();
+        return true;
+    }
+
+    /// <summary>
+    /// Stage1 임무완수 패널에 현재 보상 문구를 반영합니다.
+    /// 영화 비유로는 공연 마지막 자막판에 실제 지급된 소품 이름을 다시 적어 관객에게 보여주는 단계입니다.
+    /// </summary>
+    private void ApplyClearPanelText()
+    {
+        if (Canvas_Clear == null)
+            return;
+
+        TextMeshProUGUI[] textArray = Canvas_Clear.GetComponentsInChildren<TextMeshProUGUI>(true);
+
+        foreach (TextMeshProUGUI text in textArray)
+        {
+            if (text == null)
+                continue;
+
+            if (text.name == "Text_ClearTitle")
+                text.text = _stageClearTitle;
+            else if (text.name == "Text_ClearMessage")
+                text.text = _stageClearMessage;
+        }
+    }
+
+    private void ApplyStageCanvas(Canvas targetCanvas, int sortingOrder)
+    {
+        if (targetCanvas == null)
+            return;
+
+        targetCanvas.renderMode = RenderMode.ScreenSpaceOverlay;
+        targetCanvas.overrideSorting = true;
+        targetCanvas.sortingOrder = sortingOrder;
+
+        CanvasScaler canvasScaler = targetCanvas.GetComponent<CanvasScaler>();
+
+        if (canvasScaler == null)
+            return;
+
+        canvasScaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+        canvasScaler.referenceResolution = new Vector2(1920f, 1080f);
+        canvasScaler.matchWidthOrHeight = 0.5f;
     }
 
     private TextMeshProUGUI CreateClearText(Transform parentTransform, string objectName, string text, float fontSize, Vector2 position, Vector2 size)
@@ -1480,7 +1590,6 @@ public class OOTechStage1GroupController : MonoBehaviour
 
     private void OnNextRoadButtonClicked()
     {
-        StopStage1BGM();
         RequestOpenNextRoadGroup();
     }
 

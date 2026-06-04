@@ -1,0 +1,694 @@
+fileFormatVersion: 2
+guid: 4148a2ad9d983cc4e91b1db156d50236
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 0
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Mr.Jaeik-walk_0
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 1062
+        width: 95
+        height: 180
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4a1755d8ccd6ad64ab84ec4b88679301
+      internalID: -573970798
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik-walk_1
+      rect:
+        serializedVersion: 2
+        x: 334
+        y: 1062
+        width: 100
+        height: 179
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 73c43b47cb2983142b6a2b257d136867
+      internalID: -2108469454
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik-walk_2
+      rect:
+        serializedVersion: 2
+        x: 593
+        y: 1061
+        width: 96
+        height: 181
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 06bf510ec88753240bc15558f5c8f0ae
+      internalID: 955576835
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik-walk_3
+      rect:
+        serializedVersion: 2
+        x: 849
+        y: 1061
+        width: 89
+        height: 184
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9fb031cb86b88fa42bd49f2b678266ed
+      internalID: -119787543
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik-walk_4
+      rect:
+        serializedVersion: 2
+        x: 1106
+        y: 1061
+        width: 87
+        height: 183
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6c2e093ddfccf384d9bda4189ed1ae5b
+      internalID: 373523755
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik-walk_5
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 804
+        width: 88
+        height: 181
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6c4e7a5d5a8ac50489873a5752b2fce8
+      internalID: 352810222
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik-walk_6
+      rect:
+        serializedVersion: 2
+        x: 337
+        y: 805
+        width: 88
+        height: 181
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8d1b174855bbe3d44a2e242334c7ce15
+      internalID: -2113058358
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik-walk_7
+      rect:
+        serializedVersion: 2
+        x: 594
+        y: 806
+        width: 87
+        height: 182
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a58354ea27b935841a27c2ed95c7e745
+      internalID: -47496172
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik-walk_8
+      rect:
+        serializedVersion: 2
+        x: 849
+        y: 807
+        width: 88
+        height: 179
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 79187528f491cd8498d01d389212c6b9
+      internalID: 1648975440
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik-walk_9
+      rect:
+        serializedVersion: 2
+        x: 1105
+        y: 806
+        width: 88
+        height: 179
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 728a5b77aacb8904db9d23b4b84c74ed
+      internalID: 642448811
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik-walk_10
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 550
+        width: 87
+        height: 182
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a865b744c5fdd254ca5c0a1561e32e0b
+      internalID: 1847663476
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik-walk_11
+      rect:
+        serializedVersion: 2
+        x: 337
+        y: 551
+        width: 88
+        height: 181
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 06e4020f507de0c41a5e14da2c8ccd61
+      internalID: 994681666
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik-walk_12
+      rect:
+        serializedVersion: 2
+        x: 592
+        y: 550
+        width: 95
+        height: 180
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 49e214d0402e411408b517361125cfd2
+      internalID: 277316113
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik-walk_13
+      rect:
+        serializedVersion: 2
+        x: 847
+        y: 550
+        width: 100
+        height: 179
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0ac030063f5d27844955d4857635f7c5
+      internalID: -1934386528
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik-walk_14
+      rect:
+        serializedVersion: 2
+        x: 1105
+        y: 549
+        width: 96
+        height: 181
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 48f1efdaf92c50a4fbfb1944560dc959
+      internalID: -715055947
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik-walk_15
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 293
+        width: 87
+        height: 184
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f0b25d3abd9872243aab2588dee320aa
+      internalID: 1731449650
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik-walk_16
+      rect:
+        serializedVersion: 2
+        x: 337
+        y: 293
+        width: 88
+        height: 183
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f60adc8bb552da74ea496702c8fc04af
+      internalID: -1792952654
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik-walk_17
+      rect:
+        serializedVersion: 2
+        x: 593
+        y: 292
+        width: 88
+        height: 181
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 27b7b9f7cdb60b242b5dcbd1b1bf8c22
+      internalID: -513488217
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik-walk_18
+      rect:
+        serializedVersion: 2
+        x: 849
+        y: 293
+        width: 88
+        height: 181
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cb732fecb08633145bb60a2346a57032
+      internalID: 1197805426
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik-walk_19
+      rect:
+        serializedVersion: 2
+        x: 1105
+        y: 294
+        width: 88
+        height: 182
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d237cc8aee55ec5408be4f137932c07b
+      internalID: -723716952
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik-walk_20
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 39
+        width: 88
+        height: 179
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 24e7da836a465f0439bb0fc99f406f71
+      internalID: -78757718
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik-walk_21
+      rect:
+        serializedVersion: 2
+        x: 337
+        y: 38
+        width: 88
+        height: 179
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 80d1f5e6966ee6b448206ec78f519380
+      internalID: -1486448115
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik-walk_22
+      rect:
+        serializedVersion: 2
+        x: 594
+        y: 38
+        width: 87
+        height: 182
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 061d6352c918ca34b80f49592c550f60
+      internalID: 2100011353
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik-walk_23
+      rect:
+        serializedVersion: 2
+        x: 849
+        y: 38
+        width: 90
+        height: 183
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 26549d99bf0fe234fb80501deeec0eeb
+      internalID: 658494564
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik-walk_24
+      rect:
+        serializedVersion: 2
+        x: 1104
+        y: 38
+        width: 95
+        height: 180
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 794c3647e4843bc4ca060eb8cfed7873
+      internalID: -312248107
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      Mr.Jaeik-walk_0: -573970798
+      Mr.Jaeik-walk_1: -2108469454
+      Mr.Jaeik-walk_10: 1847663476
+      Mr.Jaeik-walk_11: 994681666
+      Mr.Jaeik-walk_12: 277316113
+      Mr.Jaeik-walk_13: -1934386528
+      Mr.Jaeik-walk_14: -715055947
+      Mr.Jaeik-walk_15: 1731449650
+      Mr.Jaeik-walk_16: -1792952654
+      Mr.Jaeik-walk_17: -513488217
+      Mr.Jaeik-walk_18: 1197805426
+      Mr.Jaeik-walk_19: -723716952
+      Mr.Jaeik-walk_2: 955576835
+      Mr.Jaeik-walk_20: -78757718
+      Mr.Jaeik-walk_21: -1486448115
+      Mr.Jaeik-walk_22: 2100011353
+      Mr.Jaeik-walk_23: 658494564
+      Mr.Jaeik-walk_24: -312248107
+      Mr.Jaeik-walk_3: -119787543
+      Mr.Jaeik-walk_4: 373523755
+      Mr.Jaeik-walk_5: 352810222
+      Mr.Jaeik-walk_6: -2113058358
+      Mr.Jaeik-walk_7: -47496172
+      Mr.Jaeik-walk_8: 1648975440
+      Mr.Jaeik-walk_9: 642448811
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

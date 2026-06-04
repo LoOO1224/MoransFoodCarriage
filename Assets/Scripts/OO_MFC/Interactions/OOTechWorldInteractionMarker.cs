@@ -18,27 +18,30 @@ public class OOTechWorldInteractionMarker : MonoBehaviour
 {
     [Header("Target")]
     [SerializeField] private Transform Transform_Target;
-    [SerializeField] private Vector3 _worldOffset = new Vector3(0f, 1.8f, 0f);
+    [SerializeField] private Vector3 _worldOffset = new Vector3(0f, 1.05f, 0f);
 
     [Header("View")]
     [SerializeField] private string _markerText = "\u25BC";
     [SerializeField] private Color _markerColor = Color.red;
-    [SerializeField] private float _uiFontSize = 42f;
+    [SerializeField] private float _uiFontSize = 30f;
     [SerializeField] private float _blinkSpeed = 6f;
     [SerializeField] private float _minimumAlpha = 0.25f;
     [SerializeField] private int _sortingOrder = 45000;
 
-    private Canvas Canvas_Marker;
-    private RectTransform Rect_Marker;
-    private TextMeshProUGUI Text_Marker;
+    [Header("View References")]
+    [SerializeField] private Canvas Canvas_Marker;
+    [SerializeField] private RectTransform Rect_Marker;
+    [SerializeField] private TextMeshProUGUI Text_Marker;
+
     private Camera Camera_Main;
+    private bool _hasLoggedMissingView;
 
     /// <summary>
     /// 표식 배우가 무대에 올라올 때 화면용 Canvas와 TMP 텍스트를 준비합니다.
     /// </summary>
     private void Awake()
     {
-        PrepareMarkerView();
+        ResolveMarkerView();
     }
 
     /// <summary>
@@ -69,7 +72,11 @@ public class OOTechWorldInteractionMarker : MonoBehaviour
             return;
         }
 
-        PrepareMarkerView();
+        ResolveMarkerView();
+
+        if (!HasMarkerView())
+            return;
+
         SetTextVisible(true);
         Rect_Marker.position = screenPosition;
         UpdateBlinkAlpha();
@@ -96,7 +103,7 @@ public class OOTechWorldInteractionMarker : MonoBehaviour
         if (!string.IsNullOrEmpty(markerText))
             _markerText = markerText;
 
-        PrepareMarkerView();
+        ResolveMarkerView();
         ApplyMarkerText();
     }
 
@@ -108,41 +115,60 @@ public class OOTechWorldInteractionMarker : MonoBehaviour
         gameObject.SetActive(isVisible);
     }
 
-    private void PrepareMarkerView()
+    private void ResolveMarkerView()
     {
         DisableLegacyWorldTextIfNeeded();
 
         if (Canvas_Marker == null)
+            Canvas_Marker = GetComponentInChildren<Canvas>(true);
+
+        if (Text_Marker == null)
+            Text_Marker = GetComponentInChildren<TextMeshProUGUI>(true);
+
+        if (Rect_Marker == null && Text_Marker != null)
+            Rect_Marker = Text_Marker.transform as RectTransform;
+
+        if (!HasMarkerView())
         {
-            GameObject canvasObject = new GameObject("Canvas_WorldInteractionMarker");
-            canvasObject.transform.SetParent(transform, false);
-
-            Canvas_Marker = canvasObject.AddComponent<Canvas>();
-            Canvas_Marker.renderMode = RenderMode.ScreenSpaceOverlay;
-            Canvas_Marker.overrideSorting = true;
-            Canvas_Marker.sortingOrder = _sortingOrder;
-
-            CanvasScaler canvasScaler = canvasObject.AddComponent<CanvasScaler>();
-            canvasScaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
-            canvasScaler.referenceResolution = new Vector2(1920f, 1080f);
-            canvasScaler.matchWidthOrHeight = 0.5f;
+            LogMissingViewOnce();
+            return;
         }
 
-        if (Rect_Marker == null)
-        {
-            GameObject textObject = new GameObject("Text_Marker");
-            textObject.transform.SetParent(Canvas_Marker.transform, false);
-
-            Rect_Marker = textObject.AddComponent<RectTransform>();
-            Rect_Marker.anchorMin = new Vector2(0.5f, 0.5f);
-            Rect_Marker.anchorMax = new Vector2(0.5f, 0.5f);
-            Rect_Marker.pivot = new Vector2(0.5f, 0.5f);
-            Rect_Marker.sizeDelta = new Vector2(96f, 72f);
-
-            Text_Marker = textObject.AddComponent<TextMeshProUGUI>();
-        }
-
+        ApplyMarkerCanvas();
+        ApplyMarkerRect();
         ApplyMarkerText();
+    }
+
+    /// <summary>
+    /// 마커는 Stage1 무대 안에 미리 놓인 Canvas를 사용합니다.
+    /// 영화 비유로는 공연 중 종이 표식을 새로 만드는 것이 아니라, 소품팀이 준비한 표식을 켜는 단계입니다.
+    /// </summary>
+    private void ApplyMarkerCanvas()
+    {
+        Canvas_Marker.renderMode = RenderMode.ScreenSpaceOverlay;
+        Canvas_Marker.overrideSorting = true;
+        Canvas_Marker.sortingOrder = _sortingOrder;
+
+        CanvasScaler canvasScaler = Canvas_Marker.GetComponent<CanvasScaler>();
+
+        if (canvasScaler == null)
+            return;
+
+        canvasScaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+        canvasScaler.referenceResolution = new Vector2(1920f, 1080f);
+        canvasScaler.matchWidthOrHeight = 0.5f;
+    }
+
+    /// <summary>
+    /// 화살표 텍스트를 화면 좌표 기준 중앙 정렬로 맞춥니다.
+    /// Game View에서는 대상 배우의 머리 위 월드 좌표가 화면 좌표로 바뀌어 표시됩니다.
+    /// </summary>
+    private void ApplyMarkerRect()
+    {
+        Rect_Marker.anchorMin = new Vector2(0.5f, 0.5f);
+        Rect_Marker.anchorMax = new Vector2(0.5f, 0.5f);
+        Rect_Marker.pivot = new Vector2(0.5f, 0.5f);
+        Rect_Marker.sizeDelta = new Vector2(72f, 54f);
     }
 
     private void DisableLegacyWorldTextIfNeeded()
@@ -166,6 +192,20 @@ public class OOTechWorldInteractionMarker : MonoBehaviour
         Text_Marker.textWrappingMode = TextWrappingModes.NoWrap;
         Text_Marker.fontStyle = FontStyles.Bold;
         OOTechTMPFontUtility.ApplyProjectFont(Text_Marker);
+    }
+
+    private bool HasMarkerView()
+    {
+        return Canvas_Marker != null && Rect_Marker != null && Text_Marker != null;
+    }
+
+    private void LogMissingViewOnce()
+    {
+        if (_hasLoggedMissingView)
+            return;
+
+        _hasLoggedMissingView = true;
+        Debug.LogWarning($"[OOTechWorldInteractionMarker] {name} needs Canvas_WorldInteractionMarker/Text_Marker scene objects.");
     }
 
     private void UpdateBlinkAlpha()

@@ -1,0 +1,709 @@
+fileFormatVersion: 2
+guid: 41a497fae65dae2478b69c8c9640d532
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 0
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: GreedyDuck_Scared_0
+      rect:
+        serializedVersion: 2
+        x: 56
+        y: 1061
+        width: 144
+        height: 179
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 963af9152f1698140b9a27caba43ae9f
+      internalID: 1647728484
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GreedyDuck_Scared_2
+      rect:
+        serializedVersion: 2
+        x: 312
+        y: 1061
+        width: 144
+        height: 178
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dd2017cd37f183146bb75acec9e2d2f1
+      internalID: 1717951480
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GreedyDuck_Scared_3
+      rect:
+        serializedVersion: 2
+        x: 569
+        y: 1061
+        width: 139
+        height: 178
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ee70de8efa8837043bff9f1292950b45
+      internalID: 233723767
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GreedyDuck_Scared_4
+      rect:
+        serializedVersion: 2
+        x: 824
+        y: 1061
+        width: 144
+        height: 178
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fd4d9d5592634fa46ac2f20f90f24775
+      internalID: 1918798349
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GreedyDuck_Scared_5
+      rect:
+        serializedVersion: 2
+        x: 1081
+        y: 1061
+        width: 139
+        height: 179
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 054e28701c41a2d4c883720385dc829c
+      internalID: -1122570875
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GreedyDuck_Scared_6
+      rect:
+        serializedVersion: 2
+        x: 59
+        y: 805
+        width: 137
+        height: 179
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 222fb77dfdbfbe242940466ac17991dd
+      internalID: -1102167285
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GreedyDuck_Scared_9
+      rect:
+        serializedVersion: 2
+        x: 312
+        y: 805
+        width: 144
+        height: 179
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b5301b65d96f31042af2cf21042be7d8
+      internalID: 858374296
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GreedyDuck_Scared_12
+      rect:
+        serializedVersion: 2
+        x: 569
+        y: 805
+        width: 139
+        height: 180
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 03f94d1b9f16ce046b8079e69af689c6
+      internalID: 2141919694
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GreedyDuck_Scared_13
+      rect:
+        serializedVersion: 2
+        x: 825
+        y: 805
+        width: 139
+        height: 180
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c9a7fc0071d9e2f4480f602d9c9e10d2
+      internalID: 1396451638
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GreedyDuck_Scared_14
+      rect:
+        serializedVersion: 2
+        x: 1080
+        y: 805
+        width: 144
+        height: 180
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 72b46ed389ed47f439fb9f985ea6086c
+      internalID: 2125427041
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GreedyDuck_Scared_15
+      rect:
+        serializedVersion: 2
+        x: 57
+        y: 549
+        width: 139
+        height: 180
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d1fdb40d58ddeb74b8451eddccf564ae
+      internalID: 722785623
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GreedyDuck_Scared_16
+      rect:
+        serializedVersion: 2
+        x: 314
+        y: 549
+        width: 140
+        height: 180
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a3e82253683217349a24c1e0f4077c5b
+      internalID: 740241446
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GreedyDuck_Scared_18
+      rect:
+        serializedVersion: 2
+        x: 567
+        y: 549
+        width: 145
+        height: 179
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 297c2382c50990043bbfddde3078f4be
+      internalID: -1700591574
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GreedyDuck_Scared_20
+      rect:
+        serializedVersion: 2
+        x: 825
+        y: 549
+        width: 139
+        height: 179
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e91841a75917a654ea690699faa354b2
+      internalID: 1841593514
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GreedyDuck_Scared_21
+      rect:
+        serializedVersion: 2
+        x: 1082
+        y: 549
+        width: 138
+        height: 180
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5966cb52189d73b488ecafa43518c74a
+      internalID: -297222485
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GreedyDuck_Scared_23
+      rect:
+        serializedVersion: 2
+        x: 56
+        y: 293
+        width: 144
+        height: 180
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 42d33af63e3a9b34ea30f7b9c4da3b14
+      internalID: -1773245587
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GreedyDuck_Scared_24
+      rect:
+        serializedVersion: 2
+        x: 313
+        y: 293
+        width: 139
+        height: 180
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 82b2b1e8e51208e4fa6ecc16d1549bec
+      internalID: -120318560
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GreedyDuck_Scared_25
+      rect:
+        serializedVersion: 2
+        x: 574
+        y: 293
+        width: 138
+        height: 180
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0c69216f5a0bb704b831ce44e81bb469
+      internalID: 1439847596
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GreedyDuck_Scared_26
+      rect:
+        serializedVersion: 2
+        x: 825
+        y: 293
+        width: 139
+        height: 180
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f09f74001cff0f84cb057f8a94437852
+      internalID: -820040025
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GreedyDuck_Scared_27
+      rect:
+        serializedVersion: 2
+        x: 1081
+        y: 293
+        width: 139
+        height: 179
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 119f690d8c9800440bd2b7935e2692ca
+      internalID: 988021576
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GreedyDuck_Scared_33
+      rect:
+        serializedVersion: 2
+        x: 55
+        y: 37
+        width: 145
+        height: 179
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9aa3b074d7b7fab488bb85fac758fb75
+      internalID: -1031862852
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GreedyDuck_Scared_36
+      rect:
+        serializedVersion: 2
+        x: 313
+        y: 37
+        width: 139
+        height: 179
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d659e2c7b8ba3e94480380602f27e719
+      internalID: -594985356
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GreedyDuck_Scared_37
+      rect:
+        serializedVersion: 2
+        x: 569
+        y: 37
+        width: 139
+        height: 180
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 16ea47d102bedd24c93b3b8cd065e512
+      internalID: -30621956
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GreedyDuck_Scared_38
+      rect:
+        serializedVersion: 2
+        x: 824
+        y: 37
+        width: 144
+        height: 180
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b0dd7574cde5d304e95806ee3309aea0
+      internalID: 1732865062
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GreedyDuck_Scared_39
+      rect:
+        serializedVersion: 2
+        x: 1081
+        y: 37
+        width: 139
+        height: 180
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 615b253e952cf014c9721c1cfb78c33f
+      internalID: 687098596
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: ab2e906f073953946955362016df881c
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      GreedyDuck_Scared_0: 1647728484
+      GreedyDuck_Scared_1: 1783136994
+      GreedyDuck_Scared_10: -859660242
+      GreedyDuck_Scared_11: 836923707
+      GreedyDuck_Scared_12: 2141919694
+      GreedyDuck_Scared_13: 1396451638
+      GreedyDuck_Scared_14: 2125427041
+      GreedyDuck_Scared_15: 722785623
+      GreedyDuck_Scared_16: 740241446
+      GreedyDuck_Scared_17: -1937875835
+      GreedyDuck_Scared_18: -1700591574
+      GreedyDuck_Scared_19: -812127011
+      GreedyDuck_Scared_2: 1717951480
+      GreedyDuck_Scared_20: 1841593514
+      GreedyDuck_Scared_21: -297222485
+      GreedyDuck_Scared_22: 1997905097
+      GreedyDuck_Scared_23: -1773245587
+      GreedyDuck_Scared_24: -120318560
+      GreedyDuck_Scared_25: 1439847596
+      GreedyDuck_Scared_26: -820040025
+      GreedyDuck_Scared_27: 988021576
+      GreedyDuck_Scared_28: 1600477122
+      GreedyDuck_Scared_29: 617792091
+      GreedyDuck_Scared_3: 233723767
+      GreedyDuck_Scared_30: 496382756
+      GreedyDuck_Scared_31: -1542882797
+      GreedyDuck_Scared_32: 372592457
+      GreedyDuck_Scared_33: -1031862852
+      GreedyDuck_Scared_34: 948154383
+      GreedyDuck_Scared_35: -255703561
+      GreedyDuck_Scared_36: -594985356
+      GreedyDuck_Scared_37: -30621956
+      GreedyDuck_Scared_38: 1732865062
+      GreedyDuck_Scared_39: 687098596
+      GreedyDuck_Scared_4: 1918798349
+      GreedyDuck_Scared_5: -1122570875
+      GreedyDuck_Scared_6: -1102167285
+      GreedyDuck_Scared_7: -1847824249
+      GreedyDuck_Scared_8: -239641002
+      GreedyDuck_Scared_9: 858374296
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

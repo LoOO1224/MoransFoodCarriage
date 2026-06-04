@@ -2,7 +2,7 @@
 // OO_MFC 역할 주석
 // - 스크립트: OOTechItemDefinitionObject.cs
 // - 역할: 아이템 오브젝트가 어떤 데이터 ID와 아이콘을 갖는지 표시하는 역할표입니다.
-// - 감독 관점: 쌀, 채소, 채소죽 같은 소품에 붙는 라벨입니다.
+// - 감독 관점: 쌀, 채소, 야채죽 같은 소품에 붙는 라벨입니다.
 // - 유지보수 포인트: 이미지와 데이터 ID 연결만 맡기고, 인벤토리 수량 계산은 Model/Manager가 맡게 합니다.
 // =============================================================================
 using UnityEngine;
@@ -13,7 +13,7 @@ using UnityEditor;
 
 /// <summary>
 /// 아이템 하나의 데이터 ID와 아이콘 소품을 들고 있는 하이어라키용 역할표입니다.
-/// Game View에서는 인벤토리 슬롯이 이 정보를 읽어 쌀, 채소, 채소죽 아이콘을 표시합니다.
+/// Game View에서는 인벤토리 슬롯이 이 정보를 읽어 쌀, 채소, 야채죽 아이콘을 표시합니다.
 /// </summary>
 [DisallowMultipleComponent]
 public class OOTechItemDefinitionObject : MonoBehaviour

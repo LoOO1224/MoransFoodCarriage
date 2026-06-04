@@ -1,0 +1,760 @@
+fileFormatVersion: 2
+guid: 8f72fafcbffc4354f8388998a3f838b0
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 0
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: GreedyDuck_isBurning_0
+      rect:
+        serializedVersion: 2
+        x: 38
+        y: 1065
+        width: 175
+        height: 172
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ea7c70e82625b2b4f987f8137749c2c6
+      internalID: 218303112
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GreedyDuck_isBurning_1
+      rect:
+        serializedVersion: 2
+        x: 294
+        y: 1065
+        width: 175
+        height: 171
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 119ca6c7bed7ae64ca353f13a5af5692
+      internalID: 1395234608
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GreedyDuck_isBurning_2
+      rect:
+        serializedVersion: 2
+        x: 530
+        y: 1065
+        width: 198
+        height: 171
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c9d48776c8a72d346a045449b385badd
+      internalID: -171833163
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GreedyDuck_isBurning_3
+      rect:
+        serializedVersion: 2
+        x: 783
+        y: 1065
+        width: 202
+        height: 173
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f5b7f90d00534f44b8c77b994d480bb8
+      internalID: -991691560
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GreedyDuck_isBurning_4
+      rect:
+        serializedVersion: 2
+        x: 1049
+        y: 1065
+        width: 189
+        height: 175
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: feb72aa5aa1d24a488e4e7fdebd1a482
+      internalID: 1147802983
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GreedyDuck_isBurning_5
+      rect:
+        serializedVersion: 2
+        x: 20
+        y: 809
+        width: 194
+        height: 175
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eb0634c9e6d61d94187895a7edf1119d
+      internalID: 436166603
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GreedyDuck_isBurning_6
+      rect:
+        serializedVersion: 2
+        x: 51
+        y: 961
+        width: 25
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c299dda5d524a644dae10a20791a2812
+      internalID: 730351959
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GreedyDuck_isBurning_7
+      rect:
+        serializedVersion: 2
+        x: 271
+        y: 809
+        width: 205
+        height: 188
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e680150b416fc0b4288988e1a20abcb1
+      internalID: -2073950702
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GreedyDuck_isBurning_8
+      rect:
+        serializedVersion: 2
+        x: 193
+        y: 986
+        width: 59
+        height: 76
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e98cf89549fe0eb4c84f1c9824ba6e51
+      internalID: -4589588
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GreedyDuck_isBurning_10
+      rect:
+        serializedVersion: 2
+        x: 530
+        y: 808
+        width: 201
+        height: 192
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f1ec0afbcaa094f458df106fddd59a3b
+      internalID: 1501987555
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GreedyDuck_isBurning_13
+      rect:
+        serializedVersion: 2
+        x: 787
+        y: 809
+        width: 200
+        height: 194
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 98e26711f248f714baffb7fae0a3ca2d
+      internalID: -1661901717
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GreedyDuck_isBurning_16
+      rect:
+        serializedVersion: 2
+        x: 1047
+        y: 809
+        width: 193
+        height: 182
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4fa46926b74b3f043be35f1c30c1c8c1
+      internalID: 1877015075
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GreedyDuck_isBurning_17
+      rect:
+        serializedVersion: 2
+        x: 25
+        y: 553
+        width: 191
+        height: 175
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6eb4b650b1b030b41806da77165cb2fb
+      internalID: 1574362897
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GreedyDuck_isBurning_18
+      rect:
+        serializedVersion: 2
+        x: 273
+        y: 553
+        width: 198
+        height: 174
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cd8eccf3387d8164fad9e88eff284688
+      internalID: 343022243
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GreedyDuck_isBurning_19
+      rect:
+        serializedVersion: 2
+        x: 537
+        y: 553
+        width: 190
+        height: 173
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0a2d2997b24777a4596d6d26e2567717
+      internalID: 582891260
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GreedyDuck_isBurning_20
+      rect:
+        serializedVersion: 2
+        x: 789
+        y: 553
+        width: 193
+        height: 174
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e75f64df768f3b64f909e424dbe90d07
+      internalID: -978642345
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GreedyDuck_isBurning_21
+      rect:
+        serializedVersion: 2
+        x: 1041
+        y: 553
+        width: 199
+        height: 175
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3adffe11419f4304bae46dc12a757a45
+      internalID: -1589310130
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GreedyDuck_isBurning_22
+      rect:
+        serializedVersion: 2
+        x: 17
+        y: 297
+        width: 199
+        height: 174
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2a63658bdd4d3394fbd314fead108c5c
+      internalID: -2127169682
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GreedyDuck_isBurning_23
+      rect:
+        serializedVersion: 2
+        x: 275
+        y: 297
+        width: 194
+        height: 172
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 54ec86da66a886d45b8295bfca6c6aec
+      internalID: -1518910182
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GreedyDuck_isBurning_24
+      rect:
+        serializedVersion: 2
+        x: 530
+        y: 296
+        width: 196
+        height: 180
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8d6418b3f53d10042b2b47b34e4de4e7
+      internalID: 1174972625
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GreedyDuck_isBurning_27
+      rect:
+        serializedVersion: 2
+        x: 793
+        y: 296
+        width: 194
+        height: 182
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 906c8d420faa69446a1b2fd052e3bcd7
+      internalID: 572321438
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GreedyDuck_isBurning_30
+      rect:
+        serializedVersion: 2
+        x: 1046
+        y: 297
+        width: 200
+        height: 184
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d5dbef0fb003e494ea944d51ac21aa4c
+      internalID: -1074805730
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GreedyDuck_isBurning_42
+      rect:
+        serializedVersion: 2
+        x: 17
+        y: 41
+        width: 208
+        height: 189
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fee6a645bdae7e6429bd9f9efbcb4a94
+      internalID: 91801021
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GreedyDuck_isBurning_43
+      rect:
+        serializedVersion: 2
+        x: 271
+        y: 41
+        width: 210
+        height: 191
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7c72a5152f148724383d0e34dd9e17e7
+      internalID: 530816387
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GreedyDuck_isBurning_44
+      rect:
+        serializedVersion: 2
+        x: 536
+        y: 41
+        width: 194
+        height: 202
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cee212bf0f9a25a42aa8dfbcb2367edf
+      internalID: 1541612813
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GreedyDuck_isBurning_45
+      rect:
+        serializedVersion: 2
+        x: 793
+        y: 41
+        width: 188
+        height: 203
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9429fc4393eaf4e4a90ed8847ad57850
+      internalID: 1076678121
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GreedyDuck_isBurning_46
+      rect:
+        serializedVersion: 2
+        x: 1041
+        y: 40
+        width: 201
+        height: 173
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e41ce8482b586a741923a435dc625c51
+      internalID: -254745364
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 3b6d4ba903aa6cb4a9add7b0aa472a62
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      GreedyDuck_isBurning_0: 218303112
+      GreedyDuck_isBurning_1: 1395234608
+      GreedyDuck_isBurning_10: 1501987555
+      GreedyDuck_isBurning_11: 1822672184
+      GreedyDuck_isBurning_12: -1583851380
+      GreedyDuck_isBurning_13: -1661901717
+      GreedyDuck_isBurning_14: -755878121
+      GreedyDuck_isBurning_15: 551877815
+      GreedyDuck_isBurning_16: 1877015075
+      GreedyDuck_isBurning_17: 1574362897
+      GreedyDuck_isBurning_18: 343022243
+      GreedyDuck_isBurning_19: 582891260
+      GreedyDuck_isBurning_2: -171833163
+      GreedyDuck_isBurning_20: -978642345
+      GreedyDuck_isBurning_21: -1589310130
+      GreedyDuck_isBurning_22: -2127169682
+      GreedyDuck_isBurning_23: -1518910182
+      GreedyDuck_isBurning_24: 1174972625
+      GreedyDuck_isBurning_25: 403471157
+      GreedyDuck_isBurning_26: 1267143887
+      GreedyDuck_isBurning_27: 572321438
+      GreedyDuck_isBurning_28: -496816089
+      GreedyDuck_isBurning_29: 426300133
+      GreedyDuck_isBurning_3: -991691560
+      GreedyDuck_isBurning_30: -1074805730
+      GreedyDuck_isBurning_31: 1460536764
+      GreedyDuck_isBurning_32: 1501603482
+      GreedyDuck_isBurning_33: 780244452
+      GreedyDuck_isBurning_34: 391622493
+      GreedyDuck_isBurning_35: 843857502
+      GreedyDuck_isBurning_36: -935912086
+      GreedyDuck_isBurning_37: 1319181459
+      GreedyDuck_isBurning_38: -1817354949
+      GreedyDuck_isBurning_39: 273931982
+      GreedyDuck_isBurning_4: 1147802983
+      GreedyDuck_isBurning_40: 1018197678
+      GreedyDuck_isBurning_41: -453321122
+      GreedyDuck_isBurning_42: 91801021
+      GreedyDuck_isBurning_43: 530816387
+      GreedyDuck_isBurning_44: 1541612813
+      GreedyDuck_isBurning_45: 1076678121
+      GreedyDuck_isBurning_46: -254745364
+      GreedyDuck_isBurning_5: 436166603
+      GreedyDuck_isBurning_6: 730351959
+      GreedyDuck_isBurning_7: -2073950702
+      GreedyDuck_isBurning_8: -4589588
+      GreedyDuck_isBurning_9: -1154312868
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

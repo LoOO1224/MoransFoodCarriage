@@ -1,0 +1,694 @@
+fileFormatVersion: 2
+guid: 5694e863f4b2fa644a8894f326bcc8e1
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 0
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: LeeMongRyong_Idle2_0
+      rect:
+        serializedVersion: 2
+        x: 92
+        y: 1058
+        width: 65
+        height: 184
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 79d65673e6c18254aa6b32c66926850c
+      internalID: 1884029881
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LeeMongRyong_Idle2_1
+      rect:
+        serializedVersion: 2
+        x: 348
+        y: 1058
+        width: 65
+        height: 184
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0065e048c2cd72c4ebe4b7039da329d4
+      internalID: -163306685
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LeeMongRyong_Idle2_2
+      rect:
+        serializedVersion: 2
+        x: 604
+        y: 1059
+        width: 65
+        height: 183
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ee869a7a7596bc1428eb629e1fc14056
+      internalID: -1442897806
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LeeMongRyong_Idle2_3
+      rect:
+        serializedVersion: 2
+        x: 859
+        y: 1059
+        width: 67
+        height: 183
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 93d32582f08b02e4eae1f6f6e47e9df3
+      internalID: -133550062
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LeeMongRyong_Idle2_4
+      rect:
+        serializedVersion: 2
+        x: 1115
+        y: 1059
+        width: 67
+        height: 183
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6ec579c5d50cc0941b2e580e2778add5
+      internalID: -88668324
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LeeMongRyong_Idle2_5
+      rect:
+        serializedVersion: 2
+        x: 91
+        y: 803
+        width: 68
+        height: 184
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a93a5c56f2cfaa048bea2bfbd559785c
+      internalID: -95074640
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LeeMongRyong_Idle2_6
+      rect:
+        serializedVersion: 2
+        x: 347
+        y: 803
+        width: 69
+        height: 185
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 88637a9c1b02d5b459c09a849579a083
+      internalID: 1189825033
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LeeMongRyong_Idle2_7
+      rect:
+        serializedVersion: 2
+        x: 603
+        y: 803
+        width: 70
+        height: 186
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f53435792f53445428269772d5242eba
+      internalID: 1255640254
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LeeMongRyong_Idle2_8
+      rect:
+        serializedVersion: 2
+        x: 858
+        y: 803
+        width: 72
+        height: 186
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f456db4043483fd4aa47bb53b8559b07
+      internalID: -1954480666
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LeeMongRyong_Idle2_9
+      rect:
+        serializedVersion: 2
+        x: 1114
+        y: 803
+        width: 73
+        height: 186
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2ba688ddc2b8ce445b404e221ec9098f
+      internalID: 1826039038
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LeeMongRyong_Idle2_10
+      rect:
+        serializedVersion: 2
+        x: 89
+        y: 547
+        width: 75
+        height: 187
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2d665ca55bc72bf4a9577f2304bbff11
+      internalID: -1879598795
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LeeMongRyong_Idle2_11
+      rect:
+        serializedVersion: 2
+        x: 344
+        y: 547
+        width: 77
+        height: 187
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c5cfd28b279505349bc1d604ee695b43
+      internalID: 706479261
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LeeMongRyong_Idle2_12
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 547
+        width: 77
+        height: 187
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f052098af7c31934b9e53bf01e9c3f5e
+      internalID: 2134598858
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LeeMongRyong_Idle2_13
+      rect:
+        serializedVersion: 2
+        x: 855
+        y: 547
+        width: 78
+        height: 187
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f7fb63559e0e0044e91217c29bf79836
+      internalID: 823261669
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LeeMongRyong_Idle2_14
+      rect:
+        serializedVersion: 2
+        x: 1111
+        y: 547
+        width: 77
+        height: 186
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1ee66ad3a1460f244b623583f28e3abc
+      internalID: -646230244
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LeeMongRyong_Idle2_15
+      rect:
+        serializedVersion: 2
+        x: 87
+        y: 291
+        width: 75
+        height: 186
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e7bba9fa00acae7429eaccd1f7d23f37
+      internalID: -1112832269
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LeeMongRyong_Idle2_16
+      rect:
+        serializedVersion: 2
+        x: 344
+        y: 291
+        width: 73
+        height: 186
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9d6fd045c78302542a3f2ed633338e2b
+      internalID: -1111909528
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LeeMongRyong_Idle2_17
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 291
+        width: 73
+        height: 185
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 882ba8d95780dd541a98953b006af15b
+      internalID: 2117194488
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LeeMongRyong_Idle2_18
+      rect:
+        serializedVersion: 2
+        x: 857
+        y: 291
+        width: 70
+        height: 185
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 533a4761da2faf549849e8015e2ae036
+      internalID: -547642812
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LeeMongRyong_Idle2_19
+      rect:
+        serializedVersion: 2
+        x: 1114
+        y: 291
+        width: 68
+        height: 184
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8fe8c6c2d3a5859458c560d9f16a8c72
+      internalID: 1083453451
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LeeMongRyong_Idle2_20
+      rect:
+        serializedVersion: 2
+        x: 91
+        y: 35
+        width: 67
+        height: 183
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ba1f8b90d61171c4b87a881f9c719c11
+      internalID: 1283675604
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LeeMongRyong_Idle2_21
+      rect:
+        serializedVersion: 2
+        x: 347
+        y: 35
+        width: 67
+        height: 183
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e8d4ab0ee406e534498a972986bc380d
+      internalID: -384648332
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LeeMongRyong_Idle2_22
+      rect:
+        serializedVersion: 2
+        x: 604
+        y: 35
+        width: 66
+        height: 183
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1f7cf42987b789f4a9dcf28a28871f8b
+      internalID: -413152675
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LeeMongRyong_Idle2_23
+      rect:
+        serializedVersion: 2
+        x: 860
+        y: 35
+        width: 66
+        height: 183
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bd9e10a99e5c62144a4f39dba6d9acef
+      internalID: -1299232776
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LeeMongRyong_Idle2_24
+      rect:
+        serializedVersion: 2
+        x: 1116
+        y: 35
+        width: 65
+        height: 183
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7a1319fd92918d348a6e0b01189b9271
+      internalID: 1537420699
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: a8013d8f6baf02f4f90ca78b0ab9278d
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      LeeMongRyong_Idle2_0: 1884029881
+      LeeMongRyong_Idle2_1: -163306685
+      LeeMongRyong_Idle2_10: -1879598795
+      LeeMongRyong_Idle2_11: 706479261
+      LeeMongRyong_Idle2_12: 2134598858
+      LeeMongRyong_Idle2_13: 823261669
+      LeeMongRyong_Idle2_14: -646230244
+      LeeMongRyong_Idle2_15: -1112832269
+      LeeMongRyong_Idle2_16: -1111909528
+      LeeMongRyong_Idle2_17: 2117194488
+      LeeMongRyong_Idle2_18: -547642812
+      LeeMongRyong_Idle2_19: 1083453451
+      LeeMongRyong_Idle2_2: -1442897806
+      LeeMongRyong_Idle2_20: 1283675604
+      LeeMongRyong_Idle2_21: -384648332
+      LeeMongRyong_Idle2_22: -413152675
+      LeeMongRyong_Idle2_23: -1299232776
+      LeeMongRyong_Idle2_24: 1537420699
+      LeeMongRyong_Idle2_3: -133550062
+      LeeMongRyong_Idle2_4: -88668324
+      LeeMongRyong_Idle2_5: -95074640
+      LeeMongRyong_Idle2_6: 1189825033
+      LeeMongRyong_Idle2_7: 1255640254
+      LeeMongRyong_Idle2_8: -1954480666
+      LeeMongRyong_Idle2_9: 1826039038
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -52,6 +52,7 @@ public class OOTechStagePlaceholderController : MonoBehaviour
     private void OnEnable()
     {
         NormalizeButtonTextIfNeeded();
+        PrepareStageBackground();
         PrepareView();
         PrepareSharedHUD();
         BindButton();
@@ -73,10 +74,8 @@ public class OOTechStagePlaceholderController : MonoBehaviour
     /// </summary>
     private void PrepareView()
     {
-        if (Root_Canvas != null)
-            return;
-
-        Root_Canvas = FindChildByName(transform, "Canvas_StagePlaceholder");
+        if (Root_Canvas == null)
+            Root_Canvas = FindChildByName(transform, "Canvas_StagePlaceholder");
 
         if (Root_Canvas == null)
         {
@@ -99,6 +98,194 @@ public class OOTechStagePlaceholderController : MonoBehaviour
 
         if (Text_Button != null)
             Text_Button.text = _buttonText;
+    }
+
+    /// <summary>
+    /// StageGroup이 켜질 때 실제 배경막을 먼저 올리고, 흰색 임시 배경막은 내립니다.
+    /// 영화 무대로 보면 Stage2Background는 실제 세트이고 Image_WhiteBackground는 임시 리허설 천막입니다.
+    /// </summary>
+    private void PrepareStageBackground()
+    {
+        GameObject stageBackgroundObject = FindStageBackgroundObject();
+
+        if (stageBackgroundObject == null)
+            return;
+
+        stageBackgroundObject.SetActive(true);
+        NormalizeStageBackgroundView(stageBackgroundObject);
+        DisablePlaceholderWhiteBackground();
+
+        Debug.Log($"[OOTechStagePlaceholderController] Stage background enabled: {gameObject.name} -> {stageBackgroundObject.name}");
+    }
+
+    /// <summary>
+    /// 현재 StageGroup 이름에 맞는 배경 오브젝트를 찾습니다.
+    /// 예: Stage2Group 무대에서는 Stage2Background 배우를 찾습니다.
+    /// </summary>
+    private GameObject FindStageBackgroundObject()
+    {
+        string groupName = string.IsNullOrEmpty(_currentGroupName) ? gameObject.name : _currentGroupName;
+        string expectedBackgroundName = groupName.Replace("Group", "Background");
+        GameObject stageBackgroundObject = FindChildByName(transform, expectedBackgroundName);
+
+        if (stageBackgroundObject != null)
+            return stageBackgroundObject;
+
+        string typoSafeBackgroundName = groupName.Replace("Group", "Backound");
+        stageBackgroundObject = FindChildByName(transform, typoSafeBackgroundName);
+
+        if (stageBackgroundObject != null)
+            return stageBackgroundObject;
+
+        return FindFirstRealBackgroundChild(transform);
+    }
+
+    /// <summary>
+    /// 이름이 조금 달라도 Background/Backound가 붙은 실제 배경 자식을 찾습니다.
+    /// Image_WhiteBackground는 임시막이라 실제 배경으로 취급하지 않습니다.
+    /// </summary>
+    private GameObject FindFirstRealBackgroundChild(Transform rootTransform)
+    {
+        if (rootTransform == null)
+            return null;
+
+        for (int index = 0; index < rootTransform.childCount; index++)
+        {
+            Transform childTransform = rootTransform.GetChild(index);
+
+            if (childTransform == null)
+                continue;
+
+            string childName = childTransform.name;
+            bool isBackgroundName = childName.Contains("Background") || childName.Contains("Backound");
+            bool isPlaceholderWhiteBackground = childName == "Image_WhiteBackground";
+
+            if (isBackgroundName && !isPlaceholderWhiteBackground)
+                return childTransform.gameObject;
+
+            GameObject foundObject = FindFirstRealBackgroundChild(childTransform);
+
+            if (foundObject != null)
+                return foundObject;
+        }
+
+        return null;
+    }
+
+    /// <summary>
+    /// Stage 배경 UI가 Game View 전체에 맞도록 Canvas와 RectTransform을 정리합니다.
+    /// 감독이 화면비를 바꿔도 배경막이 1920x1080 기준으로 무대 뒤를 꽉 채우게 하는 안전장치입니다.
+    /// </summary>
+    private void NormalizeStageBackgroundView(GameObject stageBackgroundObject)
+    {
+        SpriteRenderer backgroundRenderer = stageBackgroundObject.GetComponent<SpriteRenderer>();
+
+        if (backgroundRenderer != null)
+        {
+            NormalizeStageSpriteBackgroundView(stageBackgroundObject, backgroundRenderer);
+            return;
+        }
+
+        RectTransform rectTransform = stageBackgroundObject.GetComponent<RectTransform>();
+
+        if (rectTransform != null)
+        {
+            rectTransform.anchorMin = Vector2.zero;
+            rectTransform.anchorMax = Vector2.one;
+            rectTransform.anchoredPosition = Vector2.zero;
+            rectTransform.sizeDelta = Vector2.zero;
+            rectTransform.localScale = Vector3.one;
+        }
+
+        Canvas canvas = stageBackgroundObject.GetComponent<Canvas>();
+
+        if (canvas != null)
+        {
+            canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+            canvas.overrideSorting = true;
+            canvas.sortingOrder = _sortingOrder - 100;
+        }
+
+        CanvasScaler canvasScaler = stageBackgroundObject.GetComponent<CanvasScaler>();
+
+        if (canvasScaler != null)
+        {
+            canvasScaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+            canvasScaler.referenceResolution = _referenceResolution;
+            canvasScaler.matchWidthOrHeight = 0.5f;
+        }
+
+        Image backgroundImage = stageBackgroundObject.GetComponent<Image>();
+
+        if (backgroundImage != null)
+            backgroundImage.raycastTarget = false;
+    }
+
+    /// <summary>
+    /// SpriteRenderer로 만든 Stage 배경을 1920x1080 월드 무대에 맞춥니다.
+    /// 영화로 치면 UI 천막이 아니라 실제 배경 세트라서, 무대 중앙에 놓고 화면 크기만큼 키워야 합니다.
+    /// </summary>
+    private void NormalizeStageSpriteBackgroundView(GameObject stageBackgroundObject, SpriteRenderer backgroundRenderer)
+    {
+        Canvas canvas = stageBackgroundObject.GetComponent<Canvas>();
+
+        if (canvas != null)
+            canvas.enabled = false;
+
+        CanvasScaler canvasScaler = stageBackgroundObject.GetComponent<CanvasScaler>();
+
+        if (canvasScaler != null)
+            canvasScaler.enabled = false;
+
+        Image backgroundImage = stageBackgroundObject.GetComponent<Image>();
+
+        if (backgroundImage != null)
+            backgroundImage.enabled = false;
+
+        Transform backgroundTransform = stageBackgroundObject.transform;
+        const float targetWidth = 1920f;
+        const float targetHeight = 1080f;
+
+        backgroundTransform.localPosition = new Vector3(targetWidth * 0.5f, targetHeight * 0.5f, 0f);
+        backgroundTransform.localRotation = Quaternion.identity;
+
+        if (backgroundRenderer.sprite != null)
+        {
+            Vector2 spriteSize = backgroundRenderer.sprite.bounds.size;
+            float scaleX = targetWidth / Mathf.Max(0.01f, spriteSize.x);
+            float scaleY = targetHeight / Mathf.Max(0.01f, spriteSize.y);
+
+            backgroundTransform.localScale = new Vector3(scaleX, scaleY, 1f);
+        }
+
+        backgroundRenderer.enabled = true;
+        backgroundRenderer.sortingLayerName = "Background";
+        backgroundRenderer.sortingOrder = -1;
+
+        Color color = backgroundRenderer.color;
+
+        if (color.a <= 0.01f)
+        {
+            color.a = 1f;
+            backgroundRenderer.color = color;
+        }
+    }
+
+    /// <summary>
+    /// 실제 Stage 배경이 있을 때는 흰색 임시 배경을 꺼서 배경 이미지를 가리지 않게 합니다.
+    /// </summary>
+    private void DisablePlaceholderWhiteBackground()
+    {
+        if (Root_Canvas == null)
+            Root_Canvas = FindChildByName(transform, "Canvas_StagePlaceholder");
+
+        if (Root_Canvas == null)
+            return;
+
+        GameObject whiteBackgroundObject = FindChildByName(Root_Canvas.transform, "Image_WhiteBackground");
+
+        if (whiteBackgroundObject != null)
+            whiteBackgroundObject.SetActive(false);
     }
 
     /// <summary>

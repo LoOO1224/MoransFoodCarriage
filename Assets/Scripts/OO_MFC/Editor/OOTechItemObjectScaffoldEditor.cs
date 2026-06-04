@@ -29,7 +29,7 @@ public static class OOTechItemObjectScaffoldEditor
         new ItemDefinitionScaffoldData("Item_Rice_01", "Ing_Rice_01", "쌀", "OO_MFC/Items/Ing_Rice_01", "Assets/Images/Food/Rice.png", new Vector3(-2f, -2.6f, 0f)),
         new ItemDefinitionScaffoldData("Item_Vegetable_01", "Ing_Veggie_01", "채소", "OO_MFC/Items/Ing_Veggie_01", "Assets/Images/Food/Vegetable.png", new Vector3(-1.2f, -2.6f, 0f)),
         new ItemDefinitionScaffoldData("Item_Pumpkin_01", "Ing_Pumpkin_01", "호박", "OO_MFC/Items/Ing_Pumpkin_01", "Assets/Images/Food/Pumpkin.png", new Vector3(-0.4f, -2.6f, 0f)),
-        new ItemDefinitionScaffoldData("Item_VegetableSoup_01", "OO_VegetableSoup_1", "채소죽", "OO_MFC/Items/OO_VegetableSoup_1", "Assets/Images/Food/VegetableSoup.png", new Vector3(0.4f, -2.6f, 0f))
+        new ItemDefinitionScaffoldData("Item_VegetableSoup_01", "OO_VegetableSoup_1", "야채죽", "OO_MFC/Items/OO_VegetableSoup_1", "Assets/Images/Food/VegetableSoup.png", new Vector3(0.4f, -2.6f, 0f))
     };
 
     private static readonly string[] _roadGroupNameArray =
