@@ -175,12 +175,12 @@ public class OOTechItemCatalogManager : MonoBehaviour
         if (string.IsNullOrEmpty(itemDataId) || OOTechGameDataManager.Inst == null)
             return string.Empty;
 
-        OO_Ingredient ingredientData = OOTechGameDataManager.Inst.GetIngredientData(itemDataId);
+        OOTechGameDataManager.Inst.TryGetIngredientData(itemDataId, out OO_Ingredient ingredientData);
 
         if (ingredientData != null && !string.IsNullOrEmpty(ingredientData.Name))
             return ingredientData.Name;
 
-        OO_Cook cookData = OOTechGameDataManager.Inst.GetCookData(itemDataId);
+        OOTechGameDataManager.Inst.TryGetCookData(itemDataId, out OO_Cook cookData);
 
         if (cookData != null && !string.IsNullOrEmpty(cookData.Name))
             return cookData.Name;
@@ -217,12 +217,12 @@ public class OOTechItemCatalogManager : MonoBehaviour
         if (string.IsNullOrEmpty(itemDataId) || OOTechGameDataManager.Inst == null)
             return string.Empty;
 
-        OO_Ingredient ingredientData = OOTechGameDataManager.Inst.GetIngredientData(itemDataId);
+        OOTechGameDataManager.Inst.TryGetIngredientData(itemDataId, out OO_Ingredient ingredientData);
 
         if (ingredientData != null && !string.IsNullOrEmpty(ingredientData.IconPath))
             return ingredientData.IconPath;
 
-        OO_Cook cookData = OOTechGameDataManager.Inst.GetCookData(itemDataId);
+        OOTechGameDataManager.Inst.TryGetCookData(itemDataId, out OO_Cook cookData);
 
         if (cookData != null && !string.IsNullOrEmpty(cookData.IconPath))
             return cookData.IconPath;
@@ -355,6 +355,12 @@ public class OOTechItemCatalogManager : MonoBehaviour
 
         if (itemDataId == "Ing_Pumpkin_01")
             return "호박";
+
+        if (itemDataId == "Ing_ChiliPepper_01")
+            return "청양고추";
+
+        if (itemDataId == "OO_PumpkinSoup_1")
+            return "호박죽";
 
         if (itemDataId == "OO_VegetableSoup_1")
             return "채소죽";

@@ -1,0 +1,18 @@
+[
+  {
+    "Id": "Choice_Stage1_CartPumpkin_01",
+    "SpeakerId": "character_narrator_01",
+    "PromptText": "탐관오리처럼 탐욕스럽게 생긴 호박들입니다. 호박을 수확하시겠습니까?",
+    "ChoiceMode": "YesNo",
+    "OptionCount": 2,
+    "OptionKeyList": "Y|N",
+    "OptionTextList": "예|아니오",
+    "ResultTypeList": "AddItem|Close",
+    "ResultValueList": "Ing_Pumpkin_01|",
+    "ResultCountList": "10|0",
+    "NextDialogueIdList": "|",
+    "NextChoiceIdList": "|",
+    "StageQuestIdList": "Stage1_Quest_03|",
+    "Memo": "Stage1 Cart choice data"
+  }
+]

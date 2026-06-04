@@ -15,6 +15,12 @@ public class OOTechSoundManager : MonoBehaviour
 {
     public static OOTechSoundManager Inst { get; private set; }
 
+    [Header("Volume")]
+    [Range(0f, 1f)]
+    [SerializeField] private float _bgmVolume = 0.6f;
+    [Range(0f, 1f)]
+    [SerializeField] private float _sfxVolume = 1f;
+
     [SerializeField] private AudioSource _bgmSource;
     [SerializeField] private AudioSource _sfxSource;
 
@@ -30,6 +36,16 @@ public class OOTechSoundManager : MonoBehaviour
         }
         Inst = this;
         DontDestroyOnLoad(gameObject);
+        ApplyVolumeSettings();
+    }
+
+    /// <summary>
+    /// 인스펙터에서 볼륨을 손보는 순간에도 실제 AudioSource 값을 맞춥니다.
+    /// Game View에서는 모든 BGM이 이 중앙 믹서 값을 기준으로 재생됩니다.
+    /// </summary>
+    private void OnValidate()
+    {
+        ApplyVolumeSettings();
     }
 
     // ==================== BGM ====================
@@ -38,13 +54,35 @@ public class OOTechSoundManager : MonoBehaviour
     /// </summary>
     public void PlayBGM(AudioClip bgmClip, bool loop = true)
     {
-        if (bgmClip == null) return;
+        if (bgmClip == null)
+        {
+            Debug.LogWarning("[OOTechSoundManager] PlayBGM failed. AudioClip is null.");
+            return;
+        }
+
+        if (_bgmSource == null)
+        {
+            Debug.LogWarning("[OOTechSoundManager] PlayBGM failed. BGM AudioSource is missing.");
+            return;
+        }
+
+        ApplyVolumeSettings();
 
         if (_bgmSource.clip != bgmClip)
         {
             _bgmSource.clip = bgmClip;
             _bgmSource.loop = loop;
             _bgmSource.Play();
+            Debug.Log($"[OOTechSoundManager] BGM Play: {bgmClip.name}, Volume: {_bgmSource.volume:0.00}");
+            return;
+        }
+
+        _bgmSource.loop = loop;
+
+        if (!_bgmSource.isPlaying)
+        {
+            _bgmSource.Play();
+            Debug.Log($"[OOTechSoundManager] BGM Restart: {bgmClip.name}, Volume: {_bgmSource.volume:0.00}");
         }
     }
 
@@ -53,7 +91,26 @@ public class OOTechSoundManager : MonoBehaviour
     /// </summary>
     public void StopBGM()
     {
+        if (_bgmSource == null)
+            return;
+
         _bgmSource.Stop();
+    }
+
+    /// <summary>
+    /// 요청한 클립이 현재 재생 중인 BGM일 때만 음악을 멈춥니다.
+    /// 이전 무대가 퇴장하면서 다음 무대의 음악까지 꺼버리는 사고를 막기 위한 안전장치입니다.
+    /// </summary>
+    public void StopBGM(AudioClip bgmClip)
+    {
+        if (_bgmSource == null || bgmClip == null)
+            return;
+
+        if (_bgmSource.clip != bgmClip)
+            return;
+
+        StopBGM();
+        Debug.Log($"[OOTechSoundManager] BGM Stop: {bgmClip.name}");
     }
 
     // ==================== SFX ====================
@@ -62,7 +119,23 @@ public class OOTechSoundManager : MonoBehaviour
     /// </summary>
     public void PlaySFX(AudioClip sfxClip)
     {
-        if (sfxClip == null) return;
+        if (sfxClip == null || _sfxSource == null)
+            return;
+
+        ApplyVolumeSettings();
         _sfxSource.PlayOneShot(sfxClip);
+    }
+
+    /// <summary>
+    /// 모든 소리 큐가 지나가는 공연장 믹서 볼륨을 한곳에서 통일합니다.
+    /// 각 장면 배우는 AudioSource를 직접 만지지 않고 이 결과만 사용합니다.
+    /// </summary>
+    private void ApplyVolumeSettings()
+    {
+        if (_bgmSource != null)
+            _bgmSource.volume = _bgmVolume;
+
+        if (_sfxSource != null)
+            _sfxSource.volume = _sfxVolume;
     }
 }

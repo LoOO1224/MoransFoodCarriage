@@ -25,7 +25,7 @@ public class OOTechDialogueLayout : MonoBehaviour
 
     [Header("Road View Layout")]
     [SerializeField] private Vector2 _roadViewPanelSizeDelta = new Vector2(1320f, 360f);
-    [SerializeField] private Vector2 _roadViewPanelAnchoredPosition = new Vector2(0f, 155f);
+    [SerializeField] private Vector2 _roadViewPanelAnchoredPosition = new Vector2(0f, 110f);
 
     private RectTransform Rect_Panel;
     private RectTransform Rect_SpeakerName;

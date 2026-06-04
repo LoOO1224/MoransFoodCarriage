@@ -42,6 +42,13 @@ public class DialogueUI : MonoBehaviour
     [FormerlySerializedAs("_nextButton")]
     [SerializeField] private Button Button_Next;
 
+    [Header("Choice")]
+    [SerializeField] private GameObject Root_ChoicePanel;
+    [SerializeField] private Button Button_ChoiceYes;
+    [SerializeField] private Button Button_ChoiceNo;
+    [SerializeField] private TextMeshProUGUI Text_ChoiceYes;
+    [SerializeField] private TextMeshProUGUI Text_ChoiceNo;
+
     [Header("Scroll")]
     [SerializeField] private ScrollRect Scroll_Dialogue;
     [SerializeField] private RectTransform Rect_DialogueContent;
@@ -57,6 +64,9 @@ public class DialogueUI : MonoBehaviour
     private readonly List<string> _narrationTextList = new List<string>();
     private int _currentNarrationTextIndex;
     private Action _onDialogueEnd;
+    private OO_Choice _currentChoice;
+    private Action<int> _onChoiceSelected;
+    private bool _isChoiceActive;
     private Coroutine _refreshScrollCoroutine;
     private OOTechDialogueLayout Layout_Dialogue;
     private OOTechDialogueSpeakerNameBackdrop Backdrop_SpeakerName;
@@ -72,6 +82,7 @@ public class DialogueUI : MonoBehaviour
         ApplyProjectFont();
         PrepareSpeakerNameBackdrop();
         ApplyDialogueLayout();
+        PrepareChoicePanel();
     }
 
     /// <summary>
@@ -82,6 +93,7 @@ public class DialogueUI : MonoBehaviour
         ApplyProjectFont();
         PrepareSpeakerNameBackdrop();
         ApplyDialogueLayout();
+        PrepareChoicePanel();
         BindButtonEvent();
     }
 
@@ -92,6 +104,7 @@ public class DialogueUI : MonoBehaviour
     {
         UnbindButtonEvent();
         StopRefreshScrollCoroutine();
+        ClearChoiceState();
         SetOutsideClickBlockerActive(false);
     }
 
@@ -100,6 +113,12 @@ public class DialogueUI : MonoBehaviour
     /// </summary>
     private void Update()
     {
+        if (_isChoiceActive)
+        {
+            UpdateChoiceKeyboardInput();
+            return;
+        }
+
         if (!CanAdvanceByOutsideClick())
             return;
 
@@ -143,6 +162,8 @@ public class DialogueUI : MonoBehaviour
     {
         OOTechTMPFontUtility.ApplyProjectFont(Text_SpeakerName);
         OOTechTMPFontUtility.ApplyProjectFont(Text_Dialogue);
+        OOTechTMPFontUtility.ApplyProjectFont(Text_ChoiceYes);
+        OOTechTMPFontUtility.ApplyProjectFont(Text_ChoiceNo);
     }
 
     /// <summary>
@@ -197,6 +218,7 @@ public class DialogueUI : MonoBehaviour
         _onDialogueEnd = onDialogueEnd;
         _narrationTextList.Clear();
         _currentNarrationTextIndex = 0;
+        ClearChoiceState();
 
         gameObject.SetActive(true);
         BlockOutsideClickBriefly();
@@ -212,6 +234,37 @@ public class DialogueUI : MonoBehaviour
     /// OO_Narration 데이터를 기반으로 나레이션을 표시합니다.
     /// SpeakerNameText는 요구사항에 따라 항상 "나레이션"으로 고정합니다.
     /// </summary>
+    /// <summary>
+    /// OO_Choice 데이터를 기존 DialoguePanel 위에 선택지 모드로 표시합니다.
+    /// 영화 비유로는 같은 무대 세트에 "관객 선택 큐"만 추가로 내려놓는 방식입니다.
+    /// </summary>
+    public void ShowChoice(OO_Choice choiceData, Action<int> onChoiceSelected)
+    {
+        if (choiceData == null)
+        {
+            Debug.LogWarning("[DialogueUI] 표시할 선택지 데이터가 없습니다.");
+            return;
+        }
+
+        _currentDialogue = null;
+        _onDialogueEnd = null;
+        _narrationTextList.Clear();
+        _currentNarrationTextIndex = 0;
+        _currentChoice = choiceData;
+        _onChoiceSelected = onChoiceSelected;
+        _isChoiceActive = true;
+
+        gameObject.SetActive(true);
+        PrepareChoicePanel();
+        BlockOutsideClickBriefly();
+
+        SetSpeakerName(choiceData.SpeakerName);
+        SetDialogueText(choiceData.PromptText);
+        SetNextButtonActive(false);
+        ApplyChoiceButtonText(choiceData);
+        SetChoicePanelActive(true);
+    }
+
     public void ShowNarration(OO_Narration narrationData, Action onDialogueEnd = null)
     {
         if (narrationData == null)
@@ -224,6 +277,7 @@ public class DialogueUI : MonoBehaviour
         _onDialogueEnd = onDialogueEnd;
         _narrationTextList.Clear();
         _currentNarrationTextIndex = 0;
+        ClearChoiceState();
 
         AddNarrationTextList(narrationData.NarrationTexts);
 
@@ -301,6 +355,9 @@ public class DialogueUI : MonoBehaviour
     /// </summary>
     public void NextDialogue()
     {
+        if (_isChoiceActive)
+            return;
+
         if (_narrationTextList.Count > 0)
         {
             MoveNextNarrationText();
@@ -373,6 +430,7 @@ public class DialogueUI : MonoBehaviour
         _narrationTextList.Clear();
         _currentNarrationTextIndex = 0;
         _onDialogueEnd = null;
+        ClearChoiceState();
     }
 
     // ==================== UI 값 설정 ====================
@@ -428,6 +486,9 @@ public class DialogueUI : MonoBehaviour
     private bool CanAdvanceByOutsideClick()
     {
         if (!_isAdvanceByOutsideClick)
+            return false;
+
+        if (_isChoiceActive)
             return false;
 
         if (Root_OutsideClickBlocker != null && Root_OutsideClickBlocker.activeInHierarchy)
@@ -525,7 +586,197 @@ public class DialogueUI : MonoBehaviour
 
     private bool HasActiveDialogueText()
     {
-        return _currentDialogue != null || _narrationTextList.Count > 0;
+        return _currentDialogue != null || _narrationTextList.Count > 0 || _currentChoice != null;
+    }
+
+    /// <summary>
+    /// ChoicePanel을 준비합니다. 씬에 배치되어 있으면 재사용하고, 없으면 DialoguePanel 안에 최소 버튼만 만듭니다.
+    /// </summary>
+    private void PrepareChoicePanel()
+    {
+        if (Root_ChoicePanel == null)
+            Root_ChoicePanel = FindChildByName(transform, "ChoicePanel");
+
+        if (Root_ChoicePanel == null)
+            Root_ChoicePanel = CreateChoicePanelObject();
+
+        if (Button_ChoiceYes == null)
+            Button_ChoiceYes = FindChoiceButton("Button_ChoiceY", Root_ChoicePanel);
+
+        if (Button_ChoiceNo == null)
+            Button_ChoiceNo = FindChoiceButton("Button_ChoiceN", Root_ChoicePanel);
+
+        if (Button_ChoiceYes == null)
+            Button_ChoiceYes = CreateChoiceButton(Root_ChoicePanel.transform, "Button_ChoiceY", "예");
+
+        if (Button_ChoiceNo == null)
+            Button_ChoiceNo = CreateChoiceButton(Root_ChoicePanel.transform, "Button_ChoiceN", "아니오");
+
+        Text_ChoiceYes = Text_ChoiceYes != null ? Text_ChoiceYes : Button_ChoiceYes.GetComponentInChildren<TextMeshProUGUI>(true);
+        Text_ChoiceNo = Text_ChoiceNo != null ? Text_ChoiceNo : Button_ChoiceNo.GetComponentInChildren<TextMeshProUGUI>(true);
+
+        BindChoiceButtonEvent();
+        SetChoicePanelActive(false);
+    }
+
+    private GameObject CreateChoicePanelObject()
+    {
+        GameObject panelObject = new GameObject("ChoicePanel", typeof(RectTransform));
+        panelObject.transform.SetParent(transform, false);
+
+        RectTransform panelRect = panelObject.transform as RectTransform;
+        panelRect.anchorMin = new Vector2(0.5f, 0f);
+        panelRect.anchorMax = new Vector2(0.5f, 0f);
+        panelRect.pivot = new Vector2(0.5f, 0f);
+        panelRect.anchoredPosition = new Vector2(0f, 28f);
+        panelRect.sizeDelta = new Vector2(520f, 84f);
+
+        HorizontalLayoutGroup layoutGroup = panelObject.AddComponent<HorizontalLayoutGroup>();
+        layoutGroup.childAlignment = TextAnchor.MiddleCenter;
+        layoutGroup.spacing = 24f;
+        layoutGroup.childControlWidth = false;
+        layoutGroup.childControlHeight = false;
+
+        return panelObject;
+    }
+
+    private Button CreateChoiceButton(Transform parentTransform, string buttonName, string labelText)
+    {
+        GameObject buttonObject = new GameObject(buttonName, typeof(RectTransform));
+        buttonObject.transform.SetParent(parentTransform, false);
+
+        RectTransform buttonRect = buttonObject.transform as RectTransform;
+        buttonRect.sizeDelta = new Vector2(220f, 64f);
+
+        Image buttonImage = buttonObject.AddComponent<Image>();
+        buttonImage.color = new Color(0.08f, 0.08f, 0.08f, 0.88f);
+
+        Button button = buttonObject.AddComponent<Button>();
+        button.targetGraphic = buttonImage;
+
+        GameObject textObject = new GameObject("Text_Label", typeof(RectTransform));
+        textObject.transform.SetParent(buttonObject.transform, false);
+
+        RectTransform textRect = textObject.transform as RectTransform;
+        textRect.anchorMin = Vector2.zero;
+        textRect.anchorMax = Vector2.one;
+        textRect.offsetMin = Vector2.zero;
+        textRect.offsetMax = Vector2.zero;
+
+        TextMeshProUGUI label = textObject.AddComponent<TextMeshProUGUI>();
+        label.text = labelText;
+        label.fontSize = 30f;
+        label.alignment = TextAlignmentOptions.Center;
+        label.color = Color.white;
+        OOTechTMPFontUtility.ApplyProjectFont(label);
+
+        return button;
+    }
+
+    private Button FindChoiceButton(string buttonName, GameObject rootObject)
+    {
+        if (rootObject == null)
+            return null;
+
+        GameObject buttonObject = FindChildByName(rootObject.transform, buttonName);
+        return buttonObject != null ? buttonObject.GetComponent<Button>() : null;
+    }
+
+    private void BindChoiceButtonEvent()
+    {
+        if (Button_ChoiceYes != null)
+        {
+            Button_ChoiceYes.onClick.RemoveListener(SelectChoiceYes);
+            Button_ChoiceYes.onClick.AddListener(SelectChoiceYes);
+        }
+
+        if (Button_ChoiceNo != null)
+        {
+            Button_ChoiceNo.onClick.RemoveListener(SelectChoiceNo);
+            Button_ChoiceNo.onClick.AddListener(SelectChoiceNo);
+        }
+    }
+
+    private void ApplyChoiceButtonText(OO_Choice choiceData)
+    {
+        string yesText = GetChoiceButtonText(choiceData, 0, "예");
+        string noText = GetChoiceButtonText(choiceData, 1, "아니오");
+
+        if (Text_ChoiceYes != null)
+            Text_ChoiceYes.text = yesText;
+
+        if (Text_ChoiceNo != null)
+            Text_ChoiceNo.text = noText;
+    }
+
+    private string GetChoiceButtonText(OO_Choice choiceData, int index, string fallbackText)
+    {
+        if (choiceData == null || choiceData.OptionTextList == null || index < 0 || index >= choiceData.OptionTextList.Count)
+            return fallbackText;
+
+        string optionText = choiceData.OptionTextList[index];
+        return string.IsNullOrWhiteSpace(optionText) ? fallbackText : optionText;
+    }
+
+    private void UpdateChoiceKeyboardInput()
+    {
+        if (Input.GetKeyDown(KeyCode.Y) || Input.GetKeyDown(KeyCode.Return))
+            SelectChoice(0);
+        else if (Input.GetKeyDown(KeyCode.N) || Input.GetKeyDown(KeyCode.Escape))
+            SelectChoice(1);
+    }
+
+    private void SelectChoiceYes()
+    {
+        SelectChoice(0);
+    }
+
+    private void SelectChoiceNo()
+    {
+        SelectChoice(1);
+    }
+
+    private void SelectChoice(int choiceIndex)
+    {
+        if (!_isChoiceActive)
+            return;
+
+        Action<int> onChoiceSelected = _onChoiceSelected;
+        ClearChoiceState();
+        onChoiceSelected?.Invoke(choiceIndex);
+    }
+
+    private void SetChoicePanelActive(bool isActive)
+    {
+        if (Root_ChoicePanel != null)
+            Root_ChoicePanel.SetActive(isActive);
+    }
+
+    private void ClearChoiceState()
+    {
+        _currentChoice = null;
+        _onChoiceSelected = null;
+        _isChoiceActive = false;
+        SetChoicePanelActive(false);
+    }
+
+    private GameObject FindChildByName(Transform rootTransform, string objectName)
+    {
+        if (rootTransform == null || string.IsNullOrEmpty(objectName))
+            return null;
+
+        if (rootTransform.name == objectName)
+            return rootTransform.gameObject;
+
+        for (int index = 0; index < rootTransform.childCount; index++)
+        {
+            GameObject foundObject = FindChildByName(rootTransform.GetChild(index), objectName);
+
+            if (foundObject != null)
+                return foundObject;
+        }
+
+        return null;
     }
 
     private bool IsPointerInsideDialoguePanel()

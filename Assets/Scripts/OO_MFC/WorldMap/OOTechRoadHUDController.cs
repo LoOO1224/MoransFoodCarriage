@@ -97,6 +97,7 @@ public class OOTechRoadHUDController : MonoBehaviour
     private TextMeshProUGUI Text_InventoryNewBadge;
     private TextMeshProUGUI Text_CodexNewBadge;
     private TextMeshProUGUI Text_MissionNewBadge;
+    private TextMeshProUGUI Text_CookingNewBadge;
     private TextMeshProUGUI Text_CookingLabel;
     private TextMeshProUGUI Text_GuideTitle;
     private TextMeshProUGUI Text_GuideBody;
@@ -118,13 +119,13 @@ public class OOTechRoadHUDController : MonoBehaviour
     private bool _isCookingQuestActive;
     private bool _isCookingQuestComplete;
     private bool _isCookingMissionRemoved;
-    private bool _isEastRoadMissionComplete;
     private bool _isEastRoadMissionRemoved;
     private string _stageQuestMissionText;
     private float _missionCompleteEffectAlpha = 1f;
     private Coroutine _inventoryNewBadgeCoroutine;
     private Coroutine _codexNewBadgeCoroutine;
     private Coroutine _missionNewBadgeCoroutine;
+    private Coroutine _cookingNewBadgeCoroutine;
     private Coroutine _missionCompleteEffectCoroutine;
 
     public bool IsCookingUnlocked => _isCookingUnlocked;
@@ -162,6 +163,7 @@ public class OOTechRoadHUDController : MonoBehaviour
         SetInventoryNewBadgeActive(false);
         SetCodexNewBadgeActive(false);
         SetMissionNewBadgeActive(false);
+        SetCookingNewBadgeActive(false);
         RefreshCookingButtonView();
         SetBottomHUDActive(true);
     }
@@ -201,8 +203,14 @@ public class OOTechRoadHUDController : MonoBehaviour
     /// </summary>
     public void SetCookingUnlocked(bool isUnlocked)
     {
+        bool wasUnlocked = _isCookingUnlocked;
         _isCookingUnlocked = isUnlocked;
         RefreshCookingButtonView();
+
+        if (_isCookingUnlocked && !wasUnlocked)
+            SetCookingNewBadgeActive(true);
+        else if (!_isCookingUnlocked)
+            SetCookingNewBadgeActive(false);
     }
 
     /// <summary>
@@ -227,6 +235,16 @@ public class OOTechRoadHUDController : MonoBehaviour
     public void SetMissionNewBadgeActive(bool isActive)
     {
         SetBadgeActive(Text_MissionNewBadge, isActive, ref _missionNewBadgeCoroutine);
+    }
+
+    /// <summary>
+    /// 요리하기가 새로 열렸다는 NEW 배지를 켜거나 끕니다.
+    /// 영화로 비유하면 닫혀 있던 부엌 세트 문이 열렸을 때 관객에게 작은 안내등을 켜 주는 역할입니다.
+    /// </summary>
+    public void SetCookingNewBadgeActive(bool isActive)
+    {
+        ResolveCookingNewBadge();
+        SetBadgeActive(Text_CookingNewBadge, isActive, ref _cookingNewBadgeCoroutine);
     }
 
     /// <summary>
@@ -271,7 +289,6 @@ public class OOTechRoadHUDController : MonoBehaviour
     public void RequestSetStageQuestMission(string stageQuestText)
     {
         PrepareHUD();
-        _isEastRoadMissionComplete = true;
         _isEastRoadMissionRemoved = true;
         _stageQuestMissionText = stageQuestText;
         SetMissionNewBadgeActive(true);
@@ -515,6 +532,7 @@ public class OOTechRoadHUDController : MonoBehaviour
         Text_MissionNewBadge = View_HUD.MissionNewBadgeText;
         Text_CookingLabel = View_HUD.CookingLabelText;
         Image_CookingButton = View_HUD.CookingButtonImage;
+        ResolveCookingNewBadge();
         Rect_InventoryContent = View_HUD.InventoryContentRect;
         Slot_InventoryItemTemplate = View_HUD.InventorySlotTemplate;
 
@@ -530,6 +548,40 @@ public class OOTechRoadHUDController : MonoBehaviour
         Text_MainMenuConfirmMessage = View_HUD.MainMenuConfirmMessageText;
         Button_MainMenuConfirmYes = View_HUD.MainMenuConfirmYesButton;
         Button_MainMenuConfirmNo = View_HUD.MainMenuConfirmNoButton;
+    }
+
+    private void ResolveCookingNewBadge()
+    {
+        if (Text_CookingNewBadge != null || Button_Cooking == null)
+            return;
+
+        Transform badgeTransform = Button_Cooking.transform.Find("NewBadge_Cooking");
+
+        if (badgeTransform != null)
+            Text_CookingNewBadge = badgeTransform.GetComponent<TextMeshProUGUI>();
+
+        if (Text_CookingNewBadge != null)
+            return;
+
+        GameObject badgeObject = new GameObject("NewBadge_Cooking", typeof(RectTransform));
+        badgeObject.transform.SetParent(Button_Cooking.transform, false);
+
+        RectTransform badgeRect = badgeObject.transform as RectTransform;
+        badgeRect.anchorMin = new Vector2(1f, 1f);
+        badgeRect.anchorMax = new Vector2(1f, 1f);
+        badgeRect.pivot = new Vector2(0.5f, 0.5f);
+        badgeRect.anchoredPosition = new Vector2(-16f, -12f);
+        badgeRect.sizeDelta = new Vector2(86f, 36f);
+
+        Text_CookingNewBadge = badgeObject.AddComponent<TextMeshProUGUI>();
+        Text_CookingNewBadge.text = "NEW";
+        Text_CookingNewBadge.fontSize = 26f;
+        Text_CookingNewBadge.alignment = TextAlignmentOptions.Center;
+        Text_CookingNewBadge.color = new Color(1f, 0.86f, 0.1f, 1f);
+        Text_CookingNewBadge.raycastTarget = false;
+        Text_CookingNewBadge.fontStyle = FontStyles.Bold;
+        OOTechTMPFontUtility.ApplyProjectFont(Text_CookingNewBadge);
+        badgeObject.SetActive(false);
     }
 
     /// <summary>
@@ -640,7 +692,39 @@ public class OOTechRoadHUDController : MonoBehaviour
         }
 
         if (Root_HUD != null)
+        {
+            RectTransform rootRect = Root_HUD.transform as RectTransform;
+
+            if (rootRect != null)
+            {
+                rootRect.anchorMin = Vector2.zero;
+                rootRect.anchorMax = Vector2.one;
+                rootRect.pivot = new Vector2(0.5f, 0.5f);
+                rootRect.offsetMin = Vector2.zero;
+                rootRect.offsetMax = Vector2.zero;
+                rootRect.localScale = Vector3.one;
+            }
+
             Root_HUD.transform.SetAsLastSibling();
+        }
+
+        if (Root_BottomBar == null && View_HUD != null)
+        {
+            View_HUD.ResolveReferences();
+            Root_BottomBar = View_HUD.BottomBar;
+        }
+
+        RectTransform bottomBarRect = Root_BottomBar != null ? Root_BottomBar.transform as RectTransform : null;
+
+        if (bottomBarRect != null)
+        {
+            bottomBarRect.anchorMin = new Vector2(0f, 0f);
+            bottomBarRect.anchorMax = new Vector2(1f, 0f);
+            bottomBarRect.pivot = new Vector2(0.5f, 0f);
+            bottomBarRect.anchoredPosition = Vector2.zero;
+            bottomBarRect.sizeDelta = new Vector2(0f, bottomBarRect.sizeDelta.y);
+            bottomBarRect.localScale = Vector3.one;
+        }
     }
 
     /// <summary>
@@ -824,6 +908,7 @@ public class OOTechRoadHUDController : MonoBehaviour
             return;
         }
 
+        SetCookingNewBadgeActive(false);
         RequestOpenSceneGroup(_cookingGroupName);
     }
 
@@ -1021,12 +1106,12 @@ public class OOTechRoadHUDController : MonoBehaviour
 
         if (!string.IsNullOrEmpty(ingredientDataId) && OOTechGameDataManager.Inst != null)
         {
-            OO_Ingredient ingredientData = OOTechGameDataManager.Inst.GetIngredientData(ingredientDataId);
+            OOTechGameDataManager.Inst.TryGetIngredientData(ingredientDataId, out OO_Ingredient ingredientData);
 
             if (ingredientData != null && !string.IsNullOrEmpty(ingredientData.Name))
                 return ingredientData.Name;
 
-            OO_Cook cookData = OOTechGameDataManager.Inst.GetCookData(ingredientDataId);
+            OOTechGameDataManager.Inst.TryGetCookData(ingredientDataId, out OO_Cook cookData);
 
             if (cookData != null && !string.IsNullOrEmpty(cookData.Name))
                 return cookData.Name;

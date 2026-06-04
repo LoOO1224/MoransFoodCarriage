@@ -289,7 +289,10 @@ public class OOTechTutorial2Controller : MonoBehaviour
             UI_Dialogue = Group_Dialogue.GetComponentInChildren<DialogueUI>(true);
 
         if (UI_Dialogue != null)
+        {
+            UI_Dialogue.RequestRoadViewLayout();
             return true;
+        }
 
         CloseDialogueGroup();
         return false;
@@ -377,13 +380,18 @@ public class OOTechTutorial2Controller : MonoBehaviour
     /// </summary>
     private string GetGuideDescription(int index, OO_Tutorial tutorialData)
     {
+        string description = string.Empty;
+
         if (tutorialData != null && string.IsNullOrEmpty(tutorialData.Description) == false)
-            return tutorialData.Description;
+            description = tutorialData.Description;
 
-        if (index >= 0 && index < _fallbackDescriptionArray.Length)
-            return _fallbackDescriptionArray[index];
+        if (string.IsNullOrEmpty(description) && index >= 0 && index < _fallbackDescriptionArray.Length)
+            description = _fallbackDescriptionArray[index];
 
-        return string.Empty;
+        if (index >= 0 && index < _hudButtonKindArray.Length && _hudButtonKindArray[index] == OOTechRoadHUDButtonKind.Cooking)
+            description = $"{description}\n\n아직 잠겨 있습니다. RoadMap1에 도착하면 요리하기가 해금됩니다.";
+
+        return description;
     }
 
     /// <summary>

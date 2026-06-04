@@ -18,12 +18,12 @@
     "EffectDescription": "Stage2에서 Stage3으로 넘어갈때 사용한다. "
   },
   {
-    "Id": "OO_PumpkinPorridge_1",
+    "Id": "OO_PumpkinSoup_1",
     "Name": "호박죽",
-    "Description": "호박과 쌀을 푹 끓여 만든 달큰한 죽.",
-    "IconPath": null,
+    "Description": "호박죽",
+    "IconPath": "Images/Food/PumpkinSoup",
     "Grade": "일반",
     "MaxStackCount": 99,
-    "EffectDescription": "굶주린 백성의 허기를 채워 임무 완료 조건에 사용한다."
+    "EffectDescription": "호박죽"
   }
 ]

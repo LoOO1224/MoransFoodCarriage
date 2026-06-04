@@ -51,6 +51,9 @@ TagManager:
   - name: Characters
     uniqueID: 3814666197
     locked: 0
+  - name: Object
+    uniqueID: 3250831831
+    locked: 0
   m_RenderingLayers:
   - Default
   - Light Layer 1

@@ -20,5 +20,27 @@
     "RequiredCount": null,
     "RewardItemIds": null,
     "NextGroupId": null
+  },
+  {
+    "Id": "Stage1_Quest_03",
+    "StageId": "OO_Stage_1",
+    "Name": "호박죽",
+    "Description": "호박과 쌀로 호박죽 10그릇을 만드세요.",
+    "ObjectiveType": "CookItem",
+    "ObjectiveId": "OO_PumpkinSoup_1",
+    "RequiredCount": 10,
+    "RewardItemIds": null,
+    "NextGroupId": null
+  },
+  {
+    "Id": "Stage1_Quest_04",
+    "StageId": "OO_Stage_1",
+    "Name": "호박죽 10그릇을 완성했습니다. 동쪽 마을의 촌장에게 돌아가세요.",
+    "Description": "호박죽 10그릇을 완성했습니다. 동쪽 마을의 촌장에게 돌아가세요.",
+    "ObjectiveType": "TalkToNPC",
+    "ObjectiveId": "VillageChief",
+    "RequiredCount": 1,
+    "RewardItemIds": "Ing_ChiliPepper_01",
+    "NextGroupId": "2nd_Road_to_Stage2"
   }
 ]

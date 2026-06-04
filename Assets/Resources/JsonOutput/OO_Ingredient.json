@@ -22,5 +22,13 @@
     "IconPath": "Images/Food/Pumpkin",
     "Grade": "일반",
     "MaxStackCount": 12
+  },
+  {
+    "Id": "Ing_ChiliPepper_01",
+    "Name": "청양고추",
+    "Description": "청양고추",
+    "IconPath": "Images/Food/ChiliPepper",
+    "Grade": "일반",
+    "MaxStackCount": 99
   }
 ]

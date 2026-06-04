@@ -476,7 +476,7 @@ public class OOTechTutorialGuideUI : MonoBehaviour
 
         Image_Panel = panelObject.AddComponent<Image>();
         Image_Panel.sprite = Sprite_PanelBackground;
-        Image_Panel.color = new Color(1f, 1f, 1f, Sprite_PanelBackground == null ? 0.9f : 1f);
+        Image_Panel.color = Sprite_PanelBackground == null ? new Color(0.06f, 0.06f, 0.06f, 0.92f) : Color.white;
         Image_Panel.raycastTarget = true;
 
         CreateTitleText(panelRect);
@@ -558,7 +558,7 @@ public class OOTechTutorialGuideUI : MonoBehaviour
 
         Image buttonImage = buttonObject.AddComponent<Image>();
         buttonImage.sprite = Sprite_NextButton;
-        buttonImage.color = new Color(1f, 1f, 1f, Sprite_NextButton == null ? 0.86f : 1f);
+        buttonImage.color = Sprite_NextButton == null ? new Color(0.16f, 0.16f, 0.16f, 0.94f) : Color.white;
         buttonImage.raycastTarget = true;
 
         Button_Next = buttonObject.AddComponent<Button>();
@@ -606,6 +606,9 @@ public class OOTechTutorialGuideUI : MonoBehaviour
 
         if (Font_Default != null)
             text.font = Font_Default;
+
+        OOTechTMPFontUtility.ApplyProjectFont(text);
+
         text.fontSize = fontSize;
         text.color = color;
         text.alignment = alignment;

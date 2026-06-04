@@ -60,6 +60,16 @@ public class OOTechCookingManager : MonoBehaviour
             };
         }
 
+        if (IsFallbackPumpkinPorridgeRecipe(ingredientIds))
+        {
+            return new CookingResult
+            {
+                IsSuccess = true,
+                ResultItemId = "OO_PumpkinSoup_1",
+                FailReason = string.Empty
+            };
+        }
+
         if (IsFallbackVegetablePorridgeRecipe(ingredientIds))
         {
             return new CookingResult
@@ -95,6 +105,19 @@ public class OOTechCookingManager : MonoBehaviour
             return false;
 
         return ingredientIds.Contains("Ing_Rice_01") &&
-               (ingredientIds.Contains("Ing_Veggie_01") || ingredientIds.Contains("Ing_Pumpkin_01"));
+               ingredientIds.Contains("Ing_Veggie_01");
+    }
+
+    /// <summary>
+    /// Recipe 데이터가 아직 덜 들어왔어도 Stage1 호박죽 제작이 막히지 않게 하는 안전망입니다.
+    /// 데이터가 완성되면 OO_Recipe.json 규칙이 우선 적용되고, 이 fallback은 뒤에서 받쳐 줍니다.
+    /// </summary>
+    private bool IsFallbackPumpkinPorridgeRecipe(List<string> ingredientIds)
+    {
+        if (ingredientIds == null || ingredientIds.Count != 2)
+            return false;
+
+        return ingredientIds.Contains("Ing_Rice_01") &&
+               ingredientIds.Contains("Ing_Pumpkin_01");
     }
 }

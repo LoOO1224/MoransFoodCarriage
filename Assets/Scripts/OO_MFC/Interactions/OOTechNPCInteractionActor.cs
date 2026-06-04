@@ -28,6 +28,7 @@ public class OOTechNPCInteractionActor : MonoBehaviour
     [SerializeField] private float _interactionDistance = 2.4f;
     [SerializeField] private Vector3 _promptWorldOffset = new Vector3(0f, 1.45f, 0f);
     [SerializeField] private bool _isOneShot = true;
+    [SerializeField] private int _promptSortingOrder = 30000;
 
     private bool _isInteractable = true;
     private bool _isInteractionRequested;
@@ -45,6 +46,7 @@ public class OOTechNPCInteractionActor : MonoBehaviour
     {
         Transform_Player = playerTransform;
         Object_InteractionPrompt = interactionPrompt;
+        PreparePromptView();
         SetPromptActive(false);
     }
 
@@ -85,6 +87,18 @@ public class OOTechNPCInteractionActor : MonoBehaviour
     public void RequestResetInteraction()
     {
         _isInteractionRequested = false;
+    }
+
+    /// <summary>
+    /// 같은 NPC와 여러 번 대화해야 하는지 지정합니다.
+    /// 촌장처럼 1막 의뢰와 2막 보상을 모두 맡는 배우는 one-shot을 끄고 계속 대기하게 합니다.
+    /// </summary>
+    public void RequestSetOneShot(bool isOneShot)
+    {
+        _isOneShot = isOneShot;
+
+        if (!_isOneShot)
+            _isInteractionRequested = false;
     }
 
     private void OnDisable()
@@ -137,7 +151,50 @@ public class OOTechNPCInteractionActor : MonoBehaviour
         if (Object_InteractionPrompt == null)
             return;
 
+        PreparePromptView();
         Object_InteractionPrompt.transform.position = transform.position + _promptWorldOffset;
+    }
+
+    /// <summary>
+    /// E 프롬프트 소품이 화면 밖으로 밀리지 않도록 자식 RectTransform을 중앙에 맞춥니다.
+    /// 영화로 치면 배우 머리 위에 들 팻말의 손잡이는 그대로 두고, 팻말 그림만 정중앙에 다시 끼우는 일입니다.
+    /// </summary>
+    private void PreparePromptView()
+    {
+        if (Object_InteractionPrompt == null)
+            return;
+
+        Canvas promptCanvas = Object_InteractionPrompt.GetComponent<Canvas>();
+
+        if (promptCanvas != null)
+        {
+            promptCanvas.overrideSorting = true;
+            promptCanvas.sortingOrder = Mathf.Max(promptCanvas.sortingOrder, _promptSortingOrder);
+
+            if (promptCanvas.worldCamera == null)
+                promptCanvas.worldCamera = Camera.main;
+        }
+
+        RectTransform promptRect = Object_InteractionPrompt.transform as RectTransform;
+
+        if (promptRect == null)
+            return;
+
+        for (int index = 0; index < promptRect.childCount; index++)
+        {
+            RectTransform childRect = promptRect.GetChild(index) as RectTransform;
+
+            if (childRect == null)
+                continue;
+
+            childRect.anchorMin = Vector2.zero;
+            childRect.anchorMax = Vector2.one;
+            childRect.pivot = new Vector2(0.5f, 0.5f);
+            childRect.anchoredPosition = Vector2.zero;
+            childRect.offsetMin = Vector2.zero;
+            childRect.offsetMax = Vector2.zero;
+            childRect.localScale = Vector3.one;
+        }
     }
 
     private void SetPromptActive(bool isActive)

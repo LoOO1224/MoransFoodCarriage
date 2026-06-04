@@ -33,6 +33,7 @@ public class OOTechGameDataManager : MonoBehaviour
     private readonly Dictionary<string, OO_Character> _characterDic = new Dictionary<string, OO_Character>();
     private readonly Dictionary<string, OO_Dialogue> _dialogueDic = new Dictionary<string, OO_Dialogue>();
     private readonly Dictionary<string, OO_DialogueGroup> _dialogueGroupDic = new Dictionary<string, OO_DialogueGroup>();
+    private readonly Dictionary<string, OO_Choice> _choiceDic = new Dictionary<string, OO_Choice>();
     private readonly Dictionary<string, OO_Tutorial> _tutorialDic = new Dictionary<string, OO_Tutorial>();
     private readonly Dictionary<string, OO_Ingredient> _ingredientDic = new Dictionary<string, OO_Ingredient>();
     private readonly Dictionary<string, OO_Recipe> _recipeDic = new Dictionary<string, OO_Recipe>();
@@ -80,6 +81,7 @@ public class OOTechGameDataManager : MonoBehaviour
         LoadCharacterData();
         LoadDialogueData();
         LoadDialogueGroupData();
+        LoadChoiceData();
         LoadTutorialData();
         LoadIngredientData();
         LoadRecipeData();
@@ -205,6 +207,35 @@ public class OOTechGameDataManager : MonoBehaviour
     /// <summary>
     /// OO_Tutorial.json을 읽어 HUD/가이드 설명 데이터를 등록합니다.
     /// </summary>
+    /// <summary>
+    /// OO_Choice.json을 읽어 선택지가 붙은 상호작용 큐시트를 등록합니다.
+    /// 영화 비유로는 일반 대본 옆에 "관객 선택 분기표"를 따로 꽂아 두는 단계입니다.
+    /// </summary>
+    private void LoadChoiceData()
+    {
+        _choiceDic.Clear();
+
+        foreach (TextAsset jsonFile in LoadDataTextAssetArray("OO_Choice"))
+        {
+            OOTechChoiceJsonWrapper wrapper = JsonUtility.FromJson<OOTechChoiceJsonWrapper>(WrapJsonArray(jsonFile.text));
+
+            if (wrapper == null || wrapper.Items == null)
+                continue;
+
+            foreach (OOTechChoiceJsonData jsonData in wrapper.Items)
+            {
+                OO_Choice choiceData = CreateChoiceData(jsonData);
+
+                if (choiceData == null || string.IsNullOrEmpty(choiceData.Id))
+                    continue;
+
+                _choiceDic[choiceData.Id] = choiceData;
+            }
+        }
+
+        Debug.Log($"[OOTechGameDataManager] Choice data loaded: {_choiceDic.Count}");
+    }
+
     private void LoadTutorialData()
     {
         _tutorialDic.Clear();
@@ -443,6 +474,39 @@ public class OOTechGameDataManager : MonoBehaviour
     /// <summary>
     /// JSON 한 줄을 튜토리얼 가이드 모델로 변환합니다.
     /// </summary>
+    /// <summary>
+    /// JSON 한 줄을 OO_Choice 모델로 바꿉니다.
+    /// 감독 비유로는 엑셀 큐시트 한 줄을 실제 무대에서 실행할 선택 분기 카드로 옮기는 과정입니다.
+    /// </summary>
+    private OO_Choice CreateChoiceData(OOTechChoiceJsonData jsonData)
+    {
+        if (jsonData == null)
+            return null;
+
+        string speakerId = NormalizeJsonText(jsonData.SpeakerId);
+
+        OO_Choice choiceData = new OO_Choice
+        {
+            Id = NormalizeJsonText(jsonData.Id),
+            SpeakerId = speakerId,
+            SpeakerName = ResolveCharacterName(speakerId, NormalizeJsonText(jsonData.SpeakerName)),
+            PromptText = NormalizeJsonText(GetFirstNotEmpty(jsonData.PromptText, jsonData.Description)),
+            ChoiceMode = NormalizeJsonText(jsonData.ChoiceMode),
+            OptionCount = ParseInt(jsonData.OptionCount),
+            OptionKeyList = CreateStringList(jsonData.OptionKeyList),
+            OptionTextList = CreateStringList(jsonData.OptionTextList),
+            ResultTypeList = CreateStringList(jsonData.ResultTypeList),
+            ResultValueList = CreateStringList(jsonData.ResultValueList),
+            ResultCountList = CreateIntList(jsonData.ResultCountList),
+            NextDialogueIdList = CreateStringList(jsonData.NextDialogueIdList),
+            NextChoiceIdList = CreateStringList(jsonData.NextChoiceIdList),
+            StageQuestIdList = CreateStringList(jsonData.StageQuestIdList),
+            Memo = NormalizeJsonText(jsonData.Memo)
+        };
+
+        return choiceData;
+    }
+
     private OO_Tutorial CreateTutorialData(OOTechTutorialJsonData jsonData)
     {
         if (jsonData == null)
@@ -587,6 +651,21 @@ public class OOTechGameDataManager : MonoBehaviour
     /// <summary>
     /// Dialogue 데이터의 화자 ID를 Character 데이터의 실제 이름으로 바꿉니다.
     /// </summary>
+    /// <summary>
+    /// Character ID를 화면에 표시할 실제 이름으로 바꿉니다.
+    /// 여러 데이터 타입에서 같이 쓰는 배우 이름 캐스팅 보조 함수입니다.
+    /// </summary>
+    private string ResolveCharacterName(string characterId, string fallbackName)
+    {
+        string normalizedCharacterId = NormalizeJsonText(characterId);
+        string normalizedFallbackName = NormalizeJsonText(fallbackName);
+
+        if (!string.IsNullOrEmpty(normalizedCharacterId) && _characterDic.TryGetValue(normalizedCharacterId, out OO_Character characterData))
+            return NormalizeJsonText(characterData.Name);
+
+        return normalizedFallbackName;
+    }
+
     private string ResolveDialogueSpeakerName(OOTechDialogueJsonData jsonData)
     {
         string speakerId = NormalizeJsonText(GetFirstNotEmpty(jsonData.SpeakerCharacterId, jsonData.CharacterId));
@@ -727,6 +806,17 @@ public class OOTechGameDataManager : MonoBehaviour
         return stringList;
     }
 
+    private List<int> CreateIntList(string rawText)
+    {
+        List<int> intList = new List<int>();
+        List<string> stringList = CreateStringList(rawText);
+
+        foreach (string text in stringList)
+            intList.Add(ParseInt(text));
+
+        return intList;
+    }
+
     private string GetFirstNotEmpty(params string[] valueArray)
     {
         if (valueArray == null)
@@ -846,6 +936,18 @@ public class OOTechGameDataManager : MonoBehaviour
     /// <summary>
     /// ID로 튜토리얼 데이터를 조회합니다.
     /// </summary>
+    /// <summary>
+    /// ID로 선택지 데이터를 조회합니다.
+    /// Controller는 선택지 문장을 직접 들고 있지 않고 이 창구만 통해 큐시트를 꺼냅니다.
+    /// </summary>
+    public OO_Choice GetChoiceData(string id)
+    {
+        if (string.IsNullOrEmpty(id))
+            return null;
+
+        return _choiceDic.TryGetValue(id, out OO_Choice data) ? data : null;
+    }
+
     public OO_Tutorial GetTutorialData(string id)
     {
         if (string.IsNullOrEmpty(id))
@@ -881,6 +983,20 @@ public class OOTechGameDataManager : MonoBehaviour
     /// <summary>
     /// ID로 레시피 데이터를 조회합니다.
     /// </summary>
+    /// <summary>
+    /// 재료 데이터가 있는지만 조용히 확인합니다.
+    /// 영화로 비유하면 창고에 쌀 배우가 있는지 확인만 하고, 없다고 공연장 전체에 경고 방송을 하지 않는 조회입니다.
+    /// </summary>
+    public bool TryGetIngredientData(string id, out OO_Ingredient data)
+    {
+        data = null;
+
+        if (string.IsNullOrEmpty(id))
+            return false;
+
+        return _ingredientDic.TryGetValue(id, out data);
+    }
+
     public OO_Recipe GetRecipeData(string id)
     {
         if (string.IsNullOrEmpty(id))
@@ -903,6 +1019,20 @@ public class OOTechGameDataManager : MonoBehaviour
     /// <summary>
     /// ID로 스테이지 데이터를 조회합니다.
     /// </summary>
+    /// <summary>
+    /// 완성 음식 데이터가 있는지만 조용히 확인합니다.
+    /// 재료와 완성 음식을 같은 인벤토리 슬롯에 보여줄 때 불필요한 경고 로그를 줄이기 위한 안전 조회입니다.
+    /// </summary>
+    public bool TryGetCookData(string id, out OO_Cook data)
+    {
+        data = null;
+
+        if (string.IsNullOrEmpty(id))
+            return false;
+
+        return _cookDic.TryGetValue(id, out data);
+    }
+
     public OO_Stage GetStageData(string id)
     {
         if (string.IsNullOrEmpty(id))
@@ -1060,6 +1190,33 @@ public class OOTechDialogueGroupJsonData
     public string Text;
     public string DialogueIdList;
     public string NextDialogueGroupId;
+}
+
+[Serializable]
+public class OOTechChoiceJsonWrapper
+{
+    public OOTechChoiceJsonData[] Items;
+}
+
+[Serializable]
+public class OOTechChoiceJsonData
+{
+    public string Id;
+    public string SpeakerId;
+    public string SpeakerName;
+    public string Description;
+    public string PromptText;
+    public string ChoiceMode;
+    public string OptionCount;
+    public string OptionKeyList;
+    public string OptionTextList;
+    public string ResultTypeList;
+    public string ResultValueList;
+    public string ResultCountList;
+    public string NextDialogueIdList;
+    public string NextChoiceIdList;
+    public string StageQuestIdList;
+    public string Memo;
 }
 
 [Serializable]

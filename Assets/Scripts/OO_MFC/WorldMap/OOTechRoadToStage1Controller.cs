@@ -292,7 +292,7 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
         SetMFCActive(true);
         EnsureMFCVisible();
         PlaceMFCAtOpeningPosition();
-        FocusCameraOnMFC(true);
+        FocusCameraOnCurrentMap();
         HideFadeOverlay();
         PrepareMFCAnimation();
     }
@@ -348,7 +348,7 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
         EnsureCurrentMapVisible();
         PlaceMFCAtMapEntry();
         EnsureMFCVisible();
-        FocusCameraOnMFC(true);
+        FocusCameraOnCurrentMap();
         UnlockCookingIfNeeded();
 
         yield return FadeOverlayRoutine(1f, 0f, _fadeInSeconds);
@@ -561,30 +561,32 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
     /// <summary>
     /// 카메라 팔로우 대상을 MFC로 바꾸고, 필요하면 즉시 MFC 위치로 스냅합니다.
     /// </summary>
-    private void FocusCameraOnMFC(bool isSnapImmediately)
+    private void FocusCameraOnCurrentMap()
     {
         ResolveCameraReference();
 
-        if (Object_MFC == null)
+        SpriteRenderer mapRenderer = GetCurrentMapRenderer();
+
+        if (Camera_Main == null || mapRenderer == null)
             return;
 
         if (Camera_Follow != null)
-        {
-            Camera_Follow.enabled = true;
-            Camera_Follow.SetTarget(Object_MFC.transform);
-        }
-
-        if (!isSnapImmediately || Camera_Main == null)
-            return;
+            Camera_Follow.enabled = false;
 
         Camera_Main.orthographic = true;
 
         if (Camera_Main.cullingMask == 0)
             Camera_Main.cullingMask = -1;
 
+        Bounds mapBounds = mapRenderer.bounds;
+        float verticalSize = mapBounds.extents.y;
+        float horizontalSize = mapBounds.extents.x / Mathf.Max(0.01f, Camera_Main.aspect);
+
+        Camera_Main.orthographicSize = Mathf.Max(verticalSize, horizontalSize);
+
         Vector3 cameraPosition = Camera_Main.transform.position;
-        cameraPosition.x = Object_MFC.transform.position.x;
-        cameraPosition.y = Object_MFC.transform.position.y;
+        cameraPosition.x = mapBounds.center.x;
+        cameraPosition.y = mapBounds.center.y;
         Camera_Main.transform.position = cameraPosition;
     }
 

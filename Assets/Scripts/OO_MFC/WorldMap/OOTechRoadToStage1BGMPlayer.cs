@@ -35,8 +35,10 @@ public class OOTechRoadToStage1BGMPlayer : MonoBehaviour
     /// </summary>
     private void OnDisable()
     {
-        if (OOTechSoundManager.Inst != null)
-            OOTechSoundManager.Inst.StopBGM();
+        AudioClip bgmClip = ResolveClip();
+
+        if (OOTechSoundManager.Inst != null && bgmClip != null)
+            OOTechSoundManager.Inst.StopBGM(bgmClip);
     }
 
     /// <summary>

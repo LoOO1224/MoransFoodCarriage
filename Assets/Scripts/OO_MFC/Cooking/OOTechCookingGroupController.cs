@@ -20,6 +20,8 @@ using UnityEngine.UI;
 [DisallowMultipleComponent]
 public class OOTechCookingGroupController : MonoBehaviour
 {
+    private static bool _isSharedToolGuideCompleted;
+
     // 읽는 순서:
     // 1. OnEnable: 부엌 무대가 열릴 때 카메라, 조리도구, 인벤토리 UI를 준비합니다.
     // 2. ShowToolGuideSequence: 가마솥과 도마 사용법을 튜토리얼로 보여줍니다.
@@ -117,6 +119,7 @@ public class OOTechCookingGroupController : MonoBehaviour
     private UnityAction _guideConfirmAction;
     private bool _isToolGuideComplete;
     private bool _isCookingCompleteDialoguePlaying;
+    private string _pendingCookingCompleteResultItemId;
 
     /// <summary>
     /// 부엌 무대가 열리면 카메라를 Kitchen 배경에 맞추고 가마솥 가이드를 시작합니다.
@@ -131,7 +134,17 @@ public class OOTechCookingGroupController : MonoBehaviour
         PrepareCookingView();
         RefreshInventorySlots();
         RefreshPotView();
-        ShowToolGuideSequence();
+
+        if (_isSharedToolGuideCompleted)
+        {
+            _isToolGuideComplete = true;
+            HideGuideBubble();
+            SetStatus("재료를 알맞은 조리도구에 올려 요리하세요.");
+        }
+        else
+        {
+            ShowToolGuideSequence();
+        }
     }
 
     /// <summary>
@@ -154,6 +167,7 @@ public class OOTechCookingGroupController : MonoBehaviour
     {
         _guideConfirmAction = null;
         _isCookingCompleteDialoguePlaying = false;
+        _pendingCookingCompleteResultItemId = string.Empty;
         _isToolGuideComplete = false;
         StopToolGuideRoutine();
         StopGuideArrowBlink(Root_CauldronGuideArrow, ref _cauldronArrowBlinkCoroutine);
@@ -406,7 +420,8 @@ public class OOTechCookingGroupController : MonoBehaviour
             return;
         }
 
-        OOTechGameManager.Inst.AddItem(cookingResult.ResultItemId, 1);
+        int resultCount = CalculateCookingResultCount(cookingResult.ResultItemId);
+        OOTechGameManager.Inst.AddItem(cookingResult.ResultItemId, resultCount);
         string cookName = GetItemDisplayName(cookingResult.ResultItemId);
         _selectedIngredientIdList.Clear();
         RefreshInventorySlots();
@@ -414,7 +429,7 @@ public class OOTechCookingGroupController : MonoBehaviour
         SetInventoryNewBadgeActive(true);
         NotifyRoadHUDInventoryNewBadge();
         HideGuideBubble();
-        RequestPlayCookingCompleteDialogue();
+        RequestPlayCookingCompleteDialogue(cookingResult.ResultItemId);
         SetStatus($"{cookName} 완성! 인벤토리에 새 음식이 들어갔습니다.");
     }
 
@@ -424,6 +439,27 @@ public class OOTechCookingGroupController : MonoBehaviour
     /// <summary>
     /// 재료가 해당 조리도구의 역할표와 맞는지 확인합니다.
     /// </summary>
+    /// <summary>
+    /// 호박죽 튜토리얼은 쌀 10개와 호박 10개를 한 번에 조리하는 장면입니다.
+    /// 첫 재료 1개씩은 이미 제거되었으므로, 남은 재료를 확인해 추가 9회분까지 함께 차감합니다.
+    /// </summary>
+    private int CalculateCookingResultCount(string resultItemId)
+    {
+        if (resultItemId != "OO_PumpkinSoup_1" || OOTechGameManager.Inst == null)
+            return 1;
+
+        int remainingRiceCount = OOTechGameManager.Inst.GetItemCount(_riceIngredientId);
+        int remainingPumpkinCount = OOTechGameManager.Inst.GetItemCount(_pumpkinIngredientId);
+        int additionalCount = Mathf.Min(9, Mathf.Min(remainingRiceCount, remainingPumpkinCount));
+
+        if (additionalCount <= 0)
+            return 1;
+
+        OOTechGameManager.Inst.RemoveItem(_riceIngredientId, additionalCount);
+        OOTechGameManager.Inst.RemoveItem(_pumpkinIngredientId, additionalCount);
+        return 1 + additionalCount;
+    }
+
     private bool CanToolAcceptIngredient(string itemDataId, OOTechCookingToolDropTarget toolTarget, string fallbackToolId)
     {
         if (fallbackToolId == _cauldronObjectName)
@@ -911,6 +947,7 @@ public class OOTechCookingGroupController : MonoBehaviour
         yield return new WaitUntil(() => isCuttingboardGuideDone);
 
         _isToolGuideComplete = true;
+        _isSharedToolGuideCompleted = true;
         _toolGuideCoroutine = null;
         SetStatus("쌀은 가마솥에, 채소는 도마에 올려 요리를 완성하세요.");
     }
@@ -1357,12 +1394,21 @@ public class OOTechCookingGroupController : MonoBehaviour
     /// <summary>
     /// 요리 완성 후 세 인물이 함께 말하는 DialogueGroup 대사를 시작합니다.
     /// </summary>
-    private void RequestPlayCookingCompleteDialogue()
+    private void RequestPlayCookingCompleteDialogue(string resultItemId)
     {
+        if (!IsRoadMapCookingTutorialResult(resultItemId))
+            return;
+
         if (!gameObject.activeInHierarchy || _isCookingCompleteDialoguePlaying)
             return;
 
+        _pendingCookingCompleteResultItemId = resultItemId;
         StartCoroutine(PlayCookingCompleteDialogueRoutine());
+    }
+
+    private bool IsRoadMapCookingTutorialResult(string resultItemId)
+    {
+        return resultItemId == "OO_VegetableSoup_1";
     }
 
     /// <summary>
@@ -1374,6 +1420,7 @@ public class OOTechCookingGroupController : MonoBehaviour
 
         if (!TryOpenDialogueGroup())
         {
+            ConsumePendingCookingCompleteResult();
             NotifyRoadHUDCookingQuestComplete();
             ShowCookingMissionCompleteGuide();
             _isCookingCompleteDialoguePlaying = false;
@@ -1385,6 +1432,7 @@ public class OOTechCookingGroupController : MonoBehaviour
         if (dialogueData == null || UI_Dialogue == null)
         {
             CloseDialogueGroup();
+            ConsumePendingCookingCompleteResult();
             NotifyRoadHUDCookingQuestComplete();
             ShowCookingMissionCompleteGuide();
             _isCookingCompleteDialoguePlaying = false;
@@ -1398,9 +1446,33 @@ public class OOTechCookingGroupController : MonoBehaviour
 
         yield return ShowDialogueDataAndWait(dialogueData);
         CloseDialogueGroup();
+        ConsumePendingCookingCompleteResult();
         NotifyRoadHUDCookingQuestComplete();
         ShowCookingMissionCompleteGuide();
         _isCookingCompleteDialoguePlaying = false;
+    }
+
+    /// <summary>
+    /// 첫 요리 튜토리얼의 완성 음식은 대사로 먹은 뒤 인벤토리에서 1개 제거합니다.
+    /// Game View에서는 "잘 먹었습니다" 대사가 끝난 다음 채소죽 슬롯이 사라집니다.
+    /// </summary>
+    private void ConsumePendingCookingCompleteResult()
+    {
+        if (string.IsNullOrEmpty(_pendingCookingCompleteResultItemId))
+            return;
+
+        string resultItemId = _pendingCookingCompleteResultItemId;
+        _pendingCookingCompleteResultItemId = string.Empty;
+
+        if (OOTechGameManager.Inst == null)
+            return;
+
+        if (!OOTechGameManager.Inst.RemoveItem(resultItemId, 1))
+            return;
+
+        RefreshInventorySlots();
+        NotifyRoadHUDInventoryRefresh();
+        Debug.Log($"[OOTechCookingGroupController] Consumed cooked result after dialogue: {resultItemId}");
     }
 
     private IEnumerator ShowDialogueDataAndWait(OO_Dialogue dialogueData)
@@ -1695,12 +1767,12 @@ public class OOTechCookingGroupController : MonoBehaviour
 
         if (OOTechGameDataManager.Inst != null)
         {
-            OO_Ingredient ingredientData = OOTechGameDataManager.Inst.GetIngredientData(itemDataId);
+            OOTechGameDataManager.Inst.TryGetIngredientData(itemDataId, out OO_Ingredient ingredientData);
 
             if (ingredientData != null && !string.IsNullOrEmpty(ingredientData.Name))
                 return ingredientData.Name;
 
-            OO_Cook cookData = OOTechGameDataManager.Inst.GetCookData(itemDataId);
+            OOTechGameDataManager.Inst.TryGetCookData(itemDataId, out OO_Cook cookData);
 
             if (cookData != null && !string.IsNullOrEmpty(cookData.Name))
                 return cookData.Name;
@@ -1714,6 +1786,12 @@ public class OOTechCookingGroupController : MonoBehaviour
 
         if (itemDataId == _pumpkinIngredientId)
             return "호박";
+
+        if (itemDataId == "Ing_ChiliPepper_01")
+            return "청양고추";
+
+        if (itemDataId == "OO_PumpkinSoup_1")
+            return "호박죽";
 
         if (itemDataId == "OO_VegetableSoup_1")
             return "채소죽";
