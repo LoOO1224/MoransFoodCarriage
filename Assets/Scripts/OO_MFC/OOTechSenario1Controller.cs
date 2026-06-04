@@ -1,3 +1,10 @@
+// =============================================================================
+// OO_MFC 역할 주석
+// - 스크립트: OOTechSenario1Controller.cs
+// - 역할: 해당 그룹의 튜토리얼/시나리오 진행 순서를 담당하는 장면 Controller입니다.
+// - 감독 관점: 배우 등장, 대사, 카메라 포커스, 다음 장면 이동을 큐시트 순서대로 지휘합니다.
+// - 유지보수 포인트: 캐릭터 이동/아이템/버튼 생성 같은 세부 책임은 별도 컴포넌트로 분리해야 합니다.
+// =============================================================================
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,6 +17,17 @@ using UnityEngine.UI;
 /// </summary>
 public class OOTechSenario1Controller : MonoBehaviour
 {
+    // 읽는 순서:
+    // 1. OnEnable/Start 계열: Senario1Group 입장 직후 카메라, 배경, Jaeik 조작 잠금을 준비합니다.
+    // 2. TutorialGuide 관련 메서드: 시작 안내 문구를 데이터 드리븐으로 띄우고 조작을 해제합니다.
+    // 3. Jaeik 상호작용 관련 메서드: 음식 근처 E 입력, 먹기 애니메이션, 변신 연출을 진행합니다.
+    // 4. DialogueSequence 관련 메서드: 나레이션, 재익군, 춘양, 모란 대사를 순서대로 진행합니다.
+    // 5. CameraFocus 관련 메서드: 현재 말하는 배우에게 카메라 포커스를 넘깁니다.
+    // 유지보수 주의:
+    // - 캐릭터 이동은 OOTechJaeikController 같은 캐릭터 컴포넌트에 맡깁니다.
+    // - 배경/캐릭터 참조는 OOTechSceneContext와 OOTechSceneObject 역할표를 우선 사용합니다.
+    // - 이 Controller가 UI 생성까지 맡기 시작하면 버그가 커지므로, UI는 별도 View/Group에서 관리합니다.
+
     private const string _roleJaeik = "Jaeik";
     private const string _roleQuestObject = "QuestObject";
     private const string _roleMrJaeik = "MrJaeik";

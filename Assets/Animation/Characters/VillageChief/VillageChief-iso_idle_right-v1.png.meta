@@ -1,0 +1,694 @@
+fileFormatVersion: 2
+guid: d9525304985bf6742abdbecc9aa6e3a8
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 0
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: VillageChief-iso_idle_right-v1_0
+      rect:
+        serializedVersion: 2
+        x: 75
+        y: 1058
+        width: 109
+        height: 182
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 14c5235936adea34b9d151a82b775a09
+      internalID: 1357567707
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VillageChief-iso_idle_right-v1_1
+      rect:
+        serializedVersion: 2
+        x: 331
+        y: 1058
+        width: 109
+        height: 182
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3d03632db4be4da4c8ec1d2a0008b36f
+      internalID: -2055543872
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VillageChief-iso_idle_right-v1_2
+      rect:
+        serializedVersion: 2
+        x: 587
+        y: 1058
+        width: 108
+        height: 183
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ea79f4ba79e8a9f4e90a6cb435ab98fd
+      internalID: 1473388772
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VillageChief-iso_idle_right-v1_3
+      rect:
+        serializedVersion: 2
+        x: 844
+        y: 1058
+        width: 106
+        height: 183
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0a07274161f7ac54384a1b40b2e873ec
+      internalID: -2015566
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VillageChief-iso_idle_right-v1_4
+      rect:
+        serializedVersion: 2
+        x: 1100
+        y: 1058
+        width: 106
+        height: 184
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e90747dca256ad4498fad3c0f9c98a5c
+      internalID: 1560664878
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VillageChief-iso_idle_right-v1_5
+      rect:
+        serializedVersion: 2
+        x: 77
+        y: 802
+        width: 104
+        height: 184
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 451e180e1ff87d7489ea48d346ddd8ab
+      internalID: 1048887537
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VillageChief-iso_idle_right-v1_6
+      rect:
+        serializedVersion: 2
+        x: 334
+        y: 802
+        width: 102
+        height: 185
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1e123cec8f8ff2c4982cbad474b8de57
+      internalID: 1357067135
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VillageChief-iso_idle_right-v1_7
+      rect:
+        serializedVersion: 2
+        x: 591
+        y: 802
+        width: 102
+        height: 185
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ad0149cb16941cc4dba951b782e70e29
+      internalID: -877094966
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VillageChief-iso_idle_right-v1_8
+      rect:
+        serializedVersion: 2
+        x: 846
+        y: 802
+        width: 104
+        height: 184
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 381325762e4160d4d9f4b951157ff57b
+      internalID: 1640686141
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VillageChief-iso_idle_right-v1_9
+      rect:
+        serializedVersion: 2
+        x: 1100
+        y: 802
+        width: 106
+        height: 184
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c32262e8ef189eb46963ebd2a948c7e0
+      internalID: 1641879734
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VillageChief-iso_idle_right-v1_10
+      rect:
+        serializedVersion: 2
+        x: 75
+        y: 546
+        width: 108
+        height: 184
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ed2c6b65e61dbc8469166fb125ad9ab6
+      internalID: 891818836
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VillageChief-iso_idle_right-v1_11
+      rect:
+        serializedVersion: 2
+        x: 331
+        y: 546
+        width: 109
+        height: 183
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 190501752da969947934c97bdce0d90a
+      internalID: 2111845385
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VillageChief-iso_idle_right-v1_12
+      rect:
+        serializedVersion: 2
+        x: 587
+        y: 546
+        width: 109
+        height: 183
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5ef9a6b03d0619c42af61328b75c8a99
+      internalID: 967662771
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VillageChief-iso_idle_right-v1_13
+      rect:
+        serializedVersion: 2
+        x: 843
+        y: 546
+        width: 109
+        height: 182
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e627f317ebd5e4449a995af4a9a6d353
+      internalID: -1503997641
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VillageChief-iso_idle_right-v1_14
+      rect:
+        serializedVersion: 2
+        x: 1098
+        y: 546
+        width: 110
+        height: 182
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 80cbb0910cb6f9d49a9e6e8867cfd6a7
+      internalID: 1498169691
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VillageChief-iso_idle_right-v1_15
+      rect:
+        serializedVersion: 2
+        x: 75
+        y: 290
+        width: 109
+        height: 182
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b56f532a14e693f4dbdee0c6b9d1536a
+      internalID: 280923172
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VillageChief-iso_idle_right-v1_16
+      rect:
+        serializedVersion: 2
+        x: 331
+        y: 290
+        width: 108
+        height: 182
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5559db005b0fdc241a205a4697f3d204
+      internalID: -1307091256
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VillageChief-iso_idle_right-v1_17
+      rect:
+        serializedVersion: 2
+        x: 587
+        y: 290
+        width: 108
+        height: 183
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f7b030ae8fbfcd94a807e5e0a3d9939c
+      internalID: -1979302277
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VillageChief-iso_idle_right-v1_18
+      rect:
+        serializedVersion: 2
+        x: 844
+        y: 290
+        width: 106
+        height: 183
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1a7ce618ca3cdc844acd9a76f4eca880
+      internalID: -2136383014
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VillageChief-iso_idle_right-v1_19
+      rect:
+        serializedVersion: 2
+        x: 1100
+        y: 290
+        width: 106
+        height: 184
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6ce1d5ed56cb2cf4fa5207f9bedaffed
+      internalID: 1468393387
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VillageChief-iso_idle_right-v1_20
+      rect:
+        serializedVersion: 2
+        x: 76
+        y: 34
+        width: 106
+        height: 184
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 611f4615bcf6f864da66eccbd1cdf7eb
+      internalID: 1696198353
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VillageChief-iso_idle_right-v1_21
+      rect:
+        serializedVersion: 2
+        x: 332
+        y: 34
+        width: 106
+        height: 183
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 377805987b0280c4d83a17363b6665a3
+      internalID: -31675334
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VillageChief-iso_idle_right-v1_22
+      rect:
+        serializedVersion: 2
+        x: 587
+        y: 34
+        width: 108
+        height: 183
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e4b8d024b836da54db4a7cf4495d4579
+      internalID: 1319832960
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VillageChief-iso_idle_right-v1_23
+      rect:
+        serializedVersion: 2
+        x: 843
+        y: 34
+        width: 109
+        height: 182
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8b22d664ef24f0e489466dee4ef1e5fd
+      internalID: -1114544998
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VillageChief-iso_idle_right-v1_24
+      rect:
+        serializedVersion: 2
+        x: 1099
+        y: 34
+        width: 109
+        height: 182
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 821d01affbb765941b904edc54e3c027
+      internalID: 1985018231
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 3e5226e9903bf8d4aa29bcda02327832
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      VillageChief-iso_idle_right-v1_0: 1357567707
+      VillageChief-iso_idle_right-v1_1: -2055543872
+      VillageChief-iso_idle_right-v1_10: 891818836
+      VillageChief-iso_idle_right-v1_11: 2111845385
+      VillageChief-iso_idle_right-v1_12: 967662771
+      VillageChief-iso_idle_right-v1_13: -1503997641
+      VillageChief-iso_idle_right-v1_14: 1498169691
+      VillageChief-iso_idle_right-v1_15: 280923172
+      VillageChief-iso_idle_right-v1_16: -1307091256
+      VillageChief-iso_idle_right-v1_17: -1979302277
+      VillageChief-iso_idle_right-v1_18: -2136383014
+      VillageChief-iso_idle_right-v1_19: 1468393387
+      VillageChief-iso_idle_right-v1_2: 1473388772
+      VillageChief-iso_idle_right-v1_20: 1696198353
+      VillageChief-iso_idle_right-v1_21: -31675334
+      VillageChief-iso_idle_right-v1_22: 1319832960
+      VillageChief-iso_idle_right-v1_23: -1114544998
+      VillageChief-iso_idle_right-v1_24: 1985018231
+      VillageChief-iso_idle_right-v1_3: -2015566
+      VillageChief-iso_idle_right-v1_4: 1560664878
+      VillageChief-iso_idle_right-v1_5: 1048887537
+      VillageChief-iso_idle_right-v1_6: 1357067135
+      VillageChief-iso_idle_right-v1_7: -877094966
+      VillageChief-iso_idle_right-v1_8: 1640686141
+      VillageChief-iso_idle_right-v1_9: 1641879734
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

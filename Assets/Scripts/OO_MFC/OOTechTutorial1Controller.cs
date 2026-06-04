@@ -1,3 +1,10 @@
+// =============================================================================
+// OO_MFC 역할 주석
+// - 스크립트: OOTechTutorial1Controller.cs
+// - 역할: 해당 그룹의 튜토리얼/시나리오 진행 순서를 담당하는 장면 Controller입니다.
+// - 감독 관점: 배우 등장, 대사, 카메라 포커스, 다음 장면 이동을 큐시트 순서대로 지휘합니다.
+// - 유지보수 포인트: 캐릭터 이동/아이템/버튼 생성 같은 세부 책임은 별도 컴포넌트로 분리해야 합니다.
+// =============================================================================
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -9,6 +16,17 @@ using UnityEngine.UI;
 /// </summary>
 public class OOTechTutorial1Controller : MonoBehaviour
 {
+    // 읽는 순서:
+    // 1. OnEnable/Start 계열: Tutorial1Group 진입 시 Moran, JangYoungSim, 튜토리얼 UI를 준비합니다.
+    // 2. Guide 관련 메서드: 안내 문구를 데이터 드리븐으로 띄우고 캐릭터 조작 잠금을 풉니다.
+    // 3. Interaction 관련 메서드: Moran_WakeUp 근처에서 E 버튼 표시와 상호작용을 처리합니다.
+    // 4. Animation 관련 메서드: Surprised 애니메이션 완료 후 마지막 프레임 정지 같은 상태를 처리합니다.
+    // 5. Skip 관련 메서드: 배경 안에 있는 CommonSkipButton으로 다음 그룹 이동을 처리합니다.
+    // 유지보수 주의:
+    // - Tutorial1Group 전용 Moran_WakeUp은 다른 그룹에 섞이면 안 됩니다.
+    // - E 버튼은 화면 전체가 아니라 대상 근처/고정 UI 위치에서 작게 보여야 합니다.
+    // - 튜토리얼 UI 배치는 하이어라키에서 직접 수정하고, 코드 생성은 줄입니다.
+
     [Header("Character")]
     [SerializeField] private JangYoungSimController Character_JangYoungSim;
     [SerializeField] private Transform Transform_JangYoungSim;

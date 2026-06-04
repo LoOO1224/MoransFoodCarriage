@@ -1,3 +1,10 @@
+// =============================================================================
+// OO_MFC ì—­í•  ì£¼ì„
+// - ìŠ¤í¬ë¦½íŠ¸: BackButtonController.cs
+// - ì—­í• : UI í‘œì‹œì™€ ì…ë ¥ ì—°ê²°ì„ ë‹´ë‹¹í•˜ëŠ” UI ì»´í¬ë„ŒíŠ¸ì…ë‹ˆë‹¤.
+// - ê°ë… ê´€ì : ê´€ê°ì—ê²Œ ë³´ì´ëŠ” íŒ¨ë„ê³¼ ë²„íŠ¼ì˜ ë¬´ëŒ€ ë™ì„ ì„ ë‹´ë‹¹í•©ë‹ˆë‹¤.
+// - ìœ ì§€ë³´ìˆ˜ í¬ì¸íŠ¸: ì‚¬ìš©ìê°€ ì§ì ‘ í¸ì§‘í•  UIëŠ” í•˜ì´ì–´ë¼í‚¤/í”„ë¦¬íŒ¹ì— ë‘ê³ , ì½”ë“œì—ì„œ ì¦‰ì„ ìƒì„±í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.
+// =============================================================================
 using UnityEngine;
 
 public class BackButtonController : MonoBehaviour
@@ -10,27 +17,27 @@ public class BackButtonController : MonoBehaviour
     // ==================== Public Methods ====================
 
     /// <summary>
-    /// ÀÌÀü ±×·ìÀ» µ¿ÀûÀ¸·Î ¼³Á¤ÇÕ´Ï´Ù.
-    /// CodexGroup µî¿¡¼­ Awake³ª Start¿¡¼­ È£ÃâÇÏ¿© »ç¿ëÇÕ´Ï´Ù.
+    ///  ×·  Õ´Ï´.
+    /// CodexGroup î¿¡ Awake Start È£Ï¿ Õ´Ï´.
     /// </summary>
     public void SetPreviousGroup(string previousGroupName)
     {
         _previousGroupName = previousGroupName;
-        Debug.Log($"[BackButtonController] ÀÌÀü ±×·ì ¼³Á¤µÊ: {previousGroupName}");
+        Debug.Log($"[BackButtonController]  ×· : {previousGroupName}");
     }
 
     /// <summary>
-    /// BackButton Å¬¸¯ ½Ã È£ÃâµÇ´Â ¸Ş¼­µå
-    /// UIManagerExtensionÀ» ÅëÇØ ±×·ì ÀüÈ¯À» ¿äÃ»ÇÕ´Ï´Ù.
+    /// BackButton Å¬  È£Ç´ Ş¼
+    /// UIManagerExtension  ×· È¯ Ã»Õ´Ï´.
     /// </summary>
     public void OnBackButtonClicked()
     {
         string targetGroup = string.IsNullOrEmpty(_previousGroupName) ?
                             _defaultPreviousGroup : _previousGroupName;
 
-        Debug.Log($"[BackButtonController] µÚ·Î°¡±â ¹öÆ° Å¬¸¯ ¡æ {targetGroup}");
+        Debug.Log($"[BackButtonController] Ú·Î° Æ° Å¬  {targetGroup}");
 
-        // UIManagerExtensionÀ» ÅëÇØ ÀÌº¥Æ® Àü´Ş
+        // UIManagerExtension  ÌºÆ® 
         UIManagerExtension.OnBackButtonClicked(targetGroup);
     }
 }

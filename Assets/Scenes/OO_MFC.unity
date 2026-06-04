@@ -5335,7 +5335,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fee4441aa3ce104cb8ca9066c817250, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OOTechCookingIngredientDragItem
-  _hoverPreviewScale: 4
 --- !u!114 &119756783
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5348,6 +5347,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a27a6d7ec9a54d63b3aa6ad65be03b31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OOTechInventorySlotView
+  _iconSize: {x: 72, y: 72}
+  _iconRightPadding: 16
+  _textLeftPadding: 18
+  _textRightGapFromIcon: 12
   Text_Label: {fileID: 1179723185}
   Image_Icon: {fileID: 0}
 --- !u!114 &119756784
@@ -5945,6 +5948,7 @@ GameObject:
   - component: {fileID: 142382749}
   - component: {fileID: 142382751}
   - component: {fileID: 2700000005}
+  - component: {fileID: 2700000008}
   m_Layer: 0
   m_Name: Moran
   m_TagString: Untagged
@@ -5961,8 +5965,8 @@ Transform:
   m_GameObject: {fileID: 142382748}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -907.4738, y: -319.3892, z: 0}
-  m_LocalScale: {x: 156.52419, y: 109.765724, z: 1}
+  m_LocalPosition: {x: -94.8021, y: -90.7336, z: 0}
+  m_LocalScale: {x: 0.72237366, y: 0.6134162, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2095579425}
@@ -6013,8 +6017,8 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -480301099
-  m_SortingLayer: 1
-  m_SortingOrder: 2000
+  m_SortingLayer: 2
+  m_SortingOrder: 9999
   m_MaskInteraction: 0
   m_Sprite: {fileID: 1274230804, guid: 2ec134903f86c7746a5488c0e2ec256e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -7592,7 +7596,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fee4441aa3ce104cb8ca9066c817250, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OOTechCookingIngredientDragItem
-  _hoverPreviewScale: 4
 --- !u!114 &170015979
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7605,6 +7608,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a27a6d7ec9a54d63b3aa6ad65be03b31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OOTechInventorySlotView
+  _iconSize: {x: 72, y: 72}
+  _iconRightPadding: 16
+  _textLeftPadding: 18
+  _textRightGapFromIcon: 12
   Text_Label: {fileID: 2015943186}
   Image_Icon: {fileID: 0}
 --- !u!114 &170015980
@@ -9237,7 +9244,7 @@ MonoBehaviour:
   _itemDataId: Ing_Rice_01
   _displayName: "\uC300"
   _iconResourcePath: OO_MFC/Items/Ing_Rice_01
-  Sprite_Icon: {fileID: 0}
+  Sprite_Icon: {fileID: 21300000, guid: 8b5f898fc668841469b8557c42ae8fc5, type: 3}
   Renderer_Preview: {fileID: 219357180}
   Image_Preview: {fileID: 0}
 --- !u!212 &219357180
@@ -9289,15 +9296,15 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 8b5f898fc668841469b8557c42ae8fc5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 7.65, y: 10.24}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
 --- !u!1 &219433060
 GameObject:
@@ -9788,7 +9795,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fee4441aa3ce104cb8ca9066c817250, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OOTechCookingIngredientDragItem
-  _hoverPreviewScale: 4
 --- !u!114 &224694824
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9801,6 +9807,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a27a6d7ec9a54d63b3aa6ad65be03b31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OOTechInventorySlotView
+  _iconSize: {x: 72, y: 72}
+  _iconRightPadding: 16
+  _textLeftPadding: 18
+  _textRightGapFromIcon: 12
   Text_Label: {fileID: 948719909}
   Image_Icon: {fileID: 109274974}
 --- !u!114 &224694825
@@ -10774,7 +10784,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fee4441aa3ce104cb8ca9066c817250, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OOTechCookingIngredientDragItem
-  _hoverPreviewScale: 4
 --- !u!114 &247233230
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10787,6 +10796,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a27a6d7ec9a54d63b3aa6ad65be03b31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OOTechInventorySlotView
+  _iconSize: {x: 72, y: 72}
+  _iconRightPadding: 16
+  _textLeftPadding: 18
+  _textRightGapFromIcon: 12
   Text_Label: {fileID: 429467939}
   Image_Icon: {fileID: 0}
 --- !u!114 &247233231
@@ -11345,7 +11358,7 @@ MonoBehaviour:
   _itemDataId: OO_VegetableSoup_1
   _displayName: "\uCC44\uC18C\uC8FD"
   _iconResourcePath: OO_MFC/Items/OO_VegetableSoup_1
-  Sprite_Icon: {fileID: 0}
+  Sprite_Icon: {fileID: 21300000, guid: 65b5c273dc64f4042bc2e786b9e0d37f, type: 3}
   Renderer_Preview: {fileID: 261927382}
   Image_Preview: {fileID: 0}
 --- !u!212 &261927382
@@ -11397,15 +11410,15 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 65b5c273dc64f4042bc2e786b9e0d37f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 12, y: 8.96}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
 --- !u!1 &267623853
 GameObject:
@@ -11455,7 +11468,7 @@ MonoBehaviour:
   _itemDataId: Ing_Pumpkin_01
   _displayName: "\uCC44\uC18C"
   _iconResourcePath: OO_MFC/Items/Ing_Pumpkin_01
-  Sprite_Icon: {fileID: 0}
+  Sprite_Icon: {fileID: 21300000, guid: 5acd323199a75914d80904651c4a08ce, type: 3}
   Renderer_Preview: {fileID: 267623856}
   Image_Preview: {fileID: 0}
 --- !u!212 &267623856
@@ -11507,15 +11520,15 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 5acd323199a75914d80904651c4a08ce, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 11.02, y: 9.6}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
 --- !u!1 &268053149
 GameObject:
@@ -15385,7 +15398,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fee4441aa3ce104cb8ca9066c817250, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OOTechCookingIngredientDragItem
-  _hoverPreviewScale: 4
 --- !u!114 &345275396
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15398,6 +15410,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a27a6d7ec9a54d63b3aa6ad65be03b31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OOTechInventorySlotView
+  _iconSize: {x: 72, y: 72}
+  _iconRightPadding: 16
+  _textLeftPadding: 18
+  _textRightGapFromIcon: 12
   Text_Label: {fileID: 1352853151}
   Image_Icon: {fileID: 0}
 --- !u!114 &345275397
@@ -19486,7 +19502,6 @@ GameObject:
   - component: {fileID: 431228180}
   - component: {fileID: 431228179}
   - component: {fileID: 431228183}
-  - component: {fileID: 431228182}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -19536,7 +19551,7 @@ Camera:
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
-  orthographic: 0
+  orthographic: 1
   orthographic size: 5
   m_Depth: -1
   m_CullingMask:
@@ -19568,18 +19583,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &431228182
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 431228178}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6d2a143d488220c48b083539ef889fc3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Senario1Controller
 --- !u!114 &431228183
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21760,7 +21763,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &466766305
 RectTransform:
   m_ObjectHideFlags: 0
@@ -23362,6 +23365,141 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 494862811}
   m_CullTransparentMesh: 1
+--- !u!1 &494919497
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 494919498}
+  - component: {fileID: 494919500}
+  - component: {fileID: 494919499}
+  - component: {fileID: 494919501}
+  m_Layer: 0
+  m_Name: VillageChief
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &494919498
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 494919497}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -86.34888, y: -90.675354, z: 0}
+  m_LocalScale: {x: 0.8147, y: 0.7251, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2095579425}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &494919499
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 494919497}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 259118e8ad531464abcc9c0bf9a57f10, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!212 &494919500
+SpriteRenderer:
+  serializedVersion: 2
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 494919497}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
+  m_SortingLayerID: -480301099
+  m_SortingLayer: 2
+  m_SortingOrder: 8000
+  m_MaskInteraction: 0
+  m_Sprite: {fileID: 1357567707, guid: d9525304985bf6742abdbecc9aa6e3a8, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 1
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1.09, y: 1.82}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_SpriteSortPoint: 0
+--- !u!114 &494919501
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 494919497}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b84a52d65a4a44e9860df131062ef201, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OOTechNPCInteractionActor
+  Transform_Player: {fileID: 142382749}
+  Object_InteractionPrompt: {fileID: 2602000000}
+  _dialogueDataId: character_VillageChief_01
+  _nextStageQuestDataId: Stage1_Quest_02
+  _interactionKey: 101
+  _interactionDistance: 2.4
+  _promptWorldOffset: {x: 0, y: 1.45, z: 0}
+  _isOneShot: 1
 --- !u!1 &495225939
 GameObject:
   m_ObjectHideFlags: 0
@@ -25371,7 +25509,7 @@ MonoBehaviour:
   _itemDataId: Ing_Rice_01
   _displayName: "\uC300"
   _iconResourcePath: OO_MFC/Items/Ing_Rice_01
-  Sprite_Icon: {fileID: 0}
+  Sprite_Icon: {fileID: 21300000, guid: 8b5f898fc668841469b8557c42ae8fc5, type: 3}
   Renderer_Preview: {fileID: 534844738}
   Image_Preview: {fileID: 0}
 --- !u!212 &534844738
@@ -25423,15 +25561,15 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 8b5f898fc668841469b8557c42ae8fc5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 7.65, y: 10.24}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
 --- !u!1 &540725740
 GameObject:
@@ -29613,7 +29751,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fee4441aa3ce104cb8ca9066c817250, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OOTechCookingIngredientDragItem
-  _hoverPreviewScale: 4
 --- !u!114 &623099001
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29626,6 +29763,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a27a6d7ec9a54d63b3aa6ad65be03b31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OOTechInventorySlotView
+  _iconSize: {x: 72, y: 72}
+  _iconRightPadding: 16
+  _textLeftPadding: 18
+  _textRightGapFromIcon: 12
   Text_Label: {fileID: 498842078}
   Image_Icon: {fileID: 480828892}
 --- !u!114 &623099002
@@ -29750,18 +29891,18 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 1480711197
-  m_SortingLayer: 2
+  m_SortingLayer: 1
   m_SortingOrder: -1
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: f15763dad2058ef48a0b2bcb44d33dd5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 13.76, y: 7.68}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
 --- !u!114 &626657071
 MonoBehaviour:
@@ -30745,7 +30886,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fee4441aa3ce104cb8ca9066c817250, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OOTechCookingIngredientDragItem
-  _hoverPreviewScale: 4
 --- !u!114 &657370611
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30758,6 +30898,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a27a6d7ec9a54d63b3aa6ad65be03b31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OOTechInventorySlotView
+  _iconSize: {x: 72, y: 72}
+  _iconRightPadding: 16
+  _textLeftPadding: 18
+  _textRightGapFromIcon: 12
   Text_Label: {fileID: 666820599}
   Image_Icon: {fileID: 322190554}
 --- !u!114 &657370612
@@ -34565,7 +34709,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fee4441aa3ce104cb8ca9066c817250, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OOTechCookingIngredientDragItem
-  _hoverPreviewScale: 4
 --- !u!114 &726578810
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34578,6 +34721,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a27a6d7ec9a54d63b3aa6ad65be03b31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OOTechInventorySlotView
+  _iconSize: {x: 72, y: 72}
+  _iconRightPadding: 16
+  _textLeftPadding: 18
+  _textRightGapFromIcon: 12
   Text_Label: {fileID: 950483742}
   Image_Icon: {fileID: 0}
 --- !u!114 &726578811
@@ -35771,7 +35918,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fee4441aa3ce104cb8ca9066c817250, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OOTechCookingIngredientDragItem
-  _hoverPreviewScale: 4
 --- !u!114 &760898753
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35784,6 +35930,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a27a6d7ec9a54d63b3aa6ad65be03b31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OOTechInventorySlotView
+  _iconSize: {x: 72, y: 72}
+  _iconRightPadding: 16
+  _textLeftPadding: 18
+  _textRightGapFromIcon: 12
   Text_Label: {fileID: 1901454132}
   Image_Icon: {fileID: 1970727725}
 --- !u!114 &760898754
@@ -37694,6 +37844,7 @@ MonoBehaviour:
   _newBadgeMinimumAlpha: 0.25
   _guideArrowBlinkSpeed: 6
   _guideArrowMinimumAlpha: 0.25
+  _dragGhostIconSize: {x: 88, y: 88}
 --- !u!1 &794965337
 GameObject:
   m_ObjectHideFlags: 0
@@ -39905,7 +40056,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &837228246
 RectTransform:
   m_ObjectHideFlags: 0
@@ -39971,18 +40122,18 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 1480711197
-  m_SortingLayer: 2
+  m_SortingLayer: 1
   m_SortingOrder: -1
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 9a14ab4b7e34ecc41a0186851b75b362, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 13.76, y: 7.68}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
 --- !u!114 &837228248
 MonoBehaviour:
@@ -43700,7 +43851,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &900197498
 Transform:
   m_ObjectHideFlags: 0
@@ -44980,7 +45131,7 @@ MonoBehaviour:
   _itemDataId: Ing_Pumpkin_01
   _displayName: "\uCC44\uC18C"
   _iconResourcePath: OO_MFC/Items/Ing_Pumpkin_01
-  Sprite_Icon: {fileID: 0}
+  Sprite_Icon: {fileID: 21300000, guid: 5acd323199a75914d80904651c4a08ce, type: 3}
   Renderer_Preview: {fileID: 920074803}
   Image_Preview: {fileID: 0}
 --- !u!212 &920074803
@@ -45032,15 +45183,15 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 5acd323199a75914d80904651c4a08ce, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 11.02, y: 9.6}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
 --- !u!1 &920726834
 GameObject:
@@ -45374,6 +45525,7 @@ GameObject:
   - component: {fileID: 933765586}
   - component: {fileID: 933765588}
   - component: {fileID: 933765587}
+  - component: {fileID: 933765589}
   m_Layer: 0
   m_Name: Moran
   m_TagString: Untagged
@@ -45455,7 +45607,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -480301099
-  m_SortingLayer: 1
+  m_SortingLayer: 2
   m_SortingOrder: 2000
   m_MaskInteraction: 0
   m_Sprite: {fileID: 1274230804, guid: 2ec134903f86c7746a5488c0e2ec256e, type: 3}
@@ -45468,6 +45620,28 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!95 &933765589
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 933765585}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 6c6a14b443604f34ba0269c5d55c6fee, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &937349042
 GameObject:
   m_ObjectHideFlags: 0
@@ -45521,7 +45695,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fee4441aa3ce104cb8ca9066c817250, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OOTechCookingIngredientDragItem
-  _hoverPreviewScale: 4
 --- !u!114 &937349045
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -45534,6 +45707,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a27a6d7ec9a54d63b3aa6ad65be03b31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OOTechInventorySlotView
+  _iconSize: {x: 72, y: 72}
+  _iconRightPadding: 16
+  _textLeftPadding: 18
+  _textRightGapFromIcon: 12
   Text_Label: {fileID: 1784691745}
   Image_Icon: {fileID: 2146331699}
 --- !u!114 &937349046
@@ -47619,7 +47796,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &962673389
 RectTransform:
   m_ObjectHideFlags: 0
@@ -47629,7 +47806,7 @@ RectTransform:
   m_GameObject: {fileID: 962673388}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1572369174}
@@ -47648,10 +47825,10 @@ RectTransform:
   m_Father: {fileID: 900197498}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_Pivot: {x: 0, y: 0}
 --- !u!114 &962673390
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -51622,7 +51799,7 @@ MonoBehaviour:
   m_spriteAsset: {fileID: 0}
   m_tintAllSprites: 0
   m_StyleSheet: {fileID: 0}
-  m_TextStyleHashCode: 0
+  m_TextStyleHashCode: -1183493901
   m_overrideHtmlColors: 0
   m_faceColor:
     serializedVersion: 2
@@ -51650,13 +51827,13 @@ MonoBehaviour:
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 0
-  m_ActiveFontFeatures: 00000000
+  m_ActiveFontFeatures: 
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1
   m_EmojiFallbackSupport: 1
   m_parseCtrlCharacters: 1
-  m_isOrthographic: 0
+  m_isOrthographic: 1
   m_isCullingEnabled: 0
   m_horizontalMapping: 0
   m_verticalMapping: 0
@@ -52465,7 +52642,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fee4441aa3ce104cb8ca9066c817250, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OOTechCookingIngredientDragItem
-  _hoverPreviewScale: 4
 --- !u!114 &1059074500
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -52478,6 +52654,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a27a6d7ec9a54d63b3aa6ad65be03b31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OOTechInventorySlotView
+  _iconSize: {x: 72, y: 72}
+  _iconRightPadding: 16
+  _textLeftPadding: 18
+  _textRightGapFromIcon: 12
   Text_Label: {fileID: 577166559}
   Image_Icon: {fileID: 1225701830}
 --- !u!114 &1059074501
@@ -52844,7 +53024,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fee4441aa3ce104cb8ca9066c817250, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OOTechCookingIngredientDragItem
-  _hoverPreviewScale: 4
 --- !u!114 &1070400285
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -52857,6 +53036,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a27a6d7ec9a54d63b3aa6ad65be03b31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OOTechInventorySlotView
+  _iconSize: {x: 72, y: 72}
+  _iconRightPadding: 16
+  _textLeftPadding: 18
+  _textRightGapFromIcon: 12
   Text_Label: {fileID: 2074515687}
   Image_Icon: {fileID: 0}
 --- !u!114 &1070400286
@@ -55122,7 +55305,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fee4441aa3ce104cb8ca9066c817250, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OOTechCookingIngredientDragItem
-  _hoverPreviewScale: 4
 --- !u!114 &1113184119
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -55135,6 +55317,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a27a6d7ec9a54d63b3aa6ad65be03b31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OOTechInventorySlotView
+  _iconSize: {x: 72, y: 72}
+  _iconRightPadding: 16
+  _textLeftPadding: 18
+  _textRightGapFromIcon: 12
   Text_Label: {fileID: 1936890113}
   Image_Icon: {fileID: 0}
 --- !u!114 &1113184120
@@ -56186,7 +56372,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fee4441aa3ce104cb8ca9066c817250, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OOTechCookingIngredientDragItem
-  _hoverPreviewScale: 4
 --- !u!114 &1135212875
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -56199,6 +56384,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a27a6d7ec9a54d63b3aa6ad65be03b31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OOTechInventorySlotView
+  _iconSize: {x: 72, y: 72}
+  _iconRightPadding: 16
+  _textLeftPadding: 18
+  _textRightGapFromIcon: 12
   Text_Label: {fileID: 1511627718}
   Image_Icon: {fileID: 252710279}
 --- !u!114 &1135212876
@@ -56273,8 +56462,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -27}
-  m_SizeDelta: {x: -36, y: -90}
+  m_AnchoredPosition: {x: 2.605194, y: -25.342102}
+  m_SizeDelta: {x: -49.7368, y: -93.3158}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1136691551
 MonoBehaviour:
@@ -56491,7 +56680,7 @@ MonoBehaviour:
   _itemDataId: OO_VegetableSoup_1
   _displayName: "\uCC44\uC18C\uC8FD"
   _iconResourcePath: OO_MFC/Items/OO_VegetableSoup_1
-  Sprite_Icon: {fileID: 0}
+  Sprite_Icon: {fileID: 21300000, guid: 65b5c273dc64f4042bc2e786b9e0d37f, type: 3}
   Renderer_Preview: {fileID: 1138754132}
   Image_Preview: {fileID: 0}
 --- !u!212 &1138754132
@@ -56543,15 +56732,15 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 65b5c273dc64f4042bc2e786b9e0d37f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 12, y: 8.96}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
 --- !u!1 &1141085474
 GameObject:
@@ -60275,7 +60464,7 @@ MonoBehaviour:
   _itemDataId: Ing_Pumpkin_01
   _displayName: "\uCC44\uC18C"
   _iconResourcePath: OO_MFC/Items/Ing_Pumpkin_01
-  Sprite_Icon: {fileID: 0}
+  Sprite_Icon: {fileID: 21300000, guid: 5acd323199a75914d80904651c4a08ce, type: 3}
   Renderer_Preview: {fileID: 1236875986}
   Image_Preview: {fileID: 0}
 --- !u!212 &1236875986
@@ -60327,15 +60516,15 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 5acd323199a75914d80904651c4a08ce, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 11.02, y: 9.6}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
 --- !u!1 &1237848339
 GameObject:
@@ -63449,7 +63638,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fee4441aa3ce104cb8ca9066c817250, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OOTechCookingIngredientDragItem
-  _hoverPreviewScale: 4
 --- !u!114 &1301525472
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -63462,6 +63650,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a27a6d7ec9a54d63b3aa6ad65be03b31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OOTechInventorySlotView
+  _iconSize: {x: 72, y: 72}
+  _iconRightPadding: 16
+  _textLeftPadding: 18
+  _textRightGapFromIcon: 12
   Text_Label: {fileID: 1581481425}
   Image_Icon: {fileID: 1133657376}
 --- !u!114 &1301525473
@@ -76482,7 +76674,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1580013269
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -80073,7 +80265,7 @@ MonoBehaviour:
   _itemDataId: Ing_Rice_01
   _displayName: "\uC300"
   _iconResourcePath: OO_MFC/Items/Ing_Rice_01
-  Sprite_Icon: {fileID: 0}
+  Sprite_Icon: {fileID: 21300000, guid: 8b5f898fc668841469b8557c42ae8fc5, type: 3}
   Renderer_Preview: {fileID: 1663842766}
   Image_Preview: {fileID: 0}
 --- !u!212 &1663842766
@@ -80125,15 +80317,15 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 8b5f898fc668841469b8557c42ae8fc5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 7.65, y: 10.24}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
 --- !u!1 &1666125057
 GameObject:
@@ -84389,7 +84581,7 @@ MonoBehaviour:
   _itemDataId: Ing_Rice_01
   _displayName: "\uC300"
   _iconResourcePath: OO_MFC/Items/Ing_Rice_01
-  Sprite_Icon: {fileID: 0}
+  Sprite_Icon: {fileID: 21300000, guid: 8b5f898fc668841469b8557c42ae8fc5, type: 3}
   Renderer_Preview: {fileID: 1751658214}
   Image_Preview: {fileID: 0}
 --- !u!212 &1751658214
@@ -84441,15 +84633,15 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 8b5f898fc668841469b8557c42ae8fc5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 7.65, y: 10.24}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
 --- !u!1 &1757845803
 GameObject:
@@ -87950,7 +88142,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fee4441aa3ce104cb8ca9066c817250, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OOTechCookingIngredientDragItem
-  _hoverPreviewScale: 4
 --- !u!114 &1839725346
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -87963,6 +88154,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a27a6d7ec9a54d63b3aa6ad65be03b31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OOTechInventorySlotView
+  _iconSize: {x: 72, y: 72}
+  _iconRightPadding: 16
+  _textLeftPadding: 18
+  _textRightGapFromIcon: 12
   Text_Label: {fileID: 994805295}
   Image_Icon: {fileID: 513314591}
 --- !u!114 &1839725347
@@ -89071,7 +89266,7 @@ MonoBehaviour:
   _itemDataId: OO_VegetableSoup_1
   _displayName: "\uCC44\uC18C\uC8FD"
   _iconResourcePath: OO_MFC/Items/OO_VegetableSoup_1
-  Sprite_Icon: {fileID: 0}
+  Sprite_Icon: {fileID: 21300000, guid: 65b5c273dc64f4042bc2e786b9e0d37f, type: 3}
   Renderer_Preview: {fileID: 1855778023}
   Image_Preview: {fileID: 0}
 --- !u!212 &1855778023
@@ -89123,15 +89318,15 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 65b5c273dc64f4042bc2e786b9e0d37f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 12, y: 8.96}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
 --- !u!1 &1862390540
 GameObject:
@@ -89585,7 +89780,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -1369457557
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 20
   m_MaskInteraction: 0
   m_Sprite: {fileID: 351191629, guid: 2fa2b2dbc35749c45b1f6c9aa0f02e32, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -92443,7 +92638,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fee4441aa3ce104cb8ca9066c817250, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OOTechCookingIngredientDragItem
-  _hoverPreviewScale: 4
 --- !u!114 &1935651994
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -92456,6 +92650,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a27a6d7ec9a54d63b3aa6ad65be03b31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OOTechInventorySlotView
+  _iconSize: {x: 72, y: 72}
+  _iconRightPadding: 16
+  _textLeftPadding: 18
+  _textRightGapFromIcon: 12
   Text_Label: {fileID: 2146242231}
   Image_Icon: {fileID: 2095374263}
 --- !u!114 &1935651995
@@ -93464,7 +93662,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fee4441aa3ce104cb8ca9066c817250, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OOTechCookingIngredientDragItem
-  _hoverPreviewScale: 4
 --- !u!114 &1954499389
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -93477,6 +93674,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a27a6d7ec9a54d63b3aa6ad65be03b31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OOTechInventorySlotView
+  _iconSize: {x: 72, y: 72}
+  _iconRightPadding: 16
+  _textLeftPadding: 18
+  _textRightGapFromIcon: 12
   Text_Label: {fileID: 494862813}
   Image_Icon: {fileID: 432027772}
 --- !u!114 &1954499390
@@ -94222,8 +94423,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 12, y: 0}
-  m_SizeDelta: {x: 42, y: 42}
+  m_AnchoredPosition: {x: 12, y: 15.3364}
+  m_SizeDelta: {x: 76.2118, y: 72.6727}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &1970727725
 MonoBehaviour:
@@ -96127,7 +96328,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fee4441aa3ce104cb8ca9066c817250, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OOTechCookingIngredientDragItem
-  _hoverPreviewScale: 4
 --- !u!114 &2026162208
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -96140,6 +96340,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a27a6d7ec9a54d63b3aa6ad65be03b31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OOTechInventorySlotView
+  _iconSize: {x: 72, y: 72}
+  _iconRightPadding: 16
+  _textLeftPadding: 18
+  _textRightGapFromIcon: 12
   Text_Label: {fileID: 240207880}
   Image_Icon: {fileID: 0}
 --- !u!114 &2026162209
@@ -96986,6 +97190,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 2601000001}
   - {fileID: 781702671}
   m_Father: {fileID: 1684843730}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -97006,7 +97211,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fee4441aa3ce104cb8ca9066c817250, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OOTechCookingIngredientDragItem
-  _hoverPreviewScale: 4
 --- !u!114 &2067050671
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -97019,8 +97223,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a27a6d7ec9a54d63b3aa6ad65be03b31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OOTechInventorySlotView
+  _iconSize: {x: 72, y: 72}
+  _iconRightPadding: 16
+  _textLeftPadding: 18
+  _textRightGapFromIcon: 12
   Text_Label: {fileID: 781702672}
-  Image_Icon: {fileID: 0}
+  Image_Icon: {fileID: 2601000003}
 --- !u!114 &2067050672
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -97918,7 +98126,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fee4441aa3ce104cb8ca9066c817250, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OOTechCookingIngredientDragItem
-  _hoverPreviewScale: 4
 --- !u!114 &2079951926
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -97931,6 +98138,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a27a6d7ec9a54d63b3aa6ad65be03b31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OOTechInventorySlotView
+  _iconSize: {x: 72, y: 72}
+  _iconRightPadding: 16
+  _textLeftPadding: 18
+  _textRightGapFromIcon: 12
   Text_Label: {fileID: 1406196754}
   Image_Icon: {fileID: 0}
 --- !u!114 &2079951927
@@ -98863,7 +99074,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2095579425
 Transform:
   m_ObjectHideFlags: 0
@@ -98882,6 +99093,8 @@ Transform:
   - {fileID: 626657069}
   - {fileID: 837228246}
   - {fileID: 1578004686}
+  - {fileID: 494919498}
+  - {fileID: 2602000001}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2095579427
@@ -98956,6 +99169,17 @@ MonoBehaviour:
   _fadeInSeconds: 0.4
   _stageTitleFadeSeconds: 0.6
   _stageTitleHoldSeconds: 1.1
+  _tutorialGuideGroupName: TutorialGuideGroup
+  _entryTutorialId: narration_tutorial_13
+  _villageChiefObjectName: VillageChief
+  _villageChiefPromptObjectName: Ebutton_VillageChief
+  _dialogueGroupName: DialogueGroup
+  _villageChiefDialogueId: character_VillageChief_01
+  _villageChiefNextQuestDataId: Stage1_Quest_02
+  _villageChiefInteractionKey: 101
+  _villageChiefInteractionDistance: 2.4
+  _villageChiefPromptOffset: {x: 0, y: 1.45, z: 0}
+  _isVillageChiefDefaultFacingLeft: 0
 --- !u!1 &2098268783
 GameObject:
   m_ObjectHideFlags: 0
@@ -99004,7 +99228,7 @@ MonoBehaviour:
   _itemDataId: Ing_Pumpkin_01
   _displayName: "\uCC44\uC18C"
   _iconResourcePath: OO_MFC/Items/Ing_Pumpkin_01
-  Sprite_Icon: {fileID: 0}
+  Sprite_Icon: {fileID: 21300000, guid: 5acd323199a75914d80904651c4a08ce, type: 3}
   Renderer_Preview: {fileID: 2098268786}
   Image_Preview: {fileID: 0}
 --- !u!212 &2098268786
@@ -99056,15 +99280,15 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 5acd323199a75914d80904651c4a08ce, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 11.02, y: 9.6}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
 --- !u!1 &2100000000
 GameObject:
@@ -99540,7 +99764,7 @@ MonoBehaviour:
   _itemDataId: OO_VegetableSoup_1
   _displayName: "\uCC44\uC18C\uC8FD"
   _iconResourcePath: OO_MFC/Items/OO_VegetableSoup_1
-  Sprite_Icon: {fileID: 0}
+  Sprite_Icon: {fileID: 21300000, guid: 65b5c273dc64f4042bc2e786b9e0d37f, type: 3}
   Renderer_Preview: {fileID: 2112763893}
   Image_Preview: {fileID: 0}
 --- !u!212 &2112763893
@@ -99592,15 +99816,15 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 65b5c273dc64f4042bc2e786b9e0d37f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 12, y: 8.96}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
 --- !u!1 &2124665490
 GameObject:
@@ -101694,6 +101918,316 @@ TilemapCollider2D:
   m_MaximumTileChangeCount: 1000
   m_ExtrusionFactor: 0
   m_UseDelaunayMesh: 0
+--- !u!1 &2601000000
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2601000001}
+  - component: {fileID: 2601000002}
+  - component: {fileID: 2601000003}
+  m_Layer: 0
+  m_Name: Image_ItemIcon
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &2601000001
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2601000000}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2067050669}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0.5}
+  m_AnchorMax: {x: 0, y: 0.5}
+  m_AnchoredPosition: {x: 12, y: 0}
+  m_SizeDelta: {x: 42, y: 42}
+  m_Pivot: {x: 0, y: 0.5}
+--- !u!222 &2601000002
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2601000000}
+  m_CullTransparentMesh: 1
+--- !u!114 &2601000003
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2601000000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 1
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!1 &2602000000
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2602000001}
+  - component: {fileID: 2602000002}
+  - component: {fileID: 2602000003}
+  - component: {fileID: 2602000004}
+  - component: {fileID: 2602000005}
+  m_Layer: 5
+  m_Name: Ebutton_VillageChief
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &2602000001
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2602000000}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.012, y: 0.012, z: 0.012}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 2602000011}
+  m_Father: {fileID: 2095579425}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 120, y: 120}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!223 &2602000002
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2602000000}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 1
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_VertexColorAlwaysGammaSpace: 0
+  m_AdditionalShaderChannelsFlag: 25
+  m_UpdateRectTransformForStandalone: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 130
+  m_TargetDisplay: 0
+--- !u!114 &2602000003
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2602000000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.CanvasScaler
+  m_UiScaleMode: 0
+  m_ReferencePixelsPerUnit: 100
+  m_ScaleFactor: 1
+  m_ReferenceResolution: {x: 1920, y: 1080}
+  m_ScreenMatchMode: 0
+  m_MatchWidthOrHeight: 0.5
+  m_PhysicalUnit: 3
+  m_FallbackScreenDPI: 96
+  m_DefaultSpriteDPI: 96
+  m_DynamicPixelsPerUnit: 1
+  m_PresetInfoIsWorld: 1
+--- !u!114 &2602000004
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2602000000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.GraphicRaycaster
+  m_IgnoreReversedGraphics: 1
+  m_BlockingObjects: 0
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+--- !u!225 &2602000005
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2602000000}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
+--- !u!1 &2602000010
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2602000011}
+  - component: {fileID: 2602000012}
+  - component: {fileID: 2602000013}
+  - component: {fileID: 2602000014}
+  m_Layer: 5
+  m_Name: Button
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &2602000011
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2602000010}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2602000001}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -7208, y: -7484}
+  m_SizeDelta: {x: -2.61, y: 3.14}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &2602000012
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2602000010}
+  m_CullTransparentMesh: 1
+--- !u!114 &2602000013
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2602000010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: -1652432280, guid: a1b7ebee8d6416349b7c247e345b54be, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!114 &2602000014
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2602000010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Button
+  m_Navigation:
+    m_Mode: 3
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 2
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 1, g: 0.95, b: 0.55, a: 1}
+    m_PressedColor: {r: 0.9, g: 0.6, b: 0.1, a: 1}
+    m_SelectedColor: {r: 1, g: 0.95, b: 0.55, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 1358096092, guid: 841eca08a91a8954dbf89ee6c55ae62a, type: 3}
+    m_PressedSprite: {fileID: 1404162793, guid: 781f2a630ebfe404f95cc09d6211764e, type: 3}
+    m_SelectedSprite: {fileID: 1358096092, guid: 841eca08a91a8954dbf89ee6c55ae62a, type: 3}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 2602000013}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &2700000000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -101797,6 +102331,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OOTechSceneObject
   _roleId: BackgroundAfterTransformation
+--- !u!95 &2700000008
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 142382748}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: e914a1728a55a3742be9f0405bc31980, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &2700000010
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -101893,7 +102449,7 @@ MonoBehaviour:
   _nextButtonSize: {x: 270, y: 78}
   _nextButtonAnchoredPosition: {x: -46, y: 32}
   _roadViewPanelSizeDelta: {x: 1320, y: 360}
-  _roadViewPanelAnchoredPosition: {x: 0, y: 105}
+  _roadViewPanelAnchoredPosition: {x: 0, y: 155}
 --- !u!114 &2700000021
 MonoBehaviour:
   m_ObjectHideFlags: 0

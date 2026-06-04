@@ -1,3 +1,10 @@
+// =============================================================================
+// OO_MFC 역할 주석
+// - 스크립트: OOTechItemCatalogManager.cs
+// - 역할: 여러 장면에서 함께 쓰는 공통 Manager입니다.
+// - 감독 관점: 각 부서에 공통 창구를 열어 주는 제작 본부입니다.
+// - 유지보수 포인트: 특정 장면의 세부 연출을 직접 처리하지 말고, 공통 조회/등록/요청 API만 유지합니다.
+// =============================================================================
 using System.Collections.Generic;
 using UnityEngine;
 #if UNITY_EDITOR
@@ -14,6 +21,8 @@ public class OOTechItemCatalogManager : MonoBehaviour
     public static OOTechItemCatalogManager Inst { get; private set; }
 
     private readonly Dictionary<string, OOTechItemDefinitionObject> _itemDefinitionDic = new Dictionary<string, OOTechItemDefinitionObject>();
+    private readonly Dictionary<string, Sprite> _loadedIconSpriteDic = new Dictionary<string, Sprite>();
+    private readonly HashSet<string> _missingIconWarningSet = new HashSet<string>();
 
     /// <summary>
     /// 하나의 아이템 카탈로그 매니저만 유지하고 씬 안의 아이템 역할표를 캐싱합니다.
@@ -43,7 +52,30 @@ public class OOTechItemCatalogManager : MonoBehaviour
         {
             RequestRegisterItemDefinition(definitionObject);
         }
+
+#if UNITY_EDITOR
+        RequestCacheItemDefinitionPrefabAssets();
+#endif
     }
+
+#if UNITY_EDITOR
+    private void RequestCacheItemDefinitionPrefabAssets()
+    {
+        string[] prefabGuidArray = AssetDatabase.FindAssets("t:Prefab", new[] { "Assets/Prefabs/OO_MFC/Props/Items" });
+
+        foreach (string prefabGuid in prefabGuidArray)
+        {
+            string prefabPath = AssetDatabase.GUIDToAssetPath(prefabGuid);
+            GameObject prefabObject = AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);
+
+            if (prefabObject == null)
+                continue;
+
+            OOTechItemDefinitionObject definitionObject = prefabObject.GetComponentInChildren<OOTechItemDefinitionObject>(true);
+            RequestRegisterItemDefinition(definitionObject);
+        }
+    }
+#endif
 
     /// <summary>
     /// 새 아이템 역할표를 카탈로그에 등록합니다.
@@ -102,6 +134,9 @@ public class OOTechItemCatalogManager : MonoBehaviour
     /// </summary>
     public Sprite GetItemIconSprite(string itemDataId)
     {
+        if (!string.IsNullOrEmpty(itemDataId) && _loadedIconSpriteDic.TryGetValue(itemDataId, out Sprite cachedSprite))
+            return cachedSprite;
+
         OOTechItemDefinitionObject definitionObject = GetItemDefinition(itemDataId);
 
         if (definitionObject != null)
@@ -109,10 +144,30 @@ public class OOTechItemCatalogManager : MonoBehaviour
             Sprite definitionSprite = definitionObject.ResolveIconSprite();
 
             if (definitionSprite != null)
+            {
+                _loadedIconSpriteDic[itemDataId] = definitionSprite;
                 return definitionSprite;
+            }
         }
 
-        return LoadIconSpriteFromData(itemDataId);
+        Sprite dataSprite = LoadIconSpriteFromData(itemDataId);
+
+        if (dataSprite != null && !string.IsNullOrEmpty(itemDataId))
+            _loadedIconSpriteDic[itemDataId] = dataSprite;
+
+        return dataSprite;
+    }
+
+    /// <summary>
+    /// ItemCatalogManager가 아직 Awake 되기 전이어도 아이콘을 불러오는 공통 입구입니다.
+    /// Game View에서는 슬롯 배우가 먼저 올라와도, 제작부 창고(Resources)의 이미지를 직접 찾아 보여줍니다.
+    /// </summary>
+    public static Sprite RequestItemIconSprite(string itemDataId)
+    {
+        if (Inst != null)
+            return Inst.GetItemIconSprite(itemDataId);
+
+        return RequestLoadIconSpriteFromPath(RequestGetIconPathFromData(itemDataId));
     }
 
     private string GetDataDisplayName(string itemDataId)
@@ -135,40 +190,141 @@ public class OOTechItemCatalogManager : MonoBehaviour
 
     private Sprite LoadIconSpriteFromData(string itemDataId)
     {
-        if (string.IsNullOrEmpty(itemDataId) || OOTechGameDataManager.Inst == null)
+        if (string.IsNullOrEmpty(itemDataId))
             return null;
 
-        string iconPath = string.Empty;
+        string iconPath = RequestGetIconPathFromData(itemDataId);
+        Sprite iconSprite = RequestLoadIconSpriteFromPath(iconPath);
+
+        if (iconSprite != null)
+            return iconSprite;
+
+        RequestLogMissingIcon(itemDataId, iconPath);
+        return null;
+    }
+
+    private void RequestLogMissingIcon(string itemDataId, string iconPath)
+    {
+        if (string.IsNullOrEmpty(itemDataId) || _missingIconWarningSet.Contains(itemDataId))
+            return;
+
+        _missingIconWarningSet.Add(itemDataId);
+        Debug.LogWarning($"[OOTechItemCatalogManager] Item icon not found. ItemDataId: {itemDataId}, IconPath: {iconPath}");
+    }
+
+    private static string RequestGetIconPathFromData(string itemDataId)
+    {
+        if (string.IsNullOrEmpty(itemDataId) || OOTechGameDataManager.Inst == null)
+            return string.Empty;
+
         OO_Ingredient ingredientData = OOTechGameDataManager.Inst.GetIngredientData(itemDataId);
 
-        if (ingredientData != null)
-            iconPath = ingredientData.IconPath;
+        if (ingredientData != null && !string.IsNullOrEmpty(ingredientData.IconPath))
+            return ingredientData.IconPath;
 
-        if (string.IsNullOrEmpty(iconPath))
-        {
-            OO_Cook cookData = OOTechGameDataManager.Inst.GetCookData(itemDataId);
+        OO_Cook cookData = OOTechGameDataManager.Inst.GetCookData(itemDataId);
 
-            if (cookData != null)
-                iconPath = cookData.IconPath;
-        }
+        if (cookData != null && !string.IsNullOrEmpty(cookData.IconPath))
+            return cookData.IconPath;
 
+        return string.Empty;
+    }
+
+    private static Sprite RequestLoadIconSpriteFromPath(string iconPath)
+    {
         if (string.IsNullOrEmpty(iconPath))
             return null;
 
         string normalizedPath = NormalizeResourcesPath(iconPath);
-        Sprite resourceSprite = Resources.Load<Sprite>(normalizedPath);
+        Sprite resourceSprite = RequestLoadSpriteFromResources(normalizedPath);
 
         if (resourceSprite != null)
             return resourceSprite;
 
 #if UNITY_EDITOR
-        return AssetDatabase.LoadAssetAtPath<Sprite>("Assets/" + normalizedPath + ".png");
+        Sprite editorSprite = LoadEditorSpriteAtPath(iconPath);
+
+        if (editorSprite != null)
+            return editorSprite;
+
+        editorSprite = LoadEditorSpriteAtPath("Assets/" + normalizedPath);
+
+        if (editorSprite != null)
+            return editorSprite;
+
+        return LoadEditorSpriteAtPath("Assets/Resources/" + normalizedPath);
 #else
         return null;
 #endif
     }
 
-    private string NormalizeResourcesPath(string iconPath)
+    private static Sprite RequestLoadSpriteFromResources(string normalizedPath)
+    {
+        foreach (string candidatePath in CreateResourcesCandidatePathArray(normalizedPath))
+        {
+            Sprite resourceSprite = Resources.Load<Sprite>(candidatePath);
+
+            if (resourceSprite != null)
+                return resourceSprite;
+
+            Texture2D resourceTexture = Resources.Load<Texture2D>(candidatePath);
+
+            if (resourceTexture != null)
+            {
+                Rect spriteRect = new Rect(0f, 0f, resourceTexture.width, resourceTexture.height);
+                return Sprite.Create(resourceTexture, spriteRect, new Vector2(0.5f, 0.5f), 100f);
+            }
+        }
+
+        return null;
+    }
+
+    private static string[] CreateResourcesCandidatePathArray(string normalizedPath)
+    {
+        string path = normalizedPath.Replace("\\", "/");
+        string fileName = path;
+        int slashIndex = fileName.LastIndexOf('/');
+
+        if (slashIndex >= 0 && slashIndex < fileName.Length - 1)
+            fileName = fileName.Substring(slashIndex + 1);
+
+        return new[]
+        {
+            path,
+            RemovePathPrefix(path, "Assets/Resources/"),
+            RemovePathPrefix(path, "Assets/"),
+            RemovePathPrefix(path, "Resources/"),
+            "Images/Food/" + fileName
+        };
+    }
+
+#if UNITY_EDITOR
+    private static Sprite LoadEditorSpriteAtPath(string assetPathWithoutExtension)
+    {
+        if (string.IsNullOrEmpty(assetPathWithoutExtension))
+            return null;
+
+        string normalizedPath = assetPathWithoutExtension.Replace("\\", "/");
+        Sprite sprite = AssetDatabase.LoadAssetAtPath<Sprite>(normalizedPath);
+
+        if (sprite != null)
+            return sprite;
+
+        sprite = AssetDatabase.LoadAssetAtPath<Sprite>(normalizedPath + ".png");
+
+        if (sprite != null)
+            return sprite;
+
+        sprite = AssetDatabase.LoadAssetAtPath<Sprite>(normalizedPath + ".jpg");
+
+        if (sprite != null)
+            return sprite;
+
+        return AssetDatabase.LoadAssetAtPath<Sprite>(normalizedPath + ".jpeg");
+    }
+#endif
+
+    private static string NormalizeResourcesPath(string iconPath)
     {
         string normalizedPath = iconPath.Replace("\\", "/");
         normalizedPath = normalizedPath.Replace("Assets/Resources/", string.Empty);
@@ -179,6 +335,14 @@ public class OOTechItemCatalogManager : MonoBehaviour
             normalizedPath = normalizedPath.Substring(0, extensionIndex);
 
         return normalizedPath;
+    }
+
+    private static string RemovePathPrefix(string path, string prefix)
+    {
+        if (string.IsNullOrEmpty(path) || string.IsNullOrEmpty(prefix))
+            return path;
+
+        return path.StartsWith(prefix) ? path.Substring(prefix.Length) : path;
     }
 
     private string GetFallbackDisplayName(string itemDataId)

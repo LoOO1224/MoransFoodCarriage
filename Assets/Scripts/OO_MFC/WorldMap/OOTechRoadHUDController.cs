@@ -1,3 +1,10 @@
+// =============================================================================
+// OO_MFC 역할 주석
+// - 스크립트: OOTechRoadHUDController.cs
+// - 역할: 로드맵, 월드맵, 스테이지 전환 흐름을 담당하는 장면 Controller입니다.
+// - 감독 관점: 길 위의 장면 전환 큐시트를 들고 있는 무대감독입니다.
+// - 유지보수 포인트: 배경/버튼/캐릭터 배치는 오브젝트와 View가 맡고, 이 스크립트는 순서 지휘만 맡아야 합니다.
+// =============================================================================
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -22,6 +29,17 @@ public enum OOTechRoadHUDButtonKind
 [DisallowMultipleComponent]
 public class OOTechRoadHUDController : MonoBehaviour
 {
+    // 읽는 순서:
+    // 1. PrepareHUD: HUDUIGroup과 View 참조를 준비합니다.
+    // 2. BindButtonEvents 계열: 인벤토리, 도감, 임무, 요리, 월드맵 버튼을 연결합니다.
+    // 3. RequestShowHUDGuide 계열: HUD 튜토리얼 화살표와 안내 패널을 진행합니다.
+    // 4. RefreshInventoryView 계열: 플레이어 Model의 아이템을 화면 슬롯으로 보여줍니다.
+    // 5. RequestSetStageQuestMission 계열: 임무 텍스트와 NEW 표시를 갱신합니다.
+    // 유지보수 주의:
+    // - 버튼/패널 배치는 HUDUIGroup에서 직접 수정합니다.
+    // - 이 스크립트는 HUD 흐름만 맡고, 실제 UI 오브젝트 참조는 OOTechRoadHUDView에 모읍니다.
+    // - 특정 RoadGroup 전용 연출이 늘어나면 Road Controller 쪽으로 옮깁니다.
+
     [Header("Group Names")]
     [SerializeField] private string _ownerGroupName;
     [SerializeField] private string _worldMapGroupName = "WorldMapGroup";
@@ -695,7 +713,7 @@ public class OOTechRoadHUDController : MonoBehaviour
         OOTechInventorySlotView slotView = slotObject.GetComponent<OOTechInventorySlotView>();
 
         if (slotView != null)
-            slotView.RequestSetupItem(item.ItemDataId, $"{itemName} x{item.ItemStackCount}", itemIconSprite);
+            slotView.RequestSetupItem(item.ItemDataId, $"{itemName}x{item.ItemStackCount}", itemIconSprite);
 
         if (Controller_CookingOverlay == null || !Controller_CookingOverlay.gameObject.activeInHierarchy)
             return;
@@ -1034,10 +1052,7 @@ public class OOTechRoadHUDController : MonoBehaviour
     /// </summary>
     private Sprite GetItemIconSprite(string itemDataId)
     {
-        if (OOTechItemCatalogManager.Inst == null)
-            return null;
-
-        return OOTechItemCatalogManager.Inst.GetItemIconSprite(itemDataId);
+        return OOTechItemCatalogManager.RequestItemIconSprite(itemDataId);
     }
 
     /// <summary>

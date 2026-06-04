@@ -1,13 +1,20 @@
+// =============================================================================
+// OO_MFC ì—­í•  ì£¼ì„
+// - ìŠ¤í¬ë¦½íŠ¸: OO_Recipe.cs
+// - ì—­í• : ì—‘ì…€/JSONì—ì„œ ì½ì–´ì˜¤ëŠ” static dataì˜ ê·¸ë¦‡ì…ë‹ˆë‹¤.
+// - ê°ë… ê´€ì : ê¸°íšìê°€ ì¨ ë‘” ì„¤ì •í‘œë¥¼ ë°°ìš°ê°€ ì½ì„ ìˆ˜ ìˆëŠ” ëŒ€ë³¸ ì¹´ë“œë¡œ ë°”ê¾¸ëŠ” ì—­í• ì…ë‹ˆë‹¤.
+// - ìœ ì§€ë³´ìˆ˜ í¬ì¸íŠ¸: ê²Œì„ ì¤‘ ë³€í•˜ëŠ” ê°’ì€ ì—¬ê¸°ì— ë„£ì§€ ë§ê³  Modelì— ë‘¡ë‹ˆë‹¤. JsonUtility í˜¸í™˜ ë•Œë¬¸ì— public fieldë¥¼ í—ˆìš©í•©ë‹ˆë‹¤.
+// =============================================================================
 using System;
 using System.Collections.Generic;
 
 [Serializable]
 public class OO_Recipe : GameDataBase
 {
-    public string Name;                        // ¿ä¸® ÀÌ¸§
-    public string Description;                 // ¿ä¸® ¼³¸í
-    public string ResultItemId;                // ¿Ï¼º ÈÄ »ı¼ºµÇ´Â ¾ÆÀÌÅÛ ID
-    public List<string> RequiredIngredients;   // ÇÊ¿ä Àç·á ID ¸ñ·Ï
-    public int MaxDuplicateCount = 1;          // °°Àº Àç·á Çã¿ë È½¼ö
-    public string RequiredTool;                // ÇÊ¿äÇÑ µµ±¸ (°¡¸¶¼Ü, Àı±¸ µî)
+    public string Name;                        // ä¸® Ì¸
+    public string Description;                 // ä¸® 
+    public string ResultItemId;                // Ï¼  Ç´  ID
+    public List<string> RequiredIngredients;   // Ê¿  ID 
+    public int MaxDuplicateCount = 1;          //    È½
+    public string RequiredTool;                // Ê¿  (,  )
 }

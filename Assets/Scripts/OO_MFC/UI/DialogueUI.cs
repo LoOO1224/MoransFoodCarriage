@@ -1,3 +1,10 @@
+// =============================================================================
+// OO_MFC 역할 주석
+// - 스크립트: DialogueUI.cs
+// - 역할: UI 표시와 입력 연결을 담당하는 UI 컴포넌트입니다.
+// - 감독 관점: 관객에게 보이는 패널과 버튼의 무대 동선을 담당합니다.
+// - 유지보수 포인트: 사용자가 직접 편집할 UI는 하이어라키/프리팹에 두고, 코드에서 즉석 생성하지 않습니다.
+// =============================================================================
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -13,6 +20,17 @@ using UnityEngine.UI;
 /// </summary>
 public class DialogueUI : MonoBehaviour
 {
+    // 읽는 순서:
+    // 1. OpenDialogue/StartDialogue 계열: 외부 Controller가 대사 ID를 넘기면 데이터에서 대사를 읽습니다.
+    // 2. SetSpeaker 계열: OO_Character 데이터를 이용해 화자 이름을 표시합니다.
+    // 3. SetDialogueText 계열: OO_Dialogue 또는 OO_Narration의 실제 문장을 패널에 넣습니다.
+    // 4. NextDialogue: 이어가기 버튼 또는 패널 밖 클릭으로 다음 대사를 진행합니다.
+    // 5. CloseDialogue 계열: 대사가 끝나면 DialogueGroup을 닫거나 다음 큐로 넘깁니다.
+    // 유지보수 주의:
+    // - 대사 내용은 코드에 쓰지 말고 OO_Dialogue/OO_Narration/OO_DialogueGroup에서 드리븐합니다.
+    // - DialoguePanel 위치와 버튼 이미지는 하이어라키에서 직접 수정합니다.
+    // - 화자 이름 배경은 OOTechDialogueSpeakerNameBackdrop이 보조합니다.
+
     [Header("Text")]
     [FormerlySerializedAs("_speakerNameText")]
     [SerializeField] private TextMeshProUGUI Text_SpeakerName;

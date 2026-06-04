@@ -142,5 +142,17 @@
     "SkillList": null,
     "UseWeaponId": null,
     "BasicCostumeId": null
+  },
+  {
+    "Id": "narration_tutorial_13",
+    "Name": "Shift 달리기 안내 ",
+    "Title": "달리기",
+    "Description": "Shift를 누른 채 이동하면 달립니다! ",
+    "TargetStageId": null,
+    "TriggerCondition": null,
+    "DialogueGroupId": null,
+    "SkillList": null,
+    "UseWeaponId": null,
+    "BasicCostumeId": null
   }
 ]

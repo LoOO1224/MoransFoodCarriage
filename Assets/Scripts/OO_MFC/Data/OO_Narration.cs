@@ -1,13 +1,20 @@
+// =============================================================================
+// OO_MFC ì—­í•  ì£¼ì„
+// - ìŠ¤í¬ë¦½íŠ¸: OO_Narration.cs
+// - ì—­í• : ì—‘ì…€/JSONì—ì„œ ì½ì–´ì˜¤ëŠ” static dataì˜ ê·¸ë¦‡ì…ë‹ˆë‹¤.
+// - ê°ë… ê´€ì : ê¸°íšìê°€ ì¨ ë‘” ì„¤ì •í‘œë¥¼ ë°°ìš°ê°€ ì½ì„ ìˆ˜ ìˆëŠ” ëŒ€ë³¸ ì¹´ë“œë¡œ ë°”ê¾¸ëŠ” ì—­í• ì…ë‹ˆë‹¤.
+// - ìœ ì§€ë³´ìˆ˜ í¬ì¸íŠ¸: ê²Œì„ ì¤‘ ë³€í•˜ëŠ” ê°’ì€ ì—¬ê¸°ì— ë„£ì§€ ë§ê³  Modelì— ë‘¡ë‹ˆë‹¤. JsonUtility í˜¸í™˜ ë•Œë¬¸ì— public fieldë¥¼ í—ˆìš©í•©ë‹ˆë‹¤.
+// =============================================================================
 using System;
 using System.Collections.Generic;
 
 [Serializable]
 public class OO_Narration : GameDataBase
 {
-    public string Title;                       // ³ª·¹ÀÌ¼Ç Á¦¸ñ (ÇÁ·Ñ·Î±× 1 µî)
-    public int PartNumber;                     // ÆÄÆ® ¹øÈ£
-    public List<string> NarrationTexts;        // ³ª·¹ÀÌ¼Ç ÅØ½ºÆ® ¸ñ·Ï (¼ø¼­´ë·Î)
-    public List<string> BackgroundImagePaths;  // °¢ ÆÄÆ®º° ¹è°æ ÀÌ¹ÌÁö °æ·Î
-    public string BGMPath;                     // ³ª·¹ÀÌ¼Ç µ¿¾È Àç»ıÇÒ BGM
-    public string NextGroup;                   // ´ÙÀ½À¸·Î ³Ñ¾î°¥ ±×·ì (TutorialGroup µî)
+    public string Title;                       // Ì¼  (Ñ·Î± 1 )
+    public int PartNumber;                     // Æ® È£
+    public List<string> NarrationTexts;        // Ì¼ Ø½Æ®  ()
+    public List<string> BackgroundImagePaths;  //  Æ®  Ì¹ 
+    public string BGMPath;                     // Ì¼   BGM
+    public string NextGroup;                   //  Ñ¾î°¥ ×· (TutorialGroup )
 }

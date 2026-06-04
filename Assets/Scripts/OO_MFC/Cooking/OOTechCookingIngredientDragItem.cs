@@ -1,3 +1,10 @@
+// =============================================================================
+// OO_MFC 역할 주석
+// - 스크립트: OOTechCookingIngredientDragItem.cs
+// - 역할: 요리 시스템의 입력, 조리도구, 레시피 판정을 담당하는 스크립트입니다.
+// - 감독 관점: 부엌 장면에서 재료와 조리도구 배우가 어떤 순서로 만나는지 관리합니다.
+// - 유지보수 포인트: 재료 규칙은 데이터와 DropTarget 역할표로 빼고, UI 배치는 CookingUIGroup에서 직접 수정합니다.
+// =============================================================================
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -8,18 +15,14 @@ using UnityEngine.UI;
 /// 플레이어가 슬롯을 끌어 가마솥에 놓으면 CookingGroupController가 요리를 판정합니다.
 /// </summary>
 [DisallowMultipleComponent]
-public class OOTechCookingIngredientDragItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerEnterHandler, IPointerExitHandler
+public class OOTechCookingIngredientDragItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
-    [Header("Preview")]
-    [SerializeField] private float _hoverPreviewScale = 1.5f;
-
     private OOTechCookingGroupController Controller_Cooking;
     private string _itemDataId;
     private TextMeshProUGUI Text_Label;
-    private RectTransform Rect_Item;
+    private RectTransform Rect_IconDragArea;
     private RectTransform Rect_DragGhost;
-    private Vector3 _originScale = Vector3.one;
-    private bool _isOriginScaleCached;
+    private bool _isDraggingFromIcon;
 
     /// <summary>
     /// 슬롯이 어떤 재료를 대표하는지 요리 컨트롤러와 함께 설정합니다.
@@ -28,13 +31,14 @@ public class OOTechCookingIngredientDragItem : MonoBehaviour, IBeginDragHandler,
     {
         Controller_Cooking = controller;
         _itemDataId = itemDataId;
-        CacheOriginScale();
 
         if (Text_Label == null)
             Text_Label = GetComponentInChildren<TextMeshProUGUI>(true);
 
         if (Text_Label != null)
             Text_Label.text = $"{itemName} x{itemCount}";
+
+        ResolveIconDragArea();
     }
 
     /// <summary>
@@ -45,11 +49,12 @@ public class OOTechCookingIngredientDragItem : MonoBehaviour, IBeginDragHandler,
         if (Controller_Cooking == null)
             return;
 
-        SetPreviewScale(true);
-        Rect_DragGhost = Controller_Cooking.CreateDragGhost(_itemDataId, eventData.position);
+        _isDraggingFromIcon = IsPointerInsideIcon(eventData);
 
-        if (Rect_DragGhost != null)
-            Rect_DragGhost.localScale = Vector3.one * GetPreviewScale();
+        if (!_isDraggingFromIcon)
+            return;
+
+        Rect_DragGhost = Controller_Cooking.CreateDragGhost(_itemDataId, eventData.position);
     }
 
     /// <summary>
@@ -57,8 +62,10 @@ public class OOTechCookingIngredientDragItem : MonoBehaviour, IBeginDragHandler,
     /// </summary>
     public void OnDrag(PointerEventData eventData)
     {
-        if (Rect_DragGhost != null)
-            Rect_DragGhost.position = eventData.position;
+        if (!_isDraggingFromIcon || Rect_DragGhost == null)
+            return;
+
+        Rect_DragGhost.position = eventData.position;
     }
 
     /// <summary>
@@ -66,57 +73,56 @@ public class OOTechCookingIngredientDragItem : MonoBehaviour, IBeginDragHandler,
     /// </summary>
     public void OnEndDrag(PointerEventData eventData)
     {
-        if (Controller_Cooking != null)
+        if (_isDraggingFromIcon && Controller_Cooking != null)
             Controller_Cooking.RequestDropIngredientAtPosition(_itemDataId, eventData.position);
 
         if (Rect_DragGhost != null)
             Destroy(Rect_DragGhost.gameObject);
 
         Rect_DragGhost = null;
-        SetPreviewScale(false);
+        _isDraggingFromIcon = false;
     }
 
     /// <summary>
-    /// 마우스를 올리면 재료 아이콘이 크게 보여서 어떤 아이템인지 바로 알아볼 수 있게 합니다.
+    /// 슬롯 안의 Image_ItemIcon 영역을 드래그 손잡이로 찾습니다.
+    /// 영화로 치면 재료 이름표가 아니라 실제 음식 소품을 집을 위치를 찾는 단계입니다.
     /// </summary>
-    public void OnPointerEnter(PointerEventData eventData)
+    private void ResolveIconDragArea()
     {
-        SetPreviewScale(true);
-    }
-
-    /// <summary>
-    /// 마우스가 슬롯을 떠나면 원래 인벤토리 크기로 되돌립니다.
-    /// </summary>
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        if (Rect_DragGhost != null)
+        if (Rect_IconDragArea != null)
             return;
 
-        SetPreviewScale(false);
+        Transform iconTransform = FindChildByName(transform, "Image_ItemIcon");
+        Rect_IconDragArea = iconTransform as RectTransform;
     }
 
-    private void CacheOriginScale()
+    private bool IsPointerInsideIcon(PointerEventData eventData)
     {
-        if (_isOriginScaleCached)
-            return;
+        ResolveIconDragArea();
 
-        Rect_Item = transform as RectTransform;
-        _originScale = transform.localScale;
-        _isOriginScaleCached = true;
+        if (Rect_IconDragArea == null)
+            return true;
+
+        Camera eventCamera = eventData != null ? eventData.pressEventCamera : null;
+        return eventData != null && RectTransformUtility.RectangleContainsScreenPoint(Rect_IconDragArea, eventData.position, eventCamera);
     }
 
-    private void SetPreviewScale(bool isPreview)
+    private Transform FindChildByName(Transform rootTransform, string childName)
     {
-        CacheOriginScale();
+        if (rootTransform == null)
+            return null;
 
-        transform.localScale = isPreview ? _originScale * GetPreviewScale() : _originScale;
+        if (rootTransform.name == childName)
+            return rootTransform;
 
-        if (Rect_Item != null)
-            Rect_Item.SetAsLastSibling();
-    }
+        for (int index = 0; index < rootTransform.childCount; index++)
+        {
+            Transform foundTransform = FindChildByName(rootTransform.GetChild(index), childName);
 
-    private float GetPreviewScale()
-    {
-        return Mathf.Clamp(_hoverPreviewScale, 1f, 1.5f);
+            if (foundTransform != null)
+                return foundTransform;
+        }
+
+        return null;
     }
 }

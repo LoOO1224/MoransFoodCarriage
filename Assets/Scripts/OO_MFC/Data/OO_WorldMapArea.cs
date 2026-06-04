@@ -1,11 +1,18 @@
+// =============================================================================
+// OO_MFC ì—­í•  ì£¼ì„
+// - ìŠ¤í¬ë¦½íŠ¸: OO_WorldMapArea.cs
+// - ì—­í• : ì—‘ì…€/JSONì—ì„œ ì½ì–´ì˜¤ëŠ” static dataì˜ ê·¸ë¦‡ì…ë‹ˆë‹¤.
+// - ê°ë… ê´€ì : ê¸°íšìê°€ ì¨ ë‘” ì„¤ì •í‘œë¥¼ ë°°ìš°ê°€ ì½ì„ ìˆ˜ ìˆëŠ” ëŒ€ë³¸ ì¹´ë“œë¡œ ë°”ê¾¸ëŠ” ì—­í• ì…ë‹ˆë‹¤.
+// - ìœ ì§€ë³´ìˆ˜ í¬ì¸íŠ¸: ê²Œì„ ì¤‘ ë³€í•˜ëŠ” ê°’ì€ ì—¬ê¸°ì— ë„£ì§€ ë§ê³  Modelì— ë‘¡ë‹ˆë‹¤. JsonUtility í˜¸í™˜ ë•Œë¬¸ì— public fieldë¥¼ í—ˆìš©í•©ë‹ˆë‹¤.
+// =============================================================================
 using System;
 
 [Serializable]
 public class OO_WorldMapArea : GameDataBase
 {
-    public string Name;                        // Áö¿ª ÀÌ¸§ (µ¿ÂÊ ¸¶À» µî)
-    public string BackgroundImagePath;         // ¿ùµå¸Ê ¹è°æ ÀÌ¹ÌÁö
-    public string StageId;                     // ÁøÀÔÇÏ´Â ½ºÅ×ÀÌÁö ID
-    public float MapPositionX;                 // ¿ùµå¸Ê X ÁÂÇ¥
-    public float MapPositionY;                 // ¿ùµå¸Ê Y ÁÂÇ¥
+    public string Name;                        //  Ì¸ (  )
+    public string BackgroundImagePath;         //   Ì¹
+    public string StageId;                     // Ï´  ID
+    public float MapPositionX;                 //  X Ç¥
+    public float MapPositionY;                 //  Y Ç¥
 }

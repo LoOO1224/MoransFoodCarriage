@@ -1,3 +1,10 @@
+// =============================================================================
+// OO_MFC 역할 주석
+// - 스크립트: OOTechGameDataManager.cs
+// - 역할: 여러 장면에서 함께 쓰는 공통 Manager입니다.
+// - 감독 관점: 각 부서에 공통 창구를 열어 주는 제작 본부입니다.
+// - 유지보수 포인트: 특정 장면의 세부 연출을 직접 처리하지 말고, 공통 조회/등록/요청 API만 유지합니다.
+// =============================================================================
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,6 +15,17 @@ using UnityEngine;
 /// </summary>
 public class OOTechGameDataManager : MonoBehaviour
 {
+    // 읽는 순서:
+    // 1. Awake/RequestLoadAllData 계열: Resources/JsonOutput에 있는 JSON 파일을 읽어 Dictionary에 등록합니다.
+    // 2. LoadOO_XXX 계열: 각 엑셀 테이블에서 나온 JSON을 해당 Data 클래스로 변환합니다.
+    // 3. CreateXXXData 계열: 문자열로 들어온 JSON 값을 int, List<string> 같은 Unity 자료형으로 정리합니다.
+    // 4. GetXXXData 계열: Controller와 UI가 ID로 static data를 안전하게 조회합니다.
+    // 5. NormalizeJsonText/List 계열: 엑셀 빈칸, null, 구분자 문자열을 게임에서 쓰기 좋은 값으로 바꿉니다.
+    // 유지보수 주의:
+    // - 새 엑셀 파일을 추가하면 Data 클래스, JsonData 클래스, Load 메서드, Get 메서드를 함께 추가합니다.
+    // - 플레이 중 바뀌는 값은 여기 넣지 말고 Model/GameManager 쪽으로 보냅니다.
+    // - 데이터 ID가 틀리면 화면이 비거나 화자가 잘못 나오므로, 경고 로그를 지우지 말고 원인을 추적합니다.
+
     public static OOTechGameDataManager Inst { get; private set; }
 
     // ==================== 데이터 Dictionary ====================

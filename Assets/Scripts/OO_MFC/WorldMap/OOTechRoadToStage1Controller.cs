@@ -1,3 +1,10 @@
+// =============================================================================
+// OO_MFC 역할 주석
+// - 스크립트: OOTechRoadToStage1Controller.cs
+// - 역할: 로드맵, 월드맵, 스테이지 전환 흐름을 담당하는 장면 Controller입니다.
+// - 감독 관점: 길 위의 장면 전환 큐시트를 들고 있는 무대감독입니다.
+// - 유지보수 포인트: 배경/버튼/캐릭터 배치는 오브젝트와 View가 맡고, 이 스크립트는 순서 지휘만 맡아야 합니다.
+// =============================================================================
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -9,6 +16,17 @@ using UnityEngine.UI;
 /// </summary>
 public class OOTechRoadToStage1Controller : MonoBehaviour
 {
+    // 읽는 순서:
+    // 1. OnEnable: 현재 RoadGroup, MFC, 배경 맵, HUD를 준비합니다.
+    // 2. Update/MoveMFC 계열: D키 이동과 도로 띠 안 위치 제한을 처리합니다.
+    // 3. ChangeToNextMapRoutine: StartPointMap -> RoadMap1 -> RoadMap2 -> Stage1EntryMap 전환을 담당합니다.
+    // 4. OpenTargetStageGroup: 마지막 맵 끝에 도달하면 Stage1Group 같은 목표 StageGroup을 켭니다.
+    // 5. PrepareRoadHUD/PlayTutorial: HUD와 초반 튜토리얼/대사 흐름을 연결합니다.
+    // 유지보수 주의:
+    // - 각 RoadGroup의 배경 이미지는 하이어라키에서 직접 교체합니다.
+    // - 다음 StageGroup 이름은 ConfigureRoadFlow와 Inspector 값으로 맞춥니다.
+    // - Road 공통 로직이 늘어나면 RoadBaseController로 분리하는 것이 좋습니다.
+
     private const string _roleMFC = "MFC";
     private const string _roleStartPointMap = "StartPointMap";
     private const string _roleRoadMap1 = "RoadMap1";

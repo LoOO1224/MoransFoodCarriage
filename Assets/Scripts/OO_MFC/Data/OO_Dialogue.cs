@@ -1,14 +1,21 @@
+// =============================================================================
+// OO_MFC ì—­í•  ì£¼ì„
+// - ìŠ¤í¬ë¦½íŠ¸: OO_Dialogue.cs
+// - ì—­í• : ì—‘ì…€/JSONì—ì„œ ì½ì–´ì˜¤ëŠ” static dataì˜ ê·¸ë¦‡ì…ë‹ˆë‹¤.
+// - ê°ë… ê´€ì : ê¸°íšìê°€ ì¨ ë‘” ì„¤ì •í‘œë¥¼ ë°°ìš°ê°€ ì½ì„ ìˆ˜ ìˆëŠ” ëŒ€ë³¸ ì¹´ë“œë¡œ ë°”ê¾¸ëŠ” ì—­í• ì…ë‹ˆë‹¤.
+// - ìœ ì§€ë³´ìˆ˜ í¬ì¸íŠ¸: ê²Œì„ ì¤‘ ë³€í•˜ëŠ” ê°’ì€ ì—¬ê¸°ì— ë„£ì§€ ë§ê³  Modelì— ë‘¡ë‹ˆë‹¤. JsonUtility í˜¸í™˜ ë•Œë¬¸ì— public fieldë¥¼ í—ˆìš©í•©ë‹ˆë‹¤.
+// =============================================================================
 using System;
 using System.Collections.Generic;
 
 [Serializable]
 public class OO_Dialogue : GameDataBase
 {
-    public string SpeakerName;                    // È­ÀÚ ÀÌ¸§
-    public string Text;                           // ´ë»ç ³»¿ë
-    public string NextDialogueId;                 // ´ÙÀ½ ´ëÈ­ ID
-    public List<string> SelectionNameList;        // ¼±ÅÃÁö ¸ñ·Ï
-    public List<string> SelectionDialogueIdList;  // ¼±ÅÃÁö ÀÌµ¿ ID ¸ñ·Ï
-    public string TexturePath;                    // Ä³¸¯ÅÍ ÀÏ·¯½ºÆ® °æ·Î
-    public string VoicePath;                      // À½¼º ÆÄÀÏ °æ·Î
+    public string SpeakerName;                    // È­ Ì¸
+    public string Text;                           //  
+    public string NextDialogueId;                 //  È­ ID
+    public List<string> SelectionNameList;        //  
+    public List<string> SelectionDialogueIdList;  //  Ìµ ID 
+    public string TexturePath;                    // Ä³ Ï·Æ® 
+    public string VoicePath;                      //   
 }

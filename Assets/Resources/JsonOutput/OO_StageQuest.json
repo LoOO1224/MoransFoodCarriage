@@ -9,5 +9,16 @@
     "RequiredCount": 1,
     "RewardItemIds": null,
     "NextGroupId": null
+  },
+  {
+    "Id": "Stage1_Quest_02",
+    "StageId": "OO_Stage_1",
+    "Name": "호박죽을 만드세요.",
+    "Description": "호박을 찾고, 부엌에서 호박죽을 만들어 촌장에게 가져다 주세요!",
+    "ObjectiveType": null,
+    "ObjectiveId": null,
+    "RequiredCount": null,
+    "RewardItemIds": null,
+    "NextGroupId": null
   }
 ]

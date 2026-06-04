@@ -1,3 +1,10 @@
+// =============================================================================
+// OO_MFC 역할 주석
+// - 스크립트: OOTechJaeikController.cs
+// - 역할: 캐릭터 배우의 이동, 입력, 애니메이션 상태를 담당합니다.
+// - 감독 관점: 배우가 무대 위에서 어떻게 걷고 멈추고 반응하는지 정하는 연기 지도표입니다.
+// - 유지보수 포인트: 장면 진행 순서는 Group Controller가 맡고, 캐릭터 스크립트는 자기 몸의 움직임만 맡게 합니다.
+// =============================================================================
 using System;
 using System.Collections;
 using TMPro;
@@ -10,6 +17,17 @@ using UnityEngine.EventSystems;
 /// </summary>
 public class OOTechJaeikController : MonoBehaviour
 {
+    // 읽는 순서:
+    // 1. Update: 키보드/마우스 입력을 받아 이동, 점프, 상호작용 요청을 확인합니다.
+    // 2. FixedUpdate: Rigidbody2D를 실제로 움직여 물리 위치를 갱신합니다.
+    // 3. UpdateJumpInput 계열: Space 입력과 isGrounded 판정을 처리합니다.
+    // 4. UpdateInteractionInput 계열: E 입력으로 음식 오브젝트와 상호작용합니다.
+    // 5. UpdateAnimationState 계열: 현재 움직임에 맞는 애니메이션 상태를 고릅니다.
+    // 유지보수 주의:
+    // - Jaeik의 몸 움직임만 맡고, Senario1의 대사/변신 순서는 OOTechSenario1Controller가 맡습니다.
+    // - 점프력이나 이동감 수정은 Inspector의 이동/점프 값부터 확인합니다.
+    // - UI 프롬프트는 가능하면 하이어라키 오브젝트로 두고, 코드 생성은 최소화합니다.
+
     [Header("Movement Settings")]
     [SerializeField] private float _moveSpeed = 6f;
     [SerializeField] private float _jumpVelocity = 19.5f;

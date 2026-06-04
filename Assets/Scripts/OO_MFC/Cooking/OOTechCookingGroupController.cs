@@ -1,3 +1,10 @@
+// =============================================================================
+// OO_MFC 역할 주석
+// - 스크립트: OOTechCookingGroupController.cs
+// - 역할: 요리 시스템의 입력, 조리도구, 레시피 판정을 담당하는 스크립트입니다.
+// - 감독 관점: 부엌 장면에서 재료와 조리도구 배우가 어떤 순서로 만나는지 관리합니다.
+// - 유지보수 포인트: 재료 규칙은 데이터와 DropTarget 역할표로 빼고, UI 배치는 CookingUIGroup에서 직접 수정합니다.
+// =============================================================================
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -13,6 +20,17 @@ using UnityEngine.UI;
 [DisallowMultipleComponent]
 public class OOTechCookingGroupController : MonoBehaviour
 {
+    // 읽는 순서:
+    // 1. OnEnable: 부엌 무대가 열릴 때 카메라, 조리도구, 인벤토리 UI를 준비합니다.
+    // 2. ShowToolGuideSequence: 가마솥과 도마 사용법을 튜토리얼로 보여줍니다.
+    // 3. TryAddIngredientToTool 계열: 드래그한 재료가 올바른 조리도구에 들어갔는지 판정합니다.
+    // 4. TryCompleteCooking 계열: 쌀 + 채소 조합이 완성 음식으로 바뀌는지 확인합니다.
+    // 5. OnDisable: 부엌을 닫을 때 카메라와 HUD 상태를 원래 로드 무대로 되돌립니다.
+    // 유지보수 주의:
+    // - UI 위치와 이미지는 CookingUIGroup에서 직접 수정합니다.
+    // - 새 재료/요리는 가능하면 OO_Ingredient, OO_Recipe, OO_Cook 데이터로 추가합니다.
+    // - 이 Controller가 더 커지면 조리 판정, 튜토리얼, 인벤토리 표시를 별도 컴포넌트로 분리해야 합니다.
+
     [Header("Data Id")]
     [SerializeField] private string _cauldronTutorialId = "narration_tutorial_11";
     [SerializeField] private string _cuttingboardTutorialId = "narration_tutorial_12";
@@ -48,6 +66,9 @@ public class OOTechCookingGroupController : MonoBehaviour
     [Header("Guide Arrow")]
     [SerializeField] private float _guideArrowBlinkSpeed = 6f;
     [SerializeField] private float _guideArrowMinimumAlpha = 0.25f;
+
+    [Header("Drag Ghost")]
+    [SerializeField] private Vector2 _dragGhostIconSize = new Vector2(88f, 88f);
 
     private readonly List<string> _selectedIngredientIdList = new List<string>();
 
@@ -162,19 +183,46 @@ public class OOTechCookingGroupController : MonoBehaviour
         RectTransform ghostRect = ghostObject.transform as RectTransform;
         ghostRect.position = screenPosition;
 
-        TextMeshProUGUI ghostText = ghostObject.GetComponentInChildren<TextMeshProUGUI>(true);
-
-        if (ghostText != null)
-            ghostText.text = GetItemDisplayName(itemDataId);
-
         Transform iconTransform = FindChildByName(ghostObject.transform, "Image_ItemIcon");
         Image iconImage = iconTransform != null ? iconTransform.GetComponent<Image>() : null;
 
+        // 드래그 고스트는 슬롯 전체가 아니라, 배우가 손에 든 음식 소품처럼 아이콘만 보이게 합니다.
+        foreach (TextMeshProUGUI ghostText in ghostObject.GetComponentsInChildren<TextMeshProUGUI>(true))
+            ghostText.gameObject.SetActive(false);
+
+        foreach (Image ghostImage in ghostObject.GetComponentsInChildren<Image>(true))
+        {
+            if (ghostImage == iconImage)
+                continue;
+
+            ghostImage.enabled = false;
+            ghostImage.raycastTarget = false;
+        }
+
         if (iconImage != null)
         {
-            Sprite iconSprite = OOTechItemCatalogManager.Inst != null ? OOTechItemCatalogManager.Inst.GetItemIconSprite(itemDataId) : null;
+            Sprite iconSprite = OOTechItemCatalogManager.RequestItemIconSprite(itemDataId);
+            iconImage.gameObject.SetActive(true);
             iconImage.sprite = iconSprite;
             iconImage.enabled = iconSprite != null;
+            iconImage.color = Color.white;
+            iconImage.preserveAspect = true;
+            iconImage.raycastTarget = false;
+
+            if (iconImage.transform is RectTransform iconRect)
+            {
+                iconRect.anchorMin = Vector2.zero;
+                iconRect.anchorMax = Vector2.one;
+                iconRect.offsetMin = Vector2.zero;
+                iconRect.offsetMax = Vector2.zero;
+            }
+        }
+
+        if (ghostRect != null)
+        {
+            ghostRect.sizeDelta = _dragGhostIconSize;
+            ghostRect.position = screenPosition;
+            ghostRect.SetAsLastSibling();
         }
 
         CanvasGroup canvasGroup = ghostObject.GetComponent<CanvasGroup>();
@@ -322,7 +370,7 @@ public class OOTechCookingGroupController : MonoBehaviour
 
         if (!CanToolAcceptIngredient(itemDataId, toolTarget, fallbackToolId))
         {
-            SetStatus("올바르지 않은 조리도구입니다!");
+            SetStatus("올바르지 않은 재료입니다!");
             return;
         }
 
@@ -378,9 +426,6 @@ public class OOTechCookingGroupController : MonoBehaviour
     /// </summary>
     private bool CanToolAcceptIngredient(string itemDataId, OOTechCookingToolDropTarget toolTarget, string fallbackToolId)
     {
-        if (toolTarget != null)
-            return toolTarget.CanAcceptIngredient(itemDataId);
-
         if (fallbackToolId == _cauldronObjectName)
             return IsIngredientInArray(itemDataId, _defaultCauldronAcceptedIngredientIdArray);
 
@@ -618,7 +663,7 @@ public class OOTechCookingGroupController : MonoBehaviour
         if (Tool_Cauldron == null)
             Tool_Cauldron = Transform_Cauldron.gameObject.AddComponent<OOTechCookingToolDropTarget>();
 
-        Tool_Cauldron.RequestSetupDefaultTool(_cauldronObjectName, "가마솥", _defaultCauldronAcceptedIngredientIdArray, _cauldronDropAreaPadding);
+        Tool_Cauldron.RequestSetupTool(_cauldronObjectName, "가마솥", _defaultCauldronAcceptedIngredientIdArray, _cauldronDropAreaPadding);
     }
 
     /// <summary>
@@ -652,7 +697,7 @@ public class OOTechCookingGroupController : MonoBehaviour
         if (Tool_Cuttingboard == null)
             Tool_Cuttingboard = Transform_Cuttingboard.gameObject.AddComponent<OOTechCookingToolDropTarget>();
 
-        Tool_Cuttingboard.RequestSetupDefaultTool(_cuttingboardObjectName, "도마", _defaultCuttingboardAcceptedIngredientIdArray, _cuttingboardDropAreaPadding);
+        Tool_Cuttingboard.RequestSetupTool(_cuttingboardObjectName, "도마", _defaultCuttingboardAcceptedIngredientIdArray, _cuttingboardDropAreaPadding);
     }
 
     /// <summary>

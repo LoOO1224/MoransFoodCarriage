@@ -148,5 +148,25 @@
     "SelectionDialogueIdList": null,
     "TexturePath": null,
     "VoicePath": null
+  },
+  {
+    "Id": "character_VillageChief_01",
+    "SpeakerName": "촌장",
+    "Text": "“포학한 왕이 보낸 탐관오리들이 가호마다 뼛속까지 수탈해 가니, 이제 우리 마을엔 들쥐 새끼 한 마리 먹을 것조차 남지 않았소. 백성들이 길가에 쓰러져 굶어 죽어가는 실정이오……. 부디, 오늘 단 하루만이라도 이 지친 이들의 주린 배를 달래줄 따뜻한 온기 한 그릇을 나누어 줄 수 없겠소?”",
+    "NextDialogueId": null,
+    "SelectionNameList": null,
+    "SelectionDialogueIdList": null,
+    "TexturePath": null,
+    "VoicePath": null
+  },
+  {
+    "Id": "character_VillageChief_02",
+    "SpeakerName": "촌장",
+    "Text": "“허어, 눈물이 앞을 가리는구려…… 이 은혜를 어찌 다 갚아야 할지 모르겠소. 비록 지금은 척박해진 땅이나, 매서운 추위도 잊게 만드는 우리 마을의 오랜 특산물인 청양고추라오. 모란님의 앞날에 작게나마 보탬이 되길 바라오.”",
+    "NextDialogueId": null,
+    "SelectionNameList": null,
+    "SelectionDialogueIdList": null,
+    "TexturePath": null,
+    "VoicePath": null
   }
 ]

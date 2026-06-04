@@ -38,5 +38,13 @@
     "SkillList": null,
     "UseWeaponId": null,
     "BasicCostumeId": null
+  },
+  {
+    "Id": "character_VillageChief_01",
+    "Name": "촌장",
+    "Description": "Stage1 NPC Stage1 임무를 주고 다시 받는다.",
+    "SkillList": null,
+    "UseWeaponId": null,
+    "BasicCostumeId": null
   }
 ]
