@@ -60,6 +60,13 @@ public class OOTechTutorial1Controller : MonoBehaviour
     [SerializeField] private bool _isShowGuideOnEnable = true;
     [SerializeField] private bool _isLockPlayerUntilGuideEnd = true;
 
+    [Header("Camera View")]
+    [SerializeField] private Camera Camera_Main;
+    [SerializeField] private CameraFollowController Camera_Follow;
+    [SerializeField] private string _tutorialBackgroundName = "Tutorial1Background";
+    [SerializeField] private float _tutorialCameraPadding = 1.02f;
+    [SerializeField] private float _fallbackTutorialCameraSize = 8f;
+
     [Header("Interaction Rule")]
     [SerializeField] private float _interactionDistance = 2.2f;
     [SerializeField] private float _minimumInteractionDistance = 3f;
@@ -165,6 +172,7 @@ public class OOTechTutorial1Controller : MonoBehaviour
     private void StartTutorial()
     {
         CacheRuntimeReference();
+        PrepareTutorialCameraView();
 
         _isInitialGuideFinished = false;
         _isInteractionRunning = false;
@@ -198,6 +206,73 @@ public class OOTechTutorial1Controller : MonoBehaviour
 
         if (Renderer_Moran == null && Transform_Moran != null)
             Renderer_Moran = Transform_Moran.GetComponentInChildren<SpriteRenderer>(true);
+    }
+
+    /// <summary>
+    /// Tutorial1Group에 들어올 때 카메라를 Tutorial1Background 기준 크기로 다시 맞춥니다.
+    /// Stage/Road에서 쓰던 광각 카메라 값이 남아 있으면 배경이 점처럼 작아지므로, 이 그룹이 자기 촬영 렌즈를 직접 세팅합니다.
+    /// </summary>
+    private void PrepareTutorialCameraView()
+    {
+        if (Camera_Main == null)
+            Camera_Main = Camera.main;
+
+        if (Camera_Main == null)
+            return;
+
+        if (Camera_Follow == null)
+            Camera_Main.TryGetComponent(out Camera_Follow);
+
+        SpriteRenderer backgroundRenderer = ResolveTutorialBackgroundRenderer();
+
+        if (backgroundRenderer != null)
+            FocusCameraOnRenderer(backgroundRenderer, _tutorialCameraPadding);
+        else
+            Camera_Main.orthographicSize = Mathf.Max(1f, _fallbackTutorialCameraSize);
+
+        if (Camera_Follow != null && Transform_JangYoungSim != null)
+        {
+            Camera_Follow.enabled = true;
+            Camera_Follow.SetTarget(Transform_JangYoungSim);
+        }
+    }
+
+    private SpriteRenderer ResolveTutorialBackgroundRenderer()
+    {
+        Transform[] childTransformArray = GetComponentsInChildren<Transform>(true);
+
+        foreach (Transform childTransform in childTransformArray)
+        {
+            if (childTransform == null || childTransform.name != _tutorialBackgroundName)
+                continue;
+
+            SpriteRenderer spriteRenderer = childTransform.GetComponent<SpriteRenderer>();
+
+            if (spriteRenderer != null)
+                return spriteRenderer;
+
+            return childTransform.GetComponentInChildren<SpriteRenderer>(true);
+        }
+
+        return null;
+    }
+
+    private void FocusCameraOnRenderer(SpriteRenderer targetRenderer, float padding)
+    {
+        if (Camera_Main == null || targetRenderer == null)
+            return;
+
+        Bounds bounds = targetRenderer.bounds;
+        float aspect = Mathf.Max(0.01f, Camera_Main.aspect);
+        float sizeByHeight = bounds.extents.y;
+        float sizeByWidth = bounds.extents.x / aspect;
+        float targetSize = Mathf.Max(sizeByHeight, sizeByWidth) * Mathf.Max(1f, padding);
+        Vector3 cameraPosition = bounds.center;
+        cameraPosition.z = Camera_Main.transform.position.z;
+
+        Camera_Main.orthographic = true;
+        Camera_Main.orthographicSize = Mathf.Max(1f, targetSize);
+        Camera_Main.transform.position = cameraPosition;
     }
 
     /// <summary>

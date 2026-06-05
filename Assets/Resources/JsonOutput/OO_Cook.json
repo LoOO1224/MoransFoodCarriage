@@ -34,5 +34,14 @@
     "Grade": "일반",
     "MaxStackCount": 99,
     "EffectDescription": "Stage2 탐욕스러운 오리에게 전달하는 퀘스트 음식입니다."
+  },
+  {
+    "Id": "OO_KoreanCake_1",
+    "Name": "한과",
+    "Description": "Stage2 보상으로 받는 달콤한 전통 과자입니다. 먼 길을 가는 동료들의 기운을 북돋워 줍니다.",
+    "IconPath": "Images/Food/KoreanCake",
+    "Grade": "일반",
+    "MaxStackCount": 99,
+    "EffectDescription": "Stage2 클리어 보상으로 지급되는 음식입니다."
   }
 ]

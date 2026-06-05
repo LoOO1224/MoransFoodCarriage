@@ -1,20 +1,44 @@
 [
   {
     "Id": "OO_Recipe_1",
-    "Name": "??? ???",
-    "Description": "?? ??? ?? ?? ?? ?? ??? ???? ?? ???? ???.",
+    "Name": "야채죽 조리법",
+    "Description": "쌀은 가마솟에, 채소는 도마에 올려 야채죽을 완성합니다.",
     "ResultItemId": "OO_VegetableSoup_1",
     "RequiredIngredients": "Ing_Rice_01|Ing_Veggie_01",
     "MaxDuplicateCount": 1,
-    "RequiredTool": "가마솥|도마"
+    "RequiredTool": "가마솟|도마",
+    "RequiredIngredientIds": "Ing_Rice_01|Ing_Veggie_01",
+    "RequiredIngredientCounts": "1|1",
+    "RequiredToolIds": "Cauldron|Cuttingboard",
+    "ResultCount": 1,
+    "QuantityGuideText": "야채죽은 쌀 1개와 채소 1개가 필요합니다."
+  },
+  {
+    "Id": "OO_Recipe_PumpkinSoup_1",
+    "Name": "호박죽 조리법",
+    "Description": "쌀 10개를 가마솟에, 호박 10개를 도마에 올려 호박죽 10개를 완성합니다.",
+    "ResultItemId": "OO_PumpkinSoup_1",
+    "RequiredIngredients": "Ing_Rice_01|Ing_Pumpkin_01",
+    "MaxDuplicateCount": 10,
+    "RequiredTool": "가마솟|도마",
+    "RequiredIngredientIds": "Ing_Rice_01|Ing_Pumpkin_01",
+    "RequiredIngredientCounts": "10|10",
+    "RequiredToolIds": "Cauldron|Cuttingboard",
+    "ResultCount": 10,
+    "QuantityGuideText": "호박죽은 쌀 10개와 호박 10개가 필요합니다. 슬롯 위에서 Ctrl을 누른 채 마우스 휠로 집기 수량을 조절하세요."
   },
   {
     "Id": "OO_Recipe_KimchiStew_1",
     "Name": "김치찌개 조리법",
-    "Description": "김치와 청양고추를 알맞은 조리도구에 올려 김치찌개를 완성합니다.",
+    "Description": "김치 10개를 가마솟에, 청양고추 10개를 도마에 올려 김치찌개를 완성합니다.",
     "ResultItemId": "OO_KimchiStew_1",
     "RequiredIngredients": "Ing_Kimch_01|Ing_ChiliPepper_01",
-    "MaxDuplicateCount": 1,
-    "RequiredTool": "가마솥|도마"
+    "MaxDuplicateCount": 10,
+    "RequiredTool": "가마솟|도마",
+    "RequiredIngredientIds": "Ing_Kimch_01|Ing_ChiliPepper_01",
+    "RequiredIngredientCounts": "10|10",
+    "RequiredToolIds": "Cauldron|Cuttingboard",
+    "ResultCount": 1,
+    "QuantityGuideText": "김치찌개는 김치 10개와 청양고추 10개가 필요합니다. 슬롯 위에서 Ctrl을 누른 채 마우스 휠로 집기 수량을 조절하세요."
   }
 ]

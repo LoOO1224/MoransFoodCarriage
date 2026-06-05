@@ -56,7 +56,6 @@ public class OOTechStage1GroupController : MonoBehaviour
     [SerializeField] private string _victoryTriggerName = "MoranVictory";
     [SerializeField] private float _walkingAnimationSpeed = 0.75f;
     [SerializeField] private float _runningAnimationSpeed = 1.5f;
-    [SerializeField] private float _victorySeconds = 2.6f;
 
     [Header("Transition")]
     [SerializeField] private float _fadeOutSeconds = 0.35f;
@@ -933,9 +932,13 @@ public class OOTechStage1GroupController : MonoBehaviour
 
     private IEnumerator CompleteVillageChiefFinalRewardRoutine()
     {
+        if (!RequestExchangePumpkinSoupForChiefReward())
+        {
+            Debug.LogWarning("[OOTechStage1GroupController] Stage1 reward exchange failed. Pumpkin soup count is not enough.");
+            yield break;
+        }
+
         _isVillageChiefFinalRewardComplete = true;
-        AddInventoryItem(_chiliPepperIngredientId, _chiefRewardCount);
-        AddInventoryItem(_kimchIngredientId, _chiefRewardCount);
         UpdateInteractionState();
 
         yield return PlayStageClearSequenceRoutine();
@@ -979,6 +982,53 @@ public class OOTechStage1GroupController : MonoBehaviour
             HUD_Road.RequestRefreshInventoryView();
             HUD_Road.SetInventoryNewBadgeActive(true);
         }
+    }
+
+    /// <summary>
+    /// 촌장에게 호박죽 10개를 넘기고 Stage2 요리에 필요한 청양고추와 김치를 받습니다.
+    /// 영화로 치면 배우가 소품 담당에게 완성된 음식 소품을 반납하고, 다음 장면 소품을 받아 가는 교환 큐입니다.
+    /// </summary>
+    private bool RequestExchangePumpkinSoupForChiefReward()
+    {
+        if (OOTechGameManager.Inst == null)
+            return false;
+
+        if (OOTechGameManager.Inst.GetItemCount(_pumpkinSoupCookId) < _requiredPumpkinSoupCount)
+            return false;
+
+        if (!OOTechGameManager.Inst.RemoveItem(_pumpkinSoupCookId, _requiredPumpkinSoupCount))
+            return false;
+
+        AddInventoryItemToTargetCount(_chiliPepperIngredientId, _chiefRewardCount);
+        AddInventoryItemToTargetCount(_kimchIngredientId, _chiefRewardCount);
+
+        if (HUD_Road != null)
+        {
+            HUD_Road.RequestRefreshInventoryView();
+            HUD_Road.SetInventoryNewBadgeActive(true);
+        }
+
+        Debug.Log("[OOTechStage1GroupController] Pumpkin soup exchanged for chili pepper and kimchi rewards.");
+        return true;
+    }
+
+    /// <summary>
+    /// 보상 아이템이 이미 일부 들어와 있어도 목표 수량까지만 채웁니다.
+    /// 같은 장면이 반복 실행되어도 보상이 중복으로 불어나는 일을 막기 위한 안전장치입니다.
+    /// </summary>
+    private void AddInventoryItemToTargetCount(string itemDataId, int targetCount)
+    {
+        if (OOTechGameManager.Inst == null || string.IsNullOrEmpty(itemDataId))
+            return;
+
+        int safeTargetCount = Mathf.Max(1, targetCount);
+        int currentCount = OOTechGameManager.Inst.GetItemCount(itemDataId);
+        int addCount = safeTargetCount - currentCount;
+
+        if (addCount <= 0)
+            return;
+
+        AddInventoryItem(itemDataId, addCount);
     }
 
     private void UpdateStageProgressByInventory()

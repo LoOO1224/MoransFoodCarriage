@@ -94,7 +94,7 @@ public class OOTechInventorySlotView : MonoBehaviour
 
     /// <summary>
     /// JSON IconPath로 불러온 Sprite를 슬롯의 Image_ItemIcon 배우에게 전달합니다.
-    /// 아이콘이 없을 때는 슬롯 배경을 건드리지 않고 텍스트만 유지합니다.
+    /// 아이콘이 아직 없을 때는 ItemCatalogManager가 임시 빈 아이콘을 넘겨 플레이어가 빈 자리를 알아볼 수 있게 합니다.
     /// </summary>
     private void RequestApplyIconView(Sprite iconSprite)
     {

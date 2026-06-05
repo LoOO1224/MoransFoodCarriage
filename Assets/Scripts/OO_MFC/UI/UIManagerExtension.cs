@@ -1,29 +1,28 @@
 // =============================================================================
 // OO_MFC 역할 주석
 // - 스크립트: UIManagerExtension.cs
-// - 역할: UI 표시와 입력 연결을 담당하는 UI 컴포넌트입니다.
-// - 감독 관점: 관객에게 보이는 패널과 버튼의 무대 동선을 담당합니다.
-// - 유지보수 포인트: 사용자가 직접 편집할 UI는 하이어라키/프리팹에 두고, 코드에서 즉석 생성하지 않습니다.
+// - 역할: 버튼 클릭처럼 여러 UI 그룹을 잇는 공용 호출을 모아 둡니다.
+// - 영화 비유: 극장 로비의 안내 데스크입니다. 관객이 "시작", "도감", "돌아가기"를 누르면
+//   어떤 무대의 문을 열고 닫을지만 안내하고, 각 무대의 실제 연기는 해당 Controller가 맡습니다.
+// - 유지보수 사인: 새 UI 흐름이 생겨도 여기서는 공통 이동 호출만 두고, 세부 연출은 그룹 컴포넌트로 분리합니다.
 // =============================================================================
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// UIManagerExtension
-/// 버튼 이벤트처럼 콘텐츠별로 추가되는 UI 흐름을 모아두는 확장 클래스입니다.
-/// UIManager는 Open / Close의 핵심 기능만 담당하고,
-/// 실제 화면 전환 시나리오는 이 클래스에서 조합합니다.
+/// 버튼 이벤트에서 자주 쓰는 UI 이동 흐름을 정리한 정적 클래스입니다.
+/// UIManager가 실제 문을 열고 닫는 무대 관리자라면, 이 클래스는 "어느 문으로 갈지"만 정하는 안내판입니다.
 /// </summary>
 public static class UIManagerExtension
 {
-    // ==================== Main Menu 버튼 이벤트 ====================
-
     /// <summary>
-    /// 시작하기 버튼 클릭 시 메인 메뉴를 닫고 프롤로그 그룹만 엽니다.
-    /// DialogueGroup은 PrologueController가 컷씬 클릭 입력을 받은 뒤 직접 엽니다.
+    /// 시작하기 버튼을 누르면 메인 메뉴를 닫고 Prologue1Group을 엽니다.
+    /// Game View에서는 메인 메뉴가 사라지고 첫 프롤로그 무대가 켜집니다.
     /// </summary>
     public static void OnStartButtonClicked()
     {
-        Debug.Log("[UIManagerExtension] 시작하기 버튼 클릭 → Prologue1Group 열기, DialogueGroup은 클릭 후 열기");
+        Debug.Log("[UIManagerExtension] Start button clicked. Opening Prologue1Group.");
 
         if (OOTechUIManager.Inst == null)
         {
@@ -37,11 +36,12 @@ public static class UIManagerExtension
     }
 
     /// <summary>
-    /// 도감 버튼 클릭 시 메인 메뉴를 닫고 도감 UI를 엽니다.
+    /// 메인 메뉴의 도감 버튼을 누르면 CodexGroup을 엽니다.
+    /// 현재 도감은 발표 전 안내 모드이므로 목록 대신 안내 문구를 보여줍니다.
     /// </summary>
     public static void OnCodexButtonClicked()
     {
-        Debug.Log("[UIManagerExtension] 도감 버튼 클릭 → CodexGroup 열기");
+        Debug.Log("[UIManagerExtension] Codex button clicked. Opening CodexGroup.");
 
         if (OOTechUIManager.Inst == null)
         {
@@ -54,23 +54,23 @@ public static class UIManagerExtension
     }
 
     /// <summary>
-    /// 종료 버튼 클릭 시 게임을 종료합니다.
+    /// 종료 버튼을 누르면 애플리케이션 종료를 요청합니다.
+    /// 에디터에서는 종료 로그만 보이고, 빌드된 게임에서는 프로그램이 닫힙니다.
     /// </summary>
     public static void OnExitButtonClicked()
     {
-        Debug.Log("[UIManagerExtension] 종료 버튼 클릭 → 게임 종료");
+        Debug.Log("[UIManagerExtension] Exit button clicked. Application quit requested.");
         Application.Quit();
     }
 
-    // ==================== BackButton 버튼 이벤트 ====================
-
     /// <summary>
-    /// 공용 뒤로가기 버튼 클릭 시 이전 그룹으로 돌아갑니다.
-    /// 현재는 CodexGroup에서 MainMenuGroup으로 돌아가는 용도로 사용합니다.
+    /// 공용 돌아가기 버튼을 누르면 이전 그룹으로 돌아갑니다.
+    /// Road/Stage에서 도감으로 들어온 경우에는 HUD와 입력 잠금까지 복구합니다.
     /// </summary>
     public static void OnBackButtonClicked(string previousGroupName = "MainMenuGroup")
     {
-        Debug.Log($"[UIManagerExtension] BackButton 클릭 → {previousGroupName}으로 돌아가기");
+        string safePreviousGroupName = string.IsNullOrEmpty(previousGroupName) ? "MainMenuGroup" : previousGroupName;
+        Debug.Log($"[UIManagerExtension] Back button clicked. Returning to {safePreviousGroupName}.");
 
         if (OOTechUIManager.Inst == null)
         {
@@ -79,12 +79,13 @@ public static class UIManagerExtension
         }
 
         OOTechUIManager.Inst.CloseUI("CodexGroup");
-        OOTechUIManager.Inst.OpenUI(previousGroupName);
-        RestoreRoadHUDIfNeeded(previousGroupName);
+        OOTechUIManager.Inst.OpenUI(safePreviousGroupName);
+        RestoreRoadHUDIfNeeded(safePreviousGroupName);
     }
 
     /// <summary>
-    /// Road/Stage에서 도감으로 갔다가 돌아온 경우 HUD와 MFC 입력 잠금을 복구합니다.
+    /// Road/Stage에서 도감으로 갔다가 돌아오면 HUD와 플레이어 입력을 다시 켭니다.
+    /// 영화로 치면 도감 로비에서 돌아온 뒤, 무대 조명과 배우 동선을 다시 원래 큐로 복구하는 단계입니다.
     /// </summary>
     private static void RestoreRoadHUDIfNeeded(string previousGroupName)
     {
@@ -94,11 +95,62 @@ public static class UIManagerExtension
         GameObject previousGroupObject = OOTechUIManager.Inst.GetCreatedUI(previousGroupName);
 
         if (previousGroupObject == null)
+            previousGroupObject = FindSceneObjectByName(previousGroupName);
+
+        if (previousGroupObject == null)
             return;
 
         OOTechRoadHUDController hudController = previousGroupObject.GetComponent<OOTechRoadHUDController>();
 
-        if (hudController != null)
-            hudController.RequestRestoreFromOverlayReturn();
+        if (hudController == null)
+            hudController = previousGroupObject.GetComponentInChildren<OOTechRoadHUDController>(true);
+
+        if (hudController == null)
+            return;
+
+        Time.timeScale = 1f;
+        hudController.RequestRestoreFromOverlayReturn();
+        Debug.Log($"[UIManagerExtension] Road HUD restored after returning to {previousGroupName}.");
+    }
+
+    /// <summary>
+    /// UIManager 등록 목록에 없던 씬 그룹도 이름으로 찾아옵니다.
+    /// 비활성 그룹까지 찾아야 하므로 씬 루트부터 자식들을 직접 훑습니다.
+    /// </summary>
+    private static GameObject FindSceneObjectByName(string objectName)
+    {
+        Scene activeScene = SceneManager.GetActiveScene();
+
+        if (!activeScene.IsValid())
+            return null;
+
+        foreach (GameObject rootObject in activeScene.GetRootGameObjects())
+        {
+            GameObject foundObject = FindChildByName(rootObject.transform, objectName);
+
+            if (foundObject != null)
+                return foundObject;
+        }
+
+        return null;
+    }
+
+    private static GameObject FindChildByName(Transform rootTransform, string objectName)
+    {
+        if (rootTransform == null)
+            return null;
+
+        if (rootTransform.name == objectName)
+            return rootTransform.gameObject;
+
+        for (int index = 0; index < rootTransform.childCount; index++)
+        {
+            GameObject foundObject = FindChildByName(rootTransform.GetChild(index), objectName);
+
+            if (foundObject != null)
+                return foundObject;
+        }
+
+        return null;
     }
 }

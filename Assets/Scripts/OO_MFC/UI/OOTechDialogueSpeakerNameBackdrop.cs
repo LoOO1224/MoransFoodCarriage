@@ -18,6 +18,8 @@ public class OOTechDialogueSpeakerNameBackdrop : MonoBehaviour
 {
     [SerializeField] private string _speakerNameObjectName = "SpeakerNameText";
     [SerializeField] private Color _backdropColor = new Color(1f, 1f, 1f, 0.5f);
+    [SerializeField] private Color _narrationBackdropColor = new Color(1f, 0.82f, 0.12f, 0.92f);
+    [SerializeField] private Color _characterBackdropColor = new Color(1f, 1f, 1f, 0.72f);
     [SerializeField] private Color _speakerNameColor = Color.black;
     [SerializeField] private Vector2 _padding = new Vector2(32f, 18f);
 
@@ -25,6 +27,7 @@ public class OOTechDialogueSpeakerNameBackdrop : MonoBehaviour
     private RectTransform Rect_Backdrop;
     private Image Image_Backdrop;
     private TextMeshProUGUI Text_SpeakerName;
+    private string _currentSpeakerName;
 
     /// <summary>
     /// 대화창이 처음 준비될 때 이름표 배경을 생성하거나 연결합니다.
@@ -48,6 +51,20 @@ public class OOTechDialogueSpeakerNameBackdrop : MonoBehaviour
     /// </summary>
     private void LateUpdate()
     {
+        if (Text_SpeakerName != null && _currentSpeakerName != Text_SpeakerName.text)
+            _currentSpeakerName = Text_SpeakerName.text;
+
+        ApplyBackdropLayout();
+    }
+
+    /// <summary>
+    /// 현재 화자 이름에 맞춰 이름표 색을 바꿉니다.
+    /// 영화로 치면 나레이션 마이크와 배우 대사 마이크에 서로 다른 조명을 주는 작업입니다.
+    /// </summary>
+    public void RequestApplySpeakerName(string speakerName)
+    {
+        _currentSpeakerName = speakerName ?? string.Empty;
+        _backdropColor = ResolveBackdropColor(_currentSpeakerName);
         ApplyBackdropLayout();
     }
 
@@ -112,7 +129,7 @@ public class OOTechDialogueSpeakerNameBackdrop : MonoBehaviour
         Rect_Backdrop.sizeDelta = Rect_SpeakerName.sizeDelta + _padding;
 
         if (Image_Backdrop != null)
-            Image_Backdrop.color = _backdropColor;
+            Image_Backdrop.color = ResolveBackdropColor(_currentSpeakerName);
 
         if (Text_SpeakerName != null)
             Text_SpeakerName.color = _speakerNameColor;
@@ -123,7 +140,26 @@ public class OOTechDialogueSpeakerNameBackdrop : MonoBehaviour
     /// </summary>
     private void ApplyRequestedStyle()
     {
-        _backdropColor = new Color(1f, 1f, 1f, 0.5f);
         _speakerNameColor = Color.black;
+    }
+
+    private Color ResolveBackdropColor(string speakerName)
+    {
+        if (IsNarrationSpeaker(speakerName))
+            return _narrationBackdropColor;
+
+        return _characterBackdropColor;
+    }
+
+    private bool IsNarrationSpeaker(string speakerName)
+    {
+        if (string.IsNullOrWhiteSpace(speakerName))
+            return true;
+
+        string normalizedName = speakerName.Trim().ToLowerInvariant();
+        return normalizedName.Contains("나레이션")
+            || normalizedName.Contains("narration")
+            || normalizedName.Contains("narrator")
+            || normalizedName.Contains("섎젅");
     }
 }

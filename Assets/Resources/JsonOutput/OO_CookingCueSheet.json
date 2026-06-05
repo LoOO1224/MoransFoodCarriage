@@ -1,0 +1,21 @@
+[
+  {
+    "Id": "Cooking_CueSheet_01",
+    "CauldronTutorialId": "narration_tutorial_11",
+    "CuttingboardTutorialId": "narration_tutorial_12",
+    "CauldronToolId": "Cauldron",
+    "CuttingboardToolId": "Cuttingboard",
+    "SortingOrder": 1260,
+    "ReferenceResolutionWidth": 1920,
+    "ReferenceResolutionHeight": 1080,
+    "CameraPadding": 1.04,
+    "GuideArrowBlinkSpeed": 6,
+    "GuideArrowMinimumAlpha": 0.25,
+    "NewBadgeBlinkSpeed": 7,
+    "NewBadgeMinimumAlpha": 0.25,
+    "DragGhostIconWidth": 88,
+    "DragGhostIconHeight": 88,
+    "EmptyPotText": "조리도구가 비어 있습니다.",
+    "DefaultStatusText": "재료를 집어 알맞은 조리도구 위에 올려주세요."
+  }
+]

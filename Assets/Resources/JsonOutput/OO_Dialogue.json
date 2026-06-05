@@ -302,7 +302,7 @@
   {
     "Id": "character_LeeMongRyong_04 ",
     "SpeakerName": "이몽령",
-    "Text": "\"(춘양을 따뜻하게 바라보며) 참으로 마음이 비단결 같은 동료들과 함께하고 있구나.\"",
+    "Text": "\"(춘양을 따뜻하게 바라보며) \"참으로 비단결 같은 마음을 가진 동료들과 함께하고 있구나.\"",
     "NextDialogueId": null,
     "SelectionNameList": null,
     "SelectionDialogueIdList": null,
@@ -312,7 +312,7 @@
   {
     "Id": "character_LeeMongRyong_05",
     "SpeakerName": "이몽령",
-    "Text": "\"나는 이곳에 남아 흩어진 민심을 바로잡고 왕실의 어둠을 살필 테니, 춘양 자네는 저들과 함께 고통받는 세상을 구하는 아름다운 여정을 계속 이어가 주시게.\"",
+    "Text": "\"나는 이곳에 남아 흩어진 민심을 바로잡고 왕실의 어둠을 살필 테니, 춘양 자네는 저들과 함께 고통받는 세상을 구하는 아름다운 여정을 계속 이어가 주시게. 내 너희의 여정에 보탬이 되길 바라며 이 쌀과 꿀단지를 내어주니, 부디 요긴하게 쓰이길 바란다.\"",
     "NextDialogueId": null,
     "SelectionNameList": null,
     "SelectionDialogueIdList": null,

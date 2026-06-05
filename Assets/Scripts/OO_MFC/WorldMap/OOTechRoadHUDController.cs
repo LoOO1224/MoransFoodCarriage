@@ -63,6 +63,11 @@ public class OOTechRoadHUDController : MonoBehaviour
     [SerializeField] private Vector2 _missionPanelBottomRightPosition = new Vector2(-36f, 132f);
     [SerializeField] private Vector2 _missionPanelSize = new Vector2(560f, 220f);
 
+    [Header("Inventory Scroll")]
+    [SerializeField] private float _inventorySlotHeight = 76f;
+    [SerializeField] private float _inventorySlotSpacing = 10f;
+    [SerializeField] private float _inventoryContentBottomPadding = 18f;
+
     [Header("Overlay View")]
     [SerializeField] private int _overlaySpriteSortingOrder = 3000;
 
@@ -84,6 +89,7 @@ public class OOTechRoadHUDController : MonoBehaviour
     private GameObject Root_GuideOverlay;
     private GameObject Root_ConfirmPopup;
     private RectTransform Rect_InventoryContent;
+    private ScrollRect Scroll_InventorySlots;
 
     private Button Button_MainMenu;
     private Button Button_Inventory;
@@ -99,6 +105,7 @@ public class OOTechRoadHUDController : MonoBehaviour
     private TextMeshProUGUI Text_MissionNewBadge;
     private TextMeshProUGUI Text_CookingNewBadge;
     private TextMeshProUGUI Text_CookingLabel;
+    private TextMeshProUGUI Text_InventoryQuantityGuide;
     private TextMeshProUGUI Text_GuideTitle;
     private TextMeshProUGUI Text_GuideBody;
     private TextMeshProUGUI Text_MainMenuConfirmMessage;
@@ -549,10 +556,14 @@ public class OOTechRoadHUDController : MonoBehaviour
         Text_CodexNewBadge = View_HUD.CodexNewBadgeText;
         Text_MissionNewBadge = View_HUD.MissionNewBadgeText;
         Text_CookingLabel = View_HUD.CookingLabelText;
+        Text_InventoryQuantityGuide = View_HUD.InventoryQuantityGuideText;
+        PrepareInventoryQuantityGuide();
         Image_CookingButton = View_HUD.CookingButtonImage;
         ResolveCookingNewBadge();
+        Scroll_InventorySlots = View_HUD.InventoryScrollRect;
         Rect_InventoryContent = View_HUD.InventoryContentRect;
         Slot_InventoryItemTemplate = View_HUD.InventorySlotTemplate;
+        ConfigureInventoryScrollView(false);
 
         Root_GuideOverlay = View_HUD.GuideOverlay;
         Rect_FocusArrow = View_HUD.FocusArrowRect;
@@ -797,6 +808,8 @@ public class OOTechRoadHUDController : MonoBehaviour
             Text_InventoryContent.text = text;
             Text_InventoryContent.alignment = TextAlignmentOptions.TopLeft;
         }
+
+        RebuildInventoryScrollView(true);
     }
 
     /// <summary>
@@ -816,6 +829,8 @@ public class OOTechRoadHUDController : MonoBehaviour
 
         if (slotView != null)
             slotView.RequestSetupItem(item.ItemDataId, $"{itemName}x{item.ItemStackCount}", itemIconSprite);
+
+        RebuildInventoryScrollView(true);
 
         if (Controller_CookingOverlay == null || !Controller_CookingOverlay.gameObject.activeInHierarchy)
             return;
@@ -865,7 +880,189 @@ public class OOTechRoadHUDController : MonoBehaviour
         GameObject slotObject = Instantiate(Slot_InventoryItemTemplate, Rect_InventoryContent, false);
         slotObject.name = objectName;
         slotObject.SetActive(true);
+        ApplyInventorySlotRowLayout(slotObject);
         return slotObject;
+    }
+
+    /// <summary>
+    /// 인벤토리 ScrollRect를 탄성 없는 스크롤로 고정합니다.
+    /// 영화로 치면 소품 선반이 관객 손을 놓는 순간 원위치로 튀지 않고, 감독이 내려둔 위치에 멈춰 있게 만드는 장치입니다.
+    /// </summary>
+    private void ConfigureInventoryScrollView(bool isResetToTop)
+    {
+        if (Scroll_InventorySlots == null && Rect_InventoryContent != null)
+            Scroll_InventorySlots = Rect_InventoryContent.GetComponentInParent<ScrollRect>(true);
+
+        if (Scroll_InventorySlots == null && Root_InventoryPanel != null)
+        {
+            GameObject scrollObject = FindChildByName(Root_InventoryPanel.transform, "Scroll_InventorySlots");
+
+            if (scrollObject != null)
+            {
+                Scroll_InventorySlots = scrollObject.GetComponent<ScrollRect>();
+
+                if (Scroll_InventorySlots == null)
+                    Scroll_InventorySlots = scrollObject.AddComponent<ScrollRect>();
+            }
+        }
+
+        if (Scroll_InventorySlots == null)
+            return;
+
+        Scroll_InventorySlots.horizontal = false;
+        Scroll_InventorySlots.vertical = true;
+        Scroll_InventorySlots.movementType = ScrollRect.MovementType.Clamped;
+        Scroll_InventorySlots.elasticity = 0f;
+        Scroll_InventorySlots.scrollSensitivity = 38f;
+        Scroll_InventorySlots.verticalScrollbarVisibility = ScrollRect.ScrollbarVisibility.Permanent;
+        Scroll_InventorySlots.verticalScrollbarSpacing = 8f;
+
+        if (Rect_InventoryContent != null)
+        {
+            Scroll_InventorySlots.content = Rect_InventoryContent;
+
+            if (Scroll_InventorySlots.viewport == null && Rect_InventoryContent.parent is RectTransform viewportRect)
+                Scroll_InventorySlots.viewport = viewportRect;
+        }
+
+        BindInventoryScrollbarIfNeeded();
+
+        if (isResetToTop)
+            Scroll_InventorySlots.verticalNormalizedPosition = 1f;
+    }
+
+    private void BindInventoryScrollbarIfNeeded()
+    {
+        if (Scroll_InventorySlots == null || Root_InventoryPanel == null)
+            return;
+
+        if (Scroll_InventorySlots.verticalScrollbar != null)
+        {
+            Scroll_InventorySlots.verticalScrollbar.gameObject.SetActive(true);
+            return;
+        }
+
+        GameObject scrollbarObject = FindChildByName(Root_InventoryPanel.transform, "Scrollbar_InventoryLeft");
+
+        if (scrollbarObject == null)
+            return;
+
+        Scrollbar scrollbar = scrollbarObject.GetComponent<Scrollbar>();
+
+        if (scrollbar == null)
+            return;
+
+        scrollbar.direction = Scrollbar.Direction.BottomToTop;
+        scrollbar.gameObject.SetActive(true);
+        Scroll_InventorySlots.verticalScrollbar = scrollbar;
+    }
+
+    /// <summary>
+    /// 슬롯 한 줄의 높이를 통일합니다.
+    /// 배우들이 줄 맞춰 서야 아래 줄까지 스크롤 무대에서 정확히 보이기 때문에, 템플릿 복제 직후 크기를 보정합니다.
+    /// </summary>
+    private void ApplyInventorySlotRowLayout(GameObject slotObject)
+    {
+        if (slotObject == null || !(slotObject.transform is RectTransform slotRect))
+            return;
+
+        float slotHeight = GetInventorySlotHeight();
+        slotRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, slotHeight);
+
+        LayoutElement layoutElement = slotObject.GetComponent<LayoutElement>();
+
+        if (layoutElement == null)
+            layoutElement = slotObject.AddComponent<LayoutElement>();
+
+        layoutElement.minHeight = slotHeight;
+        layoutElement.preferredHeight = slotHeight;
+        layoutElement.flexibleHeight = 0f;
+    }
+
+    /// <summary>
+    /// 아이템 개수에 맞춰 Content 높이를 다시 계산합니다.
+    /// 이 값이 부족하면 아래 배우가 무대 밖에 서 있는 것처럼 마지막 아이템이 마스크 뒤에 가려집니다.
+    /// </summary>
+    private void RebuildInventoryScrollView(bool isResetToTop)
+    {
+        if (Rect_InventoryContent == null)
+            return;
+
+        ConfigureInventoryScrollView(false);
+        ApplyInventoryContentLayout();
+        LayoutRebuilder.ForceRebuildLayoutImmediate(Rect_InventoryContent);
+        Canvas.ForceUpdateCanvases();
+
+        if (Scroll_InventorySlots != null)
+        {
+            Scroll_InventorySlots.StopMovement();
+
+            if (isResetToTop)
+                Scroll_InventorySlots.verticalNormalizedPosition = 1f;
+        }
+    }
+
+    private void ApplyInventoryContentLayout()
+    {
+        Rect_InventoryContent.anchorMin = new Vector2(0f, 1f);
+        Rect_InventoryContent.anchorMax = new Vector2(1f, 1f);
+        Rect_InventoryContent.pivot = new Vector2(0.5f, 1f);
+
+        VerticalLayoutGroup layoutGroup = Rect_InventoryContent.GetComponent<VerticalLayoutGroup>();
+
+        if (layoutGroup != null)
+        {
+            layoutGroup.childControlWidth = true;
+            layoutGroup.childControlHeight = false;
+            layoutGroup.childForceExpandWidth = true;
+            layoutGroup.childForceExpandHeight = false;
+            layoutGroup.spacing = _inventorySlotSpacing;
+        }
+
+        float contentHeight = CalculateInventoryContentHeight();
+        Rect_InventoryContent.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, contentHeight);
+        Rect_InventoryContent.anchoredPosition = new Vector2(Rect_InventoryContent.anchoredPosition.x, 0f);
+    }
+
+    private float CalculateInventoryContentHeight()
+    {
+        int visibleSlotCount = 0;
+
+        for (int index = 0; index < Rect_InventoryContent.childCount; index++)
+        {
+            Transform childTransform = Rect_InventoryContent.GetChild(index);
+
+            if (childTransform == null || !childTransform.gameObject.activeSelf)
+                continue;
+
+            if (Slot_InventoryItemTemplate != null && childTransform.gameObject == Slot_InventoryItemTemplate)
+                continue;
+
+            visibleSlotCount++;
+        }
+
+        float slotHeight = GetInventorySlotHeight();
+        float contentHeight = visibleSlotCount * slotHeight;
+
+        if (visibleSlotCount > 1)
+            contentHeight += (visibleSlotCount - 1) * _inventorySlotSpacing;
+
+        contentHeight += _inventoryContentBottomPadding;
+
+        RectTransform viewportRect = Scroll_InventorySlots != null && Scroll_InventorySlots.viewport != null ? Scroll_InventorySlots.viewport : null;
+        float viewportHeight = viewportRect != null ? viewportRect.rect.height : 0f;
+        return Mathf.Max(contentHeight, viewportHeight);
+    }
+
+    private float GetInventorySlotHeight()
+    {
+        if (_inventorySlotHeight > 1f)
+            return _inventorySlotHeight;
+
+        if (Slot_InventoryItemTemplate != null && Slot_InventoryItemTemplate.transform is RectTransform templateRect)
+            return Mathf.Max(1f, templateRect.rect.height, templateRect.sizeDelta.y);
+
+        return 76f;
     }
 
     /// <summary>
@@ -950,6 +1147,30 @@ public class OOTechRoadHUDController : MonoBehaviour
     {
         if (Root_InventoryPanel != null)
             Root_InventoryPanel.SetActive(isActive);
+
+        SetInventoryQuantityGuideActive(isActive);
+    }
+
+    /// <summary>
+    /// 인벤토리 안에 수량 조절 안내 문구를 준비합니다.
+    /// 영화로 치면 요리 장면 전에 소품을 몇 개 집는지 알려주는 작은 큐카드입니다.
+    /// </summary>
+    private void PrepareInventoryQuantityGuide()
+    {
+        if (Text_InventoryQuantityGuide == null)
+            return;
+
+        OOTechTMPFontUtility.ApplyProjectFont(Text_InventoryQuantityGuide);
+        Text_InventoryQuantityGuide.text = "Ctrl + 마우스 휠: 집을 수량 조절\n아이콘을 조리도구로 드래그";
+        Text_InventoryQuantityGuide.gameObject.SetActive(false);
+    }
+
+    private void SetInventoryQuantityGuideActive(bool isActive)
+    {
+        if (Text_InventoryQuantityGuide == null)
+            return;
+
+        Text_InventoryQuantityGuide.gameObject.SetActive(isActive);
     }
 
     private void SetMissionPanelActive(bool isActive)
@@ -1306,11 +1527,13 @@ public class OOTechRoadHUDController : MonoBehaviour
                 previousGroup.SetActive(true);
         }
 
-        _isOverlayOpen = false;
-        CloseCookingSupportHUD();
-
         if (previousGroupName == GetOwnerGroupName())
-            SetHUDVisible(true);
+            RequestRestoreFromOverlayReturn();
+        else
+        {
+            _isOverlayOpen = false;
+            CloseCookingSupportHUD();
+        }
     }
 
     /// <summary>
@@ -1373,7 +1596,7 @@ public class OOTechRoadHUDController : MonoBehaviour
             inventoryRect.anchorMax = new Vector2(0f, 0f);
             inventoryRect.pivot = new Vector2(0f, 0f);
             inventoryRect.anchoredPosition = new Vector2(28f, 170f);
-            inventoryRect.sizeDelta = new Vector2(460f, 330f);
+            inventoryRect.sizeDelta = new Vector2(560f, 520f);
         }
 
         if (missionRect != null)
@@ -1431,7 +1654,7 @@ public class OOTechRoadHUDController : MonoBehaviour
             inventoryRect.anchorMax = new Vector2(0f, 0f);
             inventoryRect.pivot = new Vector2(0f, 0f);
             inventoryRect.anchoredPosition = new Vector2(28f, 170f);
-            inventoryRect.sizeDelta = new Vector2(460f, 330f);
+            inventoryRect.sizeDelta = new Vector2(560f, 520f);
         }
 
         if (missionRect != null)

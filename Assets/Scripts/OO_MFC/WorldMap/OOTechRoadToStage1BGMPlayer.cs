@@ -18,6 +18,9 @@ public class OOTechRoadToStage1BGMPlayer : MonoBehaviour
 {
     [SerializeField] private AudioClip _worldMapRoadBGM;
     [SerializeField] private string _worldMapRoadBGMAssetPath = "Assets/Sounds/BGM/WorldMap_Road_BGM.mp3";
+    [SerializeField] private AudioClip _secondRoadStage2BGM;
+    [SerializeField] private string _secondRoadStage2BGMAssetPath = "Assets/Sounds/BGM/2_Road__Stage2_BGM.mp3";
+    [SerializeField] private string _secondRoadGroupName = "2nd_Road_to_Stage2";
 
     /// <summary>
     /// RoadGroup이 열리면 이동 BGM을 반복 재생합니다.
@@ -35,6 +38,9 @@ public class OOTechRoadToStage1BGMPlayer : MonoBehaviour
     /// </summary>
     private void OnDisable()
     {
+        if (IsSecondRoadStage2Group())
+            return;
+
         AudioClip bgmClip = ResolveClip();
 
         if (OOTechSoundManager.Inst != null && bgmClip != null)
@@ -46,12 +52,37 @@ public class OOTechRoadToStage1BGMPlayer : MonoBehaviour
     /// </summary>
     private AudioClip ResolveClip()
     {
+        if (IsSecondRoadStage2Group())
+            return ResolveSecondRoadStage2Clip();
+
         if (_worldMapRoadBGM != null)
             return _worldMapRoadBGM;
 
 #if UNITY_EDITOR
         if (!string.IsNullOrEmpty(_worldMapRoadBGMAssetPath))
             return AssetDatabase.LoadAssetAtPath<AudioClip>(_worldMapRoadBGMAssetPath);
+#endif
+
+        return null;
+    }
+
+    /// <summary>
+    /// 2nd Road는 Stage2까지 같은 BGM을 이어 씁니다.
+    /// 영화로 치면 길 장면에서 시작한 음악을 다음 무대 첫 장면까지 자연스럽게 물고 가는 큐입니다.
+    /// </summary>
+    private bool IsSecondRoadStage2Group()
+    {
+        return !string.IsNullOrEmpty(_secondRoadGroupName) && gameObject.name == _secondRoadGroupName;
+    }
+
+    private AudioClip ResolveSecondRoadStage2Clip()
+    {
+        if (_secondRoadStage2BGM != null)
+            return _secondRoadStage2BGM;
+
+#if UNITY_EDITOR
+        if (!string.IsNullOrEmpty(_secondRoadStage2BGMAssetPath))
+            return AssetDatabase.LoadAssetAtPath<AudioClip>(_secondRoadStage2BGMAssetPath);
 #endif
 
         return null;

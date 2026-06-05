@@ -20,9 +20,13 @@ public class OOTechItemCatalogManager : MonoBehaviour
 {
     public static OOTechItemCatalogManager Inst { get; private set; }
 
+    private const int EmptyIconTextureSize = 64;
+
     private readonly Dictionary<string, OOTechItemDefinitionObject> _itemDefinitionDic = new Dictionary<string, OOTechItemDefinitionObject>();
     private readonly Dictionary<string, Sprite> _loadedIconSpriteDic = new Dictionary<string, Sprite>();
     private readonly HashSet<string> _missingIconWarningSet = new HashSet<string>();
+    private static Sprite _sharedEmptyIconSprite;
+    private static Texture2D _sharedEmptyIconTexture;
 
     /// <summary>
     /// 하나의 아이템 카탈로그 매니저만 유지하고 씬 안의 아이템 역할표를 캐싱합니다.
@@ -155,6 +159,12 @@ public class OOTechItemCatalogManager : MonoBehaviour
         if (dataSprite != null && !string.IsNullOrEmpty(itemDataId))
             _loadedIconSpriteDic[itemDataId] = dataSprite;
 
+        if (dataSprite == null)
+            dataSprite = RequestGetEmptyIconSprite();
+
+        if (!string.IsNullOrEmpty(itemDataId))
+            _loadedIconSpriteDic[itemDataId] = dataSprite;
+
         return dataSprite;
     }
 
@@ -167,7 +177,8 @@ public class OOTechItemCatalogManager : MonoBehaviour
         if (Inst != null)
             return Inst.GetItemIconSprite(itemDataId);
 
-        return RequestLoadIconSpriteFromPath(RequestGetIconPathFromData(itemDataId));
+        Sprite iconSprite = RequestLoadIconSpriteFromPath(RequestGetIconPathFromData(itemDataId));
+        return iconSprite != null ? iconSprite : RequestGetEmptyIconSprite();
     }
 
     private string GetDataDisplayName(string itemDataId)
@@ -200,7 +211,7 @@ public class OOTechItemCatalogManager : MonoBehaviour
             return iconSprite;
 
         RequestLogMissingIcon(itemDataId, iconPath);
-        return null;
+        return RequestGetEmptyIconSprite();
     }
 
     private void RequestLogMissingIcon(string itemDataId, string iconPath)
@@ -226,6 +237,12 @@ public class OOTechItemCatalogManager : MonoBehaviour
 
         if (cookData != null && !string.IsNullOrEmpty(cookData.IconPath))
             return cookData.IconPath;
+
+        if (itemDataId == "OO_KoreanCake_1")
+            return "Images/Food/KoreanCake";
+
+        if (itemDataId == "Ing_Honey_01")
+            return "Images/Food/Honey";
 
         return string.Empty;
     }
@@ -345,6 +362,47 @@ public class OOTechItemCatalogManager : MonoBehaviour
         return path.StartsWith(prefix) ? path.Substring(prefix.Length) : path;
     }
 
+    /// <summary>
+    /// 아직 이미지가 준비되지 않은 아이템을 위한 임시 빈 아이콘을 반환합니다.
+    /// 감독 비유로는 실제 소품 사진이 도착하기 전까지 무대에 올려 두는 "준비중" 자리표입니다.
+    /// </summary>
+    private static Sprite RequestGetEmptyIconSprite()
+    {
+        if (_sharedEmptyIconSprite != null)
+            return _sharedEmptyIconSprite;
+
+        _sharedEmptyIconTexture = new Texture2D(EmptyIconTextureSize, EmptyIconTextureSize, TextureFormat.RGBA32, false);
+        _sharedEmptyIconTexture.name = "Texture_ItemIcon_Empty";
+
+        Color borderColor = new Color(0.58f, 0.58f, 0.58f, 1f);
+        Color fillColor = new Color(0.18f, 0.18f, 0.18f, 0.72f);
+        Color markColor = new Color(0.88f, 0.88f, 0.88f, 1f);
+        int center = EmptyIconTextureSize / 2;
+
+        for (int y = 0; y < EmptyIconTextureSize; y++)
+        {
+            for (int x = 0; x < EmptyIconTextureSize; x++)
+            {
+                bool isBorder = x < 3 || y < 3 || x >= EmptyIconTextureSize - 3 || y >= EmptyIconTextureSize - 3;
+                bool isQuestionStem = x >= center - 3 && x <= center + 3 && y >= 16 && y <= 26;
+                bool isQuestionTop = x >= center - 10 && x <= center + 10 && y >= 39 && y <= 45;
+                bool isQuestionHook = x >= center + 5 && x <= center + 11 && y >= 28 && y <= 42;
+                bool isQuestionDot = x >= center - 3 && x <= center + 3 && y >= 9 && y <= 14;
+                Color pixelColor = isBorder ? borderColor : fillColor;
+
+                if (isQuestionStem || isQuestionTop || isQuestionHook || isQuestionDot)
+                    pixelColor = markColor;
+
+                _sharedEmptyIconTexture.SetPixel(x, y, pixelColor);
+            }
+        }
+
+        _sharedEmptyIconTexture.Apply();
+        _sharedEmptyIconSprite = Sprite.Create(_sharedEmptyIconTexture, new Rect(0f, 0f, EmptyIconTextureSize, EmptyIconTextureSize), new Vector2(0.5f, 0.5f), 100f);
+        _sharedEmptyIconSprite.name = "Sprite_ItemIcon_Empty";
+        return _sharedEmptyIconSprite;
+    }
+
     private string GetFallbackDisplayName(string itemDataId)
     {
         if (itemDataId == "Ing_Rice_01")
@@ -376,6 +434,9 @@ public class OOTechItemCatalogManager : MonoBehaviour
 
         if (itemDataId == "OO_GrilledFishMeal_1")
             return "조기밥상";
+
+        if (itemDataId == "OO_KoreanCake_1")
+            return "\uD55C\uACFC";
 
         if (itemDataId == "OO_KimchiStew_1")
             return "김치찌개";

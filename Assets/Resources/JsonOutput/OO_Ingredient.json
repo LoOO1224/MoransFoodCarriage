@@ -50,7 +50,7 @@
   {
     "Id": "Ing_Honey_01",
     "Name": "꿀",
-    "Description": "Stage2 보상으로 받는 달콤한 재료입니다.",
+    "Description": "Stage2 보상으로 받는 달콤한 재료입니다. 이후 요리와 거래 보상에 사용할 수 있습니다.",
     "IconPath": "Images/Food/Honey",
     "Grade": "일반",
     "MaxStackCount": 99

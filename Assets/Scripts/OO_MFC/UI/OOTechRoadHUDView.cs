@@ -35,11 +35,13 @@ public class OOTechRoadHUDView : MonoBehaviour
     [SerializeField] private TextMeshProUGUI Text_CodexNewBadge;
     [SerializeField] private TextMeshProUGUI Text_MissionNewBadge;
     [SerializeField] private TextMeshProUGUI Text_CookingLabel;
+    [SerializeField] private TextMeshProUGUI Text_InventoryQuantityGuide;
 
     [Header("Images")]
     [SerializeField] private Image Image_CookingButton;
 
     [Header("Inventory")]
+    [SerializeField] private ScrollRect Scroll_InventorySlots;
     [SerializeField] private RectTransform Rect_InventoryContent;
     [SerializeField] private GameObject Slot_InventoryItemTemplate;
 
@@ -71,7 +73,9 @@ public class OOTechRoadHUDView : MonoBehaviour
     public TextMeshProUGUI CodexNewBadgeText => Text_CodexNewBadge;
     public TextMeshProUGUI MissionNewBadgeText => Text_MissionNewBadge;
     public TextMeshProUGUI CookingLabelText => Text_CookingLabel;
+    public TextMeshProUGUI InventoryQuantityGuideText => Text_InventoryQuantityGuide;
     public Image CookingButtonImage => Image_CookingButton;
+    public ScrollRect InventoryScrollRect => Scroll_InventorySlots;
     public RectTransform InventoryContentRect => Rect_InventoryContent;
     public GameObject InventorySlotTemplate => Slot_InventoryItemTemplate;
     public GameObject GuideOverlay => Root_GuideOverlay;
@@ -106,11 +110,18 @@ public class OOTechRoadHUDView : MonoBehaviour
         Text_InventoryNewBadge = ResolveText(Text_InventoryNewBadge, "NewBadge_Inventory", "Text_InventoryNewBadge");
         Text_CodexNewBadge = ResolveText(Text_CodexNewBadge, "NewBadge_Codex", "Text_CodexNewBadge");
         Text_MissionNewBadge = ResolveText(Text_MissionNewBadge, "NewBadge_Mission", "Text_MissionNewBadge");
+        Text_InventoryQuantityGuide = ResolveText(Text_InventoryQuantityGuide, "Text_InventoryQuantityGuide");
 
         if (Button_Cooking != null)
         {
             Image_CookingButton = Image_CookingButton != null ? Image_CookingButton : Button_Cooking.GetComponent<Image>();
             Text_CookingLabel = Text_CookingLabel != null ? Text_CookingLabel : Button_Cooking.GetComponentInChildren<TextMeshProUGUI>(true);
+        }
+
+        if (Scroll_InventorySlots == null)
+        {
+            Transform scrollTransform = FindChildByName(transform, "Scroll_InventorySlots");
+            Scroll_InventorySlots = scrollTransform != null ? scrollTransform.GetComponent<ScrollRect>() : null;
         }
 
         if (Rect_InventoryContent == null)

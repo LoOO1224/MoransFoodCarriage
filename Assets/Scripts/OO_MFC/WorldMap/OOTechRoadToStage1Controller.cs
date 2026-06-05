@@ -109,6 +109,13 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
         "character_Moran_06"
     };
 
+    [Header("Stage1 Reward Repair")]
+    [SerializeField] private string _stage1PumpkinSoupCookId = "OO_PumpkinSoup_1";
+    [SerializeField] private string _stage1ChiliPepperIngredientId = "Ing_ChiliPepper_01";
+    [SerializeField] private string _stage1KimchIngredientId = "Ing_Kimch_01";
+    [SerializeField] private int _stage1RequiredPumpkinSoupCount = 10;
+    [SerializeField] private int _stage1ChiefRewardCount = 10;
+
     private GameObject[] _mapObjectArray;
     private int _currentMapIndex;
     private bool _isChangingMap;
@@ -184,9 +191,54 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
         CacheTutorial2Reference();
         CloseBlockingSceneGroups();
         PrepareRoadHUD();
+        RepairStage1RewardInventoryIfNeeded();
         PrepareRoadTrip();
         StartOpeningTutorialIfNeeded();
         StartRoadOpeningDialogueIfNeeded();
+    }
+
+    /// <summary>
+    /// Stage1 완료 보상이 빠진 상태로 2nd_Road에 들어온 경우 인벤토리를 한 번 보정합니다.
+    /// 영화로 치면 이전 장면에서 소품 교환 큐가 누락됐을 때, 다음 무대 입구에서 소품 담당이 빠르게 정산하는 안전 큐입니다.
+    /// </summary>
+    private void RepairStage1RewardInventoryIfNeeded()
+    {
+        bool isSecondRoadGroup = _currentGroupName == _secondRoadGroupName || gameObject.name == _secondRoadGroupName;
+
+        if (!isSecondRoadGroup || OOTechGameManager.Inst == null)
+            return;
+
+        if (OOTechGameManager.Inst.GetItemCount(_stage1PumpkinSoupCookId) < _stage1RequiredPumpkinSoupCount)
+            return;
+
+        if (!OOTechGameManager.Inst.RemoveItem(_stage1PumpkinSoupCookId, _stage1RequiredPumpkinSoupCount))
+            return;
+
+        AddInventoryItemToTargetCount(_stage1ChiliPepperIngredientId, _stage1ChiefRewardCount);
+        AddInventoryItemToTargetCount(_stage1KimchIngredientId, _stage1ChiefRewardCount);
+
+        if (HUD_Road != null)
+        {
+            HUD_Road.RequestRefreshInventoryView();
+            HUD_Road.SetInventoryNewBadgeActive(true);
+        }
+
+        Debug.Log("[OOTechRoadToStage1Controller] Stage1 reward inventory was repaired on 2nd_Road_to_Stage2 entry.");
+    }
+
+    private void AddInventoryItemToTargetCount(string itemDataId, int targetCount)
+    {
+        if (OOTechGameManager.Inst == null || string.IsNullOrEmpty(itemDataId))
+            return;
+
+        int safeTargetCount = Mathf.Max(1, targetCount);
+        int currentCount = OOTechGameManager.Inst.GetItemCount(itemDataId);
+        int addCount = safeTargetCount - currentCount;
+
+        if (addCount <= 0)
+            return;
+
+        OOTechGameManager.Inst.AddItem(itemDataId, addCount);
     }
 
     /// <summary>

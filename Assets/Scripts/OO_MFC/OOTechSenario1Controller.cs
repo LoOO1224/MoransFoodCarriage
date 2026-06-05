@@ -91,6 +91,9 @@ public class OOTechSenario1Controller : MonoBehaviour
     [HideInInspector]
     [SerializeField] private Camera Camera_Main;
     [SerializeField] private float _cameraFocusWaitSeconds = 0.65f;
+    [SerializeField] private float _scenarioCameraPadding = 1.02f;
+    [SerializeField] private float _fallbackScenarioCameraSize = 8f;
+    [SerializeField] private float _maximumValidScenarioCameraSize = 50f;
 
     [Header("UI & Tutorial")]
     [HideInInspector]
@@ -121,6 +124,7 @@ public class OOTechSenario1Controller : MonoBehaviour
     [SerializeField] private string _mrJaeikIdleStateName = "Mr.Jaeik_Idle";
     [SerializeField] private string _chunyangIdleStateName = "Chunyang_Idle";
     [SerializeField] private string _moranIdleStateName = "Moran_Idle";
+    [SerializeField] private int _chunyangVisibleSortingOrder = 70;
 
     [Header("Character Idle Clip")]
     [SerializeField] private AnimationClip Clip_MrJaeikIdle;
@@ -362,8 +366,49 @@ public class OOTechSenario1Controller : MonoBehaviour
         if (Camera_Follow == null && Camera_Main != null)
             Camera_Main.TryGetComponent(out Camera_Follow);
 
-        if (Camera_Main != null && _originCameraOrthographicSize <= 0f)
-            _originCameraOrthographicSize = Camera_Main.orthographicSize;
+        if (Camera_Main != null && (_originCameraOrthographicSize <= 0f || IsCameraSizeTooWide(_originCameraOrthographicSize)))
+            _originCameraOrthographicSize = ResolveScenarioCameraSize();
+    }
+
+    /// <summary>
+    /// Scenario1Group이 시작될 때 사용할 기본 카메라 크기를 배경 기준으로 계산합니다.
+    /// 이전 Road/Stage의 넓은 촬영 값이 남아 있으면 캐릭터 무대가 너무 멀리 보이므로, 이 그룹의 배경 크기를 기준 렌즈로 씁니다.
+    /// </summary>
+    private float ResolveScenarioCameraSize()
+    {
+        SpriteRenderer backgroundRenderer = ResolveScenarioBackgroundRenderer();
+
+        if (backgroundRenderer == null || Camera_Main == null)
+            return Mathf.Max(1f, _fallbackScenarioCameraSize);
+
+        Bounds bounds = backgroundRenderer.bounds;
+        float aspect = Mathf.Max(0.01f, Camera_Main.aspect);
+        float sizeByHeight = bounds.extents.y;
+        float sizeByWidth = bounds.extents.x / aspect;
+        return Mathf.Max(1f, Mathf.Max(sizeByHeight, sizeByWidth) * Mathf.Max(1f, _scenarioCameraPadding));
+    }
+
+    private SpriteRenderer ResolveScenarioBackgroundRenderer()
+    {
+        GameObject backgroundObject = Object_Senario1Background != null ? Object_Senario1Background : FindChildGameObject(_backgroundObjectName);
+
+        if (backgroundObject == null)
+            backgroundObject = Object_Senario1Background2 != null ? Object_Senario1Background2 : FindChildGameObject(_background2ObjectName);
+
+        return backgroundObject != null ? backgroundObject.GetComponentInChildren<SpriteRenderer>(true) : null;
+    }
+
+    private bool IsCameraSizeTooWide(float cameraSize)
+    {
+        return cameraSize > Mathf.Max(1f, _maximumValidScenarioCameraSize);
+    }
+
+    private void ApplyScenarioBaseCameraSize()
+    {
+        if (Camera_Main == null || !Camera_Main.orthographic)
+            return;
+
+        Camera_Main.orthographicSize = GetOriginCameraSize();
     }
 
     private void CacheBGMReference()
@@ -828,6 +873,7 @@ public class OOTechSenario1Controller : MonoBehaviour
         // 다음 장면은 춘양 등장이므로 패널을 잠깐 닫고,
         // 카메라 조명을 춘양 배우에게 넘긴 뒤 다시 대사 패널을 엽니다.
         SetObjectActive(Transform_Chunyang, true);
+        RequestRestoreVisibleCharacterView(Transform_Chunyang, _chunyangVisibleSortingOrder);
         PrepareCharacterIdleAnimation(Transform_Chunyang, _chunyangIdleStateName, Clip_ChunyangIdle);
         FocusCamera(Transform_Chunyang, false);
 
@@ -1081,9 +1127,13 @@ public class OOTechSenario1Controller : MonoBehaviour
             return;
 
         CacheCameraReference();
+        ApplyScenarioBaseCameraSize();
 
         if (Camera_Follow != null)
+        {
+            Camera_Follow.enabled = true;
             Camera_Follow.SetTarget(target);
+        }
 
         if (isSnapImmediately)
             SnapCameraToTarget(target);
@@ -1277,6 +1327,32 @@ public class OOTechSenario1Controller : MonoBehaviour
     {
         if (target != null)
             target.gameObject.SetActive(isActive);
+    }
+
+    /// <summary>
+    /// 등장 배우의 SpriteRenderer를 다시 보이는 상태로 정리합니다.
+    /// 영화로 치면 무대 위에 올라온 배우가 배경막 뒤에 묻히지 않도록 조명과 앞뒤 순서를 다시 맞추는 큐입니다.
+    /// </summary>
+    private void RequestRestoreVisibleCharacterView(Transform target, int minimumSortingOrder)
+    {
+        if (target == null)
+            return;
+
+        SpriteRenderer[] rendererArray = target.GetComponentsInChildren<SpriteRenderer>(true);
+
+        foreach (SpriteRenderer spriteRenderer in rendererArray)
+        {
+            if (spriteRenderer == null)
+                continue;
+
+            spriteRenderer.enabled = true;
+            spriteRenderer.sortingLayerName = "Characters";
+            spriteRenderer.sortingOrder = Mathf.Max(spriteRenderer.sortingOrder, minimumSortingOrder);
+
+            Color color = spriteRenderer.color;
+            color.a = 1f;
+            spriteRenderer.color = color;
+        }
     }
 
     private Transform FindChildTransform(string objectName)

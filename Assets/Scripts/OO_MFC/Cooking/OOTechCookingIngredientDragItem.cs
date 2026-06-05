@@ -15,10 +15,13 @@ using UnityEngine.UI;
 /// 플레이어가 슬롯을 끌어 가마솥에 놓으면 CookingGroupController가 요리를 판정합니다.
 /// </summary>
 [DisallowMultipleComponent]
-public class OOTechCookingIngredientDragItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
+public class OOTechCookingIngredientDragItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IScrollHandler
 {
     private OOTechCookingGroupController Controller_Cooking;
     private string _itemDataId;
+    private string _itemName;
+    private int _itemCount;
+    private int _dragQuantity = 1;
     private TextMeshProUGUI Text_Label;
     private RectTransform Rect_IconDragArea;
     private RectTransform Rect_DragGhost;
@@ -31,13 +34,14 @@ public class OOTechCookingIngredientDragItem : MonoBehaviour, IBeginDragHandler,
     {
         Controller_Cooking = controller;
         _itemDataId = itemDataId;
+        _itemName = itemName;
+        _itemCount = Mathf.Max(0, itemCount);
+        _dragQuantity = Mathf.Clamp(_dragQuantity, 1, Mathf.Max(1, _itemCount));
 
         if (Text_Label == null)
             Text_Label = GetComponentInChildren<TextMeshProUGUI>(true);
 
-        if (Text_Label != null)
-            Text_Label.text = $"{itemName} x{itemCount}";
-
+        ApplySlotLabel();
         ResolveIconDragArea();
     }
 
@@ -54,7 +58,7 @@ public class OOTechCookingIngredientDragItem : MonoBehaviour, IBeginDragHandler,
         if (!_isDraggingFromIcon)
             return;
 
-        Rect_DragGhost = Controller_Cooking.CreateDragGhost(_itemDataId, eventData.position);
+        Rect_DragGhost = Controller_Cooking.CreateDragGhost(_itemDataId, eventData.position, _dragQuantity);
     }
 
     /// <summary>
@@ -74,13 +78,34 @@ public class OOTechCookingIngredientDragItem : MonoBehaviour, IBeginDragHandler,
     public void OnEndDrag(PointerEventData eventData)
     {
         if (_isDraggingFromIcon && Controller_Cooking != null)
-            Controller_Cooking.RequestDropIngredientAtPosition(_itemDataId, eventData.position);
+            Controller_Cooking.RequestDropIngredientAtPosition(_itemDataId, eventData.position, _dragQuantity);
 
         if (Rect_DragGhost != null)
             Destroy(Rect_DragGhost.gameObject);
 
         Rect_DragGhost = null;
         _isDraggingFromIcon = false;
+    }
+
+    /// <summary>
+    /// Ctrl을 누르고 마우스 휠을 돌리면 이번에 집을 재료 수량을 조절합니다.
+    /// 영화 비유로는 소품 한 개를 들지, 같은 소품 열 개를 한 번에 들지 배우가 손에 쥐는 개수를 정하는 큐입니다.
+    /// </summary>
+    public void OnScroll(PointerEventData eventData)
+    {
+        if (eventData == null || !Input.GetKey(KeyCode.LeftControl) && !Input.GetKey(KeyCode.RightControl))
+            return;
+
+        if (_itemCount <= 0)
+            return;
+
+        int delta = eventData.scrollDelta.y > 0f ? 1 : -1;
+        _dragQuantity = Mathf.Clamp(_dragQuantity + delta, 1, _itemCount);
+        ApplySlotLabel();
+        eventData.Use();
+
+        if (Controller_Cooking != null)
+            Controller_Cooking.RequestShowCookingStatus($"{_itemName} 집기 수량: {_dragQuantity}개");
     }
 
     /// <summary>
@@ -105,6 +130,15 @@ public class OOTechCookingIngredientDragItem : MonoBehaviour, IBeginDragHandler,
 
         Camera eventCamera = eventData != null ? eventData.pressEventCamera : null;
         return eventData != null && RectTransformUtility.RectangleContainsScreenPoint(Rect_IconDragArea, eventData.position, eventCamera);
+    }
+
+    private void ApplySlotLabel()
+    {
+        if (Text_Label == null)
+            return;
+
+        string quantityText = _dragQuantity > 1 ? $" / 집기 x{_dragQuantity}" : string.Empty;
+        Text_Label.text = $"{_itemName} x{_itemCount}{quantityText}";
     }
 
     private Transform FindChildByName(Transform rootTransform, string childName)

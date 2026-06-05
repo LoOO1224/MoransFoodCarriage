@@ -1,18 +1,19 @@
 // =============================================================================
 // OO_MFC 역할 주석
 // - 스크립트: OOTechWorldMapOverlayController.cs
-// - 역할: 로드맵, 월드맵, 스테이지 전환 흐름을 담당하는 장면 Controller입니다.
-// - 감독 관점: 길 위의 장면 전환 큐시트를 들고 있는 무대감독입니다.
-// - 유지보수 포인트: 배경/버튼/캐릭터 배치는 오브젝트와 View가 맡고, 이 스크립트는 순서 지휘만 맡아야 합니다.
+// - 역할: WorldMapGroup이 열렸을 때 카메라를 월드맵 배경에 맞추고 안내창을 관리합니다.
+// - 영화 비유: 월드맵 무대가 열리면 촬영감독이 전체 세트를 한눈에 잡고,
+//   안내 스태프가 "초상화 워프 기능은 발표 전 업데이트 예정" 팻말을 잠깐 보여줍니다.
+// - 유지보수 포인트: 실제 안내창 오브젝트는 WorldMapGuideUIGroup에 두고,
+//   이 Controller는 켜기/끄기와 카메라 지휘만 담당합니다.
 // =============================================================================
-using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 /// <summary>
-/// WorldMapGroup이 열렸을 때 카메라를 월드맵 배경에 맞추고 드래그 이동을 처리합니다.
-/// Game View에서는 플레이어가 좌클릭을 누른 채 맵을 둘러볼 수 있게 합니다.
+/// WorldMapGroup 전용 오버레이 진행을 담당합니다.
+/// Game View에서는 월드맵 전체가 보이고, 안내창을 클릭하면 창만 닫힌 뒤 돌아가기 버튼으로 이전 장면에 복귀합니다.
 /// </summary>
 [DisallowMultipleComponent]
 public class OOTechWorldMapOverlayController : MonoBehaviour
@@ -26,60 +27,63 @@ public class OOTechWorldMapOverlayController : MonoBehaviour
     [SerializeField] private bool _isEnableMapDrag = true;
 
     [Header("Guide")]
-    [SerializeField] private bool _isShowDragGuide = false;
+    [SerializeField] private bool _isShowAnnouncementOnOpen = true;
+    [SerializeField] private bool _isCloseAnnouncementByAnyClick = true;
     [SerializeField] private int _guideSortingOrder = 1680;
-    [SerializeField] private Vector2 _referenceResolution = new Vector2(1920f, 1080f);
     [SerializeField] private string _guideTitle = "월드맵";
-    [SerializeField] private string _guideDescription = "좌클릭을 누른 채 맵을 움직여 볼 수 있습니다.";
+    [TextArea(3, 8)]
+    [SerializeField] private string _guideDescription = "월드맵은 발표 전 업데이트 예정입니다.\n각 스테이지의 중요 인물들 초상화를 걸고, 클릭하면 그곳으로 바로 워프되는 기능을 구현 예정입니다.";
 
     private CameraFollowController Camera_Follow;
-    private bool _hasSavedCameraState;
-    private Vector3 _savedCameraPosition;
-    private float _savedOrthographicSize;
-    private bool _savedOrthographic;
-    private bool _savedFollowEnabled;
-    private Bounds _mapBounds;
-    private bool _hasMapBounds;
-    private bool _isDraggingMap;
-    private bool _isGuideClosed;
-    private Vector2 _dragStartScreenPosition;
-    private Vector3 _dragStartCameraPosition;
     private OOTechWorldMapOverlayView View_Overlay;
     private GameObject Root_GuideCanvas;
+    private Bounds _mapBounds;
+    private bool _hasMapBounds;
+    private bool _hasSavedCameraState;
+    private bool _isDraggingMap;
+    private bool _isGuideClosed;
+    private bool _savedOrthographic;
+    private bool _savedFollowEnabled;
+    private float _savedOrthographicSize;
+    private Vector2 _dragStartScreenPosition;
+    private Vector3 _savedCameraPosition;
+    private Vector3 _dragStartCameraPosition;
 
     /// <summary>
-    /// 월드맵 무대가 열리면 카메라를 맵 보기 상태로 바꾸고 안내 말풍선을 켭니다.
+    /// 월드맵 무대가 열릴 때 전체 지도에 카메라를 맞추고 안내창을 켭니다.
     /// </summary>
     private void OnEnable()
     {
+        _isGuideClosed = false;
         ApplyWorldMapCameraView();
 
-        if (_isShowDragGuide)
-            CreateDragGuideIfNeeded();
+        if (_isShowAnnouncementOnOpen)
+            RequestOpenAnnouncement();
         else
-            SetDragGuideActive(false);
+            SetGuideActive(false);
     }
 
     /// <summary>
-    /// 월드맵 무대가 닫히면 안내와 카메라 상태를 원래 장면으로 복구합니다.
+    /// 월드맵 무대를 닫을 때 카메라를 이전 Road/Stage 시점으로 돌려놓습니다.
     /// </summary>
     private void OnDisable()
     {
         _isDraggingMap = false;
-        SetDragGuideActive(false);
+        SetGuideActive(false);
         RestoreCameraView();
     }
 
     /// <summary>
-    /// 월드맵 위에서 마우스 드래그 입력을 계속 확인합니다.
+    /// 안내창 클릭 닫기와 월드맵 드래그 입력을 매 프레임 확인합니다.
     /// </summary>
     private void Update()
     {
+        HandleGuideCloseInput();
         HandleMapDragInput();
     }
 
     /// <summary>
-    /// 월드맵 배경 이미지가 한 화면에 들어오도록 카메라 위치와 크기를 맞춥니다.
+    /// 월드맵 배경 SpriteRenderer가 화면에 한눈에 들어오도록 카메라 위치와 크기를 맞춥니다.
     /// </summary>
     public void ApplyWorldMapCameraView()
     {
@@ -119,9 +123,6 @@ public class OOTechWorldMapOverlayController : MonoBehaviour
         ClampCameraToMapBounds();
     }
 
-    /// <summary>
-    /// 월드맵을 닫을 때 이전 로드/스테이지 카메라 상태로 되돌립니다.
-    /// </summary>
     private void RestoreCameraView()
     {
         if (!_hasSavedCameraState || Camera_Main == null)
@@ -138,9 +139,6 @@ public class OOTechWorldMapOverlayController : MonoBehaviour
         _hasMapBounds = false;
     }
 
-    /// <summary>
-    /// 월드맵 전용 카메라로 바꾸기 전에 원래 카메라 값을 저장합니다.
-    /// </summary>
     private void SaveCameraStateIfNeeded()
     {
         if (_hasSavedCameraState || Camera_Main == null)
@@ -162,9 +160,6 @@ public class OOTechWorldMapOverlayController : MonoBehaviour
             Camera_Main.TryGetComponent(out Camera_Follow);
     }
 
-    /// <summary>
-    /// WorldMapGroup 안의 SpriteRenderer를 찾아 맵 크기 계산에 사용합니다.
-    /// </summary>
     private SpriteRenderer GetMapRenderer()
     {
         SpriteRenderer[] rendererArray = GetComponentsInChildren<SpriteRenderer>(true);
@@ -189,9 +184,6 @@ public class OOTechWorldMapOverlayController : MonoBehaviour
         return bestRenderer;
     }
 
-    /// <summary>
-    /// 월드맵 스프라이트가 꺼져 있으면 보이도록 켭니다.
-    /// </summary>
     private void EnsureRendererVisible(SpriteRenderer spriteRenderer)
     {
         if (spriteRenderer == null)
@@ -201,7 +193,6 @@ public class OOTechWorldMapOverlayController : MonoBehaviour
             spriteRenderer.gameObject.SetActive(true);
 
         spriteRenderer.enabled = true;
-
         Color color = spriteRenderer.color;
 
         if (color.a <= 0.01f)
@@ -211,12 +202,85 @@ public class OOTechWorldMapOverlayController : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// 좌클릭을 누른 채 움직이면 카메라를 반대 방향으로 이동해 맵을 둘러보게 합니다.
-    /// </summary>
+    private void RequestOpenAnnouncement()
+    {
+        if (_isGuideClosed)
+            return;
+
+        ResolveOverlayView();
+        SetGuideActive(Root_GuideCanvas != null);
+    }
+
+    private void HandleGuideCloseInput()
+    {
+        if (!_isCloseAnnouncementByAnyClick || _isGuideClosed || Root_GuideCanvas == null || !Root_GuideCanvas.activeInHierarchy)
+            return;
+
+        if (Input.GetMouseButtonDown(0))
+            CloseGuideOnly();
+    }
+
+    private void CloseGuideOnly()
+    {
+        _isGuideClosed = true;
+        SetGuideActive(false);
+        Debug.Log("[OOTechWorldMapOverlayController] WorldMap announcement panel closed. WorldMap background and return button stay active.");
+    }
+
+    private void SetGuideActive(bool isActive)
+    {
+        if (Root_GuideCanvas == null)
+            ResolveOverlayView();
+
+        if (Root_GuideCanvas != null)
+            Root_GuideCanvas.SetActive(isActive);
+    }
+
+    private void ResolveOverlayView()
+    {
+        if (View_Overlay == null)
+            View_Overlay = GetComponentInChildren<OOTechWorldMapOverlayView>(true);
+
+        if (View_Overlay == null)
+            return;
+
+        View_Overlay.ResolveReferences();
+        Root_GuideCanvas = View_Overlay.GuideCanvas;
+
+        if (View_Overlay.GuideTitleText != null)
+        {
+            View_Overlay.GuideTitleText.text = _guideTitle;
+            OOTechTMPFontUtility.ApplyProjectFont(View_Overlay.GuideTitleText);
+        }
+
+        if (View_Overlay.GuideBodyText != null)
+        {
+            View_Overlay.GuideBodyText.text = _guideDescription;
+            OOTechTMPFontUtility.ApplyProjectFont(View_Overlay.GuideBodyText);
+        }
+
+        if (View_Overlay.GuideCloseButton != null)
+        {
+            View_Overlay.GuideCloseButton.onClick.RemoveListener(CloseGuideOnly);
+            View_Overlay.GuideCloseButton.onClick.AddListener(CloseGuideOnly);
+        }
+
+        Canvas guideCanvas = Root_GuideCanvas != null ? Root_GuideCanvas.GetComponent<Canvas>() : null;
+
+        if (guideCanvas != null)
+        {
+            guideCanvas.renderMode = RenderMode.ScreenSpaceOverlay;
+            guideCanvas.overrideSorting = true;
+            guideCanvas.sortingOrder = _guideSortingOrder;
+        }
+    }
+
     private void HandleMapDragInput()
     {
         if (!_isEnableMapDrag || Camera_Main == null || !_hasMapBounds || !Camera_Main.orthographic)
+            return;
+
+        if (Root_GuideCanvas != null && Root_GuideCanvas.activeInHierarchy)
             return;
 
         if (Input.GetMouseButtonDown(0))
@@ -247,9 +311,6 @@ public class OOTechWorldMapOverlayController : MonoBehaviour
         return EventSystem.current != null && EventSystem.current.IsPointerOverGameObject();
     }
 
-    /// <summary>
-    /// 카메라가 월드맵 바깥까지 나가지 않도록 맵 Bounds 안으로 제한합니다.
-    /// </summary>
     private void ClampCameraToMapBounds()
     {
         if (Camera_Main == null || !_hasMapBounds || !Camera_Main.orthographic)
@@ -271,81 +332,5 @@ public class OOTechWorldMapOverlayController : MonoBehaviour
             cameraPosition.y = Mathf.Clamp(cameraPosition.y, _mapBounds.min.y + viewHeight * 0.5f, _mapBounds.max.y - viewHeight * 0.5f);
 
         Camera_Main.transform.position = cameraPosition;
-    }
-
-    /// <summary>
-    /// 씬에 배치된 월드맵 드래그 안내 말풍선을 연결하고 표시합니다.
-    /// </summary>
-    private void CreateDragGuideIfNeeded()
-    {
-        if (_isGuideClosed)
-            return;
-
-        ResolveOverlayView();
-
-        if (Root_GuideCanvas != null)
-        {
-            Root_GuideCanvas.SetActive(true);
-            return;
-        }
-
-        Debug.LogWarning("[OOTechWorldMapOverlayController] WorldMapGuideUIGroup with OOTechWorldMapOverlayView is missing.");
-    }
-
-    /// <summary>
-    /// 월드맵 드래그 안내 말풍선을 닫습니다.
-    /// </summary>
-    private void CloseDragGuide()
-    {
-        _isGuideClosed = true;
-        SetDragGuideActive(false);
-    }
-
-    /// <summary>
-    /// 월드맵 안내 말풍선을 켜고 끕니다. 맵 전체가 보이는 현재 연출에서는 기본적으로 꺼 둡니다.
-    /// </summary>
-    private void SetDragGuideActive(bool isActive)
-    {
-        if (Root_GuideCanvas == null)
-            ResolveOverlayView();
-
-        if (Root_GuideCanvas != null)
-            Root_GuideCanvas.SetActive(isActive);
-    }
-
-    /// <summary>
-    /// OOTechWorldMapOverlayView에서 안내 UI 참조를 읽습니다.
-    /// </summary>
-    private void ResolveOverlayView()
-    {
-        if (View_Overlay == null)
-            View_Overlay = GetComponentInChildren<OOTechWorldMapOverlayView>(true);
-
-        if (View_Overlay == null)
-            return;
-
-        View_Overlay.ResolveReferences();
-        Root_GuideCanvas = View_Overlay.GuideCanvas;
-
-        if (View_Overlay.GuideTitleText != null)
-            View_Overlay.GuideTitleText.text = _guideTitle;
-
-        if (View_Overlay.GuideBodyText != null)
-            View_Overlay.GuideBodyText.text = _guideDescription;
-
-        if (View_Overlay.GuideCloseButton != null)
-        {
-            View_Overlay.GuideCloseButton.onClick.RemoveListener(CloseDragGuide);
-            View_Overlay.GuideCloseButton.onClick.AddListener(CloseDragGuide);
-        }
-
-        Canvas guideCanvas = Root_GuideCanvas != null ? Root_GuideCanvas.GetComponent<Canvas>() : null;
-
-        if (guideCanvas != null)
-        {
-            guideCanvas.renderMode = RenderMode.ScreenSpaceOverlay;
-            guideCanvas.overrideSorting = true;
-            guideCanvas.sortingOrder = _guideSortingOrder;
-        }
     }
 }

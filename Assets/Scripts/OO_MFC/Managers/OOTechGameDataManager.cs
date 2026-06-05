@@ -34,12 +34,16 @@ public class OOTechGameDataManager : MonoBehaviour
     private readonly Dictionary<string, OO_Dialogue> _dialogueDic = new Dictionary<string, OO_Dialogue>();
     private readonly Dictionary<string, OO_DialogueGroup> _dialogueGroupDic = new Dictionary<string, OO_DialogueGroup>();
     private readonly Dictionary<string, OO_Choice> _choiceDic = new Dictionary<string, OO_Choice>();
+    private readonly Dictionary<string, OO_Codex> _codexDic = new Dictionary<string, OO_Codex>();
     private readonly Dictionary<string, OO_Tutorial> _tutorialDic = new Dictionary<string, OO_Tutorial>();
     private readonly Dictionary<string, OO_Ingredient> _ingredientDic = new Dictionary<string, OO_Ingredient>();
     private readonly Dictionary<string, OO_Recipe> _recipeDic = new Dictionary<string, OO_Recipe>();
+    private readonly Dictionary<string, OO_CookingTool> _cookingToolDic = new Dictionary<string, OO_CookingTool>();
+    private readonly Dictionary<string, OO_CookingCueSheet> _cookingCueSheetDic = new Dictionary<string, OO_CookingCueSheet>();
     private readonly Dictionary<string, OO_Cook> _cookDic = new Dictionary<string, OO_Cook>();
     private readonly Dictionary<string, OO_Stage> _stageDic = new Dictionary<string, OO_Stage>();
     private readonly Dictionary<string, OO_StageQuest> _stageQuestDic = new Dictionary<string, OO_StageQuest>();
+    private readonly Dictionary<string, OO_Stage2CueSheet> _stage2CueSheetDic = new Dictionary<string, OO_Stage2CueSheet>();
 
     /// <summary>
     /// 중복 매니저를 정리하고 Static Data를 로드합니다.
@@ -82,12 +86,16 @@ public class OOTechGameDataManager : MonoBehaviour
         LoadDialogueData();
         LoadDialogueGroupData();
         LoadChoiceData();
+        LoadCodexData();
         LoadTutorialData();
         LoadIngredientData();
         LoadRecipeData();
+        LoadCookingToolData();
+        LoadCookingCueSheetData();
         LoadCookData();
         LoadStageData();
         LoadStageQuestData();
+        LoadStage2CueSheetData();
 
         Debug.Log("[OOTechGameDataManager] 모든 데이터 로드 완료");
     }
@@ -236,6 +244,35 @@ public class OOTechGameDataManager : MonoBehaviour
         Debug.Log($"[OOTechGameDataManager] Choice data loaded: {_choiceDic.Count}");
     }
 
+    /// <summary>
+    /// OO_Codex.json을 읽어 도감 항목을 등록합니다.
+    /// 영화로 치면 나중에 관객이 다시 펼쳐볼 프로그램북의 항목들을 미리 정리하는 단계입니다.
+    /// </summary>
+    private void LoadCodexData()
+    {
+        _codexDic.Clear();
+
+        foreach (TextAsset jsonFile in LoadDataTextAssetArray("OO_Codex"))
+        {
+            OOTechCodexJsonWrapper wrapper = JsonUtility.FromJson<OOTechCodexJsonWrapper>(WrapJsonArray(jsonFile.text));
+
+            if (wrapper == null || wrapper.Items == null)
+                continue;
+
+            foreach (OO_Codex codexData in wrapper.Items)
+            {
+                OO_Codex createdData = CreateCodexData(codexData);
+
+                if (createdData == null || string.IsNullOrEmpty(createdData.Id))
+                    continue;
+
+                _codexDic[createdData.Id] = createdData;
+            }
+        }
+
+        Debug.Log($"[OOTechGameDataManager] Codex data loaded: {_codexDic.Count}");
+    }
+
     private void LoadTutorialData()
     {
         _tutorialDic.Clear();
@@ -320,6 +357,64 @@ public class OOTechGameDataManager : MonoBehaviour
     }
 
     /// <summary>
+    /// OO_CookingTool.json을 읽어 가마솥, 도마 같은 조리도구 역할표를 등록합니다.
+    /// 영화 비유로는 소품팀이 만든 실제 조리도구마다 "받을 수 있는 재료" 표를 붙이는 단계입니다.
+    /// </summary>
+    private void LoadCookingToolData()
+    {
+        _cookingToolDic.Clear();
+
+        foreach (TextAsset jsonFile in LoadDataTextAssetArray("OO_CookingTool"))
+        {
+            OOTechCookingToolJsonWrapper wrapper = JsonUtility.FromJson<OOTechCookingToolJsonWrapper>(WrapJsonArray(jsonFile.text));
+
+            if (wrapper == null || wrapper.Items == null)
+                continue;
+
+            foreach (OOTechCookingToolJsonData jsonData in wrapper.Items)
+            {
+                OO_CookingTool cookingToolData = CreateCookingToolData(jsonData);
+
+                if (cookingToolData == null || string.IsNullOrEmpty(cookingToolData.Id))
+                    continue;
+
+                _cookingToolDic[cookingToolData.Id] = cookingToolData;
+            }
+        }
+
+        Debug.Log($"[OOTechGameDataManager] CookingTool data loaded: {_cookingToolDic.Count}");
+    }
+
+    /// <summary>
+    /// OO_CookingCueSheet.json을 읽어 CookingGroup의 공통 연출 큐를 등록합니다.
+    /// 감독 비유로는 부엌 장면의 카메라, 조명, 안내 화살표 타이밍표를 제작 본부에 꽂아 두는 단계입니다.
+    /// </summary>
+    private void LoadCookingCueSheetData()
+    {
+        _cookingCueSheetDic.Clear();
+
+        foreach (TextAsset jsonFile in LoadDataTextAssetArray("OO_CookingCueSheet"))
+        {
+            OOTechCookingCueSheetJsonWrapper wrapper = JsonUtility.FromJson<OOTechCookingCueSheetJsonWrapper>(WrapJsonArray(jsonFile.text));
+
+            if (wrapper == null || wrapper.Items == null)
+                continue;
+
+            foreach (OOTechCookingCueSheetJsonData jsonData in wrapper.Items)
+            {
+                OO_CookingCueSheet cueSheetData = CreateCookingCueSheetData(jsonData);
+
+                if (cueSheetData == null || string.IsNullOrEmpty(cueSheetData.Id))
+                    continue;
+
+                _cookingCueSheetDic[cueSheetData.Id] = cueSheetData;
+            }
+        }
+
+        Debug.Log($"[OOTechGameDataManager] CookingCueSheet data loaded: {_cookingCueSheetDic.Count}");
+    }
+
+    /// <summary>
     /// OO_Cook.json을 읽어 완성 음식 데이터를 등록합니다.
     /// </summary>
     private void LoadCookData()
@@ -401,6 +496,34 @@ public class OOTechGameDataManager : MonoBehaviour
         }
 
         Debug.Log($"[OOTechGameDataManager] StageQuest data loaded: {_stageQuestDic.Count}");
+    }
+
+    /// <summary>
+    /// OO_Stage2CueSheet.json을 읽어 Stage2Group의 연출 큐시트를 등록합니다.
+    /// </summary>
+    private void LoadStage2CueSheetData()
+    {
+        _stage2CueSheetDic.Clear();
+
+        foreach (TextAsset jsonFile in LoadDataTextAssetArray("OO_Stage2CueSheet"))
+        {
+            OOTechStage2CueSheetJsonWrapper wrapper = JsonUtility.FromJson<OOTechStage2CueSheetJsonWrapper>(WrapJsonArray(jsonFile.text));
+
+            if (wrapper == null || wrapper.Items == null)
+                continue;
+
+            foreach (OOTechStage2CueSheetJsonData jsonData in wrapper.Items)
+            {
+                OO_Stage2CueSheet cueSheetData = CreateStage2CueSheetData(jsonData);
+
+                if (cueSheetData == null || string.IsNullOrEmpty(cueSheetData.Id))
+                    continue;
+
+                _stage2CueSheetDic[cueSheetData.Id] = cueSheetData;
+            }
+        }
+
+        Debug.Log($"[OOTechGameDataManager] Stage2CueSheet data loaded: {_stage2CueSheetDic.Count}");
     }
 
     /// <summary>
@@ -507,6 +630,28 @@ public class OOTechGameDataManager : MonoBehaviour
         return choiceData;
     }
 
+    /// <summary>
+    /// JSON 행을 도감 카드 데이터로 정리합니다.
+    /// 영화로 치면 캐릭터/음식/지역 소개 카드의 제목, 설명, 사진 경로를 한 장의 큐카드로 만드는 단계입니다.
+    /// </summary>
+    private OO_Codex CreateCodexData(OO_Codex jsonData)
+    {
+        if (jsonData == null)
+            return null;
+
+        OO_Codex codexData = new OO_Codex
+        {
+            Id = NormalizeJsonText(jsonData.Id),
+            Category = NormalizeJsonText(jsonData.Category),
+            Title = NormalizeJsonText(jsonData.Title),
+            Description = NormalizeJsonText(jsonData.Description),
+            ImagePath = NormalizeJsonText(jsonData.ImagePath),
+            UnlockCondition = NormalizeJsonText(jsonData.UnlockCondition)
+        };
+
+        return codexData;
+    }
+
     private OO_Tutorial CreateTutorialData(OOTechTutorialJsonData jsonData)
     {
         if (jsonData == null)
@@ -568,10 +713,80 @@ public class OOTechGameDataManager : MonoBehaviour
             ResultItemId = NormalizeJsonText(jsonData.ResultItemId),
             RequiredIngredients = CreateStringList(jsonData.RequiredIngredients),
             MaxDuplicateCount = Mathf.Max(1, ParseInt(jsonData.MaxDuplicateCount)),
-            RequiredTool = NormalizeJsonText(jsonData.RequiredTool)
+            RequiredTool = NormalizeJsonText(jsonData.RequiredTool),
+            RequiredIngredientIds = CreateStringList(GetFirstNotEmpty(jsonData.RequiredIngredientIds, jsonData.RequiredIngredients)),
+            RequiredIngredientCounts = CreateIntList(jsonData.RequiredIngredientCounts),
+            RequiredToolIds = CreateStringList(jsonData.RequiredToolIds),
+            ResultCount = Mathf.Max(1, ParseInt(GetFirstNotEmpty(jsonData.ResultCount, "1"))),
+            QuantityGuideText = NormalizeJsonText(jsonData.QuantityGuideText)
         };
 
+        if (recipeData.RequiredIngredients == null || recipeData.RequiredIngredients.Count == 0)
+            recipeData.RequiredIngredients = new List<string>(recipeData.RequiredIngredientIds);
+
+        if (recipeData.RequiredIngredientCounts == null || recipeData.RequiredIngredientCounts.Count == 0)
+        {
+            recipeData.RequiredIngredientCounts = new List<int>();
+
+            for (int index = 0; index < recipeData.RequiredIngredientIds.Count; index++)
+                recipeData.RequiredIngredientCounts.Add(1);
+        }
+
         return recipeData;
+    }
+
+    /// <summary>
+    /// JSON 한 줄을 조리도구 역할표로 변환합니다.
+    /// </summary>
+    private OO_CookingTool CreateCookingToolData(OOTechCookingToolJsonData jsonData)
+    {
+        if (jsonData == null)
+            return null;
+
+        OO_CookingTool cookingToolData = new OO_CookingTool
+        {
+            Id = NormalizeJsonText(jsonData.Id),
+            Name = NormalizeJsonText(jsonData.Name),
+            Description = NormalizeJsonText(jsonData.Description),
+            AcceptedIngredientIds = CreateStringList(jsonData.AcceptedIngredientIds),
+            DropAreaPadding = Mathf.Max(1f, ParseFloat(GetFirstNotEmpty(jsonData.DropAreaPadding, "1.18"))),
+            GuideTutorialId = NormalizeJsonText(jsonData.GuideTutorialId),
+            ToolRoleId = NormalizeJsonText(jsonData.ToolRoleId)
+        };
+
+        return cookingToolData;
+    }
+
+    /// <summary>
+    /// JSON 한 줄을 CookingGroup 큐시트로 변환합니다.
+    /// </summary>
+    private OO_CookingCueSheet CreateCookingCueSheetData(OOTechCookingCueSheetJsonData jsonData)
+    {
+        if (jsonData == null)
+            return null;
+
+        OO_CookingCueSheet cueSheetData = new OO_CookingCueSheet
+        {
+            Id = NormalizeJsonText(jsonData.Id),
+            CauldronTutorialId = NormalizeJsonText(jsonData.CauldronTutorialId),
+            CuttingboardTutorialId = NormalizeJsonText(jsonData.CuttingboardTutorialId),
+            CauldronToolId = NormalizeJsonText(jsonData.CauldronToolId),
+            CuttingboardToolId = NormalizeJsonText(jsonData.CuttingboardToolId),
+            SortingOrder = ParseInt(GetFirstNotEmpty(jsonData.SortingOrder, "1260")),
+            ReferenceResolutionWidth = ParseFloat(GetFirstNotEmpty(jsonData.ReferenceResolutionWidth, "1920")),
+            ReferenceResolutionHeight = ParseFloat(GetFirstNotEmpty(jsonData.ReferenceResolutionHeight, "1080")),
+            CameraPadding = ParseFloat(GetFirstNotEmpty(jsonData.CameraPadding, "1.04")),
+            GuideArrowBlinkSpeed = ParseFloat(GetFirstNotEmpty(jsonData.GuideArrowBlinkSpeed, "6")),
+            GuideArrowMinimumAlpha = ParseFloat(GetFirstNotEmpty(jsonData.GuideArrowMinimumAlpha, "0.25")),
+            NewBadgeBlinkSpeed = ParseFloat(GetFirstNotEmpty(jsonData.NewBadgeBlinkSpeed, "7")),
+            NewBadgeMinimumAlpha = ParseFloat(GetFirstNotEmpty(jsonData.NewBadgeMinimumAlpha, "0.25")),
+            DragGhostIconWidth = ParseFloat(GetFirstNotEmpty(jsonData.DragGhostIconWidth, "88")),
+            DragGhostIconHeight = ParseFloat(GetFirstNotEmpty(jsonData.DragGhostIconHeight, "88")),
+            EmptyPotText = NormalizeJsonText(jsonData.EmptyPotText),
+            DefaultStatusText = NormalizeJsonText(jsonData.DefaultStatusText)
+        };
+
+        return cueSheetData;
     }
 
     /// <summary>
@@ -646,6 +861,70 @@ public class OOTechGameDataManager : MonoBehaviour
         };
 
         return stageQuestData;
+    }
+
+    /// <summary>
+    /// JSON 한 줄을 Stage2 큐시트 모델로 변환합니다.
+    /// 무대감독용 엑셀 한 줄을 실제 Stage2Controller가 읽을 큐 카드로 바꿉니다.
+    /// </summary>
+    private OO_Stage2CueSheet CreateStage2CueSheetData(OOTechStage2CueSheetJsonData jsonData)
+    {
+        if (jsonData == null)
+            return null;
+
+        OO_Stage2CueSheet cueSheetData = new OO_Stage2CueSheet
+        {
+            Id = NormalizeJsonText(jsonData.Id),
+            StageId = NormalizeJsonText(jsonData.StageId),
+            MoranRoleId = NormalizeJsonText(jsonData.MoranRoleId),
+            MrJaeikRoleId = NormalizeJsonText(jsonData.MrJaeikRoleId),
+            ChunyangRoleId = NormalizeJsonText(jsonData.ChunyangRoleId),
+            GreedyDuckRoleId = NormalizeJsonText(jsonData.GreedyDuckRoleId),
+            LeeMongRyongRoleId = NormalizeJsonText(jsonData.LeeMongRyongRoleId),
+            BackgroundRoleId = NormalizeJsonText(jsonData.BackgroundRoleId),
+            ArriveEffectRoleId = NormalizeJsonText(jsonData.ArriveEffectRoleId),
+            EntryPointAId = NormalizeJsonText(jsonData.EntryPointAId),
+            EntryPointBId = NormalizeJsonText(jsonData.EntryPointBId),
+            EntryPointCId = NormalizeJsonText(jsonData.EntryPointCId),
+            EntryPointDId = NormalizeJsonText(jsonData.EntryPointDId),
+            EntryPointEId = NormalizeJsonText(jsonData.EntryPointEId),
+            TempColliderRoleId = NormalizeJsonText(jsonData.TempColliderRoleId),
+            RoadMissionDataId = NormalizeJsonText(jsonData.RoadMissionDataId),
+            RoadMissionFallbackText = NormalizeJsonText(jsonData.RoadMissionFallbackText),
+            StageQuestDataId = NormalizeJsonText(jsonData.StageQuestDataId),
+            GreedyDuckFirstDialogueId = NormalizeJsonText(jsonData.GreedyDuckFirstDialogueId),
+            GreedyDuckSecondDialogueId = NormalizeJsonText(jsonData.GreedyDuckSecondDialogueId),
+            LeeMongRyongFirstDialogueId = NormalizeJsonText(jsonData.LeeMongRyongFirstDialogueId),
+            LeeMongRyongSecondDialogueId = NormalizeJsonText(jsonData.LeeMongRyongSecondDialogueId),
+            MoranQuestDialogueId = NormalizeJsonText(jsonData.MoranQuestDialogueId),
+            GreedyDuckFinalDialogueId = NormalizeJsonText(jsonData.GreedyDuckFinalDialogueId),
+            EndingDialogueIdList = CreateStringList(jsonData.EndingDialogueIdList),
+            KimchiStewCookId = NormalizeJsonText(jsonData.KimchiStewCookId),
+            HoneyIngredientId = NormalizeJsonText(jsonData.HoneyIngredientId),
+            HoneyRewardCount = ParseInt(jsonData.HoneyRewardCount),
+            StageClearRewardItemIdList = CreateStringList(jsonData.StageClearRewardItemIds),
+            StageClearRewardCountList = CreateIntList(jsonData.StageClearRewardCounts),
+            NextRoadGroupName = NormalizeJsonText(jsonData.NextRoadGroupName),
+            PlaceholderCanvasName = NormalizeJsonText(jsonData.PlaceholderCanvasName),
+            NextButtonName = NormalizeJsonText(jsonData.NextButtonName),
+            EntryMoveSpeed = ParseFloat(jsonData.EntryMoveSpeed),
+            GreedyDuckEscapeSpeed = ParseFloat(jsonData.GreedyDuckEscapeSpeed),
+            GreedyDuckExitTimeoutSeconds = ParseFloat(jsonData.GreedyDuckExitTimeoutSeconds),
+            GreedyDuckEscapeAnimationSpeed = ParseFloat(jsonData.GreedyDuckEscapeAnimationSpeed),
+            ForcedDialogueSeconds = ParseFloat(jsonData.ForcedDialogueSeconds),
+            FinalDuckDialogueSeconds = ParseFloat(jsonData.FinalDuckDialogueSeconds),
+            ArriveEffectSeconds = ParseFloat(jsonData.ArriveEffectSeconds),
+            ArriveEffectAnimationSpeed = ParseFloat(jsonData.ArriveEffectAnimationSpeed),
+            CameraMoveSeconds = ParseFloat(jsonData.CameraMoveSeconds),
+            CameraZoomSize = ParseFloat(jsonData.CameraZoomSize),
+            GreedyDuckFallbackObjectName = NormalizeJsonText(jsonData.GreedyDuckFallbackObjectName),
+            GreedyDuckInteractionDistance = ParseFloat(jsonData.GreedyDuckInteractionDistance),
+            GreedyDuckVisibleSortingOrder = ParseInt(jsonData.GreedyDuckVisibleSortingOrder),
+            GreedyDuckVisibilityCheckInterval = ParseFloat(jsonData.GreedyDuckVisibilityCheckInterval),
+            InteractionKey = NormalizeJsonText(jsonData.InteractionKey)
+        };
+
+        return cueSheetData;
     }
 
     /// <summary>
@@ -756,6 +1035,20 @@ public class OOTechGameDataManager : MonoBehaviour
     private int ParseInt(string value)
     {
         return int.TryParse(value, out int result) ? result : 0;
+    }
+
+    /// <summary>
+    /// 엑셀에서 들어온 숫자 문자열을 float로 바꿉니다.
+    /// 속도와 연출 시간처럼 소수점이 필요한 큐시트 값을 읽을 때 사용합니다.
+    /// </summary>
+    private float ParseFloat(string value)
+    {
+        string normalizedValue = NormalizeJsonText(value);
+
+        if (string.IsNullOrEmpty(normalizedValue))
+            return 0f;
+
+        return float.TryParse(normalizedValue, System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out float result) ? result : 0f;
     }
 
     private List<string> CreateTextList(string rawText)
@@ -948,6 +1241,28 @@ public class OOTechGameDataManager : MonoBehaviour
         return _choiceDic.TryGetValue(id, out OO_Choice data) ? data : null;
     }
 
+    /// <summary>
+    /// ID로 도감 항목을 조회합니다.
+    /// </summary>
+    public OO_Codex GetCodexData(string id)
+    {
+        if (string.IsNullOrEmpty(id))
+            return null;
+
+        return _codexDic.TryGetValue(id, out OO_Codex data) ? data : null;
+    }
+
+    /// <summary>
+    /// 현재 등록된 모든 도감 항목을 리스트로 반환합니다.
+    /// Game View에서는 CodexGroup의 스크롤 목록이 이 데이터를 사용합니다.
+    /// </summary>
+    public List<OO_Codex> GetCodexDataList()
+    {
+        List<OO_Codex> codexDataList = new List<OO_Codex>(_codexDic.Values);
+        codexDataList.Sort((leftData, rightData) => string.Compare(leftData != null ? leftData.Id : string.Empty, rightData != null ? rightData.Id : string.Empty, StringComparison.Ordinal));
+        return codexDataList;
+    }
+
     public OO_Tutorial GetTutorialData(string id)
     {
         if (string.IsNullOrEmpty(id))
@@ -1006,6 +1321,41 @@ public class OOTechGameDataManager : MonoBehaviour
     }
 
     /// <summary>
+    /// ID로 조리도구 역할표 데이터를 조회합니다.
+    /// </summary>
+    public OO_CookingTool GetCookingToolData(string id)
+    {
+        if (string.IsNullOrEmpty(id))
+            return null;
+
+        return _cookingToolDic.TryGetValue(id, out OO_CookingTool data) ? data : null;
+    }
+
+    /// <summary>
+    /// 조리도구 역할표가 있는지만 조용히 확인합니다.
+    /// </summary>
+    public bool TryGetCookingToolData(string id, out OO_CookingTool data)
+    {
+        data = null;
+
+        if (string.IsNullOrEmpty(id))
+            return false;
+
+        return _cookingToolDic.TryGetValue(id, out data);
+    }
+
+    /// <summary>
+    /// ID로 CookingGroup 큐시트 데이터를 조회합니다.
+    /// </summary>
+    public OO_CookingCueSheet GetCookingCueSheetData(string id)
+    {
+        if (string.IsNullOrEmpty(id))
+            return null;
+
+        return _cookingCueSheetDic.TryGetValue(id, out OO_CookingCueSheet data) ? data : null;
+    }
+
+    /// <summary>
     /// ID로 완성 음식 데이터를 조회합니다.
     /// </summary>
     public OO_Cook GetCookData(string id)
@@ -1053,6 +1403,17 @@ public class OOTechGameDataManager : MonoBehaviour
     }
 
     /// <summary>
+    /// ID로 Stage2 큐시트 데이터를 조회합니다.
+    /// </summary>
+    public OO_Stage2CueSheet GetStage2CueSheetData(string id)
+    {
+        if (string.IsNullOrEmpty(id))
+            return null;
+
+        return _stage2CueSheetDic.TryGetValue(id, out OO_Stage2CueSheet data) ? data : null;
+    }
+
+    /// <summary>
     /// 현재 등록된 모든 레시피를 반환합니다.
     /// </summary>
     public List<OO_Recipe> GetRecipeDataList()
@@ -1070,7 +1431,14 @@ public class OOTechGameDataManager : MonoBehaviour
 
         foreach (OO_Recipe recipeData in _recipeDic.Values)
         {
-            if (recipeData != null && IsSameIngredientSet(recipeData.RequiredIngredients, ingredientIdList))
+            if (recipeData == null)
+                continue;
+
+            List<string> requiredIngredientList = recipeData.RequiredIngredientIds != null && recipeData.RequiredIngredientIds.Count > 0
+                ? recipeData.RequiredIngredientIds
+                : recipeData.RequiredIngredients;
+
+            if (IsSameIngredientSet(requiredIngredientList, ingredientIdList))
                 return recipeData;
         }
 
@@ -1220,6 +1588,12 @@ public class OOTechChoiceJsonData
 }
 
 [Serializable]
+public class OOTechCodexJsonWrapper
+{
+    public OO_Codex[] Items;
+}
+
+[Serializable]
 public class OOTechTutorialJsonWrapper
 {
     public OOTechTutorialJsonData[] Items;
@@ -1273,6 +1647,57 @@ public class OOTechRecipeJsonData
     public string RequiredIngredients;
     public string MaxDuplicateCount;
     public string RequiredTool;
+    public string RequiredIngredientIds;
+    public string RequiredIngredientCounts;
+    public string RequiredToolIds;
+    public string ResultCount;
+    public string QuantityGuideText;
+}
+
+[Serializable]
+public class OOTechCookingToolJsonWrapper
+{
+    public OOTechCookingToolJsonData[] Items;
+}
+
+[Serializable]
+public class OOTechCookingToolJsonData
+{
+    public string Id;
+    public string Name;
+    public string Description;
+    public string AcceptedIngredientIds;
+    public string DropAreaPadding;
+    public string GuideTutorialId;
+    public string ToolRoleId;
+}
+
+[Serializable]
+public class OOTechCookingCueSheetJsonWrapper
+{
+    public OOTechCookingCueSheetJsonData[] Items;
+}
+
+[Serializable]
+public class OOTechCookingCueSheetJsonData
+{
+    public string Id;
+    public string CauldronTutorialId;
+    public string CuttingboardTutorialId;
+    public string CauldronToolId;
+    public string CuttingboardToolId;
+    public string SortingOrder;
+    public string ReferenceResolutionWidth;
+    public string ReferenceResolutionHeight;
+    public string CameraPadding;
+    public string GuideArrowBlinkSpeed;
+    public string GuideArrowMinimumAlpha;
+    public string NewBadgeBlinkSpeed;
+    public string NewBadgeMinimumAlpha;
+    public string DragGhostIconWidth;
+    public string DragGhostIconHeight;
+    public string EmptyPotText;
+    public string DefaultStatusText;
 }
 
 [Serializable]
@@ -1335,4 +1760,63 @@ public class OOTechStageQuestJsonData
     public string RequiredCount;
     public string RewardItemIds;
     public string NextGroupId;
+}
+
+[Serializable]
+public class OOTechStage2CueSheetJsonWrapper
+{
+    public OOTechStage2CueSheetJsonData[] Items;
+}
+
+[Serializable]
+public class OOTechStage2CueSheetJsonData
+{
+    public string Id;
+    public string StageId;
+    public string MoranRoleId;
+    public string MrJaeikRoleId;
+    public string ChunyangRoleId;
+    public string GreedyDuckRoleId;
+    public string LeeMongRyongRoleId;
+    public string BackgroundRoleId;
+    public string ArriveEffectRoleId;
+    public string EntryPointAId;
+    public string EntryPointBId;
+    public string EntryPointCId;
+    public string EntryPointDId;
+    public string EntryPointEId;
+    public string TempColliderRoleId;
+    public string RoadMissionDataId;
+    public string RoadMissionFallbackText;
+    public string StageQuestDataId;
+    public string GreedyDuckFirstDialogueId;
+    public string GreedyDuckSecondDialogueId;
+    public string LeeMongRyongFirstDialogueId;
+    public string LeeMongRyongSecondDialogueId;
+    public string MoranQuestDialogueId;
+    public string GreedyDuckFinalDialogueId;
+    public string EndingDialogueIdList;
+    public string KimchiStewCookId;
+    public string HoneyIngredientId;
+    public string HoneyRewardCount;
+    public string StageClearRewardItemIds;
+    public string StageClearRewardCounts;
+    public string NextRoadGroupName;
+    public string PlaceholderCanvasName;
+    public string NextButtonName;
+    public string EntryMoveSpeed;
+    public string GreedyDuckEscapeSpeed;
+    public string GreedyDuckExitTimeoutSeconds;
+    public string GreedyDuckEscapeAnimationSpeed;
+    public string ForcedDialogueSeconds;
+    public string FinalDuckDialogueSeconds;
+    public string ArriveEffectSeconds;
+    public string ArriveEffectAnimationSpeed;
+    public string CameraMoveSeconds;
+    public string CameraZoomSize;
+    public string GreedyDuckFallbackObjectName;
+    public string GreedyDuckInteractionDistance;
+    public string GreedyDuckVisibleSortingOrder;
+    public string GreedyDuckVisibilityCheckInterval;
+    public string InteractionKey;
 }

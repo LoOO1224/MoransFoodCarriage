@@ -41,6 +41,7 @@ public class OOTechCookingGroupView : MonoBehaviour
 
     [Header("Status")]
     [SerializeField] private TextMeshProUGUI Text_Status;
+    [SerializeField] private TextMeshProUGUI Text_InventoryNewBadge;
 
     [Header("Drag")]
     [SerializeField] private RectTransform Rect_DragGhostTemplate;
@@ -61,6 +62,7 @@ public class OOTechCookingGroupView : MonoBehaviour
     public GameObject CauldronGuideArrow => Root_CauldronGuideArrow;
     public GameObject CuttingboardGuideArrow => Root_CuttingboardGuideArrow;
     public TextMeshProUGUI StatusText => Text_Status;
+    public TextMeshProUGUI InventoryNewBadgeText => Text_InventoryNewBadge;
     public RectTransform DragGhostTemplateRect => Rect_DragGhostTemplate;
 
     /// <summary>
@@ -86,6 +88,7 @@ public class OOTechCookingGroupView : MonoBehaviour
         Root_CauldronGuideArrow = ResolveGameObject(Root_CauldronGuideArrow, "Text_CauldronGuideArrow");
         Root_CuttingboardGuideArrow = ResolveGameObject(Root_CuttingboardGuideArrow, "Text_CuttingboardGuideArrow");
         Text_Status = ResolveText(Text_Status, "Text_Status");
+        Text_InventoryNewBadge = ResolveText(Text_InventoryNewBadge, "NewBadge_Inventory");
         Rect_DragGhostTemplate = ResolveRect(Rect_DragGhostTemplate, "Slot_DragGhostTemplate");
     }
 
