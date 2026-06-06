@@ -6,7 +6,7 @@ TextureImporter:
   serializedVersion: 13
   mipmaps:
     mipMapMode: 0
-    enableMipMap: 1
+    enableMipMap: 0
     sRGBTexture: 1
     linearTexture: 0
     fadeOut: 0
@@ -37,13 +37,13 @@ TextureImporter:
     filterMode: 1
     aniso: 1
     mipBias: 0
-    wrapU: 0
-    wrapV: 0
+    wrapU: 1
+    wrapV: 1
     wrapW: 0
-  nPOTScale: 1
+  nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 0
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -52,9 +52,9 @@ TextureImporter:
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
-  alphaIsTransparency: 0
+  alphaIsTransparency: 1
   spriteTessellationDetail: -1
-  textureType: 0
+  textureType: 8
   textureShape: 1
   singleChannelComponent: 0
   flipbookRows: 1
@@ -95,12 +95,562 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: Sangun_isAttacking_0
+      rect:
+        serializedVersion: 2
+        x: 39
+        y: 1070
+        width: 155
+        height: 162
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d08bf3973692ef14f8ffa8e15ca3ce2e
+      internalID: -1497060948
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sangun_isAttacking_1
+      rect:
+        serializedVersion: 2
+        x: 296
+        y: 1069
+        width: 154
+        height: 163
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 427e500540d02d243a20693cc4e79fff
+      internalID: 1417405531
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sangun_isAttacking_2
+      rect:
+        serializedVersion: 2
+        x: 552
+        y: 1070
+        width: 154
+        height: 162
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 364ce9446f5fd76468122da7f99bb378
+      internalID: -1556122016
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sangun_isAttacking_3
+      rect:
+        serializedVersion: 2
+        x: 807
+        y: 1069
+        width: 157
+        height: 163
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2885ea3bd16c63549932ab0c6e7568fa
+      internalID: 999766076
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sangun_isAttacking_4
+      rect:
+        serializedVersion: 2
+        x: 1062
+        y: 1069
+        width: 159
+        height: 163
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7cf9b5bcb50244e4a820809ec3940586
+      internalID: 464775678
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sangun_isAttacking_5
+      rect:
+        serializedVersion: 2
+        x: 35
+        y: 813
+        width: 165
+        height: 162
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 670d293bbd607864d8fe2eee60d3d251
+      internalID: 1921529594
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sangun_isAttacking_6
+      rect:
+        serializedVersion: 2
+        x: 289
+        y: 813
+        width: 170
+        height: 161
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 42c4a389945abf54aa221141ef97115e
+      internalID: 500484041
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sangun_isAttacking_7
+      rect:
+        serializedVersion: 2
+        x: 541
+        y: 813
+        width: 188
+        height: 156
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7bc91ae2ab43a754a81633b3ef86b67c
+      internalID: -1085964747
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sangun_isAttacking_8
+      rect:
+        serializedVersion: 2
+        x: 796
+        y: 814
+        width: 201
+        height: 148
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e714fc773ee665247bfa0ad4bda7d1ad
+      internalID: -253352283
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sangun_isAttacking_9
+      rect:
+        serializedVersion: 2
+        x: 1057
+        y: 814
+        width: 206
+        height: 144
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e1d9f2afe5a597e48a6e1b45e7a24f34
+      internalID: -496344210
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sangun_isAttacking_10
+      rect:
+        serializedVersion: 2
+        x: 38
+        y: 550
+        width: 214
+        height: 147
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8f64540170489a640bd85b101a006312
+      internalID: -2040223770
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sangun_isAttacking_11
+      rect:
+        serializedVersion: 2
+        x: 298
+        y: 529
+        width: 214
+        height: 159
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 319a09b122ebf9744aca6560c9eaca6c
+      internalID: -336895251
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sangun_isAttacking_12
+      rect:
+        serializedVersion: 2
+        x: 565
+        y: 527
+        width: 203
+        height: 150
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e2e6ebe9b8758054699bd24d6c0912a1
+      internalID: 1081517349
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sangun_isAttacking_13
+      rect:
+        serializedVersion: 2
+        x: 825
+        y: 528
+        width: 199
+        height: 144
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fde24dbf22e165f438c46d35bf974b8f
+      internalID: 1875541981
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sangun_isAttacking_14
+      rect:
+        serializedVersion: 2
+        x: 1081
+        y: 528
+        width: 199
+        height: 156
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fe9be2c9418aaff42b478b8a4056b8f9
+      internalID: -1998649183
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sangun_isAttacking_15
+      rect:
+        serializedVersion: 2
+        x: 65
+        y: 272
+        width: 191
+        height: 164
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d74a5be521d0e244eb7316080a36f0e9
+      internalID: -1512320099
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sangun_isAttacking_16
+      rect:
+        serializedVersion: 2
+        x: 325
+        y: 272
+        width: 187
+        height: 172
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9b11993023da3454db7b90bfd974a55e
+      internalID: -1305055165
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sangun_isAttacking_17
+      rect:
+        serializedVersion: 2
+        x: 584
+        y: 272
+        width: 184
+        height: 181
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 25002ac2f54153d4eaabfd463a7c899d
+      internalID: -982181776
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sangun_isAttacking_18
+      rect:
+        serializedVersion: 2
+        x: 845
+        y: 272
+        width: 179
+        height: 186
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 823ffcfe12a7fd649a47555f30c4fdbe
+      internalID: -741394673
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sangun_isAttacking_19
+      rect:
+        serializedVersion: 2
+        x: 1109
+        y: 272
+        width: 171
+        height: 190
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f150d9fc0d4519a409977ef80dac1664
+      internalID: 1643952091
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sangun_isAttacking_20
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 16
+        width: 172
+        height: 190
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d5dab4f1a72334f488bfe48acabdc023
+      internalID: 1915006607
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sangun_isAttacking_21
+      rect:
+        serializedVersion: 2
+        x: 339
+        y: 16
+        width: 173
+        height: 186
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 21171481bb167154786bcffd2b02c62e
+      internalID: 233655520
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sangun_isAttacking_22
+      rect:
+        serializedVersion: 2
+        x: 595
+        y: 16
+        width: 173
+        height: 180
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e851ad38b3070a140aca5670dd23948c
+      internalID: -1399934040
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sangun_isAttacking_23
+      rect:
+        serializedVersion: 2
+        x: 851
+        y: 16
+        width: 173
+        height: 175
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cb14ad9916d93de4db1111a3f8a5a419
+      internalID: -921927893
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sangun_isAttacking_24
+      rect:
+        serializedVersion: 2
+        x: 1107
+        y: 16
+        width: 173
+        height: 170
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ac2adcb16585cf44b9e6f3abdd7456d0
+      internalID: -122400434
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: e013373624fdbf644b41ca9d602984a5
     internalID: 0
     vertices: []
     indices: 
@@ -108,8 +658,35 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
-    nameFileIdTable: {}
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      Sangun_isAttacking_0: -1497060948
+      Sangun_isAttacking_1: 1417405531
+      Sangun_isAttacking_10: -2040223770
+      Sangun_isAttacking_11: -336895251
+      Sangun_isAttacking_12: 1081517349
+      Sangun_isAttacking_13: 1875541981
+      Sangun_isAttacking_14: -1998649183
+      Sangun_isAttacking_15: -1512320099
+      Sangun_isAttacking_16: -1305055165
+      Sangun_isAttacking_17: -982181776
+      Sangun_isAttacking_18: -741394673
+      Sangun_isAttacking_19: 1643952091
+      Sangun_isAttacking_2: -1556122016
+      Sangun_isAttacking_20: 1915006607
+      Sangun_isAttacking_21: 233655520
+      Sangun_isAttacking_22: -1399934040
+      Sangun_isAttacking_23: -921927893
+      Sangun_isAttacking_24: -122400434
+      Sangun_isAttacking_3: 999766076
+      Sangun_isAttacking_4: 464775678
+      Sangun_isAttacking_5: 1921529594
+      Sangun_isAttacking_6: 500484041
+      Sangun_isAttacking_7: -1085964747
+      Sangun_isAttacking_8: -253352283
+      Sangun_isAttacking_9: -496344210
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -10,7 +10,8 @@ public enum OOTechCookingDropToolType
 {
     None,
     Cauldron,
-    Cuttingboard
+    Cuttingboard,
+    Julgu
 }
 
 public class OOTechCookingDropFlow
@@ -25,6 +26,24 @@ public class OOTechCookingDropFlow
 
         if (isInsideCuttingboard)
             return OOTechCookingDropToolType.Cuttingboard;
+
+        return OOTechCookingDropToolType.None;
+    }
+
+    /// <summary>
+    /// 가마솥, 도마, 절구 판정 결과를 하나의 드롭 타입으로 정리합니다.
+    /// Stage3부터는 쌀을 절구에 넣어 떡을 만들 수 있으므로 세 번째 조리도구를 지원합니다.
+    /// </summary>
+    public OOTechCookingDropToolType RequestResolveDropTool(bool isInsideCauldron, bool isInsideCuttingboard, bool isInsideJulgu)
+    {
+        if (isInsideCauldron)
+            return OOTechCookingDropToolType.Cauldron;
+
+        if (isInsideCuttingboard)
+            return OOTechCookingDropToolType.Cuttingboard;
+
+        if (isInsideJulgu)
+            return OOTechCookingDropToolType.Julgu;
 
         return OOTechCookingDropToolType.None;
     }

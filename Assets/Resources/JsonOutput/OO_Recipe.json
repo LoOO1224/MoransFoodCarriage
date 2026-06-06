@@ -40,5 +40,33 @@
     "RequiredToolIds": "Cauldron|Cuttingboard",
     "ResultCount": 1,
     "QuantityGuideText": "김치찌개는 김치 10개와 청양고추 10개가 필요합니다. 슬롯 위에서 Ctrl을 누른 채 마우스 휠로 집기 수량을 조절하세요."
+  },
+  {
+    "Id": "OO_Recipe_KoreanCake_1",
+    "Name": "떡 만들기",
+    "Description": "쌀 1개를 절구에 넣어 떡 1개를 만듭니다.",
+    "ResultItemId": "OO_KoreanCake_1",
+    "RequiredIngredients": "Ing_Rice_01",
+    "MaxDuplicateCount": 1,
+    "RequiredTool": "절구",
+    "RequiredIngredientIds": "Ing_Rice_01",
+    "RequiredIngredientCounts": "1",
+    "RequiredToolIds": "Julgu",
+    "ResultCount": 1,
+    "QuantityGuideText": "떡은 쌀 1개를 절구에 넣으면 바로 완성됩니다."
+  },
+  {
+    "Id": "OO_Recipe_HoneyKoreanCake_1",
+    "Name": "꿀떡 만들기",
+    "Description": "떡 1개와 꿀 1개를 합쳐 꿀떡 1개를 만듭니다.",
+    "ResultItemId": "OO_HoneyKoreanCake_1",
+    "RequiredIngredients": "OO_KoreanCake_1|Ing_Honey_01",
+    "MaxDuplicateCount": 1,
+    "RequiredTool": "선택지 조합",
+    "RequiredIngredientIds": "OO_KoreanCake_1|Ing_Honey_01",
+    "RequiredIngredientCounts": "1|1",
+    "RequiredToolIds": "Choice",
+    "ResultCount": 1,
+    "QuantityGuideText": "떡과 꿀이 각각 1개 이상 있으면 꿀떡을 만들 수 있습니다."
   }
 ]

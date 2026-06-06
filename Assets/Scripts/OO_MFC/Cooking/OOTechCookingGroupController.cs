@@ -21,6 +21,7 @@ using UnityEngine.UI;
 public class OOTechCookingGroupController : MonoBehaviour
 {
     private static bool _isSharedToolGuideCompleted;
+    private static bool _isSharedJulguGuideCompleted;
 
     // 읽는 순서:
     // 1. OnEnable: 부엌 무대가 열릴 때 카메라, 조리도구, 인벤토리 UI를 준비합니다.
@@ -37,12 +38,15 @@ public class OOTechCookingGroupController : MonoBehaviour
     [SerializeField] private string _cookingCueSheetId = "Cooking_CueSheet_01";
     private string _cauldronTutorialId = "narration_tutorial_11";
     private string _cuttingboardTutorialId = "narration_tutorial_12";
+    private string _julguTutorialId = "narration_tutorial_14";
 
     [Header("Scene Role")]
     private string _cauldronObjectName = "Cauldron";
     private string _cuttingboardObjectName = "Cuttingboard";
+    private string _julguObjectName = "Julgu";
     private float _cauldronDropAreaPadding = 1.18f;
     private float _cuttingboardDropAreaPadding = 1.18f;
+    private float _julguDropAreaPadding = 1.18f;
 
     [Header("Ingredient Rule")]
     private string _riceIngredientId = "Ing_Rice_01";
@@ -53,6 +57,7 @@ public class OOTechCookingGroupController : MonoBehaviour
     private string _chiliPepperIngredientId = "Ing_ChiliPepper_01";
     private string[] _defaultCauldronAcceptedIngredientIdArray = { "Ing_Rice_01", "Ing_Kimch_01" };
     private string[] _defaultCuttingboardAcceptedIngredientIdArray = { "Ing_Veggie_01", "Ing_Pumpkin_01", "Ing_ChiliPepper_01" };
+    private string[] _defaultJulguAcceptedIngredientIdArray = { "Ing_Rice_01" };
     private int _stage1PumpkinSoupExchangeCount = 10;
     private int _stage1ChiefRewardCount = 10;
 
@@ -105,12 +110,16 @@ public class OOTechCookingGroupController : MonoBehaviour
     private RectTransform Rect_Cuttingboard;
     private Transform Transform_Cauldron;
     private Transform Transform_Cuttingboard;
+    private Transform Transform_Julgu;
     private SpriteRenderer Renderer_Cauldron;
     private SpriteRenderer Renderer_Cuttingboard;
+    private SpriteRenderer Renderer_Julgu;
     private Collider2D Collider_Cauldron;
     private Collider2D Collider_Cuttingboard;
+    private Collider2D Collider_Julgu;
     private OOTechCookingToolDropTarget Tool_Cauldron;
     private OOTechCookingToolDropTarget Tool_Cuttingboard;
+    private OOTechCookingToolDropTarget Tool_Julgu;
     private GameObject Root_GuideBubble;
     private GameObject Root_CuttingboardGuideBubble;
     private GameObject Root_InventoryGuideArrow;
@@ -135,6 +144,7 @@ public class OOTechCookingGroupController : MonoBehaviour
     private Coroutine _cuttingboardArrowBlinkCoroutine;
     private UnityAction _guideConfirmAction;
     private bool _isToolGuideComplete;
+    private bool _isJulguGuideActive;
 
     /// <summary>
     /// 부엌 무대가 열리면 카메라를 Kitchen 배경에 맞추고 가마솥 가이드를 시작합니다.
@@ -146,15 +156,21 @@ public class OOTechCookingGroupController : MonoBehaviour
         ApplyCookingCueSheetData();
         ResolveCauldronReference();
         ResolveCuttingboardReference();
+        ResolveJulguReference();
         ApplyKitchenCameraView();
         ApplyCookingRenderPriority();
         PrepareCookingView();
         ResolveRoleComponents();
+        RequestOpenCookingSupportHUDIfNeeded();
         RepairStage1RewardInventoryIfNeeded();
         RefreshInventorySlots();
         RefreshPotView();
 
-        if (_isSharedToolGuideCompleted)
+        if (IsOpenedFromEncounterGroup() && !_isSharedJulguGuideCompleted && Transform_Julgu != null)
+        {
+            ShowJulguGuideSequence();
+        }
+        else if (_isSharedToolGuideCompleted)
         {
             _isToolGuideComplete = true;
             HideGuideBubble();
@@ -164,6 +180,20 @@ public class OOTechCookingGroupController : MonoBehaviour
         {
             ShowToolGuideSequence();
         }
+    }
+
+    /// <summary>
+    /// HUD 버튼 호출 경로가 끊겨도 CookingGroup 진입 시 인벤토리와 임무 패널을 다시 엽니다.
+    /// Game View에서는 부엌 입장 직후 재료 슬롯이 보이고 드래그 입력을 받을 수 있게 하는 안전장치입니다.
+    /// </summary>
+    private void RequestOpenCookingSupportHUDIfNeeded()
+    {
+        OOTechRoadHUDController hudController = FindAnyObjectByType<OOTechRoadHUDController>(FindObjectsInactive.Include);
+
+        if (hudController == null)
+            return;
+
+        hudController.RequestOpenCookingSupportHUD();
     }
 
     /// <summary>
@@ -227,6 +257,12 @@ public class OOTechCookingGroupController : MonoBehaviour
         return previousGroupName == "2nd_Road_to_Stage2";
     }
 
+    private bool IsOpenedFromEncounterGroup()
+    {
+        string previousGroupName = OOTechGroupNavigationHistory.GetPreviousGroup(gameObject.name, string.Empty);
+        return previousGroupName == "EncounterGroup";
+    }
+
     private void AddInventoryItemToTargetCount(string itemDataId, int targetCount)
     {
         if (OOTechGameManager.Inst == null || string.IsNullOrEmpty(itemDataId))
@@ -259,11 +295,17 @@ public class OOTechCookingGroupController : MonoBehaviour
         if (!string.IsNullOrEmpty(cueSheetData.CuttingboardTutorialId))
             _cuttingboardTutorialId = cueSheetData.CuttingboardTutorialId;
 
+        if (!string.IsNullOrEmpty(cueSheetData.JulguTutorialId))
+            _julguTutorialId = cueSheetData.JulguTutorialId;
+
         if (!string.IsNullOrEmpty(cueSheetData.CauldronToolId))
             _cauldronObjectName = cueSheetData.CauldronToolId;
 
         if (!string.IsNullOrEmpty(cueSheetData.CuttingboardToolId))
             _cuttingboardObjectName = cueSheetData.CuttingboardToolId;
+
+        if (!string.IsNullOrEmpty(cueSheetData.JulguToolId))
+            _julguObjectName = cueSheetData.JulguToolId;
 
         _sortingOrder = cueSheetData.SortingOrder > 0 ? cueSheetData.SortingOrder : _sortingOrder;
         _referenceResolution = _cueSheetService.RequestGetReferenceResolution(cueSheetData, _referenceResolution);
@@ -367,6 +409,16 @@ public class OOTechCookingGroupController : MonoBehaviour
     }
 
     /// <summary>
+    /// 마우스 포인터가 절구 위에 있는지 확인합니다.
+    /// Stage3에서는 쌀을 절구에 올려 떡을 만들기 때문에 월드 오브젝트 기준으로 판정합니다.
+    /// </summary>
+    public bool IsPointerInsideJulgu(Vector2 screenPosition)
+    {
+        ResolveJulguReference();
+        return IsPointerInsideSceneTool(screenPosition, Tool_Julgu, Transform_Julgu, Renderer_Julgu, Collider_Julgu, _julguDropAreaPadding);
+    }
+
+    /// <summary>
     /// 재료를 놓은 화면 좌표가 어느 조리도구 위인지 판정하고, 맞는 역할표에만 투입합니다.
     /// </summary>
     public void RequestDropIngredientAtPosition(string itemDataId, Vector2 screenPosition)
@@ -386,7 +438,7 @@ public class OOTechCookingGroupController : MonoBehaviour
             return;
         }
 
-        OOTechCookingDropToolType dropToolType = _dropFlow.RequestResolveDropTool(IsPointerInsideCauldron(screenPosition), IsPointerInsideCuttingboard(screenPosition));
+        OOTechCookingDropToolType dropToolType = _dropFlow.RequestResolveDropTool(IsPointerInsideCauldron(screenPosition), IsPointerInsideCuttingboard(screenPosition), IsPointerInsideJulgu(screenPosition));
 
         if (dropToolType == OOTechCookingDropToolType.Cauldron)
         {
@@ -397,6 +449,12 @@ public class OOTechCookingGroupController : MonoBehaviour
         if (dropToolType == OOTechCookingDropToolType.Cuttingboard)
         {
             RequestDropIngredientToTool(itemDataId, itemQuantity, Tool_Cuttingboard, _cuttingboardObjectName, "도마");
+            return;
+        }
+
+        if (dropToolType == OOTechCookingDropToolType.Julgu)
+        {
+            RequestDropIngredientToTool(itemDataId, itemQuantity, Tool_Julgu, _julguObjectName, "절구");
             return;
         }
 
@@ -430,7 +488,7 @@ public class OOTechCookingGroupController : MonoBehaviour
             return;
         }
 
-        RegisterSelectedIngredient(itemDataId, 1);
+        RegisterSelectedIngredient(itemDataId, 1, _cauldronObjectName);
         RefreshInventorySlots();
         RefreshPotView();
         TryCompleteCooking();
@@ -473,7 +531,7 @@ public class OOTechCookingGroupController : MonoBehaviour
             return;
         }
 
-        RegisterSelectedIngredient(itemDataId, dropQuantity);
+        RegisterSelectedIngredient(itemDataId, dropQuantity, RequestResolveToolId(toolTarget, fallbackToolId));
         RefreshInventorySlots();
         RefreshPotView();
         SetStatus($"{GetItemDisplayName(itemDataId)} {dropQuantity}개를 {GetToolDisplayName(toolTarget, fallbackToolName)}에 올렸습니다.");
@@ -498,6 +556,12 @@ public class OOTechCookingGroupController : MonoBehaviour
         if (resultCount <= 0)
         {
             SetStatus(GetCookingQuantityGuide(cookingResult.ResultItemId));
+            return;
+        }
+
+        if (!IsRecipeToolMatched(cookingResult.ResultItemId))
+        {
+            SetStatus("올바른 조리도구가 아닙니다!");
             return;
         }
 
@@ -538,12 +602,66 @@ public class OOTechCookingGroupController : MonoBehaviour
         _selectionModel.RequestRegisterIngredient(itemDataId, itemQuantity);
     }
 
+    private void RegisterSelectedIngredient(string itemDataId, int itemQuantity, string toolId)
+    {
+        _selectionModel.RequestRegisterIngredient(itemDataId, itemQuantity, toolId);
+    }
+
     /// <summary>
     /// 조리도구에 올라간 특정 재료의 개수를 반환합니다.
     /// </summary>
     private int GetSelectedIngredientAmount(string itemDataId)
     {
         return _selectionModel.RequestGetIngredientAmount(itemDataId);
+    }
+
+    private string RequestResolveToolId(OOTechCookingToolDropTarget toolTarget, string fallbackToolId)
+    {
+        if (toolTarget != null && !string.IsNullOrEmpty(toolTarget.ToolId))
+            return toolTarget.ToolId;
+
+        return fallbackToolId;
+    }
+
+    /// <summary>
+    /// 완성 후보 레시피가 요구한 조리도구와 실제 드롭 위치가 일치하는지 확인합니다.
+    /// 쌀 하나만 보고 떡을 만들던 버그를 막고, 쌀이 Julgu 위에 있을 때만 떡 레시피를 통과시킵니다.
+    /// </summary>
+    private bool IsRecipeToolMatched(string resultItemId)
+    {
+        OO_Recipe recipeData = _recipeService.RequestFindRecipeByResultItemId(resultItemId);
+
+        if (recipeData == null || recipeData.RequiredToolIds == null || recipeData.RequiredToolIds.Count == 0)
+            return true;
+
+        List<string> ingredientIdList = recipeData.RequiredIngredientIds != null && recipeData.RequiredIngredientIds.Count > 0
+            ? recipeData.RequiredIngredientIds
+            : recipeData.RequiredIngredients;
+
+        if (ingredientIdList == null || ingredientIdList.Count == 0)
+            return true;
+
+        for (int index = 0; index < ingredientIdList.Count; index++)
+        {
+            if (index >= recipeData.RequiredToolIds.Count)
+                continue;
+
+            string ingredientId = ingredientIdList[index];
+            string requiredToolId = recipeData.RequiredToolIds[index];
+
+            if (string.IsNullOrEmpty(ingredientId) || string.IsNullOrEmpty(requiredToolId))
+                continue;
+
+            if (requiredToolId == "Choice")
+                continue;
+
+            string actualToolId = _selectionModel.RequestGetIngredientToolId(ingredientId);
+
+            if (actualToolId != requiredToolId)
+                return false;
+        }
+
+        return true;
     }
 
     /// <summary>
@@ -854,6 +972,49 @@ public class OOTechCookingGroupController : MonoBehaviour
     }
 
     /// <summary>
+    /// CookingGroup 자식 Julgu 오브젝트의 Transform, Renderer, Collider, 역할표를 찾습니다.
+    /// 절구는 Stage3부터 추가되는 조리도구이므로 없으면 경고 없이 기존 요리 흐름을 유지합니다.
+    /// </summary>
+    private void ResolveJulguReference()
+    {
+        if (Transform_Julgu != null && Transform_Julgu.gameObject.scene.IsValid())
+            return;
+
+        Transform_Julgu = FindChildByName(transform, _julguObjectName);
+        Renderer_Julgu = null;
+        Collider_Julgu = null;
+        Tool_Julgu = null;
+
+        if (Transform_Julgu == null)
+            return;
+
+        Renderer_Julgu = Transform_Julgu.GetComponent<SpriteRenderer>();
+
+        if (Renderer_Julgu == null)
+            Renderer_Julgu = Transform_Julgu.GetComponentInChildren<SpriteRenderer>(true);
+
+        Collider_Julgu = Transform_Julgu.GetComponent<Collider2D>();
+
+        if (Collider_Julgu == null)
+            Collider_Julgu = Transform_Julgu.GetComponentInChildren<Collider2D>(true);
+
+        Tool_Julgu = Transform_Julgu.GetComponent<OOTechCookingToolDropTarget>();
+
+        if (Tool_Julgu == null)
+            Tool_Julgu = Transform_Julgu.gameObject.AddComponent<OOTechCookingToolDropTarget>();
+
+        OO_CookingTool toolData = _toolResolver.RequestSetupTool(Tool_Julgu, _julguObjectName, "절구", _defaultJulguAcceptedIngredientIdArray, _julguDropAreaPadding);
+
+        if (toolData != null)
+        {
+            _julguDropAreaPadding = toolData.DropAreaPadding > 0f ? toolData.DropAreaPadding : _julguDropAreaPadding;
+
+            if (!string.IsNullOrEmpty(toolData.GuideTutorialId))
+                _julguTutorialId = toolData.GuideTutorialId;
+        }
+    }
+
+    /// <summary>
     /// 화면 좌표를 실제 월드 좌표로 바꿔 가마솥 Collider 또는 Sprite Bounds 안인지 확인합니다.
     /// </summary>
     private bool IsPointerInsideSceneTool(Vector2 screenPosition, OOTechCookingToolDropTarget toolTarget, Transform toolTransform, SpriteRenderer toolRenderer, Collider2D toolCollider, float dropAreaPadding)
@@ -1002,6 +1163,20 @@ public class OOTechCookingGroupController : MonoBehaviour
         return new Bounds(Transform_Cuttingboard.position, Vector3.one);
     }
 
+    private Bounds GetJulguBounds()
+    {
+        if (Tool_Julgu != null)
+            return Tool_Julgu.GetWorldBounds();
+
+        if (Collider_Julgu != null)
+            return Collider_Julgu.bounds;
+
+        if (Renderer_Julgu != null)
+            return Renderer_Julgu.bounds;
+
+        return new Bounds(Transform_Julgu != null ? Transform_Julgu.position : transform.position, Vector3.one);
+    }
+
     /// <summary>
     /// 로드 HUD의 인벤토리 패널을 다시 그리도록 요청합니다.
     /// </summary>
@@ -1044,7 +1219,16 @@ public class OOTechCookingGroupController : MonoBehaviour
     {
         StopToolGuideRoutine();
         _isToolGuideComplete = false;
+        _isJulguGuideActive = false;
         _toolGuideCoroutine = StartCoroutine(PlayToolGuideSequenceRoutine());
+    }
+
+    private void ShowJulguGuideSequence()
+    {
+        StopToolGuideRoutine();
+        _isToolGuideComplete = false;
+        _isJulguGuideActive = true;
+        _toolGuideCoroutine = StartCoroutine(PlayJulguGuideRoutine());
     }
 
     private IEnumerator PlayToolGuideSequenceRoutine()
@@ -1070,6 +1254,28 @@ public class OOTechCookingGroupController : MonoBehaviour
         _isSharedToolGuideCompleted = true;
         _toolGuideCoroutine = null;
         SetStatus(_defaultStatusText);
+    }
+
+    /// <summary>
+    /// Stage3에서 새로 열린 절구 사용법만 단독으로 안내합니다.
+    /// Game View에서는 기존 안내 말풍선을 재사용하고 화살표만 Julgu 위로 옮깁니다.
+    /// </summary>
+    private IEnumerator PlayJulguGuideRoutine()
+    {
+        bool isJulguGuideDone = false;
+        ShowJulguGuide(delegate
+        {
+            isJulguGuideDone = true;
+        });
+
+        yield return new WaitUntil(() => isJulguGuideDone);
+
+        _isToolGuideComplete = true;
+        _isSharedJulguGuideCompleted = true;
+        _isJulguGuideActive = false;
+        _toolGuideCoroutine = null;
+        SetGuidePointerActive(false);
+        SetStatus("쌀을 절구에 올리면 떡을 만들 수 있습니다.");
     }
 
     private void StopToolGuideRoutine()
@@ -1141,6 +1347,33 @@ public class OOTechCookingGroupController : MonoBehaviour
         }
     }
 
+    private void ShowJulguGuide(UnityAction onConfirm)
+    {
+        GetJulguGuideData(out string title, out string description);
+
+        if (Root_GuideBubble == null)
+        {
+            Debug.LogWarning("[OOTechCookingGroupController] Panel_CauldronGuide is missing, Julgu guide is skipped.");
+            onConfirm?.Invoke();
+            return;
+        }
+
+        ApplyGuideText(title, description);
+        Root_GuideBubble.SetActive(true);
+        SetGuidePointerActive(true);
+        UpdateGuideArrowLayout();
+
+        if (Button_GuideConfirm != null)
+        {
+            Button_GuideConfirm.onClick.RemoveAllListeners();
+            Button_GuideConfirm.onClick.AddListener(delegate
+            {
+                HideGuideBubble();
+                onConfirm?.Invoke();
+            });
+        }
+    }
+
     private void GetCauldronGuideData(out string title, out string description)
     {
         string fallbackDescription = "왼쪽 인벤토리의 쌀과 채소를 가운데 가마솥과 도마로 끌어다 놓으세요.\n기본은 하나씩 집습니다. 여러 개를 집으려면 슬롯 위에서 Ctrl+마우스 휠로 수량을 조절하세요.\n쌀 + 채소가 준비되면 야채죽이 완성됩니다.";
@@ -1169,6 +1402,20 @@ public class OOTechCookingGroupController : MonoBehaviour
         }
 
         title = "도마";
+        description = fallbackDescription;
+    }
+
+    private void GetJulguGuideData(out string title, out string description)
+    {
+        string fallbackDescription = "쌀을 떡으로 만들 수 있는 조리기구입니다.";
+
+        if (Cue_Guide != null)
+        {
+            Cue_Guide.RequestGetGuideData(_julguTutorialId, "절구", fallbackDescription, out title, out description);
+            return;
+        }
+
+        title = "절구";
         description = fallbackDescription;
     }
 
@@ -1209,6 +1456,7 @@ public class OOTechCookingGroupController : MonoBehaviour
         if (Root_CuttingboardGuideBubble != null)
             Root_CuttingboardGuideBubble.SetActive(false);
 
+        _isJulguGuideActive = false;
         SetGuidePointerActive(false);
         SetCuttingboardGuidePointerActive(false);
     }
@@ -1270,7 +1518,19 @@ public class OOTechCookingGroupController : MonoBehaviour
 
     private void UpdateGuideArrowLayout()
     {
-        if (Root_CauldronGuideArrow != null && TryGetCauldronTopLocalPoint(out Vector2 cauldronTopLocalPoint))
+        if (Root_CauldronGuideArrow != null && _isJulguGuideActive && TryGetJulguTopLocalPoint(out Vector2 julguTopLocalPoint))
+        {
+            RectTransform julguArrowRect = Root_CauldronGuideArrow.transform as RectTransform;
+
+            if (julguArrowRect != null)
+            {
+                julguArrowRect.anchorMin = new Vector2(0.5f, 0.5f);
+                julguArrowRect.anchorMax = new Vector2(0.5f, 0.5f);
+                julguArrowRect.pivot = new Vector2(0.5f, 0.5f);
+                julguArrowRect.anchoredPosition = julguTopLocalPoint + new Vector2(0f, 62f);
+            }
+        }
+        else if (Root_CauldronGuideArrow != null && TryGetCauldronTopLocalPoint(out Vector2 cauldronTopLocalPoint))
         {
             RectTransform cauldronArrowRect = Root_CauldronGuideArrow.transform as RectTransform;
 
@@ -1328,6 +1588,24 @@ public class OOTechCookingGroupController : MonoBehaviour
             return false;
 
         Bounds bounds = GetCauldronBounds();
+        Vector3 worldPoint = new Vector3(bounds.center.x, bounds.max.y, bounds.center.z);
+        Vector3 screenPoint = Camera_Main.WorldToScreenPoint(worldPoint);
+        return RectTransformUtility.ScreenPointToLocalPointInRectangle(Rect_Root, screenPoint, null, out localPoint);
+    }
+
+    private bool TryGetJulguTopLocalPoint(out Vector2 localPoint)
+    {
+        localPoint = Vector2.zero;
+
+        if (Transform_Julgu == null || Rect_Root == null)
+            return false;
+
+        ResolveCameraReference();
+
+        if (Camera_Main == null)
+            return false;
+
+        Bounds bounds = GetJulguBounds();
         Vector3 worldPoint = new Vector3(bounds.center.x, bounds.max.y, bounds.center.z);
         Vector3 screenPoint = Camera_Main.WorldToScreenPoint(worldPoint);
         return RectTransformUtility.ScreenPointToLocalPointInRectangle(Rect_Root, screenPoint, null, out localPoint);

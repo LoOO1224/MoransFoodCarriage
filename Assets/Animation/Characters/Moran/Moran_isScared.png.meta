@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 739d83e2bd50d0947be0a21d3be5018a
+guid: 8cc0a0c88b5b62e4f9cf8bdd563baaf1
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -97,13 +97,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: MFC_Walk_0
+      name: Moran-moran_isscared_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 1034
-        width: 255
-        height: 157
+        x: 79
+        y: 1057
+        width: 95
+        height: 188
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -112,20 +112,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 248bbe5fd57a24145b2388f0f50cc87a
-      internalID: -33438775
+      spriteID: db9720aef761239428814c1b1a605d89
+      internalID: 853193245
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MFC_Walk_1
+      name: Moran-moran_isscared_1
       rect:
         serializedVersion: 2
-        x: 262
-        y: 1036
-        width: 234
-        height: 153
+        x: 335
+        y: 1057
+        width: 96
+        height: 187
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -134,20 +134,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7778f85876fcc4b40a4ae546a5f536b8
-      internalID: 12810486
+      spriteID: c7f142952b36e0e42b4f493150d9c91a
+      internalID: 1162327617
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MFC_Walk_2
+      name: Moran-moran_isscared_2
       rect:
         serializedVersion: 2
-        x: 508
-        y: 1036
-        width: 238
-        height: 152
+        x: 594
+        y: 1057
+        width: 99
+        height: 182
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -156,20 +156,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 531a02dc6243c4d4a9bd01a45bc76783
-      internalID: -806839224
+      spriteID: ce1dc832e7a8ac942a4d70a7ce1f79ef
+      internalID: 329432628
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MFC_Walk_3
+      name: Moran-moran_isscared_3
       rect:
         serializedVersion: 2
-        x: 755
-        y: 1036
-        width: 237
-        height: 152
+        x: 837
+        y: 1057
+        width: 100
+        height: 190
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -178,20 +178,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4a2c1d188a6c21149ada9c24eac79bf3
-      internalID: -1881262833
+      spriteID: 7155d1abcb485d248aae3c652a33bbcf
+      internalID: -1436657147
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MFC_Walk_5
+      name: Moran-moran_isscared_4
       rect:
         serializedVersion: 2
-        x: 1004
-        y: 1036
-        width: 250
-        height: 148
+        x: 1088
+        y: 1057
+        width: 103
+        height: 189
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -200,20 +200,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: dd5b36069b6242849aa03be723bd26a7
-      internalID: 1488607783
+      spriteID: 3f5041273025e9040bf3ebca8648494c
+      internalID: -969302132
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MFC_Walk_7
+      name: Moran-moran_isscared_5
       rect:
         serializedVersion: 2
-        x: 15
-        y: 787
-        width: 237
-        height: 146
+        x: 63
+        y: 801
+        width: 103
+        height: 189
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -222,20 +222,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 66075a76729362d4a825be9b867eb99e
-      internalID: 1018421659
+      spriteID: 34ff5fc7130ddd24d9a84f2559c8011e
+      internalID: 1655901810
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MFC_Walk_9
+      name: Moran-moran_isscared_6
       rect:
         serializedVersion: 2
-        x: 262
-        y: 787
-        width: 237
-        height: 152
+        x: 319
+        y: 801
+        width: 103
+        height: 189
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -244,20 +244,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e04824bc39bd2594d823c3897e708b51
-      internalID: 94358811
+      spriteID: ac3ad9c016682004fbd95fe532644460
+      internalID: 1448510395
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MFC_Walk_10
+      name: Moran-moran_isscared_7
       rect:
         serializedVersion: 2
-        x: 508
-        y: 787
-        width: 238
-        height: 157
+        x: 580
+        y: 801
+        width: 96
+        height: 189
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -266,20 +266,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a07ed3b38e713e546a16ef4937784c19
-      internalID: 469384327
+      spriteID: fb6c927f8ccecef4984d67ba56445530
+      internalID: -1391049381
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MFC_Walk_11
+      name: Moran-moran_isscared_8
       rect:
         serializedVersion: 2
-        x: 755
-        y: 787
-        width: 237
-        height: 146
+        x: 671
+        y: 932
+        width: 6
+        height: 5
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -288,20 +288,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ba17904254ae944449754aae6449f54b
-      internalID: -62759880
+      spriteID: 4c257be9e86334c4caddcbe005af257c
+      internalID: -1967819690
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MFC_Walk_13
+      name: Moran-moran_isscared_9
       rect:
         serializedVersion: 2
-        x: 1004
-        y: 787
-        width: 237
-        height: 155
+        x: 845
+        y: 800
+        width: 95
+        height: 189
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -310,20 +310,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c917a9daa44eca9449c0df16c83a15d4
-      internalID: 1892984126
+      spriteID: 2d127f8da6d305a43a246e7775a93354
+      internalID: 12203472
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MFC_Walk_14
+      name: Moran-moran_isscared_10
       rect:
         serializedVersion: 2
-        x: 15
-        y: 540
-        width: 237
-        height: 145
+        x: 1102
+        y: 801
+        width: 96
+        height: 188
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -332,20 +332,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: dfa89fae92098b248a3419d6e1597617
-      internalID: 1982538790
+      spriteID: 6eca83e41a6072848854f4618287dce8
+      internalID: 438305511
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MFC_Walk_16
+      name: Moran-moran_isscared_11
       rect:
         serializedVersion: 2
-        x: 259
-        y: 540
-        width: 237
-        height: 154
+        x: 671
+        y: 918
+        width: 6
+        height: 7
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -354,20 +354,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 45676f25fcaed0b49ae18c656ba986d1
-      internalID: -1652215976
+      spriteID: 7732bf3bd3c5ccd418823105ebc2ad38
+      internalID: -248516211
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MFC_Walk_17
+      name: Moran-moran_isscared_12
       rect:
         serializedVersion: 2
-        x: 507
-        y: 540
-        width: 238
-        height: 155
+        x: 673
+        y: 909
+        width: 6
+        height: 7
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -376,20 +376,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 35e2f3c4e5e4ea54190a8d7b31d6525f
-      internalID: 1396396519
+      spriteID: 3a9ee0c63fa559049b545d791126e5e5
+      internalID: 1166875880
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MFC_Walk_18
+      name: Moran-moran_isscared_13
       rect:
         serializedVersion: 2
-        x: 755
-        y: 540
-        width: 237
-        height: 145
+        x: 79
+        y: 545
+        width: 96
+        height: 188
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -398,20 +398,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5063155248539fa47bb3929088908e86
-      internalID: 1590768566
+      spriteID: 8ea53bac2fd42154b99ef6b87fb9ab53
+      internalID: -1658864350
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MFC_Walk_20
+      name: Moran-moran_isscared_14
       rect:
         serializedVersion: 2
-        x: 1004
-        y: 540
-        width: 236
-        height: 145
+        x: 346
+        y: 545
+        width: 100
+        height: 182
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -420,42 +420,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 13b8981c7415e0446aca682e207ea6a4
-      internalID: -398260026
+      spriteID: e2a3532464e5beb47a80445a1d20558f
+      internalID: 897996122
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MFC_Walk_24
+      name: Moran-moran_isscared_15
       rect:
         serializedVersion: 2
-        x: 259
-        y: 292
-        width: 237
-        height: 161
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 8}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 230e982e05bd2ed4f991d4a0bf1a50cb
-      internalID: -1380929966
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MFC_Walk_27
-      rect:
-        serializedVersion: 2
-        x: 1004
-        y: 292
-        width: 237
-        height: 154
+        x: 611
+        y: 545
+        width: 103
+        height: 173
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -464,20 +442,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3c50cf2e9ae6a73449ece8cb0620bbd1
-      internalID: 1302133274
+      spriteID: 6727b1f5d42c22344883b54cbb56dbed
+      internalID: -116101684
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MFC_Walk_28
+      name: Moran-moran_isscared_16
       rect:
         serializedVersion: 2
-        x: 13
-        y: 292
-        width: 236
-        height: 152
+        x: 868
+        y: 545
+        width: 101
+        height: 173
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -486,20 +464,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 12cc3fcc861354749bd81339b87dd94c
-      internalID: -1937056045
+      spriteID: d710e884551c10d4d8a68b2d86d99852
+      internalID: -1758149707
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MFC_Walk_29
+      name: Moran-moran_isscared_17
       rect:
         serializedVersion: 2
-        x: 507
-        y: 291
-        width: 238
-        height: 147
+        x: 1124
+        y: 545
+        width: 98
+        height: 176
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -508,20 +486,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a86cc1dda46a0d5499c858dedaf06e4e
-      internalID: -704560304
+      spriteID: f7e5831b213b48843be0e586c97ae732
+      internalID: 1564488538
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MFC_Walk_31
+      name: Moran-moran_isscared_18
       rect:
         serializedVersion: 2
-        x: 755
-        y: 291
-        width: 237
-        height: 146
+        x: 101
+        y: 289
+        width: 96
+        height: 177
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -530,20 +508,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 226c7354a57fa1545bf9f6b337902f2d
-      internalID: -1405073374
+      spriteID: 68fdad1fec5b22b41b135d0c0abae6d0
+      internalID: -1205514275
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MFC_Walk_32
+      name: Moran-moran_isscared_19
       rect:
         serializedVersion: 2
-        x: 0
-        y: 57
-        width: 254
-        height: 162
+        x: 357
+        y: 289
+        width: 96
+        height: 177
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -552,20 +530,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 30f30a46323dcb34bafb67a09db6a772
-      internalID: 160950474
+      spriteID: d6c58e40bb304d84a8d7d32d0daab228
+      internalID: -1706843312
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MFC_Walk_33
+      name: Moran-moran_isscared_20
       rect:
         serializedVersion: 2
-        x: 259
-        y: 58
-        width: 237
-        height: 157
+        x: 612
+        y: 289
+        width: 97
+        height: 176
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -574,20 +552,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e7068f95e7c525b4eaccd808f6dab57e
-      internalID: -1157529103
+      spriteID: e6fbfd20b9eae2741b7903ab76cd896b
+      internalID: -33133601
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MFC_Walk_35
+      name: Moran-moran_isscared_21
       rect:
         serializedVersion: 2
-        x: 755
-        y: 58
-        width: 237
-        height: 156
+        x: 859
+        y: 289
+        width: 97
+        height: 181
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -596,20 +574,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 69bc9b02dc3612c4eb2c993f25723dda
-      internalID: -1451098969
+      spriteID: 3a86e6c71448f194bb731e9b57e6c0ff
+      internalID: 60711684
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MFC_Walk_39
+      name: Moran-moran_isscared_22
       rect:
         serializedVersion: 2
-        x: 508
-        y: 58
-        width: 237
-        height: 154
+        x: 1105
+        y: 289
+        width: 96
+        height: 187
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -618,20 +596,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 74a8e1efdbec44945a17983c63382b9c
-      internalID: 1671011321
+      spriteID: 7c3be4d355a0a1e43a77fc09b74cbd05
+      internalID: 2065452330
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MFC_Walk_41
+      name: Moran-moran_isscared_23
       rect:
         serializedVersion: 2
-        x: 1004
-        y: 53
-        width: 245
-        height: 152
+        x: 79
+        y: 33
+        width: 95
+        height: 188
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -640,8 +618,96 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ef35a72a1c7cafb4fb66567f89e570df
-      internalID: -1145589140
+      spriteID: e1a16ac2d19c83b4ab3a6454782bbf1d
+      internalID: -1703115866
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moran-moran_isscared_24
+      rect:
+        serializedVersion: 2
+        x: 335
+        y: 33
+        width: 95
+        height: 187
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cd79d1ea2d7776d4cbeb835b9277a12f
+      internalID: 1942936251
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moran-moran_isscared_25
+      rect:
+        serializedVersion: 2
+        x: 593
+        y: 33
+        width: 96
+        height: 186
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fa1501f13b692434985fcf40823277d4
+      internalID: 1112363245
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moran-moran_isscared_26
+      rect:
+        serializedVersion: 2
+        x: 852
+        y: 33
+        width: 96
+        height: 185
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e790c4ec2fb64b145b024798fd9a3d61
+      internalID: 1599929890
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moran-moran_isscared_27
+      rect:
+        serializedVersion: 2
+        x: 1111
+        y: 33
+        width: 95
+        height: 186
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 761345ac7fe68f94eac28bc6d6a1aeda
+      internalID: 727039399
       vertices: []
       indices: 
       edges: []
@@ -650,7 +716,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: d12358c0d9cdb3443972b03f13b1d56b
+    spriteID: 2fe12520cae348f448a6a34593b2603a
     internalID: 0
     vertices: []
     indices: 
@@ -662,48 +728,34 @@ TextureImporter:
       - key: SpriteEditor.SliceSettings
         value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      MFC_Walk_0: -33438775
-      MFC_Walk_1: 12810486
-      MFC_Walk_10: 469384327
-      MFC_Walk_11: -62759880
-      MFC_Walk_12: -1795383291
-      MFC_Walk_13: 1892984126
-      MFC_Walk_14: 1982538790
-      MFC_Walk_15: -640659048
-      MFC_Walk_16: -1652215976
-      MFC_Walk_17: 1396396519
-      MFC_Walk_18: 1590768566
-      MFC_Walk_19: 619854394
-      MFC_Walk_2: -806839224
-      MFC_Walk_20: -398260026
-      MFC_Walk_21: 1413016718
-      MFC_Walk_22: -807205315
-      MFC_Walk_23: -17481539
-      MFC_Walk_24: -1380929966
-      MFC_Walk_25: 301525533
-      MFC_Walk_26: -1721129853
-      MFC_Walk_27: 1302133274
-      MFC_Walk_28: -1937056045
-      MFC_Walk_29: -704560304
-      MFC_Walk_3: -1881262833
-      MFC_Walk_30: -1536875875
-      MFC_Walk_31: -1405073374
-      MFC_Walk_32: 160950474
-      MFC_Walk_33: -1157529103
-      MFC_Walk_34: -1398530388
-      MFC_Walk_35: -1451098969
-      MFC_Walk_36: -1521535695
-      MFC_Walk_37: -1078411270
-      MFC_Walk_38: -143018410
-      MFC_Walk_39: 1671011321
-      MFC_Walk_4: -402780250
-      MFC_Walk_40: -1998825623
-      MFC_Walk_41: -1145589140
-      MFC_Walk_5: 1488607783
-      MFC_Walk_6: 856276119
-      MFC_Walk_7: 1018421659
-      MFC_Walk_8: 855614093
-      MFC_Walk_9: 94358811
+      Moran-moran_isscared_0: 853193245
+      Moran-moran_isscared_1: 1162327617
+      Moran-moran_isscared_10: 438305511
+      Moran-moran_isscared_11: -248516211
+      Moran-moran_isscared_12: 1166875880
+      Moran-moran_isscared_13: -1658864350
+      Moran-moran_isscared_14: 897996122
+      Moran-moran_isscared_15: -116101684
+      Moran-moran_isscared_16: -1758149707
+      Moran-moran_isscared_17: 1564488538
+      Moran-moran_isscared_18: -1205514275
+      Moran-moran_isscared_19: -1706843312
+      Moran-moran_isscared_2: 329432628
+      Moran-moran_isscared_20: -33133601
+      Moran-moran_isscared_21: 60711684
+      Moran-moran_isscared_22: 2065452330
+      Moran-moran_isscared_23: -1703115866
+      Moran-moran_isscared_24: 1942936251
+      Moran-moran_isscared_25: 1112363245
+      Moran-moran_isscared_26: 1599929890
+      Moran-moran_isscared_27: 727039399
+      Moran-moran_isscared_3: -1436657147
+      Moran-moran_isscared_4: -969302132
+      Moran-moran_isscared_5: 1655901810
+      Moran-moran_isscared_6: 1448510395
+      Moran-moran_isscared_7: -1391049381
+      Moran-moran_isscared_8: -1967819690
+      Moran-moran_isscared_9: 12203472
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

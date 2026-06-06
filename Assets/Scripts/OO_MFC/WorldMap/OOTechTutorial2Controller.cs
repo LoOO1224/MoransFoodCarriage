@@ -46,7 +46,7 @@ public class OOTechTutorial2Controller : MonoBehaviour
 
     [Header("Ingredient Data Id")]
     [SerializeField] private string _riceIngredientId = "Ing_Rice_01";
-    [SerializeField] private string _vegetableIngredientId = "Ing_Pumpkin_01";
+    [SerializeField] private string _vegetableIngredientId = "Ing_Veggie_01";
     [SerializeField] private int _riceIngredientCount = 12;
     [SerializeField] private int _vegetableIngredientCount = 12;
 
@@ -132,10 +132,33 @@ public class OOTechTutorial2Controller : MonoBehaviour
 
         yield return PlayHUDGuideRoutine(hudController);
         yield return PlayOpeningDialogueRoutine(hudController);
+        RequestEnsureStarterIngredients(hudController);
         yield return OpenMissionTutorialGuideAndWait();
 
         hudController.RequestSetCookingQuestActive();
         IsTutorialRunning = false;
+    }
+
+    /// <summary>
+    /// 첫 Road 요리 튜토리얼에 필요한 기본 재료를 빠짐없이 보정합니다.
+    /// 빌드에서 대사 코루틴이 중간에 끊겨도 RoadMap1에 도착한 배우가 조리 소품을 잃어버리지 않게 하는 안전장치입니다.
+    /// </summary>
+    public void RequestEnsureStarterIngredients(OOTechRoadHUDController hudController)
+    {
+        bool isChanged = false;
+        isChanged |= RequestEnsureIngredientCount(_riceIngredientId, _riceIngredientCount);
+        isChanged |= RequestEnsureIngredientCount(_vegetableIngredientId, _vegetableIngredientCount);
+
+        if (!isChanged)
+            return;
+
+        if (hudController != null)
+        {
+            hudController.RequestRefreshInventoryView();
+            hudController.SetInventoryNewBadgeActive(true);
+        }
+
+        Debug.Log($"[OOTechTutorial2Controller] Starter ingredients repaired: {_riceIngredientId} x{_riceIngredientCount}, {_vegetableIngredientId} x{_vegetableIngredientCount}");
     }
 
     /// <summary>
@@ -196,16 +219,34 @@ public class OOTechTutorial2Controller : MonoBehaviour
     /// </summary>
     private void RequestGiveIngredient(OOTechRoadHUDController hudController, string ingredientId, int count)
     {
-        if (OOTechGameManager.Inst == null || string.IsNullOrEmpty(ingredientId) || count <= 0)
+        if (!RequestEnsureIngredientCount(ingredientId, count))
             return;
-
-        OOTechGameManager.Inst.AddItem(ingredientId, count);
 
         if (hudController != null)
         {
             hudController.RequestRefreshInventoryView();
             hudController.SetInventoryNewBadgeActive(true);
         }
+    }
+
+    /// <summary>
+    /// 특정 재료가 목표 수량보다 적으면 부족분만 추가합니다.
+    /// 같은 튜토리얼이 다시 실행되어도 재료가 중복 지급되지 않게 하는 보상 모델 보정입니다.
+    /// </summary>
+    private bool RequestEnsureIngredientCount(string ingredientId, int targetCount)
+    {
+        if (OOTechGameManager.Inst == null || string.IsNullOrEmpty(ingredientId) || targetCount <= 0)
+            return false;
+
+        int currentCount = OOTechGameManager.Inst.GetItemCount(ingredientId);
+        int addCount = targetCount - currentCount;
+
+        if (addCount <= 0)
+            return false;
+
+        OOTechGameManager.Inst.AddItem(ingredientId, addCount);
+        Debug.Log($"[OOTechTutorial2Controller] Ingredient ensured: {ingredientId} +{addCount}, Target={targetCount}");
+        return true;
     }
 
     /// <summary>

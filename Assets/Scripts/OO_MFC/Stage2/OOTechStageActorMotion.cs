@@ -117,7 +117,21 @@ public class OOTechStageActorMotion : MonoBehaviour
         if (!_isPlayerInputEnabled)
             return;
 
+        RequestRecoverRuntimeStateForPlayerInput();
         UpdatePlayerMovement();
+    }
+
+    /// <summary>
+    /// 요리/가이드 UI에서 돌아온 뒤 시간이 멈춰 있으면 플레이어 조작이 먹통처럼 보입니다.
+    /// 배우가 조작 큐를 받는 순간 무대 시간을 다시 흐르게 해 진행 불능을 막습니다.
+    /// </summary>
+    private void RequestRecoverRuntimeStateForPlayerInput()
+    {
+        if (Time.timeScale > 0f)
+            return;
+
+        Time.timeScale = 1f;
+        Debug.LogWarning($"[OOTechStageActorMotion] {gameObject.name} restored Time.timeScale to 1 for player input.");
     }
 
     /// <summary>

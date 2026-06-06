@@ -62,5 +62,13 @@
     "SkillList": "깜짝 등장해 분위기를 반전 시키고 퀘스트를 돕니다.",
     "UseWeaponId": null,
     "BasicCostumeId": null
+  },
+  {
+    "Id": "character_Sangun_01",
+    "Name": "산군",
+    "Description": "Stage3에서 등장하는 숲의 맹수. 꿀떡으로 분노를 누그러뜨릴 수 있다.",
+    "SkillList": null,
+    "UseWeaponId": null,
+    "BasicCostumeId": null
   }
 ]

@@ -328,5 +328,55 @@
     "SelectionDialogueIdList": null,
     "TexturePath": null,
     "VoicePath": null
+  },
+  {
+    "Id": "character_Sangun_01",
+    "SpeakerName": "산군",
+    "Text": "“어흥—! 떡 하나 주면 안 잡아먹지!”",
+    "NextDialogueId": null,
+    "SelectionNameList": null,
+    "SelectionDialogueIdList": null,
+    "TexturePath": null,
+    "VoicePath": null
+  },
+  {
+    "Id": "character_Sangun_02",
+    "SpeakerName": "산군",
+    "Text": "“웬 똥개 한 마리가 감히 내 앞길을 막아서고 짖는단 말이냐? 하하하! 하룻강아지 범 무서운 줄 모른다더니, 딱 너를 두고 하는 말이로구나!”",
+    "NextDialogueId": "character_Moran_08",
+    "SelectionNameList": null,
+    "SelectionDialogueIdList": null,
+    "TexturePath": null,
+    "VoicePath": null
+  },
+  {
+    "Id": "character_Moran_08",
+    "SpeakerName": "모란",
+    "Text": "“먹을 것을 달라면 만들어 드릴 수 있습니다. 다만 사람을 해치는 일은 멈춰 주십시오.”",
+    "NextDialogueId": "character_Sangun_03",
+    "SelectionNameList": null,
+    "SelectionDialogueIdList": null,
+    "TexturePath": null,
+    "VoicePath": null
+  },
+  {
+    "Id": "character_Sangun_03",
+    "SpeakerName": "산군",
+    "Text": "“크흐흡…… 조그만 녀석이 제법 당차구나. 좋다! 어디 그 황금 꿀떡이라는 것을 당장 만들어 보거라. 만약 내 입에 맞지 않으면…… 알지?”",
+    "NextDialogueId": null,
+    "SelectionNameList": null,
+    "SelectionDialogueIdList": null,
+    "TexturePath": null,
+    "VoicePath": null
+  },
+  {
+    "Id": "character_Sangun_04",
+    "SpeakerName": "산군",
+    "Text": "“어흐응……! 내 평생 이토록 달콤하고 쫄깃한 떡은 처음이로구나. 사람을 해치며 날뛰던 가슴속 불길이 온데간데없이 가라앉는구나. 미안한 마음을 담아, 깊은 숲의 기운을 머금은 당근을 줄 터이니 받아 가거라.”",
+    "NextDialogueId": null,
+    "SelectionNameList": null,
+    "SelectionDialogueIdList": null,
+    "TexturePath": null,
+    "VoicePath": null
   }
 ]

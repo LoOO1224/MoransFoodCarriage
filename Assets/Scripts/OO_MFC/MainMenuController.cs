@@ -20,7 +20,7 @@ public class MainMenuController : MonoBehaviour
     [SerializeField] private AudioClip _codexBGM;
 
     [Header("Developer Skip")]
-    [SerializeField] private bool _isShowDeveloperSkipButtons = true;
+    [SerializeField] private bool _isShowDeveloperSkipButtons = false;
     [SerializeField] private string _developerRoad1GroupName = "1st_Road_to_Stage1";
     [SerializeField] private string _developerStage1GroupName = "Stage1Group";
     [SerializeField] private string _developerRoad2GroupName = "2nd_Road_to_Stage2";

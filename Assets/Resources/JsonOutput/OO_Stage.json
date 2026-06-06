@@ -13,5 +13,20 @@
     "QuestDescription": "야채죽을 만들어 굶주린 백성에게 전하라.",
     "RequiredCookId": "OO_VegetableSoup_1",
     "NextRoadGroupId": "2nd_Road_to_Stage2"
+  },
+  {
+    "Id": "OO_Stage_3",
+    "Name": "산군의 숲",
+    "StageNumber": 3,
+    "Description": "산군과 마주치는 숲의 장면. 떡과 꿀을 활용해 산군을 달래야 한다.",
+    "BackgroundImagePath": "Images/Stages/Stage3",
+    "BGMPath": "Audio/BGM/Stage3",
+    "RequiredPreviousStageId": "OO_Stage_2",
+    "RewardItemIds": "Ing_Carrot_01",
+    "StartDialogueGroupId": null,
+    "QuestTitle": "산군의 허기를 달래라",
+    "QuestDescription": "쌀과 꿀로 꿀떡을 만들어 산군에게 전하라.",
+    "RequiredCookId": "OO_HoneyKoreanCake_1",
+    "NextRoadGroupId": "4th_Road_to_Stage4"
   }
 ]

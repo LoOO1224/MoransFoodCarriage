@@ -154,5 +154,17 @@
     "SkillList": null,
     "UseWeaponId": null,
     "BasicCostumeId": null
+  },
+  {
+    "Id": "narration_tutorial_14",
+    "Name": "절구 안내",
+    "Title": "절구",
+    "Description": "절구는 쌀을 떡으로 만들 수 있는 조리기구입니다. 인벤토리의 쌀을 절구 위로 끌어다 놓으세요.",
+    "TargetStageId": "CookingGroup",
+    "TriggerCondition": "ShowJulguGuide",
+    "DialogueGroupId": null,
+    "SkillList": null,
+    "UseWeaponId": null,
+    "BasicCostumeId": null
   }
 ]

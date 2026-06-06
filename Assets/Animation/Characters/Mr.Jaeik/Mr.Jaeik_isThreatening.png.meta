@@ -1,0 +1,924 @@
+fileFormatVersion: 2
+guid: f44a2b48fd08c4c47993f620a49b8136
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 0
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Mr.Jaeik_isThreatening_0
+      rect:
+        serializedVersion: 2
+        x: 78
+        y: 1065
+        width: 85
+        height: 175
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fa46b7453ebc8124a8e19abac4a3175d
+      internalID: 201090510
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_isThreatening_1
+      rect:
+        serializedVersion: 2
+        x: 168
+        y: 1159
+        width: 6
+        height: 13
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0b1c8e4b8338e7b4180744a5c0509bd6
+      internalID: 1436526361
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_isThreatening_2
+      rect:
+        serializedVersion: 2
+        x: 173
+        y: 1152
+        width: 12
+        height: 27
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 78f4829922b20394a974ad9e3d7d77c3
+      internalID: 1916821856
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_isThreatening_3
+      rect:
+        serializedVersion: 2
+        x: 183
+        y: 1142
+        width: 14
+        height: 47
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 58404cde54ac5504aba5b976c0e6d0e1
+      internalID: -1261261254
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_isThreatening_4
+      rect:
+        serializedVersion: 2
+        x: 332
+        y: 1065
+        width: 87
+        height: 175
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d8c38cef7556e4e4a88d40fccadf98ee
+      internalID: 2008879824
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_isThreatening_5
+      rect:
+        serializedVersion: 2
+        x: 423
+        y: 1155
+        width: 10
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 925fda75a65bca54792ba32651147e63
+      internalID: 221087361
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_isThreatening_6
+      rect:
+        serializedVersion: 2
+        x: 429
+        y: 1143
+        width: 18
+        height: 44
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c1ee184a82a1c0049b66e129ebae3017
+      internalID: -73090729
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_isThreatening_7
+      rect:
+        serializedVersion: 2
+        x: 439
+        y: 1135
+        width: 22
+        height: 59
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f76b7a8e4ba0eeb40a583f2a153cafe2
+      internalID: 43391918
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_isThreatening_8
+      rect:
+        serializedVersion: 2
+        x: 581
+        y: 1065
+        width: 92
+        height: 177
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6fdeae78015cc44468e8e6b3488fd003
+      internalID: -62958764
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_isThreatening_9
+      rect:
+        serializedVersion: 2
+        x: 679
+        y: 1154
+        width: 12
+        height: 25
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9ce37a431fdff134d881526ed1635ec8
+      internalID: 1517381944
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_isThreatening_10
+      rect:
+        serializedVersion: 2
+        x: 685
+        y: 1143
+        width: 20
+        height: 43
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 88e5e460f9e4f9244972b5c859a1a389
+      internalID: -118179962
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_isThreatening_11
+      rect:
+        serializedVersion: 2
+        x: 843
+        y: 1065
+        width: 84
+        height: 178
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9b97c5d78ee40794f9bdbdf0532c558e
+      internalID: 201427467
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_isThreatening_12
+      rect:
+        serializedVersion: 2
+        x: 936
+        y: 1156
+        width: 11
+        height: 22
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c1c91ef80ef0a5b49bbdf3e663782c04
+      internalID: -2140092713
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_isThreatening_13
+      rect:
+        serializedVersion: 2
+        x: 945
+        y: 1146
+        width: 14
+        height: 36
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d91252e83a4d7ff45a0e3e1552c03d40
+      internalID: 905410030
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_isThreatening_14
+      rect:
+        serializedVersion: 2
+        x: 1103
+        y: 1065
+        width: 81
+        height: 178
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dac2987d28601244cb5bc587e6286423
+      internalID: 139030841
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_isThreatening_15
+      rect:
+        serializedVersion: 2
+        x: 76
+        y: 809
+        width: 85
+        height: 177
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0eb3475b97c580741b93d27ca5bbba28
+      internalID: -1753536578
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_isThreatening_16
+      rect:
+        serializedVersion: 2
+        x: 334
+        y: 809
+        width: 84
+        height: 176
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 828e4cefd19764e478b2a4a13b3b657e
+      internalID: -740734547
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_isThreatening_17
+      rect:
+        serializedVersion: 2
+        x: 582
+        y: 809
+        width: 110
+        height: 164
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7fd9633b05733c64eb7b938c20c959db
+      internalID: -691148625
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_isThreatening_18
+      rect:
+        serializedVersion: 2
+        x: 837
+        y: 809
+        width: 130
+        height: 140
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 282cce244197b1948bca4bc434a2590e
+      internalID: -616948619
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_isThreatening_19
+      rect:
+        serializedVersion: 2
+        x: 1105
+        y: 809
+        width: 121
+        height: 134
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2307d84b29b9b8b47b7b978058c60634
+      internalID: -589816506
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_isThreatening_20
+      rect:
+        serializedVersion: 2
+        x: 76
+        y: 553
+        width: 126
+        height: 134
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c5b9eaedbd1a0374aaff4be6d3f0277f
+      internalID: -1030476528
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_isThreatening_21
+      rect:
+        serializedVersion: 2
+        x: 323
+        y: 553
+        width: 135
+        height: 134
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 297bbdd67ba617b459bf5c831f938ce7
+      internalID: -1965948979
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_isThreatening_22
+      rect:
+        serializedVersion: 2
+        x: 580
+        y: 553
+        width: 131
+        height: 140
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 67b67835e49fe594a87f6e37e8a3612c
+      internalID: 1690252988
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_isThreatening_23
+      rect:
+        serializedVersion: 2
+        x: 837
+        y: 553
+        width: 108
+        height: 164
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: efc62d8cb0ba4ee458eb6aabead07d32
+      internalID: 738614322
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_isThreatening_24
+      rect:
+        serializedVersion: 2
+        x: 1098
+        y: 553
+        width: 84
+        height: 178
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1c4ba7580e85d0b46a36b99af2579305
+      internalID: 782713740
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_isThreatening_25
+      rect:
+        serializedVersion: 2
+        x: 71
+        y: 297
+        width: 88
+        height: 177
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a1161998f3564044d9e91d4fa7dbf52d
+      internalID: -526729730
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_isThreatening_26
+      rect:
+        serializedVersion: 2
+        x: 327
+        y: 297
+        width: 88
+        height: 177
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c6434eda055ffd8478cc477fe8bb6589
+      internalID: -101796751
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_isThreatening_27
+      rect:
+        serializedVersion: 2
+        x: 586
+        y: 297
+        width: 85
+        height: 177
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3561bacc9ddf47149bc48c2fa8baef57
+      internalID: -1222145431
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_isThreatening_28
+      rect:
+        serializedVersion: 2
+        x: 838
+        y: 297
+        width: 89
+        height: 178
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e63a811f7da31334688c8ea047b38fb5
+      internalID: -1006172101
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_isThreatening_29
+      rect:
+        serializedVersion: 2
+        x: 1093
+        y: 297
+        width: 90
+        height: 177
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 914ac397c085fe74fa923712b7163ec8
+      internalID: 877871401
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_isThreatening_30
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 41
+        width: 106
+        height: 161
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0465023240a5d484f98e85c543282dc7
+      internalID: -2134798757
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_isThreatening_31
+      rect:
+        serializedVersion: 2
+        x: 333
+        y: 41
+        width: 111
+        height: 161
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 739c4a8bc731c3441ad1f1e4a256d347
+      internalID: 1850286280
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_isThreatening_32
+      rect:
+        serializedVersion: 2
+        x: 583
+        y: 41
+        width: 117
+        height: 161
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ae79b9e5dcd53354da4673a045caa043
+      internalID: 1041354914
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_isThreatening_33
+      rect:
+        serializedVersion: 2
+        x: 839
+        y: 40
+        width: 116
+        height: 163
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f675eba6020b746479819ce13dce31a3
+      internalID: 1452861859
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_isThreatening_34
+      rect:
+        serializedVersion: 2
+        x: 1095
+        y: 40
+        width: 115
+        height: 165
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fff78e67f454bf548afdb9603f4caf0c
+      internalID: -133537369
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: dd3a314596c06dc4481769b66ba9369a
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      Mr.Jaeik_isThreatening_0: 201090510
+      Mr.Jaeik_isThreatening_1: 1436526361
+      Mr.Jaeik_isThreatening_10: -118179962
+      Mr.Jaeik_isThreatening_11: 201427467
+      Mr.Jaeik_isThreatening_12: -2140092713
+      Mr.Jaeik_isThreatening_13: 905410030
+      Mr.Jaeik_isThreatening_14: 139030841
+      Mr.Jaeik_isThreatening_15: -1753536578
+      Mr.Jaeik_isThreatening_16: -740734547
+      Mr.Jaeik_isThreatening_17: -691148625
+      Mr.Jaeik_isThreatening_18: -616948619
+      Mr.Jaeik_isThreatening_19: -589816506
+      Mr.Jaeik_isThreatening_2: 1916821856
+      Mr.Jaeik_isThreatening_20: -1030476528
+      Mr.Jaeik_isThreatening_21: -1965948979
+      Mr.Jaeik_isThreatening_22: 1690252988
+      Mr.Jaeik_isThreatening_23: 738614322
+      Mr.Jaeik_isThreatening_24: 782713740
+      Mr.Jaeik_isThreatening_25: -526729730
+      Mr.Jaeik_isThreatening_26: -101796751
+      Mr.Jaeik_isThreatening_27: -1222145431
+      Mr.Jaeik_isThreatening_28: -1006172101
+      Mr.Jaeik_isThreatening_29: 877871401
+      Mr.Jaeik_isThreatening_3: -1261261254
+      Mr.Jaeik_isThreatening_30: -2134798757
+      Mr.Jaeik_isThreatening_31: 1850286280
+      Mr.Jaeik_isThreatening_32: 1041354914
+      Mr.Jaeik_isThreatening_33: 1452861859
+      Mr.Jaeik_isThreatening_34: -133537369
+      Mr.Jaeik_isThreatening_4: 2008879824
+      Mr.Jaeik_isThreatening_5: 221087361
+      Mr.Jaeik_isThreatening_6: -73090729
+      Mr.Jaeik_isThreatening_7: 43391918
+      Mr.Jaeik_isThreatening_8: -62958764
+      Mr.Jaeik_isThreatening_9: 1517381944
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

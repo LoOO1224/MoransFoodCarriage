@@ -12,8 +12,10 @@ public class OO_CookingCueSheet : GameDataBase
 {
     public string CauldronTutorialId;                        // 가마솥 튜토리얼 ID
     public string CuttingboardTutorialId;                    // 도마 튜토리얼 ID
+    public string JulguTutorialId;                           // 절구 튜토리얼 ID
     public string CauldronToolId;                            // 가마솥 도구 데이터 ID
     public string CuttingboardToolId;                        // 도마 도구 데이터 ID
+    public string JulguToolId;                               // 절구 도구 데이터 ID
     public int SortingOrder = 1260;                          // Cooking UI 캔버스 정렬 순서
     public float ReferenceResolutionWidth = 1920f;           // UI 기준 해상도 너비
     public float ReferenceResolutionHeight = 1080f;          // UI 기준 해상도 높이

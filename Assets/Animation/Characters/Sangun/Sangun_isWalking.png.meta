@@ -6,7 +6,7 @@ TextureImporter:
   serializedVersion: 13
   mipmaps:
     mipMapMode: 0
-    enableMipMap: 1
+    enableMipMap: 0
     sRGBTexture: 1
     linearTexture: 0
     fadeOut: 0
@@ -37,13 +37,13 @@ TextureImporter:
     filterMode: 1
     aniso: 1
     mipBias: 0
-    wrapU: 0
-    wrapV: 0
+    wrapU: 1
+    wrapV: 1
     wrapW: 0
-  nPOTScale: 1
+  nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 0
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -52,9 +52,9 @@ TextureImporter:
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
-  alphaIsTransparency: 0
+  alphaIsTransparency: 1
   spriteTessellationDetail: -1
-  textureType: 0
+  textureType: 8
   textureShape: 1
   singleChannelComponent: 0
   flipbookRows: 1
@@ -95,12 +95,562 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: Sangun_isWalking_0
+      rect:
+        serializedVersion: 2
+        x: 22
+        y: 1082
+        width: 204
+        height: 126
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 572fd43f01104ef4198c4e7902bffb43
+      internalID: -401255956
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sangun_isWalking_1
+      rect:
+        serializedVersion: 2
+        x: 279
+        y: 1082
+        width: 203
+        height: 127
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0326d09f0ecae6942bbfda62366cf486
+      internalID: 619826201
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sangun_isWalking_2
+      rect:
+        serializedVersion: 2
+        x: 532
+        y: 1081
+        width: 207
+        height: 129
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 236a802a3f902db4fb68a4e84db18fb3
+      internalID: -1131080570
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sangun_isWalking_3
+      rect:
+        serializedVersion: 2
+        x: 787
+        y: 1074
+        width: 209
+        height: 133
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 590e4e951f0cc944abad873550f74a01
+      internalID: -255676137
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sangun_isWalking_4
+      rect:
+        serializedVersion: 2
+        x: 1043
+        y: 1075
+        width: 209
+        height: 129
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 698d96b7082dd634b813e78c4ec88123
+      internalID: 1052247501
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sangun_isWalking_5
+      rect:
+        serializedVersion: 2
+        x: 22
+        y: 819
+        width: 205
+        height: 129
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0d2a26427cd8d2440be6b27a9fe3db5e
+      internalID: -137271066
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sangun_isWalking_6
+      rect:
+        serializedVersion: 2
+        x: 279
+        y: 823
+        width: 203
+        height: 129
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8567f7359504da14993d1e5405a52204
+      internalID: -1817912460
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sangun_isWalking_7
+      rect:
+        serializedVersion: 2
+        x: 538
+        y: 825
+        width: 201
+        height: 129
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4373d5d142bd8e642b010aabaf04768e
+      internalID: -993318032
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sangun_isWalking_8
+      rect:
+        serializedVersion: 2
+        x: 795
+        y: 827
+        width: 200
+        height: 126
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f15d4557af28fa440989737f657e0826
+      internalID: -1450639657
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sangun_isWalking_9
+      rect:
+        serializedVersion: 2
+        x: 1048
+        y: 826
+        width: 205
+        height: 125
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 65969c95fc930ca498384d5e7728016e
+      internalID: -585067469
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sangun_isWalking_10
+      rect:
+        serializedVersion: 2
+        x: 22
+        y: 567
+        width: 206
+        height: 125
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a98a5b738cc2bff4096c92c60b6607ab
+      internalID: -1559617942
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sangun_isWalking_11
+      rect:
+        serializedVersion: 2
+        x: 279
+        y: 570
+        width: 203
+        height: 123
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bdd807a48882b2144894b98b05b21215
+      internalID: 1053046195
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sangun_isWalking_12
+      rect:
+        serializedVersion: 2
+        x: 535
+        y: 571
+        width: 203
+        height: 125
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 67e499316fe8dbc49ac048bb8d5698e8
+      internalID: -788264811
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sangun_isWalking_13
+      rect:
+        serializedVersion: 2
+        x: 790
+        y: 570
+        width: 204
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4fe1574a0ba5ecc40926bdada381f3d1
+      internalID: 1564394110
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sangun_isWalking_14
+      rect:
+        serializedVersion: 2
+        x: 1044
+        y: 569
+        width: 207
+        height: 129
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 954db045d2f0464438546573f770973b
+      internalID: 1603128048
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sangun_isWalking_15
+      rect:
+        serializedVersion: 2
+        x: 19
+        y: 306
+        width: 209
+        height: 133
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f7f00a7fe73a76342ad8668e13460d80
+      internalID: 1433451582
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sangun_isWalking_16
+      rect:
+        serializedVersion: 2
+        x: 275
+        y: 306
+        width: 209
+        height: 129
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0a6e77eff61597644ae3a3f4ebc96eb3
+      internalID: -360798267
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sangun_isWalking_17
+      rect:
+        serializedVersion: 2
+        x: 534
+        y: 307
+        width: 205
+        height: 129
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0ac98fc0d143c624db9e8987d9a06252
+      internalID: 1148524617
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sangun_isWalking_18
+      rect:
+        serializedVersion: 2
+        x: 792
+        y: 311
+        width: 202
+        height: 129
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d2225e04e12c17645aa4edba138a16ac
+      internalID: 1895125831
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sangun_isWalking_19
+      rect:
+        serializedVersion: 2
+        x: 1050
+        y: 313
+        width: 201
+        height: 129
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9816d809afbffde41998c5f0ebd138cd
+      internalID: 1333301396
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sangun_isWalking_20
+      rect:
+        serializedVersion: 2
+        x: 27
+        y: 59
+        width: 200
+        height: 126
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dce30d37c47480b4f93697030277d5e4
+      internalID: -356989882
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sangun_isWalking_21
+      rect:
+        serializedVersion: 2
+        x: 279
+        y: 58
+        width: 206
+        height: 125
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f751c2bc5d2797d4380a294eef18a3ca
+      internalID: -1216234505
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sangun_isWalking_22
+      rect:
+        serializedVersion: 2
+        x: 533
+        y: 55
+        width: 207
+        height: 125
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b650bf1fa211fb747b72974e71f66453
+      internalID: -1715544663
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sangun_isWalking_23
+      rect:
+        serializedVersion: 2
+        x: 791
+        y: 58
+        width: 203
+        height: 123
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e8a22a3384f2d2647b05b484a7085487
+      internalID: 2082649191
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sangun_isWalking_24
+      rect:
+        serializedVersion: 2
+        x: 1047
+        y: 58
+        width: 203
+        height: 126
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 401f98b8470a59d43bd38e1b48403ca4
+      internalID: 1101129555
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: dcaf546040b8c0640acc4a12f9d20141
     internalID: 0
     vertices: []
     indices: 
@@ -108,8 +658,35 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
-    nameFileIdTable: {}
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      Sangun_isWalking_0: -401255956
+      Sangun_isWalking_1: 619826201
+      Sangun_isWalking_10: -1559617942
+      Sangun_isWalking_11: 1053046195
+      Sangun_isWalking_12: -788264811
+      Sangun_isWalking_13: 1564394110
+      Sangun_isWalking_14: 1603128048
+      Sangun_isWalking_15: 1433451582
+      Sangun_isWalking_16: -360798267
+      Sangun_isWalking_17: 1148524617
+      Sangun_isWalking_18: 1895125831
+      Sangun_isWalking_19: 1333301396
+      Sangun_isWalking_2: -1131080570
+      Sangun_isWalking_20: -356989882
+      Sangun_isWalking_21: -1216234505
+      Sangun_isWalking_22: -1715544663
+      Sangun_isWalking_23: 2082649191
+      Sangun_isWalking_24: 1101129555
+      Sangun_isWalking_3: -255676137
+      Sangun_isWalking_4: 1052247501
+      Sangun_isWalking_5: -137271066
+      Sangun_isWalking_6: -1817912460
+      Sangun_isWalking_7: -993318032
+      Sangun_isWalking_8: -1450639657
+      Sangun_isWalking_9: -585067469
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

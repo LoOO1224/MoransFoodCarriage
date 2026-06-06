@@ -10,6 +10,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+#if ENABLE_INPUT_SYSTEM
+using UnityEngine.InputSystem;
+#endif
 
 /// <summary>
 /// 시작 지점부터 Stage 입구까지 MFC 이동을 지휘하는 RoadGroup 컨트롤러입니다.
@@ -34,6 +37,16 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
     private const string _roleRoadMap2 = "RoadMap2";
     private const string _roleStage1EntryMap = "Stage1EntryMap";
     private const string _roleMFCStartPoint = "MFCStartPoint";
+    private const string _roleWormhole = "Wormhole";
+    private const string _firstRoadGroupName = "1st_Road_to_Stage1";
+    private const string _thirdRoadGroupName = "3rd_Road_to_Stage3";
+    private const string _fourthRoadGroupName = "4th_Road_to_Stage4";
+    private const string _finalRoadGroupName = "Final_Road_to_FinalStage";
+    private const string _stage1GroupName = "Stage1Group";
+    private const string _stage2GroupName = "Stage2Group";
+    private const string _stage3GroupName = "Stage3Group";
+    private const string _stage4GroupName = "Stage4Group";
+    private const string _finalStageGroupName = "FinalStageGroup";
 
     [Header("Scene Components")]
     [SerializeField] private OOTechSceneContext Context_Scene;
@@ -63,9 +76,12 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
 
     [HideInInspector]
     [SerializeField] private Transform Transform_MFCStartPoint;
+    [HideInInspector]
+    [SerializeField] private GameObject Object_Wormhole;
 
     [Header("Road Lane")]
     [SerializeField] private KeyCode _moveRightKey = KeyCode.D;
+    [SerializeField] private KeyCode _alternateMoveRightKey = KeyCode.RightArrow;
     [SerializeField] private float _moveSpeed = 4.2f;
     [SerializeField, Range(0f, 1f)] private float _roadLaneNormalizedHeight = 0.23f;
     [SerializeField, Range(0f, 0.45f)] private float _entryMarginRatio = 0.1f;
@@ -73,9 +89,16 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
     [SerializeField] private bool _isUseMFCStartPointOnFirstMap = true;
 
     [Header("MFC Animation")]
-    [SerializeField] private string _mfcWalkStateName = "MFC";
+    [SerializeField] private string _mfcWalkStateName = "MFC_isWalking";
+    [SerializeField] private string _mfcLegacyWalkStateName = "MFC";
     [SerializeField] private bool _isAnimateMFCOnlyWhileMoving = true;
     [SerializeField] private float _mfcWalkAnimationSpeed = 0.85f;
+    [SerializeField] private int _mfcSortingOrder = 100;
+
+    [Header("Build Input Fail Safe")]
+    [SerializeField] private float _blockedInputHoldSeconds = 1.2f;
+    [SerializeField] private bool _isUseBuildAutoMoveFailSafe = true;
+    [SerializeField] private float _buildAutoMoveDelaySeconds = 1.5f;
 
     [Header("Map Transition")]
     [SerializeField] private float _fadeOutSeconds = 0.45f;
@@ -85,6 +108,8 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
 
     [Header("Destination")]
     [SerializeField] private string _currentGroupName = "1st_Road_to_Stage1";
+    [SerializeField] private string _thirdRoadName = "3rd_Road_to_Stage3";
+    [SerializeField] private string _thirdRoadTargetStageName = "Stage3Group";
     [SerializeField] private string _targetStageGroupName = "Stage1Group";
     [SerializeField] private string[] _stageGroupNameArray =
     {
@@ -116,12 +141,28 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
     [SerializeField] private int _stage1RequiredPumpkinSoupCount = 10;
     [SerializeField] private int _stage1ChiefRewardCount = 10;
 
+    [Header("Wormhole Transition")]
+    [SerializeField] private bool _isEnableWormholeEntry = true;
+    [SerializeField] private float _wormholeHitHoldSeconds = 0.2f;
+    [SerializeField] private float _wormholeMapProgress = 0.5f;
+    [SerializeField] private Color _wormholeEncounterFlashColor = Color.white;
+    [SerializeField] private int _wormholeEncounterFlashCount = 4;
+    [SerializeField] private float _wormholeEncounterFlashSeconds = 0.08f;
+
     private GameObject[] _mapObjectArray;
     private int _currentMapIndex;
     private bool _isChangingMap;
     private bool _isRoadTripComplete;
     private bool _isRoadMap1ArrivalCuePlayed;
     private bool _isOpeningDialoguePlaying;
+    private bool _isWormholeTriggered;
+    private bool _isWormholeTransitionInProgress;
+    private float _wormholeHoldSeconds;
+    private float _blockedInputPressedSeconds;
+    private float _buildAutoMoveReadySeconds;
+    private bool _isBlockedInputFailSafeLogged;
+    private bool _isBuildAutoMoveLogged;
+    private bool _isBuildAutoMoveLockCleared;
     private Coroutine _openingTutorialCoroutine;
     private Coroutine _openingDialogueCoroutine;
     private Canvas _fadeCanvas;
@@ -185,6 +226,7 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
     /// </summary>
     private void OnEnable()
     {
+        ResolveRoadIdentityFromGroupName();
         ResolveSceneReferences();
         ResolveCameraReference();
         CacheHUDReference();
@@ -252,6 +294,9 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
         _openingTutorialCoroutine = null;
         _openingDialogueCoroutine = null;
         _isOpeningDialoguePlaying = false;
+        _isWormholeTriggered = false;
+        _isWormholeTransitionInProgress = false;
+        _wormholeHoldSeconds = 0f;
         _isChangingMap = false;
         SetMFCAnimationPlaying(false);
         SetRoadHUDVisible(false);
@@ -263,19 +308,32 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
     /// </summary>
     private void Update()
     {
-        if (Tutorial2_Controller != null && Tutorial2_Controller.IsTutorialRunning)
+        bool isMoveRightPressed = IsMoveRightPressed();
+        bool isAutoMoveRequested = IsBuildAutoMoveRequested(isMoveRightPressed);
+
+        if (isMoveRightPressed)
         {
-            SetMFCAnimationPlaying(false);
-            return;
+            RequestRecoverRoadRuntimeStateForMovement();
+            RequestUnlockBlockedRoadInputIfNeeded();
+        }
+        else
+        {
+            _blockedInputPressedSeconds = 0f;
+            _isBlockedInputFailSafeLogged = false;
         }
 
-        if (_isOpeningDialoguePlaying)
+        if (isAutoMoveRequested)
         {
-            SetMFCAnimationPlaying(false);
-            return;
+            RequestRecoverRoadRuntimeStateForMovement();
+
+            if (!_isBuildAutoMoveLockCleared)
+            {
+                RequestClearBlockedRoadInputState("Build auto-move fail-safe cleared stale road lock.");
+                _isBuildAutoMoveLockCleared = true;
+            }
         }
 
-        if (HUD_Road != null && HUD_Road.IsOverlayOpen)
+        if (IsRoadInputBlocked())
         {
             SetMFCAnimationPlaying(false);
             return;
@@ -287,7 +345,22 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
             return;
         }
 
-        if (Input.GetKey(_moveRightKey))
+        if (ShouldUseWormholeTransition() && !_isWormholeTriggered && IsMFCAtWormholeCuePoint())
+        {
+            _wormholeHoldSeconds += Time.unscaledDeltaTime;
+
+            if (_wormholeHoldSeconds >= _wormholeHitHoldSeconds)
+                TriggerWormholeTransition();
+            else
+                SetMFCAnimationPlaying(false);
+
+            return;
+        }
+
+        if (ShouldUseWormholeTransition() && !_isWormholeTriggered)
+            _wormholeHoldSeconds = 0f;
+
+        if (isMoveRightPressed || isAutoMoveRequested)
         {
             SetMFCAnimationPlaying(true);
             MoveMFCRight();
@@ -299,6 +372,189 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
     }
 
     /// <summary>
+    /// D키와 오른쪽 방향키를 함께 받습니다.
+    /// 빌드 환경에서 키보드 레이아웃이나 포커스 차이로 한쪽 입력이 흔들려도 Road 배우가 움직일 수 있게 하는 보험입니다.
+    /// </summary>
+    private bool IsMoveRightPressed()
+    {
+        return IsLegacyMoveRightPressed() || IsNewInputMoveRightPressed();
+    }
+
+    /// <summary>
+    /// 기존 Input Manager 방식으로 D/오른쪽 방향키를 읽습니다.
+    /// 빌드 설정이 New Input 전용으로 바뀐 경우 예외가 날 수 있어 안전하게 감쌉니다.
+    /// </summary>
+    private bool IsLegacyMoveRightPressed()
+    {
+        try
+        {
+            return Input.GetKey(_moveRightKey) ||
+                   Input.GetKey(_alternateMoveRightKey) ||
+                   Input.GetKey(KeyCode.D) ||
+                   Input.GetKey(KeyCode.RightArrow) ||
+                   Input.GetAxisRaw("Horizontal") > 0.1f;
+        }
+        catch (System.InvalidOperationException)
+        {
+            return false;
+        }
+    }
+
+    /// <summary>
+    /// Unity New Input System 방식으로 D/오른쪽 방향키를 읽습니다.
+    /// 빌드에서 Legacy Input이 흔들릴 때도 키보드 상태를 직접 확인하기 위한 보험입니다.
+    /// </summary>
+    private bool IsNewInputMoveRightPressed()
+    {
+#if ENABLE_INPUT_SYSTEM
+        Keyboard keyboard = Keyboard.current;
+
+        if (keyboard == null)
+            return false;
+
+        return keyboard.dKey.isPressed || keyboard.rightArrowKey.isPressed;
+#else
+        return false;
+#endif
+    }
+
+    /// <summary>
+    /// 튜토리얼, 오프닝 대사, HUD 오버레이가 켜져 있으면 원래는 MFC 조작을 잠급니다.
+    /// 빌드에서 이 값이 풀리지 않으면 D키가 죽은 것처럼 보이므로 한 곳에서 원인을 판정합니다.
+    /// </summary>
+    private bool IsRoadInputBlocked()
+    {
+        return IsNarrativeInputBlocked() ||
+               HUD_Road != null && HUD_Road.IsOverlayOpen;
+    }
+
+    private bool IsNarrativeInputBlocked()
+    {
+        return Tutorial2_Controller != null && Tutorial2_Controller.IsTutorialRunning ||
+               _isOpeningDialoguePlaying;
+    }
+
+    /// <summary>
+    /// 빌드에서 키 입력이 잡히지 않는 최악의 경우에도 Road 장면이 멈추지 않게 하는 자동 이동 보험입니다.
+    /// 영화로 보면 배우가 큐 사인을 못 들었을 때 조감독이 정해진 동선대로 밀어 주는 마지막 안전 큐입니다.
+    /// </summary>
+    private bool IsBuildAutoMoveRequested(bool isMoveRightPressed)
+    {
+        if (!_isUseBuildAutoMoveFailSafe || Application.isEditor)
+            return false;
+
+        if (isMoveRightPressed || _isChangingMap || _isRoadTripComplete || Object_MFC == null)
+        {
+            _buildAutoMoveReadySeconds = 0f;
+            _isBuildAutoMoveLogged = false;
+            _isBuildAutoMoveLockCleared = false;
+            return false;
+        }
+
+        _buildAutoMoveReadySeconds += Time.unscaledDeltaTime;
+
+        if (_buildAutoMoveReadySeconds < _buildAutoMoveDelaySeconds)
+            return false;
+
+        if (!_isBuildAutoMoveLogged)
+        {
+            Debug.LogWarning("[OOTechRoadToStage1Controller] Build auto-move fail-safe started because road input was not received.");
+            _isBuildAutoMoveLogged = true;
+        }
+
+        return true;
+    }
+
+    /// <summary>
+    /// RoadGroup에서 이동 키가 눌렸는데 시간 정지나 오버레이 잔여 상태가 남아 있으면 즉시 복구합니다.
+    /// 요리/도감/월드맵에서 돌아온 뒤에도 배우가 다시 움직일 수 있게 만드는 공통 안전장치입니다.
+    /// </summary>
+    private void RequestRecoverRoadRuntimeStateForMovement()
+    {
+        if (Object_MFC == null || _mapObjectArray == null || _mapObjectArray.Length == 0)
+            ResolveSceneReferences();
+
+        if (Time.timeScale <= 0f)
+        {
+            Time.timeScale = 1f;
+            Debug.LogWarning("[OOTechRoadToStage1Controller] Time.timeScale was 0 while road move key was pressed. Restored timeScale to 1.");
+        }
+
+        if (IsNarrativeInputBlocked())
+            return;
+
+        if (HUD_Road != null && HUD_Road.IsOverlayOpen)
+            HUD_Road.RequestRestoreFromOverlayReturn();
+
+        if (Object_MFC != null && !Object_MFC.activeSelf)
+            Object_MFC.SetActive(true);
+
+        EnsureCurrentMapVisible();
+    }
+
+    /// <summary>
+    /// 빌드에서 RoadMap1 도착 가이드나 오버레이 복귀가 끊기면 이동 입력이 계속 막힐 수 있습니다.
+    /// 플레이어가 D/오른쪽키를 계속 누르고 있으면 남은 잠금 큐를 정리해 MFC 배우가 다시 이동하게 합니다.
+    /// </summary>
+    private void RequestUnlockBlockedRoadInputIfNeeded()
+    {
+        if (!CanUseBlockedInputFailSafe())
+            return;
+
+        if (!IsRoadInputBlocked() && !_isChangingMap)
+        {
+            _blockedInputPressedSeconds = 0f;
+            _isBlockedInputFailSafeLogged = false;
+            return;
+        }
+
+        _blockedInputPressedSeconds += Time.unscaledDeltaTime;
+
+        if (_blockedInputPressedSeconds < _blockedInputHoldSeconds)
+            return;
+
+        RequestClearBlockedRoadInputState("Road input was blocked after map transition. Cleared leftover tutorial/dialogue/overlay lock.");
+
+        if (!_isBlockedInputFailSafeLogged)
+        {
+            _isBlockedInputFailSafeLogged = true;
+        }
+
+        _blockedInputPressedSeconds = 0f;
+    }
+
+    /// <summary>
+    /// 이동을 막는 남은 튜토리얼, 대사, HUD 오버레이, 시간 정지 상태를 한 번에 정리합니다.
+    /// 플레이어가 D를 눌렀는데 무대 큐가 닫히지 않은 상황을 복구하는 공통 안전장치입니다.
+    /// </summary>
+    private void RequestClearBlockedRoadInputState(string reason)
+    {
+        StopOpeningTutorial();
+        StopRoadOpeningDialogue();
+
+        if (HUD_Road != null && HUD_Road.IsOverlayOpen)
+            HUD_Road.RequestRestoreFromOverlayReturn();
+
+        _isChangingMap = false;
+        _isOpeningDialoguePlaying = false;
+        Time.timeScale = 1f;
+        HideFadeOverlay();
+        EnsureCurrentMapVisible();
+        EnsureMFCVisible();
+
+        Debug.LogWarning($"[OOTechRoadToStage1Controller] {reason}");
+    }
+
+    /// <summary>
+    /// RoadGroup이 끝난 뒤에는 입력 복구가 필요 없지만, 그 전에는 첫 맵도 포함해서 복구를 허용합니다.
+    /// 빌드에서 첫 튜토리얼 패널이 보이지 않고 잠금만 남는 경우가 있어서 첫 맵 제한을 두지 않습니다.
+    /// </summary>
+    private bool CanUseBlockedInputFailSafe()
+    {
+        return !_isRoadTripComplete;
+    }
+
+    /// <summary>
     /// MFC 배우와 맵 배경 오브젝트를 씬 이름 또는 역할표로 찾습니다.
     /// 인스펙터 참조가 있으면 그 값을 우선 사용해 나중에 배경만 교체하기 쉽게 둡니다.
     /// </summary>
@@ -306,17 +562,94 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
     {
         CacheSceneContextReference();
 
-        Object_MFC = ResolveChild(Object_MFC, "MFC");
-        Animator_MFC = ResolveComponent(Animator_MFC, Object_MFC);
-        Renderer_MFC = ResolveComponent(Renderer_MFC, Object_MFC);
+        Object_MFC = ResolveOwnedChild(Object_MFC, "MFC");
+        Animator_MFC = ResolveOwnedComponent<Animator>(Object_MFC);
+        Renderer_MFC = ResolveOwnedComponent<SpriteRenderer>(Object_MFC);
 
         Object_StartPointMap = ResolveChild(Object_StartPointMap, "StartPointMap");
         Object_RoadMap1 = ResolveChild(Object_RoadMap1, "RoadMap1", "RoadMap");
         Object_RoadMap2 = ResolveChild(Object_RoadMap2, "RoadMap2", "RoadMap3");
         Object_Stage1EntryMap = ResolveChild(Object_Stage1EntryMap, "Stage1EntryMap", "Stage2EntryMap", "Stage3EntryMap", "Stage4EntryMap", "FinalStageEntryMap", "Stage1_Entry", "Stage2_Entry");
+        Object_Wormhole = ResolveChild(Object_Wormhole, _roleWormhole, "WormholeEntry", "Wormhole_Area");
         Transform_MFCStartPoint = ResolveChildTransform(Transform_MFCStartPoint, "MFC_StartPoint", "StartPoint_MFC");
 
         _mapObjectArray = CreateValidMapObjectArray(Object_StartPointMap, Object_RoadMap1, Object_RoadMap2, Object_Stage1EntryMap);
+    }
+
+    private void ResolveRoadIdentityFromGroupName()
+    {
+        _currentGroupName = ResolveRoadGroupNameByObjectName();
+        _targetStageGroupName = ResolveTargetStageGroupName();
+
+        if (HUD_Road != null)
+            HUD_Road.SetOwnerGroupName(_currentGroupName);
+
+        _isWormholeTriggered = false;
+        _isWormholeTransitionInProgress = false;
+        _wormholeHoldSeconds = 0f;
+    }
+
+    private string ResolveRoadGroupNameByObjectName()
+    {
+        string objectName = gameObject != null ? gameObject.name : string.Empty;
+
+        if (!string.IsNullOrWhiteSpace(objectName))
+        {
+            if (objectName.Contains("1st") || objectName.Contains("First"))
+                return _firstRoadGroupName;
+
+            if (objectName.Contains("2nd"))
+                return _secondRoadGroupName;
+
+            if (objectName.Contains("3rd"))
+                return string.IsNullOrWhiteSpace(_thirdRoadName) ? _thirdRoadName : _thirdRoadName;
+
+            if (objectName.Contains("4th"))
+                return _fourthRoadGroupName;
+
+            if (objectName.Contains("Final"))
+                return _finalRoadGroupName;
+        }
+
+        if (!string.IsNullOrWhiteSpace(_currentGroupName))
+        {
+            string normalizedCurrentGroupName = _currentGroupName.Trim();
+
+            if (normalizedCurrentGroupName == _firstRoadGroupName ||
+                normalizedCurrentGroupName == _secondRoadGroupName ||
+                normalizedCurrentGroupName == _thirdRoadGroupName ||
+                normalizedCurrentGroupName == _thirdRoadName ||
+                normalizedCurrentGroupName == _fourthRoadGroupName ||
+                normalizedCurrentGroupName == _finalRoadGroupName)
+            {
+                return normalizedCurrentGroupName;
+            }
+        }
+
+        if (string.IsNullOrWhiteSpace(objectName))
+            return _firstRoadGroupName;
+
+        if (objectName.Contains("3rd"))
+            return string.IsNullOrWhiteSpace(_thirdRoadName) ? _thirdRoadGroupName : _thirdRoadName;
+
+        if (objectName.Contains("2nd"))
+            return _secondRoadGroupName;
+
+        if (objectName.Contains("4th"))
+            return _fourthRoadGroupName;
+
+        if (objectName.Contains("Final"))
+            return _finalRoadGroupName;
+
+        return _firstRoadGroupName;
+    }
+
+    private string ResolveTargetStageGroupName()
+    {
+        if (IsThirdRoadCurrent())
+            return string.IsNullOrWhiteSpace(_thirdRoadTargetStageName) ? _stage3GroupName : _thirdRoadTargetStageName;
+
+        return _targetStageGroupName;
     }
 
     /// <summary>
@@ -400,14 +733,29 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
         if (mapRenderer == null)
             return;
 
+        float deltaTime = Time.timeScale > 0f ? Time.deltaTime : Time.unscaledDeltaTime;
+
+        if (deltaTime <= 0f)
+            deltaTime = Time.unscaledDeltaTime;
+
         Vector3 position = Object_MFC.transform.position;
-        position.x += _moveSpeed * Time.deltaTime;
+        position.x += _moveSpeed * deltaTime;
         position.y = CalculateRoadLaneY(mapRenderer);
-        position.x = Mathf.Min(position.x, CalculateExitX(mapRenderer));
+        float exitX = CalculateExitX(mapRenderer);
+        position.x = Mathf.Min(position.x, exitX);
         Object_MFC.transform.position = position;
 
-        if (position.x >= CalculateExitX(mapRenderer))
+        if (position.x >= exitX)
+        {
+            if (ShouldUseWormholeTransition() && _currentMapIndex == _mapObjectArray.Length - 1)
+            {
+                SetMFCAnimationPlaying(false);
+                TriggerWormholeTransition();
+                return;
+            }
+
             StartCoroutine(ChangeToNextMapRoutine());
+        }
     }
 
     /// <summary>
@@ -416,6 +764,9 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
     private IEnumerator ChangeToNextMapRoutine()
     {
         if (_isChangingMap)
+            yield break;
+
+        if (ShouldUseWormholeTransition() && _currentMapIndex >= _mapObjectArray.Length - 1)
             yield break;
 
         _isChangingMap = true;
@@ -447,6 +798,112 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
         yield return FadeOverlayRoutine(1f, 0f, _fadeInSeconds);
         yield return PlayRoadMapArrivalCueIfNeeded();
         _isChangingMap = false;
+    }
+
+    private bool IsThirdRoadCurrent()
+    {
+        if (string.IsNullOrWhiteSpace(_currentGroupName))
+            return false;
+
+        if (_currentGroupName == _thirdRoadGroupName || _currentGroupName == _thirdRoadName)
+            return true;
+
+        if (_currentGroupName.Contains("3rd"))
+            return true;
+
+        if (gameObject == null || string.IsNullOrWhiteSpace(gameObject.name))
+            return false;
+
+        return gameObject.name.Contains("3rd");
+    }
+
+    private bool ShouldUseWormholeTransition()
+    {
+        return _isEnableWormholeEntry && IsThirdRoadCurrent();
+    }
+
+    /// <summary>
+    /// 3rd Road에서는 별도 Wormhole 소품에 의존하지 않고 마지막 맵의 중간 큐 지점에서 전환을 시작합니다.
+    /// 영화로 치면 배우가 특정 소품을 밟아야만 컷이 나는 방식이 아니라, 무대 중앙 표시선에 들어오면 조명 전환 큐가 나가는 방식입니다.
+    /// </summary>
+    private bool IsMFCAtWormholeCuePoint()
+    {
+        if (Object_MFC == null || _mapObjectArray == null || _mapObjectArray.Length == 0)
+            return false;
+
+        if (_currentMapIndex != _mapObjectArray.Length - 1)
+            return false;
+
+        SpriteRenderer mapRenderer = GetCurrentMapRenderer();
+
+        if (mapRenderer == null)
+            return false;
+
+        float leftX = mapRenderer.bounds.min.x;
+        float rightX = mapRenderer.bounds.max.x;
+        float safeProgress = Mathf.Clamp01(_wormholeMapProgress);
+        float cueX = Mathf.Lerp(leftX, rightX, safeProgress);
+
+        return Object_MFC.transform.position.x >= cueX;
+    }
+
+    private void TriggerWormholeTransition()
+    {
+        if (_isWormholeTriggered || _isWormholeTransitionInProgress)
+            return;
+
+        _isWormholeTriggered = true;
+        _isWormholeTransitionInProgress = true;
+        _wormholeHoldSeconds = 0f;
+        StartCoroutine(WormholeTransitionRoutine());
+    }
+
+    private IEnumerator WormholeTransitionRoutine()
+    {
+        _isChangingMap = true;
+        _isRoadTripComplete = true;
+        SetMFCAnimationPlaying(false);
+
+        yield return PlayWormholeEncounterEffectRoutine();
+        yield return FadeOverlayRoutine(0f, 1f, _fadeOutSeconds);
+
+        if (_blackoutHoldSeconds > 0f)
+            yield return new WaitForSeconds(_blackoutHoldSeconds);
+
+        OpenTargetStageGroup();
+
+        yield return FadeOverlayRoutine(1f, 0f, _fadeInSeconds);
+        _isChangingMap = false;
+        _isWormholeTransitionInProgress = false;
+        SetSceneGroupActive(_currentGroupName, false);
+        SetSceneGroupActive(gameObject != null ? gameObject.name : null, false);
+
+        Debug.Log("[OOTechRoadToStage1Controller] Wormhole transition completed.");
+    }
+
+    /// <summary>
+    /// Wormhole에 닿았을 때 강제 인카운터처럼 화면을 짧게 번쩍이며 다음 무대 진입을 알립니다.
+    /// 새 UI를 만들지 않고, 씬에 배치된 FadeOverlay 배우를 잠깐 다른 색 조명처럼 사용합니다.
+    /// </summary>
+    private IEnumerator PlayWormholeEncounterEffectRoutine()
+    {
+        CreateFadeOverlayIfNeeded();
+
+        if (_fadeCanvas == null || Image_FadeOverlay == null)
+            yield break;
+
+        _fadeCanvas.gameObject.SetActive(true);
+
+        int safeFlashCount = Mathf.Max(1, _wormholeEncounterFlashCount);
+        float safeFlashSeconds = Mathf.Max(0.01f, _wormholeEncounterFlashSeconds);
+
+        for (int i = 0; i < safeFlashCount; i++)
+        {
+            SetFadeOverlayColorAlpha(_wormholeEncounterFlashColor, 0.85f);
+            yield return new WaitForSeconds(safeFlashSeconds);
+            SetFadeOverlayColorAlpha(_wormholeEncounterFlashColor, 0f);
+            yield return new WaitForSeconds(safeFlashSeconds);
+        }
     }
 
     /// <summary>
@@ -580,6 +1037,8 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
             return;
 
         Renderer_MFC.enabled = true;
+        Renderer_MFC.sortingOrder = Mathf.Max(Renderer_MFC.sortingOrder, _mfcSortingOrder);
+
         Color color = Renderer_MFC.color;
 
         if (color.a <= 0.01f)
@@ -599,9 +1058,38 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
             return;
 
         Animator_MFC.enabled = true;
-        Animator_MFC.Play(_mfcWalkStateName, 0, 0f);
+        PlayMFCWalkState(0f);
         Animator_MFC.Update(0f);
         SetMFCAnimationPlaying(false);
+    }
+
+    /// <summary>
+    /// MFC 걷기 상태를 애니메이터에서 찾아 재생합니다.
+    /// 새 상태명 MFC_isWalking을 우선 쓰고, 아직 이전 컨트롤러라면 MFC 상태로 되돌아갑니다.
+    /// </summary>
+    private void PlayMFCWalkState(float normalizedTime)
+    {
+        if (Animator_MFC == null)
+            return;
+
+        int layerIndex = 0;
+        int stateHash = Animator.StringToHash(_mfcWalkStateName);
+
+        if (Animator_MFC.HasState(layerIndex, stateHash))
+        {
+            Animator_MFC.Play(stateHash, layerIndex, normalizedTime);
+            return;
+        }
+
+        int legacyStateHash = Animator.StringToHash(_mfcLegacyWalkStateName);
+
+        if (Animator_MFC.HasState(layerIndex, legacyStateHash))
+        {
+            Animator_MFC.Play(legacyStateHash, layerIndex, normalizedTime);
+            return;
+        }
+
+        Debug.LogWarning($"[OOTechRoadToStage1Controller] MFC walk animation state is missing: {_mfcWalkStateName}, {_mfcLegacyWalkStateName}");
     }
 
     /// <summary>
@@ -639,7 +1127,40 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
             return null;
 
         GameObject currentMapObject = _mapObjectArray[_currentMapIndex];
-        return currentMapObject != null ? currentMapObject.GetComponent<SpriteRenderer>() : null;
+        SpriteRenderer currentRenderer = currentMapObject != null ? currentMapObject.GetComponent<SpriteRenderer>() : null;
+
+        if (currentRenderer != null && currentRenderer.enabled && currentMapObject.activeInHierarchy)
+            return currentRenderer;
+
+        return GetVisibleMapRenderer();
+    }
+
+    /// <summary>
+    /// 내부 인덱스가 틀어졌을 때 실제 켜져 있는 RoadMap Renderer를 찾아 이동 기준으로 사용합니다.
+    /// 감독의 큐시트 번호가 밀려도, 플레이어가 보고 있는 배경 위에서 MFC가 계속 움직이게 하는 마지막 안전망입니다.
+    /// </summary>
+    private SpriteRenderer GetVisibleMapRenderer()
+    {
+        if (_mapObjectArray == null)
+            return null;
+
+        for (int index = 0; index < _mapObjectArray.Length; index++)
+        {
+            GameObject mapObject = _mapObjectArray[index];
+
+            if (mapObject == null || !mapObject.activeInHierarchy)
+                continue;
+
+            SpriteRenderer mapRenderer = mapObject.GetComponent<SpriteRenderer>();
+
+            if (mapRenderer == null || !mapRenderer.enabled)
+                continue;
+
+            _currentMapIndex = index;
+            return mapRenderer;
+        }
+
+        return null;
     }
 
     private void ResolveCameraReference()
@@ -774,7 +1295,15 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
         if (Image_FadeOverlay == null)
             return;
 
-        Color color = _fadeColor;
+        SetFadeOverlayColorAlpha(_fadeColor, alpha);
+    }
+
+    private void SetFadeOverlayColorAlpha(Color fadeColor, float alpha)
+    {
+        if (Image_FadeOverlay == null)
+            return;
+
+        Color color = fadeColor;
         color.a = Mathf.Clamp01(alpha);
         Image_FadeOverlay.color = color;
     }
@@ -894,6 +1423,9 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
     /// </summary>
     private void StartOpeningTutorialIfNeeded()
     {
+        if (IsThirdRoadCurrent())
+            return;
+
         StopOpeningTutorial();
 
         if (Tutorial2_Controller == null || HUD_Road == null)
@@ -1045,7 +1577,12 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
             return;
 
         if (_currentGroupName == "1st_Road_to_Stage1" && _currentMapIndex >= 1)
+        {
+            if (Tutorial2_Controller != null)
+                Tutorial2_Controller.RequestEnsureStarterIngredients(HUD_Road);
+
             HUD_Road.SetCookingUnlocked(true);
+        }
     }
 
     /// <summary>
@@ -1166,6 +1703,31 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
         return null;
     }
 
+    /// <summary>
+    /// 현재 RoadGroup 안에 실제로 배치된 배우를 우선 찾습니다.
+    /// 인스펙터 참조가 비어 있거나 예전 MFC를 가리켜도, 무대 안의 새 MFC를 다시 잡기 위한 안전장치입니다.
+    /// </summary>
+    private GameObject ResolveOwnedChild(GameObject assignedObject, params string[] childNameArray)
+    {
+        foreach (string childName in childNameArray)
+        {
+            Transform childTransform = transform.Find(childName);
+
+            if (childTransform != null)
+                return childTransform.gameObject;
+
+            GameObject recursiveChildObject = FindChildByName(transform, childName);
+
+            if (recursiveChildObject != null)
+                return recursiveChildObject;
+        }
+
+        if (assignedObject != null && assignedObject.transform != null && assignedObject.transform.IsChildOf(transform))
+            return assignedObject;
+
+        return assignedObject;
+    }
+
     private Transform ResolveChildTransform(Transform assignedTransform, params string[] childNameArray)
     {
         if (assignedTransform != null)
@@ -1180,6 +1742,15 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
         if (assignedComponent != null)
             return assignedComponent;
 
+        return targetObject != null ? targetObject.GetComponent<T>() : null;
+    }
+
+    /// <summary>
+    /// 현재 선택된 배우 오브젝트에서 컴포넌트를 다시 가져옵니다.
+    /// 배우를 교체했을 때 예전 Animator/SpriteRenderer 참조가 남지 않도록 매번 소유 오브젝트 기준으로 읽습니다.
+    /// </summary>
+    private T ResolveOwnedComponent<T>(GameObject targetObject) where T : Component
+    {
         return targetObject != null ? targetObject.GetComponent<T>() : null;
     }
 }

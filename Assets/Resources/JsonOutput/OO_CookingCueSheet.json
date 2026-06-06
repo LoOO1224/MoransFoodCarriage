@@ -16,6 +16,8 @@
     "DragGhostIconWidth": 88,
     "DragGhostIconHeight": 88,
     "EmptyPotText": "조리도구가 비어 있습니다.",
-    "DefaultStatusText": "재료를 집어 알맞은 조리도구 위에 올려주세요."
+    "DefaultStatusText": "재료를 집어 알맞은 조리도구 위에 올려주세요.",
+    "JulguTutorialId": "narration_tutorial_14",
+    "JulguToolId": "Julgu"
   }
 ]

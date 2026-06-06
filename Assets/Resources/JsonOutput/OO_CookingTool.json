@@ -16,5 +16,14 @@
     "DropAreaPadding": 1.18,
     "GuideTutorialId": "narration_tutorial_12",
     "ToolRoleId": "Cuttingboard"
+  },
+  {
+    "Id": "Julgu",
+    "Name": "절구",
+    "Description": "쌀을 찧어 떡으로 만드는 조리도구입니다.",
+    "AcceptedIngredientIds": "Ing_Rice_01",
+    "DropAreaPadding": 1.18,
+    "GuideTutorialId": "narration_tutorial_14",
+    "ToolRoleId": "Julgu"
   }
 ]

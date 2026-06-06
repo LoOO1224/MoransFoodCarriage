@@ -44,6 +44,7 @@ public class OOTechGameDataManager : MonoBehaviour
     private readonly Dictionary<string, OO_Stage> _stageDic = new Dictionary<string, OO_Stage>();
     private readonly Dictionary<string, OO_StageQuest> _stageQuestDic = new Dictionary<string, OO_StageQuest>();
     private readonly Dictionary<string, OO_Stage2CueSheet> _stage2CueSheetDic = new Dictionary<string, OO_Stage2CueSheet>();
+    private readonly Dictionary<string, OO_Stage3CueSheet> _stage3CueSheetDic = new Dictionary<string, OO_Stage3CueSheet>();
 
     /// <summary>
     /// 중복 매니저를 정리하고 Static Data를 로드합니다.
@@ -96,6 +97,7 @@ public class OOTechGameDataManager : MonoBehaviour
         LoadStageData();
         LoadStageQuestData();
         LoadStage2CueSheetData();
+        LoadStage3CueSheetData();
 
         Debug.Log("[OOTechGameDataManager] 모든 데이터 로드 완료");
     }
@@ -527,6 +529,34 @@ public class OOTechGameDataManager : MonoBehaviour
     }
 
     /// <summary>
+    /// OO_Stage3CueSheet.json을 읽어 Stage3Group/EncounterGroup의 연출 큐시트를 등록합니다.
+    /// </summary>
+    private void LoadStage3CueSheetData()
+    {
+        _stage3CueSheetDic.Clear();
+
+        foreach (TextAsset jsonFile in LoadDataTextAssetArray("OO_Stage3CueSheet"))
+        {
+            OOTechStage3CueSheetJsonWrapper wrapper = JsonUtility.FromJson<OOTechStage3CueSheetJsonWrapper>(WrapJsonArray(jsonFile.text));
+
+            if (wrapper == null || wrapper.Items == null)
+                continue;
+
+            foreach (OOTechStage3CueSheetJsonData jsonData in wrapper.Items)
+            {
+                OO_Stage3CueSheet cueSheetData = CreateStage3CueSheetData(jsonData);
+
+                if (cueSheetData == null || string.IsNullOrEmpty(cueSheetData.Id))
+                    continue;
+
+                _stage3CueSheetDic[cueSheetData.Id] = cueSheetData;
+            }
+        }
+
+        Debug.Log($"[OOTechGameDataManager] Stage3CueSheet data loaded: {_stage3CueSheetDic.Count}");
+    }
+
+    /// <summary>
     /// JSON 한 줄을 OO_Narration 모델로 변환합니다.
     /// </summary>
     private OO_Narration CreateNarrationData(OOTechNarrationJsonData jsonData)
@@ -770,8 +800,10 @@ public class OOTechGameDataManager : MonoBehaviour
             Id = NormalizeJsonText(jsonData.Id),
             CauldronTutorialId = NormalizeJsonText(jsonData.CauldronTutorialId),
             CuttingboardTutorialId = NormalizeJsonText(jsonData.CuttingboardTutorialId),
+            JulguTutorialId = NormalizeJsonText(jsonData.JulguTutorialId),
             CauldronToolId = NormalizeJsonText(jsonData.CauldronToolId),
             CuttingboardToolId = NormalizeJsonText(jsonData.CuttingboardToolId),
+            JulguToolId = NormalizeJsonText(jsonData.JulguToolId),
             SortingOrder = ParseInt(GetFirstNotEmpty(jsonData.SortingOrder, "1260")),
             ReferenceResolutionWidth = ParseFloat(GetFirstNotEmpty(jsonData.ReferenceResolutionWidth, "1920")),
             ReferenceResolutionHeight = ParseFloat(GetFirstNotEmpty(jsonData.ReferenceResolutionHeight, "1080")),
@@ -784,6 +816,56 @@ public class OOTechGameDataManager : MonoBehaviour
             DragGhostIconHeight = ParseFloat(GetFirstNotEmpty(jsonData.DragGhostIconHeight, "88")),
             EmptyPotText = NormalizeJsonText(jsonData.EmptyPotText),
             DefaultStatusText = NormalizeJsonText(jsonData.DefaultStatusText)
+        };
+
+        return cueSheetData;
+    }
+
+    /// <summary>
+    /// JSON 한 줄을 Stage3 큐시트 모델로 변환합니다.
+    /// 산군 장면에서 필요한 대사, 선택지, 보상, 연출 시간을 한 번에 정리합니다.
+    /// </summary>
+    private OO_Stage3CueSheet CreateStage3CueSheetData(OOTechStage3CueSheetJsonData jsonData)
+    {
+        if (jsonData == null)
+            return null;
+
+        OO_Stage3CueSheet cueSheetData = new OO_Stage3CueSheet
+        {
+            Id = NormalizeJsonText(jsonData.Id),
+            StageId = NormalizeJsonText(jsonData.StageId),
+            RoadGroupId = NormalizeJsonText(jsonData.RoadGroupId),
+            StageGroupId = NormalizeJsonText(jsonData.StageGroupId),
+            EncounterGroupId = NormalizeJsonText(jsonData.EncounterGroupId),
+            MFCRoleId = NormalizeJsonText(jsonData.MFCRoleId),
+            SangunRoleId = NormalizeJsonText(jsonData.SangunRoleId),
+            MoranRoleId = NormalizeJsonText(GetFirstNotEmpty(jsonData.MoranRoleId, "Moran")),
+            MrJaeikRoleId = NormalizeJsonText(GetFirstNotEmpty(jsonData.MrJaeikRoleId, "Mr.Jaeik")),
+            EntryPointAId = NormalizeJsonText(jsonData.EntryPointAId),
+            SangunFirstDialogueId = NormalizeJsonText(jsonData.SangunFirstDialogueId),
+            EncounterSangunDialogueId = NormalizeJsonText(jsonData.EncounterSangunDialogueId),
+            EncounterMoranDialogueId = NormalizeJsonText(jsonData.EncounterMoranDialogueId),
+            EncounterQuestDialogueId = NormalizeJsonText(jsonData.EncounterQuestDialogueId),
+            StageQuestId = NormalizeJsonText(jsonData.StageQuestId),
+            JulguToolId = NormalizeJsonText(jsonData.JulguToolId),
+            JulguTutorialId = NormalizeJsonText(jsonData.JulguTutorialId),
+            KoreanCakeItemId = NormalizeJsonText(jsonData.KoreanCakeItemId),
+            HoneyIngredientId = NormalizeJsonText(jsonData.HoneyIngredientId),
+            HoneyKoreanCakeItemId = NormalizeJsonText(jsonData.HoneyKoreanCakeItemId),
+            CakeOnlyChoiceId = NormalizeJsonText(jsonData.CakeOnlyChoiceId),
+            MakeHoneyCakeChoiceId = NormalizeJsonText(jsonData.MakeHoneyCakeChoiceId),
+            GiveHoneyCakeChoiceId = NormalizeJsonText(jsonData.GiveHoneyCakeChoiceId),
+            DeathRetryChoiceId = NormalizeJsonText(jsonData.DeathRetryChoiceId),
+            ClearRewardItemIdList = CreateStringList(jsonData.ClearRewardItemIds),
+            ClearRewardCountList = CreateIntList(jsonData.ClearRewardCounts),
+            NextRoadGroupName = NormalizeJsonText(jsonData.NextRoadGroupName),
+            SangunStartScaleRatio = ParseFloat(GetFirstNotEmpty(jsonData.SangunStartScaleRatio, "0.5")),
+            SangunThreateningScaleRatio = ParseFloat(GetFirstNotEmpty(jsonData.SangunThreateningScaleRatio, "0.7")),
+            SangunAppearSeconds = ParseFloat(GetFirstNotEmpty(jsonData.SangunAppearSeconds, "1.2")),
+            ThreateningAnimationSpeed = ParseFloat(GetFirstNotEmpty(jsonData.ThreateningAnimationSpeed, "0.7")),
+            AttackingAnimationSpeed = ParseFloat(GetFirstNotEmpty(jsonData.AttackingAnimationSpeed, "0.7")),
+            EncounterWaitSeconds = ParseFloat(GetFirstNotEmpty(jsonData.EncounterWaitSeconds, "5")),
+            DeathMessage = NormalizeJsonText(jsonData.DeathMessage)
         };
 
         return cueSheetData;
@@ -1414,6 +1496,17 @@ public class OOTechGameDataManager : MonoBehaviour
     }
 
     /// <summary>
+    /// ID로 Stage3 큐시트 데이터를 조회합니다.
+    /// </summary>
+    public OO_Stage3CueSheet GetStage3CueSheetData(string id)
+    {
+        if (string.IsNullOrEmpty(id))
+            return null;
+
+        return _stage3CueSheetDic.TryGetValue(id, out OO_Stage3CueSheet data) ? data : null;
+    }
+
+    /// <summary>
     /// 현재 등록된 모든 레시피를 반환합니다.
     /// </summary>
     public List<OO_Recipe> GetRecipeDataList()
@@ -1684,8 +1777,10 @@ public class OOTechCookingCueSheetJsonData
     public string Id;
     public string CauldronTutorialId;
     public string CuttingboardTutorialId;
+    public string JulguTutorialId;
     public string CauldronToolId;
     public string CuttingboardToolId;
+    public string JulguToolId;
     public string SortingOrder;
     public string ReferenceResolutionWidth;
     public string ReferenceResolutionHeight;
@@ -1819,4 +1914,49 @@ public class OOTechStage2CueSheetJsonData
     public string GreedyDuckVisibleSortingOrder;
     public string GreedyDuckVisibilityCheckInterval;
     public string InteractionKey;
+}
+
+[Serializable]
+public class OOTechStage3CueSheetJsonWrapper
+{
+    public OOTechStage3CueSheetJsonData[] Items;
+}
+
+[Serializable]
+public class OOTechStage3CueSheetJsonData
+{
+    public string Id;
+    public string StageId;
+    public string RoadGroupId;
+    public string StageGroupId;
+    public string EncounterGroupId;
+    public string MFCRoleId;
+    public string SangunRoleId;
+    public string MoranRoleId;
+    public string MrJaeikRoleId;
+    public string EntryPointAId;
+    public string SangunFirstDialogueId;
+    public string EncounterSangunDialogueId;
+    public string EncounterMoranDialogueId;
+    public string EncounterQuestDialogueId;
+    public string StageQuestId;
+    public string JulguToolId;
+    public string JulguTutorialId;
+    public string KoreanCakeItemId;
+    public string HoneyIngredientId;
+    public string HoneyKoreanCakeItemId;
+    public string CakeOnlyChoiceId;
+    public string MakeHoneyCakeChoiceId;
+    public string GiveHoneyCakeChoiceId;
+    public string DeathRetryChoiceId;
+    public string ClearRewardItemIds;
+    public string ClearRewardCounts;
+    public string NextRoadGroupName;
+    public string SangunStartScaleRatio;
+    public string SangunThreateningScaleRatio;
+    public string SangunAppearSeconds;
+    public string ThreateningAnimationSpeed;
+    public string AttackingAnimationSpeed;
+    public string EncounterWaitSeconds;
+    public string DeathMessage;
 }

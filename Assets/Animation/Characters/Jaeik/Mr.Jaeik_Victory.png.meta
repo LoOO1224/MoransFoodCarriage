@@ -1,0 +1,1591 @@
+fileFormatVersion: 2
+guid: a2244970f49a5b54aacc940f8ab8a609
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 0
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Mr.Jaeik_Victory_0
+      rect:
+        serializedVersion: 2
+        x: 67
+        y: 1836
+        width: 121
+        height: 173
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 14d7d6f583d5cb64584bc1f835c4a5fe
+      internalID: 1532369591
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_Victory_1
+      rect:
+        serializedVersion: 2
+        x: 323
+        y: 1836
+        width: 123
+        height: 171
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 49464b503b9b2ca44bb617637d939890
+      internalID: -1015199580
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_Victory_2
+      rect:
+        serializedVersion: 2
+        x: 577
+        y: 1836
+        width: 128
+        height: 168
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7e9a19fa1166cd04ab9d44c18ce005b3
+      internalID: -1434583952
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_Victory_3
+      rect:
+        serializedVersion: 2
+        x: 831
+        y: 1836
+        width: 131
+        height: 165
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d302efe2d58aa31469b109e5d8e17420
+      internalID: -1577374857
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_Victory_4
+      rect:
+        serializedVersion: 2
+        x: 1087
+        y: 1836
+        width: 130
+        height: 165
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 17008560894fbcc4e9536ef118fd1dbc
+      internalID: -226775950
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_Victory_5
+      rect:
+        serializedVersion: 2
+        x: 1342
+        y: 1836
+        width: 131
+        height: 174
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4c1bf462d17bb7c4abf2a12cd771402c
+      internalID: 980630238
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_Victory_6
+      rect:
+        serializedVersion: 2
+        x: 1599
+        y: 1836
+        width: 123
+        height: 180
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 542702a75779d384087be055e6f2b290
+      internalID: 807010938
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_Victory_7
+      rect:
+        serializedVersion: 2
+        x: 1859
+        y: 1836
+        width: 110
+        height: 182
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0afef7b7649f9ae43a8a968901474899
+      internalID: -971948359
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_Victory_8
+      rect:
+        serializedVersion: 2
+        x: 67
+        y: 1579
+        width: 110
+        height: 183
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3c8bb61b3023b7b45a7738e3b1d30fff
+      internalID: -182122650
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_Victory_9
+      rect:
+        serializedVersion: 2
+        x: 322
+        y: 1580
+        width: 112
+        height: 181
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8715c5181785b35449df33542322465e
+      internalID: 1696907007
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_Victory_10
+      rect:
+        serializedVersion: 2
+        x: 578
+        y: 1580
+        width: 112
+        height: 181
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 32022478fc99b064a94ac2ccbee31ba5
+      internalID: -1924115679
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_Victory_11
+      rect:
+        serializedVersion: 2
+        x: 834
+        y: 1580
+        width: 112
+        height: 181
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8485b687d67306742a8355a39ffad145
+      internalID: 782038206
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_Victory_12
+      rect:
+        serializedVersion: 2
+        x: 1090
+        y: 1579
+        width: 112
+        height: 182
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e6da89bba5afa384587a9a1aa2eb56d7
+      internalID: 837832879
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_Victory_13
+      rect:
+        serializedVersion: 2
+        x: 1346
+        y: 1580
+        width: 112
+        height: 181
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0e70451f31e65b84d92393bf5a05c0be
+      internalID: -1643044377
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_Victory_14
+      rect:
+        serializedVersion: 2
+        x: 1602
+        y: 1580
+        width: 112
+        height: 181
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ab94b36d0df7bb0428e0e6232b6b0178
+      internalID: 1099965162
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_Victory_15
+      rect:
+        serializedVersion: 2
+        x: 1858
+        y: 1580
+        width: 113
+        height: 181
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2de432b870ce95a44ae202e873056985
+      internalID: 971973822
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_Victory_16
+      rect:
+        serializedVersion: 2
+        x: 65
+        y: 1324
+        width: 117
+        height: 179
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cdc9c91a071c27144ac03dbc06c8fb15
+      internalID: -1210734072
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_Victory_17
+      rect:
+        serializedVersion: 2
+        x: 318
+        y: 1324
+        width: 130
+        height: 173
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5ac28586c1904f24f91ced50f7587f7a
+      internalID: 1965944689
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_Victory_18
+      rect:
+        serializedVersion: 2
+        x: 575
+        y: 1324
+        width: 129
+        height: 170
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c3b1191ab19579644b5f8c97cae55d1c
+      internalID: 1609921471
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_Victory_19
+      rect:
+        serializedVersion: 2
+        x: 831
+        y: 1324
+        width: 128
+        height: 170
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f406ed1c2eab30940aaddd0687a577f9
+      internalID: -2029247599
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_Victory_20
+      rect:
+        serializedVersion: 2
+        x: 1087
+        y: 1324
+        width: 128
+        height: 173
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 774f347e4969d3946a3c30ce3102e299
+      internalID: 1723266466
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_Victory_21
+      rect:
+        serializedVersion: 2
+        x: 1342
+        y: 1323
+        width: 121
+        height: 183
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 041753fe7fb876748b943fbbe4b1d66d
+      internalID: 1606009369
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_Victory_22
+      rect:
+        serializedVersion: 2
+        x: 1602
+        y: 1324
+        width: 110
+        height: 182
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d729ba481473e23469e231f70df26861
+      internalID: -286473338
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_Victory_23
+      rect:
+        serializedVersion: 2
+        x: 1859
+        y: 1324
+        width: 107
+        height: 182
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c983a0ec60f99f64d8124e6eadf12c70
+      internalID: 646323961
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_Victory_24
+      rect:
+        serializedVersion: 2
+        x: 75
+        y: 1068
+        width: 95
+        height: 178
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d0fea4682d5df7a41a11bc92ccf63b27
+      internalID: 1430381770
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_Victory_25
+      rect:
+        serializedVersion: 2
+        x: 335
+        y: 1067
+        width: 91
+        height: 178
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 37e9d17fb195f754292008a42d6c588c
+      internalID: 377658916
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_Victory_26
+      rect:
+        serializedVersion: 2
+        x: 590
+        y: 1068
+        width: 92
+        height: 179
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2b4dabbb07fcc9d4fa2e8bc3ea395dc1
+      internalID: -24877353
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_Victory_27
+      rect:
+        serializedVersion: 2
+        x: 843
+        y: 1067
+        width: 94
+        height: 181
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6dffec5800c845449b648dbaedef5a88
+      internalID: 71705005
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_Victory_28
+      rect:
+        serializedVersion: 2
+        x: 1094
+        y: 1067
+        width: 96
+        height: 179
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 634f1006f40515d4e83aed1080c0404b
+      internalID: -688338401
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_Victory_29
+      rect:
+        serializedVersion: 2
+        x: 1350
+        y: 1067
+        width: 96
+        height: 177
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 66e7f231a8df15e49abc28a9456e1ba8
+      internalID: 622966285
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_Victory_30
+      rect:
+        serializedVersion: 2
+        x: 1607
+        y: 1068
+        width: 98
+        height: 179
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 407128287b61fdc4b840bd368847fd52
+      internalID: 1371836468
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_Victory_31
+      rect:
+        serializedVersion: 2
+        x: 1864
+        y: 1067
+        width: 99
+        height: 183
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 611448b994e3a4f4a9eeeeac9cccebf7
+      internalID: -800664332
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_Victory_32
+      rect:
+        serializedVersion: 2
+        x: 78
+        y: 812
+        width: 96
+        height: 184
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 146400e3deb87524e9ca8500c9e0d2d8
+      internalID: -979723078
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_Victory_33
+      rect:
+        serializedVersion: 2
+        x: 335
+        y: 812
+        width: 95
+        height: 182
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cbc9cad85b0399045bc0d77db7e23bcb
+      internalID: 267793387
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_Victory_34
+      rect:
+        serializedVersion: 2
+        x: 595
+        y: 812
+        width: 87
+        height: 178
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b4f9d8d23851cf64b8851917a8dcad43
+      internalID: 451313377
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_Victory_35
+      rect:
+        serializedVersion: 2
+        x: 853
+        y: 812
+        width: 83
+        height: 176
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0310047675114d34cb5afe106f31a2a0
+      internalID: -1601649555
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_Victory_36
+      rect:
+        serializedVersion: 2
+        x: 1111
+        y: 812
+        width: 82
+        height: 177
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: daa7f014a738d824b9b78930e3828cf9
+      internalID: -1318356958
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_Victory_37
+      rect:
+        serializedVersion: 2
+        x: 1367
+        y: 812
+        width: 81
+        height: 178
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dd42f74fc2b600e47b5ac37db437ec18
+      internalID: 2052730149
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_Victory_38
+      rect:
+        serializedVersion: 2
+        x: 1621
+        y: 812
+        width: 84
+        height: 183
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 00a7a3e39bdfbf349ac75e3962c1cc07
+      internalID: 1339798266
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_Victory_39
+      rect:
+        serializedVersion: 2
+        x: 1875
+        y: 812
+        width: 87
+        height: 183
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 10c1052755c3e5348ad3831137422b46
+      internalID: -1535803805
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_Victory_40
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 555
+        width: 88
+        height: 180
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d3e2238146dc61843a7886a61f8e5cc7
+      internalID: 1404882243
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_Victory_41
+      rect:
+        serializedVersion: 2
+        x: 334
+        y: 555
+        width: 88
+        height: 179
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 62553e07dc420c04aacd8b37019f3666
+      internalID: 1538328985
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_Victory_42
+      rect:
+        serializedVersion: 2
+        x: 592
+        y: 556
+        width: 85
+        height: 184
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a6f8eb7037392dd4fa14575062f3f50a
+      internalID: 150148460
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_Victory_43
+      rect:
+        serializedVersion: 2
+        x: 843
+        y: 559
+        width: 101
+        height: 180
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c8fe00b838354d24b9a880668a967ce6
+      internalID: 731622080
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_Victory_44
+      rect:
+        serializedVersion: 2
+        x: 1095
+        y: 557
+        width: 107
+        height: 178
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 10e90e13ef097c54fa9836f997696c4e
+      internalID: 17322721
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_Victory_45
+      rect:
+        serializedVersion: 2
+        x: 1341
+        y: 556
+        width: 129
+        height: 168
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5ac7d8093aa61ae40abe878234636fbe
+      internalID: -904155663
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_Victory_46
+      rect:
+        serializedVersion: 2
+        x: 1594
+        y: 555
+        width: 136
+        height: 160
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: aa86eb0a89393294a84d93da8e7226bb
+      internalID: 1228239088
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_Victory_47
+      rect:
+        serializedVersion: 2
+        x: 1851
+        y: 555
+        width: 135
+        height: 152
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0ce3bf99b244588489b1ecc3c5cae400
+      internalID: -924716201
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_Victory_48
+      rect:
+        serializedVersion: 2
+        x: 59
+        y: 300
+        width: 135
+        height: 150
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 01285907c1e3d7e48b93d8266f6a3b2d
+      internalID: -1178834846
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_Victory_49
+      rect:
+        serializedVersion: 2
+        x: 315
+        y: 299
+        width: 136
+        height: 151
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b323577ad21f61148b96db76c90e1a23
+      internalID: -1524882186
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_Victory_50
+      rect:
+        serializedVersion: 2
+        x: 570
+        y: 299
+        width: 137
+        height: 151
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6f446fd38cce28d44803f0ef6e54f1bc
+      internalID: 1154818708
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_Victory_51
+      rect:
+        serializedVersion: 2
+        x: 827
+        y: 299
+        width: 136
+        height: 151
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c6e00914d3e36f04a876e84cad8629d3
+      internalID: -1912151359
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_Victory_52
+      rect:
+        serializedVersion: 2
+        x: 1083
+        y: 300
+        width: 136
+        height: 150
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d64a04379533e1b4b8029341b7395de6
+      internalID: 220268836
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_Victory_53
+      rect:
+        serializedVersion: 2
+        x: 1339
+        y: 299
+        width: 136
+        height: 151
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 262f90da993e15945a4121a3c654a709
+      internalID: 2051238614
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_Victory_54
+      rect:
+        serializedVersion: 2
+        x: 1595
+        y: 299
+        width: 136
+        height: 152
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 35f8d97adf06abc46bfa9eb48651e1bd
+      internalID: -2053192564
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_Victory_55
+      rect:
+        serializedVersion: 2
+        x: 1851
+        y: 299
+        width: 137
+        height: 157
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6c8c44cfc68ad784f85ee1cc86a4c724
+      internalID: 661720601
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_Victory_56
+      rect:
+        serializedVersion: 2
+        x: 59
+        y: 44
+        width: 136
+        height: 165
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: aeb4cb4ac5300d245b0b29c23111e018
+      internalID: 1760834660
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_Victory_57
+      rect:
+        serializedVersion: 2
+        x: 325
+        y: 44
+        width: 109
+        height: 179
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c9d003d0465529a4e9be8c7250ef7613
+      internalID: 2035983099
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_Victory_58
+      rect:
+        serializedVersion: 2
+        x: 585
+        y: 44
+        width: 99
+        height: 181
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cd6cc1ec5bccc414791eb62813dc838a
+      internalID: -1393160293
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_Victory_59
+      rect:
+        serializedVersion: 2
+        x: 841
+        y: 44
+        width: 98
+        height: 180
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5916455481ce3aa44954e7b11ceb2cfa
+      internalID: -867989332
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_Victory_60
+      rect:
+        serializedVersion: 2
+        x: 1096
+        y: 43
+        width: 100
+        height: 180
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9b21e7b5d4f6aa24b8b0da7885d2c09f
+      internalID: -557644289
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_Victory_61
+      rect:
+        serializedVersion: 2
+        x: 1350
+        y: 44
+        width: 103
+        height: 178
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2e33a65349182fd4a98017aef0e979d3
+      internalID: -2062676973
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_Victory_62
+      rect:
+        serializedVersion: 2
+        x: 1606
+        y: 44
+        width: 103
+        height: 178
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3671413f1f5381844924b18f4cb92f7e
+      internalID: 464894630
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr.Jaeik_Victory_63
+      rect:
+        serializedVersion: 2
+        x: 1862
+        y: 44
+        width: 103
+        height: 178
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 907156476eb5d584fb0a1e3cb6d65bbd
+      internalID: 1626638147
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 647d4ffff33533244a61bd118d99c3df
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      Mr.Jaeik_Victory_0: 1532369591
+      Mr.Jaeik_Victory_1: -1015199580
+      Mr.Jaeik_Victory_10: -1924115679
+      Mr.Jaeik_Victory_11: 782038206
+      Mr.Jaeik_Victory_12: 837832879
+      Mr.Jaeik_Victory_13: -1643044377
+      Mr.Jaeik_Victory_14: 1099965162
+      Mr.Jaeik_Victory_15: 971973822
+      Mr.Jaeik_Victory_16: -1210734072
+      Mr.Jaeik_Victory_17: 1965944689
+      Mr.Jaeik_Victory_18: 1609921471
+      Mr.Jaeik_Victory_19: -2029247599
+      Mr.Jaeik_Victory_2: -1434583952
+      Mr.Jaeik_Victory_20: 1723266466
+      Mr.Jaeik_Victory_21: 1606009369
+      Mr.Jaeik_Victory_22: -286473338
+      Mr.Jaeik_Victory_23: 646323961
+      Mr.Jaeik_Victory_24: 1430381770
+      Mr.Jaeik_Victory_25: 377658916
+      Mr.Jaeik_Victory_26: -24877353
+      Mr.Jaeik_Victory_27: 71705005
+      Mr.Jaeik_Victory_28: -688338401
+      Mr.Jaeik_Victory_29: 622966285
+      Mr.Jaeik_Victory_3: -1577374857
+      Mr.Jaeik_Victory_30: 1371836468
+      Mr.Jaeik_Victory_31: -800664332
+      Mr.Jaeik_Victory_32: -979723078
+      Mr.Jaeik_Victory_33: 267793387
+      Mr.Jaeik_Victory_34: 451313377
+      Mr.Jaeik_Victory_35: -1601649555
+      Mr.Jaeik_Victory_36: -1318356958
+      Mr.Jaeik_Victory_37: 2052730149
+      Mr.Jaeik_Victory_38: 1339798266
+      Mr.Jaeik_Victory_39: -1535803805
+      Mr.Jaeik_Victory_4: -226775950
+      Mr.Jaeik_Victory_40: 1404882243
+      Mr.Jaeik_Victory_41: 1538328985
+      Mr.Jaeik_Victory_42: 150148460
+      Mr.Jaeik_Victory_43: 731622080
+      Mr.Jaeik_Victory_44: 17322721
+      Mr.Jaeik_Victory_45: -904155663
+      Mr.Jaeik_Victory_46: 1228239088
+      Mr.Jaeik_Victory_47: -924716201
+      Mr.Jaeik_Victory_48: -1178834846
+      Mr.Jaeik_Victory_49: -1524882186
+      Mr.Jaeik_Victory_5: 980630238
+      Mr.Jaeik_Victory_50: 1154818708
+      Mr.Jaeik_Victory_51: -1912151359
+      Mr.Jaeik_Victory_52: 220268836
+      Mr.Jaeik_Victory_53: 2051238614
+      Mr.Jaeik_Victory_54: -2053192564
+      Mr.Jaeik_Victory_55: 661720601
+      Mr.Jaeik_Victory_56: 1760834660
+      Mr.Jaeik_Victory_57: 2035983099
+      Mr.Jaeik_Victory_58: -1393160293
+      Mr.Jaeik_Victory_59: -867989332
+      Mr.Jaeik_Victory_6: 807010938
+      Mr.Jaeik_Victory_60: -557644289
+      Mr.Jaeik_Victory_61: -2062676973
+      Mr.Jaeik_Victory_62: 464894630
+      Mr.Jaeik_Victory_63: 1626638147
+      Mr.Jaeik_Victory_7: -971948359
+      Mr.Jaeik_Victory_8: -182122650
+      Mr.Jaeik_Victory_9: 1696907007
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

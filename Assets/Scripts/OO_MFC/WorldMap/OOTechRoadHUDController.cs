@@ -127,7 +127,7 @@ public class OOTechRoadHUDController : MonoBehaviour
     private bool _isCookingQuestComplete;
     private bool _isCookingMissionRemoved;
     private bool _isEastRoadMissionRemoved;
-    private string _roadMissionText = "동쪽의 마을로 가시오";
+    private string _roadMissionText = "\uB3D9\uCABD\uC758 \uB9C8\uC744\uB85C \uAC00\uC2DC\uC624";
     private string _stageQuestMissionText;
     private float _missionCompleteEffectAlpha = 1f;
     private Coroutine _inventoryNewBadgeCoroutine;
@@ -326,6 +326,18 @@ public class OOTechRoadHUDController : MonoBehaviour
     public void RequestRefreshInventoryView()
     {
         RefreshInventoryView();
+    }
+
+    /// <summary>
+    /// CookingGroup이 직접 열렸거나 HUD 호출 경로가 끊긴 경우에도 부엌용 인벤토리/임무 패널을 강제로 엽니다.
+    /// Game View에서는 요리 장면에 들어오자마자 재료 슬롯을 보고 드래그할 수 있게 만드는 안전 큐입니다.
+    /// </summary>
+    public void RequestOpenCookingSupportHUD()
+    {
+        CreateHUDCanvasIfNeeded();
+        ApplyBottomHUDLayout();
+        BindHUDViewReferences();
+        OpenCookingSupportHUD();
     }
 
     /// <summary>
@@ -1077,7 +1089,7 @@ public class OOTechRoadHUDController : MonoBehaviour
             Image_CookingButton.color = _isCookingUnlocked ? new Color(0.22f, 0.22f, 0.22f, 0.96f) : new Color(0.14f, 0.14f, 0.14f, 0.88f);
 
         if (Text_CookingLabel != null)
-            Text_CookingLabel.text = _isCookingUnlocked ? "요리하기" : "요리하기";
+            Text_CookingLabel.text = "\uC694\uB9AC\uD558\uAE30";
     }
 
     /// <summary>
@@ -1119,7 +1131,7 @@ public class OOTechRoadHUDController : MonoBehaviour
     {
         if (!_isCookingUnlocked)
         {
-            ShowRoadMessage("요리하기", "첫 번째 길을 지나면 요리하기가 열립니다.", null);
+            ShowRoadMessage("\uC694\uB9AC\uD558\uAE30", "\uCCAB \uBC88\uC9F8 \uAE38\uC744 \uC9C0\uB098\uBA74 \uC694\uB9AC\uD558\uAE30\uAC00 \uC5F4\uB9BD\uB2C8\uB2E4.", null);
             return;
         }
 
@@ -1161,7 +1173,7 @@ public class OOTechRoadHUDController : MonoBehaviour
             return;
 
         OOTechTMPFontUtility.ApplyProjectFont(Text_InventoryQuantityGuide);
-        Text_InventoryQuantityGuide.text = "Ctrl + 마우스 휠: 집을 수량 조절\n아이콘을 조리도구로 드래그";
+        Text_InventoryQuantityGuide.text = "Ctrl + \uB9C8\uC6B0\uC2A4 \uD720: \uC9D1\uC744 \uC218\uB7C9 \uC870\uC808\n\uC544\uC774\uCF58\uC744 \uC870\uB9AC\uB3C4\uAD6C\uB85C \uB4DC\uB798\uADF8";
         Text_InventoryQuantityGuide.gameObject.SetActive(false);
     }
 
@@ -1237,7 +1249,7 @@ public class OOTechRoadHUDController : MonoBehaviour
 
         string eastRoadMissionText = _isEastRoadMissionRemoved || string.IsNullOrWhiteSpace(_roadMissionText) ? string.Empty : "○ " + _roadMissionText + "\n";
         string stageQuestText = string.IsNullOrWhiteSpace(_stageQuestMissionText) ? string.Empty : "○ " + _stageQuestMissionText + "\n";
-        Text_MissionContent.text = "현재 임무\n" + cookingMissionText + eastRoadMissionText + stageQuestText;
+        Text_MissionContent.text = "\uD604\uC7AC \uC784\uBB34\n" + cookingMissionText + eastRoadMissionText + stageQuestText;
     }
 
     /// <summary>
@@ -1764,7 +1776,7 @@ public class OOTechRoadHUDController : MonoBehaviour
         }
 
         if (Text_MainMenuConfirmMessage != null)
-            Text_MainMenuConfirmMessage.text = "정말 메인 메뉴로 돌아가시겠습니까?";
+            Text_MainMenuConfirmMessage.text = "\uC815\uB9D0 \uBA54\uC778 \uBA54\uB274\uB85C \uB3CC\uC544\uAC00\uC2DC\uACA0\uC2B5\uB2C8\uAE4C?";
 
         BindButtonEvent(Button_MainMenuConfirmYes, ConfirmReturnToMainMenu);
         BindButtonEvent(Button_MainMenuConfirmNo, HideMainMenuConfirmPopup);
@@ -1791,10 +1803,10 @@ public class OOTechRoadHUDController : MonoBehaviour
             Rect_GuideTextPanel.anchoredPosition = new Vector2(Mathf.Clamp(targetLocalPosition.x, -710f, 710f), Mathf.Clamp(targetLocalPosition.y + 170f, 240f, 830f));
 
         if (Text_GuideTitle != null)
-            Text_GuideTitle.text = string.IsNullOrEmpty(title) ? "튜토리얼" : title;
+            Text_GuideTitle.text = string.IsNullOrEmpty(title) ? "\uD29C\uD1A0\uB9AC\uC5BC" : title;
 
         if (Text_GuideBody != null)
-            Text_GuideBody.text = string.IsNullOrEmpty(description) ? "이 기능은 나중에 데이터로 교체됩니다." : description;
+            Text_GuideBody.text = string.IsNullOrEmpty(description) ? "\uC774 \uAE30\uB2A5\uC740 \uB098\uC911\uC5D0 \uB370\uC774\uD130\uB85C \uAD50\uCCB4\uB429\uB2C8\uB2E4." : description;
 
         UnityAction guideNextAction = delegate
         {

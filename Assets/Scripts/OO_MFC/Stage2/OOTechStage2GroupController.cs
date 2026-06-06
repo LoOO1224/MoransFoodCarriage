@@ -69,6 +69,9 @@ public class OOTechStage2GroupController : MonoBehaviour
     private string _nextRoadGroupName = "3rd_Road_to_Stage3";
     private string _placeholderCanvasName = "Canvas_StagePlaceholder";
     private string _nextButtonName = "Button_NextStage";
+    private string _stageClearCanvasName = "Canvas_Stage2Clear";
+    private string _stageClearTitle = "서쪽 도시 임무 완수";
+    private string _stageClearMessage = "이몽령이 여정의 보탬으로 쌀 10 가마니와 꿀 10 단지를 건넸습니다. 다음 길로 나설 준비가 끝났습니다.";
     private float _entryMoveSpeed = 145f;
     private float _greedyDuckEscapeSpeed = 820f;
     private float _minimumGreedyDuckEscapeSpeed = 720f;
@@ -910,7 +913,10 @@ public class OOTechStage2GroupController : MonoBehaviour
 
     private void ResolveClearButton()
     {
-        GameObject canvasObject = FindChildByName(transform, _placeholderCanvasName);
+        GameObject canvasObject = FindChildByName(transform, _stageClearCanvasName);
+
+        if (canvasObject == null)
+            canvasObject = FindChildByName(transform, _placeholderCanvasName);
 
         if (canvasObject == null)
             return;
@@ -926,12 +932,91 @@ public class OOTechStage2GroupController : MonoBehaviour
             Button_NextStage.onClick.RemoveListener(OnNextStageButtonClicked);
             Button_NextStage.onClick.AddListener(OnNextStageButtonClicked);
         }
+
+        ApplyStage2ClearPanelText();
     }
 
     private void SetClearButtonActive(bool isActive)
     {
         if (Object_ClearCanvas != null)
             Object_ClearCanvas.SetActive(isActive);
+    }
+
+    /// <summary>
+    /// Stage2 임무완수 패널에 보상 문구를 반영합니다.
+    /// Stage1의 엔딩 자막판과 같은 역할이며, Game View에서는 보상 안내와 넘어가기 버튼을 함께 보여줍니다.
+    /// </summary>
+    private void ApplyStage2ClearPanelText()
+    {
+        if (Object_ClearCanvas == null)
+            return;
+
+        Canvas canvas = Object_ClearCanvas.GetComponent<Canvas>();
+
+        if (canvas != null)
+        {
+            canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+            canvas.overrideSorting = true;
+            canvas.sortingOrder = 5200;
+        }
+
+        CanvasScaler canvasScaler = Object_ClearCanvas.GetComponent<CanvasScaler>();
+
+        if (canvasScaler != null)
+        {
+            canvasScaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+            canvasScaler.referenceResolution = new Vector2(1920f, 1080f);
+            canvasScaler.matchWidthOrHeight = 0.5f;
+        }
+
+        RectTransform clearPanelRect = FindChildByName(Object_ClearCanvas.transform, "Panel_StageClear")?.GetComponent<RectTransform>();
+
+        if (clearPanelRect != null)
+        {
+            clearPanelRect.anchorMin = new Vector2(0.5f, 0.5f);
+            clearPanelRect.anchorMax = new Vector2(0.5f, 0.5f);
+            clearPanelRect.pivot = new Vector2(0.5f, 0.5f);
+            clearPanelRect.anchoredPosition = new Vector2(0f, 36f);
+            clearPanelRect.sizeDelta = new Vector2(1380f, 430f);
+            clearPanelRect.localScale = Vector3.one;
+        }
+
+        Image clearPanelImage = clearPanelRect != null ? clearPanelRect.GetComponent<Image>() : null;
+
+        if (clearPanelImage != null)
+        {
+            clearPanelImage.color = new Color(0f, 0f, 0f, 0.58f);
+            clearPanelImage.raycastTarget = true;
+        }
+
+        TextMeshProUGUI[] textArray = Object_ClearCanvas.GetComponentsInChildren<TextMeshProUGUI>(true);
+
+        foreach (TextMeshProUGUI text in textArray)
+        {
+            if (text == null)
+                continue;
+
+            OOTechTMPFontUtility.ApplyProjectFont(text);
+
+            if (text.name == "Text_ClearTitle")
+            {
+                text.text = _stageClearTitle;
+                text.fontSize = 42f;
+                text.color = Color.white;
+            }
+            else if (text.name == "Text_ClearMessage")
+            {
+                text.text = _stageClearMessage;
+                text.fontSize = 28f;
+                text.color = Color.white;
+            }
+            else if (text.name == "Text_Label")
+            {
+                text.text = "넘어가기";
+                text.fontSize = 30f;
+                text.color = Color.black;
+            }
+        }
     }
 
     private void OnNextStageButtonClicked()

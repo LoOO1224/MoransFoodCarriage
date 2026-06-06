@@ -124,6 +124,9 @@ public class OOTechStagePlaceholderController : MonoBehaviour
     /// </summary>
     private GameObject FindStageBackgroundObject()
     {
+        if (HasRenderableStageBackground(gameObject))
+            return gameObject;
+
         string groupName = string.IsNullOrEmpty(_currentGroupName) ? gameObject.name : _currentGroupName;
         string expectedBackgroundName = groupName.Replace("Group", "Background");
         GameObject stageBackgroundObject = FindChildByName(transform, expectedBackgroundName);
@@ -138,6 +141,24 @@ public class OOTechStagePlaceholderController : MonoBehaviour
             return stageBackgroundObject;
 
         return FindFirstRealBackgroundChild(transform);
+    }
+
+    /// <summary>
+    /// Stage3Group처럼 그룹 루트 자체에 배경 Image를 붙인 경우도 실제 배경 배우로 인정합니다.
+    /// 감독이 무대 벽 자체에 그림을 붙여둔 상황이므로, 별도 자식 소품이 없어도 배경으로 사용합니다.
+    /// </summary>
+    private bool HasRenderableStageBackground(GameObject targetObject)
+    {
+        if (targetObject == null)
+            return false;
+
+        Image backgroundImage = targetObject.GetComponent<Image>();
+
+        if (backgroundImage != null && backgroundImage.sprite != null)
+            return true;
+
+        SpriteRenderer backgroundRenderer = targetObject.GetComponent<SpriteRenderer>();
+        return backgroundRenderer != null && backgroundRenderer.sprite != null;
     }
 
     /// <summary>
@@ -187,6 +208,7 @@ public class OOTechStagePlaceholderController : MonoBehaviour
         }
 
         RectTransform rectTransform = stageBackgroundObject.GetComponent<RectTransform>();
+        Image backgroundImage = stageBackgroundObject.GetComponent<Image>();
 
         if (rectTransform != null)
         {
@@ -198,6 +220,9 @@ public class OOTechStagePlaceholderController : MonoBehaviour
         }
 
         Canvas canvas = stageBackgroundObject.GetComponent<Canvas>();
+
+        if (canvas == null && backgroundImage != null)
+            canvas = stageBackgroundObject.AddComponent<Canvas>();
 
         if (canvas != null)
         {
@@ -214,8 +239,6 @@ public class OOTechStagePlaceholderController : MonoBehaviour
             canvasScaler.referenceResolution = _referenceResolution;
             canvasScaler.matchWidthOrHeight = 0.5f;
         }
-
-        Image backgroundImage = stageBackgroundObject.GetComponent<Image>();
 
         if (backgroundImage != null)
             backgroundImage.raycastTarget = false;

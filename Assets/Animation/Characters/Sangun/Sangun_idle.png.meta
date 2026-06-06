@@ -6,7 +6,7 @@ TextureImporter:
   serializedVersion: 13
   mipmaps:
     mipMapMode: 0
-    enableMipMap: 1
+    enableMipMap: 0
     sRGBTexture: 1
     linearTexture: 0
     fadeOut: 0
@@ -37,13 +37,13 @@ TextureImporter:
     filterMode: 1
     aniso: 1
     mipBias: 0
-    wrapU: 0
-    wrapV: 0
+    wrapU: 1
+    wrapV: 1
     wrapW: 0
-  nPOTScale: 1
+  nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 0
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -52,9 +52,9 @@ TextureImporter:
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
-  alphaIsTransparency: 0
+  alphaIsTransparency: 1
   spriteTessellationDetail: -1
-  textureType: 0
+  textureType: 8
   textureShape: 1
   singleChannelComponent: 0
   flipbookRows: 1
@@ -95,12 +95,562 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: Sangun_idle_0
+      rect:
+        serializedVersion: 2
+        x: 33
+        y: 1074
+        width: 185
+        height: 143
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2c70e8da6b0468e469bc60264a5af58c
+      internalID: -1132660154
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sangun_idle_1
+      rect:
+        serializedVersion: 2
+        x: 289
+        y: 1075
+        width: 185
+        height: 142
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4ebe3e8e5f7a6b4418b26aa8b57e99ad
+      internalID: 81266855
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sangun_idle_2
+      rect:
+        serializedVersion: 2
+        x: 545
+        y: 1074
+        width: 185
+        height: 143
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4da2ff417bc474249bf83990d3a260ad
+      internalID: 762215979
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sangun_idle_3
+      rect:
+        serializedVersion: 2
+        x: 801
+        y: 1074
+        width: 185
+        height: 143
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1a34968abc264f144a50090f6018917c
+      internalID: 303820292
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sangun_idle_4
+      rect:
+        serializedVersion: 2
+        x: 1057
+        y: 1075
+        width: 185
+        height: 142
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 30669c298cde5c04dbb9164411c50ed4
+      internalID: 608687383
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sangun_idle_5
+      rect:
+        serializedVersion: 2
+        x: 33
+        y: 819
+        width: 185
+        height: 142
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8dbd7a8c17b6b7e43b1742d6103e3955
+      internalID: 1053526287
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sangun_idle_6
+      rect:
+        serializedVersion: 2
+        x: 289
+        y: 819
+        width: 186
+        height: 142
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fd8e6d54115330045b44dfd3f0a0d1ce
+      internalID: -1315661268
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sangun_idle_7
+      rect:
+        serializedVersion: 2
+        x: 546
+        y: 818
+        width: 185
+        height: 143
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b1c3544f3c8c86849a9aff39ca5f1420
+      internalID: 1684672301
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sangun_idle_8
+      rect:
+        serializedVersion: 2
+        x: 802
+        y: 818
+        width: 186
+        height: 143
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e2fb5ffb0e847c84db3ca612326905db
+      internalID: 450236420
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sangun_idle_9
+      rect:
+        serializedVersion: 2
+        x: 1059
+        y: 819
+        width: 185
+        height: 142
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1b4f76046620cc44fab9db42e04f771f
+      internalID: -788545602
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sangun_idle_10
+      rect:
+        serializedVersion: 2
+        x: 35
+        y: 563
+        width: 186
+        height: 143
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 36bde35787ba61c4b9f8c267d7e5e477
+      internalID: 405851829
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sangun_idle_11
+      rect:
+        serializedVersion: 2
+        x: 291
+        y: 563
+        width: 186
+        height: 143
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5b961240a63c9eb4d9318dffb2f634a9
+      internalID: 1070733873
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sangun_idle_12
+      rect:
+        serializedVersion: 2
+        x: 548
+        y: 563
+        width: 186
+        height: 143
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f5fca50df48e6554d9b586f5f3ae1e2b
+      internalID: -2057871998
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sangun_idle_13
+      rect:
+        serializedVersion: 2
+        x: 804
+        y: 563
+        width: 186
+        height: 143
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a2e7c4a42b8e1ab448ed1c575e50d4d0
+      internalID: 2101989665
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sangun_idle_14
+      rect:
+        serializedVersion: 2
+        x: 1060
+        y: 563
+        width: 186
+        height: 143
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 533b67bd6322e29438c51ad435c4cec0
+      internalID: 896828715
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sangun_idle_15
+      rect:
+        serializedVersion: 2
+        x: 35
+        y: 307
+        width: 187
+        height: 143
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b5736a1bcaa850e48a1f93f5ba74ce1f
+      internalID: 417763352
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sangun_idle_16
+      rect:
+        serializedVersion: 2
+        x: 291
+        y: 306
+        width: 186
+        height: 144
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 725b2b24a67b8f540b72eb6fdff16611
+      internalID: -1065754252
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sangun_idle_17
+      rect:
+        serializedVersion: 2
+        x: 547
+        y: 307
+        width: 186
+        height: 143
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8697e7e8c06f1e642b9ba88d729ea335
+      internalID: -1399031255
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sangun_idle_18
+      rect:
+        serializedVersion: 2
+        x: 802
+        y: 307
+        width: 186
+        height: 142
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c3f1787b9cb2541419e363d42bc8e643
+      internalID: 1180312162
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sangun_idle_19
+      rect:
+        serializedVersion: 2
+        x: 1058
+        y: 306
+        width: 185
+        height: 143
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e746ef49413de0b4bbb35869890f3f08
+      internalID: -1614450011
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sangun_idle_20
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 51
+        width: 185
+        height: 142
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5dc2cf87f4028cb44a2263e0cde6b100
+      internalID: -250760090
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sangun_idle_21
+      rect:
+        serializedVersion: 2
+        x: 289
+        y: 51
+        width: 185
+        height: 142
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d759f4c08363f8f4289000b081da59fc
+      internalID: -130253765
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sangun_idle_22
+      rect:
+        serializedVersion: 2
+        x: 545
+        y: 50
+        width: 185
+        height: 143
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 135c6682f594d8e4f842edadb86c95ac
+      internalID: 444110394
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sangun_idle_23
+      rect:
+        serializedVersion: 2
+        x: 801
+        y: 51
+        width: 185
+        height: 142
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e596da60f3ba98643a81d2cad1bf5605
+      internalID: 1341775315
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sangun_idle_24
+      rect:
+        serializedVersion: 2
+        x: 1057
+        y: 51
+        width: 185
+        height: 142
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0a1c56ddfee2dfc4bb1af885b9fdf904
+      internalID: 755377603
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: d9f57ca94fef250499d3658f6dc3204a
     internalID: 0
     vertices: []
     indices: 
@@ -108,8 +658,35 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
-    nameFileIdTable: {}
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      Sangun_idle_0: -1132660154
+      Sangun_idle_1: 81266855
+      Sangun_idle_10: 405851829
+      Sangun_idle_11: 1070733873
+      Sangun_idle_12: -2057871998
+      Sangun_idle_13: 2101989665
+      Sangun_idle_14: 896828715
+      Sangun_idle_15: 417763352
+      Sangun_idle_16: -1065754252
+      Sangun_idle_17: -1399031255
+      Sangun_idle_18: 1180312162
+      Sangun_idle_19: -1614450011
+      Sangun_idle_2: 762215979
+      Sangun_idle_20: -250760090
+      Sangun_idle_21: -130253765
+      Sangun_idle_22: 444110394
+      Sangun_idle_23: 1341775315
+      Sangun_idle_24: 755377603
+      Sangun_idle_3: 303820292
+      Sangun_idle_4: 608687383
+      Sangun_idle_5: 1053526287
+      Sangun_idle_6: -1315661268
+      Sangun_idle_7: 1684672301
+      Sangun_idle_8: 450236420
+      Sangun_idle_9: -788545602
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
