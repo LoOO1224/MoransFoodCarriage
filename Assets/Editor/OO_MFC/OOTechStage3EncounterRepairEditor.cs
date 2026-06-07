@@ -15,6 +15,7 @@ public static class OOTechStage3EncounterRepairEditor
     private const string ScenePath = "Assets/Scenes/OO_MFC.unity";
     private const string MoranClipPath = "Assets/Animation/Characters/Moran/Moran_isScared.anim";
     private const string MrJaeikClipPath = "Assets/Animation/Characters/Mr.Jaeik/Mr.Jaeik_isThreatening.anim";
+    private const string Stage3BackgroundSpritePath = "Assets/Images/Stages/Stage3.png";
 
     /// <summary>
     /// 배치모드에서 호출하는 수리 진입점입니다.
@@ -39,6 +40,191 @@ public static class OOTechStage3EncounterRepairEditor
         EditorSceneManager.SaveOpenScenes();
         AssetDatabase.SaveAssets();
         Debug.Log("[OOTechStage3EncounterRepairEditor] Stage3 Encounter loop player repair completed.");
+    }
+
+    /// <summary>
+    /// EncounterGroup의 배경과 중복 Mr.Jaeik만 수리합니다.
+    /// 사용자가 새로 배치한 Moran/Mr.Jaeik 애니메이션 세팅은 건드리지 않습니다.
+    /// </summary>
+    public static void RepairEncounterGroupVisualState()
+    {
+        EditorSceneManager.OpenScene(ScenePath);
+
+        GameObject encounterGroup = FindSceneObjectByName("EncounterGroup");
+
+        if (encounterGroup == null)
+        {
+            Debug.LogError("[OOTechStage3EncounterRepairEditor] EncounterGroup not found.");
+            return;
+        }
+
+        RepairEncounterBackground(encounterGroup.transform);
+        RemoveDuplicateMrJaeik(encounterGroup.transform);
+
+        EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
+        EditorSceneManager.SaveOpenScenes();
+        AssetDatabase.SaveAssets();
+        Debug.Log("[OOTechStage3EncounterRepairEditor] EncounterGroup visual repair completed.");
+    }
+
+    private static void RepairEncounterBackground(Transform encounterRoot)
+    {
+        Transform backgroundTransform = FindChildByName(encounterRoot, "Stage3Background");
+
+        if (backgroundTransform == null)
+        {
+            Debug.LogError("[OOTechStage3EncounterRepairEditor] EncounterGroup Stage3Background not found.");
+            return;
+        }
+
+        SpriteRenderer backgroundRenderer = backgroundTransform.GetComponent<SpriteRenderer>();
+
+        if (backgroundRenderer == null)
+            backgroundRenderer = backgroundTransform.gameObject.AddComponent<SpriteRenderer>();
+
+        Sprite backgroundSprite = AssetDatabase.LoadAssetAtPath<Sprite>(Stage3BackgroundSpritePath);
+
+        if (backgroundSprite != null)
+            backgroundRenderer.sprite = backgroundSprite;
+        else
+            Debug.LogWarning($"[OOTechStage3EncounterRepairEditor] Stage3 background sprite not found: {Stage3BackgroundSpritePath}");
+
+        backgroundTransform.gameObject.SetActive(true);
+        backgroundRenderer.enabled = true;
+        backgroundRenderer.forceRenderingOff = false;
+        backgroundRenderer.color = Color.white;
+        backgroundRenderer.sortingLayerName = "Background";
+        backgroundRenderer.sortingOrder = -1000;
+        backgroundTransform.localPosition = Vector3.zero;
+        backgroundTransform.localRotation = Quaternion.identity;
+
+        if (backgroundRenderer.sprite != null)
+        {
+            float targetWidth = 1920f;
+            float targetHeight = 1080f;
+            Vector2 spriteSize = backgroundRenderer.sprite.bounds.size;
+
+            if (spriteSize.x > 0f && spriteSize.y > 0f)
+            {
+                float scaleX = targetWidth / spriteSize.x;
+                float scaleY = targetHeight / spriteSize.y;
+                backgroundTransform.localScale = new Vector3(scaleX, scaleY, 1f);
+            }
+        }
+
+        EditorUtility.SetDirty(backgroundTransform.gameObject);
+        Debug.Log($"[OOTechStage3EncounterRepairEditor] Encounter background repaired. Sprite={backgroundRenderer.sprite?.name}, Scale={backgroundTransform.localScale}");
+    }
+
+    private static void RemoveDuplicateMrJaeik(Transform encounterRoot)
+    {
+        List<Transform> mrJaeikList = FindActorTransformList(encounterRoot, "Mr.Jaeik");
+
+        if (mrJaeikList.Count <= 1)
+        {
+            Debug.Log($"[OOTechStage3EncounterRepairEditor] Mr.Jaeik duplicate count OK: {mrJaeikList.Count}");
+            return;
+        }
+
+        Transform moranTransform = FindPreferredRoleTransform(encounterRoot, "Moran", null);
+        Transform keepTransform = FindPreferredActorTransform(encounterRoot, "Mr.Jaeik", moranTransform);
+
+        foreach (Transform mrJaeikTransform in mrJaeikList)
+        {
+            if (mrJaeikTransform == null || mrJaeikTransform == keepTransform)
+                continue;
+
+            Debug.LogWarning($"[OOTechStage3EncounterRepairEditor] Removing duplicate Mr.Jaeik: {GetHierarchyPath(mrJaeikTransform)} / Pos={mrJaeikTransform.position}");
+            Object.DestroyImmediate(mrJaeikTransform.gameObject);
+        }
+
+        if (keepTransform != null)
+            Debug.Log($"[OOTechStage3EncounterRepairEditor] Kept Mr.Jaeik: {GetHierarchyPath(keepTransform)} / Pos={keepTransform.position}");
+    }
+
+    private static List<Transform> FindActorTransformList(Transform rootTransform, string actorName)
+    {
+        List<Transform> transformList = FindRoleTransformList(rootTransform, actorName);
+        Transform[] childTransformArray = rootTransform.GetComponentsInChildren<Transform>(true);
+
+        foreach (Transform childTransform in childTransformArray)
+        {
+            if (childTransform == null || childTransform.name != actorName)
+                continue;
+
+            if (!transformList.Contains(childTransform))
+                transformList.Add(childTransform);
+        }
+
+        return transformList;
+    }
+
+    private static List<Transform> FindRoleTransformList(Transform rootTransform, string roleId)
+    {
+        List<Transform> transformList = new List<Transform>();
+        OOTechSceneObject[] sceneObjectArray = rootTransform.GetComponentsInChildren<OOTechSceneObject>(true);
+
+        foreach (OOTechSceneObject sceneObject in sceneObjectArray)
+        {
+            if (sceneObject != null && sceneObject.RoleId == roleId)
+                transformList.Add(sceneObject.transform);
+        }
+
+        return transformList;
+    }
+
+    private static Transform FindPreferredRoleTransform(Transform rootTransform, string roleId, Transform anchorTransform)
+    {
+        List<Transform> roleTransformList = FindRoleTransformList(rootTransform, roleId);
+        return FindClosestActiveTransform(roleTransformList, anchorTransform);
+    }
+
+    private static Transform FindPreferredActorTransform(Transform rootTransform, string actorName, Transform anchorTransform)
+    {
+        List<Transform> actorTransformList = FindActorTransformList(rootTransform, actorName);
+        return FindClosestActiveTransform(actorTransformList, anchorTransform);
+    }
+
+    private static Transform FindClosestActiveTransform(List<Transform> transformList, Transform anchorTransform)
+    {
+        Transform bestTransform = null;
+        float bestScore = float.MaxValue;
+
+        foreach (Transform roleTransform in transformList)
+        {
+            if (roleTransform == null)
+                continue;
+
+            float score = anchorTransform != null ? Vector3.SqrMagnitude(roleTransform.position - anchorTransform.position) : 0f;
+
+            if (roleTransform.gameObject.activeInHierarchy)
+                score -= 100000f;
+
+            if (score >= bestScore)
+                continue;
+
+            bestScore = score;
+            bestTransform = roleTransform;
+        }
+
+        return bestTransform;
+    }
+
+    private static string GetHierarchyPath(Transform targetTransform)
+    {
+        if (targetTransform == null)
+            return string.Empty;
+
+        string path = targetTransform.name;
+        Transform currentTransform = targetTransform.parent;
+
+        while (currentTransform != null)
+        {
+            path = currentTransform.name + "/" + path;
+            currentTransform = currentTransform.parent;
+        }
+
+        return path;
     }
 
     private static void RepairActor(Transform encounterRoot, string actorName, string stateName, string clipPath, float speed)

@@ -12,6 +12,7 @@
     "EncounterSangunDialogueId": "character_Sangun_02",
     "EncounterMoranDialogueId": "character_Moran_08",
     "EncounterQuestDialogueId": "character_Sangun_03",
+    "ClearDialogueId": "character_Sangun_04",
     "StageQuestId": "Stage3__Quest_01",
     "JulguToolId": "Julgu",
     "JulguTutorialId": "narration_tutorial_14",

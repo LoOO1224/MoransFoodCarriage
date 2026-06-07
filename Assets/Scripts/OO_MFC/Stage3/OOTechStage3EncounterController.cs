@@ -19,6 +19,9 @@ using UnityEngine.UI;
 [DisallowMultipleComponent]
 public class OOTechStage3EncounterController : MonoBehaviour
 {
+    private const float EncounterBackgroundWorldWidth = 1920f;
+    private const float EncounterBackgroundWorldHeight = 1080f;
+
     [Header("Data")]
     [SerializeField] private string _cueSheetDataId = "Stage3_CueSheet_01";
 
@@ -90,6 +93,7 @@ public class OOTechStage3EncounterController : MonoBehaviour
         }
 
         PrepareEncounterActors();
+        RequestCloseStage3GroupBehindEncounter();
         RequestOpenInventoryForReturnedEncounter();
         SetNextButtonActive(false);
 
@@ -143,6 +147,7 @@ public class OOTechStage3EncounterController : MonoBehaviour
         if (Data_CueSheet == null || Context_Scene == null)
             return;
 
+        RequestPrepareEncounterBackground();
         RequestFitCameraToEncounterBackground();
         Actor_Sangun = ResolveActor(Data_CueSheet.SangunRoleId);
         Actor_Moran = ResolveActor(string.IsNullOrEmpty(Data_CueSheet.MoranRoleId) ? "Moran" : Data_CueSheet.MoranRoleId);
@@ -151,10 +156,48 @@ public class OOTechStage3EncounterController : MonoBehaviour
         RequestDisableDuplicateRoleActors(Data_CueSheet.SangunRoleId, Actor_Sangun);
         RequestDisableDuplicateRoleActors(string.IsNullOrEmpty(Data_CueSheet.MoranRoleId) ? "Moran" : Data_CueSheet.MoranRoleId, Actor_Moran);
         RequestDisableDuplicateRoleActors(string.IsNullOrEmpty(Data_CueSheet.MrJaeikRoleId) ? "Mr.Jaeik" : Data_CueSheet.MrJaeikRoleId, Actor_MrJaeik);
+        RequestDisableDuplicateNamedActors("Mr.Jaeik", Actor_MrJaeik);
 
         RequestPlayActorState(Actor_Sangun, "Sangun_Idle", 1f, false);
         RequestPlayActorState(Actor_Moran, "Moran_isScared", 0.6f, false);
         RequestPlayActorState(Actor_MrJaeik, _mrJaeikThreateningStateName, 0.6f, false);
+    }
+
+    /// <summary>
+    /// EncounterGroup이 켜졌는데 Stage3Group이 뒤에서 같이 살아 있으면 이전 배우가 카메라에 도플갱어처럼 보입니다.
+    /// 산군 Encounter 무대가 열릴 때 이전 숲 입장 무대는 확실히 암전시킵니다.
+    /// </summary>
+    private void RequestCloseStage3GroupBehindEncounter()
+    {
+        GameObject stage3GroupObject = FindSceneObjectByName("Stage3Group");
+
+        if (stage3GroupObject == null || stage3GroupObject == gameObject)
+            return;
+
+        stage3GroupObject.SetActive(false);
+    }
+
+    /// <summary>
+    /// EncounterGroup 배경 배우를 다시 켜고 화면 뒤쪽에 고정합니다.
+    /// Game View에서 검은 화면이 나오면 보통 배경 SpriteRenderer가 꺼져 있거나 카메라가 다른 배경을 잡은 상태입니다.
+    /// </summary>
+    private void RequestPrepareEncounterBackground()
+    {
+        SpriteRenderer backgroundRenderer = ResolveBestBackgroundRendererIncludingInactive();
+
+        if (backgroundRenderer == null)
+        {
+            Debug.LogWarning("[OOTechStage3EncounterController] Encounter background renderer is missing.");
+            return;
+        }
+
+        backgroundRenderer.gameObject.SetActive(true);
+        backgroundRenderer.enabled = true;
+        backgroundRenderer.forceRenderingOff = false;
+        backgroundRenderer.color = Color.white;
+        backgroundRenderer.sortingLayerName = "Background";
+        backgroundRenderer.sortingOrder = -1000;
+        RequestFitBackgroundRendererToEncounterStage(backgroundRenderer);
     }
 
     /// <summary>
@@ -182,6 +225,30 @@ public class OOTechStage3EncounterController : MonoBehaviour
     }
 
     /// <summary>
+    /// 사용자가 새로 배치한 배우와 예전 배우가 같은 이름으로 남아 있으면 RoleId가 없어도 카메라에 도플갱어처럼 잡힙니다.
+    /// 감독은 선택된 배우만 남기고, 같은 EncounterGroup 안의 같은 이름 배우는 무대 뒤로 내립니다.
+    /// </summary>
+    private void RequestDisableDuplicateNamedActors(string actorName, OOTechStageActorMotion selectedActor)
+    {
+        if (string.IsNullOrEmpty(actorName) || selectedActor == null)
+            return;
+
+        Transform[] transformArray = GetComponentsInChildren<Transform>(true);
+
+        foreach (Transform actorTransform in transformArray)
+        {
+            if (actorTransform == null || actorTransform.name != actorName)
+                continue;
+
+            if (actorTransform == selectedActor.transform || actorTransform.IsChildOf(selectedActor.transform))
+                continue;
+
+            actorTransform.gameObject.SetActive(false);
+            Debug.LogWarning($"[OOTechStage3EncounterController] Disabled duplicate Encounter actor name={actorName}, object={actorTransform.gameObject.name}.");
+        }
+    }
+
+    /// <summary>
     /// EncounterGroup 배경 전체가 Game View에 들어오도록 카메라를 맞춥니다.
     /// 이전 Stage3 카메라 줌이 남아 배경이 아주 작게 보이는 문제를 막는 촬영 큐입니다.
     /// </summary>
@@ -193,10 +260,38 @@ public class OOTechStage3EncounterController : MonoBehaviour
         SpriteRenderer backgroundRenderer = ResolveBestBackgroundRenderer();
 
         if (backgroundRenderer == null)
+            backgroundRenderer = ResolveBestBackgroundRendererIncludingInactive();
+
+        if (backgroundRenderer == null)
             return;
 
+        backgroundRenderer.gameObject.SetActive(true);
+        backgroundRenderer.enabled = true;
+        RequestFitBackgroundRendererToEncounterStage(backgroundRenderer);
         Cue_Camera.RequestSaveAndDisableCameraFollow();
         Cue_Camera.RequestFocusCameraOnBounds(backgroundRenderer.bounds, 1f);
+    }
+
+    /// <summary>
+    /// EncounterGroup은 큰 무대 좌표계로 배치되어 있으므로 배경도 1920x1080 월드 크기에 맞춥니다.
+    /// 배경이 19.2x10.8처럼 작게 저장되면 카메라가 그 작은 포스터를 전체 무대라고 착각해 확대 촬영합니다.
+    /// </summary>
+    private void RequestFitBackgroundRendererToEncounterStage(SpriteRenderer backgroundRenderer)
+    {
+        if (backgroundRenderer == null || backgroundRenderer.sprite == null)
+            return;
+
+        Vector2 spriteSize = backgroundRenderer.sprite.bounds.size;
+
+        if (spriteSize.x <= 0f || spriteSize.y <= 0f)
+            return;
+
+        float scaleX = EncounterBackgroundWorldWidth / spriteSize.x;
+        float scaleY = EncounterBackgroundWorldHeight / spriteSize.y;
+        Transform backgroundTransform = backgroundRenderer.transform;
+        backgroundTransform.localPosition = Vector3.zero;
+        backgroundTransform.localRotation = Quaternion.identity;
+        backgroundTransform.localScale = new Vector3(scaleX, scaleY, 1f);
     }
 
     private SpriteRenderer ResolveBestBackgroundRenderer()
@@ -212,6 +307,35 @@ public class OOTechStage3EncounterController : MonoBehaviour
 
             string objectName = spriteRenderer.gameObject.name;
             bool isBackgroundName = objectName.Contains("Background") || objectName.Contains("Backound") || spriteRenderer.transform == transform;
+
+            if (!isBackgroundName)
+                continue;
+
+            float area = spriteRenderer.bounds.size.x * spriteRenderer.bounds.size.y;
+
+            if (area > bestArea)
+            {
+                bestRenderer = spriteRenderer;
+                bestArea = area;
+            }
+        }
+
+        return bestRenderer;
+    }
+
+    private SpriteRenderer ResolveBestBackgroundRendererIncludingInactive()
+    {
+        SpriteRenderer[] rendererArray = GetComponentsInChildren<SpriteRenderer>(true);
+        SpriteRenderer bestRenderer = null;
+        float bestArea = 0f;
+
+        foreach (SpriteRenderer spriteRenderer in rendererArray)
+        {
+            if (spriteRenderer == null || spriteRenderer.sprite == null)
+                continue;
+
+            string objectName = spriteRenderer.gameObject.name;
+            bool isBackgroundName = objectName.Contains("Stage3Background") || objectName.Contains("Background") || objectName.Contains("Backound");
 
             if (!isBackgroundName)
                 continue;
@@ -312,7 +436,10 @@ public class OOTechStage3EncounterController : MonoBehaviour
             yield break;
         }
 
-        yield return Cue_Dialogue.RequestShowDialogueAndWait("character_Sangun_04");
+        string clearDialogueId = !string.IsNullOrEmpty(Data_CueSheet.ClearDialogueId)
+            ? Data_CueSheet.ClearDialogueId
+            : "character_Sangun_04";
+        yield return Cue_Dialogue.RequestShowDialogueAndWait(clearDialogueId);
         yield return PlayStageClearRoutine();
     }
 
@@ -320,6 +447,8 @@ public class OOTechStage3EncounterController : MonoBehaviour
     {
         RequestPlayActorState(Actor_Sangun, "Sangun_isAttacking", Data_CueSheet.AttackingAnimationSpeed > 0f ? Data_CueSheet.AttackingAnimationSpeed : 0.5f, true);
         Debug.LogWarning($"[OOTechStage3EncounterController] {Data_CueSheet.DeathMessage}");
+        GameObject deathOverlayObject = ResolveOrCreateDeathOverlay();
+        deathOverlayObject.SetActive(true);
         yield return new WaitForSeconds(1.2f);
 
         int selectedIndex = -1;
@@ -327,6 +456,8 @@ public class OOTechStage3EncounterController : MonoBehaviour
         {
             selectedIndex = index;
         });
+
+        deathOverlayObject.SetActive(false);
 
         if (selectedIndex == 0)
         {
@@ -336,6 +467,51 @@ public class OOTechStage3EncounterController : MonoBehaviour
         }
 
         RequestSwitchGroup(gameObject.name, _mainMenuGroupName);
+    }
+
+    /// <summary>
+    /// 산군에게 떡만 줬을 때 화면 전체를 붉게 물들이는 실패 연출판입니다.
+    /// Game View에서는 감독이 조명을 붉게 바꾸고 "YOU DIE" 자막을 잠깐 띄우는 장면입니다.
+    /// </summary>
+    private GameObject ResolveOrCreateDeathOverlay()
+    {
+        GameObject overlayObject = FindChildByName(transform, "Canvas_Stage3DeathOverlay");
+
+        if (overlayObject == null)
+            overlayObject = new GameObject("Canvas_Stage3DeathOverlay", typeof(RectTransform), typeof(Canvas), typeof(CanvasScaler), typeof(GraphicRaycaster));
+
+        overlayObject.transform.SetParent(transform, false);
+        RequestRepairFullScreenRect(overlayObject.GetComponent<RectTransform>());
+
+        Canvas canvas = overlayObject.GetComponent<Canvas>();
+        canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+        canvas.overrideSorting = true;
+        canvas.sortingOrder = 5300;
+
+        CanvasScaler canvasScaler = overlayObject.GetComponent<CanvasScaler>();
+        canvasScaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+        canvasScaler.referenceResolution = new Vector2(1920f, 1080f);
+        canvasScaler.matchWidthOrHeight = 0.5f;
+
+        GameObject panelObject = ResolveOrCreateUIObject(overlayObject.transform, "Panel_DeathOverlay");
+        RequestRepairFullScreenRect(panelObject.GetComponent<RectTransform>());
+
+        Image panelImage = panelObject.GetComponent<Image>();
+
+        if (panelImage == null)
+            panelImage = panelObject.AddComponent<Image>();
+
+        panelImage.color = new Color(0.55f, 0f, 0f, 0.42f);
+        panelImage.raycastTarget = false;
+
+        TextMeshProUGUI deathText = ResolveOrCreateText(panelObject.transform, "Text_DeathMessage", Vector2.zero, new Vector2(900f, 120f));
+        deathText.text = string.IsNullOrEmpty(Data_CueSheet.DeathMessage) ? "YOU DIE" : Data_CueSheet.DeathMessage;
+        deathText.fontSize = 72f;
+        deathText.fontStyle = FontStyles.Bold;
+        deathText.color = Color.white;
+
+        overlayObject.SetActive(false);
+        return overlayObject;
     }
 
     private IEnumerator PlayStageClearRoutine()
@@ -426,6 +602,50 @@ public class OOTechStage3EncounterController : MonoBehaviour
 
         foreach (BackButtonController backButton in backButtonArray)
             backButton.SetPreviousGroup(gameObject.name);
+
+        Button runtimeReturnButton = ResolveRuntimeReturnButton(cookingGroup);
+
+        if (runtimeReturnButton == null)
+            return;
+
+        runtimeReturnButton.onClick.RemoveAllListeners();
+        runtimeReturnButton.onClick.AddListener(OnCookingReturnToEncounterClicked);
+    }
+
+    private Button ResolveRuntimeReturnButton(GameObject cookingGroup)
+    {
+        if (cookingGroup == null)
+            return null;
+
+        GameObject returnButtonObject = FindChildByName(cookingGroup.transform, "Button_RuntimeReturn");
+
+        if (returnButtonObject == null)
+            return null;
+
+        return returnButtonObject.GetComponent<Button>();
+    }
+
+    /// <summary>
+    /// Stage3 Encounter 전용 부엌 복귀 버튼입니다.
+    /// 이전 Road/Stage 기록이 남아 있어도 CookingGroup을 닫고 반드시 EncounterGroup을 다시 엽니다.
+    /// </summary>
+    private void OnCookingReturnToEncounterClicked()
+    {
+        OOTechGroupNavigationHistory.SetPreviousGroup(_cookingGroupName, gameObject.name);
+
+        if (OOTechUIManager.Inst != null)
+        {
+            OOTechUIManager.Inst.CloseUI(_cookingGroupName);
+            OOTechUIManager.Inst.OpenUI(gameObject.name);
+            return;
+        }
+
+        GameObject cookingGroup = FindSceneObjectByName(_cookingGroupName);
+
+        if (cookingGroup != null)
+            cookingGroup.SetActive(false);
+
+        gameObject.SetActive(true);
     }
 
     /// <summary>
@@ -469,8 +689,50 @@ public class OOTechStage3EncounterController : MonoBehaviour
         if (Context_Scene == null || string.IsNullOrEmpty(roleId))
             return null;
 
-        Transform actorTransform = Context_Scene.GetRoleTransform(roleId);
+        Transform anchorTransform = Actor_Moran != null ? Actor_Moran.transform : null;
+        Transform actorTransform = ResolvePreferredActorTransform(roleId, anchorTransform);
         return actorTransform != null ? actorTransform.GetComponent<OOTechStageActorMotion>() : null;
+    }
+
+    /// <summary>
+    /// 같은 역할표가 둘 이상 있으면 Moran과 가장 가까운 배우를 우선합니다.
+    /// 사용자가 새로 배치한 Mr.Jaeik이 Moran 근처에 있고, 예전 먼 배우가 남아 있는 경우를 막는 선택 규칙입니다.
+    /// </summary>
+    private Transform ResolvePreferredActorTransform(string roleId, Transform anchorTransform)
+    {
+        OOTechSceneObject[] sceneObjectArray = GetComponentsInChildren<OOTechSceneObject>(true);
+        Transform fallbackTransform = Context_Scene.GetRoleTransform(roleId);
+
+        if (sceneObjectArray == null || sceneObjectArray.Length == 0)
+            return fallbackTransform;
+
+        Transform bestTransform = null;
+        float bestScore = float.MaxValue;
+
+        foreach (OOTechSceneObject sceneObject in sceneObjectArray)
+        {
+            if (sceneObject == null || sceneObject.RoleId != roleId)
+                continue;
+
+            if (!sceneObject.gameObject.activeInHierarchy && sceneObject.transform != fallbackTransform)
+                continue;
+
+            float score = 0f;
+
+            if (anchorTransform != null && sceneObject.transform != anchorTransform)
+                score = Vector3.SqrMagnitude(sceneObject.transform.position - anchorTransform.position);
+
+            if (sceneObject.gameObject.activeInHierarchy)
+                score -= 100000f;
+
+            if (score >= bestScore)
+                continue;
+
+            bestScore = score;
+            bestTransform = sceneObject.transform;
+        }
+
+        return bestTransform != null ? bestTransform : fallbackTransform;
     }
 
     private bool RequestPlayActorState(OOTechStageActorMotion actor, string stateName, float speed, bool isForceReplay)

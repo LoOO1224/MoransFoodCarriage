@@ -846,6 +846,7 @@ public class OOTechGameDataManager : MonoBehaviour
             EncounterSangunDialogueId = NormalizeJsonText(jsonData.EncounterSangunDialogueId),
             EncounterMoranDialogueId = NormalizeJsonText(jsonData.EncounterMoranDialogueId),
             EncounterQuestDialogueId = NormalizeJsonText(jsonData.EncounterQuestDialogueId),
+            ClearDialogueId = NormalizeJsonText(GetFirstNotEmpty(jsonData.ClearDialogueId, "character_Sangun_04")),
             StageQuestId = NormalizeJsonText(jsonData.StageQuestId),
             JulguToolId = NormalizeJsonText(jsonData.JulguToolId),
             JulguTutorialId = NormalizeJsonText(jsonData.JulguTutorialId),
@@ -1939,6 +1940,7 @@ public class OOTechStage3CueSheetJsonData
     public string EncounterSangunDialogueId;
     public string EncounterMoranDialogueId;
     public string EncounterQuestDialogueId;
+    public string ClearDialogueId;
     public string StageQuestId;
     public string JulguToolId;
     public string JulguTutorialId;

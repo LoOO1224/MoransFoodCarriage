@@ -11,6 +11,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 /// <summary>
@@ -174,6 +175,7 @@ public class OOTechCookingGroupController : MonoBehaviour
         ApplyCookingRenderPriority();
         PrepareCookingView();
         UpdateHoneyCakeCombineUnlockState();
+        PrepareEncounterReturnButtonIfNeeded();
         ResolveRoleComponents();
         RequestOpenCookingSupportHUDIfNeeded();
         StartCoroutine(RequestOpenCookingSupportHUDNextFrameRoutine());
@@ -319,6 +321,53 @@ public class OOTechCookingGroupController : MonoBehaviour
     {
         string previousGroupName = OOTechGroupNavigationHistory.GetPreviousGroup(gameObject.name, string.Empty);
         return previousGroupName == "EncounterGroup";
+    }
+
+    /// <summary>
+    /// EncounterGroup에서 열린 부엌은 돌아가기 버튼을 반드시 EncounterGroup으로 고정합니다.
+    /// 이전 Stage2 복귀 리스너가 남아 있어도 이 장면에서는 산군 무대로 돌아가야 합니다.
+    /// </summary>
+    private void PrepareEncounterReturnButtonIfNeeded()
+    {
+        if (!IsOpenedFromEncounterGroup())
+            return;
+
+        BackButtonController[] backButtonArray = GetComponentsInChildren<BackButtonController>(true);
+
+        foreach (BackButtonController backButton in backButtonArray)
+            backButton.SetPreviousGroup("EncounterGroup");
+
+        Transform returnButtonTransform = FindChildByName(transform, "Button_RuntimeReturn");
+
+        if (returnButtonTransform == null)
+            return;
+
+        Button returnButton = returnButtonTransform.GetComponent<Button>();
+
+        if (returnButton == null)
+            return;
+
+        returnButton.onClick.RemoveAllListeners();
+        returnButton.onClick.AddListener(ReturnToEncounterGroup);
+    }
+
+    private void ReturnToEncounterGroup()
+    {
+        OOTechGroupNavigationHistory.SetPreviousGroup(gameObject.name, "EncounterGroup");
+
+        if (OOTechUIManager.Inst != null)
+        {
+            OOTechUIManager.Inst.CloseUI(gameObject.name);
+            OOTechUIManager.Inst.OpenUI("EncounterGroup");
+            return;
+        }
+
+        GameObject encounterGroupObject = FindSceneObjectByName("EncounterGroup");
+
+        gameObject.SetActive(false);
+
+        if (encounterGroupObject != null)
+            encounterGroupObject.SetActive(true);
     }
 
     /// <summary>
@@ -2610,6 +2659,24 @@ public class OOTechCookingGroupController : MonoBehaviour
 
             if (foundTransform != null)
                 return foundTransform;
+        }
+
+        return null;
+    }
+
+    private GameObject FindSceneObjectByName(string objectName)
+    {
+        Scene scene = SceneManager.GetActiveScene();
+
+        if (!scene.IsValid())
+            return null;
+
+        foreach (GameObject rootObject in scene.GetRootGameObjects())
+        {
+            Transform foundTransform = FindChildByName(rootObject.transform, objectName);
+
+            if (foundTransform != null)
+                return foundTransform.gameObject;
         }
 
         return null;

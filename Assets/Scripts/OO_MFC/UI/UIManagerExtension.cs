@@ -70,6 +70,7 @@ public static class UIManagerExtension
     public static void OnBackButtonClicked(string previousGroupName = "MainMenuGroup")
     {
         string safePreviousGroupName = string.IsNullOrEmpty(previousGroupName) ? "MainMenuGroup" : previousGroupName;
+        safePreviousGroupName = ResolveStage3EncounterBackTarget(safePreviousGroupName);
         Debug.Log($"[UIManagerExtension] Back button clicked. Returning to {safePreviousGroupName}.");
 
         if (OOTechUIManager.Inst == null)
@@ -83,6 +84,34 @@ public static class UIManagerExtension
         OOTechUIManager.Inst.CloseUI("WorldMapGroup");
         OOTechUIManager.Inst.OpenUI(safePreviousGroupName);
         RestoreRoadHUDIfNeeded(safePreviousGroupName);
+    }
+
+    /// <summary>
+    /// Stage3 부엌에서 돌아올 때 이전 기록이 Stage2Group으로 남아 있으면 산군 선택지가 끊깁니다.
+    /// Game View에서는 떡/꿀떡을 가진 배우가 반드시 EncounterGroup 무대로 복귀하게 하는 안전 큐입니다.
+    /// </summary>
+    private static string ResolveStage3EncounterBackTarget(string requestedGroupName)
+    {
+        if (requestedGroupName == "EncounterGroup")
+            return requestedGroupName;
+
+        if (OOTechGameManager.Inst == null)
+            return requestedGroupName;
+
+        bool hasStage3QuestItem =
+            OOTechGameManager.Inst.GetItemCount("OO_KoreanCake_1") > 0 ||
+            OOTechGameManager.Inst.GetItemCount("OO_HoneyKoreanCake_1") > 0;
+
+        if (!hasStage3QuestItem)
+            return requestedGroupName;
+
+        GameObject encounterGroupObject = FindSceneObjectByName("EncounterGroup");
+
+        if (encounterGroupObject == null)
+            return requestedGroupName;
+
+        Debug.LogWarning($"[UIManagerExtension] Stage3 cooking return corrected. {requestedGroupName} -> EncounterGroup");
+        return "EncounterGroup";
     }
 
     /// <summary>
