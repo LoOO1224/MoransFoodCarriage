@@ -2008,7 +2008,7 @@ public class OOTechCookingGroupController : MonoBehaviour
         _isJulguGuideActive = false;
         _toolGuideCoroutine = null;
         SetGuidePointerActive(false);
-        SetStatus("절구를 클릭하거나 더블 클릭하면 쌀 1개가 떡 1개로 바뀝니다.");
+        SetStatus("절구는 마우스클릭으로 인벤토리의 쌀을 떡으로 만들 수 있습니다!");
     }
 
     private void StopToolGuideRoutine()
@@ -2140,7 +2140,7 @@ public class OOTechCookingGroupController : MonoBehaviour
 
     private void GetJulguGuideData(out string title, out string description)
     {
-        string fallbackDescription = "절구는 쌀을 떡으로 만드는 독립 조리도구입니다. 절구를 클릭하거나 더블 클릭하면 쌀 1개가 떡 1개로 바뀝니다.";
+        string fallbackDescription = "절구는 마우스클릭으로 인벤토리의 쌀을 떡으로 만들 수 있습니다!";
 
         if (Cue_Guide != null)
         {

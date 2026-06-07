@@ -539,6 +539,8 @@ public class OOTechStage3EncounterController : MonoBehaviour
 
         if (selectedIndex == 0)
             yield return PlayDeathRoutine();
+        else
+            RequestOpenCookingGroup();
     }
 
     private IEnumerator PlayGiveHoneyCakeChoiceRoutine()
@@ -550,7 +552,10 @@ public class OOTechStage3EncounterController : MonoBehaviour
         });
 
         if (selectedIndex != 0)
+        {
+            yield return PlayDeathRoutine();
             yield break;
+        }
 
         if (!TryRemoveItem(Data_CueSheet.HoneyKoreanCakeItemId, 1))
         {
