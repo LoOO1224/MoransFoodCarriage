@@ -18,6 +18,7 @@ public class OOTechGameManager : MonoBehaviour
 
     [SerializeField] private OOTechPlayerModel _playerModel = new OOTechPlayerModel();
     private readonly HashSet<string> _clearedStageIdSet = new HashSet<string>();
+    private readonly HashSet<string> _pendingWorldMapNewStageIdSet = new HashSet<string>();
 
     /// <summary>
     /// 씬 전환 후에도 유지되는 단일 게임 매니저로 등록합니다.
@@ -178,6 +179,7 @@ public class OOTechGameManager : MonoBehaviour
             return;
 
         _clearedStageIdSet.Add(stageId);
+        _pendingWorldMapNewStageIdSet.Add(stageId);
         Debug.Log($"[OOTechGameManager] Stage cleared: {stageId}");
     }
 
@@ -188,5 +190,18 @@ public class OOTechGameManager : MonoBehaviour
     public bool IsStageCleared(string stageId)
     {
         return !string.IsNullOrWhiteSpace(stageId) && _clearedStageIdSet.Contains(stageId);
+    }
+
+    /// <summary>
+    /// 클리어 직후 월드맵이 바뀌었다는 NEW 표시가 필요한지 확인하고 소비합니다.
+    /// 영화 비유로는 스테이지가 끝난 뒤 다음 로드맵에 도착했을 때만 새 지도를 한 번 펼치는 큐입니다.
+    /// </summary>
+    public bool ConsumePendingWorldMapNewBadge()
+    {
+        if (_pendingWorldMapNewStageIdSet.Count <= 0)
+            return false;
+
+        _pendingWorldMapNewStageIdSet.Clear();
+        return true;
     }
 }

@@ -154,7 +154,7 @@ public class OOTechStage4GroupController : MonoBehaviour
         {
             HUD_Road.SetOwnerGroupName(gameObject.name);
             HUD_Road.PrepareHUD();
-            HUD_Road.SetCookingUnlocked(true);
+            HUD_Road.SetCookingUnlocked(true, false);
             HUD_Road.SetHUDVisible(true);
         }
     }
@@ -166,9 +166,9 @@ public class OOTechStage4GroupController : MonoBehaviour
         RequestSetActive(Transform_RabbitSleeping, false);
 
         if (_isRabbitSleeping)
-            RequestSetMission("?좊겮媛 ?좎씠 ?ㅼ뿀?듬땲?? 嫄곕턿?댁뿉寃??뚯븘媛?몄슂!", true);
+            RequestSetMission("토끼가 잠이 들었습니다. 거북이에게 돌아가세요!", true);
         else if (_isTurtleQuestAccepted)
-            RequestSetMission("?좊겮瑜?李얠쑝?몄슂.", false);
+            RequestSetMission("토끼를 찾으세요.", false);
 
         if (_isReturnFromStage4_2ToStage4_1)
         {
@@ -199,7 +199,7 @@ public class OOTechStage4GroupController : MonoBehaviour
         if (!_isRabbitSleeping)
             StartManagedRoutine(PlayStage4_2IntroRoutine());
         else
-            RequestSetMission("?좊겮媛 ?좎씠 ?ㅼ뿀?듬땲?? 嫄곕턿?댁뿉寃??뚯븘媛?몄슂!", true);
+            RequestSetMission("토끼가 잠이 들었습니다. 거북이에게 돌아가세요!", true);
     }
 
     private void UpdateStage4_1Input()
@@ -263,7 +263,7 @@ public class OOTechStage4GroupController : MonoBehaviour
         yield return ShowDialogueListRoutine(ResolveTextList(ResolveTurtleDialogueIdList()));
 
         _isTurtleQuestAccepted = true;
-        RequestSetMission("?좊겮瑜?李얠쑝?몄슂.", true);
+        RequestSetMission("토끼를 찾으세요.", true);
         PrepareMoranControl(true);
     }
 
@@ -287,7 +287,7 @@ public class OOTechStage4GroupController : MonoBehaviour
 
         RequestPlayActorState(Transform_Rabbit, "Rabbit_isJoking", 1f, true);
         yield return Cue_Dialogue.RequestShowDialogueAndWait(ResolveRabbitStopDialogueId());
-        RequestSetMission("?좊겮瑜??좏샊?섍린 ?꾪븳 ?밴렐?꾩쓣 留뚮뱶?몄슂.", true);
+        RequestSetMission("토끼를 유혹하기 위한 당근전을 만드세요.", true);
         PrepareMoranControl(true);
     }
 
@@ -297,7 +297,7 @@ public class OOTechStage4GroupController : MonoBehaviour
         _isRabbitCarrotCakeDialoguePlayed = true;
         RequestPlayActorState(Transform_Rabbit, "Rabbit_Idle", 1f, false);
         yield return ShowDialogueListRoutine(ResolveTextList(ResolveRabbitCarrotCakeDialogueIdList()));
-        RequestSetMission("?밴렐?꾩쓣 ?좊겮媛 留먰븳 ?섎Т?곌린???щ젮?먯꽭??", true);
+        RequestSetMission("당근전을 토끼가 말한 나무터기에 올려두세요!", true);
         PrepareMoranControl(true);
     }
 
@@ -336,7 +336,7 @@ public class OOTechStage4GroupController : MonoBehaviour
 
         OOTechSpeechBubbleView sleepingBubbleView = ResolveSpeechBubbleView(Transform_RabbitSleeping);
         sleepingBubbleView?.RequestPlaySpeechBubble(ResolveRabbitSleepingBubbleId(), 1f);
-        RequestSetMission("?좊겮媛 ?좎씠 ?ㅼ뿀?듬땲?? 嫄곕턿?댁뿉寃??뚯븘媛?몄슂!", true);
+        RequestSetMission("토끼가 잠이 들었습니다. 거북이에게 돌아가세요!", true);
         PrepareMoranControl(true);
     }
 
@@ -553,11 +553,11 @@ public class OOTechStage4GroupController : MonoBehaviour
             : null;
         string bodyText = tutorialData != null && !string.IsNullOrEmpty(tutorialData.Description)
             ? tutorialData.Description
-            : "紐⑤뱺 ?ㅽ뀒?댁? ?꾨Т瑜??꾩닔?덉뒿?덈떎. 留덉?留??댁빞湲곕줈 ?대룞?⑸땲??";
+            : "모든 스테이지 임무를 완수했습니다. 마지막 이야기로 이동합니다.";
 
         if (View_ClearPanel != null)
         {
-            View_ClearPanel.RequestShow("紐⑤뱺 ?꾨Т ?꾩닔!", bodyText, delegate
+            View_ClearPanel.RequestShow("모든 임무 완수!", bodyText, delegate
             {
                 RequestSwitchGroup(gameObject.name, ResolvePreFinalGroupName());
             });

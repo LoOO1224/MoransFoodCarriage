@@ -34,6 +34,7 @@ public class OOTechRoadHUDView : MonoBehaviour
     [SerializeField] private TextMeshProUGUI Text_InventoryNewBadge;
     [SerializeField] private TextMeshProUGUI Text_CodexNewBadge;
     [SerializeField] private TextMeshProUGUI Text_MissionNewBadge;
+    [SerializeField] private TextMeshProUGUI Text_WorldMapNewBadge;
     [SerializeField] private TextMeshProUGUI Text_CookingLabel;
     [SerializeField] private TextMeshProUGUI Text_InventoryQuantityGuide;
 
@@ -72,6 +73,7 @@ public class OOTechRoadHUDView : MonoBehaviour
     public TextMeshProUGUI InventoryNewBadgeText => Text_InventoryNewBadge;
     public TextMeshProUGUI CodexNewBadgeText => Text_CodexNewBadge;
     public TextMeshProUGUI MissionNewBadgeText => Text_MissionNewBadge;
+    public TextMeshProUGUI WorldMapNewBadgeText => Text_WorldMapNewBadge;
     public TextMeshProUGUI CookingLabelText => Text_CookingLabel;
     public TextMeshProUGUI InventoryQuantityGuideText => Text_InventoryQuantityGuide;
     public Image CookingButtonImage => Image_CookingButton;
@@ -110,6 +112,7 @@ public class OOTechRoadHUDView : MonoBehaviour
         Text_InventoryNewBadge = ResolveText(Text_InventoryNewBadge, "NewBadge_Inventory", "Text_InventoryNewBadge");
         Text_CodexNewBadge = ResolveText(Text_CodexNewBadge, "NewBadge_Codex", "Text_CodexNewBadge");
         Text_MissionNewBadge = ResolveText(Text_MissionNewBadge, "NewBadge_Mission", "Text_MissionNewBadge");
+        Text_WorldMapNewBadge = ResolveText(Text_WorldMapNewBadge, "NewBadge_WorldMap", "Text_WorldMapNewBadge");
         Text_InventoryQuantityGuide = ResolveText(Text_InventoryQuantityGuide, "Text_InventoryQuantityGuide");
 
         if (Button_Cooking != null)

@@ -476,7 +476,8 @@ public class OOTechTutorialGuideUI : MonoBehaviour
 
         Image_Panel = panelObject.AddComponent<Image>();
         Image_Panel.sprite = Sprite_PanelBackground;
-        Image_Panel.color = Sprite_PanelBackground == null ? new Color(0.06f, 0.06f, 0.06f, 0.92f) : Color.white;
+        Image_Panel.type = Image.Type.Sliced;
+        Image_Panel.color = new Color(1f, 0.93f, 0.76f, 0.94f);
         Image_Panel.raycastTarget = true;
 
         CreateTitleText(panelRect);
@@ -495,7 +496,7 @@ public class OOTechTutorialGuideUI : MonoBehaviour
         titleRect.sizeDelta = new Vector2(-120f, 55f);
 
         Text_Title = titleObject.AddComponent<TextMeshProUGUI>();
-        ApplyTextStyle(Text_Title, 44f, new Color(1f, 0.86f, 0.1f, 1f), TextAlignmentOptions.Center);
+        ApplyTextStyle(Text_Title, 44f, new Color(0.12f, 0.08f, 0.05f, 1f), TextAlignmentOptions.Center);
         Text_Title.text = _guideTitle;
     }
 
@@ -540,7 +541,7 @@ public class OOTechTutorialGuideUI : MonoBehaviour
         textRect.sizeDelta = Vector2.zero;
 
         Text_Dialogue = textObject.AddComponent<TextMeshProUGUI>();
-        ApplyTextStyle(Text_Dialogue, 34f, Color.white, TextAlignmentOptions.TopLeft);
+        ApplyTextStyle(Text_Dialogue, 36f, new Color(0.12f, 0.08f, 0.05f, 1f), TextAlignmentOptions.TopLeft);
 
         Scroll_Dialogue.viewport = viewportRect;
         Scroll_Dialogue.content = Rect_DialogueContent;
@@ -558,7 +559,8 @@ public class OOTechTutorialGuideUI : MonoBehaviour
 
         Image buttonImage = buttonObject.AddComponent<Image>();
         buttonImage.sprite = Sprite_NextButton;
-        buttonImage.color = Sprite_NextButton == null ? new Color(0.16f, 0.16f, 0.16f, 0.94f) : Color.white;
+        buttonImage.type = Image.Type.Sliced;
+        buttonImage.color = new Color(0.86f, 0.54f, 0.30f, 0.96f);
         buttonImage.raycastTarget = true;
 
         Button_Next = buttonObject.AddComponent<Button>();
@@ -574,7 +576,7 @@ public class OOTechTutorialGuideUI : MonoBehaviour
         StretchFullScreen(textRect);
 
         Text_NextButton = textObject.AddComponent<TextMeshProUGUI>();
-        ApplyTextStyle(Text_NextButton, 30f, Color.white, TextAlignmentOptions.Center);
+        ApplyTextStyle(Text_NextButton, 30f, new Color(0.12f, 0.08f, 0.05f, 1f), TextAlignmentOptions.Center);
         Text_NextButton.text = _nextButtonText;
     }
 

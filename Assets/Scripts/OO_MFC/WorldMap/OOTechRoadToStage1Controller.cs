@@ -138,7 +138,7 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
     [SerializeField] private string _dialogueGroupName = "DialogueGroup";
     [SerializeField] private string _secondRoadGroupName = "2nd_Road_to_Stage2";
     [SerializeField] private string _secondRoadMissionDataId = "Stage2_Road_Quest_01";
-    [SerializeField] private string _secondRoadMissionFallbackText = "?쒖そ ?꾩떆??媛 ?먭??ㅻ━???먰깮??諛⑸Ц?섏꽭??";
+    [SerializeField] private string _secondRoadMissionFallbackText = "서쪽 도시에 가 탐관오리의 자택을 방문하세요.";
     [SerializeField] private string[] _secondRoadOpeningDialogueIdArray =
     {
         "character_Chunyang_06",
@@ -1406,9 +1406,23 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
 
         HUD_Road.SetOwnerGroupName(_currentGroupName);
         HUD_Road.PrepareHUD();
-        HUD_Road.SetCookingUnlocked(_currentGroupName != "1st_Road_to_Stage1");
+        HUD_Road.SetCookingUnlocked(_currentGroupName != "1st_Road_to_Stage1", false);
+        RequestRoadEntryNewBadgeIfNeeded();
         ApplyRoadMissionForCurrentGroup();
         HUD_Road.SetHUDVisible(true);
+    }
+
+    /// <summary>
+    /// 특정 RoadGroup 진입 때 보여 줄 NEW 뱃지를 한 번 정리합니다.
+    /// Game View에서는 Stage2 보상을 받고 3rd Road에 들어왔을 때 요리하기가 아니라 인벤토리가 먼저 열립니다.
+    /// </summary>
+    private void RequestRoadEntryNewBadgeIfNeeded()
+    {
+        if (HUD_Road == null)
+            return;
+
+        if (_currentGroupName == _thirdRoadGroupName)
+            HUD_Road.SetInventoryNewBadgeActive(true);
     }
 
     /// <summary>
@@ -1655,7 +1669,7 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
             yield break;
 
         _isRoadMap1ArrivalCuePlayed = true;
-        yield return Tutorial2_Controller.PlayRoadMap1ArrivalRoutine();
+        yield return Tutorial2_Controller.PlayRoadMap1ArrivalRoutine(HUD_Road);
     }
 
     /// <summary>

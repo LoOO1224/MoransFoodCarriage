@@ -116,16 +116,16 @@ public class OOTechCookingResultPresenter : MonoBehaviour
         OO_DialogueGroup dialogueGroupData = OOTechGameDataManager.Inst != null ? OOTechGameDataManager.Inst.GetDialogueGroupData(_cookingCompleteDialogueGroupId) : null;
 
         if (dialogueGroupData == null)
-            return CreateDialogueData(_cookingCompleteDialogueGroupId, "異섏뼇 + ?ъ씡援?+ 紐⑤?", "??癒뱀뿀?듬땲??");
+            return CreateDialogueData(_cookingCompleteDialogueGroupId, "춘양 + 재익군 + 모란", "잘 먹었습니다!");
 
         string speakerName = CreateDialogueGroupSpeakerName(dialogueGroupData);
         string text = CreateDialogueGroupText(dialogueGroupData);
 
         if (string.IsNullOrEmpty(text))
-            text = "??癒뱀뿀?듬땲??";
+            text = "잘 먹었습니다!";
 
         if (string.IsNullOrEmpty(speakerName))
-            speakerName = "異섏뼇 + ?ъ씡援?+ 紐⑤?";
+            speakerName = "춘양 + 재익군 + 모란";
 
         return CreateDialogueData(dialogueGroupData.Id, speakerName, text);
     }

@@ -103,6 +103,7 @@ public class OOTechRoadHUDController : MonoBehaviour
     private TextMeshProUGUI Text_InventoryNewBadge;
     private TextMeshProUGUI Text_CodexNewBadge;
     private TextMeshProUGUI Text_MissionNewBadge;
+    private TextMeshProUGUI Text_WorldMapNewBadge;
     private TextMeshProUGUI Text_CookingNewBadge;
     private TextMeshProUGUI Text_CookingLabel;
     private TextMeshProUGUI Text_InventoryQuantityGuide;
@@ -133,8 +134,10 @@ public class OOTechRoadHUDController : MonoBehaviour
     private Coroutine _inventoryNewBadgeCoroutine;
     private Coroutine _codexNewBadgeCoroutine;
     private Coroutine _missionNewBadgeCoroutine;
+    private Coroutine _worldMapNewBadgeCoroutine;
     private Coroutine _cookingNewBadgeCoroutine;
     private Coroutine _missionCompleteEffectCoroutine;
+    private Coroutine _autoOpenNewPanelCoroutine;
 
     public bool IsCookingUnlocked => _isCookingUnlocked;
     public bool IsOverlayOpen => _isOverlayOpen;
@@ -171,9 +174,13 @@ public class OOTechRoadHUDController : MonoBehaviour
         SetInventoryNewBadgeActive(false);
         SetCodexNewBadgeActive(false);
         SetMissionNewBadgeActive(false);
+        SetWorldMapNewBadgeActive(false);
         SetCookingNewBadgeActive(false);
         RefreshCookingButtonView();
         SetBottomHUDActive(true);
+
+        if (IsOwnerRoadGroup() && OOTechGameManager.Inst != null && OOTechGameManager.Inst.ConsumePendingWorldMapNewBadge())
+            SetWorldMapNewBadgeActive(true);
     }
 
     /// <summary>
@@ -209,13 +216,13 @@ public class OOTechRoadHUDController : MonoBehaviour
     /// ?붾━?섍린 踰꾪듉???좉툑 ?곹깭瑜?媛깆떊?⑸땲??
     /// 1st_Road_to_Stage1??泥?留듭뿉?쒕뒗 ?좉꺼 ?덈떎媛 RoadMap1 ?댄썑 ?대┰?덈떎.
     /// </summary>
-    public void SetCookingUnlocked(bool isUnlocked)
+    public void SetCookingUnlocked(bool isUnlocked, bool isShowNewBadge = true)
     {
         bool wasUnlocked = _isCookingUnlocked;
         _isCookingUnlocked = isUnlocked;
         RefreshCookingButtonView();
 
-        if (_isCookingUnlocked && !wasUnlocked)
+        if (_isCookingUnlocked && !wasUnlocked && isShowNewBadge)
             SetCookingNewBadgeActive(true);
         else if (!_isCookingUnlocked)
             SetCookingNewBadgeActive(false);
@@ -227,6 +234,9 @@ public class OOTechRoadHUDController : MonoBehaviour
     public void SetInventoryNewBadgeActive(bool isActive)
     {
         SetBadgeActive(Text_InventoryNewBadge, isActive, ref _inventoryNewBadgeCoroutine);
+
+        if (isActive)
+            RequestAutoOpenNewPanel(OOTechRoadHUDButtonKind.Inventory);
     }
 
     /// <summary>
@@ -243,6 +253,31 @@ public class OOTechRoadHUDController : MonoBehaviour
     public void SetMissionNewBadgeActive(bool isActive)
     {
         SetBadgeActive(Text_MissionNewBadge, isActive, ref _missionNewBadgeCoroutine);
+
+        if (isActive)
+            RequestAutoOpenNewPanel(OOTechRoadHUDButtonKind.Mission);
+    }
+
+    /// <summary>
+    /// 월드맵 진행도 갱신을 알려 주는 NEW 뱃지를 켜거나 끕니다.
+    /// 영화 비유로는 다음 촬영지 지도가 바뀌었을 때 관객에게 한 번 지도를 펼쳐 보여 주는 신호입니다.
+    /// </summary>
+    public void SetWorldMapNewBadgeActive(bool isActive)
+    {
+        SetBadgeActive(Text_WorldMapNewBadge, isActive, ref _worldMapNewBadgeCoroutine);
+
+        if (isActive && IsOwnerRoadGroup())
+            RequestAutoOpenNewPanel(OOTechRoadHUDButtonKind.WorldMap);
+    }
+
+    /// <summary>
+    /// 월드맵 NEW 자동 오픈은 Stage 클리어 연출 중이 아니라 RoadGroup으로 복귀했을 때만 허용합니다.
+    /// Game View에서는 클리어 패널을 가리지 않고, 다음 이동 화면에서만 새 지도를 한 번 보여 줍니다.
+    /// </summary>
+    private bool IsOwnerRoadGroup()
+    {
+        string ownerName = string.IsNullOrEmpty(_ownerGroupName) ? gameObject.name : _ownerGroupName;
+        return !string.IsNullOrEmpty(ownerName) && ownerName.Contains("Road_to_Stage");
     }
 
     /// <summary>
@@ -568,6 +603,7 @@ public class OOTechRoadHUDController : MonoBehaviour
         Text_InventoryNewBadge = View_HUD.InventoryNewBadgeText;
         Text_CodexNewBadge = View_HUD.CodexNewBadgeText;
         Text_MissionNewBadge = View_HUD.MissionNewBadgeText;
+        Text_WorldMapNewBadge = View_HUD.WorldMapNewBadgeText;
         Text_CookingLabel = View_HUD.CookingLabelText;
         Text_InventoryQuantityGuide = View_HUD.InventoryQuantityGuideText;
         PrepareInventoryQuantityGuide();
@@ -786,7 +822,7 @@ public class OOTechRoadHUDController : MonoBehaviour
 
         if (itemList.Count == 0)
         {
-            CreateInventoryTextRow("鍮꾩뼱 ?덉쓬");
+            CreateInventoryTextRow("비어 있음");
             return;
         }
 
@@ -838,7 +874,7 @@ public class OOTechRoadHUDController : MonoBehaviour
         }
 
         if (!hasVisibleItem)
-            CreateInventoryTextRow("鍮꾩뼱 ?덉쓬");
+            CreateInventoryTextRow("비어 있음");
     }
 
     /// <summary>
@@ -1170,7 +1206,7 @@ public class OOTechRoadHUDController : MonoBehaviour
     {
         if (!_isCookingUnlocked)
         {
-            ShowRoadMessage("\uC694\uB9AC\uD558\uAE30", "\uCCAB \uBC88\uC9F8 \uAE38\uC744 \uC9C0\uB098\uBA74 \uC694\uB9AC\uD558\uAE30\uAC00 \uC5F4\uB9BD\uB2C8\uB2E4.", null);
+            ShowRoadMessage("\uC694\uB9AC\uD558\uAE30", "[요리하기] 임무를 완수하기 위한 요리를 만드는 곳입니다. 다음 로드맵에서 활성화됩니다.", null);
             return;
         }
 
@@ -1183,7 +1219,53 @@ public class OOTechRoadHUDController : MonoBehaviour
     /// </summary>
     private void OnWorldMapButtonClicked()
     {
+        SetWorldMapNewBadgeActive(false);
         RequestOpenSceneGroup(_worldMapGroupName);
+    }
+
+    private void RequestAutoOpenNewPanel(OOTechRoadHUDButtonKind buttonKind)
+    {
+        if (!isActiveAndEnabled)
+            return;
+
+        if (_autoOpenNewPanelCoroutine != null)
+            StopCoroutine(_autoOpenNewPanelCoroutine);
+
+        _autoOpenNewPanelCoroutine = StartCoroutine(PlayAutoOpenNewPanelRoutine(buttonKind));
+    }
+
+    /// <summary>
+    /// NEW 뱃지가 붙은 UI를 다음 프레임에 한 번 열어 줍니다.
+    /// 버튼 클릭 이벤트를 직접 호출하지 않고 전용 메서드로 처리해, 요리하기처럼 자동 진입하면 안 되는 버튼을 분리합니다.
+    /// </summary>
+    private IEnumerator PlayAutoOpenNewPanelRoutine(OOTechRoadHUDButtonKind buttonKind)
+    {
+        yield return null;
+
+        if (!gameObject.activeInHierarchy)
+            yield break;
+
+        if (buttonKind == OOTechRoadHUDButtonKind.Inventory)
+        {
+            RefreshInventoryView();
+            SetInventoryPanelActive(true);
+            SetMissionPanelActive(false);
+            yield break;
+        }
+
+        if (buttonKind == OOTechRoadHUDButtonKind.Mission)
+        {
+            RefreshMissionText();
+            SetMissionPanelActive(true);
+            SetInventoryPanelActive(false);
+            yield break;
+        }
+
+        if (buttonKind == OOTechRoadHUDButtonKind.WorldMap)
+        {
+            OnWorldMapButtonClicked();
+            yield break;
+        }
     }
 
     /// <summary>
@@ -1286,8 +1368,8 @@ public class OOTechRoadHUDController : MonoBehaviour
         Text_MissionContent.richText = true;
         string cookingMissionText = CreateCookingMissionText();
 
-        string eastRoadMissionText = _isEastRoadMissionRemoved || string.IsNullOrWhiteSpace(_roadMissionText) ? string.Empty : "??" + _roadMissionText + "\n";
-        string stageQuestText = string.IsNullOrWhiteSpace(_stageQuestMissionText) ? string.Empty : "??" + _stageQuestMissionText + "\n";
+        string eastRoadMissionText = _isEastRoadMissionRemoved || string.IsNullOrWhiteSpace(_roadMissionText) ? string.Empty : "○ " + _roadMissionText + "\n";
+        string stageQuestText = string.IsNullOrWhiteSpace(_stageQuestMissionText) ? string.Empty : "○ " + _stageQuestMissionText + "\n";
         Text_MissionContent.text = "\uD604\uC7AC \uC784\uBB34\n" + cookingMissionText + eastRoadMissionText + stageQuestText;
     }
 
@@ -1300,7 +1382,7 @@ public class OOTechRoadHUDController : MonoBehaviour
         if (!_isCookingQuestActive || _isCookingMissionRemoved)
             return string.Empty;
 
-        string missionText = "??諛곌퀬??紐⑤?怨??숇즺?ㅼ쓣 ?꾪빐 ?붾━?섏꽭??";
+        string missionText = "○ 배고픈 모란과 동료들을 위해 요리하세요.";
 
         if (!_isCookingQuestComplete)
             return missionText + "\n";
@@ -1408,13 +1490,25 @@ public class OOTechRoadHUDController : MonoBehaviour
         }
 
         if (ingredientDataId == _defaultInventoryItemId)
-            return "?";
+            return "쌀";
 
         if (ingredientDataId == "Ing_Veggie_01")
-            return "梨꾩냼";
+            return "채소";
 
         if (ingredientDataId == "Ing_Pumpkin_01")
-            return "?몃컯";
+            return "호박";
+
+        if (ingredientDataId == "Ing_ChiliPepper_01")
+            return "청양고추";
+
+        if (ingredientDataId == "Ing_Kimch_01")
+            return "김치";
+
+        if (ingredientDataId == "Ing_Honey_01")
+            return "꿀";
+
+        if (ingredientDataId == "Ing_Carrot_01")
+            return "당근";
 
         if (ingredientDataId == "OO_VegetableSoup_1")
             return "야채죽";

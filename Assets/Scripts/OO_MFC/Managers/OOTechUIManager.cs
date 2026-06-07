@@ -76,7 +76,7 @@ public class OOTechUIManager : MonoBehaviour
         RegisterKnownSceneGroupArray();
         EnsureEventSystem();
 
-        Debug.Log("[OOTechUIManager] 珥덇린???꾨즺");
+        Debug.Log("[OOTechUIManager] 초기화 완료");
     }
 
     /// <summary>
@@ -148,13 +148,13 @@ public class OOTechUIManager : MonoBehaviour
     {
         if (string.IsNullOrEmpty(uiName))
         {
-            Debug.LogWarning("[OOTechUIManager] UI ?대쫫??鍮꾩뼱 ?덉뼱 ?깅줉?????놁뒿?덈떎.");
+            Debug.LogWarning("[OOTechUIManager] UI 이름이 비어 있어 등록할 수 없습니다.");
             return;
         }
 
         if (uiObject == null)
         {
-            Debug.LogWarning($"[OOTechUIManager] UI ?ㅻ툕?앺듃媛 ?놁뼱 ?깅줉?????놁뒿?덈떎: {uiName}");
+            Debug.LogWarning($"[OOTechUIManager] UI 오브젝트가 없어 등록할 수 없습니다: {uiName}");
             return;
         }
 
@@ -165,7 +165,7 @@ public class OOTechUIManager : MonoBehaviour
         else
             _openedUIDic.Remove(uiName);
 
-        Debug.Log($"[OOTechUIManager] UI ?깅줉 ?꾨즺: {uiName}");
+        Debug.Log($"[OOTechUIManager] UI 등록 완료: {uiName}");
     }
 
     // ==================== UI ?닿린 / ?リ린 ====================
@@ -181,7 +181,7 @@ public class OOTechUIManager : MonoBehaviour
         uiObject.SetActive(true);
         _openedUIDic[uiName] = uiObject;
 
-        Debug.Log($"[OOTechUIManager] OpenUI ?깃났: {uiName}");
+        Debug.Log($"[OOTechUIManager] OpenUI 성공: {uiName}");
         return true;
     }
 
@@ -196,7 +196,7 @@ public class OOTechUIManager : MonoBehaviour
         uiObject.SetActive(false);
         _openedUIDic.Remove(uiName);
 
-        Debug.Log($"[OOTechUIManager] CloseUI ?깃났: {uiName}");
+        Debug.Log($"[OOTechUIManager] CloseUI 성공: {uiName}");
         return true;
     }
 
@@ -208,7 +208,7 @@ public class OOTechUIManager : MonoBehaviour
     {
         if (!ContainsCreatedUI(openingUIName) && !TryAutoRegisterSceneGroup(openingUIName))
         {
-            Debug.LogWarning($"[OOTechUIManager] ?꾪솚 ???UI媛 ?깅줉?섏? ?딆븯?듬땲?? {openingUIName}");
+            Debug.LogWarning($"[OOTechUIManager] 전환 대상 UI가 등록되지 않았습니다: {openingUIName}");
             return false;
         }
 
@@ -246,7 +246,7 @@ public class OOTechUIManager : MonoBehaviour
 
         if (string.IsNullOrEmpty(uiName))
         {
-            Debug.LogWarning("[OOTechUIManager] UI ?대쫫??鍮꾩뼱 ?덉뒿?덈떎.");
+            Debug.LogWarning("[OOTechUIManager] UI 이름이 비어 있습니다.");
             return false;
         }
 
@@ -255,7 +255,7 @@ public class OOTechUIManager : MonoBehaviour
 
         if (!_createdUIDic.TryGetValue(uiName, out uiObject) || uiObject == null)
         {
-            Debug.LogWarning($"[OOTechUIManager] ?깅줉?섏? ?딆? UI?낅땲?? {uiName}");
+            Debug.LogWarning($"[OOTechUIManager] 등록되지 않은 UI입니다: {uiName}");
             return false;
         }
 
@@ -317,7 +317,7 @@ public class OOTechUIManager : MonoBehaviour
     /// </summary>
     public void PrintRegisteredUI()
     {
-        Debug.Log("========== ?깅줉??UI 紐⑸줉 ==========");
+        Debug.Log("========== 등록된 UI 목록 ==========");
 
         foreach (KeyValuePair<string, GameObject> pair in _createdUIDic)
             Debug.Log($"[OOTechUIManager] {pair.Key} / ActiveSelf: {pair.Value.activeSelf}");

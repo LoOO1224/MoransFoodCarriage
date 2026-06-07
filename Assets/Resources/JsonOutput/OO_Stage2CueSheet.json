@@ -34,7 +34,7 @@
     "PlaceholderCanvasName": "Canvas_StagePlaceholder",
     "NextButtonName": "Button_NextStage",
     "EntryMoveSpeed": 145,
-    "GreedyDuckEscapeSpeed": 360,
+    "GreedyDuckEscapeSpeed": 180,
     "ForcedDialogueSeconds": 4,
     "FinalDuckDialogueSeconds": 3,
     "ArriveEffectSeconds": 3.4,

@@ -73,11 +73,11 @@ public class OOTechTutorial2Controller : MonoBehaviour
 
     private readonly string[] _fallbackDescriptionArray =
     {
-        "?덈줈 ?살? ?щ즺? 臾쇨굔???뺤씤?⑸땲??",
-        "?덈줈 ?뚭쾶 ???뺣낫? 湲곕줉???뺤씤?⑸땲??",
-        "?꾩옱 ?댁빞 ???쇱쓣 ?뺤씤?⑸땲??",
-        "?щ즺瑜??ъ슜???뚯떇??留뚮벊?덈떎. 泥?踰덉㎏ 湲몄쓣 吏?섎㈃ ?대┰?덈떎.",
-        "?꾩껜 ?대룞 寃쎈줈? ?ㅼ쓬 紐⑹쟻吏瑜??뺤씤?⑸땲??"
+        "새로 얻은 재료와 물건을 확인합니다.",
+        "새로 알게 된 정보를 기록해 확인합니다.",
+        "현재 해야 할 일을 확인합니다.",
+        "[요리하기] 임무를 완수하기 위한 요리를 만드는 곳입니다. 다음 로드맵에서 활성화됩니다.",
+        "전체 이동 경로와 다음 목적지를 확인합니다."
     };
 
     private GameObject Group_Dialogue;
@@ -101,7 +101,7 @@ public class OOTechTutorial2Controller : MonoBehaviour
     /// <summary>
     /// RoadMap1??泥섏쓬 ?꾩갑?덉쓣 ???ъ씡援? 異섏뼇, 紐⑤? ??붿? ?붾━ 以鍮??덈궡瑜??ъ깮?⑸땲??
     /// </summary>
-    public IEnumerator PlayRoadMap1ArrivalRoutine()
+    public IEnumerator PlayRoadMap1ArrivalRoutine(OOTechRoadHUDController hudController = null)
     {
         IsTutorialRunning = true;
 
@@ -110,6 +110,9 @@ public class OOTechTutorial2Controller : MonoBehaviour
         yield return ShowDialogueDataAndWait(_roadMap1MoranDialogueId);
         CloseDialogueGroup();
         yield return OpenRoadMap1TutorialGuideAndWait();
+
+        if (hudController != null)
+            hudController.RequestSetCookingQuestActive();
 
         IsTutorialRunning = false;
     }
@@ -136,9 +139,6 @@ public class OOTechTutorial2Controller : MonoBehaviour
         yield return PlayHUDGuideRoutine(hudController);
         yield return PlayOpeningDialogueRoutine(hudController);
         RequestEnsureStarterIngredients(hudController);
-        yield return OpenMissionTutorialGuideAndWait();
-
-        hudController.RequestSetCookingQuestActive();
         IsTutorialRunning = false;
     }
 
@@ -416,7 +416,7 @@ public class OOTechTutorial2Controller : MonoBehaviour
         if (index >= 0 && index < _fallbackTitleArray.Length)
             return _fallbackTitleArray[index];
 
-        return "?덈궡";
+        return "안내";
     }
 
     /// <summary>
@@ -433,7 +433,7 @@ public class OOTechTutorial2Controller : MonoBehaviour
             description = _fallbackDescriptionArray[index];
 
         if (index >= 0 && index < _hudButtonKindArray.Length && _hudButtonKindArray[index] == OOTechRoadHUDButtonKind.Cooking)
-            description = $"{description}\n\n?꾩쭅 ?좉꺼 ?덉뒿?덈떎. RoadMap1???꾩갑?섎㈃ ?붾━?섍린媛 ?닿툑?⑸땲??";
+            description = "[요리하기] 임무를 완수하기 위한 요리를 만드는 곳입니다. 다음 로드맵에서 활성화됩니다.";
 
         return description;
     }
@@ -446,21 +446,21 @@ public class OOTechTutorial2Controller : MonoBehaviour
         switch (dialogueId)
         {
             case "character_Chunyang_03":
-                return CreateDialogueData(dialogueId, "異섏뼇", "?닿? 媛?몄삩 ??대꽕.");
+                return CreateDialogueData(dialogueId, "춘양", "내가 가져온 쌀이네.");
             case "character_Moran_03":
-                return CreateDialogueData(dialogueId, "紐⑤?", "梨꾩냼??梨숆꺼 ?먯뿀?댁슂.");
+                return CreateDialogueData(dialogueId, "모란", "채소도 챙겨 두었어요.");
             case "character_Mr.Jaeik_03":
                 return CreateDialogueData(dialogueId, "재익군", "이제 길을 나서면 되겠군.");
             case "character_Chunyang_04":
-                return CreateDialogueData(dialogueId, "異섏뼇", "癒쇱????숈そ?쇰줈 媛?쒖???");
+                return CreateDialogueData(dialogueId, "춘양", "먼저는 동쪽으로 가시지요.");
             case "character_Mr.Jaeik_04":
                 return CreateDialogueData(dialogueId, "재익군", "길이 이어지는군.");
             case "character_Chunyang_05":
-                return CreateDialogueData(dialogueId, "異섏뼇", "?붾━瑜?以鍮꾪빐?쇨쿋??");
+                return CreateDialogueData(dialogueId, "춘양", "요리를 준비해야겠군요.");
             case "character_Moran_04":
-                return CreateDialogueData(dialogueId, "紐⑤?", "?곕쑜???뚯떇???꾩슂?댁슂.");
+                return CreateDialogueData(dialogueId, "모란", "따뜻한 음식이 필요해요.");
             default:
-                return CreateDialogueData(dialogueId, "?섎젅?댁뀡", dialogueId);
+                return CreateDialogueData(dialogueId, "나레이션", dialogueId);
         }
     }
 
@@ -483,8 +483,8 @@ public class OOTechTutorial2Controller : MonoBehaviour
     {
         OO_Tutorial tutorialData = new OO_Tutorial();
         tutorialData.Id = _missionTutorialId;
-        tutorialData.Title = "?꾨Т";
-        tutorialData.Description = "諛곌퀬??紐⑤?怨??숇즺?ㅼ쓣 ?꾪빐 ?붾━?섏꽭??";
+        tutorialData.Title = "임무";
+        tutorialData.Description = "배고픈 모란과 동료들을 위해 요리하세요.";
         return tutorialData;
     }
 
@@ -495,8 +495,8 @@ public class OOTechTutorial2Controller : MonoBehaviour
     {
         OO_Tutorial tutorialData = new OO_Tutorial();
         tutorialData.Id = _roadMap1TutorialId;
-        tutorialData.Title = "?붾━?섍린";
-        tutorialData.Description = "?붾━?섍린 踰꾪듉???뚮윭 遺?뚯쑝濡??대룞?섏꽭??";
+        tutorialData.Title = "요리하기";
+        tutorialData.Description = "[요리하기] 임무를 완수하기 위한 요리를 만드는 곳입니다. 다음 로드맵에서 활성화됩니다.";
         return tutorialData;
     }
 

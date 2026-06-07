@@ -2,8 +2,8 @@
   {
     "Id": "Stage1_Quest_01",
     "StageId": "OO_Stage_1",
-    "Name": "동쪽 마을 도착",
-    "Description": "이 마을의 촌장을 만나세요",
+    "Name": "동쪽 마을 진입",
+    "Description": "동쪽 마을의 촌장을 만나세요.",
     "ObjectiveType": "TalkToNPC",
     "ObjectiveId": "Stage1_NPC_Chief",
     "RequiredCount": 1,
@@ -13,18 +13,18 @@
   {
     "Id": "Stage1_Quest_02",
     "StageId": "OO_Stage_1",
-    "Name": "호박죽을 만드세요.",
-    "Description": "호박을 찾고, 부엌에서 호박죽을 만들어 촌장에게 가져다 주세요!",
-    "ObjectiveType": null,
-    "ObjectiveId": null,
-    "RequiredCount": null,
+    "Name": "호박을 수확하세요",
+    "Description": "호박을 찾아 수확하고, 부엌에서 호박죽을 만들 준비를 하세요.",
+    "ObjectiveType": "CollectItem",
+    "ObjectiveId": "Ing_Pumpkin_01",
+    "RequiredCount": 10,
     "RewardItemIds": null,
     "NextGroupId": null
   },
   {
     "Id": "Stage1_Quest_03",
     "StageId": "OO_Stage_1",
-    "Name": "호박죽",
+    "Name": "호박죽 만들기",
     "Description": "호박과 쌀로 호박죽 10그릇을 만드세요.",
     "ObjectiveType": "CookItem",
     "ObjectiveId": "OO_PumpkinSoup_1",
@@ -35,24 +35,13 @@
   {
     "Id": "Stage1_Quest_04",
     "StageId": "OO_Stage_1",
-    "Name": "호박죽 10그릇을 완성했습니다. 동쪽 마을의 촌장에게 돌아가세요.",
+    "Name": "촌장에게 돌아가기",
     "Description": "호박죽 10그릇을 완성했습니다. 동쪽 마을의 촌장에게 돌아가세요.",
     "ObjectiveType": "TalkToNPC",
     "ObjectiveId": "VillageChief",
     "RequiredCount": 1,
-    "RewardItemIds": "Ing_ChiliPepper_01",
+    "RewardItemIds": "Ing_ChiliPepper_01|Ing_Kimch_01",
     "NextGroupId": "2nd_Road_to_Stage2"
-  },
-  {
-    "Id": "Stage2_Quest_01",
-    "StageId": "OO_Stage_2",
-    "Name": "김치찌개를 만들어 탐욕스러운 오리에게 건네세요.",
-    "Description": "김치 10개는 가마솥에, 청양고추 10개는 도마에 올려 김치찌개를 완성한 뒤 GreedyDuck에게 전달합니다.",
-    "ObjectiveType": "CookAndDeliver",
-    "ObjectiveId": "OO_KimchiStew_1",
-    "RequiredCount": 1,
-    "RewardItemIds": null,
-    "NextGroupId": null
   },
   {
     "Id": "Stage2_Road_Quest_01",
@@ -66,10 +55,21 @@
     "NextGroupId": "Stage2Group"
   },
   {
+    "Id": "Stage2_Quest_01",
+    "StageId": "OO_Stage_2",
+    "Name": "김치찌개 전달",
+    "Description": "김치 10개는 가마솥에, 청양고추 10개는 도마에 올려 김치찌개를 완성한 뒤 탐관오리에게 전달합니다.",
+    "ObjectiveType": "CookAndDeliver",
+    "ObjectiveId": "OO_KimchiStew_1",
+    "RequiredCount": 1,
+    "RewardItemIds": null,
+    "NextGroupId": null
+  },
+  {
     "Id": "Stage3__Quest_01",
     "StageId": "OO_Stage_3",
-    "Name": "산군을 위해 꿀떡을 만들자",
-    "Description": "절구에 쌀을 넣어 떡을 만들고, 꿀과 합쳐 꿀떡을 완성한 뒤 산군에게 전하세요.",
+    "Name": "산군을 위한 꿀떡",
+    "Description": "절구에 쌀을 넣어 떡을 만들고, 꿀과 조합해 꿀떡을 완성한 뒤 산군에게 전하세요.",
     "ObjectiveType": "CookAndGiveItem",
     "ObjectiveId": "OO_HoneyKoreanCake_1",
     "RequiredCount": 1,
@@ -79,8 +79,8 @@
   {
     "Id": "Stage4__Quest_01",
     "StageId": "OO_Stage_4",
-    "Name": "토끼를 잠들게 하고 거북이에게 돌아가세요",
-    "Description": "토끼를 찾고, 당근전으로 유혹해 잠들게 한 뒤 거북이에게 돌아가세요.",
+    "Name": "토끼를 재우고 거북이에게 돌아가기",
+    "Description": "토끼를 찾고, 당근전으로 토끼를 잠들게 한 뒤 거북이에게 돌아가세요.",
     "ObjectiveType": "Stage4RabbitQuest",
     "ObjectiveId": "OO_CarrotCake_1",
     "RequiredCount": 1,

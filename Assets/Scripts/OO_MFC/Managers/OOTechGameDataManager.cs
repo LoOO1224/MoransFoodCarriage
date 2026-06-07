@@ -83,7 +83,7 @@ public class OOTechGameDataManager : MonoBehaviour
     /// </summary>
     public void LoadAllData()
     {
-        Debug.Log("[OOTechGameDataManager] 紐⑤뱺 ?곗씠??濡쒕뱶 ?쒖옉");
+        Debug.Log("[OOTechGameDataManager] 모든 데이터 로드 시작");
 
         LoadNarrationData();
         LoadCharacterData();
@@ -105,7 +105,7 @@ public class OOTechGameDataManager : MonoBehaviour
         LoadStage4CueSheetData();
         LoadFinalCueSheetData();
 
-        Debug.Log("[OOTechGameDataManager] 紐⑤뱺 ?곗씠??濡쒕뱶 ?꾨즺");
+        Debug.Log("[OOTechGameDataManager] 모든 데이터 로드 완료");
     }
 
     /// <summary>
@@ -1303,7 +1303,7 @@ public class OOTechGameDataManager : MonoBehaviour
         }
 
         if (textAssetList.Count == 0)
-            Debug.LogWarning($"[OOTechGameDataManager] {dataName}.json ?뚯씪??李얠쓣 ???놁뒿?덈떎.");
+            Debug.LogWarning($"[OOTechGameDataManager] {dataName}.json 파일을 찾을 수 없습니다.");
 
         return textAssetList;
     }
@@ -1443,14 +1443,14 @@ public class OOTechGameDataManager : MonoBehaviour
     {
         if (string.IsNullOrEmpty(id))
         {
-            Debug.LogWarning("[OOTechGameDataManager] 議고쉶??Narration ID媛 鍮꾩뼱 ?덉뒿?덈떎.");
+            Debug.LogWarning("[OOTechGameDataManager] 조회할 Narration ID가 비어 있습니다.");
             return null;
         }
 
         if (_narrationDic.TryGetValue(id, out OO_Narration data))
             return data;
 
-        Debug.LogWarning($"[OOTechGameDataManager] Narration ?곗씠?곕? 李얠쓣 ???놁쓬: {id}");
+        Debug.LogWarning($"[OOTechGameDataManager] Narration 데이터를 찾을 수 없음: {id}");
         return null;
     }
 
@@ -1464,14 +1464,14 @@ public class OOTechGameDataManager : MonoBehaviour
     {
         if (string.IsNullOrEmpty(id))
         {
-            Debug.LogWarning("[OOTechGameDataManager] 議고쉶??Character ID媛 鍮꾩뼱 ?덉뒿?덈떎.");
+            Debug.LogWarning("[OOTechGameDataManager] 조회할 Character ID가 비어 있습니다.");
             return null;
         }
 
         if (_characterDic.TryGetValue(id, out OO_Character data))
             return data;
 
-        Debug.LogWarning($"[OOTechGameDataManager] Character ?곗씠?곕? 李얠쓣 ???놁쓬: {id}");
+        Debug.LogWarning($"[OOTechGameDataManager] Character 데이터를 찾을 수 없음: {id}");
         return null;
     }
 
@@ -1485,14 +1485,14 @@ public class OOTechGameDataManager : MonoBehaviour
     {
         if (string.IsNullOrEmpty(id))
         {
-            Debug.LogWarning("[OOTechGameDataManager] 議고쉶??Dialogue ID媛 鍮꾩뼱 ?덉뒿?덈떎.");
+            Debug.LogWarning("[OOTechGameDataManager] 조회할 Dialogue ID가 비어 있습니다.");
             return null;
         }
 
         if (_dialogueDic.TryGetValue(id, out OO_Dialogue data))
             return data;
 
-        Debug.LogWarning($"[OOTechGameDataManager] Dialogue ?곗씠?곕? 李얠쓣 ???놁쓬: {id}");
+        Debug.LogWarning($"[OOTechGameDataManager] Dialogue 데이터를 찾을 수 없음: {id}");
         return null;
     }
 
@@ -1503,14 +1503,14 @@ public class OOTechGameDataManager : MonoBehaviour
     {
         if (string.IsNullOrEmpty(id))
         {
-            Debug.LogWarning("[OOTechGameDataManager] 議고쉶??DialogueGroup ID媛 鍮꾩뼱 ?덉뒿?덈떎.");
+            Debug.LogWarning("[OOTechGameDataManager] 조회할 DialogueGroup ID가 비어 있습니다.");
             return null;
         }
 
         if (_dialogueGroupDic.TryGetValue(id, out OO_DialogueGroup data))
             return data;
 
-        Debug.LogWarning($"[OOTechGameDataManager] DialogueGroup ?곗씠?곕? 李얠쓣 ???놁쓬: {id}");
+        Debug.LogWarning($"[OOTechGameDataManager] DialogueGroup 데이터를 찾을 수 없음: {id}");
         return null;
     }
 
@@ -1558,14 +1558,14 @@ public class OOTechGameDataManager : MonoBehaviour
     {
         if (string.IsNullOrEmpty(id))
         {
-            Debug.LogWarning("[OOTechGameDataManager] 議고쉶??Tutorial ID媛 鍮꾩뼱 ?덉뒿?덈떎.");
+            Debug.LogWarning("[OOTechGameDataManager] 조회할 Tutorial ID가 비어 있습니다.");
             return null;
         }
 
         if (_tutorialDic.TryGetValue(id, out OO_Tutorial data))
             return data;
 
-        Debug.LogWarning($"[OOTechGameDataManager] Tutorial ?곗씠?곕? 李얠쓣 ???놁쓬: {id}");
+        Debug.LogWarning($"[OOTechGameDataManager] Tutorial 데이터를 찾을 수 없음: {id}");
         return null;
     }
 
@@ -1576,14 +1576,14 @@ public class OOTechGameDataManager : MonoBehaviour
     {
         if (string.IsNullOrEmpty(id))
         {
-            Debug.LogWarning("[OOTechGameDataManager] 議고쉶??Ingredient ID媛 鍮꾩뼱 ?덉뒿?덈떎.");
+            Debug.LogWarning("[OOTechGameDataManager] 조회할 Ingredient ID가 비어 있습니다.");
             return null;
         }
 
         if (_ingredientDic.TryGetValue(id, out OO_Ingredient data))
             return data;
 
-        Debug.LogWarning($"[OOTechGameDataManager] Ingredient ?곗씠?곕? 李얠쓣 ???놁쓬: {id}");
+        Debug.LogWarning($"[OOTechGameDataManager] Ingredient 데이터를 찾을 수 없음: {id}");
         return null;
     }
     /// <summary>

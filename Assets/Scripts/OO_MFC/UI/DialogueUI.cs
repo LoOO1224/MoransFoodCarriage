@@ -58,6 +58,7 @@ public class DialogueUI : MonoBehaviour
     [SerializeField] private bool _isAdvanceByOutsideClick = true;
     [SerializeField] private float _outsideClickDelay = 0.08f;
     [SerializeField] private int _roadViewSortingOrder = 1400;
+    [SerializeField] private string _narrationSpeakerName = "나레이션";
 
     // ==================== ????곹깭 ====================
     private OO_Dialogue _currentDialogue;
@@ -210,7 +211,7 @@ public class DialogueUI : MonoBehaviour
     {
         if (dialogueData == null)
         {
-            Debug.LogWarning("[DialogueUI] ?쒖떆??????곗씠?곌? ?놁뒿?덈떎.");
+            Debug.LogWarning("[DialogueUI] 표시할 대사 데이터가 없습니다.");
             return;
         }
 
@@ -242,7 +243,7 @@ public class DialogueUI : MonoBehaviour
     {
         if (choiceData == null)
         {
-            Debug.LogWarning("[DialogueUI] ?쒖떆???좏깮吏 ?곗씠?곌? ?놁뒿?덈떎.");
+            Debug.LogWarning("[DialogueUI] 표시할 선택지 데이터가 없습니다.");
             return;
         }
 
@@ -269,7 +270,7 @@ public class DialogueUI : MonoBehaviour
     {
         if (narrationData == null)
         {
-            Debug.LogWarning("[DialogueUI] ?쒖떆???섎젅?댁뀡 ?곗씠?곌? ?놁뒿?덈떎.");
+            Debug.LogWarning("[DialogueUI] 표시할 나레이션 데이터가 없습니다.");
             return;
         }
 
@@ -283,14 +284,14 @@ public class DialogueUI : MonoBehaviour
 
         if (_narrationTextList.Count == 0)
         {
-            Debug.LogWarning($"[DialogueUI] ?섎젅?댁뀡 ?띿뒪?멸? 鍮꾩뼱 ?덉뒿?덈떎: {narrationData.Id}");
+            Debug.LogWarning($"[DialogueUI] 나레이션 텍스트가 비어 있습니다: {narrationData.Id}");
             FinishDialogue();
             return;
         }
 
         gameObject.SetActive(true);
 
-        SetSpeakerName("?섎젅?댁뀡");
+        SetSpeakerName(_narrationSpeakerName);
         BlockOutsideClickBriefly();
         SetNextButtonActive(true);
         ShowCurrentNarrationText();
@@ -343,7 +344,7 @@ public class DialogueUI : MonoBehaviour
             return;
         }
 
-        SetSpeakerName("?섎젅?댁뀡");
+        SetSpeakerName(_narrationSpeakerName);
         SetDialogueText(_narrationTextList[_currentNarrationTextIndex]);
     }
 
@@ -395,7 +396,7 @@ public class DialogueUI : MonoBehaviour
         }
 
         if (!string.IsNullOrEmpty(_currentDialogue.NextDialogueId))
-            Debug.Log($"[DialogueUI] ?ㅼ쓬 ???ID媛 吏?뺣릺???덉뒿?덈떎: {_currentDialogue.NextDialogueId}");
+            Debug.Log($"[DialogueUI] 다음 대사 ID가 지정되어 있습니다: {_currentDialogue.NextDialogueId}");
 
         FinishDialogue();
     }
@@ -440,8 +441,13 @@ public class DialogueUI : MonoBehaviour
     /// </summary>
     private void SetSpeakerName(string speakerName)
     {
+        string displayName = string.IsNullOrEmpty(speakerName) ? _narrationSpeakerName : speakerName;
+
         if (Text_SpeakerName != null)
-            Text_SpeakerName.text = string.IsNullOrEmpty(speakerName) ? "?섎젅?댁뀡" : speakerName;
+            Text_SpeakerName.text = displayName;
+
+        if (Backdrop_SpeakerName != null)
+            Backdrop_SpeakerName.RequestApplySpeakerName(displayName);
     }
 
     /// <summary>
@@ -649,7 +655,7 @@ public class DialogueUI : MonoBehaviour
         buttonRect.sizeDelta = new Vector2(220f, 64f);
 
         Image buttonImage = buttonObject.AddComponent<Image>();
-        buttonImage.color = new Color(0.08f, 0.08f, 0.08f, 0.88f);
+        buttonImage.color = new Color(0.71f, 0.45f, 0.25f, 0.94f);
 
         Button button = buttonObject.AddComponent<Button>();
         button.targetGraphic = buttonImage;
@@ -667,7 +673,7 @@ public class DialogueUI : MonoBehaviour
         label.text = labelText;
         label.fontSize = 30f;
         label.alignment = TextAlignmentOptions.Center;
-        label.color = Color.white;
+        label.color = new Color(0.16f, 0.10f, 0.06f, 1f);
         OOTechTMPFontUtility.ApplyProjectFont(label);
 
         return button;

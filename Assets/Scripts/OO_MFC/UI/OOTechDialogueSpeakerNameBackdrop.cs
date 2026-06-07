@@ -1,4 +1,4 @@
-// =============================================================================
+﻿// =============================================================================
 // OO_MFC 역할 주석
 // - 스크립트: OOTechDialogueSpeakerNameBackdrop.cs
 // - 역할: UI 표시와 입력 연결을 담당하는 UI 컴포넌트입니다.
@@ -17,9 +17,9 @@ using TMPro;
 public class OOTechDialogueSpeakerNameBackdrop : MonoBehaviour
 {
     [SerializeField] private string _speakerNameObjectName = "SpeakerNameText";
-    [SerializeField] private Color _backdropColor = new Color(1f, 1f, 1f, 0.5f);
-    [SerializeField] private Color _narrationBackdropColor = new Color(1f, 0.82f, 0.12f, 0.92f);
-    [SerializeField] private Color _characterBackdropColor = new Color(1f, 1f, 1f, 0.72f);
+    [SerializeField] private Color _backdropColor = new Color(1f, 0.96f, 0.86f, 0.78f);
+    [SerializeField] private Color _narrationBackdropColor = new Color(1f, 0.93f, 0.70f, 0.88f);
+    [SerializeField] private Color _characterBackdropColor = new Color(1f, 0.96f, 0.86f, 0.78f);
     [SerializeField] private Color _speakerNameColor = Color.black;
     [SerializeField] private Vector2 _padding = new Vector2(32f, 18f);
 
@@ -161,6 +161,6 @@ public class OOTechDialogueSpeakerNameBackdrop : MonoBehaviour
         return normalizedName.Contains("나레이션")
             || normalizedName.Contains("narration")
             || normalizedName.Contains("narrator")
-            || normalizedName.Contains("섎젅");
+            || normalizedName.Contains("해설");
     }
 }

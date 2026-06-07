@@ -652,6 +652,10 @@ public class OOTechStage3EncounterController : MonoBehaviour
         GiveClearReward();
         RefreshHUDInventory();
         RequestUpdateStageQuestAsComplete();
+
+        if (OOTechGameManager.Inst != null)
+            OOTechGameManager.Inst.MarkStageCleared("Stage3");
+
         yield return MoveSangunOffStageRoutine();
         RequestPlayActorState(Actor_Moran, "Moran_Victory", 1f, true);
         RequestPlayActorState(Actor_MrJaeik, "Mr.Jaeik_Victory", 1f, true);

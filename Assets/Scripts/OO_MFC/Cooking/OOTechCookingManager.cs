@@ -36,7 +36,7 @@ public class OOTechCookingManager : MonoBehaviour
     /// </summary>
     public CookingResult TryCook(List<string> ingredientIds)
     {
-        Debug.Log("[OOTechCookingManager] ?붾━ ?쒕룄");
+        Debug.Log("[OOTechCookingManager] 요리 시도");
 
         if (ingredientIds == null || ingredientIds.Count == 0)
         {
@@ -44,7 +44,7 @@ public class OOTechCookingManager : MonoBehaviour
             {
                 IsSuccess = false,
                 ResultItemId = null,
-                FailReason = "?щ즺媛 鍮꾩뼱 ?덉쓬"
+                FailReason = "재료가 비어 있습니다."
             };
         }
 
@@ -124,7 +124,7 @@ public class OOTechCookingManager : MonoBehaviour
         {
             IsSuccess = false,
             ResultItemId = null,
-            FailReason = "留욌뒗 ?덉떆?쇨? ?놁쓬"
+            FailReason = "맞는 레시피가 없습니다."
         };
     }
 

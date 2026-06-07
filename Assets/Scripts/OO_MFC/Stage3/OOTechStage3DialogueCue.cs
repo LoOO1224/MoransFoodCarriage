@@ -74,7 +74,7 @@ public class OOTechStage3DialogueCue : MonoBehaviour
             narrationData = new OO_Narration
             {
                 Id = narrationId,
-                Title = "?섎젅?댁뀡",
+                Title = "나레이션",
                 NarrationTexts = new System.Collections.Generic.List<string> { fallbackText }
             };
         }

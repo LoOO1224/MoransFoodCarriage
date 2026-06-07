@@ -89,8 +89,8 @@ public class OOTechStage1GroupController : MonoBehaviour
     [SerializeField] private string _villageChiefNextQuestDataId = "Stage1_Quest_02";
     [SerializeField] private string _pumpkinCookingQuestDataId = "Stage1_Quest_03";
     [SerializeField] private string _returnChiefQuestDataId = "Stage1_Quest_04";
-    [SerializeField] private string _pumpkinCookingQuestFallbackText = "?몃컯怨??濡??몃컯二?10洹몃쫯??留뚮뱶?몄슂.";
-    [SerializeField] private string _returnChiefQuestFallbackText = "?몃컯二?10洹몃쫯???꾩꽦?덉뒿?덈떎. ?숈そ 留덉쓣??珥뚯옣?먭쾶 ?뚯븘媛?몄슂.";
+    [SerializeField] private string _pumpkinCookingQuestFallbackText = "호박과 쌀로 호박죽 10그릇을 만드세요.";
+    [SerializeField] private string _returnChiefQuestFallbackText = "호박죽 10그릇을 완성했습니다. 동쪽 마을의 촌장에게 돌아가세요.";
 
     [Header("Inventory Item")]
     [SerializeField] private string _pumpkinIngredientId = "Ing_Pumpkin_01";
@@ -112,8 +112,8 @@ public class OOTechStage1GroupController : MonoBehaviour
     [SerializeField] private Color _cartMarkerColor = Color.red;
 
     [Header("Stage Clear")]
-    [SerializeField] private string _stageClearTitle = "?숈そ 留덉쓣 ?꾨Т ?꾩닔";
-    [SerializeField] private string _stageClearMessage = "珥뚯옣??媛먯궗???살쑝濡?泥?뼇怨좎텛 10媛쒖? 源移?10媛쒕? 嫄대꽭?듬땲?? ?ㅼ쓬 湲몃줈 ?섏꽕 以鍮꾧? ?앸궗?듬땲??";
+    [SerializeField] private string _stageClearTitle = "동쪽 마을 임무 완수";
+    [SerializeField] private string _stageClearMessage = "촌장이 감사의 뜻으로 청양고추 10개와 김치 10개를 건넸습니다. 다음 길로 나설 준비가 끝났습니다.";
     [SerializeField] private string _nextRoadGroupName = "2nd_Road_to_Stage2";
 
     private GameObject Object_StageMap1;
@@ -346,7 +346,7 @@ public class OOTechStage1GroupController : MonoBehaviour
         HUD_Road.PrepareHUD();
         HUD_Road.SetCookingUnlocked(true);
         HUD_Road.SetHUDVisible(true);
-        RequestUpdateStageQuestWithFallback(_stageQuestDataId, "?숈そ 留덉쓣??珥뚯옣??留뚮굹?몄슂.");
+        RequestUpdateStageQuestWithFallback(_stageQuestDataId, "동쪽 마을의 촌장을 만나세요.");
     }
 
     private void PrepareStage()
@@ -520,7 +520,7 @@ public class OOTechStage1GroupController : MonoBehaviour
         if (tutorialData == null)
         {
             Debug.LogWarning($"[OOTechStage1GroupController] Tutorial data is missing: {_entryTutorialId}");
-            ShowEntryTutorialFallback("Stage1 Tutorial", "Stage1 tutorial data is missing. Click to start playing.");
+            ShowEntryTutorialFallback("달리기", "Shift를 누른 채 이동하면 달립니다!");
             yield break;
         }
 
@@ -801,7 +801,7 @@ public class OOTechStage1GroupController : MonoBehaviour
         if (isFinalTalk)
             yield return CompleteVillageChiefFinalRewardRoutine();
         else
-            RequestUpdateStageQuestWithFallback(_villageChiefNextQuestDataId, "珥뚯옣??遺?곸쓣 ?ｊ퀬 留덉쓣???꾩슂???뚯떇??以鍮꾪븯?몄슂.");
+            RequestUpdateStageQuestWithFallback(_villageChiefNextQuestDataId, "촌장의 부탁을 듣고 마을에 필요한 음식을 준비하세요.");
 
         _isDialoguePlaying = false;
         _isInputLocked = false;
@@ -952,6 +952,9 @@ public class OOTechStage1GroupController : MonoBehaviour
             yield break;
 
         _isStageClearSequencePlaying = true;
+        if (OOTechGameManager.Inst != null)
+            OOTechGameManager.Inst.MarkStageCleared("Stage1");
+
         StartCoroutine(PlayMoranVictoryRoutine());
         SetClearPanelActive(true);
     }
@@ -1368,7 +1371,7 @@ public class OOTechStage1GroupController : MonoBehaviour
             yield break;
 
         OO_Stage stageData = OOTechGameDataManager.Inst != null ? OOTechGameDataManager.Inst.GetStageData(_stageDataId) : null;
-        Text_StageName.text = stageData != null && !string.IsNullOrEmpty(stageData.Name) ? stageData.Name : "?숈そ 留덉쓣";
+        Text_StageName.text = stageData != null && !string.IsNullOrEmpty(stageData.Name) ? stageData.Name : "동쪽 마을";
         Text_StageName.gameObject.SetActive(true);
 
         yield return FadeTextRoutine(0f, 1f, _stageTitleFadeSeconds);

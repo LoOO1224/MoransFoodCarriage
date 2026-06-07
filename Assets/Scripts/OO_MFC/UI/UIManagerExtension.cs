@@ -25,7 +25,7 @@ public static class UIManagerExtension
 
         if (OOTechUIManager.Inst == null)
         {
-            Debug.LogError("[UIManagerExtension] OOTechUIManager瑜?李얠쓣 ???놁뒿?덈떎.");
+            Debug.LogError("[UIManagerExtension] OOTechUIManager를 찾을 수 없습니다.");
             return;
         }
 
@@ -44,7 +44,7 @@ public static class UIManagerExtension
 
         if (OOTechUIManager.Inst == null)
         {
-            Debug.LogError("[UIManagerExtension] OOTechUIManager瑜?李얠쓣 ???놁뒿?덈떎.");
+            Debug.LogError("[UIManagerExtension] OOTechUIManager를 찾을 수 없습니다.");
             return;
         }
 
@@ -74,7 +74,7 @@ public static class UIManagerExtension
 
         if (OOTechUIManager.Inst == null)
         {
-            Debug.LogError("[UIManagerExtension] OOTechUIManager瑜?李얠쓣 ???놁뒿?덈떎.");
+            Debug.LogError("[UIManagerExtension] OOTechUIManager를 찾을 수 없습니다.");
             return;
         }
 

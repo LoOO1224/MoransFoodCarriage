@@ -34,7 +34,7 @@ public class OOTechWorldMapOverlayController : MonoBehaviour
     [SerializeField] private int _guideSortingOrder = 1680;
     [SerializeField] private string _guideTitle = "월드맵";
     [TextArea(3, 8)]
-    [SerializeField] private string _guideDescription = "?붾뱶留듭? 諛쒗몴 ???낅뜲?댄듃 ?덉젙?낅땲??\n媛??ㅽ뀒?댁???以묒슂 ?몃Ъ??珥덉긽?붾? 嫄멸퀬, ?대┃?섎㈃ 洹멸납?쇰줈 諛붾줈 ?뚰봽?섎뒗 湲곕뒫??援ы쁽 ?덉젙?낅땲??";
+    [SerializeField] private string _guideDescription = "각 스테이지의 중요 인물 초상화가 이곳에 표시됩니다.\n클리어한 스테이지는 완료 초상화로 바뀝니다.";
 
     private CameraFollowController Camera_Follow;
     private OOTechWorldMapOverlayView View_Overlay;

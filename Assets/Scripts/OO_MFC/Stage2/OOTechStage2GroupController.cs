@@ -46,7 +46,7 @@ public class OOTechStage2GroupController : MonoBehaviour
     private string _entryPointEId = "EntryPoint_E";
     private string _tempColliderRoleId = "Collider_Temp";
     private string _roadMissionDataId = "Stage2_Road_Quest_01";
-    private string _roadMissionFallbackText = "?쒖そ ?꾩떆??媛 ?먭??ㅻ━???먰깮??諛⑸Ц?섏꽭??";
+    private string _roadMissionFallbackText = "서쪽 도시에 가 탐관오리의 자택을 방문하세요.";
     private string _stageQuestDataId = "Stage2_Quest_01";
     private string _greedyDuckFirstDialogueId = "character_GreedyDuck_01";
     private string _greedyDuckSecondDialogueId = "character_GreedyDuck_02";
@@ -70,13 +70,13 @@ public class OOTechStage2GroupController : MonoBehaviour
     private string _placeholderCanvasName = "Canvas_StagePlaceholder";
     private string _nextButtonName = "Button_NextStage";
     private string _stageClearCanvasName = "Canvas_Stage2Clear";
-    private string _stageClearTitle = "?쒖そ ?꾩떆 ?꾨Т ?꾩닔";
-    private string _stageClearMessage = "?대そ?뱀씠 ?ъ젙??蹂댄꺃?쇰줈 ? 10 媛留덈땲? 轅 10 ?⑥?瑜?嫄대꽭?듬땲?? ?ㅼ쓬 湲몃줈 ?섏꽕 以鍮꾧? ?앸궗?듬땲??";
+    private string _stageClearTitle = "서쪽 도시 임무 완수";
+    private string _stageClearMessage = "이몽령이 여정의 보탬으로 쌀 10가마니와 꿀 10단지를 건넸습니다. 다음 길로 나설 준비가 끝났습니다.";
     private float _entryMoveSpeed = 145f;
-    private float _greedyDuckEscapeSpeed = 820f;
-    private float _minimumGreedyDuckEscapeSpeed = 720f;
-    private float _greedyDuckExitTimeoutSeconds = 2.4f;
-    private float _greedyDuckEscapeAnimationSpeed = 1.8f;
+    private float _greedyDuckEscapeSpeed = 180f;
+    private float _minimumGreedyDuckEscapeSpeed = 120f;
+    private float _greedyDuckExitTimeoutSeconds = 4.8f;
+    private float _greedyDuckEscapeAnimationSpeed = 1f;
     private float _forcedDialogueSeconds = 5f;
     private float _finalDuckDialogueSeconds = 3f;
     private float _arriveEffectSeconds = 3.4f;
@@ -290,7 +290,7 @@ public class OOTechStage2GroupController : MonoBehaviour
 
         HUD_Road.SetOwnerGroupName(gameObject.name);
         HUD_Road.PrepareHUD();
-        HUD_Road.SetCookingUnlocked(true);
+        HUD_Road.SetCookingUnlocked(true, false);
         HUD_Road.RequestSetRoadMissionText(RequestResolveStageQuestDescription(_roadMissionDataId, _roadMissionFallbackText), true);
     }
 
@@ -636,7 +636,7 @@ public class OOTechStage2GroupController : MonoBehaviour
     {
         yield return ShowDialogueAndWait(_moranQuestDialogueId);
         if (Service_Reward != null)
-            Service_Reward.RequestUpdateStageQuest(HUD_Road, _stageQuestDataId, "源移섏? 泥?뼇怨좎텛濡?源移섏컡媛쒕? 留뚮뱾怨??낅뜒?ㅻ━?먭쾶 媛?멸??몄슂.");
+            Service_Reward.RequestUpdateStageQuest(HUD_Road, _stageQuestDataId, "김치와 청양고추로 김치찌개를 만들고 탐관오리에게 가져가세요.");
     }
 
     private void StartPlayerQuestPhase()
@@ -718,6 +718,9 @@ public class OOTechStage2GroupController : MonoBehaviour
 
         if (Service_Reward != null)
             Service_Reward.RequestGiveStageClearRewardList(HUD_Road, _stageClearRewardItemIdList, _stageClearRewardCountList);
+
+        if (OOTechGameManager.Inst != null)
+            OOTechGameManager.Inst.MarkStageCleared("Stage2");
 
         Coroutine_Victory = StartCoroutine(PlayMoranVictoryLoopRoutine());
         SetClearButtonActive(true);

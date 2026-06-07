@@ -21,7 +21,7 @@ public class OOTechEndingCreditController : MonoBehaviour
     [TextArea(12, 30)]
     [SerializeField] private string _creditText =
         "Game Development\nChris Wooyoung Cheon\n\n" +
-        "Based Project\nUnityBasic_?? by DaniTech\n\n" +
+        "Based Project\nUnityBasic_6 by DaniTech\n\n" +
         "Development Period\nMay 18 ~ June 9, 2026\n\n" +
         "AI Coding Assistance\nGemini, ChatGPT, Grok\n\n" +
         "Art Director\nChris W. Cheon\n" +
@@ -29,7 +29,7 @@ public class OOTechEndingCreditController : MonoBehaviour
         "Sound Director\nChris W. Cheon\n" +
         "(Sound from Mureka.ai)\n\n" +
         "Story\nChris W. Cheon\n\n" +
-        "Special Thanks\n?⑤떒's ?댄???n?≪???議곌탳??nDaniel Cho\n\n" +
+        "Special Thanks\n단단's 이타심\n송준호 조교님\nDaniel Cho\n\n" +
         "Thank you for playing!";
 
     private RectTransform Rect_CreditRoot;

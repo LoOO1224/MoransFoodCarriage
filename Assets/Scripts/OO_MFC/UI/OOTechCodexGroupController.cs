@@ -28,6 +28,7 @@ public class OOTechCodexGroupController : MonoBehaviour, IPointerClickHandler
     [SerializeField] private OOTechCodexEntrySlotView View_SlotTemplate;
 
     [Header("Detail")]
+    [SerializeField] private RectTransform Rect_DetailPanel;
     [SerializeField] private TextMeshProUGUI Text_DetailTitle;
     [SerializeField] private TextMeshProUGUI Text_DetailCategory;
     [SerializeField] private TextMeshProUGUI Text_DetailDescription;
@@ -41,10 +42,11 @@ public class OOTechCodexGroupController : MonoBehaviour, IPointerClickHandler
     [Header("Announcement")]
     [SerializeField] private bool _isUseAnnouncementOnly = false;
     [SerializeField] private bool _isCloseAnnouncementByAnyClick = true;
-    [SerializeField] private string _announcementTitle = "?꾧컧";
-    [SerializeField] private string _announcementCategory = "諛쒗몴 ???낅뜲?댄듃 ?덉젙";
+    [SerializeField] private bool _isCloseCodexByOutsideClick = true;
+    [SerializeField] private string _announcementTitle = "도감";
+    [SerializeField] private string _announcementCategory = "발표 전 업데이트 예정";
     [TextArea(3, 8)]
-    [SerializeField] private string _announcementDescription = "?꾧컧? 諛쒗몴 ???낅뜲?댄듃 ?덉젙?낅땲??\n罹먮┃?? ?뚯떇, ?щ즺, 吏???뺣낫???곗씠?곌? ?뺤젙????OO_Codex.xlsx濡??뺣━???낅뜲?댄듃?⑸땲??";
+    [SerializeField] private string _announcementDescription = "도감은 발표 전 업데이트 예정입니다.\n캐릭터, 음식, 재료, 나레이션, 스테이지 정보를 데이터 기반으로 정리합니다.";
 
     private readonly List<OOTechCodexEntrySlotView> _spawnedSlotViewList = new List<OOTechCodexEntrySlotView>();
     private GameObject Root_AnnouncementPanel;
@@ -73,14 +75,14 @@ public class OOTechCodexGroupController : MonoBehaviour, IPointerClickHandler
         if (!_isUseAnnouncementOnly)
             HandlePageKeyboardInput();
 
-        if (!CanCloseAnnouncementByClick())
-            return;
-
         if (Time.frameCount <= _openedFrame + 1)
             return;
 
-        if (Input.GetMouseButtonDown(0))
+        if (CanCloseAnnouncementByClick() && Input.GetMouseButtonDown(0))
             RequestCloseAnnouncementPanel();
+
+        if (!_isUseAnnouncementOnly && _isCloseCodexByOutsideClick && Input.GetMouseButtonDown(0) && !IsPointerInsideCodexContent(Input.mousePosition))
+            RequestCloseCodexGroup();
     }
 
     /// <summary>
@@ -89,10 +91,8 @@ public class OOTechCodexGroupController : MonoBehaviour, IPointerClickHandler
     /// </summary>
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (!CanCloseAnnouncementByClick())
-            return;
-
-        RequestCloseAnnouncementPanel();
+        if (CanCloseAnnouncementByClick())
+            RequestCloseAnnouncementPanel();
     }
 
     /// <summary>
@@ -113,6 +113,7 @@ public class OOTechCodexGroupController : MonoBehaviour, IPointerClickHandler
         Text_DetailTitle = ResolveText(Text_DetailTitle, "Text_DetailTitle", "Text_Title");
         Text_DetailCategory = ResolveText(Text_DetailCategory, "Text_DetailCategory", "Text_Category");
         Text_DetailDescription = ResolveText(Text_DetailDescription, "Text_DetailDescription", "Text_Description");
+        Rect_DetailPanel = ResolveDetailPanel(Rect_DetailPanel);
         Image_DetailPreview = ResolveImage(Image_DetailPreview, "Image_DetailPreview", "Image_Preview");
         Button_PreviousPage = ResolveButton(Button_PreviousPage, "Button_PreviousPage", "Button_PagePrev");
         Button_NextPage = ResolveButton(Button_NextPage, "Button_NextPage", "Button_PageNext");
@@ -244,7 +245,7 @@ public class OOTechCodexGroupController : MonoBehaviour, IPointerClickHandler
                 Id = characterData.Id,
                 Category = "캐릭터",
                 Title = string.IsNullOrEmpty(characterData.Name) ? characterData.Id : characterData.Name,
-                Description = string.IsNullOrEmpty(characterData.Description) ? "?ㅻ챸 以鍮?以묒엯?덈떎." : characterData.Description,
+                Description = string.IsNullOrEmpty(characterData.Description) ? "설명 준비 중입니다." : characterData.Description,
                 ImagePath = characterData.ProfileImagePath
             });
         }
@@ -257,7 +258,7 @@ public class OOTechCodexGroupController : MonoBehaviour, IPointerClickHandler
             dataList.Add(new OO_Codex
             {
                 Id = cookData.Id,
-                Category = "?붾━",
+                Category = "요리",
                 Title = string.IsNullOrEmpty(cookData.Name) ? cookData.Id : cookData.Name,
                 Description = CreateCombinedDescription(cookData.Description, cookData.EffectDescription),
                 ImagePath = cookData.IconPath
@@ -272,9 +273,9 @@ public class OOTechCodexGroupController : MonoBehaviour, IPointerClickHandler
             dataList.Add(new OO_Codex
             {
                 Id = ingredientData.Id,
-                Category = "?щ즺",
+                Category = "재료",
                 Title = string.IsNullOrEmpty(ingredientData.Name) ? ingredientData.Id : ingredientData.Name,
-                Description = string.IsNullOrEmpty(ingredientData.Description) ? "?ㅻ챸 以鍮?以묒엯?덈떎." : ingredientData.Description,
+                Description = string.IsNullOrEmpty(ingredientData.Description) ? "설명 준비 중입니다." : ingredientData.Description,
                 ImagePath = ingredientData.IconPath
             });
         }
@@ -287,9 +288,9 @@ public class OOTechCodexGroupController : MonoBehaviour, IPointerClickHandler
             dataList.Add(new OO_Codex
             {
                 Id = narrationData.Id,
-                Category = "?섎젅?댁뀡",
+                Category = "나레이션",
                 Title = string.IsNullOrEmpty(narrationData.Title) ? narrationData.Id : narrationData.Title,
-                Description = narrationData.NarrationTexts != null && narrationData.NarrationTexts.Count > 0 ? string.Join("\n", narrationData.NarrationTexts) : "?ㅻ챸 以鍮?以묒엯?덈떎.",
+                Description = narrationData.NarrationTexts != null && narrationData.NarrationTexts.Count > 0 ? string.Join("\n", narrationData.NarrationTexts) : "설명 준비 중입니다.",
                 ImagePath = narrationData.BackgroundImagePaths != null && narrationData.BackgroundImagePaths.Count > 0 ? narrationData.BackgroundImagePaths[0] : string.Empty
             });
         }
@@ -302,7 +303,7 @@ public class OOTechCodexGroupController : MonoBehaviour, IPointerClickHandler
             dataList.Add(new OO_Codex
             {
                 Id = stageData.Id,
-                Category = "?ㅽ뀒?댁?",
+                Category = "스테이지",
                 Title = string.IsNullOrEmpty(stageData.Name) ? stageData.Id : stageData.Name,
                 Description = CreateCombinedDescription(stageData.Description, stageData.QuestDescription),
                 ImagePath = stageData.BackgroundImagePath
@@ -333,7 +334,7 @@ public class OOTechCodexGroupController : MonoBehaviour, IPointerClickHandler
         string second = string.IsNullOrEmpty(secondText) ? string.Empty : secondText;
 
         if (string.IsNullOrEmpty(first) && string.IsNullOrEmpty(second))
-            return "?ㅻ챸 以鍮?以묒엯?덈떎.";
+            return "설명 준비 중입니다.";
 
         if (string.IsNullOrEmpty(first))
             return second;
@@ -408,13 +409,13 @@ public class OOTechCodexGroupController : MonoBehaviour, IPointerClickHandler
     private void RequestSelectCodex(OO_Codex codexData)
     {
         if (Text_DetailTitle != null)
-            Text_DetailTitle.text = codexData != null ? codexData.Title : "?꾧컧";
+            Text_DetailTitle.text = codexData != null ? codexData.Title : "도감";
 
         if (Text_DetailCategory != null)
             Text_DetailCategory.text = codexData != null ? codexData.Category : string.Empty;
 
         if (Text_DetailDescription != null)
-            Text_DetailDescription.text = codexData != null ? codexData.Description : "?깅줉???꾧컧 ?곗씠?곌? ?놁뒿?덈떎.";
+            Text_DetailDescription.text = codexData != null ? codexData.Description : "등록된 도감 데이터가 없습니다.";
 
         if (Image_DetailPreview != null)
         {
@@ -459,6 +460,75 @@ public class OOTechCodexGroupController : MonoBehaviour, IPointerClickHandler
         }
 
         return null;
+    }
+
+    private RectTransform ResolveDetailPanel(RectTransform currentRect)
+    {
+        if (currentRect != null)
+            return currentRect;
+
+        if (Text_DetailDescription != null && Text_DetailDescription.transform.parent != null)
+            return Text_DetailDescription.transform.parent as RectTransform;
+
+        if (Text_DetailTitle != null && Text_DetailTitle.transform.parent != null)
+            return Text_DetailTitle.transform.parent as RectTransform;
+
+        return null;
+    }
+
+    /// <summary>
+    /// 도감 책장 안쪽을 눌렀는지 확인합니다.
+    /// 영화 비유로는 관객이 책장을 넘기는 중인지, 무대 바깥을 눌러 퇴장하려는지 구분하는 문지기입니다.
+    /// </summary>
+    private bool IsPointerInsideCodexContent(Vector2 screenPosition)
+    {
+        if (Scroll_CodexList != null && IsPointInsideRect(Scroll_CodexList.transform as RectTransform, screenPosition))
+            return true;
+
+        if (Rect_DetailPanel != null && IsPointInsideRect(Rect_DetailPanel, screenPosition))
+            return true;
+
+        if (Button_PreviousPage != null && IsPointInsideRect(Button_PreviousPage.transform as RectTransform, screenPosition))
+            return true;
+
+        if (Button_NextPage != null && IsPointInsideRect(Button_NextPage.transform as RectTransform, screenPosition))
+            return true;
+
+        if (Text_PageLabel != null && IsPointInsideRect(Text_PageLabel.transform as RectTransform, screenPosition))
+            return true;
+
+        return false;
+    }
+
+    private bool IsPointInsideRect(RectTransform targetRect, Vector2 screenPosition)
+    {
+        return targetRect != null && RectTransformUtility.RectangleContainsScreenPoint(targetRect, screenPosition, null);
+    }
+
+    /// <summary>
+    /// 도감 바깥을 클릭했을 때 이전 그룹으로 복귀합니다.
+    /// BackButton이 실패해도 UIManager와 NavigationHistory를 한 번 더 확인하는 보험입니다.
+    /// </summary>
+    private void RequestCloseCodexGroup()
+    {
+        string previousGroupName = OOTechGroupNavigationHistory.GetPreviousGroup(gameObject.name, "MainMenuGroup");
+
+        if (OOTechUIManager.Inst != null)
+        {
+            OOTechUIManager.Inst.CloseUI(gameObject.name);
+
+            if (!string.IsNullOrEmpty(previousGroupName))
+                OOTechUIManager.Inst.OpenUI(previousGroupName);
+
+            return;
+        }
+
+        gameObject.SetActive(false);
+
+        GameObject previousGroupObject = OOTechSceneQuery.RequestSceneObjectByName(previousGroupName);
+
+        if (previousGroupObject != null)
+            previousGroupObject.SetActive(true);
     }
 
     private Button ResolveButton(Button currentButton, params string[] nameArray)

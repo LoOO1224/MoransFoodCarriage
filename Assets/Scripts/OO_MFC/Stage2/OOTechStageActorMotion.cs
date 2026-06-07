@@ -39,10 +39,10 @@ public class OOTechStageActorMotion : MonoBehaviour
 
     [Header("Player Physics")]
     [SerializeField] private bool _isUsePhysicsWhenPlayerInputEnabled = true;
-    [SerializeField] private float _playerJumpVelocity = 330f;
-    [SerializeField] private float _playerGravityScale = 38f;
-    [SerializeField] private float _playerFallGravityScale = 48f;
-    [SerializeField] private float _playerMaxFallSpeed = 780f;
+    [SerializeField] private float _playerJumpVelocity = 360f;
+    [SerializeField] private float _playerGravityScale = 18f;
+    [SerializeField] private float _playerFallGravityScale = 24f;
+    [SerializeField] private float _playerMaxFallSpeed = 560f;
     [SerializeField] private float _playerGroundCheckDistance = 10f;
     [SerializeField] private float _playerGroundSnapDistance = 220f;
     [SerializeField] private float _playerGroundSnapSkin = 0.03f;

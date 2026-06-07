@@ -17,7 +17,7 @@ public class OOTechSoundManager : MonoBehaviour
 
     [Header("Volume")]
     [Range(0f, 1f)]
-    [SerializeField] private float _bgmVolume = 0.6f;
+    [SerializeField] private float _bgmVolume = 0.5f;
     [Range(0f, 1f)]
     [SerializeField] private float _sfxVolume = 1f;
 
