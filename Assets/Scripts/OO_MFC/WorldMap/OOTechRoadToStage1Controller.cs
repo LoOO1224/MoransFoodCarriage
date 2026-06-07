@@ -7,6 +7,9 @@
 // =============================================================================
 using System.Collections;
 using System.Collections.Generic;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -46,6 +49,7 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
     private const string _stage2GroupName = "Stage2Group";
     private const string _stage3GroupName = "Stage3Group";
     private const string _stage4GroupName = "Stage4Group";
+    private const string _stage4FirstGroupName = "Stage4_1Group";
     private const string _finalStageGroupName = "FinalStageGroup";
 
     [Header("Scene Components")]
@@ -116,9 +120,14 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
         "Stage1Group",
         "Stage2Group",
         "Stage3Group",
+        "Stage4_1Group",
         "Stage4Group",
         "FinalStageGroup"
     };
+
+    [Header("Stage4 BGM")]
+    [SerializeField] private AudioClip _stage4BGM;
+    [SerializeField] private string _stage4BGMAssetPath = "Assets/Sounds/BGM/Stage4_BGM.mp3";
 
     [Header("Road Opening Dialogue")]
     [SerializeField] private string _dialogueGroupName = "DialogueGroup";
@@ -187,6 +196,7 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
         "Stage1Group",
         "Stage2Group",
         "Stage3Group",
+        "Stage4_1Group",
         "Stage4Group",
         "FinalStageGroup",
         "EpilogueGroup",
@@ -573,7 +583,7 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
         Object_Wormhole = ResolveChild(Object_Wormhole, _roleWormhole, "WormholeEntry", "Wormhole_Area");
         Transform_MFCStartPoint = ResolveChildTransform(Transform_MFCStartPoint, "MFC_StartPoint", "StartPoint_MFC");
 
-        _mapObjectArray = CreateValidMapObjectArray(Object_StartPointMap, Object_RoadMap1, Object_RoadMap2, Object_Stage1EntryMap);
+        _mapObjectArray = CreateMapObjectArrayForCurrentRoad();
     }
 
     private void ResolveRoadIdentityFromGroupName()
@@ -649,7 +659,22 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
         if (IsThirdRoadCurrent())
             return string.IsNullOrWhiteSpace(_thirdRoadTargetStageName) ? _stage3GroupName : _thirdRoadTargetStageName;
 
+        if (IsFourthRoadCurrent())
+            return _stage4FirstGroupName;
+
         return _targetStageGroupName;
+    }
+
+    /// <summary>
+    /// 4th Road는 StartPointMap 다음에 곧바로 Stage4 진입맵으로 넘어가는 짧은 길입니다.
+    /// 같은 Road 감독을 쓰되, 공연 큐시트만 두 장짜리로 바꿔 끼우는 방식입니다.
+    /// </summary>
+    private GameObject[] CreateMapObjectArrayForCurrentRoad()
+    {
+        if (IsFourthRoadCurrent())
+            return CreateValidMapObjectArray(Object_StartPointMap, Object_Stage1EntryMap);
+
+        return CreateValidMapObjectArray(Object_StartPointMap, Object_RoadMap1, Object_RoadMap2, Object_Stage1EntryMap);
     }
 
     /// <summary>
@@ -815,6 +840,17 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
             return false;
 
         return gameObject.name.Contains("3rd");
+    }
+
+    private bool IsFourthRoadCurrent()
+    {
+        if (!string.IsNullOrWhiteSpace(_currentGroupName) && _currentGroupName == _fourthRoadGroupName)
+            return true;
+
+        if (gameObject == null || string.IsNullOrWhiteSpace(gameObject.name))
+            return false;
+
+        return gameObject.name.Contains("4th");
     }
 
     private bool ShouldUseWormholeTransition()
@@ -1608,6 +1644,8 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
     /// </summary>
     private void OpenTargetStageGroup()
     {
+        string targetGroupName = ResolveActualTargetStageGroupName(_targetStageGroupName);
+
         if (_stageGroupNameArray != null)
         {
             foreach (string stageGroupName in _stageGroupNameArray)
@@ -1615,11 +1653,144 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
                 if (string.IsNullOrEmpty(stageGroupName))
                     continue;
 
-                SetSceneGroupActive(stageGroupName, stageGroupName == _targetStageGroupName);
+                SetSceneGroupActive(stageGroupName, stageGroupName == targetGroupName);
             }
         }
 
-        SetSceneGroupActive(_targetStageGroupName, true);
+        SetSceneGroupActive(targetGroupName, true);
+        RequestFitTargetStageCamera(targetGroupName);
+        RequestPlayTargetStageBGM(targetGroupName);
+    }
+
+    private string ResolveActualTargetStageGroupName(string requestedGroupName)
+    {
+        if (!string.IsNullOrWhiteSpace(requestedGroupName) && FindSceneObjectByName(requestedGroupName) != null)
+            return requestedGroupName;
+
+        if (requestedGroupName == _stage4FirstGroupName && FindSceneObjectByName(_stage4GroupName) != null)
+        {
+            Debug.LogWarning("[OOTechRoadToStage1Controller] Stage4_1Group not found. Falling back to Stage4Group.");
+            return _stage4GroupName;
+        }
+
+        return requestedGroupName;
+    }
+
+    private void RequestPlayTargetStageBGM(string targetGroupName)
+    {
+        if (targetGroupName != _stage4FirstGroupName && targetGroupName != _stage4GroupName)
+            return;
+
+        AudioClip bgmClip = ResolveStage4BGMClip();
+
+        if (bgmClip == null)
+        {
+            Debug.LogWarning("[OOTechRoadToStage1Controller] Stage4_BGM clip missing. Assign _stage4BGM or keep it under Resources/Audio/BGM.");
+            return;
+        }
+
+        if (OOTechSoundManager.Inst != null)
+            OOTechSoundManager.Inst.PlayBGM(bgmClip, true);
+    }
+
+    private AudioClip ResolveStage4BGMClip()
+    {
+        if (_stage4BGM != null)
+            return _stage4BGM;
+
+        AudioClip resourcesClip = Resources.Load<AudioClip>("Audio/BGM/Stage4_BGM");
+
+        if (resourcesClip != null)
+            return resourcesClip;
+
+#if UNITY_EDITOR
+        if (!string.IsNullOrWhiteSpace(_stage4BGMAssetPath))
+            return AssetDatabase.LoadAssetAtPath<AudioClip>(_stage4BGMAssetPath);
+#endif
+
+        return null;
+    }
+
+    /// <summary>
+    /// StageGroup을 열자마자 배경 전체가 Game View에 들어오도록 카메라와 Canvas 기준값을 맞춥니다.
+    /// 촬영감독이 새 무대에 들어가자마자 와이드샷으로 프레임을 다시 잡는 작업입니다.
+    /// </summary>
+    private void RequestFitTargetStageCamera(string targetGroupName)
+    {
+        GameObject targetGroupObject = FindSceneObjectByName(targetGroupName);
+
+        if (targetGroupObject == null)
+            return;
+
+        NormalizeStageCanvasArray(targetGroupObject);
+        SpriteRenderer backgroundRenderer = ResolveBestStageBackgroundRenderer(targetGroupObject);
+
+        if (backgroundRenderer == null)
+            return;
+
+        ResolveCameraReference();
+
+        if (Camera_Main == null)
+            return;
+
+        if (Camera_Follow != null)
+            Camera_Follow.enabled = false;
+
+        Camera_Main.orthographic = true;
+
+        if (Camera_Main.cullingMask == 0)
+            Camera_Main.cullingMask = -1;
+
+        Bounds backgroundBounds = backgroundRenderer.bounds;
+        float verticalSize = backgroundBounds.extents.y;
+        float horizontalSize = backgroundBounds.extents.x / Mathf.Max(0.01f, Camera_Main.aspect);
+
+        Camera_Main.orthographicSize = Mathf.Max(verticalSize, horizontalSize);
+
+        Vector3 cameraPosition = Camera_Main.transform.position;
+        cameraPosition.x = backgroundBounds.center.x;
+        cameraPosition.y = backgroundBounds.center.y;
+        Camera_Main.transform.position = cameraPosition;
+    }
+
+    private void NormalizeStageCanvasArray(GameObject targetGroupObject)
+    {
+        CanvasScaler[] canvasScalerArray = targetGroupObject.GetComponentsInChildren<CanvasScaler>(true);
+
+        foreach (CanvasScaler canvasScaler in canvasScalerArray)
+        {
+            canvasScaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+            canvasScaler.referenceResolution = new Vector2(1920f, 1080f);
+            canvasScaler.matchWidthOrHeight = 0.5f;
+        }
+    }
+
+    private SpriteRenderer ResolveBestStageBackgroundRenderer(GameObject targetGroupObject)
+    {
+        SpriteRenderer[] rendererArray = targetGroupObject.GetComponentsInChildren<SpriteRenderer>(true);
+        SpriteRenderer bestRenderer = null;
+        float bestArea = 0f;
+
+        foreach (SpriteRenderer spriteRenderer in rendererArray)
+        {
+            if (spriteRenderer == null || spriteRenderer.sprite == null || !spriteRenderer.enabled)
+                continue;
+
+            string objectName = spriteRenderer.gameObject.name;
+
+            if (!objectName.Contains("Background") && !objectName.Contains("Backound"))
+                continue;
+
+            float area = spriteRenderer.bounds.size.x * spriteRenderer.bounds.size.y;
+
+            if (area <= bestArea)
+                continue;
+
+            bestRenderer = spriteRenderer;
+            bestArea = area;
+        }
+
+        return bestRenderer;
     }
 
     private bool SetSceneGroupActive(string groupName, bool isActive)

@@ -6,6 +6,9 @@
 // - 유지보수 포인트: 배우 찾기는 역할표(OOTechSceneObject), 대사/수치는 OO_Stage3CueSheet 데이터가 담당합니다.
 // =============================================================================
 using System.Collections;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -24,10 +27,16 @@ public class OOTechStage3GroupController : MonoBehaviour
     [SerializeField] private OOTechStage3DialogueCue Cue_Dialogue;
     [SerializeField] private OOTechStage2CameraCue Cue_Camera;
 
+    [Header("BGM")]
+    [SerializeField] private AudioClip _sangunBGM;
+    [SerializeField] private string _sangunBGMAssetPath = "Assets/Sounds/BGM/Sangun_BGM.mp3";
+    [SerializeField] private float _sangunBGMDelaySeconds = 3f;
+
     private OO_Stage3CueSheet Data_CueSheet;
     private Coroutine Coroutine_Sequence;
     private Vector3 _sangunOriginalScale;
     private bool _hasSangunOriginalScale;
+    private bool _hasRequestedSangunBGM;
 
     /// <summary>
     /// 그룹이 켜질 때 Stage3 첫 큐를 시작합니다.
@@ -56,6 +65,7 @@ public class OOTechStage3GroupController : MonoBehaviour
     {
         ResolveComponents();
         ResolveCueSheetData();
+        RequestPlaySangunBGMAfterDelay();
 
         if (Coroutine_Sequence != null)
             StopCoroutine(Coroutine_Sequence);
@@ -119,6 +129,58 @@ public class OOTechStage3GroupController : MonoBehaviour
     private void ResolveCueSheetData()
     {
         Data_CueSheet = OOTechGameDataManager.Inst != null ? OOTechGameDataManager.Inst.GetStage3CueSheetData(_cueSheetDataId) : null;
+    }
+
+    /// <summary>
+    /// Stage3 입장 후 산군의 기운이 서서히 깔리도록 BGM 큐를 예약합니다.
+    /// 무대 비유로는 배우가 보이기 직전에 오케스트라가 낮게 깔리는 타이밍입니다.
+    /// </summary>
+    private void RequestPlaySangunBGMAfterDelay()
+    {
+        if (_hasRequestedSangunBGM)
+            return;
+
+        _hasRequestedSangunBGM = true;
+
+        MonoBehaviour coroutineOwner = OOTechSoundManager.Inst != null ? OOTechSoundManager.Inst : this;
+        coroutineOwner.StartCoroutine(PlaySangunBGMAfterDelayRoutine());
+    }
+
+    private IEnumerator PlaySangunBGMAfterDelayRoutine()
+    {
+        float delaySeconds = Mathf.Max(0f, _sangunBGMDelaySeconds);
+
+        if (delaySeconds > 0f)
+            yield return new WaitForSeconds(delaySeconds);
+
+        AudioClip bgmClip = ResolveSangunBGMClip();
+
+        if (bgmClip == null)
+        {
+            Debug.LogWarning("[OOTechStage3GroupController] Sangun_BGM clip missing. Assign _sangunBGM in Inspector if this runs in build.");
+            yield break;
+        }
+
+        if (OOTechSoundManager.Inst != null)
+            OOTechSoundManager.Inst.PlayBGM(bgmClip, true);
+    }
+
+    private AudioClip ResolveSangunBGMClip()
+    {
+        if (_sangunBGM != null)
+            return _sangunBGM;
+
+        AudioClip resourcesClip = Resources.Load<AudioClip>("Audio/BGM/Sangun_BGM");
+
+        if (resourcesClip != null)
+            return resourcesClip;
+
+#if UNITY_EDITOR
+        if (!string.IsNullOrWhiteSpace(_sangunBGMAssetPath))
+            return AssetDatabase.LoadAssetAtPath<AudioClip>(_sangunBGMAssetPath);
+#endif
+
+        return null;
     }
 
     /// <summary>

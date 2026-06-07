@@ -48,6 +48,7 @@ public class MainMenuController : MonoBehaviour
         "Stage1Group",
         "Stage2Group",
         "Stage3Group",
+        "Stage4_1Group",
         "Stage4Group",
         "FinalStageGroup",
         "EpilogueGroup",

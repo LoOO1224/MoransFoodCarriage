@@ -43,6 +43,7 @@ public class OOTechUIManager : MonoBehaviour
         "Stage2Group",
         "Stage3Group",
         "EncounterGroup",
+        "Stage4_1Group",
         "Stage4Group",
         "FinalStageGroup",
         "EpilogueGroup",
