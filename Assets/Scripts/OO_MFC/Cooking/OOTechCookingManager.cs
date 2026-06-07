@@ -90,6 +90,16 @@ public class OOTechCookingManager : MonoBehaviour
             };
         }
 
+        if (IsFallbackKoreanCakeRecipe(ingredientIds))
+        {
+            return new CookingResult
+            {
+                IsSuccess = true,
+                ResultItemId = "OO_KoreanCake_1",
+                FailReason = string.Empty
+            };
+        }
+
         return new CookingResult
         {
             IsSuccess = false,
@@ -142,5 +152,16 @@ public class OOTechCookingManager : MonoBehaviour
 
         return ingredientIds.Contains("Ing_Kimch_01") &&
                ingredientIds.Contains("Ing_ChiliPepper_01");
+    }
+
+    /// <summary>
+    /// Stage3 절구 튜토리얼용 안전망입니다. OO_Recipe 데이터가 늦게 로드되어도 쌀 1개를 절구에 넣으면 떡 후보가 됩니다.
+    /// </summary>
+    private bool IsFallbackKoreanCakeRecipe(List<string> ingredientIds)
+    {
+        if (ingredientIds == null || ingredientIds.Count != 1)
+            return false;
+
+        return ingredientIds.Contains("Ing_Rice_01");
     }
 }

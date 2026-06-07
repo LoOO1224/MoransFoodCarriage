@@ -53,6 +53,7 @@ public class OOTechCookingGroupController : MonoBehaviour
     private string _vegetableIngredientId = "Ing_Veggie_01";
     private string _pumpkinIngredientId = "Ing_Pumpkin_01";
     private string _pumpkinSoupCookId = "OO_PumpkinSoup_1";
+    private string _koreanCakeCookId = "OO_KoreanCake_1";
     private string _kimchIngredientId = "Ing_Kimch_01";
     private string _chiliPepperIngredientId = "Ing_ChiliPepper_01";
     private string[] _defaultCauldronAcceptedIngredientIdArray = { "Ing_Rice_01", "Ing_Kimch_01" };
@@ -87,6 +88,10 @@ public class OOTechCookingGroupController : MonoBehaviour
 
     [Header("Drag Ghost")]
     private Vector2 _dragGhostIconSize = new Vector2(88f, 88f);
+
+    [Header("Honey Cake Combine")]
+    private string _honeyIngredientId = "Ing_Honey_01";
+    private string _honeyKoreanCakeCookId = "OO_HoneyKoreanCake_1";
 
     private readonly OOTechCookingCueSheetService _cueSheetService = new OOTechCookingCueSheetService();
     private readonly OOTechCookingToolResolver _toolResolver = new OOTechCookingToolResolver();
@@ -135,6 +140,13 @@ public class OOTechCookingGroupController : MonoBehaviour
     private Button Button_GuideConfirm;
     private Button Button_CuttingboardGuideConfirm;
     private RectTransform Rect_DragGhostTemplate;
+    private GameObject Root_HoneyCakeCombinePanel;
+    private Button Button_HoneyCakeCombine;
+    private Image Image_HoneyCakeSlotA;
+    private Image Image_HoneyCakeSlotB;
+    private TextMeshProUGUI Text_HoneyCakeGuide;
+    private string _honeyCakeSlotAItemId;
+    private string _honeyCakeSlotBItemId;
     private OOTechCookingGroupView View_Cooking;
     private OOTechCookingGuideCue Cue_Guide;
     private OOTechCookingInventoryBridge Bridge_Inventory;
@@ -145,6 +157,7 @@ public class OOTechCookingGroupController : MonoBehaviour
     private UnityAction _guideConfirmAction;
     private bool _isToolGuideComplete;
     private bool _isJulguGuideActive;
+    private Coroutine Coroutine_KoreanCakeInventoryRepair;
 
     /// <summary>
     /// 부엌 무대가 열리면 카메라를 Kitchen 배경에 맞추고 가마솥 가이드를 시작합니다.
@@ -160,9 +173,12 @@ public class OOTechCookingGroupController : MonoBehaviour
         ApplyKitchenCameraView();
         ApplyCookingRenderPriority();
         PrepareCookingView();
+        UpdateHoneyCakeCombineUnlockState();
         ResolveRoleComponents();
         RequestOpenCookingSupportHUDIfNeeded();
+        StartCoroutine(RequestOpenCookingSupportHUDNextFrameRoutine());
         RepairStage1RewardInventoryIfNeeded();
+        NormalizeStage3CookingInventoryIfNeeded();
         RefreshInventorySlots();
         RefreshPotView();
 
@@ -197,8 +213,50 @@ public class OOTechCookingGroupController : MonoBehaviour
     }
 
     /// <summary>
+    /// CookingGroup이 켜진 바로 다음 프레임에도 HUD를 다시 엽니다. 무대 전환 직후 배우와 소품 등록 순서가 어긋나도 인벤토리 드래그를 복구하는 보험입니다.
+    /// </summary>
+    private IEnumerator RequestOpenCookingSupportHUDNextFrameRoutine()
+    {
+        yield return null;
+        RequestOpenCookingSupportHUDIfNeeded();
+    }
+
+    /// <summary>
     /// 매 프레임 UI 드롭 영역과 화살표가 실제 가마솥 위치를 따라가도록 보정합니다.
     /// </summary>
+    /// <summary>
+    /// Stage3 산군 부엌에서는 절구를 직접 클릭해 쌀 1개를 떡 1개로 바꿉니다.
+    /// 드래그 판정이 흔들려도 Game View 진행이 막히지 않도록, 절구 배우가 자기 역할을 직접 수행하는 경로입니다.
+    /// </summary>
+    private void Update()
+    {
+        if (!IsOpenedFromEncounterGroup() || !_isToolGuideComplete || Transform_Julgu == null)
+            return;
+
+        if (!Input.GetMouseButtonDown(0))
+            return;
+
+        if (!IsPointerInsideJulguInteractionArea(Input.mousePosition))
+            return;
+
+        TryConvertRiceToKoreanCakeOnJulgu(_riceIngredientId, _julguObjectName);
+    }
+
+    private bool IsPointerInsideJulguInteractionArea(Vector2 screenPosition)
+    {
+        if (IsPointerInsideJulgu(screenPosition))
+            return true;
+
+        ResolveCameraReference();
+
+        if (Camera_Main == null || Transform_Julgu == null)
+            return false;
+
+        Vector3 julguScreenPoint = Camera_Main.WorldToScreenPoint(Transform_Julgu.position);
+        float safeRadius = 220f;
+        return Vector2.Distance(screenPosition, new Vector2(julguScreenPoint.x, julguScreenPoint.y)) <= safeRadius;
+    }
+
     private void LateUpdate()
     {
         if (Root_Canvas == null)
@@ -261,6 +319,44 @@ public class OOTechCookingGroupController : MonoBehaviour
     {
         string previousGroupName = OOTechGroupNavigationHistory.GetPreviousGroup(gameObject.name, string.Empty);
         return previousGroupName == "EncounterGroup";
+    }
+
+    /// <summary>
+    /// 외부 드래그 슬롯이 현재 부엌이 산군 Encounter 전용 부엌인지 확인할 때 사용합니다.
+    /// 이 장면에서는 쌀을 절구에 1개씩만 넣게 하여 수량 선택 사고를 막습니다.
+    /// </summary>
+    public bool IsStage3EncounterCooking()
+    {
+        return IsOpenedFromEncounterGroup();
+    }
+
+    /// <summary>
+    /// Stage3 부엌 진입 시 이전 튜토리얼 시작 보상이 다시 보정되어 쌀/채소가 12개로 되돌아가는 경우를 막습니다.
+    /// 이미 떡이나 꿀떡을 만든 뒤에는 플레이어 진행 수량을 건드리지 않습니다.
+    /// </summary>
+    private void NormalizeStage3CookingInventoryIfNeeded()
+    {
+        if (!IsOpenedFromEncounterGroup() || OOTechGameManager.Inst == null)
+            return;
+
+        if (OOTechGameManager.Inst.GetItemCount(_koreanCakeCookId) > 0 ||
+            OOTechGameManager.Inst.GetItemCount(_honeyKoreanCakeCookId) > 0)
+            return;
+
+        List<OOTechItemModel> itemList = OOTechGameManager.Inst.GetPlayerItemList();
+        ClampInventoryItemCount(itemList, _riceIngredientId, 11);
+        ClampInventoryItemCount(itemList, _vegetableIngredientId, 11);
+        RequestLogInventorySnapshot("Normalize Stage3 cooking inventory");
+    }
+
+    private void ClampInventoryItemCount(List<OOTechItemModel> itemList, string itemDataId, int maxCount)
+    {
+        OOTechItemModel itemModel = FindInventoryItemModel(itemList, itemDataId);
+
+        if (itemModel == null)
+            return;
+
+        itemModel.ItemStackCount = Mathf.Min(itemModel.ItemStackCount, Mathf.Max(0, maxCount));
     }
 
     private void AddInventoryItemToTargetCount(string itemDataId, int targetCount)
@@ -438,6 +534,16 @@ public class OOTechCookingGroupController : MonoBehaviour
             return;
         }
 
+        if (IsOpenedFromEncounterGroup() && itemDataId == _riceIngredientId && IsPointerInsideJulguInteractionArea(screenPosition))
+        {
+            TryConvertRiceToKoreanCakeOnJulgu(_riceIngredientId, _julguObjectName);
+            Debug.LogWarning("[OOTechCookingGroupController] Julgu independent system accepted rice before normal drop flow.");
+            return;
+        }
+
+        if (TryDropIngredientToHoneyCakeCombine(itemDataId, screenPosition))
+            return;
+
         OOTechCookingDropToolType dropToolType = _dropFlow.RequestResolveDropTool(IsPointerInsideCauldron(screenPosition), IsPointerInsideCuttingboard(screenPosition), IsPointerInsideJulgu(screenPosition));
 
         if (dropToolType == OOTechCookingDropToolType.Cauldron)
@@ -455,6 +561,13 @@ public class OOTechCookingGroupController : MonoBehaviour
         if (dropToolType == OOTechCookingDropToolType.Julgu)
         {
             RequestDropIngredientToTool(itemDataId, itemQuantity, Tool_Julgu, _julguObjectName, "절구");
+            return;
+        }
+
+        if (IsOpenedFromEncounterGroup() && itemDataId == _riceIngredientId && Tool_Julgu != null)
+        {
+            RequestDropIngredientToTool(itemDataId, itemQuantity, Tool_Julgu, _julguObjectName, "절구");
+            Debug.LogWarning("[OOTechCookingGroupController] Julgu pointer fallback accepted rice for Stage3 cooking.");
             return;
         }
 
@@ -513,6 +626,14 @@ public class OOTechCookingGroupController : MonoBehaviour
         int itemCount = OOTechGameManager.Inst.GetItemCount(itemDataId);
         dropQuantity = Mathf.Clamp(dropQuantity, 1, itemCount);
 
+        if (fallbackToolId == _julguObjectName && itemDataId == _riceIngredientId)
+        {
+            if (TryConvertRiceToKoreanCakeOnJulgu(itemDataId, fallbackToolId))
+                return;
+
+            dropQuantity = 1;
+        }
+
         if (!CanToolAcceptIngredient(itemDataId, toolTarget, fallbackToolId))
         {
             SetStatus("올바르지 않은 재료입니다!");
@@ -532,10 +653,569 @@ public class OOTechCookingGroupController : MonoBehaviour
         }
 
         RegisterSelectedIngredient(itemDataId, dropQuantity, RequestResolveToolId(toolTarget, fallbackToolId));
+
+        if (TryCompleteJulguKoreanCakeImmediately(itemDataId, dropQuantity, fallbackToolId))
+            return;
+
         RefreshInventorySlots();
         RefreshPotView();
         SetStatus($"{GetItemDisplayName(itemDataId)} {dropQuantity}개를 {GetToolDisplayName(toolTarget, fallbackToolName)}에 올렸습니다.");
         TryCompleteCooking();
+    }
+
+    /// <summary>
+    /// Stage3 절구는 쌀을 넣는 순간 떡으로 바로 바뀌는 특수 조리도구입니다.
+    /// 레시피 매니저 연결이 늦어져도 Game View 진행이 끊기지 않도록, 절구+쌀 조합은 여기서 즉시 완성 처리합니다.
+    /// </summary>
+    private bool TryCompleteJulguKoreanCakeImmediately(string itemDataId, int dropQuantity, string fallbackToolId)
+    {
+        if (fallbackToolId != _julguObjectName || itemDataId != _riceIngredientId)
+            return false;
+
+        int resultCount = 1;
+        RequestForceAddInventoryItem(_koreanCakeCookId, resultCount);
+        RequestMoveInventoryItemToTop(_koreanCakeCookId);
+        RequestLogInventorySnapshot("After Julgu KoreanCake");
+        _selectionModel.RequestClear();
+        RefreshInventorySlots();
+        RefreshPotView();
+        SetInventoryNewBadgeActive(true);
+        NotifyRoadHUDInventoryRefresh();
+        NotifyRoadHUDInventoryNewBadge();
+        HideGuideBubble();
+        SetStatus($"떡 {resultCount}개 완성! 인벤토리에 추가되었습니다.");
+        Debug.Log($"[OOTechCookingGroupController] Julgu made KoreanCake. rice={dropQuantity}, result={resultCount}");
+        RequestStartKoreanCakeInventoryRepair();
+        return true;
+    }
+
+    /// <summary>
+    /// Stage3 절구 전용 직접 변환입니다.
+    /// 쌀 차감과 떡 추가를 같은 인벤토리 리스트 안에서 즉시 처리해, 중간 큐나 UI 갱신 순서 때문에 떡이 사라지는 일을 막습니다.
+    /// </summary>
+    private bool TryConvertRiceToKoreanCakeOnJulgu(string itemDataId, string fallbackToolId)
+    {
+        if (fallbackToolId != _julguObjectName || itemDataId != _riceIngredientId)
+            return false;
+
+        if (RequestForceJulguRiceToKoreanCake())
+            return true;
+
+        if (OOTechGameManager.Inst == null)
+        {
+            SetStatus("인벤토리 매니저가 없어 떡을 만들 수 없습니다.");
+            return true;
+        }
+
+        List<OOTechItemModel> itemList = OOTechGameManager.Inst.GetPlayerItemList();
+        OOTechItemModel riceItem = FindInventoryItemModel(itemList, _riceIngredientId);
+
+        if (riceItem == null || riceItem.ItemStackCount <= 0)
+        {
+            SetStatus("쌀이 부족합니다.");
+            RequestLogInventorySnapshot("Julgu failed - rice missing");
+            return true;
+        }
+
+        riceItem.ItemStackCount -= 1;
+
+        if (riceItem.ItemStackCount <= 0)
+            itemList.Remove(riceItem);
+
+        OOTechItemModel cakeItem = FindInventoryItemModel(itemList, _koreanCakeCookId);
+
+        if (cakeItem == null)
+        {
+            cakeItem = new OOTechItemModel
+            {
+                ItemUniqueId = System.DateTime.UtcNow.Ticks,
+                ItemDataId = _koreanCakeCookId,
+                ItemStackCount = 0
+            };
+
+            itemList.Insert(0, cakeItem);
+        }
+
+        cakeItem.ItemStackCount += 1;
+        RequestMoveInventoryItemToTop(_koreanCakeCookId);
+        RequestLogInventorySnapshot("Direct Julgu transaction rice-1 cake+1");
+        _selectionModel.RequestClear();
+        RefreshInventorySlots();
+        RefreshPotView();
+        SetInventoryNewBadgeActive(true);
+        NotifyRoadHUDInventoryRefresh();
+        NotifyRoadHUDInventoryNewBadge();
+        HideGuideBubble();
+        SetStatus("떡 1개 완성! 인벤토리에 추가되었습니다.");
+        RequestStartKoreanCakeInventoryRepair();
+        Debug.LogWarning("[OOTechCookingGroupController] Direct Julgu transaction completed. Rice -1, KoreanCake +1.");
+        return true;
+    }
+
+    /// <summary>
+    /// 절구 전용 최종 안전 처리입니다.
+    /// 가마솥/도마 레시피 흐름, 선택 모델, Bridge 연결을 전부 우회하고 현재 HUD가 읽는 GameManager 인벤토리를 직접 수정합니다.
+    /// </summary>
+    private bool RequestForceJulguRiceToKoreanCake()
+    {
+        if (OOTechGameManager.Inst == null)
+        {
+            SetStatus("인벤토리 매니저가 없어 떡을 만들 수 없습니다.");
+            Debug.LogError("[OOTechCookingGroupController] Julgu force convert failed. OOTechGameManager.Inst is missing.");
+            return true;
+        }
+
+        bool hasConverted = RequestForceJulguRiceToKoreanCake(OOTechGameManager.Inst);
+
+        if (!hasConverted)
+        {
+            SetStatus("쌀이 부족합니다.");
+            Debug.LogWarning("[OOTechCookingGroupController] Julgu force convert failed. Rice is missing in OOTechGameManager.Inst.");
+            return true;
+        }
+
+        _selectionModel.RequestClear();
+        RefreshInventorySlots();
+        RefreshPotView();
+        SetInventoryNewBadgeActive(true);
+        NotifyRoadHUDInventoryRefresh();
+        NotifyRoadHUDInventoryNewBadge();
+        RequestOpenCookingSupportHUDIfNeeded();
+        HideGuideBubble();
+        SetStatus("떡 1개 완성! 인벤토리에 추가되었습니다.");
+        RequestStartKoreanCakeInventoryRepair();
+        Debug.LogWarning("[OOTechCookingGroupController] Julgu independent system completed. Rice -1, KoreanCake +1.");
+        return true;
+    }
+
+    private bool RequestForceJulguRiceToKoreanCake(OOTechGameManager gameManager)
+    {
+        List<OOTechItemModel> itemList = gameManager.GetPlayerItemList();
+        OOTechItemModel riceItem = FindInventoryItemModel(itemList, _riceIngredientId);
+
+        if (riceItem == null || riceItem.ItemStackCount <= 0)
+            return false;
+
+        riceItem.ItemStackCount -= 1;
+
+        if (riceItem.ItemStackCount <= 0)
+            itemList.Remove(riceItem);
+
+        OOTechItemModel cakeItem = FindInventoryItemModel(itemList, _koreanCakeCookId);
+
+        if (cakeItem == null)
+        {
+            cakeItem = new OOTechItemModel
+            {
+                ItemUniqueId = System.DateTime.UtcNow.Ticks,
+                ItemDataId = _koreanCakeCookId,
+                ItemStackCount = 0
+            };
+
+            itemList.Insert(0, cakeItem);
+        }
+
+        cakeItem.ItemStackCount += 1;
+        MoveInventoryItemToTop(itemList, _koreanCakeCookId);
+        Debug.LogWarning($"[OOTechCookingGroupController] Julgu converted inventory on manager={gameManager.name}: {_riceIngredientId}-1, {_koreanCakeCookId}+1");
+        return true;
+    }
+
+    private void MoveInventoryItemToTop(List<OOTechItemModel> itemList, string itemDataId)
+    {
+        if (itemList == null || string.IsNullOrEmpty(itemDataId))
+            return;
+
+        for (int index = 0; index < itemList.Count; index++)
+        {
+            OOTechItemModel itemModel = itemList[index];
+
+            if (itemModel == null || itemModel.ItemDataId != itemDataId)
+                continue;
+
+            if (index <= 0)
+                return;
+
+            itemList.RemoveAt(index);
+            itemList.Insert(0, itemModel);
+            return;
+        }
+    }
+
+    private OOTechItemModel FindInventoryItemModel(List<OOTechItemModel> itemList, string itemDataId)
+    {
+        if (itemList == null || string.IsNullOrEmpty(itemDataId))
+            return null;
+
+        foreach (OOTechItemModel itemModel in itemList)
+        {
+            if (itemModel != null && itemModel.ItemDataId == itemDataId)
+                return itemModel;
+        }
+
+        return null;
+    }
+
+    /// <summary>
+    /// 절구 완성 직후 HUD가 같은 프레임에서 이전 목록을 붙잡는 경우가 있어, 짧게 재확인 루틴을 돌립니다.
+    /// 무대 비유로는 소품 담당자가 떡을 창고에 넣은 뒤 객석 진열대까지 올라왔는지 세 번 확인하는 절차입니다.
+    /// </summary>
+    private void RequestStartKoreanCakeInventoryRepair()
+    {
+        if (Coroutine_KoreanCakeInventoryRepair != null)
+            StopCoroutine(Coroutine_KoreanCakeInventoryRepair);
+
+        Coroutine_KoreanCakeInventoryRepair = StartCoroutine(RepairKoreanCakeInventoryRoutine());
+    }
+
+    private IEnumerator RepairKoreanCakeInventoryRoutine()
+    {
+        for (int index = 0; index < 3; index++)
+        {
+            yield return null;
+
+            if (OOTechGameManager.Inst == null)
+                continue;
+
+            if (OOTechGameManager.Inst.GetItemCount(_koreanCakeCookId) <= 0)
+                RequestForceAddInventoryItem(_koreanCakeCookId, 1);
+
+            RequestMoveInventoryItemToTop(_koreanCakeCookId);
+            RefreshInventorySlots();
+            NotifyRoadHUDInventoryRefresh();
+            RequestOpenCookingSupportHUDIfNeeded();
+            RequestLogInventorySnapshot($"KoreanCake repair frame {index + 1}");
+        }
+
+        Coroutine_KoreanCakeInventoryRepair = null;
+    }
+
+    /// <summary>
+    /// GameManager.AddItem 호출 뒤에도 수량이 늘지 않으면 인벤토리 모델에 직접 삽입합니다.
+    /// Game View 진행을 막는 핵심 보상은 이중 안전장치로 보장합니다.
+    /// </summary>
+    private void RequestForceAddInventoryItem(string itemDataId, int count)
+    {
+        if (OOTechGameManager.Inst == null || string.IsNullOrEmpty(itemDataId) || count <= 0)
+            return;
+
+        int beforeCount = OOTechGameManager.Inst.GetItemCount(itemDataId);
+        int addCount = Mathf.Max(1, count);
+        OOTechGameManager.Inst.AddItem(itemDataId, addCount);
+        int afterCount = OOTechGameManager.Inst.GetItemCount(itemDataId);
+
+        if (afterCount >= beforeCount + addCount)
+        {
+            RequestMoveInventoryItemToTop(itemDataId);
+            Debug.LogWarning($"[OOTechCookingGroupController] Force add verified: {itemDataId} x{afterCount}");
+            return;
+        }
+
+        List<OOTechItemModel> itemList = OOTechGameManager.Inst.GetPlayerItemList();
+
+        foreach (OOTechItemModel itemModel in itemList)
+        {
+            if (itemModel == null || itemModel.ItemDataId != itemDataId)
+                continue;
+
+            itemModel.ItemStackCount = beforeCount + addCount;
+            RequestMoveInventoryItemToTop(itemDataId);
+            Debug.LogWarning($"[OOTechCookingGroupController] Force repaired inventory count: {itemDataId} x{itemModel.ItemStackCount}");
+            return;
+        }
+
+        OOTechItemModel newItemModel = new OOTechItemModel
+        {
+            ItemUniqueId = System.DateTime.UtcNow.Ticks,
+            ItemDataId = itemDataId,
+            ItemStackCount = beforeCount + addCount
+        };
+
+        itemList.Insert(0, newItemModel);
+        Debug.LogWarning($"[OOTechCookingGroupController] Force inserted inventory item: {itemDataId} x{newItemModel.ItemStackCount}");
+    }
+
+    /// <summary>
+    /// CookingGroup 상단에 레시피 조합 버튼과 두 칸짜리 조합판을 준비합니다.
+    /// Game View에서는 ChoicePanel 대신 플레이어가 직접 떡과 꿀을 올려 꿀떡을 만드는 작은 조합대입니다.
+    /// </summary>
+    private void EnsureHoneyCakeCombineUI()
+    {
+        if (Rect_Root == null || Button_HoneyCakeCombine != null)
+            return;
+
+        GameObject buttonObject = CreateCookingUIObject(Rect_Root, "Button_HoneyCakeCombine");
+        RectTransform buttonRect = buttonObject.GetComponent<RectTransform>();
+        SetCookingUIRect(buttonRect, new Vector2(1f, 1f), new Vector2(1f, 1f), new Vector2(-190f, -128f), new Vector2(260f, 64f));
+        Image buttonImage = RequestGetOrAddImage(buttonObject, new Color(1f, 0.92f, 0.45f, 0.96f));
+        buttonImage.raycastTarget = true;
+        Button_HoneyCakeCombine = RequestGetOrAddButton(buttonObject);
+        Button_HoneyCakeCombine.onClick.RemoveAllListeners();
+        Button_HoneyCakeCombine.onClick.AddListener(ToggleHoneyCakeCombinePanel);
+        TextMeshProUGUI buttonText = CreateCookingUIText(buttonObject.transform, "Text_Label", "레시피 조합", 30f, Color.black);
+        SetCookingUIRect(buttonText.rectTransform, Vector2.zero, Vector2.one, Vector2.zero, Vector2.zero);
+
+        Root_HoneyCakeCombinePanel = CreateCookingUIObject(Rect_Root, "Panel_HoneyCakeCombine");
+        RectTransform panelRect = Root_HoneyCakeCombinePanel.GetComponent<RectTransform>();
+        SetCookingUIRect(panelRect, new Vector2(1f, 1f), new Vector2(1f, 1f), new Vector2(-320f, -224f), new Vector2(560f, 116f));
+        Image panelImage = RequestGetOrAddImage(Root_HoneyCakeCombinePanel, new Color(0f, 0f, 0f, 0.58f));
+        panelImage.raycastTarget = true;
+
+        Image_HoneyCakeSlotA = CreateCombineSlot(Root_HoneyCakeCombinePanel.transform, "Image_CombineSlotA", new Vector2(-126f, -6f));
+        TextMeshProUGUI plusText = CreateCookingUIText(Root_HoneyCakeCombinePanel.transform, "Text_Plus", "+", 42f, Color.white);
+        SetCookingUIRect(plusText.rectTransform, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(0f, -6f), new Vector2(50f, 72f));
+        Image_HoneyCakeSlotB = CreateCombineSlot(Root_HoneyCakeCombinePanel.transform, "Image_CombineSlotB", new Vector2(126f, -6f));
+        Text_HoneyCakeGuide = CreateCookingUIText(Root_HoneyCakeCombinePanel.transform, "Text_Guide", "떡과 꿀을 빈 칸에 끌어다 놓으면 꿀떡이 완성됩니다.", 22f, Color.white);
+        SetCookingUIRect(Text_HoneyCakeGuide.rectTransform, new Vector2(0.5f, 1f), new Vector2(0.5f, 1f), new Vector2(0f, -12f), new Vector2(520f, 32f));
+
+        Root_HoneyCakeCombinePanel.SetActive(false);
+        UpdateHoneyCakeCombineUnlockState();
+    }
+
+    /// <summary>
+    /// 꿀떡 조합 버튼은 EncounterGroup에서 부엌으로 들어온 장면에서만 열어 둡니다.
+    /// 무대 비유로는 산군 장면에서만 쓰는 특수 소품이라, 다른 공연에서는 소품함을 잠가 두는 처리입니다.
+    /// </summary>
+    private void UpdateHoneyCakeCombineUnlockState()
+    {
+        bool isUnlocked = IsOpenedFromEncounterGroup();
+
+        if (Button_HoneyCakeCombine != null)
+            Button_HoneyCakeCombine.gameObject.SetActive(isUnlocked);
+
+        if (isUnlocked)
+            return;
+
+        _honeyCakeSlotAItemId = string.Empty;
+        _honeyCakeSlotBItemId = string.Empty;
+
+        ClearHoneyCakeSlot(Image_HoneyCakeSlotA);
+        ClearHoneyCakeSlot(Image_HoneyCakeSlotB);
+
+        if (Root_HoneyCakeCombinePanel != null)
+            Root_HoneyCakeCombinePanel.SetActive(false);
+    }
+
+    private Image CreateCombineSlot(Transform parentTransform, string objectName, Vector2 anchoredPosition)
+    {
+        GameObject slotObject = CreateCookingUIObject(parentTransform, objectName);
+        RectTransform slotRect = slotObject.GetComponent<RectTransform>();
+        SetCookingUIRect(slotRect, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), anchoredPosition, new Vector2(82f, 82f));
+        Image slotImage = RequestGetOrAddImage(slotObject, new Color(1f, 1f, 1f, 0.88f));
+        slotImage.raycastTarget = true;
+        slotImage.preserveAspect = true;
+        return slotImage;
+    }
+
+    private void ToggleHoneyCakeCombinePanel()
+    {
+        if (Root_HoneyCakeCombinePanel == null)
+            return;
+
+        if (!IsOpenedFromEncounterGroup())
+        {
+            Root_HoneyCakeCombinePanel.SetActive(false);
+            return;
+        }
+
+        bool isActive = !Root_HoneyCakeCombinePanel.activeSelf;
+        Root_HoneyCakeCombinePanel.SetActive(isActive);
+
+        if (isActive)
+            SetStatus("떡과 꿀을 조합 칸에 끌어다 놓으세요.");
+    }
+
+    private bool TryDropIngredientToHoneyCakeCombine(string itemDataId, Vector2 screenPosition)
+    {
+        if (!IsOpenedFromEncounterGroup() || Root_HoneyCakeCombinePanel == null || !Root_HoneyCakeCombinePanel.activeSelf)
+            return false;
+
+        if (itemDataId != _koreanCakeCookId && itemDataId != _honeyIngredientId)
+        {
+            SetStatus("꿀떡 조합에는 떡과 꿀만 넣을 수 있습니다.");
+            return true;
+        }
+
+        Image targetSlot = null;
+
+        if (Image_HoneyCakeSlotA != null && RectTransformUtility.RectangleContainsScreenPoint(Image_HoneyCakeSlotA.rectTransform, screenPosition, null))
+            targetSlot = Image_HoneyCakeSlotA;
+        else if (Image_HoneyCakeSlotB != null && RectTransformUtility.RectangleContainsScreenPoint(Image_HoneyCakeSlotB.rectTransform, screenPosition, null))
+            targetSlot = Image_HoneyCakeSlotB;
+
+        if (targetSlot == null)
+            return false;
+
+        string currentSlotItemId = targetSlot == Image_HoneyCakeSlotA ? _honeyCakeSlotAItemId : _honeyCakeSlotBItemId;
+
+        if (!string.IsNullOrEmpty(currentSlotItemId))
+        {
+            SetStatus("이미 재료가 들어간 칸입니다.");
+            return true;
+        }
+
+        if (OOTechGameManager.Inst == null || !OOTechGameManager.Inst.RemoveItem(itemDataId, 1))
+        {
+            SetStatus("인벤토리에 재료가 부족합니다.");
+            return true;
+        }
+
+        if (targetSlot == Image_HoneyCakeSlotA)
+            _honeyCakeSlotAItemId = itemDataId;
+        else
+            _honeyCakeSlotBItemId = itemDataId;
+
+        targetSlot.sprite = OOTechItemCatalogManager.RequestItemIconSprite(itemDataId);
+        targetSlot.color = Color.white;
+        RefreshInventorySlots();
+        RequestTryCompleteHoneyCakeCombine();
+        return true;
+    }
+
+    private void RequestTryCompleteHoneyCakeCombine()
+    {
+        bool hasKoreanCake = _honeyCakeSlotAItemId == _koreanCakeCookId || _honeyCakeSlotBItemId == _koreanCakeCookId;
+        bool hasHoney = _honeyCakeSlotAItemId == _honeyIngredientId || _honeyCakeSlotBItemId == _honeyIngredientId;
+
+        if (!hasKoreanCake || !hasHoney || OOTechGameManager.Inst == null)
+            return;
+
+        RequestForceAddInventoryItem(_honeyKoreanCakeCookId, 1);
+        RequestMoveInventoryItemToTop(_honeyKoreanCakeCookId);
+        _honeyCakeSlotAItemId = string.Empty;
+        _honeyCakeSlotBItemId = string.Empty;
+        ClearHoneyCakeSlot(Image_HoneyCakeSlotA);
+        ClearHoneyCakeSlot(Image_HoneyCakeSlotB);
+        Root_HoneyCakeCombinePanel.SetActive(false);
+        RefreshInventorySlots();
+        SetInventoryNewBadgeActive(true);
+        NotifyRoadHUDInventoryNewBadge();
+        RequestOpenCookingSupportHUDIfNeeded();
+        SetStatus("꿀떡 1개 완성! 인벤토리에 추가되었습니다.");
+        RequestLogInventorySnapshot("After HoneyKoreanCake combine");
+    }
+
+    private void ClearHoneyCakeSlot(Image slotImage)
+    {
+        if (slotImage == null)
+            return;
+
+        slotImage.sprite = null;
+        slotImage.color = new Color(1f, 1f, 1f, 0.88f);
+    }
+
+    private GameObject CreateCookingUIObject(Transform parentTransform, string objectName)
+    {
+        GameObject targetObject = new GameObject(objectName, typeof(RectTransform));
+        targetObject.transform.SetParent(parentTransform, false);
+        return targetObject;
+    }
+
+    private TextMeshProUGUI CreateCookingUIText(Transform parentTransform, string objectName, string text, float fontSize, Color color)
+    {
+        GameObject textObject = CreateCookingUIObject(parentTransform, objectName);
+        TextMeshProUGUI labelText = textObject.AddComponent<TextMeshProUGUI>();
+        OOTechTMPFontUtility.ApplyProjectFont(labelText);
+        labelText.text = text;
+        labelText.fontSize = fontSize;
+        labelText.color = color;
+        labelText.alignment = TextAlignmentOptions.Center;
+        labelText.raycastTarget = false;
+        return labelText;
+    }
+
+    private Image RequestGetOrAddImage(GameObject targetObject, Color color)
+    {
+        Image image = targetObject.GetComponent<Image>();
+
+        if (image == null)
+            image = targetObject.AddComponent<Image>();
+
+        image.color = color;
+        return image;
+    }
+
+    private Button RequestGetOrAddButton(GameObject targetObject)
+    {
+        Button button = targetObject.GetComponent<Button>();
+
+        if (button == null)
+            button = targetObject.AddComponent<Button>();
+
+        return button;
+    }
+
+    private void SetCookingUIRect(RectTransform rectTransform, Vector2 anchorMin, Vector2 anchorMax, Vector2 anchoredPosition, Vector2 sizeDelta)
+    {
+        if (rectTransform == null)
+            return;
+
+        rectTransform.anchorMin = anchorMin;
+        rectTransform.anchorMax = anchorMax;
+        rectTransform.pivot = new Vector2(0.5f, 0.5f);
+        rectTransform.anchoredPosition = anchoredPosition;
+        rectTransform.sizeDelta = sizeDelta;
+        rectTransform.localScale = Vector3.one;
+    }
+
+    /// <summary>
+    /// 방금 만든 아이템을 인벤토리 맨 위로 올립니다.
+    /// Game View에서는 떡 슬롯이 스크롤 아래에 숨어 보이지 않는 상황을 막는 장치입니다.
+    /// </summary>
+    private void RequestMoveInventoryItemToTop(string itemDataId)
+    {
+        if (OOTechGameManager.Inst == null || string.IsNullOrEmpty(itemDataId))
+            return;
+
+        List<OOTechItemModel> itemList = OOTechGameManager.Inst.GetPlayerItemList();
+
+        for (int index = 0; index < itemList.Count; index++)
+        {
+            OOTechItemModel itemModel = itemList[index];
+
+            if (itemModel == null || itemModel.ItemDataId != itemDataId)
+                continue;
+
+            if (index <= 0)
+                return;
+
+            itemList.RemoveAt(index);
+            itemList.Insert(0, itemModel);
+            return;
+        }
+    }
+
+    /// <summary>
+    /// 조리 직후 인벤토리 모델 전체를 로그로 남깁니다.
+    /// 떡이 모델에 들어갔는지, UI 슬롯 생성에서 빠지는지 분리해서 확인합니다.
+    /// </summary>
+    private void RequestLogInventorySnapshot(string reason)
+    {
+        if (OOTechGameManager.Inst == null)
+            return;
+
+        List<OOTechItemModel> itemList = OOTechGameManager.Inst.GetPlayerItemList();
+        System.Text.StringBuilder stringBuilder = new System.Text.StringBuilder();
+        stringBuilder.Append("[OOTechCookingGroupController] Inventory Snapshot - ");
+        stringBuilder.Append(reason);
+        stringBuilder.Append(": ");
+
+        for (int index = 0; index < itemList.Count; index++)
+        {
+            OOTechItemModel itemModel = itemList[index];
+
+            if (itemModel == null)
+                continue;
+
+            if (index > 0)
+                stringBuilder.Append(" / ");
+
+            stringBuilder.Append(itemModel.ItemDataId);
+            stringBuilder.Append(" x");
+            stringBuilder.Append(itemModel.ItemStackCount);
+        }
+
+        Debug.Log(stringBuilder.ToString());
     }
 
     /// <summary>
@@ -712,6 +1392,9 @@ public class OOTechCookingGroupController : MonoBehaviour
         if (fallbackToolId == _cuttingboardObjectName)
             return IsIngredientInArray(itemDataId, _defaultCuttingboardAcceptedIngredientIdArray);
 
+        if (fallbackToolId == _julguObjectName)
+            return IsIngredientInArray(itemDataId, _defaultJulguAcceptedIngredientIdArray);
+
         return false;
     }
 
@@ -820,6 +1503,7 @@ public class OOTechCookingGroupController : MonoBehaviour
         Text_Status = View_Cooking.StatusText;
         Text_InventoryNewBadge = View_Cooking.InventoryNewBadgeText;
         Rect_DragGhostTemplate = View_Cooking.DragGhostTemplateRect;
+        EnsureHoneyCakeCombineUI();
 
         Canvas canvas = Root_Canvas.GetComponent<Canvas>();
 
@@ -1275,7 +1959,7 @@ public class OOTechCookingGroupController : MonoBehaviour
         _isJulguGuideActive = false;
         _toolGuideCoroutine = null;
         SetGuidePointerActive(false);
-        SetStatus("쌀을 절구에 올리면 떡을 만들 수 있습니다.");
+        SetStatus("절구를 클릭하거나 더블 클릭하면 쌀 1개가 떡 1개로 바뀝니다.");
     }
 
     private void StopToolGuideRoutine()
@@ -1407,7 +2091,7 @@ public class OOTechCookingGroupController : MonoBehaviour
 
     private void GetJulguGuideData(out string title, out string description)
     {
-        string fallbackDescription = "쌀을 떡으로 만들 수 있는 조리기구입니다.";
+        string fallbackDescription = "절구는 쌀을 떡으로 만드는 독립 조리도구입니다. 절구를 클릭하거나 더블 클릭하면 쌀 1개가 떡 1개로 바뀝니다.";
 
         if (Cue_Guide != null)
         {
@@ -1696,7 +2380,19 @@ public class OOTechCookingGroupController : MonoBehaviour
     private void NotifyRoadHUDInventoryNewBadge()
     {
         if (Bridge_Inventory != null)
+        {
             Bridge_Inventory.RequestNotifyRoadHUDInventoryNewBadge();
+            return;
+        }
+
+        foreach (OOTechRoadHUDController hudController in FindObjectsByType<OOTechRoadHUDController>(FindObjectsInactive.Include, FindObjectsSortMode.None))
+        {
+            if (hudController == null || !hudController.gameObject.activeInHierarchy)
+                continue;
+
+            hudController.RequestRefreshInventoryView();
+            hudController.SetInventoryNewBadgeActive(true);
+        }
     }
 
     /// <summary>
@@ -1705,7 +2401,18 @@ public class OOTechCookingGroupController : MonoBehaviour
     private void NotifyRoadHUDInventoryRefresh()
     {
         if (Bridge_Inventory != null)
+        {
             Bridge_Inventory.RequestNotifyRoadHUDInventoryRefresh();
+            return;
+        }
+
+        foreach (OOTechRoadHUDController hudController in FindObjectsByType<OOTechRoadHUDController>(FindObjectsInactive.Include, FindObjectsSortMode.None))
+        {
+            if (hudController == null || !hudController.gameObject.activeInHierarchy)
+                continue;
+
+            hudController.RequestRefreshInventoryView();
+        }
     }
 
     /// <summary>

@@ -1,0 +1,161 @@
+// =============================================================================
+// OO_MFC Editor Repair
+// - 스크립트: OOTechStage3EncounterRepairEditor.cs
+// - 역할: 배치모드에서 EncounterGroup 배우의 전용 Sprite 루프 플레이어를 세팅하고 프레임 품질을 검사합니다.
+// - 영화 비유: 리허설 전에 스태프가 배우 컷 사진의 크기/중심점/필름 번호가 맞는지 검사하고 무대에 붙입니다.
+// =============================================================================
+#if UNITY_EDITOR
+using System.Collections.Generic;
+using UnityEditor;
+using UnityEditor.SceneManagement;
+using UnityEngine;
+
+public static class OOTechStage3EncounterRepairEditor
+{
+    private const string ScenePath = "Assets/Scenes/OO_MFC.unity";
+    private const string MoranClipPath = "Assets/Animation/Characters/Moran/Moran_isScared.anim";
+    private const string MrJaeikClipPath = "Assets/Animation/Characters/Mr.Jaeik/Mr.Jaeik_isThreatening.anim";
+
+    /// <summary>
+    /// 배치모드에서 호출하는 수리 진입점입니다.
+    /// EncounterGroup의 Moran/Mr.Jaeik에게 Animator 우회용 Sprite 프레임 플레이어를 붙이고 씬을 저장합니다.
+    /// </summary>
+    public static void RepairStage3EncounterLoopPlayers()
+    {
+        EditorSceneManager.OpenScene(ScenePath);
+
+        GameObject encounterGroup = FindSceneObjectByName("EncounterGroup");
+
+        if (encounterGroup == null)
+        {
+            Debug.LogError("[OOTechStage3EncounterRepairEditor] EncounterGroup not found.");
+            return;
+        }
+
+        RepairActor(encounterGroup.transform, "Moran", "Moran_isScared", MoranClipPath, 0.6f);
+        RepairActor(encounterGroup.transform, "Mr.Jaeik", "Mr_Jaeik_isThreatening", MrJaeikClipPath, 0.6f);
+
+        EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
+        EditorSceneManager.SaveOpenScenes();
+        AssetDatabase.SaveAssets();
+        Debug.Log("[OOTechStage3EncounterRepairEditor] Stage3 Encounter loop player repair completed.");
+    }
+
+    private static void RepairActor(Transform encounterRoot, string actorName, string stateName, string clipPath, float speed)
+    {
+        Transform actorTransform = FindChildByName(encounterRoot, actorName);
+        AnimationClip sourceClip = AssetDatabase.LoadAssetAtPath<AnimationClip>(clipPath);
+
+        if (actorTransform == null)
+        {
+            Debug.LogError($"[OOTechStage3EncounterRepairEditor] Actor not found: {actorName}");
+            return;
+        }
+
+        if (sourceClip == null)
+        {
+            Debug.LogError($"[OOTechStage3EncounterRepairEditor] Clip not found: {clipPath}");
+            return;
+        }
+
+        OOTechEncounterLoopSpritePlayer loopPlayer = actorTransform.GetComponent<OOTechEncounterLoopSpritePlayer>();
+
+        if (loopPlayer == null)
+            loopPlayer = actorTransform.gameObject.AddComponent<OOTechEncounterLoopSpritePlayer>();
+
+        loopPlayer.RequestEditorSetupFromClip(stateName, sourceClip, speed);
+        LogSpriteFrameImportState(actorName, sourceClip);
+        EditorUtility.SetDirty(actorTransform.gameObject);
+    }
+
+    private static void LogSpriteFrameImportState(string actorName, AnimationClip sourceClip)
+    {
+        List<Sprite> spriteList = ExtractSpriteList(sourceClip);
+
+        if (spriteList.Count == 0)
+        {
+            Debug.LogWarning($"[OOTechStage3EncounterRepairEditor] No sprite frames: {actorName}");
+            return;
+        }
+
+        float firstPixelsPerUnit = spriteList[0].pixelsPerUnit;
+        Vector2 firstPivot = spriteList[0].pivot;
+        Rect firstRect = spriteList[0].rect;
+        bool hasDifferentPixelsPerUnit = false;
+        bool hasDifferentPivot = false;
+        bool hasDifferentRectSize = false;
+        bool hasEmptyFrame = false;
+
+        foreach (Sprite sprite in spriteList)
+        {
+            if (sprite == null)
+            {
+                hasEmptyFrame = true;
+                continue;
+            }
+
+            if (!Mathf.Approximately(sprite.pixelsPerUnit, firstPixelsPerUnit))
+                hasDifferentPixelsPerUnit = true;
+
+            if ((sprite.pivot - firstPivot).sqrMagnitude > 0.01f)
+                hasDifferentPivot = true;
+
+            if (!Mathf.Approximately(sprite.rect.width, firstRect.width) || !Mathf.Approximately(sprite.rect.height, firstRect.height))
+                hasDifferentRectSize = true;
+        }
+
+        Debug.Log($"[OOTechStage3EncounterRepairEditor] {actorName} frame check. Count={spriteList.Count}, PPU={firstPixelsPerUnit}, DifferentPPU={hasDifferentPixelsPerUnit}, DifferentPivot={hasDifferentPivot}, DifferentRectSize={hasDifferentRectSize}, EmptyFrame={hasEmptyFrame}");
+    }
+
+    private static List<Sprite> ExtractSpriteList(AnimationClip sourceClip)
+    {
+        List<Sprite> spriteList = new List<Sprite>();
+        EditorCurveBinding[] bindingArray = AnimationUtility.GetObjectReferenceCurveBindings(sourceClip);
+
+        foreach (EditorCurveBinding binding in bindingArray)
+        {
+            if (binding.type != typeof(SpriteRenderer) || binding.propertyName != "m_Sprite")
+                continue;
+
+            ObjectReferenceKeyframe[] keyframeArray = AnimationUtility.GetObjectReferenceCurve(sourceClip, binding);
+
+            foreach (ObjectReferenceKeyframe keyframe in keyframeArray)
+                spriteList.Add(keyframe.value as Sprite);
+        }
+
+        return spriteList;
+    }
+
+    private static GameObject FindSceneObjectByName(string objectName)
+    {
+        foreach (GameObject rootObject in EditorSceneManager.GetActiveScene().GetRootGameObjects())
+        {
+            Transform foundTransform = FindChildByName(rootObject.transform, objectName);
+
+            if (foundTransform != null)
+                return foundTransform.gameObject;
+        }
+
+        return null;
+    }
+
+    private static Transform FindChildByName(Transform rootTransform, string objectName)
+    {
+        if (rootTransform == null)
+            return null;
+
+        if (rootTransform.name == objectName)
+            return rootTransform;
+
+        for (int index = 0; index < rootTransform.childCount; index++)
+        {
+            Transform foundTransform = FindChildByName(rootTransform.GetChild(index), objectName);
+
+            if (foundTransform != null)
+                return foundTransform;
+        }
+
+        return null;
+    }
+}
+#endif

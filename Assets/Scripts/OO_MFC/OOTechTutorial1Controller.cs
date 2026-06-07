@@ -72,7 +72,7 @@ public class OOTechTutorial1Controller : MonoBehaviour
     [SerializeField] private float _minimumInteractionDistance = 3f;
     [SerializeField] private KeyCode _interactionKey = KeyCode.E;
     [SerializeField] private float _interactionAnimationWaitSeconds = 2.1f;
-    [SerializeField] private float _interactionAnimationSpeed = 0.6f;
+    [SerializeField] private float _interactionAnimationSpeed = 0.7f;
 
     [Header("Animation State Names")]
     [SerializeField] private string _moranWakeUpStateName = "Moran_WakeUp";
@@ -391,7 +391,7 @@ public class OOTechTutorial1Controller : MonoBehaviour
         if (_isInteractionRunning || _isInteractionCompleted)
             return;
 
-        bool isNearMoran = IsPlayerNearMoran() && IsMoranVisibleToCamera();
+        bool isNearMoran = IsPlayerNearMoran();
         SetInteractionPromptActive(isNearMoran);
 
         if (!isNearMoran)
@@ -464,24 +464,60 @@ public class OOTechTutorial1Controller : MonoBehaviour
         if (Character_JangYoungSim != null)
             Character_JangYoungSim.PlaySurprisedAnimationOnce(animationSpeed);
 
-        if (Animator_Moran != null && !string.IsNullOrEmpty(_moranWakeUpStateName))
-        {
-            Animator_Moran.enabled = true;
-            Animator_Moran.speed = animationSpeed;
-            Animator_Moran.Play(_moranWakeUpStateName, 0, 0f);
-        }
+        PlayMoranWakeUpAnimation(animationSpeed);
 
         yield return new WaitForSeconds(_interactionAnimationWaitSeconds / animationSpeed);
 
         if (Character_JangYoungSim != null)
             Character_JangYoungSim.HoldSurprisedAnimationLastFrame();
 
-        if (Animator_Moran != null)
-            Animator_Moran.speed = 1f;
+        HoldMoranWakeUpAnimationLastFrame();
 
         OpenCharacterDialogueSequence();
 
         _interactionCoroutine = null;
+    }
+
+    /// <summary>
+    /// Moran 배우가 잠에서 깨는 장면을 1회 재생합니다. 감독이 큐를 주면 배우의 Animator가 해당 컷을 처음부터 시작합니다.
+    /// </summary>
+    private void PlayMoranWakeUpAnimation(float animationSpeed)
+    {
+        if (Animator_Moran == null || string.IsNullOrEmpty(_moranWakeUpStateName))
+        {
+            Debug.LogWarning("[OOTechTutorial1Controller] Moran WakeUp cannot play. Animator or state name is missing.");
+            return;
+        }
+
+        Animator_Moran.enabled = true;
+        Animator_Moran.speed = animationSpeed;
+
+        int stateHash = Animator.StringToHash(_moranWakeUpStateName);
+        if (!Animator_Moran.HasState(0, stateHash))
+        {
+            Debug.LogWarning($"[OOTechTutorial1Controller] Moran WakeUp state not found: {_moranWakeUpStateName}. Check Animator Controller on Tutorial1Group/Moran.");
+            return;
+        }
+
+        Animator_Moran.Play(stateHash, 0, 0f);
+        Animator_Moran.Update(0f);
+    }
+
+    /// <summary>
+    /// Moran WakeUp 컷이 끝나면 마지막 프레임에서 멈춥니다. 무대 위 배우가 다음 대사를 기다리는 상태입니다.
+    /// </summary>
+    private void HoldMoranWakeUpAnimationLastFrame()
+    {
+        if (Animator_Moran == null || string.IsNullOrEmpty(_moranWakeUpStateName))
+            return;
+
+        int stateHash = Animator.StringToHash(_moranWakeUpStateName);
+        if (!Animator_Moran.HasState(0, stateHash))
+            return;
+
+        Animator_Moran.Play(stateHash, 0, 1f);
+        Animator_Moran.Update(0f);
+        Animator_Moran.speed = 0f;
     }
 
     // ==================== 캐릭터 대화 ====================

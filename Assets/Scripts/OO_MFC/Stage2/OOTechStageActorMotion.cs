@@ -306,14 +306,54 @@ public class OOTechStageActorMotion : MonoBehaviour
         if (!HasAnimatorState(stateName))
             return false;
 
-        Animator_Actor.speed = Mathf.Max(0.01f, speed);
-
         if (!isForceReplay && _currentStateName == stateName)
+        {
+            Animator_Actor.speed = Mathf.Max(0.01f, speed);
             return true;
+        }
+
+        Animator_Actor.speed = Mathf.Max(0.01f, speed);
 
         _currentStateName = stateName;
         Animator_Actor.Play(stateName, 0, 0f);
         return true;
+    }
+
+    /// <summary>
+    /// 대기/공포/위협처럼 계속 보여야 하는 반복 연기를 안정화합니다.
+    /// Game View에서 배우가 한 프레임씩 사라져 보이면, 렌더러와 Animator가 꺼지거나 컬링되는 경우가 있어 먼저 보이기 상태를 고정합니다.
+    /// </summary>
+    public bool RequestPlayStableLoopState(string stateName, float speed = 1f)
+    {
+        ResolveReferences();
+        RequestForceVisibleRenderer();
+
+        if (Animator_Actor != null)
+        {
+            Animator_Actor.enabled = true;
+            Animator_Actor.cullingMode = AnimatorCullingMode.AlwaysAnimate;
+            Animator_Actor.updateMode = AnimatorUpdateMode.Normal;
+        }
+
+        return RequestPlayState(stateName, speed, false);
+    }
+
+    /// <summary>
+    /// 배우의 SpriteRenderer가 투명하거나 강제 비표시 상태로 남는 것을 복구합니다.
+    /// 영화 무대로 치면 배우 조명을 다시 켜고, 암전 상태로 남아 있던 표시 스위치를 되돌리는 장치입니다.
+    /// </summary>
+    public void RequestForceVisibleRenderer()
+    {
+        ResolveReferences();
+
+        if (Renderer_Actor == null)
+            return;
+
+        Renderer_Actor.enabled = true;
+        Renderer_Actor.forceRenderingOff = false;
+        Color rendererColor = Renderer_Actor.color;
+        rendererColor.a = 1f;
+        Renderer_Actor.color = rendererColor;
     }
 
     /// <summary>

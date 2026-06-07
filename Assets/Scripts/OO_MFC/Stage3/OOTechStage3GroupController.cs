@@ -86,11 +86,11 @@ public class OOTechStage3GroupController : MonoBehaviour
 
         yield return PlaySangunAppearRoutine(sangunTransform);
         yield return PlaySangunAnimationRoutine(sangunTransform, "Sangun_isAttacking", Data_CueSheet.AttackingAnimationSpeed, 1.2f);
+        RequestPlayAnimatorState(sangunTransform != null ? sangunTransform.GetComponentInChildren<Animator>(true) : null, "Sangun_Idle", 1f);
 
-        if (Cue_Dialogue != null)
+        if (Cue_Dialogue != null && !string.IsNullOrEmpty(Data_CueSheet.SangunFirstDialogueId))
             yield return Cue_Dialogue.RequestShowDialogueAndWait(Data_CueSheet.SangunFirstDialogueId);
 
-        yield return new WaitForSeconds(0.25f);
         RequestOpenEncounterGroup();
         Coroutine_Sequence = null;
     }

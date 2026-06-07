@@ -337,6 +337,7 @@ public class OOTechRoadHUDController : MonoBehaviour
         CreateHUDCanvasIfNeeded();
         ApplyBottomHUDLayout();
         BindHUDViewReferences();
+        ResolveCookingOverlayControllerIfNeeded();
         OpenCookingSupportHUD();
     }
 
@@ -789,6 +790,8 @@ public class OOTechRoadHUDController : MonoBehaviour
         }
 
         bool hasVisibleItem = false;
+        bool hasKoreanCakeSlot = false;
+        bool hasHoneyKoreanCakeSlot = false;
 
         foreach (OOTechItemModel item in itemList)
         {
@@ -796,7 +799,41 @@ public class OOTechRoadHUDController : MonoBehaviour
                 continue;
 
             hasVisibleItem = true;
+            if (item.ItemDataId == "OO_KoreanCake_1")
+                hasKoreanCakeSlot = true;
+
+            if (item.ItemDataId == "OO_HoneyKoreanCake_1")
+                hasHoneyKoreanCakeSlot = true;
+
             CreateInventoryItemSlot(item);
+        }
+
+        if (!hasKoreanCakeSlot && OOTechGameManager.Inst != null && OOTechGameManager.Inst.GetItemCount("OO_KoreanCake_1") > 0)
+        {
+            hasVisibleItem = true;
+            OOTechItemModel koreanCakeModel = new OOTechItemModel
+            {
+                ItemUniqueId = System.DateTime.UtcNow.Ticks,
+                ItemDataId = "OO_KoreanCake_1",
+                ItemStackCount = OOTechGameManager.Inst.GetItemCount("OO_KoreanCake_1")
+            };
+
+            CreateInventoryItemSlot(koreanCakeModel);
+            Debug.LogWarning("[OOTechRoadHUDController] KoreanCake slot was repaired during inventory refresh.");
+        }
+
+        if (!hasHoneyKoreanCakeSlot && OOTechGameManager.Inst != null && OOTechGameManager.Inst.GetItemCount("OO_HoneyKoreanCake_1") > 0)
+        {
+            hasVisibleItem = true;
+            OOTechItemModel honeyKoreanCakeModel = new OOTechItemModel
+            {
+                ItemUniqueId = System.DateTime.UtcNow.Ticks,
+                ItemDataId = "OO_HoneyKoreanCake_1",
+                ItemStackCount = OOTechGameManager.Inst.GetItemCount("OO_HoneyKoreanCake_1")
+            };
+
+            CreateInventoryItemSlot(honeyKoreanCakeModel);
+            Debug.LogWarning("[OOTechRoadHUDController] HoneyKoreanCake slot was repaired during inventory refresh.");
         }
 
         if (!hasVisibleItem)
@@ -842,7 +879,11 @@ public class OOTechRoadHUDController : MonoBehaviour
         if (slotView != null)
             slotView.RequestSetupItem(item.ItemDataId, $"{itemName}x{item.ItemStackCount}", itemIconSprite);
 
+        Debug.Log($"[OOTechRoadHUDController] Inventory slot created: Slot_{item.ItemDataId} x{item.ItemStackCount}");
         RebuildInventoryScrollView(true);
+
+        if ((item.ItemDataId == "OO_KoreanCake_1" || item.ItemDataId == "OO_HoneyKoreanCake_1") && Scroll_InventorySlots != null)
+            Scroll_InventorySlots.verticalNormalizedPosition = 1f;
 
         if (Controller_CookingOverlay == null || !Controller_CookingOverlay.gameObject.activeInHierarchy)
             return;
@@ -850,10 +891,7 @@ public class OOTechRoadHUDController : MonoBehaviour
         OOTechCookingIngredientDragItem dragItem = slotObject.GetComponent<OOTechCookingIngredientDragItem>();
 
         if (dragItem == null)
-        {
-            Debug.LogWarning("[OOTechRoadHUDController] Slot template needs OOTechCookingIngredientDragItem for cooking drag-and-drop.");
-            return;
-        }
+            dragItem = slotObject.AddComponent<OOTechCookingIngredientDragItem>();
 
         dragItem.Setup(Controller_CookingOverlay, item.ItemDataId, itemName, item.ItemStackCount);
     }
@@ -1380,6 +1418,12 @@ public class OOTechRoadHUDController : MonoBehaviour
         if (ingredientDataId == "OO_VegetableSoup_1")
             return "야채죽";
 
+        if (ingredientDataId == "OO_KoreanCake_1")
+            return "떡";
+
+        if (ingredientDataId == "OO_HoneyKoreanCake_1")
+            return "꿀떡";
+
         return string.IsNullOrEmpty(ingredientDataId) ? "알 수 없는 아이템" : ingredientDataId;
     }
 
@@ -1554,6 +1598,7 @@ public class OOTechRoadHUDController : MonoBehaviour
     private void OpenCookingSupportHUD()
     {
         _isCookingOverlayOpen = true;
+        ResolveCookingOverlayControllerIfNeeded();
         SetHUDVisible(true);
         CloseHUDGuide();
         HideMainMenuConfirmPopup();
@@ -1564,10 +1609,43 @@ public class OOTechRoadHUDController : MonoBehaviour
 
         SetBottomHUDActive(false);
 
+        SetInventoryPanelActive(true);
+        SetMissionPanelActive(true);
         RefreshInventoryView();
         RefreshMissionText();
         SetInventoryPanelActive(true);
-        SetMissionPanelActive(true);
+        ConfigureInventoryScrollView(false);
+    }
+
+    /// <summary>
+    /// 부엌 진입 경로가 HUD 버튼이든 다른 큐시트든, 현재 켜진 CookingGroup Controller를 다시 찾습니다.
+    /// 이 연결이 있어야 인벤토리 슬롯이 조리도구로 드래그될 수 있습니다.
+    /// </summary>
+    private void ResolveCookingOverlayControllerIfNeeded()
+    {
+        if (Controller_CookingOverlay != null && Controller_CookingOverlay.gameObject.activeInHierarchy)
+            return;
+
+        Controller_CookingOverlay = null;
+
+        GameObject cookingGroupObject = FindSceneObjectByName(_cookingGroupName);
+
+        if (cookingGroupObject != null)
+            Controller_CookingOverlay = cookingGroupObject.GetComponent<OOTechCookingGroupController>();
+
+        if (Controller_CookingOverlay != null && Controller_CookingOverlay.gameObject.activeInHierarchy)
+            return;
+
+        OOTechCookingGroupController[] cookingControllerArray = FindObjectsByType<OOTechCookingGroupController>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+
+        foreach (OOTechCookingGroupController cookingController in cookingControllerArray)
+        {
+            if (cookingController == null || !cookingController.gameObject.activeInHierarchy)
+                continue;
+
+            Controller_CookingOverlay = cookingController;
+            return;
+        }
     }
 
     /// <summary>

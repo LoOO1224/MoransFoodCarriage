@@ -36,7 +36,7 @@ public class OOTechCookingIngredientDragItem : MonoBehaviour, IBeginDragHandler,
         _itemDataId = itemDataId;
         _itemName = itemName;
         _itemCount = Mathf.Max(0, itemCount);
-        _dragQuantity = Mathf.Clamp(_dragQuantity, 1, Mathf.Max(1, _itemCount));
+        _dragQuantity = 1;
 
         if (Text_Label == null)
             Text_Label = GetComponentInChildren<TextMeshProUGUI>(true);
@@ -93,6 +93,14 @@ public class OOTechCookingIngredientDragItem : MonoBehaviour, IBeginDragHandler,
     /// </summary>
     public void OnScroll(PointerEventData eventData)
     {
+        if (Controller_Cooking != null && Controller_Cooking.IsStage3EncounterCooking())
+        {
+            _dragQuantity = 1;
+            ApplySlotLabel();
+            eventData?.Use();
+            return;
+        }
+
         if (eventData == null || !Input.GetKey(KeyCode.LeftControl) && !Input.GetKey(KeyCode.RightControl))
             return;
 

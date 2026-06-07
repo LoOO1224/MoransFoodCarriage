@@ -79,6 +79,8 @@ public static class UIManagerExtension
         }
 
         OOTechUIManager.Inst.CloseUI("CodexGroup");
+        OOTechUIManager.Inst.CloseUI("CookingGroup");
+        OOTechUIManager.Inst.CloseUI("WorldMapGroup");
         OOTechUIManager.Inst.OpenUI(safePreviousGroupName);
         RestoreRoadHUDIfNeeded(safePreviousGroupName);
     }

@@ -37,7 +37,7 @@ public class OOTechStage3EncounterController : MonoBehaviour
     [SerializeField] private string _stageClearMessage = "산군이 약속의 뜻으로 당근 x10 묶음을 줬습니다. 다음 여정에 나설 준비가 끝났습니다.";
 
     [Header("Actor State")]
-    [SerializeField] private string _mrJaeikThreateningStateName = "Mr.Jaeik_isThreatening";
+    [SerializeField] private string _mrJaeikThreateningStateName = "Mr_Jaeik_isThreatening";
 
     private OO_Stage3CueSheet Data_CueSheet;
     private OOTechRoadHUDController HUD_Road;
@@ -90,6 +90,7 @@ public class OOTechStage3EncounterController : MonoBehaviour
         }
 
         PrepareEncounterActors();
+        RequestOpenInventoryForReturnedEncounter();
         SetNextButtonActive(false);
 
         if (!_hasInitialSequencePlayed)
@@ -147,9 +148,37 @@ public class OOTechStage3EncounterController : MonoBehaviour
         Actor_Moran = ResolveActor(string.IsNullOrEmpty(Data_CueSheet.MoranRoleId) ? "Moran" : Data_CueSheet.MoranRoleId);
         Actor_MrJaeik = ResolveActor(string.IsNullOrEmpty(Data_CueSheet.MrJaeikRoleId) ? "Mr.Jaeik" : Data_CueSheet.MrJaeikRoleId);
 
+        RequestDisableDuplicateRoleActors(Data_CueSheet.SangunRoleId, Actor_Sangun);
+        RequestDisableDuplicateRoleActors(string.IsNullOrEmpty(Data_CueSheet.MoranRoleId) ? "Moran" : Data_CueSheet.MoranRoleId, Actor_Moran);
+        RequestDisableDuplicateRoleActors(string.IsNullOrEmpty(Data_CueSheet.MrJaeikRoleId) ? "Mr.Jaeik" : Data_CueSheet.MrJaeikRoleId, Actor_MrJaeik);
+
         RequestPlayActorState(Actor_Sangun, "Sangun_Idle", 1f, false);
-        RequestPlayActorState(Actor_Moran, "Moran_isScared", 0.6f, true);
-        RequestPlayActorState(Actor_MrJaeik, _mrJaeikThreateningStateName, 0.6f, true);
+        RequestPlayActorState(Actor_Moran, "Moran_isScared", 0.6f, false);
+        RequestPlayActorState(Actor_MrJaeik, _mrJaeikThreateningStateName, 0.6f, false);
+    }
+
+    /// <summary>
+    /// EncounterGroup 안에서 같은 역할표를 단 배우가 둘 이상 켜져 있으면 같은 위치에서 두 스프라이트가 번갈아 보여 깜빡임처럼 보입니다.
+    /// 선택된 주연 배우만 남기고, 같은 그룹 안의 중복 배우만 끕니다.
+    /// </summary>
+    private void RequestDisableDuplicateRoleActors(string roleId, OOTechStageActorMotion selectedActor)
+    {
+        if (string.IsNullOrEmpty(roleId) || selectedActor == null)
+            return;
+
+        OOTechSceneObject[] sceneObjectArray = GetComponentsInChildren<OOTechSceneObject>(true);
+
+        foreach (OOTechSceneObject sceneObject in sceneObjectArray)
+        {
+            if (sceneObject == null || sceneObject.RoleId != roleId)
+                continue;
+
+            if (sceneObject.transform == selectedActor.transform || sceneObject.transform.IsChildOf(selectedActor.transform))
+                continue;
+
+            sceneObject.gameObject.SetActive(false);
+            Debug.LogWarning($"[OOTechStage3EncounterController] Disabled duplicate Encounter actor role={roleId}, object={sceneObject.gameObject.name}.");
+        }
     }
 
     /// <summary>
@@ -351,11 +380,7 @@ public class OOTechStage3EncounterController : MonoBehaviour
         if (HUD_Road == null)
             return;
 
-        string questText = "산군을 위해 꿀떡을 만드세요.";
-        OO_StageQuest questData = OOTechGameDataManager.Inst != null ? OOTechGameDataManager.Inst.GetStageQuestData(Data_CueSheet.StageQuestId) : null;
-
-        if (questData != null && !string.IsNullOrEmpty(questData.Description))
-            questText = questData.Description;
+        string questText = "떡 1개와 꿀 1개로 꿀떡을 만드세요.";
 
         HUD_Road.RequestSetStageQuestMission(questText);
         HUD_Road.SetMissionNewBadgeActive(true);
@@ -376,9 +401,43 @@ public class OOTechStage3EncounterController : MonoBehaviour
         OOTechGroupNavigationHistory.SetPreviousGroup(_cookingGroupName, gameObject.name);
 
         if (cookingGroup != null && OOTechUIManager.Inst != null)
+        {
             OOTechUIManager.Inst.RegisterUI(_cookingGroupName, cookingGroup);
+            PrepareCookingBackButtons(cookingGroup);
+        }
+        else if (cookingGroup != null)
+        {
+            PrepareCookingBackButtons(cookingGroup);
+        }
 
         RequestSwitchGroup(gameObject.name, _cookingGroupName);
+    }
+
+    /// <summary>
+    /// EncounterGroup에서 열린 부엌의 돌아가기 버튼은 반드시 EncounterGroup으로 돌아오게 지정합니다.
+    /// Game View에서는 Stage2Group 같은 이전 로드로 튀지 않고 산군 장면으로 복귀합니다.
+    /// </summary>
+    private void PrepareCookingBackButtons(GameObject cookingGroup)
+    {
+        if (cookingGroup == null)
+            return;
+
+        BackButtonController[] backButtonArray = cookingGroup.GetComponentsInChildren<BackButtonController>(true);
+
+        foreach (BackButtonController backButton in backButtonArray)
+            backButton.SetPreviousGroup(gameObject.name);
+    }
+
+    /// <summary>
+    /// CookingGroup에서 EncounterGroup으로 돌아오면 인벤토리를 바로 열어 최신 NEW 아이템을 확인하게 합니다.
+    /// </summary>
+    private void RequestOpenInventoryForReturnedEncounter()
+    {
+        if (_hasInitialSequencePlayed && HUD_Road != null)
+        {
+            HUD_Road.RequestOpenCookingSupportHUD();
+            HUD_Road.RequestRefreshInventoryView();
+        }
     }
 
     private void RequestSwitchGroup(string currentGroupName, string nextGroupName)
@@ -419,7 +478,28 @@ public class OOTechStage3EncounterController : MonoBehaviour
         if (actor == null)
             return false;
 
-        return actor.RequestPlayState(stateName, speed, isForceReplay);
+        OOTechEncounterLoopSpritePlayer loopSpritePlayer = actor.GetComponent<OOTechEncounterLoopSpritePlayer>();
+
+        if (loopSpritePlayer == null)
+            loopSpritePlayer = actor.GetComponentInChildren<OOTechEncounterLoopSpritePlayer>(true);
+
+        if (loopSpritePlayer == null)
+            loopSpritePlayer = actor.GetComponentInParent<OOTechEncounterLoopSpritePlayer>(true);
+
+        if (!isForceReplay && loopSpritePlayer != null && loopSpritePlayer.RequestPlayLoopState(stateName, speed))
+            return true;
+
+        if (!isForceReplay && loopSpritePlayer != null)
+        {
+            Debug.LogWarning($"[OOTechStage3EncounterController] Encounter loop player exists but did not accept state. actor={actor.gameObject.name}, state={stateName}");
+            return false;
+        }
+
+        if (!isForceReplay)
+            return actor.RequestPlayStableLoopState(stateName, speed);
+
+        actor.RequestForceVisibleRenderer();
+        return actor.RequestPlayState(stateName, speed, true);
     }
 
     private void AddItem(string itemId, int count)

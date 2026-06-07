@@ -208,6 +208,9 @@ public class OOTechCookingRecipeService
         if (resultItemId == "OO_VegetableSoup_1")
             return selectionModel.RequestGetIngredientAmount("Ing_Rice_01") >= 1 && selectionModel.RequestGetIngredientAmount("Ing_Veggie_01") >= 1 ? 1 : 0;
 
+        if (resultItemId == "OO_KoreanCake_1")
+            return selectionModel.RequestGetIngredientAmount("Ing_Rice_01") >= 1 ? 1 : 0;
+
         return 1;
     }
 }

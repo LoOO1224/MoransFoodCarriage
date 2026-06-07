@@ -16,6 +16,9 @@ using UnityEngine.SceneManagement;
 [DisallowMultipleComponent]
 public class OOTechTutorial2Controller : MonoBehaviour
 {
+    private static bool _isRiceStarterRewardGiven;
+    private static bool _isVegetableStarterRewardGiven;
+
     [Header("Run Rule")]
     [SerializeField] private string _firstRoadGroupName = "1st_Road_to_Stage1";
 
@@ -145,20 +148,10 @@ public class OOTechTutorial2Controller : MonoBehaviour
     /// </summary>
     public void RequestEnsureStarterIngredients(OOTechRoadHUDController hudController)
     {
-        bool isChanged = false;
-        isChanged |= RequestEnsureIngredientCount(_riceIngredientId, _riceIngredientCount);
-        isChanged |= RequestEnsureIngredientCount(_vegetableIngredientId, _vegetableIngredientCount);
-
-        if (!isChanged)
-            return;
-
         if (hudController != null)
-        {
             hudController.RequestRefreshInventoryView();
-            hudController.SetInventoryNewBadgeActive(true);
-        }
 
-        Debug.Log($"[OOTechTutorial2Controller] Starter ingredients repaired: {_riceIngredientId} x{_riceIngredientCount}, {_vegetableIngredientId} x{_vegetableIngredientCount}");
+        Debug.Log("[OOTechTutorial2Controller] Starter ingredient top-up is disabled. Inventory count is preserved.");
     }
 
     /// <summary>
@@ -219,7 +212,7 @@ public class OOTechTutorial2Controller : MonoBehaviour
     /// </summary>
     private void RequestGiveIngredient(OOTechRoadHUDController hudController, string ingredientId, int count)
     {
-        if (!RequestEnsureIngredientCount(ingredientId, count))
+        if (!RequestGiveStarterIngredientOnce(ingredientId, count))
             return;
 
         if (hudController != null)
@@ -230,22 +223,32 @@ public class OOTechTutorial2Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// 특정 재료가 목표 수량보다 적으면 부족분만 추가합니다.
-    /// 같은 튜토리얼이 다시 실행되어도 재료가 중복 지급되지 않게 하는 보상 모델 보정입니다.
+    /// 춘양/모란 대사 보상으로 받는 시작 재료를 한 번만 지급합니다.
+    /// 플레이어가 요리에 재료를 소비하면 그 감소량을 그대로 유지하고, 다음 부엌 입장 때 자동 복구하지 않습니다.
     /// </summary>
-    private bool RequestEnsureIngredientCount(string ingredientId, int targetCount)
+    private bool RequestGiveStarterIngredientOnce(string ingredientId, int count)
     {
-        if (OOTechGameManager.Inst == null || string.IsNullOrEmpty(ingredientId) || targetCount <= 0)
+        if (OOTechGameManager.Inst == null || string.IsNullOrEmpty(ingredientId) || count <= 0)
             return false;
 
-        int currentCount = OOTechGameManager.Inst.GetItemCount(ingredientId);
-        int addCount = targetCount - currentCount;
+        if (ingredientId == _riceIngredientId)
+        {
+            if (_isRiceStarterRewardGiven)
+                return false;
 
-        if (addCount <= 0)
-            return false;
+            _isRiceStarterRewardGiven = true;
+        }
+        else if (ingredientId == _vegetableIngredientId)
+        {
+            if (_isVegetableStarterRewardGiven)
+                return false;
 
+            _isVegetableStarterRewardGiven = true;
+        }
+
+        int addCount = Mathf.Max(1, count);
         OOTechGameManager.Inst.AddItem(ingredientId, addCount);
-        Debug.Log($"[OOTechTutorial2Controller] Ingredient ensured: {ingredientId} +{addCount}, Target={targetCount}");
+        Debug.Log($"[OOTechTutorial2Controller] Starter reward given once: {ingredientId} x{addCount}");
         return true;
     }
 
