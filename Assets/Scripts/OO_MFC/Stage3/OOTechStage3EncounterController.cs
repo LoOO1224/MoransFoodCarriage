@@ -34,6 +34,9 @@ public class OOTechStage3EncounterController : MonoBehaviour
     [SerializeField] private string _cookingGroupName = "CookingGroup";
     [SerializeField] private string _mainMenuGroupName = "MainMenuGroup";
 
+    [Header("Background")]
+    [SerializeField] private Sprite Sprite_Stage3Background;
+
     [Header("Clear UI")]
     [SerializeField] private string _stageClearCanvasName = "Canvas_Stage3Clear";
     [SerializeField] private string _stageClearTitle = "북쪽 숲 임무 완수";
@@ -52,6 +55,21 @@ public class OOTechStage3EncounterController : MonoBehaviour
     private Coroutine Coroutine_Sequence;
     private bool _hasInitialSequencePlayed;
     private bool _isQuestCleared;
+
+    /// <summary>
+    /// EncounterGroup이 열린 동안 뒤 무대가 다시 켜지면 Game View에 도플갱어가 찍힙니다.
+    /// 촬영 중 계속 체크해서 Stage3 배경만 무대 뒤에 남도록 보험을 겁니다.
+    /// </summary>
+    private void LateUpdate()
+    {
+        if (!gameObject.activeInHierarchy)
+            return;
+
+        RequestCloseStage3GroupBehindEncounter();
+        RequestPrepareEncounterBackground();
+        RequestFitCameraToEncounterBackground();
+        RequestDisableForeignMrJaeikRenderers();
+    }
 
     /// <summary>
     /// EncounterGroup이 열릴 때 초기 대사 또는 복귀 판정을 시작합니다.
@@ -92,8 +110,8 @@ public class OOTechStage3EncounterController : MonoBehaviour
             yield break;
         }
 
-        PrepareEncounterActors();
         RequestCloseStage3GroupBehindEncounter();
+        PrepareEncounterActors();
         RequestOpenInventoryForReturnedEncounter();
         SetNextButtonActive(false);
 
@@ -164,17 +182,32 @@ public class OOTechStage3EncounterController : MonoBehaviour
     }
 
     /// <summary>
-    /// EncounterGroup이 켜졌는데 Stage3Group이 뒤에서 같이 살아 있으면 이전 배우가 카메라에 도플갱어처럼 보입니다.
-    /// 산군 Encounter 무대가 열릴 때 이전 숲 입장 무대는 확실히 암전시킵니다.
+    /// EncounterGroup이 켜졌는데 이전 Road/Stage 그룹이 뒤에서 살아 있으면 이전 배우가 카메라에 도플갱어처럼 보입니다.
+    /// 산군 Encounter 무대가 열릴 때 이전 무대는 확실히 암전시킵니다.
     /// </summary>
     private void RequestCloseStage3GroupBehindEncounter()
     {
-        GameObject stage3GroupObject = FindSceneObjectByName("Stage3Group");
+        string[] previousGroupNameArray =
+        {
+            "Stage2Group",
+            "Stage3Group",
+            "2nd_Road_to_Stage2",
+            "3rd_Road_to_Stage3"
+        };
 
-        if (stage3GroupObject == null || stage3GroupObject == gameObject)
-            return;
+        foreach (string previousGroupName in previousGroupNameArray)
+        {
+            GameObject previousGroupObject = FindSceneObjectByName(previousGroupName);
 
-        stage3GroupObject.SetActive(false);
+            if (previousGroupObject == null || previousGroupObject == gameObject)
+                continue;
+
+            if (!previousGroupObject.activeSelf)
+                continue;
+
+            previousGroupObject.SetActive(false);
+            Debug.LogWarning($"[OOTechStage3EncounterController] Closed previous group behind EncounterGroup: {previousGroupName}");
+        }
     }
 
     /// <summary>
@@ -197,7 +230,24 @@ public class OOTechStage3EncounterController : MonoBehaviour
         backgroundRenderer.color = Color.white;
         backgroundRenderer.sortingLayerName = "Background";
         backgroundRenderer.sortingOrder = -1000;
+        RequestApplyStage3BackgroundSprite(backgroundRenderer);
         RequestFitBackgroundRendererToEncounterStage(backgroundRenderer);
+    }
+
+    /// <summary>
+    /// 배경 배우가 실수로 다른 스프라이트를 들고 있으면 검은 화면과 거대한 캐릭터 조각처럼 보입니다.
+    /// 무대 세트 담당자가 항상 Stage3.png 소품만 들게 고정합니다.
+    /// </summary>
+    private void RequestApplyStage3BackgroundSprite(SpriteRenderer backgroundRenderer)
+    {
+        if (backgroundRenderer == null || Sprite_Stage3Background == null)
+            return;
+
+        if (backgroundRenderer.sprite == Sprite_Stage3Background)
+            return;
+
+        backgroundRenderer.sprite = Sprite_Stage3Background;
+        Debug.LogWarning("[OOTechStage3EncounterController] Encounter background sprite corrected to Stage3.png.");
     }
 
     /// <summary>
@@ -249,6 +299,43 @@ public class OOTechStage3EncounterController : MonoBehaviour
     }
 
     /// <summary>
+    /// EncounterGroup의 선택 배우가 아닌 Mr.Jaeik 렌더러가 다른 그룹에서 살아 있으면 카메라에 도플갱어가 찍힙니다.
+    /// 배우를 삭제하지 않고 Renderer/Animator만 꺼서 다음 무대 데이터는 보존합니다.
+    /// </summary>
+    private void RequestDisableForeignMrJaeikRenderers()
+    {
+        if (Actor_MrJaeik == null)
+            return;
+
+        SpriteRenderer[] rendererArray = FindObjectsByType<SpriteRenderer>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+
+        foreach (SpriteRenderer spriteRenderer in rendererArray)
+        {
+            if (spriteRenderer == null || spriteRenderer.transform.IsChildOf(Actor_MrJaeik.transform))
+                continue;
+
+            if (!spriteRenderer.gameObject.activeInHierarchy)
+                continue;
+
+            if (!IsMrJaeikRelatedPath(spriteRenderer.transform))
+                continue;
+
+            if (!spriteRenderer.enabled && spriteRenderer.forceRenderingOff)
+                continue;
+
+            spriteRenderer.enabled = false;
+            spriteRenderer.forceRenderingOff = true;
+
+            Animator animator = spriteRenderer.GetComponent<Animator>();
+
+            if (animator != null)
+                animator.enabled = false;
+
+            Debug.LogWarning($"[OOTechStage3EncounterController] Hidden foreign Mr.Jaeik renderer: {GetHierarchyPath(spriteRenderer.transform)}");
+        }
+    }
+
+    /// <summary>
     /// EncounterGroup 배경 전체가 Game View에 들어오도록 카메라를 맞춥니다.
     /// 이전 Stage3 카메라 줌이 남아 배경이 아주 작게 보이는 문제를 막는 촬영 큐입니다.
     /// </summary>
@@ -267,6 +354,7 @@ public class OOTechStage3EncounterController : MonoBehaviour
 
         backgroundRenderer.gameObject.SetActive(true);
         backgroundRenderer.enabled = true;
+        RequestApplyStage3BackgroundSprite(backgroundRenderer);
         RequestFitBackgroundRendererToEncounterStage(backgroundRenderer);
         Cue_Camera.RequestSaveAndDisableCameraFollow();
         Cue_Camera.RequestFocusCameraOnBounds(backgroundRenderer.bounds, 1f);
@@ -350,6 +438,40 @@ public class OOTechStage3EncounterController : MonoBehaviour
         }
 
         return bestRenderer;
+    }
+
+    private bool IsMrJaeikRelatedPath(Transform targetTransform)
+    {
+        Transform currentTransform = targetTransform;
+
+        while (currentTransform != null)
+        {
+            string objectName = currentTransform.name;
+
+            if (objectName.Contains("Mr.Jaeik") || objectName.Contains("Mr_Jaeik"))
+                return true;
+
+            currentTransform = currentTransform.parent;
+        }
+
+        return false;
+    }
+
+    private string GetHierarchyPath(Transform targetTransform)
+    {
+        if (targetTransform == null)
+            return string.Empty;
+
+        string path = targetTransform.name;
+        Transform currentTransform = targetTransform.parent;
+
+        while (currentTransform != null)
+        {
+            path = currentTransform.name + "/" + path;
+            currentTransform = currentTransform.parent;
+        }
+
+        return path;
     }
 
     private IEnumerator PlayInitialDialogueRoutine()

@@ -71468,6 +71468,7 @@ MonoBehaviour:
   Cue_Camera: {fileID: 0}
   _cookingGroupName: CookingGroup
   _mainMenuGroupName: MainMenuGroup
+  Sprite_Stage3Background: {fileID: 21300000, guid: b7aca28e5f564544ea934b3d3e69ff05, type: 3}
   _stageClearCanvasName: Canvas_Stage3Clear
   _stageClearTitle: "\uBD81\uCABD \uC232 \uC784\uBB34 \uC644\uC218"
   _stageClearMessage: "\uC0B0\uAD70\uC774 \uC57D\uC18D\uC758 \uB73B\uC73C\uB85C \uB2F9\uADFC

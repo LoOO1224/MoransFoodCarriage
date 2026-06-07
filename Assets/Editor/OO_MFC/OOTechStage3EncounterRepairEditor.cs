@@ -59,7 +59,9 @@ public static class OOTechStage3EncounterRepairEditor
         }
 
         RepairEncounterBackground(encounterGroup.transform);
+        AssignEncounterBackgroundSprite(encounterGroup, AssetDatabase.LoadAssetAtPath<Sprite>(Stage3BackgroundSpritePath));
         RemoveDuplicateMrJaeik(encounterGroup.transform);
+        RemoveStage3GroupMrJaeikArtifacts(encounterGroup.transform);
 
         EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
         EditorSceneManager.SaveOpenScenes();
@@ -73,8 +75,10 @@ public static class OOTechStage3EncounterRepairEditor
 
         if (backgroundTransform == null)
         {
-            Debug.LogError("[OOTechStage3EncounterRepairEditor] EncounterGroup Stage3Background not found.");
-            return;
+            GameObject backgroundObject = new GameObject("Stage3Background");
+            backgroundTransform = backgroundObject.transform;
+            backgroundTransform.SetParent(encounterRoot, false);
+            Debug.LogWarning("[OOTechStage3EncounterRepairEditor] EncounterGroup Stage3Background was missing. Created new background object.");
         }
 
         SpriteRenderer backgroundRenderer = backgroundTransform.GetComponent<SpriteRenderer>();
@@ -116,6 +120,31 @@ public static class OOTechStage3EncounterRepairEditor
         Debug.Log($"[OOTechStage3EncounterRepairEditor] Encounter background repaired. Sprite={backgroundRenderer.sprite?.name}, Scale={backgroundTransform.localScale}");
     }
 
+    private static void AssignEncounterBackgroundSprite(GameObject encounterGroup, Sprite backgroundSprite)
+    {
+        if (encounterGroup == null || backgroundSprite == null)
+            return;
+
+        OOTechStage3EncounterController controller = encounterGroup.GetComponent<OOTechStage3EncounterController>();
+
+        if (controller == null)
+            controller = encounterGroup.AddComponent<OOTechStage3EncounterController>();
+
+        SerializedObject serializedObject = new SerializedObject(controller);
+        SerializedProperty spriteProperty = serializedObject.FindProperty("Sprite_Stage3Background");
+
+        if (spriteProperty == null)
+        {
+            Debug.LogWarning("[OOTechStage3EncounterRepairEditor] Sprite_Stage3Background serialized field not found.");
+            return;
+        }
+
+        spriteProperty.objectReferenceValue = backgroundSprite;
+        serializedObject.ApplyModifiedProperties();
+        EditorUtility.SetDirty(controller);
+        Debug.Log("[OOTechStage3EncounterRepairEditor] Encounter controller Stage3 background sprite reference assigned.");
+    }
+
     private static void RemoveDuplicateMrJaeik(Transform encounterRoot)
     {
         List<Transform> mrJaeikList = FindActorTransformList(encounterRoot, "Mr.Jaeik");
@@ -142,6 +171,37 @@ public static class OOTechStage3EncounterRepairEditor
             Debug.Log($"[OOTechStage3EncounterRepairEditor] Kept Mr.Jaeik: {GetHierarchyPath(keepTransform)} / Pos={keepTransform.position}");
     }
 
+    private static void RemoveStage3GroupMrJaeikArtifacts(Transform encounterRoot)
+    {
+        GameObject stage3GroupObject = FindSceneObjectByName("Stage3Group");
+
+        if (stage3GroupObject == null)
+            return;
+
+        Transform[] transformArray = stage3GroupObject.GetComponentsInChildren<Transform>(true);
+        List<Transform> removeTransformList = new List<Transform>();
+
+        foreach (Transform targetTransform in transformArray)
+        {
+            if (targetTransform == null || targetTransform == stage3GroupObject.transform)
+                continue;
+
+            if (!IsMrJaeikRelatedPath(targetTransform))
+                continue;
+
+            if (IsChildOfAny(targetTransform, removeTransformList))
+                continue;
+
+            removeTransformList.Add(targetTransform);
+        }
+
+        foreach (Transform targetTransform in removeTransformList)
+        {
+            Debug.LogWarning($"[OOTechStage3EncounterRepairEditor] Removing Stage3Group Mr.Jaeik artifact: {GetHierarchyPath(targetTransform)}");
+            Object.DestroyImmediate(targetTransform.gameObject);
+        }
+    }
+
     private static List<Transform> FindActorTransformList(Transform rootTransform, string actorName)
     {
         List<Transform> transformList = FindRoleTransformList(rootTransform, actorName);
@@ -149,7 +209,13 @@ public static class OOTechStage3EncounterRepairEditor
 
         foreach (Transform childTransform in childTransformArray)
         {
-            if (childTransform == null || childTransform.name != actorName)
+            if (childTransform == null)
+                continue;
+
+            bool isExactActorName = childTransform.name == actorName;
+            bool isActorComponent = childTransform.GetComponent<OOTechStageActorMotion>() != null || childTransform.GetComponent<OOTechSceneObject>() != null;
+
+            if (!isExactActorName && !(isActorComponent && childTransform.name.Contains(actorName)))
                 continue;
 
             if (!transformList.Contains(childTransform))
@@ -225,6 +291,34 @@ public static class OOTechStage3EncounterRepairEditor
         }
 
         return path;
+    }
+
+    private static bool IsMrJaeikRelatedPath(Transform targetTransform)
+    {
+        Transform currentTransform = targetTransform;
+
+        while (currentTransform != null)
+        {
+            string objectName = currentTransform.name;
+
+            if (objectName.Contains("Mr.Jaeik") || objectName.Contains("Mr_Jaeik"))
+                return true;
+
+            currentTransform = currentTransform.parent;
+        }
+
+        return false;
+    }
+
+    private static bool IsChildOfAny(Transform targetTransform, List<Transform> parentTransformList)
+    {
+        foreach (Transform parentTransform in parentTransformList)
+        {
+            if (targetTransform.IsChildOf(parentTransform))
+                return true;
+        }
+
+        return false;
     }
 
     private static void RepairActor(Transform encounterRoot, string actorName, string stateName, string clipPath, float speed)
