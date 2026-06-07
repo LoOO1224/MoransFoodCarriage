@@ -1,9 +1,9 @@
-// =============================================================================
-// OO_MFC 역할 주석
-// - 스크립트: OOTechStagePlaceholderController.cs
-// - 역할: 로드맵, 월드맵, 스테이지 전환 흐름을 담당하는 장면 Controller입니다.
-// - 감독 관점: 길 위의 장면 전환 큐시트를 들고 있는 무대감독입니다.
-// - 유지보수 포인트: 배경/버튼/캐릭터 배치는 오브젝트와 View가 맡고, 이 스크립트는 순서 지휘만 맡아야 합니다.
+﻿// =============================================================================
+// OO_MFC ??븷 二쇱꽍
+// - ?ㅽ겕由쏀듃: OOTechStagePlaceholderController.cs
+// - ??븷: 濡쒕뱶留? ?붾뱶留? ?ㅽ뀒?댁? ?꾪솚 ?먮쫫???대떦?섎뒗 ?λ㈃ Controller?낅땲??
+// - 媛먮룆 愿?? 湲??꾩쓽 ?λ㈃ ?꾪솚 ?먯떆?몃? ?ㅺ퀬 ?덈뒗 臾대?媛먮룆?낅땲??
+// - ?좎?蹂댁닔 ?ъ씤?? 諛곌꼍/踰꾪듉/罹먮┃??諛곗튂???ㅻ툕?앺듃? View媛 留↔퀬, ???ㅽ겕由쏀듃???쒖꽌 吏?섎쭔 留≪븘???⑸땲??
 // =============================================================================
 using TMPro;
 using UnityEngine;
@@ -11,8 +11,8 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 /// <summary>
-/// 각 StageGroup의 세부 퀘스트가 들어오기 전까지 쓰는 임시 무대 컨트롤러입니다.
-/// 흰 배경 세트, 공용 HUD, 다음 RoadGroup으로 넘어가는 버튼 큐를 관리합니다.
+/// 媛?StageGroup???몃? ?섏뒪?멸? ?ㅼ뼱?ㅺ린 ?꾧퉴吏 ?곕뒗 ?꾩떆 臾대? 而⑦듃濡ㅻ윭?낅땲??
+/// ??諛곌꼍 ?명듃, 怨듭슜 HUD, ?ㅼ쓬 RoadGroup?쇰줈 ?섏뼱媛??踰꾪듉 ?먮? 愿由ы빀?덈떎.
 /// </summary>
 [DisallowMultipleComponent]
 public class OOTechStagePlaceholderController : MonoBehaviour
@@ -32,7 +32,7 @@ public class OOTechStagePlaceholderController : MonoBehaviour
     private OOTechRoadHUDController HUD_Shared;
 
     /// <summary>
-    /// 에디터 보수 스크립트가 Stage 번호에 맞춰 현재/다음 그룹 이름을 세팅할 때 사용합니다.
+    /// ?먮뵒??蹂댁닔 ?ㅽ겕由쏀듃媛 Stage 踰덊샇??留욎떠 ?꾩옱/?ㅼ쓬 洹몃９ ?대쫫???명똿?????ъ슜?⑸땲??
     /// </summary>
     public void Configure(string currentGroupName, string nextGroupName, string buttonText)
     {
@@ -47,7 +47,7 @@ public class OOTechStagePlaceholderController : MonoBehaviour
     }
 
     /// <summary>
-    /// StageGroup이 켜지면 임시 무대 UI와 HUD를 준비합니다.
+    /// StageGroup??耳쒖?硫??꾩떆 臾대? UI? HUD瑜?以鍮꾪빀?덈떎.
     /// </summary>
     private void OnEnable()
     {
@@ -59,7 +59,7 @@ public class OOTechStagePlaceholderController : MonoBehaviour
     }
 
     /// <summary>
-    /// StageGroup이 꺼질 때 버튼 이벤트와 HUD 표시를 정리합니다.
+    /// StageGroup??爰쇱쭏 ??踰꾪듉 ?대깽?몄? HUD ?쒖떆瑜??뺣━?⑸땲??
     /// </summary>
     private void OnDisable()
     {
@@ -70,12 +70,12 @@ public class OOTechStagePlaceholderController : MonoBehaviour
     }
 
     /// <summary>
-    /// 씬에 배치된 Canvas_StagePlaceholder에서 버튼 소품을 찾아 연결합니다.
+    /// ?ъ뿉 諛곗튂??Canvas_StagePlaceholder?먯꽌 踰꾪듉 ?뚰뭹??李얠븘 ?곌껐?⑸땲??
     /// </summary>
     private void PrepareView()
     {
         if (Root_Canvas == null)
-            Root_Canvas = FindChildByName(transform, "Canvas_StagePlaceholder");
+            Root_Canvas = RequestChildObjectByName(transform, "Canvas_StagePlaceholder");
 
         if (Root_Canvas == null)
         {
@@ -92,7 +92,7 @@ public class OOTechStagePlaceholderController : MonoBehaviour
             canvas.sortingOrder = _sortingOrder;
         }
 
-        GameObject buttonObject = FindChildByName(Root_Canvas.transform, "Button_NextStage");
+        GameObject buttonObject = RequestChildObjectByName(Root_Canvas.transform, "Button_NextStage");
         Button_Next = buttonObject != null ? buttonObject.GetComponent<Button>() : null;
         Text_Button = buttonObject != null ? buttonObject.GetComponentInChildren<TextMeshProUGUI>(true) : null;
 
@@ -101,12 +101,12 @@ public class OOTechStagePlaceholderController : MonoBehaviour
     }
 
     /// <summary>
-    /// StageGroup이 켜질 때 실제 배경막을 먼저 올리고, 흰색 임시 배경막은 내립니다.
-    /// 영화 무대로 보면 Stage2Background는 실제 세트이고 Image_WhiteBackground는 임시 리허설 천막입니다.
+    /// StageGroup??耳쒖쭏 ???ㅼ젣 諛곌꼍留됱쓣 癒쇱? ?щ━怨? ?곗깋 ?꾩떆 諛곌꼍留됱? ?대┰?덈떎.
+    /// ?곹솕 臾대?濡?蹂대㈃ Stage2Background???ㅼ젣 ?명듃?닿퀬 Image_WhiteBackground???꾩떆 由ы뿀??泥쒕쭑?낅땲??
     /// </summary>
     private void PrepareStageBackground()
     {
-        GameObject stageBackgroundObject = FindStageBackgroundObject();
+        GameObject stageBackgroundObject = RequestStageBackgroundObject();
 
         if (stageBackgroundObject == null)
             return;
@@ -114,38 +114,39 @@ public class OOTechStagePlaceholderController : MonoBehaviour
         stageBackgroundObject.SetActive(true);
         NormalizeStageBackgroundView(stageBackgroundObject);
         DisablePlaceholderWhiteBackground();
+        RequestFitCameraToStageBackground(stageBackgroundObject);
 
         Debug.Log($"[OOTechStagePlaceholderController] Stage background enabled: {gameObject.name} -> {stageBackgroundObject.name}");
     }
 
     /// <summary>
-    /// 현재 StageGroup 이름에 맞는 배경 오브젝트를 찾습니다.
-    /// 예: Stage2Group 무대에서는 Stage2Background 배우를 찾습니다.
+    /// ?꾩옱 StageGroup ?대쫫??留욌뒗 諛곌꼍 ?ㅻ툕?앺듃瑜?李얠뒿?덈떎.
+    /// ?? Stage2Group 臾대??먯꽌??Stage2Background 諛곗슦瑜?李얠뒿?덈떎.
     /// </summary>
-    private GameObject FindStageBackgroundObject()
+    private GameObject RequestStageBackgroundObject()
     {
         if (HasRenderableStageBackground(gameObject))
             return gameObject;
 
         string groupName = string.IsNullOrEmpty(_currentGroupName) ? gameObject.name : _currentGroupName;
         string expectedBackgroundName = groupName.Replace("Group", "Background");
-        GameObject stageBackgroundObject = FindChildByName(transform, expectedBackgroundName);
+        GameObject stageBackgroundObject = RequestChildObjectByName(transform, expectedBackgroundName);
 
         if (stageBackgroundObject != null)
             return stageBackgroundObject;
 
         string typoSafeBackgroundName = groupName.Replace("Group", "Backound");
-        stageBackgroundObject = FindChildByName(transform, typoSafeBackgroundName);
+        stageBackgroundObject = RequestChildObjectByName(transform, typoSafeBackgroundName);
 
         if (stageBackgroundObject != null)
             return stageBackgroundObject;
 
-        return FindFirstRealBackgroundChild(transform);
+        return RequestFirstRealBackgroundChild(transform);
     }
 
     /// <summary>
-    /// Stage3Group처럼 그룹 루트 자체에 배경 Image를 붙인 경우도 실제 배경 배우로 인정합니다.
-    /// 감독이 무대 벽 자체에 그림을 붙여둔 상황이므로, 별도 자식 소품이 없어도 배경으로 사용합니다.
+    /// Stage3Group泥섎읆 洹몃９ 猷⑦듃 ?먯껜??諛곌꼍 Image瑜?遺숈씤 寃쎌슦???ㅼ젣 諛곌꼍 諛곗슦濡??몄젙?⑸땲??
+    /// 媛먮룆??臾대? 踰??먯껜??洹몃┝??遺숈뿬???곹솴?대?濡? 蹂꾨룄 ?먯떇 ?뚰뭹???놁뼱??諛곌꼍?쇰줈 ?ъ슜?⑸땲??
     /// </summary>
     private bool HasRenderableStageBackground(GameObject targetObject)
     {
@@ -162,10 +163,10 @@ public class OOTechStagePlaceholderController : MonoBehaviour
     }
 
     /// <summary>
-    /// 이름이 조금 달라도 Background/Backound가 붙은 실제 배경 자식을 찾습니다.
-    /// Image_WhiteBackground는 임시막이라 실제 배경으로 취급하지 않습니다.
+    /// ?대쫫??議곌툑 ?щ씪??Background/Backound媛 遺숈? ?ㅼ젣 諛곌꼍 ?먯떇??李얠뒿?덈떎.
+    /// Image_WhiteBackground???꾩떆留됱씠???ㅼ젣 諛곌꼍?쇰줈 痍④툒?섏? ?딆뒿?덈떎.
     /// </summary>
-    private GameObject FindFirstRealBackgroundChild(Transform rootTransform)
+    private GameObject RequestFirstRealBackgroundChild(Transform rootTransform)
     {
         if (rootTransform == null)
             return null;
@@ -184,7 +185,7 @@ public class OOTechStagePlaceholderController : MonoBehaviour
             if (isBackgroundName && !isPlaceholderWhiteBackground)
                 return childTransform.gameObject;
 
-            GameObject foundObject = FindFirstRealBackgroundChild(childTransform);
+            GameObject foundObject = RequestFirstRealBackgroundChild(childTransform);
 
             if (foundObject != null)
                 return foundObject;
@@ -194,8 +195,8 @@ public class OOTechStagePlaceholderController : MonoBehaviour
     }
 
     /// <summary>
-    /// Stage 배경 UI가 Game View 전체에 맞도록 Canvas와 RectTransform을 정리합니다.
-    /// 감독이 화면비를 바꿔도 배경막이 1920x1080 기준으로 무대 뒤를 꽉 채우게 하는 안전장치입니다.
+    /// Stage 諛곌꼍 UI媛 Game View ?꾩껜??留욌룄濡?Canvas? RectTransform???뺣━?⑸땲??
+    /// 媛먮룆???붾㈃鍮꾨? 諛붽퓭??諛곌꼍留됱씠 1920x1080 湲곗??쇰줈 臾대? ?ㅻ? 苑?梨꾩슦寃??섎뒗 ?덉쟾?μ튂?낅땲??
     /// </summary>
     private void NormalizeStageBackgroundView(GameObject stageBackgroundObject)
     {
@@ -245,8 +246,8 @@ public class OOTechStagePlaceholderController : MonoBehaviour
     }
 
     /// <summary>
-    /// SpriteRenderer로 만든 Stage 배경을 1920x1080 월드 무대에 맞춥니다.
-    /// 영화로 치면 UI 천막이 아니라 실제 배경 세트라서, 무대 중앙에 놓고 화면 크기만큼 키워야 합니다.
+    /// SpriteRenderer濡?留뚮뱺 Stage 諛곌꼍??1920x1080 ?붾뱶 臾대???留욎땅?덈떎.
+    /// ?곹솕濡?移섎㈃ UI 泥쒕쭑???꾨땲???ㅼ젣 諛곌꼍 ?명듃?쇱꽌, 臾대? 以묒븰???볤퀬 ?붾㈃ ?ш린留뚰겮 ?ㅼ썙???⑸땲??
     /// </summary>
     private void NormalizeStageSpriteBackgroundView(GameObject stageBackgroundObject, SpriteRenderer backgroundRenderer)
     {
@@ -295,24 +296,24 @@ public class OOTechStagePlaceholderController : MonoBehaviour
     }
 
     /// <summary>
-    /// 실제 Stage 배경이 있을 때는 흰색 임시 배경을 꺼서 배경 이미지를 가리지 않게 합니다.
+    /// ?ㅼ젣 Stage 諛곌꼍???덉쓣 ?뚮뒗 ?곗깋 ?꾩떆 諛곌꼍??爰쇱꽌 諛곌꼍 ?대?吏瑜?媛由ъ? ?딄쾶 ?⑸땲??
     /// </summary>
     private void DisablePlaceholderWhiteBackground()
     {
         if (Root_Canvas == null)
-            Root_Canvas = FindChildByName(transform, "Canvas_StagePlaceholder");
+            Root_Canvas = RequestChildObjectByName(transform, "Canvas_StagePlaceholder");
 
         if (Root_Canvas == null)
             return;
 
-        GameObject whiteBackgroundObject = FindChildByName(Root_Canvas.transform, "Image_WhiteBackground");
+        GameObject whiteBackgroundObject = RequestChildObjectByName(Root_Canvas.transform, "Image_WhiteBackground");
 
         if (whiteBackgroundObject != null)
             whiteBackgroundObject.SetActive(false);
     }
 
     /// <summary>
-    /// 버튼 텍스트가 깨진 상태라면 기본 한글 텍스트로 복구합니다.
+    /// 踰꾪듉 ?띿뒪?멸? 源⑥쭊 ?곹깭?쇰㈃ 湲곕낯 ?쒓? ?띿뒪?몃줈 蹂듦뎄?⑸땲??
     /// </summary>
     private void NormalizeButtonTextIfNeeded()
     {
@@ -321,7 +322,7 @@ public class OOTechStagePlaceholderController : MonoBehaviour
     }
 
     /// <summary>
-    /// 넘어가기 버튼을 다음 그룹 이동 큐에 연결합니다.
+    /// ?섏뼱媛湲?踰꾪듉???ㅼ쓬 洹몃９ ?대룞 ?먯뿉 ?곌껐?⑸땲??
     /// </summary>
     private void BindButton()
     {
@@ -330,10 +331,50 @@ public class OOTechStagePlaceholderController : MonoBehaviour
 
         Button_Next.onClick.RemoveListener(OnNextButtonClicked);
         Button_Next.onClick.AddListener(OnNextButtonClicked);
+        Button_Next.gameObject.SetActive(true);
+        Button_Next.interactable = true;
     }
 
     /// <summary>
-    /// StageGroup에서도 인벤토리/임무 확인이 가능하도록 공용 HUD를 켭니다.
+    /// Stage holder媛 ?대━硫?諛곌꼍 ?꾩껜媛 諛붾줈 蹂댁씠?꾨줉 移대찓?쇰? ??대뱶?룹쑝濡?留욎땅?덈떎.
+    /// ?꾩떆 臾대??쇰룄 愿媛앹뿉寃뚮뒗 寃? ?щ갚蹂대떎 ?꾩껜 諛곌꼍??癒쇱? 蹂댁뿬???⑸땲??
+    /// </summary>
+    private void RequestFitCameraToStageBackground(GameObject stageBackgroundObject)
+    {
+        if (stageBackgroundObject == null)
+            return;
+
+        SpriteRenderer backgroundRenderer = stageBackgroundObject.GetComponent<SpriteRenderer>();
+
+        if (backgroundRenderer == null || backgroundRenderer.sprite == null)
+            return;
+
+        Camera mainCamera = Camera.main;
+
+        if (mainCamera == null)
+            return;
+
+        CameraFollowController cameraFollow = mainCamera.GetComponent<CameraFollowController>();
+
+        if (cameraFollow != null)
+            cameraFollow.enabled = false;
+
+        mainCamera.orthographic = true;
+
+        Bounds backgroundBounds = backgroundRenderer.bounds;
+        float verticalSize = backgroundBounds.extents.y;
+        float horizontalSize = backgroundBounds.extents.x / Mathf.Max(0.01f, mainCamera.aspect);
+
+        mainCamera.orthographicSize = Mathf.Max(verticalSize, horizontalSize);
+
+        Vector3 cameraPosition = mainCamera.transform.position;
+        cameraPosition.x = backgroundBounds.center.x;
+        cameraPosition.y = backgroundBounds.center.y;
+        mainCamera.transform.position = cameraPosition;
+    }
+
+    /// <summary>
+    /// StageGroup?먯꽌???몃깽?좊━/?꾨Т ?뺤씤??媛?ν븯?꾨줉 怨듭슜 HUD瑜?耳?땲??
     /// </summary>
     private void PrepareSharedHUD()
     {
@@ -361,7 +402,7 @@ public class OOTechStagePlaceholderController : MonoBehaviour
     }
 
     /// <summary>
-    /// 버튼 클릭 시 현재 StageGroup을 닫고 다음 RoadGroup 또는 EpilogueGroup을 엽니다.
+    /// 踰꾪듉 ?대┃ ???꾩옱 StageGroup???リ퀬 ?ㅼ쓬 RoadGroup ?먮뒗 EpilogueGroup???쎈땲??
     /// </summary>
     private void OnNextButtonClicked()
     {
@@ -369,12 +410,12 @@ public class OOTechStagePlaceholderController : MonoBehaviour
     }
 
     /// <summary>
-    /// UIManager 등록 상태를 우선 사용하고, 실패하면 씬 오브젝트 활성화로 그룹을 전환합니다.
+    /// UIManager ?깅줉 ?곹깭瑜??곗꽑 ?ъ슜?섍퀬, ?ㅽ뙣?섎㈃ ???ㅻ툕?앺듃 ?쒖꽦?붾줈 洹몃９???꾪솚?⑸땲??
     /// </summary>
     private bool RequestSwitchSceneGroup(string closingGroupName, string openingGroupName)
     {
-        GameObject closingGroupObject = FindSceneObjectByName(closingGroupName);
-        GameObject openingGroupObject = FindSceneObjectByName(openingGroupName);
+        GameObject closingGroupObject = RequestSceneObjectByName(closingGroupName);
+        GameObject openingGroupObject = RequestSceneObjectByName(openingGroupName);
 
         if (OOTechUIManager.Inst != null)
         {
@@ -403,7 +444,7 @@ public class OOTechStagePlaceholderController : MonoBehaviour
         return true;
     }
 
-    private GameObject FindSceneObjectByName(string objectName)
+    private GameObject RequestSceneObjectByName(string objectName)
     {
         if (string.IsNullOrEmpty(objectName))
             return null;
@@ -415,7 +456,7 @@ public class OOTechStagePlaceholderController : MonoBehaviour
 
         foreach (GameObject rootObject in scene.GetRootGameObjects())
         {
-            GameObject foundObject = FindChildByName(rootObject.transform, objectName);
+            GameObject foundObject = RequestChildObjectByName(rootObject.transform, objectName);
 
             if (foundObject != null)
                 return foundObject;
@@ -424,7 +465,7 @@ public class OOTechStagePlaceholderController : MonoBehaviour
         return null;
     }
 
-    private GameObject FindChildByName(Transform rootTransform, string objectName)
+    private GameObject RequestChildObjectByName(Transform rootTransform, string objectName)
     {
         if (rootTransform == null)
             return null;
@@ -434,7 +475,7 @@ public class OOTechStagePlaceholderController : MonoBehaviour
 
         for (int index = 0; index < rootTransform.childCount; index++)
         {
-            GameObject foundObject = FindChildByName(rootTransform.GetChild(index), objectName);
+            GameObject foundObject = RequestChildObjectByName(rootTransform.GetChild(index), objectName);
 
             if (foundObject != null)
                 return foundObject;
@@ -443,3 +484,5 @@ public class OOTechStagePlaceholderController : MonoBehaviour
         return null;
     }
 }
+
+

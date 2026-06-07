@@ -1,9 +1,9 @@
-// =============================================================================
-// OO_MFC 역할 주석
-// - 스크립트: OOTechCodexEntrySlotView.cs
-// - 역할: CodexGroup 스크롤 목록의 도감 항목 한 줄을 표시합니다.
-// - 영화 비유: 프로그램북 목차의 한 줄입니다. 감독이 아니라, 자기 제목과 클릭 신호만 담당합니다.
-// - 유지보수 사인: 데이터 로딩은 GameDataManager가 맡고, 이 View는 받은 데이터만 화면에 보여줍니다.
+﻿// =============================================================================
+// OO_MFC ??븷 二쇱꽍
+// - ?ㅽ겕由쏀듃: OOTechCodexEntrySlotView.cs
+// - ??븷: CodexGroup ?ㅽ겕濡?紐⑸줉???꾧컧 ??ぉ ??以꾩쓣 ?쒖떆?⑸땲??
+// - ?곹솕 鍮꾩쑀: ?꾨줈洹몃옩遺?紐⑹감????以꾩엯?덈떎. 媛먮룆???꾨땲?? ?먭린 ?쒕ぉ怨??대┃ ?좏샇留??대떦?⑸땲??
+// - ?좎?蹂댁닔 ?ъ씤: ?곗씠??濡쒕뵫? GameDataManager媛 留↔퀬, ??View??諛쏆? ?곗씠?곕쭔 ?붾㈃??蹂댁뿬以띾땲??
 // =============================================================================
 using System;
 using TMPro;
@@ -11,8 +11,8 @@ using UnityEngine;
 using UnityEngine.UI;
 
 /// <summary>
-/// 도감 목록 슬롯 한 칸입니다.
-/// Game View에서는 카테고리와 제목을 표시하고, 클릭되면 CodexGroupController에 선택 신호를 보냅니다.
+/// ?꾧컧 紐⑸줉 ?щ’ ??移몄엯?덈떎.
+/// Game View?먯꽌??移댄뀒怨좊━? ?쒕ぉ???쒖떆?섍퀬, ?대┃?섎㈃ CodexGroupController???좏깮 ?좏샇瑜?蹂대깄?덈떎.
 /// </summary>
 [DisallowMultipleComponent]
 public class OOTechCodexEntrySlotView : MonoBehaviour
@@ -26,8 +26,8 @@ public class OOTechCodexEntrySlotView : MonoBehaviour
     private Action<OO_Codex> _onSelected;
 
     /// <summary>
-    /// 슬롯에 도감 데이터를 배치합니다.
-    /// 영화로 치면 목차 카드에 오늘 소개할 배우 이름을 꽂아 넣는 단계입니다.
+    /// ?щ’???꾧컧 ?곗씠?곕? 諛곗튂?⑸땲??
+    /// ?곹솕濡?移섎㈃ 紐⑹감 移대뱶???ㅻ뒛 ?뚭컻??諛곗슦 ?대쫫??苑귥븘 ?ｋ뒗 ?④퀎?낅땲??
     /// </summary>
     public void RequestSetup(OO_Codex codexData, Action<OO_Codex> onSelected)
     {
@@ -56,16 +56,16 @@ public class OOTechCodexEntrySlotView : MonoBehaviour
             Button_Select = GetComponent<Button>();
 
         if (Text_Title == null)
-            Text_Title = FindText("Text_Title", "Text_Label");
+            Text_Title = RequestText("Text_Title", "Text_Label");
 
         if (Text_Category == null)
-            Text_Category = FindText("Text_Category");
+            Text_Category = RequestText("Text_Category");
 
         OOTechTMPFontUtility.ApplyProjectFont(Text_Category);
         OOTechTMPFontUtility.ApplyProjectFont(Text_Title);
     }
 
-    private TextMeshProUGUI FindText(params string[] nameArray)
+    private TextMeshProUGUI RequestText(params string[] nameArray)
     {
         TextMeshProUGUI[] textArray = GetComponentsInChildren<TextMeshProUGUI>(true);
 
@@ -103,3 +103,4 @@ public class OOTechCodexEntrySlotView : MonoBehaviour
         _onSelected?.Invoke(_codexData);
     }
 }
+

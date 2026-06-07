@@ -6,7 +6,7 @@ TextureImporter:
   serializedVersion: 13
   mipmaps:
     mipMapMode: 0
-    enableMipMap: 1
+    enableMipMap: 0
     sRGBTexture: 1
     linearTexture: 0
     fadeOut: 0
@@ -37,13 +37,13 @@ TextureImporter:
     filterMode: 1
     aniso: 1
     mipBias: 0
-    wrapU: 0
-    wrapV: 0
+    wrapU: 1
+    wrapV: 1
     wrapW: 0
-  nPOTScale: 1
+  nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 0
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -52,9 +52,9 @@ TextureImporter:
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
-  alphaIsTransparency: 0
+  alphaIsTransparency: 1
   spriteTessellationDetail: -1
-  textureType: 0
+  textureType: 8
   textureShape: 1
   singleChannelComponent: 0
   flipbookRows: 1
@@ -95,12 +95,562 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: Turtle-turtle_isbegging_0
+      rect:
+        serializedVersion: 2
+        x: 66
+        y: 1070
+        width: 115
+        height: 151
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4360d62c6946ec04d855de3543ae0396
+      internalID: 340870895
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Turtle-turtle_isbegging_1
+      rect:
+        serializedVersion: 2
+        x: 322
+        y: 1070
+        width: 115
+        height: 151
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 547d4eef3f704504c9ca38ab6b2368bb
+      internalID: -1890643608
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Turtle-turtle_isbegging_2
+      rect:
+        serializedVersion: 2
+        x: 579
+        y: 1070
+        width: 114
+        height: 152
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7b00fcb58deb6ed4ea6ffb62c51c9eaa
+      internalID: 1139964377
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Turtle-turtle_isbegging_3
+      rect:
+        serializedVersion: 2
+        x: 837
+        y: 1070
+        width: 114
+        height: 153
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7d950a199a0ba3a46bddc06971a99e2b
+      internalID: -523830165
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Turtle-turtle_isbegging_4
+      rect:
+        serializedVersion: 2
+        x: 1094
+        y: 1070
+        width: 113
+        height: 153
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c7c78f0a53e59984b86b8c7de2a936ce
+      internalID: -337091464
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Turtle-turtle_isbegging_5
+      rect:
+        serializedVersion: 2
+        x: 70
+        y: 814
+        width: 116
+        height: 152
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ca265415530ca0f4bb35f10772e702b6
+      internalID: -307961775
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Turtle-turtle_isbegging_6
+      rect:
+        serializedVersion: 2
+        x: 326
+        y: 814
+        width: 119
+        height: 151
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 35e95830c901ce849956f0cf9d95b123
+      internalID: 44354919
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Turtle-turtle_isbegging_7
+      rect:
+        serializedVersion: 2
+        x: 582
+        y: 814
+        width: 123
+        height: 150
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 55683c72de463c04b8a55ff00e36e37c
+      internalID: -418449733
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Turtle-turtle_isbegging_8
+      rect:
+        serializedVersion: 2
+        x: 838
+        y: 814
+        width: 125
+        height: 148
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 657e4b47dc8ee7343b9baa05eec6eee8
+      internalID: -351666278
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Turtle-turtle_isbegging_9
+      rect:
+        serializedVersion: 2
+        x: 1094
+        y: 814
+        width: 127
+        height: 148
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d14e375f3179a514283234977214afdf
+      internalID: 2004800455
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Turtle-turtle_isbegging_10
+      rect:
+        serializedVersion: 2
+        x: 69
+        y: 558
+        width: 129
+        height: 147
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 60f7d64787b2d5c44b90ea3aeadbb184
+      internalID: -836147412
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Turtle-turtle_isbegging_11
+      rect:
+        serializedVersion: 2
+        x: 325
+        y: 558
+        width: 130
+        height: 145
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 43a268a8637902b4288fb13c9643f0d8
+      internalID: -516058463
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Turtle-turtle_isbegging_12
+      rect:
+        serializedVersion: 2
+        x: 581
+        y: 558
+        width: 130
+        height: 144
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cc5a3d98ef6cf0349b392260dde2f1b5
+      internalID: 1278799610
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Turtle-turtle_isbegging_13
+      rect:
+        serializedVersion: 2
+        x: 837
+        y: 558
+        width: 130
+        height: 143
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 501292398b9c4844893bc20ba8feb5b1
+      internalID: 878949907
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Turtle-turtle_isbegging_14
+      rect:
+        serializedVersion: 2
+        x: 1093
+        y: 558
+        width: 130
+        height: 143
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 449af19dc8f4a864b9049489d5462212
+      internalID: 296090106
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Turtle-turtle_isbegging_15
+      rect:
+        serializedVersion: 2
+        x: 69
+        y: 302
+        width: 129
+        height: 143
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 08e689927d48bcd43b52664a1e4648d7
+      internalID: -376519783
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Turtle-turtle_isbegging_16
+      rect:
+        serializedVersion: 2
+        x: 325
+        y: 302
+        width: 129
+        height: 143
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7b7a9735f1d78f04a84f4d1fd0be8b66
+      internalID: -1832504069
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Turtle-turtle_isbegging_17
+      rect:
+        serializedVersion: 2
+        x: 581
+        y: 302
+        width: 128
+        height: 143
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c5a0690fadc2bab4683e0495fd56a356
+      internalID: 1522762439
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Turtle-turtle_isbegging_18
+      rect:
+        serializedVersion: 2
+        x: 837
+        y: 302
+        width: 127
+        height: 144
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 82789c448cb73414380d58cccecc7fa9
+      internalID: -1297845749
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Turtle-turtle_isbegging_19
+      rect:
+        serializedVersion: 2
+        x: 1093
+        y: 302
+        width: 124
+        height: 145
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 74d43298fbf70d041aefb91654683d6b
+      internalID: 157816244
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Turtle-turtle_isbegging_20
+      rect:
+        serializedVersion: 2
+        x: 68
+        y: 46
+        width: 121
+        height: 147
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5951f3bf05a7b7e42af1384ff0e1402f
+      internalID: 1924925228
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Turtle-turtle_isbegging_21
+      rect:
+        serializedVersion: 2
+        x: 324
+        y: 46
+        width: 117
+        height: 148
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: df2a9acd7bc41a24eafbc206789c92e7
+      internalID: -851796769
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Turtle-turtle_isbegging_22
+      rect:
+        serializedVersion: 2
+        x: 579
+        y: 46
+        width: 114
+        height: 150
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5a73c11d04ecc4048ac3c8b734d71043
+      internalID: 815962498
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Turtle-turtle_isbegging_23
+      rect:
+        serializedVersion: 2
+        x: 836
+        y: 46
+        width: 112
+        height: 151
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2d28dbf90f1fc8144819d7026567290b
+      internalID: 1372234824
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Turtle-turtle_isbegging_24
+      rect:
+        serializedVersion: 2
+        x: 1092
+        y: 46
+        width: 112
+        height: 152
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5602e99563887564888a74e5e016fe91
+      internalID: 1705053129
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 89a52a05c752eb749ac431dac5e2007b
     internalID: 0
     vertices: []
     indices: 
@@ -108,8 +658,35 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
-    nameFileIdTable: {}
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      Turtle-turtle_isbegging_0: 340870895
+      Turtle-turtle_isbegging_1: -1890643608
+      Turtle-turtle_isbegging_10: -836147412
+      Turtle-turtle_isbegging_11: -516058463
+      Turtle-turtle_isbegging_12: 1278799610
+      Turtle-turtle_isbegging_13: 878949907
+      Turtle-turtle_isbegging_14: 296090106
+      Turtle-turtle_isbegging_15: -376519783
+      Turtle-turtle_isbegging_16: -1832504069
+      Turtle-turtle_isbegging_17: 1522762439
+      Turtle-turtle_isbegging_18: -1297845749
+      Turtle-turtle_isbegging_19: 157816244
+      Turtle-turtle_isbegging_2: 1139964377
+      Turtle-turtle_isbegging_20: 1924925228
+      Turtle-turtle_isbegging_21: -851796769
+      Turtle-turtle_isbegging_22: 815962498
+      Turtle-turtle_isbegging_23: 1372234824
+      Turtle-turtle_isbegging_24: 1705053129
+      Turtle-turtle_isbegging_3: -523830165
+      Turtle-turtle_isbegging_4: -337091464
+      Turtle-turtle_isbegging_5: -307961775
+      Turtle-turtle_isbegging_6: 44354919
+      Turtle-turtle_isbegging_7: -418449733
+      Turtle-turtle_isbegging_8: -351666278
+      Turtle-turtle_isbegging_9: 2004800455
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

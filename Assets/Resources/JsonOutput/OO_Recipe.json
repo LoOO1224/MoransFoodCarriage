@@ -68,5 +68,33 @@
     "RequiredToolIds": "Choice",
     "ResultCount": 1,
     "QuantityGuideText": "떡과 꿀이 각각 1개 이상 있으면 꿀떡을 만들 수 있습니다."
+  },
+  {
+    "Id": "OO_Recipe_CarrotStarch_1",
+    "Name": "당근전분 만들기",
+    "Description": "당근 1개와 떡 1개를 레시피 조합 칸에 올려 당근전분을 만듭니다.",
+    "ResultItemId": "OO_CarrotStarch_1",
+    "RequiredIngredients": "Ing_Carrot_01|OO_KoreanCake_1",
+    "MaxDuplicateCount": 1,
+    "RequiredTool": "레시피 조합",
+    "RequiredIngredientIds": "Ing_Carrot_01|OO_KoreanCake_1",
+    "RequiredIngredientCounts": "1|1",
+    "RequiredToolIds": "RecipeMix",
+    "ResultCount": 1,
+    "QuantityGuideText": "당근전분은 당근 1개와 떡 1개가 필요합니다."
+  },
+  {
+    "Id": "OO_Recipe_CarrotCake_1",
+    "Name": "당근전 만들기",
+    "Description": "당근전분 1개를 가마솥에 넣어 당근전을 완성합니다.",
+    "ResultItemId": "OO_CarrotCake_1",
+    "RequiredIngredients": "OO_CarrotStarch_1",
+    "MaxDuplicateCount": 1,
+    "RequiredTool": "가마솥",
+    "RequiredIngredientIds": "OO_CarrotStarch_1",
+    "RequiredIngredientCounts": "1",
+    "RequiredToolIds": "Cauldron",
+    "ResultCount": 1,
+    "QuantityGuideText": "당근전은 당근전분 1개를 가마솥에 넣으면 완성됩니다."
   }
 ]

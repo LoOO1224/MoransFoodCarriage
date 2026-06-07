@@ -1,0 +1,540 @@
+fileFormatVersion: 2
+guid: 605ec34c528745d478523edcede0981d
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 0
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: YeonSanJa-ysj_isseated-v2_7
+      rect:
+        serializedVersion: 2
+        x: 586
+        y: 804
+        width: 105
+        height: 180
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 186d151f754731c47bba3653d748b36b
+      internalID: 1433385756
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: YeonSanJa-ysj_isseated-v2_8
+      rect:
+        serializedVersion: 2
+        x: 841
+        y: 803
+        width: 106
+        height: 180
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 58cb46d61e93e4d4c83ac8fab04ed742
+      internalID: -1809329481
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: YeonSanJa-ysj_isseated-v2_9
+      rect:
+        serializedVersion: 2
+        x: 1093
+        y: 803
+        width: 110
+        height: 182
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e89b31259d708c140b7bfd4d6a491d1d
+      internalID: 560463057
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: YeonSanJa-ysj_isseated-v2_10
+      rect:
+        serializedVersion: 2
+        x: 69
+        y: 547
+        width: 110
+        height: 184
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e5080c7e4b5910142b8aa06042f2dfd3
+      internalID: 568801596
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: YeonSanJa-ysj_isseated-v2_11
+      rect:
+        serializedVersion: 2
+        x: 325
+        y: 547
+        width: 110
+        height: 185
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 318863a3e3617d74ea3e1ef94a3e6f06
+      internalID: -1071309573
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: YeonSanJa-ysj_isseated-v2_12
+      rect:
+        serializedVersion: 2
+        x: 581
+        y: 547
+        width: 110
+        height: 185
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 87f0541e0e83d22478aa8161d8b03d06
+      internalID: 948327582
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: YeonSanJa-ysj_isseated-v2_13
+      rect:
+        serializedVersion: 2
+        x: 837
+        y: 547
+        width: 110
+        height: 185
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f0a1cfd736c212b409fdec1427e83b61
+      internalID: -477471486
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: YeonSanJa-ysj_isseated-v2_14
+      rect:
+        serializedVersion: 2
+        x: 1093
+        y: 547
+        width: 110
+        height: 185
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4770f080a6ce52940be10a364adcd8f1
+      internalID: 121387626
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: YeonSanJa-ysj_isseated-v2_15
+      rect:
+        serializedVersion: 2
+        x: 69
+        y: 291
+        width: 110
+        height: 185
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2e5db271be8eb7c418920b45009bf096
+      internalID: -216366676
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: YeonSanJa-ysj_isseated-v2_16
+      rect:
+        serializedVersion: 2
+        x: 325
+        y: 291
+        width: 110
+        height: 185
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 58410cd68a884d947b1194ea0d871531
+      internalID: -1102628694
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: YeonSanJa-ysj_isseated-v2_17
+      rect:
+        serializedVersion: 2
+        x: 581
+        y: 291
+        width: 110
+        height: 185
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c1a18c9e3b60964409ce9edf34bb60fd
+      internalID: 902852772
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: YeonSanJa-ysj_isseated-v2_18
+      rect:
+        serializedVersion: 2
+        x: 837
+        y: 291
+        width: 110
+        height: 185
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dc5c9f2b2e4809345a32a37f7a621a9c
+      internalID: -1282113275
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: YeonSanJa-ysj_isseated-v2_19
+      rect:
+        serializedVersion: 2
+        x: 1093
+        y: 291
+        width: 110
+        height: 185
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7586b36df0de13d4c8cdb9e3574b19ce
+      internalID: -1704542899
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: YeonSanJa-ysj_isseated-v2_20
+      rect:
+        serializedVersion: 2
+        x: 69
+        y: 35
+        width: 110
+        height: 185
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c10d95ddef4ff8240b919576edfc97b4
+      internalID: -1073065524
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: YeonSanJa-ysj_isseated-v2_21
+      rect:
+        serializedVersion: 2
+        x: 325
+        y: 35
+        width: 110
+        height: 185
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6f3c0ce4a95ba1540a5f2515570ce7f3
+      internalID: 97820625
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: YeonSanJa-ysj_isseated-v2_22
+      rect:
+        serializedVersion: 2
+        x: 581
+        y: 35
+        width: 110
+        height: 185
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2d5aebb72af87174496584190f8be2d2
+      internalID: 659466556
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: YeonSanJa-ysj_isseated-v2_23
+      rect:
+        serializedVersion: 2
+        x: 837
+        y: 35
+        width: 110
+        height: 185
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8395f1052a1519441840e7979ce261ff
+      internalID: 101759582
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: YeonSanJa-ysj_isseated-v2_24
+      rect:
+        serializedVersion: 2
+        x: 1093
+        y: 35
+        width: 110
+        height: 185
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1370ba9bf5a675147afc0385b0fd733e
+      internalID: 1570698354
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 5771e39bdd7a3634fb8a37a72e1a4431
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      YeonSanJa-ysj_isseated-v2_0: 795541213
+      YeonSanJa-ysj_isseated-v2_1: -732951536
+      YeonSanJa-ysj_isseated-v2_10: 568801596
+      YeonSanJa-ysj_isseated-v2_11: -1071309573
+      YeonSanJa-ysj_isseated-v2_12: 948327582
+      YeonSanJa-ysj_isseated-v2_13: -477471486
+      YeonSanJa-ysj_isseated-v2_14: 121387626
+      YeonSanJa-ysj_isseated-v2_15: -216366676
+      YeonSanJa-ysj_isseated-v2_16: -1102628694
+      YeonSanJa-ysj_isseated-v2_17: 902852772
+      YeonSanJa-ysj_isseated-v2_18: -1282113275
+      YeonSanJa-ysj_isseated-v2_19: -1704542899
+      YeonSanJa-ysj_isseated-v2_2: -1387675929
+      YeonSanJa-ysj_isseated-v2_20: -1073065524
+      YeonSanJa-ysj_isseated-v2_21: 97820625
+      YeonSanJa-ysj_isseated-v2_22: 659466556
+      YeonSanJa-ysj_isseated-v2_23: 101759582
+      YeonSanJa-ysj_isseated-v2_24: 1570698354
+      YeonSanJa-ysj_isseated-v2_3: -1115956954
+      YeonSanJa-ysj_isseated-v2_4: -2132044198
+      YeonSanJa-ysj_isseated-v2_5: 318344739
+      YeonSanJa-ysj_isseated-v2_6: -1165092684
+      YeonSanJa-ysj_isseated-v2_7: 1433385756
+      YeonSanJa-ysj_isseated-v2_8: -1809329481
+      YeonSanJa-ysj_isseated-v2_9: 560463057
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -17,6 +17,7 @@ public class OOTechGameManager : MonoBehaviour
     public static OOTechGameManager Inst { get; private set; }
 
     [SerializeField] private OOTechPlayerModel _playerModel = new OOTechPlayerModel();
+    private readonly HashSet<string> _clearedStageIdSet = new HashSet<string>();
 
     /// <summary>
     /// 씬 전환 후에도 유지되는 단일 게임 매니저로 등록합니다.
@@ -165,5 +166,27 @@ public class OOTechGameManager : MonoBehaviour
     public OOTechPlayerModel GetPlayerModel()
     {
         return _playerModel;
+    }
+
+    /// <summary>
+    /// 스테이지 클리어 상태를 기록합니다.
+    /// 영화 비유로는 월드맵 소품팀에게 "이 무대는 이미 끝난 공연"이라는 표식을 넘겨주는 장부입니다.
+    /// </summary>
+    public void MarkStageCleared(string stageId)
+    {
+        if (string.IsNullOrWhiteSpace(stageId))
+            return;
+
+        _clearedStageIdSet.Add(stageId);
+        Debug.Log($"[OOTechGameManager] Stage cleared: {stageId}");
+    }
+
+    /// <summary>
+    /// 월드맵과 도감이 현재 스테이지 진행도를 조회할 때 사용합니다.
+    /// Game View에서는 S1_1/S1_2 같은 초상화 교체 기준이 됩니다.
+    /// </summary>
+    public bool IsStageCleared(string stageId)
+    {
+        return !string.IsNullOrWhiteSpace(stageId) && _clearedStageIdSet.Contains(stageId);
     }
 }

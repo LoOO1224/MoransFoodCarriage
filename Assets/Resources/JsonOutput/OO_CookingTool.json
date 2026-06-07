@@ -3,7 +3,7 @@
     "Id": "Cauldron",
     "Name": "가마솟",
     "Description": "끓이거나 데우는 재료를 받는 조리도구입니다.",
-    "AcceptedIngredientIds": "Ing_Rice_01|Ing_Kimch_01",
+    "AcceptedIngredientIds": "Ing_Rice_01|Ing_Kimch_01|OO_CarrotStarch_1",
     "DropAreaPadding": 1.18,
     "GuideTutorialId": "narration_tutorial_11",
     "ToolRoleId": "Cauldron"

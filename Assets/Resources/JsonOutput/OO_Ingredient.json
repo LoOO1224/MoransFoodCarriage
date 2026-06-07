@@ -10,10 +10,10 @@
   {
     "Id": "Ing_Veggie_01",
     "Name": "채소",
-    "Description": "?? ???? ?? ??? ??. ??? ? ?? ?? ??? ??? ???? ??.",
+    "Description": "첫 요리 튜토리얼에서 사용하는 기본 채소. 도마에 올려 손질하면 야채죽 재료가 됩니다.",
     "IconPath": "Images/Food/Vegetable",
     "Grade": "일반",
-    "MaxStackCount": 12
+    "MaxStackCount": 99
   },
   {
     "Id": "Ing_Pumpkin_01",
@@ -66,7 +66,7 @@
   {
     "Id": "Ing_Carrot_01",
     "Name": "당근",
-    "Description": "산군이 마음을 누그러뜨린 뒤 건네는 숲의 당근. 다음 여정의 보상 재료로 사용한다.",
+    "Description": "산군이 약속의 뜻으로 건넨 숲의 당근. Stage4에서 당근전을 만들 때 사용합니다.",
     "IconPath": "Images/Food/Carrot",
     "Grade": "일반",
     "MaxStackCount": 99

@@ -1,16 +1,17 @@
-// =============================================================================
-// OO_MFC 역할 주석
-// - 스크립트: OOTechCookingInventoryBridge.cs
-// - 역할: CookingGroup과 Road HUD 인벤토리/임무 UI 사이의 알림을 연결합니다.
-// - 영화 비유: 부엌에서 새 음식이 완성되면 객석 안내판과 소품대장에게 동시에 알리는 연락 담당입니다.
-// - 유지보수 포인트: 요리 판정은 CookingManager가 맡고, HUD 갱신 신호만 이 브릿지가 담당합니다.
+﻿// =============================================================================
+// OO_MFC ??븷 二쇱꽍
+// - ?ㅽ겕由쏀듃: OOTechCookingInventoryBridge.cs
+// - ??븷: CookingGroup怨?Road HUD ?몃깽?좊━/?꾨Т UI ?ъ씠???뚮┝???곌껐?⑸땲??
+// - ?곹솕 鍮꾩쑀: 遺?뚯뿉?????뚯떇???꾩꽦?섎㈃ 媛앹꽍 ?덈궡?먭낵 ?뚰뭹??μ뿉寃??숈떆???뚮━???곕씫 ?대떦?낅땲??
+// - ?좎?蹂댁닔 ?ъ씤?? ?붾━ ?먯젙? CookingManager媛 留↔퀬, HUD 媛깆떊 ?좏샇留???釉뚮┸吏媛 ?대떦?⑸땲??
 // =============================================================================
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
 /// <summary>
-/// 부엌 안 NEW 배지와 외부 Road HUD 갱신을 담당합니다.
+/// 遺????NEW 諛곗?? ?몃? Road HUD 媛깆떊???대떦?⑸땲??
 /// </summary>
 [DisallowMultipleComponent]
 public class OOTechCookingInventoryBridge : MonoBehaviour
@@ -21,7 +22,7 @@ public class OOTechCookingInventoryBridge : MonoBehaviour
     private Coroutine Coroutine_InventoryNewBadge;
 
     /// <summary>
-    /// CookingGroup Controller가 씬에 배치된 NEW 텍스트와 깜빡임 값을 연결합니다.
+    /// CookingGroup Controller媛 ?ъ뿉 諛곗튂??NEW ?띿뒪?몄? 源쒕묀??媛믪쓣 ?곌껐?⑸땲??
     /// </summary>
     public void RequestSetup(TextMeshProUGUI inventoryNewBadgeText, float newBadgeBlinkSpeed, float newBadgeMinimumAlpha)
     {
@@ -31,7 +32,7 @@ public class OOTechCookingInventoryBridge : MonoBehaviour
     }
 
     /// <summary>
-    /// 부엌 내부 인벤토리 NEW 배지를 켜거나 끕니다.
+    /// 遺???대? ?몃깽?좊━ NEW 諛곗?瑜?耳쒓굅???뺣땲??
     /// </summary>
     public void RequestSetInventoryNewBadgeActive(bool isActive)
     {
@@ -50,11 +51,11 @@ public class OOTechCookingInventoryBridge : MonoBehaviour
     }
 
     /// <summary>
-    /// 열린 Road HUD들에게 새 아이템 표시와 인벤토리 새로고침을 요청합니다.
+    /// ?대┛ Road HUD?ㅼ뿉寃????꾩씠???쒖떆? ?몃깽?좊━ ?덈줈怨좎묠???붿껌?⑸땲??
     /// </summary>
     public void RequestNotifyRoadHUDInventoryNewBadge()
     {
-        foreach (OOTechRoadHUDController hudController in FindActiveRoadHUDControllers())
+        foreach (OOTechRoadHUDController hudController in RequestActiveRoadHUDControllers())
         {
             hudController.RequestRefreshInventoryView();
             hudController.SetInventoryNewBadgeActive(true);
@@ -62,25 +63,25 @@ public class OOTechCookingInventoryBridge : MonoBehaviour
     }
 
     /// <summary>
-    /// 열린 Road HUD들에게 인벤토리 목록만 다시 그리라고 요청합니다.
+    /// ?대┛ Road HUD?ㅼ뿉寃??몃깽?좊━ 紐⑸줉留??ㅼ떆 洹몃━?쇨퀬 ?붿껌?⑸땲??
     /// </summary>
     public void RequestNotifyRoadHUDInventoryRefresh()
     {
-        foreach (OOTechRoadHUDController hudController in FindActiveRoadHUDControllers())
+        foreach (OOTechRoadHUDController hudController in RequestActiveRoadHUDControllers())
             hudController.RequestRefreshInventoryView();
     }
 
     /// <summary>
-    /// 첫 요리 임무가 끝났다고 Road HUD 임무판에 전달합니다.
+    /// 泥??붾━ ?꾨Т媛 ?앸궗?ㅺ퀬 Road HUD ?꾨Т?먯뿉 ?꾨떖?⑸땲??
     /// </summary>
     public void RequestNotifyRoadHUDCookingQuestComplete()
     {
-        foreach (OOTechRoadHUDController hudController in FindActiveRoadHUDControllers())
+        foreach (OOTechRoadHUDController hudController in RequestActiveRoadHUDControllers())
             hudController.RequestCompleteCookingQuest();
     }
 
     /// <summary>
-    /// CookingGroup이 닫힐 때 배지 깜빡임을 정리합니다.
+    /// CookingGroup???ロ옄 ??諛곗? 源쒕묀?꾩쓣 ?뺣━?⑸땲??
     /// </summary>
     public void RequestStopInventoryNewBadgeBlink()
     {
@@ -103,33 +104,22 @@ public class OOTechCookingInventoryBridge : MonoBehaviour
         }
     }
 
-    private OOTechRoadHUDController[] FindActiveRoadHUDControllers()
+    private List<OOTechRoadHUDController> RequestActiveRoadHUDControllers()
     {
-        OOTechRoadHUDController[] hudControllerArray = FindObjectsByType<OOTechRoadHUDController>(FindObjectsInactive.Include, FindObjectsSortMode.None);
-        int activeCount = 0;
+        List<OOTechRoadHUDController> hudControllerArray = OOTechSceneQuery.RequestCollectComponents<OOTechRoadHUDController>(true);
+        List<OOTechRoadHUDController> activeHudList = new List<OOTechRoadHUDController>();
 
-        for (int index = 0; index < hudControllerArray.Length; index++)
-        {
-            OOTechRoadHUDController hudController = hudControllerArray[index];
-
-            if (hudController != null && hudController.gameObject.activeInHierarchy)
-                activeCount++;
-        }
-
-        OOTechRoadHUDController[] activeHudArray = new OOTechRoadHUDController[activeCount];
-        int activeIndex = 0;
-
-        for (int index = 0; index < hudControllerArray.Length; index++)
+        for (int index = 0; index < hudControllerArray.Count; index++)
         {
             OOTechRoadHUDController hudController = hudControllerArray[index];
 
             if (hudController == null || !hudController.gameObject.activeInHierarchy)
                 continue;
 
-            activeHudArray[activeIndex] = hudController;
-            activeIndex++;
+            activeHudList.Add(hudController);
         }
 
-        return activeHudArray;
+        return activeHudList;
     }
 }
+

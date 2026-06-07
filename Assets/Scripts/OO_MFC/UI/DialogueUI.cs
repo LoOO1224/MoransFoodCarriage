@@ -1,9 +1,9 @@
-// =============================================================================
-// OO_MFC 역할 주석
-// - 스크립트: DialogueUI.cs
-// - 역할: UI 표시와 입력 연결을 담당하는 UI 컴포넌트입니다.
-// - 감독 관점: 관객에게 보이는 패널과 버튼의 무대 동선을 담당합니다.
-// - 유지보수 포인트: 사용자가 직접 편집할 UI는 하이어라키/프리팹에 두고, 코드에서 즉석 생성하지 않습니다.
+﻿// =============================================================================
+// OO_MFC ??븷 二쇱꽍
+// - ?ㅽ겕由쏀듃: DialogueUI.cs
+// - ??븷: UI ?쒖떆? ?낅젰 ?곌껐???대떦?섎뒗 UI 而댄룷?뚰듃?낅땲??
+// - 媛먮룆 愿?? 愿媛앹뿉寃?蹂댁씠???⑤꼸怨?踰꾪듉??臾대? ?숈꽑???대떦?⑸땲??
+// - ?좎?蹂댁닔 ?ъ씤?? ?ъ슜?먭? 吏곸젒 ?몄쭛??UI???섏씠?대씪???꾨━?뱀뿉 ?먭퀬, 肄붾뱶?먯꽌 利됱꽍 ?앹꽦?섏? ?딆뒿?덈떎.
 // =============================================================================
 using System;
 using System.Collections;
@@ -14,22 +14,22 @@ using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 /// <summary>
-/// 대화창의 화자 이름, 본문, 다음 버튼, 스크롤 영역을 관리합니다.
-/// 프롤로그 나레이션처럼 긴 문장이 들어오는 경우에는 ScrollRect의 Content를 갱신하고
-/// 새 문장이 표시될 때마다 스크롤 위치를 맨 위로 되돌립니다.
+/// ??붿갹???붿옄 ?대쫫, 蹂몃Ц, ?ㅼ쓬 踰꾪듉, ?ㅽ겕濡??곸뿭??愿由ы빀?덈떎.
+/// ?꾨·濡쒓렇 ?섎젅?댁뀡泥섎읆 湲?臾몄옣???ㅼ뼱?ㅻ뒗 寃쎌슦?먮뒗 ScrollRect??Content瑜?媛깆떊?섍퀬
+/// ??臾몄옣???쒖떆???뚮쭏???ㅽ겕濡??꾩튂瑜?留??꾨줈 ?섎룎由쎈땲??
 /// </summary>
 public class DialogueUI : MonoBehaviour
 {
-    // 읽는 순서:
-    // 1. OpenDialogue/StartDialogue 계열: 외부 Controller가 대사 ID를 넘기면 데이터에서 대사를 읽습니다.
-    // 2. SetSpeaker 계열: OO_Character 데이터를 이용해 화자 이름을 표시합니다.
-    // 3. SetDialogueText 계열: OO_Dialogue 또는 OO_Narration의 실제 문장을 패널에 넣습니다.
-    // 4. NextDialogue: 이어가기 버튼 또는 패널 밖 클릭으로 다음 대사를 진행합니다.
-    // 5. CloseDialogue 계열: 대사가 끝나면 DialogueGroup을 닫거나 다음 큐로 넘깁니다.
-    // 유지보수 주의:
-    // - 대사 내용은 코드에 쓰지 말고 OO_Dialogue/OO_Narration/OO_DialogueGroup에서 드리븐합니다.
-    // - DialoguePanel 위치와 버튼 이미지는 하이어라키에서 직접 수정합니다.
-    // - 화자 이름 배경은 OOTechDialogueSpeakerNameBackdrop이 보조합니다.
+    // ?쎈뒗 ?쒖꽌:
+    // 1. OpenDialogue/StartDialogue 怨꾩뿴: ?몃? Controller媛 ???ID瑜??섍린硫??곗씠?곗뿉????щ? ?쎌뒿?덈떎.
+    // 2. SetSpeaker 怨꾩뿴: OO_Character ?곗씠?곕? ?댁슜???붿옄 ?대쫫???쒖떆?⑸땲??
+    // 3. SetDialogueText 怨꾩뿴: OO_Dialogue ?먮뒗 OO_Narration???ㅼ젣 臾몄옣???⑤꼸???ｌ뒿?덈떎.
+    // 4. NextDialogue: ?댁뼱媛湲?踰꾪듉 ?먮뒗 ?⑤꼸 諛??대┃?쇰줈 ?ㅼ쓬 ??щ? 吏꾪뻾?⑸땲??
+    // 5. CloseDialogue 怨꾩뿴: ??ш? ?앸굹硫?DialogueGroup???リ굅???ㅼ쓬 ?먮줈 ?섍퉩?덈떎.
+    // ?좎?蹂댁닔 二쇱쓽:
+    // - ????댁슜? 肄붾뱶???곗? 留먭퀬 OO_Dialogue/OO_Narration/OO_DialogueGroup?먯꽌 ?쒕━釉먰빀?덈떎.
+    // - DialoguePanel ?꾩튂? 踰꾪듉 ?대?吏???섏씠?대씪?ㅼ뿉??吏곸젒 ?섏젙?⑸땲??
+    // - ?붿옄 ?대쫫 諛곌꼍? OOTechDialogueSpeakerNameBackdrop??蹂댁“?⑸땲??
 
     [Header("Text")]
     [FormerlySerializedAs("_speakerNameText")]
@@ -59,7 +59,7 @@ public class DialogueUI : MonoBehaviour
     [SerializeField] private float _outsideClickDelay = 0.08f;
     [SerializeField] private int _roadViewSortingOrder = 1400;
 
-    // ==================== 대화 상태 ====================
+    // ==================== ????곹깭 ====================
     private OO_Dialogue _currentDialogue;
     private readonly List<string> _narrationTextList = new List<string>();
     private int _currentNarrationTextIndex;
@@ -75,7 +75,7 @@ public class DialogueUI : MonoBehaviour
     private float _outsideClickReadyTime;
 
     /// <summary>
-    /// 대화 UI가 처음 준비될 때 폰트, 화자 이름 배경, 기본 레이아웃을 준비합니다.
+    /// ???UI媛 泥섏쓬 以鍮꾨맆 ???고듃, ?붿옄 ?대쫫 諛곌꼍, 湲곕낯 ?덉씠?꾩썐??以鍮꾪빀?덈떎.
     /// </summary>
     private void Awake()
     {
@@ -86,7 +86,7 @@ public class DialogueUI : MonoBehaviour
     }
 
     /// <summary>
-    /// DialogueGroup이 열릴 때 버튼 이벤트와 표시 스타일을 다시 연결합니다.
+    /// DialogueGroup???대┫ ??踰꾪듉 ?대깽?몄? ?쒖떆 ?ㅽ??쇱쓣 ?ㅼ떆 ?곌껐?⑸땲??
     /// </summary>
     private void OnEnable()
     {
@@ -98,7 +98,7 @@ public class DialogueUI : MonoBehaviour
     }
 
     /// <summary>
-    /// DialogueGroup이 닫힐 때 버튼 이벤트, 스크롤 갱신, 바깥 클릭 블로커를 정리합니다.
+    /// DialogueGroup???ロ옄 ??踰꾪듉 ?대깽?? ?ㅽ겕濡?媛깆떊, 諛붽묑 ?대┃ 釉붾줈而ㅻ? ?뺣━?⑸땲??
     /// </summary>
     private void OnDisable()
     {
@@ -109,7 +109,7 @@ public class DialogueUI : MonoBehaviour
     }
 
     /// <summary>
-    /// 버튼이 아니라 대화창 밖을 클릭해도 이어가기처럼 진행되도록 감시합니다.
+    /// 踰꾪듉???꾨땲????붿갹 諛뽰쓣 ?대┃?대룄 ?댁뼱媛湲곗쿂??吏꾪뻾?섎룄濡?媛먯떆?⑸땲??
     /// </summary>
     private void Update()
     {
@@ -125,11 +125,11 @@ public class DialogueUI : MonoBehaviour
         NextDialogue();
     }
 
-    // ==================== 버튼 바인딩 ====================
+    // ==================== 踰꾪듉 諛붿씤??====================
 
     /// <summary>
-    /// Dialogue_NextButton은 현재 표시 중인 문장 묶음만 진행합니다.
-    /// 프롤로그 컷씬 전환은 DialogueUI가 끝났음을 PrologueController에 알려서 처리합니다.
+    /// Dialogue_NextButton? ?꾩옱 ?쒖떆 以묒씤 臾몄옣 臾띠쓬留?吏꾪뻾?⑸땲??
+    /// ?꾨·濡쒓렇 而룹뵮 ?꾪솚? DialogueUI媛 ?앸궗?뚯쓣 PrologueController???뚮젮??泥섎━?⑸땲??
     /// </summary>
     private void ApplyDialogueLayout()
     {
@@ -141,7 +141,7 @@ public class DialogueUI : MonoBehaviour
     }
 
     /// <summary>
-    /// Road View에서는 HUD가 하단에 있으므로 대화창을 중앙 무대로 올리고 HUD보다 위에 렌더링합니다.
+    /// Road View?먯꽌??HUD媛 ?섎떒???덉쑝誘濡???붿갹??以묒븰 臾대?濡??щ━怨?HUD蹂대떎 ?꾩뿉 ?뚮뜑留곹빀?덈떎.
     /// </summary>
     public void RequestRoadViewLayout()
     {
@@ -156,7 +156,7 @@ public class DialogueUI : MonoBehaviour
     }
 
     /// <summary>
-    /// 프로젝트 공통 한글 폰트를 화자 이름과 본문에 적용합니다.
+    /// ?꾨줈?앺듃 怨듯넻 ?쒓? ?고듃瑜??붿옄 ?대쫫怨?蹂몃Ц???곸슜?⑸땲??
     /// </summary>
     private void ApplyProjectFont()
     {
@@ -167,7 +167,7 @@ public class DialogueUI : MonoBehaviour
     }
 
     /// <summary>
-    /// SpeakerNameText 뒤의 반투명 이름표 컴포넌트를 준비합니다.
+    /// SpeakerNameText ?ㅼ쓽 諛섑닾紐??대쫫??而댄룷?뚰듃瑜?以鍮꾪빀?덈떎.
     /// </summary>
     private void PrepareSpeakerNameBackdrop()
     {
@@ -179,7 +179,7 @@ public class DialogueUI : MonoBehaviour
     }
 
     /// <summary>
-    /// Next 버튼을 현재 대화 진행 함수에 연결합니다.
+    /// Next 踰꾪듉???꾩옱 ???吏꾪뻾 ?⑥닔???곌껐?⑸땲??
     /// </summary>
     private void BindButtonEvent()
     {
@@ -191,7 +191,7 @@ public class DialogueUI : MonoBehaviour
     }
 
     /// <summary>
-    /// Next 버튼 이벤트를 해제해 중복 호출을 막습니다.
+    /// Next 踰꾪듉 ?대깽?몃? ?댁젣??以묐났 ?몄텧??留됱뒿?덈떎.
     /// </summary>
     private void UnbindButtonEvent()
     {
@@ -201,16 +201,16 @@ public class DialogueUI : MonoBehaviour
         Button_Next.onClick.RemoveListener(NextDialogue);
     }
 
-    // ==================== 일반 대화 표시 ====================
+    // ==================== ?쇰컲 ????쒖떆 ====================
 
     /// <summary>
-    /// OO_Dialogue 데이터를 기반으로 일반 대화를 표시합니다.
+    /// OO_Dialogue ?곗씠?곕? 湲곕컲?쇰줈 ?쇰컲 ??붾? ?쒖떆?⑸땲??
     /// </summary>
     public void ShowDialogue(OO_Dialogue dialogueData, Action onDialogueEnd = null)
     {
         if (dialogueData == null)
         {
-            Debug.LogWarning("[DialogueUI] 표시할 대화 데이터가 없습니다.");
+            Debug.LogWarning("[DialogueUI] ?쒖떆??????곗씠?곌? ?놁뒿?덈떎.");
             return;
         }
 
@@ -228,21 +228,21 @@ public class DialogueUI : MonoBehaviour
         SetNextButtonActive(dialogueData.SelectionNameList == null || dialogueData.SelectionNameList.Count == 0);
     }
 
-    // ==================== 나레이션 표시 ====================
+    // ==================== ?섎젅?댁뀡 ?쒖떆 ====================
 
     /// <summary>
-    /// OO_Narration 데이터를 기반으로 나레이션을 표시합니다.
-    /// SpeakerNameText는 요구사항에 따라 항상 "나레이션"으로 고정합니다.
+    /// OO_Narration ?곗씠?곕? 湲곕컲?쇰줈 ?섎젅?댁뀡???쒖떆?⑸땲??
+    /// SpeakerNameText???붽뎄?ы빆???곕씪 ??긽 "?섎젅?댁뀡"?쇰줈 怨좎젙?⑸땲??
     /// </summary>
     /// <summary>
-    /// OO_Choice 데이터를 기존 DialoguePanel 위에 선택지 모드로 표시합니다.
-    /// 영화 비유로는 같은 무대 세트에 "관객 선택 큐"만 추가로 내려놓는 방식입니다.
+    /// OO_Choice ?곗씠?곕? 湲곗〈 DialoguePanel ?꾩뿉 ?좏깮吏 紐⑤뱶濡??쒖떆?⑸땲??
+    /// ?곹솕 鍮꾩쑀濡쒕뒗 媛숈? 臾대? ?명듃??"愿媛??좏깮 ??留?異붽?濡??대젮?볥뒗 諛⑹떇?낅땲??
     /// </summary>
     public void ShowChoice(OO_Choice choiceData, Action<int> onChoiceSelected)
     {
         if (choiceData == null)
         {
-            Debug.LogWarning("[DialogueUI] 표시할 선택지 데이터가 없습니다.");
+            Debug.LogWarning("[DialogueUI] ?쒖떆???좏깮吏 ?곗씠?곌? ?놁뒿?덈떎.");
             return;
         }
 
@@ -269,7 +269,7 @@ public class DialogueUI : MonoBehaviour
     {
         if (narrationData == null)
         {
-            Debug.LogWarning("[DialogueUI] 표시할 나레이션 데이터가 없습니다.");
+            Debug.LogWarning("[DialogueUI] ?쒖떆???섎젅?댁뀡 ?곗씠?곌? ?놁뒿?덈떎.");
             return;
         }
 
@@ -283,25 +283,25 @@ public class DialogueUI : MonoBehaviour
 
         if (_narrationTextList.Count == 0)
         {
-            Debug.LogWarning($"[DialogueUI] 나레이션 텍스트가 비어 있습니다: {narrationData.Id}");
+            Debug.LogWarning($"[DialogueUI] ?섎젅?댁뀡 ?띿뒪?멸? 鍮꾩뼱 ?덉뒿?덈떎: {narrationData.Id}");
             FinishDialogue();
             return;
         }
 
         gameObject.SetActive(true);
 
-        SetSpeakerName("나레이션");
+        SetSpeakerName("?섎젅?댁뀡");
         BlockOutsideClickBriefly();
         SetNextButtonActive(true);
         ShowCurrentNarrationText();
     }
 
     /// <summary>
-    /// 나레이션 텍스트를 표시 단위로 정리합니다.
-    /// 기본은 JSON의 한 항목을 한 번에 보여주며, 필요하면 텍스트 안의 &lt;np&gt; 태그로 페이지를 나눌 수 있습니다.
+    /// ?섎젅?댁뀡 ?띿뒪?몃? ?쒖떆 ?⑥쐞濡??뺣━?⑸땲??
+    /// 湲곕낯? JSON??????ぉ????踰덉뿉 蹂댁뿬二쇰ŉ, ?꾩슂?섎㈃ ?띿뒪???덉쓽 &lt;np&gt; ?쒓렇濡??섏씠吏瑜??섎닃 ???덉뒿?덈떎.
     /// </summary>
     /// <summary>
-    /// 나레이션 문장 묶음을 현재 페이지 단위로 추가합니다.
+    /// ?섎젅?댁뀡 臾몄옣 臾띠쓬???꾩옱 ?섏씠吏 ?⑥쐞濡?異붽??⑸땲??
     /// </summary>
     private void AddNarrationTextList(List<string> narrationTexts)
     {
@@ -313,7 +313,7 @@ public class DialogueUI : MonoBehaviour
     }
 
     /// <summary>
-    /// 긴 나레이션 안의 &lt;np&gt; 태그를 기준으로 표시 페이지를 나눕니다.
+    /// 湲??섎젅?댁뀡 ?덉쓽 &lt;np&gt; ?쒓렇瑜?湲곗??쇰줈 ?쒖떆 ?섏씠吏瑜??섎닏?덈떎.
     /// </summary>
     private void AddNarrationText(string narrationText)
     {
@@ -333,7 +333,7 @@ public class DialogueUI : MonoBehaviour
     }
 
     /// <summary>
-    /// 현재 나레이션 페이지를 대화창 본문에 보여줍니다.
+    /// ?꾩옱 ?섎젅?댁뀡 ?섏씠吏瑜???붿갹 蹂몃Ц??蹂댁뿬以띾땲??
     /// </summary>
     private void ShowCurrentNarrationText()
     {
@@ -343,15 +343,15 @@ public class DialogueUI : MonoBehaviour
             return;
         }
 
-        SetSpeakerName("나레이션");
+        SetSpeakerName("?섎젅?댁뀡");
         SetDialogueText(_narrationTextList[_currentNarrationTextIndex]);
     }
 
-    // ==================== 다음 대화 진행 ====================
+    // ==================== ?ㅼ쓬 ???吏꾪뻾 ====================
 
     /// <summary>
-    /// 다음 버튼 클릭 시 현재 나레이션의 다음 표시 단위로 진행합니다.
-    /// 현재 파트의 나레이션이 모두 끝나면 종료 콜백을 호출하여 PrologueController가 다음 컷씬을 열게 합니다.
+    /// ?ㅼ쓬 踰꾪듉 ?대┃ ???꾩옱 ?섎젅?댁뀡???ㅼ쓬 ?쒖떆 ?⑥쐞濡?吏꾪뻾?⑸땲??
+    /// ?꾩옱 ?뚰듃???섎젅?댁뀡??紐⑤몢 ?앸굹硫?醫낅즺 肄쒕갚???몄텧?섏뿬 PrologueController媛 ?ㅼ쓬 而룹뵮???닿쾶 ?⑸땲??
     /// </summary>
     public void NextDialogue()
     {
@@ -368,7 +368,7 @@ public class DialogueUI : MonoBehaviour
     }
 
     /// <summary>
-    /// 나레이션이면 다음 페이지로, 일반 대화면 현재 대화를 종료합니다.
+    /// ?섎젅?댁뀡?대㈃ ?ㅼ쓬 ?섏씠吏濡? ?쇰컲 ??붾㈃ ?꾩옱 ??붾? 醫낅즺?⑸땲??
     /// </summary>
     private void MoveNextNarrationText()
     {
@@ -384,7 +384,7 @@ public class DialogueUI : MonoBehaviour
     }
 
     /// <summary>
-    /// 일반 대화는 한 번 읽으면 종료 콜백으로 다음 콜시트에 넘깁니다.
+    /// ?쇰컲 ??붾뒗 ??踰??쎌쑝硫?醫낅즺 肄쒕갚?쇰줈 ?ㅼ쓬 肄쒖떆?몄뿉 ?섍퉩?덈떎.
     /// </summary>
     private void MoveNextDialogue()
     {
@@ -395,16 +395,16 @@ public class DialogueUI : MonoBehaviour
         }
 
         if (!string.IsNullOrEmpty(_currentDialogue.NextDialogueId))
-            Debug.Log($"[DialogueUI] 다음 대화 ID가 지정되어 있습니다: {_currentDialogue.NextDialogueId}");
+            Debug.Log($"[DialogueUI] ?ㅼ쓬 ???ID媛 吏?뺣릺???덉뒿?덈떎: {_currentDialogue.NextDialogueId}");
 
         FinishDialogue();
     }
 
-    // ==================== 대화창 닫기 ====================
+    // ==================== ??붿갹 ?リ린 ====================
 
     /// <summary>
-    /// 외부에서 대화창을 강제로 닫을 때 사용합니다.
-    /// DialogueGroup 자체가 아니라 DialoguePanel만 끄고 싶을 때도 이 메서드를 호출합니다.
+    /// ?몃??먯꽌 ??붿갹??媛뺤젣濡??レ쓣 ???ъ슜?⑸땲??
+    /// DialogueGroup ?먯껜媛 ?꾨땲??DialoguePanel留??꾧퀬 ?띠쓣 ?뚮룄 ??硫붿꽌?쒕? ?몄텧?⑸땲??
     /// </summary>
     public void CloseDialogue()
     {
@@ -414,7 +414,7 @@ public class DialogueUI : MonoBehaviour
     }
 
     /// <summary>
-    /// 대화가 끝났음을 외부 컨트롤러에 알리고 현재 상태를 비웁니다.
+    /// ??붽? ?앸궗?뚯쓣 ?몃? 而⑦듃濡ㅻ윭???뚮━怨??꾩옱 ?곹깭瑜?鍮꾩썎?덈떎.
     /// </summary>
     private void FinishDialogue()
     {
@@ -433,19 +433,19 @@ public class DialogueUI : MonoBehaviour
         ClearChoiceState();
     }
 
-    // ==================== UI 값 설정 ====================
+    // ==================== UI 媛??ㅼ젙 ====================
 
     /// <summary>
-    /// 화자 이름 칸에 표시할 이름을 적용합니다. 비어 있으면 나레이션으로 표시합니다.
+    /// ?붿옄 ?대쫫 移몄뿉 ?쒖떆???대쫫???곸슜?⑸땲?? 鍮꾩뼱 ?덉쑝硫??섎젅?댁뀡?쇰줈 ?쒖떆?⑸땲??
     /// </summary>
     private void SetSpeakerName(string speakerName)
     {
         if (Text_SpeakerName != null)
-            Text_SpeakerName.text = string.IsNullOrEmpty(speakerName) ? "나레이션" : speakerName;
+            Text_SpeakerName.text = string.IsNullOrEmpty(speakerName) ? "?섎젅?댁뀡" : speakerName;
     }
 
     /// <summary>
-    /// 본문 텍스트를 적용하고 스크롤/높이를 즉시 갱신합니다.
+    /// 蹂몃Ц ?띿뒪?몃? ?곸슜?섍퀬 ?ㅽ겕濡??믪씠瑜?利됱떆 媛깆떊?⑸땲??
     /// </summary>
     private void SetDialogueText(string dialogueText)
     {
@@ -468,7 +468,7 @@ public class DialogueUI : MonoBehaviour
     }
 
     /// <summary>
-    /// 이어가기 버튼 표시와 바깥 클릭 진행 가능 상태를 함께 맞춥니다.
+    /// ?댁뼱媛湲?踰꾪듉 ?쒖떆? 諛붽묑 ?대┃ 吏꾪뻾 媛???곹깭瑜??④퍡 留욎땅?덈떎.
     /// </summary>
     private void SetNextButtonActive(bool isActive)
     {
@@ -481,7 +481,7 @@ public class DialogueUI : MonoBehaviour
     // ==================== Outside click advance ====================
 
     /// <summary>
-    /// 대화창 바깥 클릭이 이어가기 입력으로 처리될 수 있는지 확인합니다.
+    /// ??붿갹 諛붽묑 ?대┃???댁뼱媛湲??낅젰?쇰줈 泥섎━?????덈뒗吏 ?뺤씤?⑸땲??
     /// </summary>
     private bool CanAdvanceByOutsideClick()
     {
@@ -513,7 +513,7 @@ public class DialogueUI : MonoBehaviour
     }
 
     /// <summary>
-    /// 대화창 뒤에 투명 버튼을 깔아 바깥 클릭을 받을 준비를 합니다.
+    /// ??붿갹 ?ㅼ뿉 ?щ챸 踰꾪듉??源붿븘 諛붽묑 ?대┃??諛쏆쓣 以鍮꾨? ?⑸땲??
     /// </summary>
     private void PrepareOutsideClickBlocker()
     {
@@ -551,7 +551,7 @@ public class DialogueUI : MonoBehaviour
     }
 
     /// <summary>
-    /// 바깥 클릭 블로커를 켜고 끕니다.
+    /// 諛붽묑 ?대┃ 釉붾줈而ㅻ? 耳쒓퀬 ?뺣땲??
     /// </summary>
     private void SetOutsideClickBlockerActive(bool isActive)
     {
@@ -574,7 +574,7 @@ public class DialogueUI : MonoBehaviour
     }
 
     /// <summary>
-    /// 투명 블로커가 클릭되면 NextDialogue와 같은 동작을 실행합니다.
+    /// ?щ챸 釉붾줈而ㅺ? ?대┃?섎㈃ NextDialogue? 媛숈? ?숈옉???ㅽ뻾?⑸땲??
     /// </summary>
     private void HandleOutsideClickBlockerClicked()
     {
@@ -590,21 +590,21 @@ public class DialogueUI : MonoBehaviour
     }
 
     /// <summary>
-    /// ChoicePanel을 준비합니다. 씬에 배치되어 있으면 재사용하고, 없으면 DialoguePanel 안에 최소 버튼만 만듭니다.
+    /// ChoicePanel??以鍮꾪빀?덈떎. ?ъ뿉 諛곗튂?섏뼱 ?덉쑝硫??ъ궗?⑺븯怨? ?놁쑝硫?DialoguePanel ?덉뿉 理쒖냼 踰꾪듉留?留뚮벊?덈떎.
     /// </summary>
     private void PrepareChoicePanel()
     {
         if (Root_ChoicePanel == null)
-            Root_ChoicePanel = FindChildByName(transform, "ChoicePanel");
+            Root_ChoicePanel = RequestChildObjectByName(transform, "ChoicePanel");
 
         if (Root_ChoicePanel == null)
             Root_ChoicePanel = CreateChoicePanelObject();
 
         if (Button_ChoiceYes == null)
-            Button_ChoiceYes = FindChoiceButton("Button_ChoiceY", Root_ChoicePanel);
+            Button_ChoiceYes = RequestChoiceButton("Button_ChoiceY", Root_ChoicePanel);
 
         if (Button_ChoiceNo == null)
-            Button_ChoiceNo = FindChoiceButton("Button_ChoiceN", Root_ChoicePanel);
+            Button_ChoiceNo = RequestChoiceButton("Button_ChoiceN", Root_ChoicePanel);
 
         if (Button_ChoiceYes == null)
             Button_ChoiceYes = CreateChoiceButton(Root_ChoicePanel.transform, "Button_ChoiceY", "예");
@@ -673,12 +673,12 @@ public class DialogueUI : MonoBehaviour
         return button;
     }
 
-    private Button FindChoiceButton(string buttonName, GameObject rootObject)
+    private Button RequestChoiceButton(string buttonName, GameObject rootObject)
     {
         if (rootObject == null)
             return null;
 
-        GameObject buttonObject = FindChildByName(rootObject.transform, buttonName);
+        GameObject buttonObject = RequestChildObjectByName(rootObject.transform, buttonName);
         return buttonObject != null ? buttonObject.GetComponent<Button>() : null;
     }
 
@@ -760,7 +760,7 @@ public class DialogueUI : MonoBehaviour
         SetChoicePanelActive(false);
     }
 
-    private GameObject FindChildByName(Transform rootTransform, string objectName)
+    private GameObject RequestChildObjectByName(Transform rootTransform, string objectName)
     {
         if (rootTransform == null || string.IsNullOrEmpty(objectName))
             return null;
@@ -770,7 +770,7 @@ public class DialogueUI : MonoBehaviour
 
         for (int index = 0; index < rootTransform.childCount; index++)
         {
-            GameObject foundObject = FindChildByName(rootTransform.GetChild(index), objectName);
+            GameObject foundObject = RequestChildObjectByName(rootTransform.GetChild(index), objectName);
 
             if (foundObject != null)
                 return foundObject;
@@ -805,7 +805,7 @@ public class DialogueUI : MonoBehaviour
     }
 
     /// <summary>
-    /// Road View 대화창이 HUD보다 앞에 보이도록 Canvas 정렬 순서를 올립니다.
+    /// Road View ??붿갹??HUD蹂대떎 ?욎뿉 蹂댁씠?꾨줉 Canvas ?뺣젹 ?쒖꽌瑜??щ┰?덈떎.
     /// </summary>
     private void RaiseCanvasForRoadViewDialogue()
     {
@@ -818,14 +818,14 @@ public class DialogueUI : MonoBehaviour
         canvas.sortingOrder = Mathf.Max(canvas.sortingOrder, _roadViewSortingOrder);
     }
 
-    // ==================== 스크롤 갱신 ====================
+    // ==================== ?ㅽ겕濡?媛깆떊 ====================
 
     /// <summary>
-    /// TMP 텍스트의 실제 선호 높이를 Content에 반영합니다.
-    /// 이 보정이 없으면 긴 나레이션이 마스크 밖으로 밀려 보이거나 Content 높이가 0으로 남을 수 있습니다.
+    /// TMP ?띿뒪?몄쓽 ?ㅼ젣 ?좏샇 ?믪씠瑜?Content??諛섏쁺?⑸땲??
+    /// ??蹂댁젙???놁쑝硫?湲??섎젅?댁뀡??留덉뒪??諛뽰쑝濡?諛??蹂댁씠嫄곕굹 Content ?믪씠媛 0?쇰줈 ?⑥쓣 ???덉뒿?덈떎.
     /// </summary>
     /// <summary>
-    /// 본문 내용 길이에 맞춰 TMP 텍스트와 스크롤 Content 높이를 갱신합니다.
+    /// 蹂몃Ц ?댁슜 湲몄씠??留욎떠 TMP ?띿뒪?몄? ?ㅽ겕濡?Content ?믪씠瑜?媛깆떊?⑸땲??
     /// </summary>
     private void ResizeDialogueTextToPreferredHeight()
     {
@@ -876,8 +876,8 @@ public class DialogueUI : MonoBehaviour
     }
 
     /// <summary>
-    /// Vertical Layout Group과 Content Size Fitter가 계산한 높이를 즉시 반영합니다.
-    /// Rect_DialogueContent를 연결하지 않은 경우에도 기존 대화 출력은 계속 동작합니다.
+    /// Vertical Layout Group怨?Content Size Fitter媛 怨꾩궛???믪씠瑜?利됱떆 諛섏쁺?⑸땲??
+    /// Rect_DialogueContent瑜??곌껐?섏? ?딆? 寃쎌슦?먮룄 湲곗〈 ???異쒕젰? 怨꾩냽 ?숈옉?⑸땲??
     /// </summary>
     private void RebuildScrollContent()
     {
@@ -890,7 +890,7 @@ public class DialogueUI : MonoBehaviour
     }
 
     /// <summary>
-    /// 새 문장이 표시될 때 스크롤을 맨 위로 올립니다.
+    /// ??臾몄옣???쒖떆?????ㅽ겕濡ㅼ쓣 留??꾨줈 ?щ┰?덈떎.
     /// </summary>
     private void ResetScrollPosition()
     {
@@ -911,8 +911,8 @@ public class DialogueUI : MonoBehaviour
     }
 
     /// <summary>
-    /// DialoguePanel이 켜진 직후에는 RectTransform 폭과 높이가 다음 프레임에 확정될 수 있습니다.
-    /// 그래서 한 프레임 뒤에 같은 보정을 한 번 더 수행해 줄거리가 빈칸처럼 보이는 상황을 막습니다.
+    /// DialoguePanel??耳쒖쭊 吏곹썑?먮뒗 RectTransform ??낵 ?믪씠媛 ?ㅼ쓬 ?꾨젅?꾩뿉 ?뺤젙?????덉뒿?덈떎.
+    /// 洹몃옒?????꾨젅???ㅼ뿉 媛숈? 蹂댁젙????踰????섑뻾??以꾧굅由ш? 鍮덉뭏泥섎읆 蹂댁씠???곹솴??留됱뒿?덈떎.
     /// </summary>
     private void RequestRefreshScrollOnNextFrame()
     {
@@ -942,3 +942,5 @@ public class DialogueUI : MonoBehaviour
         _refreshScrollCoroutine = null;
     }
 }
+
+

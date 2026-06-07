@@ -1,17 +1,17 @@
-// =============================================================================
-// OO_MFC 역할 주석
-// - 스크립트: OOTechTutorial2Controller.cs
-// - 역할: 로드맵, 월드맵, 스테이지 전환 흐름을 담당하는 장면 Controller입니다.
-// - 감독 관점: 길 위의 장면 전환 큐시트를 들고 있는 무대감독입니다.
-// - 유지보수 포인트: 배경/버튼/캐릭터 배치는 오브젝트와 View가 맡고, 이 스크립트는 순서 지휘만 맡아야 합니다.
+﻿// =============================================================================
+// OO_MFC ??븷 二쇱꽍
+// - ?ㅽ겕由쏀듃: OOTechTutorial2Controller.cs
+// - ??븷: 濡쒕뱶留? ?붾뱶留? ?ㅽ뀒?댁? ?꾪솚 ?먮쫫???대떦?섎뒗 ?λ㈃ Controller?낅땲??
+// - 媛먮룆 愿?? 湲??꾩쓽 ?λ㈃ ?꾪솚 ?먯떆?몃? ?ㅺ퀬 ?덈뒗 臾대?媛먮룆?낅땲??
+// - ?좎?蹂댁닔 ?ъ씤?? 諛곌꼍/踰꾪듉/罹먮┃??諛곗튂???ㅻ툕?앺듃? View媛 留↔퀬, ???ㅽ겕由쏀듃???쒖꽌 吏?섎쭔 留≪븘???⑸땲??
 // =============================================================================
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 /// <summary>
-/// 1st_Road_to_Stage1의 HUD 소개와 초반 대화 큐시트를 담당합니다.
-/// Road 감독은 이동만 맡고, 이 배우는 UI 가이드와 데이터 대사 순서만 맡습니다.
+/// 1st_Road_to_Stage1??HUD ?뚭컻? 珥덈컲 ????먯떆?몃? ?대떦?⑸땲??
+/// Road 媛먮룆? ?대룞留?留↔퀬, ??諛곗슦??UI 媛?대뱶? ?곗씠??????쒖꽌留?留≪뒿?덈떎.
 /// </summary>
 [DisallowMultipleComponent]
 public class OOTechTutorial2Controller : MonoBehaviour
@@ -73,11 +73,11 @@ public class OOTechTutorial2Controller : MonoBehaviour
 
     private readonly string[] _fallbackDescriptionArray =
     {
-        "새로 얻은 재료와 물건을 확인합니다.",
-        "새로 알게 된 정보와 기록을 확인합니다.",
-        "현재 해야 할 일을 확인합니다.",
-        "재료를 사용해 음식을 만듭니다. 첫 번째 길을 지나면 열립니다.",
-        "전체 이동 경로와 다음 목적지를 확인합니다."
+        "?덈줈 ?살? ?щ즺? 臾쇨굔???뺤씤?⑸땲??",
+        "?덈줈 ?뚭쾶 ???뺣낫? 湲곕줉???뺤씤?⑸땲??",
+        "?꾩옱 ?댁빞 ???쇱쓣 ?뺤씤?⑸땲??",
+        "?щ즺瑜??ъ슜???뚯떇??留뚮벊?덈떎. 泥?踰덉㎏ 湲몄쓣 吏?섎㈃ ?대┰?덈떎.",
+        "?꾩껜 ?대룞 寃쎈줈? ?ㅼ쓬 紐⑹쟻吏瑜??뺤씤?⑸땲??"
     };
 
     private GameObject Group_Dialogue;
@@ -88,8 +88,8 @@ public class OOTechTutorial2Controller : MonoBehaviour
     public bool IsTutorialRunning { get; private set; }
 
     /// <summary>
-    /// 그룹이 꺼질 때 남은 대사창과 가이드창을 정리합니다.
-    /// 이전 공연의 큐가 남아 다음 Road 재시작을 막지 않게 하는 안전장치입니다.
+    /// 洹몃９??爰쇱쭏 ???⑥? ??ъ갹怨?媛?대뱶李쎌쓣 ?뺣━?⑸땲??
+    /// ?댁쟾 怨듭뿰???먭? ?⑥븘 ?ㅼ쓬 Road ?ъ떆?묒쓣 留됱? ?딄쾶 ?섎뒗 ?덉쟾?μ튂?낅땲??
     /// </summary>
     private void OnDisable()
     {
@@ -99,7 +99,7 @@ public class OOTechTutorial2Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// RoadMap1에 처음 도착했을 때 재익군, 춘양, 모란 대화와 요리 준비 안내를 재생합니다.
+    /// RoadMap1??泥섏쓬 ?꾩갑?덉쓣 ???ъ씡援? 異섏뼇, 紐⑤? ??붿? ?붾━ 以鍮??덈궡瑜??ъ깮?⑸땲??
     /// </summary>
     public IEnumerator PlayRoadMap1ArrivalRoutine()
     {
@@ -115,7 +115,7 @@ public class OOTechTutorial2Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// 1st_Road_to_Stage1에 진입하자마자 HUD 소개, 초반 대사, 재료 지급, 임무 안내를 순서대로 진행합니다.
+    /// 1st_Road_to_Stage1??吏꾩엯?섏옄留덉옄 HUD ?뚭컻, 珥덈컲 ??? ?щ즺 吏湲? ?꾨Т ?덈궡瑜??쒖꽌?濡?吏꾪뻾?⑸땲??
     /// </summary>
     public IEnumerator PlayOpeningTutorialRoutine(OOTechRoadHUDController hudController, string currentGroupName)
     {
@@ -143,8 +143,8 @@ public class OOTechTutorial2Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// 첫 Road 요리 튜토리얼에 필요한 기본 재료를 빠짐없이 보정합니다.
-    /// 빌드에서 대사 코루틴이 중간에 끊겨도 RoadMap1에 도착한 배우가 조리 소품을 잃어버리지 않게 하는 안전장치입니다.
+    /// 泥?Road ?붾━ ?쒗넗由ъ뼹???꾩슂??湲곕낯 ?щ즺瑜?鍮좎쭚?놁씠 蹂댁젙?⑸땲??
+    /// 鍮뚮뱶?먯꽌 ???肄붾（?댁씠 以묎컙???딄꺼??RoadMap1???꾩갑??諛곗슦媛 議곕━ ?뚰뭹???껋뼱踰꾨━吏 ?딄쾶 ?섎뒗 ?덉쟾?μ튂?낅땲??
     /// </summary>
     public void RequestEnsureStarterIngredients(OOTechRoadHUDController hudController)
     {
@@ -155,7 +155,7 @@ public class OOTechTutorial2Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// RoadGroup이 꺼지거나 다시 시작될 때 진행 중인 튜토리얼 UI를 정리합니다.
+    /// RoadGroup??爰쇱?嫄곕굹 ?ㅼ떆 ?쒖옉????吏꾪뻾 以묒씤 ?쒗넗由ъ뼹 UI瑜??뺣━?⑸땲??
     /// </summary>
     public void StopTutorial(OOTechRoadHUDController hudController)
     {
@@ -169,7 +169,7 @@ public class OOTechTutorial2Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// 인벤토리, 도감, 임무, 요리하기, 월드맵 버튼을 왼쪽부터 차례로 포커싱합니다.
+    /// ?몃깽?좊━, ?꾧컧, ?꾨Т, ?붾━?섍린, ?붾뱶留?踰꾪듉???쇱そ遺??李⑤?濡??ъ빱?깊빀?덈떎.
     /// </summary>
     private IEnumerator PlayHUDGuideRoutine(OOTechRoadHUDController hudController)
     {
@@ -192,7 +192,7 @@ public class OOTechTutorial2Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// HUD 소개 뒤 캐릭터 대사를 보여주고 쌀/채소 재료를 인벤토리에 지급합니다.
+    /// HUD ?뚭컻 ??罹먮┃????щ? 蹂댁뿬二쇨퀬 ?/梨꾩냼 ?щ즺瑜??몃깽?좊━??吏湲됲빀?덈떎.
     /// </summary>
     private IEnumerator PlayOpeningDialogueRoutine(OOTechRoadHUDController hudController)
     {
@@ -208,7 +208,7 @@ public class OOTechTutorial2Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// 대사 보상으로 들어온 재료를 모델에 추가하고 HUD에 NEW 배지를 띄웁니다.
+    /// ???蹂댁긽?쇰줈 ?ㅼ뼱???щ즺瑜?紐⑤뜽??異붽??섍퀬 HUD??NEW 諛곗?瑜??꾩썎?덈떎.
     /// </summary>
     private void RequestGiveIngredient(OOTechRoadHUDController hudController, string ingredientId, int count)
     {
@@ -223,8 +223,8 @@ public class OOTechTutorial2Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// 춘양/모란 대사 보상으로 받는 시작 재료를 한 번만 지급합니다.
-    /// 플레이어가 요리에 재료를 소비하면 그 감소량을 그대로 유지하고, 다음 부엌 입장 때 자동 복구하지 않습니다.
+    /// 異섏뼇/紐⑤? ???蹂댁긽?쇰줈 諛쏅뒗 ?쒖옉 ?щ즺瑜???踰덈쭔 吏湲됲빀?덈떎.
+    /// ?뚮젅?댁뼱媛 ?붾━???щ즺瑜??뚮퉬?섎㈃ 洹?媛먯냼?됱쓣 洹몃?濡??좎??섍퀬, ?ㅼ쓬 遺???낆옣 ???먮룞 蹂듦뎄?섏? ?딆뒿?덈떎.
     /// </summary>
     private bool RequestGiveStarterIngredientOnce(string ingredientId, int count)
     {
@@ -253,7 +253,7 @@ public class OOTechTutorial2Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// DialogueGroup을 열고 데이터 ID에 해당하는 대사를 한 줄 재생합니다.
+    /// DialogueGroup???닿퀬 ?곗씠??ID???대떦?섎뒗 ??щ? ??以??ъ깮?⑸땲??
     /// </summary>
     private IEnumerator ShowDialogueDataAndWait(string dialogueId)
     {
@@ -271,7 +271,7 @@ public class OOTechTutorial2Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// 임무 안내 TutorialGuideGroup을 열고 확인 입력까지 기다립니다.
+    /// ?꾨Т ?덈궡 TutorialGuideGroup???닿퀬 ?뺤씤 ?낅젰源뚯? 湲곕떎由쎈땲??
     /// </summary>
     private IEnumerator OpenMissionTutorialGuideAndWait()
     {
@@ -294,7 +294,7 @@ public class OOTechTutorial2Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// RoadMap1 도착 후 요리하기 버튼을 눌러보라는 안내를 재생합니다.
+    /// RoadMap1 ?꾩갑 ???붾━?섍린 踰꾪듉???뚮윭蹂대씪???덈궡瑜??ъ깮?⑸땲??
     /// </summary>
     private IEnumerator OpenRoadMap1TutorialGuideAndWait()
     {
@@ -317,12 +317,12 @@ public class OOTechTutorial2Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// 씬에 놓인 DialogueGroup을 찾아 켜고 DialogueUI 컴포넌트를 확보합니다.
+    /// ?ъ뿉 ?볦씤 DialogueGroup??李얠븘 耳쒓퀬 DialogueUI 而댄룷?뚰듃瑜??뺣낫?⑸땲??
     /// </summary>
     private bool TryOpenDialogueGroup()
     {
         if (Group_Dialogue == null)
-            Group_Dialogue = FindSceneObjectByName(_dialogueGroupName);
+            Group_Dialogue = RequestSceneObjectByName(_dialogueGroupName);
 
         if (Group_Dialogue == null)
             return false;
@@ -343,12 +343,12 @@ public class OOTechTutorial2Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// 씬에 놓인 TutorialGuideGroup을 찾아 켜고 가이드 UI 컴포넌트를 확보합니다.
+    /// ?ъ뿉 ?볦씤 TutorialGuideGroup??李얠븘 耳쒓퀬 媛?대뱶 UI 而댄룷?뚰듃瑜??뺣낫?⑸땲??
     /// </summary>
     private bool TryOpenTutorialGuideGroup()
     {
         if (Group_TutorialGuide == null)
-            Group_TutorialGuide = FindSceneObjectByName(_tutorialGuideGroupName);
+            Group_TutorialGuide = RequestSceneObjectByName(_tutorialGuideGroupName);
 
         if (Group_TutorialGuide == null)
             return false;
@@ -366,7 +366,7 @@ public class OOTechTutorial2Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// 대사 무대를 닫아 다음 연출이나 플레이 입력을 가리지 않게 합니다.
+    /// ???臾대?瑜??レ븘 ?ㅼ쓬 ?곗텧?대굹 ?뚮젅???낅젰??媛由ъ? ?딄쾶 ?⑸땲??
     /// </summary>
     private void CloseDialogueGroup()
     {
@@ -375,7 +375,7 @@ public class OOTechTutorial2Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// 튜토리얼 가이드 무대를 닫아 다음 연출이나 플레이 입력을 가리지 않게 합니다.
+    /// ?쒗넗由ъ뼹 媛?대뱶 臾대?瑜??レ븘 ?ㅼ쓬 ?곗텧?대굹 ?뚮젅???낅젰??媛由ъ? ?딄쾶 ?⑸땲??
     /// </summary>
     private void CloseTutorialGuideGroup()
     {
@@ -384,7 +384,7 @@ public class OOTechTutorial2Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// OO_Dialogue.json에서 대사 데이터를 가져오고, 없으면 임시 대사를 만들어 진행이 끊기지 않게 합니다.
+    /// OO_Dialogue.json?먯꽌 ????곗씠?곕? 媛?몄삤怨? ?놁쑝硫??꾩떆 ??щ? 留뚮뱾??吏꾪뻾???딄린吏 ?딄쾶 ?⑸땲??
     /// </summary>
     private OO_Dialogue GetDialogueData(string dialogueId)
     {
@@ -395,7 +395,7 @@ public class OOTechTutorial2Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// OO_Tutorial.json에서 가이드 데이터를 가져옵니다.
+    /// OO_Tutorial.json?먯꽌 媛?대뱶 ?곗씠?곕? 媛?몄샃?덈떎.
     /// </summary>
     private OO_Tutorial GetTutorialData(string tutorialId)
     {
@@ -406,7 +406,7 @@ public class OOTechTutorial2Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// 데이터가 비어 있을 때도 각 HUD 버튼의 이름이 자연스럽게 보이도록 예비 제목을 제공합니다.
+    /// ?곗씠?곌? 鍮꾩뼱 ?덉쓣 ?뚮룄 媛?HUD 踰꾪듉???대쫫???먯뿰?ㅻ읇寃?蹂댁씠?꾨줉 ?덈퉬 ?쒕ぉ???쒓났?⑸땲??
     /// </summary>
     private string GetGuideTitle(int index, OO_Tutorial tutorialData)
     {
@@ -416,11 +416,11 @@ public class OOTechTutorial2Controller : MonoBehaviour
         if (index >= 0 && index < _fallbackTitleArray.Length)
             return _fallbackTitleArray[index];
 
-        return "안내";
+        return "?덈궡";
     }
 
     /// <summary>
-    /// 데이터가 비어 있을 때도 튜토리얼이 멈추지 않도록 예비 설명을 제공합니다.
+    /// ?곗씠?곌? 鍮꾩뼱 ?덉쓣 ?뚮룄 ?쒗넗由ъ뼹??硫덉텛吏 ?딅룄濡??덈퉬 ?ㅻ챸???쒓났?⑸땲??
     /// </summary>
     private string GetGuideDescription(int index, OO_Tutorial tutorialData)
     {
@@ -433,39 +433,39 @@ public class OOTechTutorial2Controller : MonoBehaviour
             description = _fallbackDescriptionArray[index];
 
         if (index >= 0 && index < _hudButtonKindArray.Length && _hudButtonKindArray[index] == OOTechRoadHUDButtonKind.Cooking)
-            description = $"{description}\n\n아직 잠겨 있습니다. RoadMap1에 도착하면 요리하기가 해금됩니다.";
+            description = $"{description}\n\n?꾩쭅 ?좉꺼 ?덉뒿?덈떎. RoadMap1???꾩갑?섎㈃ ?붾━?섍린媛 ?닿툑?⑸땲??";
 
         return description;
     }
 
     /// <summary>
-    /// 대사 데이터 누락 시 플레이가 멈추지 않도록 최소 대사를 만듭니다.
+    /// ????곗씠???꾨씫 ???뚮젅?닿? 硫덉텛吏 ?딅룄濡?理쒖냼 ??щ? 留뚮벊?덈떎.
     /// </summary>
     private OO_Dialogue CreateFallbackDialogueData(string dialogueId)
     {
         switch (dialogueId)
         {
             case "character_Chunyang_03":
-                return CreateDialogueData(dialogueId, "춘양", "내가 가져온 쌀이네.");
+                return CreateDialogueData(dialogueId, "異섏뼇", "?닿? 媛?몄삩 ??대꽕.");
             case "character_Moran_03":
-                return CreateDialogueData(dialogueId, "모란", "채소도 챙겨 두었어요.");
+                return CreateDialogueData(dialogueId, "紐⑤?", "梨꾩냼??梨숆꺼 ?먯뿀?댁슂.");
             case "character_Mr.Jaeik_03":
                 return CreateDialogueData(dialogueId, "재익군", "이제 길을 나서면 되겠군.");
             case "character_Chunyang_04":
-                return CreateDialogueData(dialogueId, "춘양", "먼저는 동쪽으로 가시지요.");
+                return CreateDialogueData(dialogueId, "異섏뼇", "癒쇱????숈そ?쇰줈 媛?쒖???");
             case "character_Mr.Jaeik_04":
                 return CreateDialogueData(dialogueId, "재익군", "길이 이어지는군.");
             case "character_Chunyang_05":
-                return CreateDialogueData(dialogueId, "춘양", "요리를 준비해야겠소.");
+                return CreateDialogueData(dialogueId, "異섏뼇", "?붾━瑜?以鍮꾪빐?쇨쿋??");
             case "character_Moran_04":
-                return CreateDialogueData(dialogueId, "모란", "따뜻한 음식이 필요해요.");
+                return CreateDialogueData(dialogueId, "紐⑤?", "?곕쑜???뚯떇???꾩슂?댁슂.");
             default:
-                return CreateDialogueData(dialogueId, "나레이션", dialogueId);
+                return CreateDialogueData(dialogueId, "?섎젅?댁뀡", dialogueId);
         }
     }
 
     /// <summary>
-    /// DialogueUI가 요구하는 최소 필드를 채워 임시 대사 데이터를 만듭니다.
+    /// DialogueUI媛 ?붽뎄?섎뒗 理쒖냼 ?꾨뱶瑜?梨꾩썙 ?꾩떆 ????곗씠?곕? 留뚮벊?덈떎.
     /// </summary>
     private OO_Dialogue CreateDialogueData(string dialogueId, string speakerName, string text)
     {
@@ -477,33 +477,33 @@ public class OOTechTutorial2Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// 임무 안내 데이터가 없을 때 보여줄 예비 Tutorial 데이터를 만듭니다.
+    /// ?꾨Т ?덈궡 ?곗씠?곌? ?놁쓣 ??蹂댁뿬以??덈퉬 Tutorial ?곗씠?곕? 留뚮벊?덈떎.
     /// </summary>
     private OO_Tutorial CreateFallbackMissionTutorialData()
     {
         OO_Tutorial tutorialData = new OO_Tutorial();
         tutorialData.Id = _missionTutorialId;
-        tutorialData.Title = "임무";
-        tutorialData.Description = "배고픈 모란과 동료들을 위해 요리하세요.";
+        tutorialData.Title = "?꾨Т";
+        tutorialData.Description = "諛곌퀬??紐⑤?怨??숇즺?ㅼ쓣 ?꾪빐 ?붾━?섏꽭??";
         return tutorialData;
     }
 
     /// <summary>
-    /// RoadMap1 도착 안내 데이터가 없을 때 보여줄 예비 Tutorial 데이터를 만듭니다.
+    /// RoadMap1 ?꾩갑 ?덈궡 ?곗씠?곌? ?놁쓣 ??蹂댁뿬以??덈퉬 Tutorial ?곗씠?곕? 留뚮벊?덈떎.
     /// </summary>
     private OO_Tutorial CreateFallbackRoadMap1TutorialData()
     {
         OO_Tutorial tutorialData = new OO_Tutorial();
         tutorialData.Id = _roadMap1TutorialId;
-        tutorialData.Title = "요리하기";
-        tutorialData.Description = "요리하기 버튼을 눌러 부엌으로 이동하세요.";
+        tutorialData.Title = "?붾━?섍린";
+        tutorialData.Description = "?붾━?섍린 踰꾪듉???뚮윭 遺?뚯쑝濡??대룞?섏꽭??";
         return tutorialData;
     }
 
     /// <summary>
-    /// 비활성화된 씬 오브젝트까지 포함해 이름으로 무대 오브젝트를 찾습니다.
+    /// 鍮꾪솢?깊솕?????ㅻ툕?앺듃源뚯? ?ы븿???대쫫?쇰줈 臾대? ?ㅻ툕?앺듃瑜?李얠뒿?덈떎.
     /// </summary>
-    private GameObject FindSceneObjectByName(string objectName)
+    private GameObject RequestSceneObjectByName(string objectName)
     {
         Scene activeScene = SceneManager.GetActiveScene();
         GameObject[] rootObjectArray = activeScene.GetRootGameObjects();
@@ -513,7 +513,7 @@ public class OOTechTutorial2Controller : MonoBehaviour
             if (rootObject.name == objectName)
                 return rootObject;
 
-            GameObject childObject = FindChildByName(rootObject.transform, objectName);
+            GameObject childObject = RequestChildObjectByName(rootObject.transform, objectName);
 
             if (childObject != null)
                 return childObject;
@@ -523,16 +523,16 @@ public class OOTechTutorial2Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// 자식 무대 안쪽까지 재귀적으로 내려가 이름이 같은 오브젝트를 찾습니다.
+    /// ?먯떇 臾대? ?덉そ源뚯? ?ш??곸쑝濡??대젮媛 ?대쫫??媛숈? ?ㅻ툕?앺듃瑜?李얠뒿?덈떎.
     /// </summary>
-    private GameObject FindChildByName(Transform rootTransform, string objectName)
+    private GameObject RequestChildObjectByName(Transform rootTransform, string objectName)
     {
         foreach (Transform childTransform in rootTransform)
         {
             if (childTransform.name == objectName)
                 return childTransform.gameObject;
 
-            GameObject resultObject = FindChildByName(childTransform, objectName);
+            GameObject resultObject = RequestChildObjectByName(childTransform, objectName);
 
             if (resultObject != null)
                 return resultObject;
@@ -541,3 +541,4 @@ public class OOTechTutorial2Controller : MonoBehaviour
         return null;
     }
 }
+

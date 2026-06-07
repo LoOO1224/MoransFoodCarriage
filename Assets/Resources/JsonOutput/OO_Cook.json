@@ -52,5 +52,32 @@
     "Grade": "좋음",
     "MaxStackCount": 99,
     "EffectDescription": "Stage3 산군 퀘스트 완료에 사용하는 음식입니다."
+  },
+  {
+    "Id": "OO_CarrotCake_1",
+    "Name": "당근전",
+    "Description": "당근전분을 가마솥에 익혀 만든 고소한 당근전입니다. 토끼를 유혹하는 Stage4 핵심 음식입니다.",
+    "IconPath": "Images/Food/CarrotCake",
+    "Grade": "일반",
+    "MaxStackCount": 99,
+    "EffectDescription": "Stage4 토끼 유혹 임무에 사용하는 음식입니다."
+  },
+  {
+    "Id": "OO_FinalFood_1",
+    "Name": "산해진미",
+    "Description": "마지막 무대에서 연산자군의 마음을 움직이는 상징적인 최종 요리입니다.",
+    "IconPath": "Images/Food/FinalFood",
+    "Grade": "전설",
+    "MaxStackCount": 99,
+    "EffectDescription": "FinalStage 컷신과 도감 설명용 최종 음식입니다."
+  },
+  {
+    "Id": "OO_CarrotStarch_1",
+    "Name": "당근전분",
+    "Description": "당근과 떡을 섞어 만든 전분 반죽입니다. 가마솥에 익히면 당근전이 됩니다.",
+    "IconPath": "Images/Food/CarrotStarch",
+    "Grade": "일반",
+    "MaxStackCount": 99,
+    "EffectDescription": "당근전을 만들기 전 단계의 조합 결과물입니다."
   }
 ]

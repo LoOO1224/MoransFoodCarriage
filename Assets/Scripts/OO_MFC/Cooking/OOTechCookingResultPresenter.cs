@@ -1,9 +1,9 @@
-// =============================================================================
-// OO_MFC 역할 주석
-// - 스크립트: OOTechCookingResultPresenter.cs
-// - 역할: 요리 완성 후 대사 출력과 결과 소비 타이밍을 담당합니다.
-// - 영화 비유: 음식이 완성된 뒤 배우들의 "잘 먹었습니다" 장면을 진행하는 후반 연출 담당입니다.
-// - 유지보수 포인트: 요리 성공 판정은 CookingManager, 인벤토리 실제 증감은 GameManager, 대사 출력만 이 컴포넌트가 맡습니다.
+﻿// =============================================================================
+// OO_MFC ??븷 二쇱꽍
+// - ?ㅽ겕由쏀듃: OOTechCookingResultPresenter.cs
+// - ??븷: ?붾━ ?꾩꽦 ?????異쒕젰怨?寃곌낵 ?뚮퉬 ??대컢???대떦?⑸땲??
+// - ?곹솕 鍮꾩쑀: ?뚯떇???꾩꽦????諛곗슦?ㅼ쓽 "??癒뱀뿀?듬땲?? ?λ㈃??吏꾪뻾?섎뒗 ?꾨컲 ?곗텧 ?대떦?낅땲??
+// - ?좎?蹂댁닔 ?ъ씤?? ?붾━ ?깃났 ?먯젙? CookingManager, ?몃깽?좊━ ?ㅼ젣 利앷컧? GameManager, ???異쒕젰留???而댄룷?뚰듃媛 留≪뒿?덈떎.
 // =============================================================================
 using System;
 using System.Collections;
@@ -12,7 +12,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 /// <summary>
-/// 요리 완성 후 DialogueGroup 출력 흐름을 담당합니다.
+/// ?붾━ ?꾩꽦 ??DialogueGroup 異쒕젰 ?먮쫫???대떦?⑸땲??
 /// </summary>
 [DisallowMultipleComponent]
 public class OOTechCookingResultPresenter : MonoBehaviour
@@ -28,7 +28,7 @@ public class OOTechCookingResultPresenter : MonoBehaviour
     private bool _isCookingCompleteDialoguePlaying;
 
     /// <summary>
-    /// 요리 완성 결과가 첫 튜토리얼 음식이면 대사 시퀀스를 시작합니다.
+    /// ?붾━ ?꾩꽦 寃곌낵媛 泥??쒗넗由ъ뼹 ?뚯떇?대㈃ ????쒗?ㅻ? ?쒖옉?⑸땲??
     /// </summary>
     public bool RequestPlayCookingCompleteDialogue(string resultItemId, Action<string> onConsumeResult, Action onComplete)
     {
@@ -43,7 +43,7 @@ public class OOTechCookingResultPresenter : MonoBehaviour
     }
 
     /// <summary>
-    /// 열려 있는 DialogueGroup을 닫습니다.
+    /// ?대젮 ?덈뒗 DialogueGroup???レ뒿?덈떎.
     /// </summary>
     public void RequestCloseDialogueGroup()
     {
@@ -116,16 +116,16 @@ public class OOTechCookingResultPresenter : MonoBehaviour
         OO_DialogueGroup dialogueGroupData = OOTechGameDataManager.Inst != null ? OOTechGameDataManager.Inst.GetDialogueGroupData(_cookingCompleteDialogueGroupId) : null;
 
         if (dialogueGroupData == null)
-            return CreateDialogueData(_cookingCompleteDialogueGroupId, "춘양 + 재익군 + 모란", "잘 먹었습니다!");
+            return CreateDialogueData(_cookingCompleteDialogueGroupId, "異섏뼇 + ?ъ씡援?+ 紐⑤?", "??癒뱀뿀?듬땲??");
 
         string speakerName = CreateDialogueGroupSpeakerName(dialogueGroupData);
         string text = CreateDialogueGroupText(dialogueGroupData);
 
         if (string.IsNullOrEmpty(text))
-            text = "잘 먹었습니다!";
+            text = "??癒뱀뿀?듬땲??";
 
         if (string.IsNullOrEmpty(speakerName))
-            speakerName = "춘양 + 재익군 + 모란";
+            speakerName = "異섏뼇 + ?ъ씡援?+ 紐⑤?";
 
         return CreateDialogueData(dialogueGroupData.Id, speakerName, text);
     }
@@ -209,7 +209,7 @@ public class OOTechCookingResultPresenter : MonoBehaviour
     private bool TryOpenDialogueGroup()
     {
         if (Group_Dialogue == null)
-            Group_Dialogue = FindSceneObjectByName(_dialogueGroupName);
+            Group_Dialogue = RequestSceneObjectByName(_dialogueGroupName);
 
         if (Group_Dialogue == null)
             return false;
@@ -238,13 +238,13 @@ public class OOTechCookingResultPresenter : MonoBehaviour
         return true;
     }
 
-    private GameObject FindSceneObjectByName(string objectName)
+    private GameObject RequestSceneObjectByName(string objectName)
     {
         Scene scene = SceneManager.GetActiveScene();
 
         foreach (GameObject rootObject in scene.GetRootGameObjects())
         {
-            GameObject foundObject = FindChildByName(rootObject.transform, objectName);
+            GameObject foundObject = RequestChildObjectByName(rootObject.transform, objectName);
 
             if (foundObject != null)
                 return foundObject;
@@ -253,7 +253,7 @@ public class OOTechCookingResultPresenter : MonoBehaviour
         return null;
     }
 
-    private GameObject FindChildByName(Transform rootTransform, string childName)
+    private GameObject RequestChildObjectByName(Transform rootTransform, string childName)
     {
         if (rootTransform == null || string.IsNullOrEmpty(childName))
             return null;
@@ -263,7 +263,7 @@ public class OOTechCookingResultPresenter : MonoBehaviour
 
         for (int index = 0; index < rootTransform.childCount; index++)
         {
-            GameObject foundObject = FindChildByName(rootTransform.GetChild(index), childName);
+            GameObject foundObject = RequestChildObjectByName(rootTransform.GetChild(index), childName);
 
             if (foundObject != null)
                 return foundObject;
@@ -272,3 +272,4 @@ public class OOTechCookingResultPresenter : MonoBehaviour
         return null;
     }
 }
+

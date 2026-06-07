@@ -1,17 +1,17 @@
-// =============================================================================
-// OO_MFC 역할 주석
-// - 스크립트: OOTechStage2DialogueCue.cs
-// - 역할: Stage2Group에서 데이터 기반 다이얼로그를 열고 기다리는 대사 큐 담당입니다.
-// - 영화 비유: 무대감독이 대사 원고를 직접 들고 읽지 않고, 대사 조감독에게 "이 대사 진행"만 요청합니다.
-// - 유지보수 포인트: Controller는 대사 순서만 알고, 실제 DialogueGroup 탐색/출력/닫기는 이 컴포넌트가 맡습니다.
+﻿// =============================================================================
+// OO_MFC ??븷 二쇱꽍
+// - ?ㅽ겕由쏀듃: OOTechStage2DialogueCue.cs
+// - ??븷: Stage2Group?먯꽌 ?곗씠??湲곕컲 ?ㅼ씠?쇰줈洹몃? ?닿퀬 湲곕떎由щ뒗 ??????대떦?낅땲??
+// - ?곹솕 鍮꾩쑀: 臾대?媛먮룆??????먭퀬瑜?吏곸젒 ?ㅺ퀬 ?쎌? ?딄퀬, ???議곌컧?낆뿉寃?"?????吏꾪뻾"留??붿껌?⑸땲??
+// - ?좎?蹂댁닔 ?ъ씤?? Controller??????쒖꽌留??뚭퀬, ?ㅼ젣 DialogueGroup ?먯깋/異쒕젰/?リ린????而댄룷?뚰듃媛 留≪뒿?덈떎.
 // =============================================================================
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 /// <summary>
-/// Stage2의 다이얼로그 출력 책임을 분리한 컴포넌트입니다.
-/// Game View에서는 기존 DialogueGroup을 재사용하고, OO_Dialogue.json 데이터 ID로 대사를 출력합니다.
+/// Stage2???ㅼ씠?쇰줈洹?異쒕젰 梨낆엫??遺꾨━??而댄룷?뚰듃?낅땲??
+/// Game View?먯꽌??湲곗〈 DialogueGroup???ъ궗?⑺븯怨? OO_Dialogue.json ?곗씠??ID濡???щ? 異쒕젰?⑸땲??
 /// </summary>
 [DisallowMultipleComponent]
 public class OOTechStage2DialogueCue : MonoBehaviour
@@ -24,7 +24,7 @@ public class OOTechStage2DialogueCue : MonoBehaviour
     private GameObject Object_DialogueGroup;
 
     /// <summary>
-    /// 지정한 다이얼로그 ID를 열고, 플레이어가 이어가기를 누를 때까지 기다립니다.
+    /// 吏?뺥븳 ?ㅼ씠?쇰줈洹?ID瑜??닿퀬, ?뚮젅?댁뼱媛 ?댁뼱媛湲곕? ?꾨? ?뚭퉴吏 湲곕떎由쎈땲??
     /// </summary>
     public IEnumerator RequestShowDialogueAndWait(string dialogueId)
     {
@@ -62,8 +62,8 @@ public class OOTechStage2DialogueCue : MonoBehaviour
     }
 
     /// <summary>
-    /// 지정한 다이얼로그 ID를 열고, 플레이어 입력 또는 제한 시간이 끝나면 닫습니다.
-    /// 탐관오리의 강제 중단 대사처럼 영화적 타이밍이 필요한 곳에 사용합니다.
+    /// 吏?뺥븳 ?ㅼ씠?쇰줈洹?ID瑜??닿퀬, ?뚮젅?댁뼱 ?낅젰 ?먮뒗 ?쒗븳 ?쒓컙???앸굹硫??レ뒿?덈떎.
+    /// ?먭??ㅻ━??媛뺤젣 以묐떒 ??ъ쿂???곹솕????대컢???꾩슂??怨녹뿉 ?ъ슜?⑸땲??
     /// </summary>
     public IEnumerator RequestShowDialogueForSeconds(string dialogueId, float seconds)
     {
@@ -96,7 +96,7 @@ public class OOTechStage2DialogueCue : MonoBehaviour
     }
 
     /// <summary>
-    /// DialogueGroup을 닫습니다.
+    /// DialogueGroup???レ뒿?덈떎.
     /// </summary>
     public void RequestCloseDialogue()
     {
@@ -129,8 +129,8 @@ public class OOTechStage2DialogueCue : MonoBehaviour
     }
 
     /// <summary>
-    /// 대사 UI 부모 오브젝트를 찾습니다.
-    /// 영화로 치면 DialoguePanel 배우가 서는 무대 자체를 다시 켜 두는 보험입니다.
+    /// ???UI 遺紐??ㅻ툕?앺듃瑜?李얠뒿?덈떎.
+    /// ?곹솕濡?移섎㈃ DialoguePanel 諛곗슦媛 ?쒕뒗 臾대? ?먯껜瑜??ㅼ떆 耳??먮뒗 蹂댄뿕?낅땲??
     /// </summary>
     private GameObject ResolveDialogueGroupObject()
     {
@@ -140,18 +140,18 @@ public class OOTechStage2DialogueCue : MonoBehaviour
         Object_DialogueGroup = OOTechUIManager.Inst != null ? OOTechUIManager.Inst.GetCreatedUI(_dialogueGroupName) : null;
 
         if (Object_DialogueGroup == null)
-            Object_DialogueGroup = FindSceneObjectByName(_dialogueGroupName);
+            Object_DialogueGroup = RequestSceneObjectByName(_dialogueGroupName);
 
         return Object_DialogueGroup;
     }
 
-    private GameObject FindSceneObjectByName(string objectName)
+    private GameObject RequestSceneObjectByName(string objectName)
     {
         Scene scene = SceneManager.GetActiveScene();
 
         foreach (GameObject rootObject in scene.GetRootGameObjects())
         {
-            GameObject foundObject = FindChildByName(rootObject.transform, objectName);
+            GameObject foundObject = RequestChildObjectByName(rootObject.transform, objectName);
 
             if (foundObject != null)
                 return foundObject;
@@ -160,7 +160,7 @@ public class OOTechStage2DialogueCue : MonoBehaviour
         return null;
     }
 
-    private GameObject FindChildByName(Transform rootTransform, string objectName)
+    private GameObject RequestChildObjectByName(Transform rootTransform, string objectName)
     {
         if (rootTransform == null || string.IsNullOrEmpty(objectName))
             return null;
@@ -170,7 +170,7 @@ public class OOTechStage2DialogueCue : MonoBehaviour
 
         for (int index = 0; index < rootTransform.childCount; index++)
         {
-            GameObject foundObject = FindChildByName(rootTransform.GetChild(index), objectName);
+            GameObject foundObject = RequestChildObjectByName(rootTransform.GetChild(index), objectName);
 
             if (foundObject != null)
                 return foundObject;
@@ -179,3 +179,4 @@ public class OOTechStage2DialogueCue : MonoBehaviour
         return null;
     }
 }
+

@@ -1,9 +1,9 @@
-// =============================================================================
-// OO_MFC 역할 주석
-// - 스크립트: MainMenuController.cs
-// - 역할: MainMenuGroup의 버튼 입력을 받아 다음 무대를 여는 시작 화면 Controller입니다.
-// - 영화 비유: 첫 상영관 로비에서 관객이 본편, 도감, 종료, 개발 리허설 장면을 고르는 안내 데스크입니다.
-// - 유지보수 포인트: 실제 화면 전환은 UIManager에 요청하고, 이 클래스는 버튼 큐만 전달합니다.
+﻿// =============================================================================
+// OO_MFC ??븷 二쇱꽍
+// - ?ㅽ겕由쏀듃: MainMenuController.cs
+// - ??븷: MainMenuGroup??踰꾪듉 ?낅젰??諛쏆븘 ?ㅼ쓬 臾대?瑜??щ뒗 ?쒖옉 ?붾㈃ Controller?낅땲??
+// - ?곹솕 鍮꾩쑀: 泥??곸쁺愿 濡쒕퉬?먯꽌 愿媛앹씠 蹂명렪, ?꾧컧, 醫낅즺, 媛쒕컻 由ы뿀???λ㈃??怨좊Ⅴ???덈궡 ?곗뒪?ъ엯?덈떎.
+// - ?좎?蹂댁닔 ?ъ씤?? ?ㅼ젣 ?붾㈃ ?꾪솚? UIManager???붿껌?섍퀬, ???대옒?ㅻ뒗 踰꾪듉 ?먮쭔 ?꾨떖?⑸땲??
 // =============================================================================
 using TMPro;
 using UnityEngine;
@@ -11,8 +11,8 @@ using UnityEngine.Events;
 using UnityEngine.UI;
 
 /// <summary>
-/// MainMenuGroup의 버튼 이벤트를 담당합니다.
-/// Game View에서는 플레이어가 처음 만나는 메뉴 버튼과 개발자용 빠른 진입 버튼을 제공합니다.
+/// MainMenuGroup??踰꾪듉 ?대깽?몃? ?대떦?⑸땲??
+/// Game View?먯꽌???뚮젅?댁뼱媛 泥섏쓬 留뚮굹??硫붾돱 踰꾪듉怨?媛쒕컻?먯슜 鍮좊Ⅸ 吏꾩엯 踰꾪듉???쒓났?⑸땲??
 /// </summary>
 public class MainMenuController : MonoBehaviour
 {
@@ -49,6 +49,7 @@ public class MainMenuController : MonoBehaviour
         "Stage2Group",
         "Stage3Group",
         "Stage4_1Group",
+        "Stage4_2Group",
         "Stage4Group",
         "FinalStageGroup",
         "EpilogueGroup",
@@ -57,8 +58,8 @@ public class MainMenuController : MonoBehaviour
     };
 
     /// <summary>
-    /// 메뉴가 준비될 때 개발자용 리허설 버튼도 같이 준비합니다.
-    /// 감독 비유로는 본 공연 버튼 옆에 특정 장면으로 바로 가는 리허설 큐 버튼을 붙이는 단계입니다.
+    /// 硫붾돱媛 以鍮꾨맆 ??媛쒕컻?먯슜 由ы뿀??踰꾪듉??媛숈씠 以鍮꾪빀?덈떎.
+    /// 媛먮룆 鍮꾩쑀濡쒕뒗 蹂?怨듭뿰 踰꾪듉 ?놁뿉 ?뱀젙 ?λ㈃?쇰줈 諛붾줈 媛??由ы뿀????踰꾪듉??遺숈씠???④퀎?낅땲??
     /// </summary>
     private void Awake()
     {
@@ -66,7 +67,7 @@ public class MainMenuController : MonoBehaviour
     }
 
     /// <summary>
-    /// MainMenuGroup이 다시 켜질 때 개발자 버튼 표시 상태를 유지합니다.
+    /// MainMenuGroup???ㅼ떆 耳쒖쭏 ??媛쒕컻??踰꾪듉 ?쒖떆 ?곹깭瑜??좎??⑸땲??
     /// </summary>
     private void OnEnable()
     {
@@ -74,10 +75,10 @@ public class MainMenuController : MonoBehaviour
             Root_DeveloperSkipPanel.gameObject.SetActive(_isShowDeveloperSkipButtons);
     }
 
-    // ==================== 기본 메뉴 버튼 ====================
+    // ==================== 湲곕낯 硫붾돱 踰꾪듉 ====================
 
     /// <summary>
-    /// 시작 버튼을 누르면 Prologue1Group으로 진행합니다.
+    /// ?쒖옉 踰꾪듉???꾨Ⅴ硫?Prologue1Group?쇰줈 吏꾪뻾?⑸땲??
     /// </summary>
     public void OnStartButtonClicked()
     {
@@ -85,7 +86,7 @@ public class MainMenuController : MonoBehaviour
     }
 
     /// <summary>
-    /// 도감 버튼을 누르면 CodexGroup을 열고 도감 BGM이 있으면 재생합니다.
+    /// ?꾧컧 踰꾪듉???꾨Ⅴ硫?CodexGroup???닿퀬 ?꾧컧 BGM???덉쑝硫??ъ깮?⑸땲??
     /// </summary>
     public void OnCodexButtonClicked()
     {
@@ -96,18 +97,18 @@ public class MainMenuController : MonoBehaviour
     }
 
     /// <summary>
-    /// 종료 버튼을 누르면 게임 종료 요청을 전달합니다.
+    /// 醫낅즺 踰꾪듉???꾨Ⅴ硫?寃뚯엫 醫낅즺 ?붿껌???꾨떖?⑸땲??
     /// </summary>
     public void OnExitButtonClicked()
     {
         UIManagerExtension.OnExitButtonClicked();
     }
 
-    // ==================== 개발자용 바로가기 버튼 ====================
+    // ==================== 媛쒕컻?먯슜 諛붾줈媛湲?踰꾪듉 ====================
 
     /// <summary>
-    /// 개발 테스트용 바로가기 버튼 3개를 MainMenuGroup 안에 준비합니다.
-    /// Game View에서는 빨강, 주황, 노랑 버튼으로 로드1, 스테이지1, 로드2에 바로 들어갑니다.
+    /// 媛쒕컻 ?뚯뒪?몄슜 諛붾줈媛湲?踰꾪듉 3媛쒕? MainMenuGroup ?덉뿉 以鍮꾪빀?덈떎.
+    /// Game View?먯꽌??鍮④컯, 二쇳솴, ?몃옉 踰꾪듉?쇰줈 濡쒕뱶1, ?ㅽ뀒?댁?1, 濡쒕뱶2??諛붾줈 ?ㅼ뼱媛묐땲??
     /// </summary>
     private void PrepareDeveloperSkipButtons()
     {
@@ -119,7 +120,7 @@ public class MainMenuController : MonoBehaviour
         if (canvas == null)
             canvas = CreateDeveloperSkipCanvas();
 
-        Root_DeveloperSkipPanel = FindOrCreateDeveloperSkipRoot(canvas.transform);
+        Root_DeveloperSkipPanel = RequestOrCreateDeveloperSkipRoot(canvas.transform);
         ClearDeveloperButtonListenerArray();
 
         CreateDeveloperSkipButton("Button_DevSkip_Road1", "DEV Road 1", new Color(0.85f, 0.06f, 0.06f, 0.92f), 0, delegate
@@ -159,9 +160,10 @@ public class MainMenuController : MonoBehaviour
         return canvas;
     }
 
-    private RectTransform FindOrCreateDeveloperSkipRoot(Transform canvasTransform)
+    private RectTransform RequestOrCreateDeveloperSkipRoot(Transform canvasTransform)
     {
-        Transform rootTransform = canvasTransform.Find("Panel_DeveloperSkipButtons");
+        GameObject rootObjectInCanvas = OOTechSceneQuery.RequestChildObjectByName(canvasTransform, "Panel_DeveloperSkipButtons");
+        Transform rootTransform = rootObjectInCanvas != null ? rootObjectInCanvas.transform : null;
 
         if (rootTransform != null)
             return rootTransform as RectTransform;
@@ -194,7 +196,8 @@ public class MainMenuController : MonoBehaviour
 
     private void CreateDeveloperSkipButton(string objectName, string labelText, Color color, int index, UnityAction clickAction)
     {
-        Transform buttonTransform = Root_DeveloperSkipPanel.Find(objectName);
+        GameObject existingButtonObject = OOTechSceneQuery.RequestChildObjectByName(Root_DeveloperSkipPanel, objectName);
+        Transform buttonTransform = existingButtonObject != null ? existingButtonObject.transform : null;
         GameObject buttonObject = buttonTransform != null ? buttonTransform.gameObject : new GameObject(objectName);
         buttonObject.transform.SetParent(Root_DeveloperSkipPanel, false);
 
@@ -253,8 +256,8 @@ public class MainMenuController : MonoBehaviour
     }
 
     /// <summary>
-    /// 개발 리허설 버튼이 눌리면 현재 그룹들을 닫고 목표 그룹만 켭니다.
-    /// MainMenuGroup에서 Prologue를 건너뛰고 바로 특정 무대로 진입할 때 사용합니다.
+    /// 媛쒕컻 由ы뿀??踰꾪듉???뚮━硫??꾩옱 洹몃９?ㅼ쓣 ?リ퀬 紐⑺몴 洹몃９留?耳?땲??
+    /// MainMenuGroup?먯꽌 Prologue瑜?嫄대꼫?곌퀬 諛붾줈 ?뱀젙 臾대?濡?吏꾩엯?????ъ슜?⑸땲??
     /// </summary>
     private void RequestDeveloperSkipToGroup(string targetGroupName)
     {
@@ -276,3 +279,4 @@ public class MainMenuController : MonoBehaviour
         Debug.Log($"[MainMenuController] Developer skip opened: {targetGroupName}");
     }
 }
+

@@ -17,9 +17,13 @@ using UnityEngine;
 public class OOTechRoadToStage1BGMPlayer : MonoBehaviour
 {
     [SerializeField] private AudioClip _worldMapRoadBGM;
+#if UNITY_EDITOR
     [SerializeField] private string _worldMapRoadBGMAssetPath = "Assets/Sounds/BGM/WorldMap_Road_BGM.mp3";
+#endif
     [SerializeField] private AudioClip _secondRoadStage2BGM;
+#if UNITY_EDITOR
     [SerializeField] private string _secondRoadStage2BGMAssetPath = "Assets/Sounds/BGM/2_Road__Stage2_BGM.mp3";
+#endif
     [SerializeField] private string _secondRoadGroupName = "2nd_Road_to_Stage2";
 
     /// <summary>

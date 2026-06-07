@@ -1,0 +1,1637 @@
+fileFormatVersion: 2
+guid: 566ea19d77849c94a95910eba3463db4
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 0
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: OOLOGO_3_0
+      rect:
+        serializedVersion: 2
+        x: 51
+        y: 1907
+        width: 64
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 667a7eb05d184014fb8f282d6f4425af
+      internalID: -2140175498
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OOLOGO_3_1
+      rect:
+        serializedVersion: 2
+        x: 116
+        y: 1907
+        width: 22
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9a4db4ad02b7fb348a4ce3a479a2b534
+      internalID: -1745627438
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OOLOGO_3_2
+      rect:
+        serializedVersion: 2
+        x: 139
+        y: 1907
+        width: 66
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4f6c16cd46af547468f15ed6988759c8
+      internalID: 896358471
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OOLOGO_3_3
+      rect:
+        serializedVersion: 2
+        x: 286
+        y: 1846
+        width: 196
+        height: 147
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 84c7d7be33fab7249b4f60fb4da43e69
+      internalID: -294179206
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OOLOGO_3_4
+      rect:
+        serializedVersion: 2
+        x: 543
+        y: 1846
+        width: 195
+        height: 146
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7772044c0b4257a4caeae2d68f89b80d
+      internalID: -1800120369
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OOLOGO_3_5
+      rect:
+        serializedVersion: 2
+        x: 798
+        y: 1846
+        width: 196
+        height: 147
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c5b91c7b2cc3bdf49920c07bf56f378c
+      internalID: -983273956
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OOLOGO_3_6
+      rect:
+        serializedVersion: 2
+        x: 1054
+        y: 1846
+        width: 196
+        height: 147
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f778d6fa71faa9147a2951b08fcc2b58
+      internalID: 1052932847
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OOLOGO_3_7
+      rect:
+        serializedVersion: 2
+        x: 1311
+        y: 1845
+        width: 195
+        height: 148
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9d6ecc922a34c2645ab8f0995f192952
+      internalID: 563351475
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OOLOGO_3_8
+      rect:
+        serializedVersion: 2
+        x: 1567
+        y: 1845
+        width: 195
+        height: 148
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 089499875744d9942ad83655ac7c9059
+      internalID: 1899757693
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OOLOGO_3_9
+      rect:
+        serializedVersion: 2
+        x: 1823
+        y: 1845
+        width: 195
+        height: 148
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 36a8571adda7635498a17ad3858d6bec
+      internalID: -393741433
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OOLOGO_3_10
+      rect:
+        serializedVersion: 2
+        x: 31
+        y: 1589
+        width: 195
+        height: 148
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c20074174b2a77c4db25ab703c78a6ab
+      internalID: -1743803886
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OOLOGO_3_11
+      rect:
+        serializedVersion: 2
+        x: 287
+        y: 1589
+        width: 195
+        height: 148
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a5352216674a9294c80929b8addaeb9f
+      internalID: -244443678
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OOLOGO_3_12
+      rect:
+        serializedVersion: 2
+        x: 542
+        y: 1589
+        width: 196
+        height: 148
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b5bc73a0314db294493dd64ca7d53af6
+      internalID: 1654586386
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OOLOGO_3_13
+      rect:
+        serializedVersion: 2
+        x: 798
+        y: 1589
+        width: 196
+        height: 148
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 84cf1ea3672ac5c4aa8112c06473000e
+      internalID: 1547344314
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OOLOGO_3_14
+      rect:
+        serializedVersion: 2
+        x: 1055
+        y: 1590
+        width: 195
+        height: 147
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f9b511b413ab2f948888e786d82ca538
+      internalID: -299814777
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OOLOGO_3_15
+      rect:
+        serializedVersion: 2
+        x: 1311
+        y: 1590
+        width: 195
+        height: 147
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 62c7d52cd3a3ae74cac3c3078c1fcc07
+      internalID: 1604477591
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OOLOGO_3_16
+      rect:
+        serializedVersion: 2
+        x: 1567
+        y: 1590
+        width: 195
+        height: 147
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e4806fc312986734e933f4ded6a6bc7d
+      internalID: -502943076
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OOLOGO_3_17
+      rect:
+        serializedVersion: 2
+        x: 1823
+        y: 1590
+        width: 195
+        height: 147
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 94c526cd2d3b8584e94543e53bd4e610
+      internalID: -642512302
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OOLOGO_3_18
+      rect:
+        serializedVersion: 2
+        x: 31
+        y: 1333
+        width: 195
+        height: 148
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3681d8a59d36c2b428ec28fdd6a5c80d
+      internalID: 78405657
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OOLOGO_3_19
+      rect:
+        serializedVersion: 2
+        x: 287
+        y: 1333
+        width: 195
+        height: 148
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a4aa85a45f866ff43b6f123bd9c6f68a
+      internalID: -948697339
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OOLOGO_3_20
+      rect:
+        serializedVersion: 2
+        x: 543
+        y: 1333
+        width: 195
+        height: 148
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7f43b64d053042546b7fa8988f8d7e52
+      internalID: 750764269
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OOLOGO_3_21
+      rect:
+        serializedVersion: 2
+        x: 799
+        y: 1333
+        width: 195
+        height: 148
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b96c7c02fd3ac674881ee6876cb3b7a4
+      internalID: -1107711570
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OOLOGO_3_22
+      rect:
+        serializedVersion: 2
+        x: 1055
+        y: 1333
+        width: 196
+        height: 148
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: acda9020507d1304ab58523a6e546311
+      internalID: -1812910517
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OOLOGO_3_23
+      rect:
+        serializedVersion: 2
+        x: 1311
+        y: 1333
+        width: 196
+        height: 148
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4bd843c2aa9bb2e448af116f20ca8e16
+      internalID: -420184312
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OOLOGO_3_24
+      rect:
+        serializedVersion: 2
+        x: 1567
+        y: 1333
+        width: 195
+        height: 148
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0da95b0acb74eb047a67f6f58f863426
+      internalID: -337317465
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OOLOGO_3_25
+      rect:
+        serializedVersion: 2
+        x: 1823
+        y: 1333
+        width: 195
+        height: 148
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 389560373df969a4eb12a96b437bb42d
+      internalID: -460404442
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OOLOGO_3_26
+      rect:
+        serializedVersion: 2
+        x: 31
+        y: 1077
+        width: 196
+        height: 148
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7587af24bb55bf842b6aed13b491b069
+      internalID: -524051087
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OOLOGO_3_27
+      rect:
+        serializedVersion: 2
+        x: 287
+        y: 1078
+        width: 195
+        height: 147
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 790d40957a97f124485bb7cf00bfc943
+      internalID: 2005788600
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OOLOGO_3_28
+      rect:
+        serializedVersion: 2
+        x: 543
+        y: 1077
+        width: 195
+        height: 148
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 976a482fa00572b429424a2ea01341b0
+      internalID: -1989282633
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OOLOGO_3_29
+      rect:
+        serializedVersion: 2
+        x: 799
+        y: 1077
+        width: 195
+        height: 148
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7d311fc79285d35449cc9e736886d3f7
+      internalID: -1223283216
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OOLOGO_3_30
+      rect:
+        serializedVersion: 2
+        x: 1055
+        y: 1077
+        width: 195
+        height: 148
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9512dac9ca01e484989950b87d4c7167
+      internalID: -9671365
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OOLOGO_3_31
+      rect:
+        serializedVersion: 2
+        x: 1311
+        y: 1077
+        width: 195
+        height: 148
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d5789879070cb1f4099840c2918c3e6e
+      internalID: -1996694280
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OOLOGO_3_32
+      rect:
+        serializedVersion: 2
+        x: 1567
+        y: 1078
+        width: 195
+        height: 147
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 792f3795b07e07d43bd94f987da5f26f
+      internalID: 580736160
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OOLOGO_3_33
+      rect:
+        serializedVersion: 2
+        x: 1823
+        y: 1077
+        width: 195
+        height: 148
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 724a6b29be71eb84497d72538acf504b
+      internalID: -138787748
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OOLOGO_3_34
+      rect:
+        serializedVersion: 2
+        x: 31
+        y: 822
+        width: 195
+        height: 147
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 92a0ce5115cba404d985254dc3bb51d6
+      internalID: 1682115049
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OOLOGO_3_35
+      rect:
+        serializedVersion: 2
+        x: 287
+        y: 822
+        width: 195
+        height: 147
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4ba6e562b0dea4e4fae3cd17d3a3e3c1
+      internalID: -1009547807
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OOLOGO_3_36
+      rect:
+        serializedVersion: 2
+        x: 543
+        y: 822
+        width: 196
+        height: 147
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a02da85b346378f4fb62c99d5c51dced
+      internalID: -1365472625
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OOLOGO_3_37
+      rect:
+        serializedVersion: 2
+        x: 799
+        y: 822
+        width: 196
+        height: 147
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9834378da0c1e334484722124d19ef60
+      internalID: 121312863
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OOLOGO_3_38
+      rect:
+        serializedVersion: 2
+        x: 1055
+        y: 822
+        width: 195
+        height: 147
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7da0d8701ad5d0b478be690fc8e070b5
+      internalID: -867510515
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OOLOGO_3_39
+      rect:
+        serializedVersion: 2
+        x: 1311
+        y: 822
+        width: 195
+        height: 147
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3ce0f3c05ef917e4384d65e56646c0d7
+      internalID: -1453869405
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OOLOGO_3_40
+      rect:
+        serializedVersion: 2
+        x: 1567
+        y: 822
+        width: 195
+        height: 147
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ecd61aea33e21404b83b3747d7be9709
+      internalID: 524096383
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OOLOGO_3_41
+      rect:
+        serializedVersion: 2
+        x: 1823
+        y: 822
+        width: 195
+        height: 147
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d81e108c930e98d4db9ea73c274b7baf
+      internalID: -1475693829
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OOLOGO_3_42
+      rect:
+        serializedVersion: 2
+        x: 30
+        y: 566
+        width: 196
+        height: 147
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4eff39784ece5f5449e0da4c69326e32
+      internalID: 780789058
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OOLOGO_3_43
+      rect:
+        serializedVersion: 2
+        x: 286
+        y: 566
+        width: 196
+        height: 147
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b97740e7dcc819a46a2fe7bc083a1e94
+      internalID: 1694756060
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OOLOGO_3_44
+      rect:
+        serializedVersion: 2
+        x: 543
+        y: 566
+        width: 195
+        height: 147
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3a443e7614266e040911dc6181b4925d
+      internalID: 1060000478
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OOLOGO_3_45
+      rect:
+        serializedVersion: 2
+        x: 799
+        y: 566
+        width: 195
+        height: 147
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 602507d826769bd45b5b8f366663c3f6
+      internalID: -1469359341
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OOLOGO_3_46
+      rect:
+        serializedVersion: 2
+        x: 1054
+        y: 566
+        width: 196
+        height: 147
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5b06dfa1d84dbf048afdb44a96a7757b
+      internalID: -467339715
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OOLOGO_3_47
+      rect:
+        serializedVersion: 2
+        x: 1311
+        y: 565
+        width: 195
+        height: 148
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e27c9ac4c2be8da4595ae525c5ec7a78
+      internalID: -1804442713
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OOLOGO_3_48
+      rect:
+        serializedVersion: 2
+        x: 1567
+        y: 566
+        width: 195
+        height: 147
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7aa3fafeac9ae1a41b9ea237ace33d80
+      internalID: 2018590742
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OOLOGO_3_49
+      rect:
+        serializedVersion: 2
+        x: 1823
+        y: 566
+        width: 195
+        height: 147
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2ff828ef6f2331b489131abea3506cb6
+      internalID: -1018129346
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OOLOGO_3_50
+      rect:
+        serializedVersion: 2
+        x: 31
+        y: 310
+        width: 195
+        height: 147
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 669c4bdb16ec5bd459dc08c4608c8d8a
+      internalID: 1079017496
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OOLOGO_3_51
+      rect:
+        serializedVersion: 2
+        x: 287
+        y: 309
+        width: 195
+        height: 148
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 46d6df1167cf45b4c8d90de6c94e1e17
+      internalID: 131056738
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OOLOGO_3_52
+      rect:
+        serializedVersion: 2
+        x: 543
+        y: 310
+        width: 195
+        height: 147
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b9bab3c2123568a4089ede5a3177e05e
+      internalID: 1945245117
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OOLOGO_3_53
+      rect:
+        serializedVersion: 2
+        x: 799
+        y: 310
+        width: 195
+        height: 147
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5bbc06c9f4da14444b2ecff1562a022a
+      internalID: 1738028623
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OOLOGO_3_54
+      rect:
+        serializedVersion: 2
+        x: 1055
+        y: 310
+        width: 195
+        height: 147
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: aa3a86b263f2eeb4e9cec8456e97194d
+      internalID: -1125042252
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OOLOGO_3_55
+      rect:
+        serializedVersion: 2
+        x: 1310
+        y: 310
+        width: 196
+        height: 147
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 769e1616772398f4ca34606a1298268b
+      internalID: 1904140305
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OOLOGO_3_56
+      rect:
+        serializedVersion: 2
+        x: 1566
+        y: 310
+        width: 196
+        height: 147
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 69d2851b69cb621418e25e55f08f4e64
+      internalID: -2027638694
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OOLOGO_3_57
+      rect:
+        serializedVersion: 2
+        x: 1823
+        y: 310
+        width: 195
+        height: 147
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c4e7466c1badb354da61d4f5ba691d58
+      internalID: 1444415743
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OOLOGO_3_58
+      rect:
+        serializedVersion: 2
+        x: 31
+        y: 54
+        width: 195
+        height: 147
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 48179f4921639794890568972119d5bb
+      internalID: 1128693868
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OOLOGO_3_59
+      rect:
+        serializedVersion: 2
+        x: 286
+        y: 54
+        width: 196
+        height: 147
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6f9c3b5a5c09bf24d97ff9ef06681188
+      internalID: 1539233178
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OOLOGO_3_60
+      rect:
+        serializedVersion: 2
+        x: 543
+        y: 54
+        width: 195
+        height: 147
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8f77f1abed81f1d43b01f58d1e18196c
+      internalID: -1683966856
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OOLOGO_3_61
+      rect:
+        serializedVersion: 2
+        x: 799
+        y: 54
+        width: 195
+        height: 147
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 96791bc615a7ffa46ab2d7ce5fcc7f72
+      internalID: 869231391
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OOLOGO_3_62
+      rect:
+        serializedVersion: 2
+        x: 1054
+        y: 54
+        width: 196
+        height: 147
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e150022d079538643b0ae35e880f21f0
+      internalID: -2024084383
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OOLOGO_3_63
+      rect:
+        serializedVersion: 2
+        x: 1311
+        y: 54
+        width: 195
+        height: 147
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d5077a52a786deb4493e556522b5ee2c
+      internalID: 2080019829
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OOLOGO_3_64
+      rect:
+        serializedVersion: 2
+        x: 1566
+        y: 54
+        width: 196
+        height: 147
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: af33e25045954994db2954304e81b5a6
+      internalID: -720553325
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OOLOGO_3_65
+      rect:
+        serializedVersion: 2
+        x: 1823
+        y: 54
+        width: 195
+        height: 147
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 19ccdfd1a95199e459c0e99ef1bd3e69
+      internalID: 1777517609
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 4396df14e1dbd124883c85954177d45d
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      OOLOGO_3_0: -2140175498
+      OOLOGO_3_1: -1745627438
+      OOLOGO_3_10: -1743803886
+      OOLOGO_3_11: -244443678
+      OOLOGO_3_12: 1654586386
+      OOLOGO_3_13: 1547344314
+      OOLOGO_3_14: -299814777
+      OOLOGO_3_15: 1604477591
+      OOLOGO_3_16: -502943076
+      OOLOGO_3_17: -642512302
+      OOLOGO_3_18: 78405657
+      OOLOGO_3_19: -948697339
+      OOLOGO_3_2: 896358471
+      OOLOGO_3_20: 750764269
+      OOLOGO_3_21: -1107711570
+      OOLOGO_3_22: -1812910517
+      OOLOGO_3_23: -420184312
+      OOLOGO_3_24: -337317465
+      OOLOGO_3_25: -460404442
+      OOLOGO_3_26: -524051087
+      OOLOGO_3_27: 2005788600
+      OOLOGO_3_28: -1989282633
+      OOLOGO_3_29: -1223283216
+      OOLOGO_3_3: -294179206
+      OOLOGO_3_30: -9671365
+      OOLOGO_3_31: -1996694280
+      OOLOGO_3_32: 580736160
+      OOLOGO_3_33: -138787748
+      OOLOGO_3_34: 1682115049
+      OOLOGO_3_35: -1009547807
+      OOLOGO_3_36: -1365472625
+      OOLOGO_3_37: 121312863
+      OOLOGO_3_38: -867510515
+      OOLOGO_3_39: -1453869405
+      OOLOGO_3_4: -1800120369
+      OOLOGO_3_40: 524096383
+      OOLOGO_3_41: -1475693829
+      OOLOGO_3_42: 780789058
+      OOLOGO_3_43: 1694756060
+      OOLOGO_3_44: 1060000478
+      OOLOGO_3_45: -1469359341
+      OOLOGO_3_46: -467339715
+      OOLOGO_3_47: -1804442713
+      OOLOGO_3_48: 2018590742
+      OOLOGO_3_49: -1018129346
+      OOLOGO_3_5: -983273956
+      OOLOGO_3_50: 1079017496
+      OOLOGO_3_51: 131056738
+      OOLOGO_3_52: 1945245117
+      OOLOGO_3_53: 1738028623
+      OOLOGO_3_54: -1125042252
+      OOLOGO_3_55: 1904140305
+      OOLOGO_3_56: -2027638694
+      OOLOGO_3_57: 1444415743
+      OOLOGO_3_58: 1128693868
+      OOLOGO_3_59: 1539233178
+      OOLOGO_3_6: 1052932847
+      OOLOGO_3_60: -1683966856
+      OOLOGO_3_61: 869231391
+      OOLOGO_3_62: -2024084383
+      OOLOGO_3_63: 2080019829
+      OOLOGO_3_64: -720553325
+      OOLOGO_3_65: 1777517609
+      OOLOGO_3_7: 563351475
+      OOLOGO_3_8: 1899757693
+      OOLOGO_3_9: -393741433
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

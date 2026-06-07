@@ -50,36 +50,14 @@ public class OOTechItemCatalogManager : MonoBehaviour
     public void RequestCacheItemDefinitionObjects()
     {
         _itemDefinitionDic.Clear();
-        OOTechItemDefinitionObject[] definitionArray = FindObjectsByType<OOTechItemDefinitionObject>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+        List<OOTechItemDefinitionObject> definitionArray = OOTechSceneQuery.RequestCollectComponents<OOTechItemDefinitionObject>(true);
 
         foreach (OOTechItemDefinitionObject definitionObject in definitionArray)
         {
             RequestRegisterItemDefinition(definitionObject);
         }
 
-#if UNITY_EDITOR
-        RequestCacheItemDefinitionPrefabAssets();
-#endif
     }
-
-#if UNITY_EDITOR
-    private void RequestCacheItemDefinitionPrefabAssets()
-    {
-        string[] prefabGuidArray = AssetDatabase.FindAssets("t:Prefab", new[] { "Assets/Prefabs/OO_MFC/Props/Items" });
-
-        foreach (string prefabGuid in prefabGuidArray)
-        {
-            string prefabPath = AssetDatabase.GUIDToAssetPath(prefabGuid);
-            GameObject prefabObject = AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);
-
-            if (prefabObject == null)
-                continue;
-
-            OOTechItemDefinitionObject definitionObject = prefabObject.GetComponentInChildren<OOTechItemDefinitionObject>(true);
-            RequestRegisterItemDefinition(definitionObject);
-        }
-    }
-#endif
 
     /// <summary>
     /// 새 아이템 역할표를 카탈로그에 등록합니다.
@@ -243,6 +221,18 @@ public class OOTechItemCatalogManager : MonoBehaviour
 
         if (itemDataId == "Ing_Honey_01")
             return "Images/Food/Honey";
+
+        if (itemDataId == "Ing_Carrot_01")
+            return "Images/Food/Carrot";
+
+        if (itemDataId == "OO_CarrotStarch_1")
+            return "Images/Food/CarrotStarch";
+
+        if (itemDataId == "OO_CarrotCake_1")
+            return "Images/Food/CarrotCake";
+
+        if (itemDataId == "OO_HoneyKoreanCake_1")
+            return "Images/Food/HoneyKoreanCake";
 
         return string.Empty;
     }
@@ -426,6 +416,9 @@ public class OOTechItemCatalogManager : MonoBehaviour
         if (itemDataId == "Ing_Honey_01")
             return "꿀";
 
+        if (itemDataId == "Ing_Carrot_01")
+            return "당근";
+
         if (itemDataId == "OO_PumpkinSoup_1")
             return "호박죽";
 
@@ -436,10 +429,19 @@ public class OOTechItemCatalogManager : MonoBehaviour
             return "조기밥상";
 
         if (itemDataId == "OO_KoreanCake_1")
-            return "\uD55C\uACFC";
+            return "떡";
 
         if (itemDataId == "OO_KimchiStew_1")
             return "김치찌개";
+
+        if (itemDataId == "OO_HoneyKoreanCake_1")
+            return "꿀떡";
+
+        if (itemDataId == "OO_CarrotStarch_1")
+            return "당근전분";
+
+        if (itemDataId == "OO_CarrotCake_1")
+            return "당근전";
 
         return string.IsNullOrEmpty(itemDataId) ? "알 수 없는 아이템" : itemDataId;
     }

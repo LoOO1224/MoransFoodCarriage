@@ -70,5 +70,29 @@
     "SkillList": null,
     "UseWeaponId": null,
     "BasicCostumeId": null
+  },
+  {
+    "Id": "character_Turtle_01",
+    "Name": "거북이",
+    "Description": "Stage4_1 NPC",
+    "SkillList": null,
+    "UseWeaponId": null,
+    "BasicCostumeId": null
+  },
+  {
+    "Id": "character_Rabbit_01",
+    "Name": "토끼",
+    "Description": "Stage4_2 빌런",
+    "SkillList": null,
+    "UseWeaponId": null,
+    "BasicCostumeId": null
+  },
+  {
+    "Id": "character_YeonSanJa_01",
+    "Name": "연산군자",
+    "Description": "Final Stage Boss",
+    "SkillList": null,
+    "UseWeaponId": null,
+    "BasicCostumeId": null
   }
 ]

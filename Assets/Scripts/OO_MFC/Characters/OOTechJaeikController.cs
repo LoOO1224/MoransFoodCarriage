@@ -1,9 +1,9 @@
-// =============================================================================
-// OO_MFC 역할 주석
-// - 스크립트: OOTechJaeikController.cs
-// - 역할: 캐릭터 배우의 이동, 입력, 애니메이션 상태를 담당합니다.
-// - 감독 관점: 배우가 무대 위에서 어떻게 걷고 멈추고 반응하는지 정하는 연기 지도표입니다.
-// - 유지보수 포인트: 장면 진행 순서는 Group Controller가 맡고, 캐릭터 스크립트는 자기 몸의 움직임만 맡게 합니다.
+﻿// =============================================================================
+// OO_MFC ??븷 二쇱꽍
+// - ?ㅽ겕由쏀듃: OOTechJaeikController.cs
+// - ??븷: 罹먮┃??諛곗슦???대룞, ?낅젰, ?좊땲硫붿씠???곹깭瑜??대떦?⑸땲??
+// - 媛먮룆 愿?? 諛곗슦媛 臾대? ?꾩뿉???대뼸寃?嫄룰퀬 硫덉텛怨?諛섏쓳?섎뒗吏 ?뺥븯???곌린 吏?꾪몴?낅땲??
+// - ?좎?蹂댁닔 ?ъ씤?? ?λ㈃ 吏꾪뻾 ?쒖꽌??Group Controller媛 留↔퀬, 罹먮┃???ㅽ겕由쏀듃???먭린 紐몄쓽 ?吏곸엫留?留↔쾶 ?⑸땲??
 // =============================================================================
 using System;
 using System.Collections;
@@ -12,21 +12,21 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 /// <summary>
-/// Jaeik의 이동, 점프 물리, S1_Object_Quest 상호작용을 담당합니다.
-/// Game View에서는 플레이어가 WASD/마우스/Space/E로 재익을 조종하는 배우 컨트롤러입니다.
+/// Jaeik???대룞, ?먰봽 臾쇰━, S1_Object_Quest ?곹샇?묒슜???대떦?⑸땲??
+/// Game View?먯꽌???뚮젅?댁뼱媛 WASD/留덉슦??Space/E濡??ъ씡??議곗쥌?섎뒗 諛곗슦 而⑦듃濡ㅻ윭?낅땲??
 /// </summary>
 public class OOTechJaeikController : MonoBehaviour
 {
-    // 읽는 순서:
-    // 1. Update: 키보드/마우스 입력을 받아 이동, 점프, 상호작용 요청을 확인합니다.
-    // 2. FixedUpdate: Rigidbody2D를 실제로 움직여 물리 위치를 갱신합니다.
-    // 3. UpdateJumpInput 계열: Space 입력과 isGrounded 판정을 처리합니다.
-    // 4. UpdateInteractionInput 계열: E 입력으로 음식 오브젝트와 상호작용합니다.
-    // 5. UpdateAnimationState 계열: 현재 움직임에 맞는 애니메이션 상태를 고릅니다.
-    // 유지보수 주의:
-    // - Jaeik의 몸 움직임만 맡고, Senario1의 대사/변신 순서는 OOTechSenario1Controller가 맡습니다.
-    // - 점프력이나 이동감 수정은 Inspector의 이동/점프 값부터 확인합니다.
-    // - UI 프롬프트는 가능하면 하이어라키 오브젝트로 두고, 코드 생성은 최소화합니다.
+    // ?쎈뒗 ?쒖꽌:
+    // 1. Update: ?ㅻ낫??留덉슦???낅젰??諛쏆븘 ?대룞, ?먰봽, ?곹샇?묒슜 ?붿껌???뺤씤?⑸땲??
+    // 2. FixedUpdate: Rigidbody2D瑜??ㅼ젣濡??吏곸뿬 臾쇰━ ?꾩튂瑜?媛깆떊?⑸땲??
+    // 3. UpdateJumpInput 怨꾩뿴: Space ?낅젰怨?isGrounded ?먯젙??泥섎━?⑸땲??
+    // 4. UpdateInteractionInput 怨꾩뿴: E ?낅젰?쇰줈 ?뚯떇 ?ㅻ툕?앺듃? ?곹샇?묒슜?⑸땲??
+    // 5. UpdateAnimationState 怨꾩뿴: ?꾩옱 ?吏곸엫??留욌뒗 ?좊땲硫붿씠???곹깭瑜?怨좊쫭?덈떎.
+    // ?좎?蹂댁닔 二쇱쓽:
+    // - Jaeik??紐??吏곸엫留?留↔퀬, Senario1?????蹂???쒖꽌??OOTechSenario1Controller媛 留≪뒿?덈떎.
+    // - ?먰봽?μ씠???대룞媛??섏젙? Inspector???대룞/?먰봽 媛믩????뺤씤?⑸땲??
+    // - UI ?꾨＼?꾪듃??媛?ν븯硫??섏씠?대씪???ㅻ툕?앺듃濡??먭퀬, 肄붾뱶 ?앹꽦? 理쒖냼?뷀빀?덈떎.
 
     [Header("Movement Settings")]
     [SerializeField] private float _moveSpeed = 6f;
@@ -109,7 +109,7 @@ public class OOTechJaeikController : MonoBehaviour
     private bool _isPlayingOneShotAnimation;
 
     /// <summary>
-    /// Rigidbody, SpriteRenderer, Animator, Collider를 준비하고 E 상호작용 표시를 세팅합니다.
+    /// Rigidbody, SpriteRenderer, Animator, Collider瑜?以鍮꾪븯怨?E ?곹샇?묒슜 ?쒖떆瑜??명똿?⑸땲??
     /// </summary>
     private void Awake()
     {
@@ -119,7 +119,7 @@ public class OOTechJaeikController : MonoBehaviour
     }
 
     /// <summary>
-    /// 재익이 무대에 등장할 때 점프 가능한 물리 세팅과 입력 잠금 상태를 적용합니다.
+    /// ?ъ씡??臾대????깆옣?????먰봽 媛?ν븳 臾쇰━ ?명똿怨??낅젰 ?좉툑 ?곹깭瑜??곸슜?⑸땲??
     /// </summary>
     private void OnEnable()
     {
@@ -132,8 +132,8 @@ public class OOTechJaeikController : MonoBehaviour
 
     private void Update()
     {
-        // Update는 배우의 즉석 입력을 받는 시간입니다.
-        // 감독이 입력을 잠근 장면에서는 이동, 점프, E 상호작용을 모두 받지 않습니다.
+        // Update??諛곗슦??利됱꽍 ?낅젰??諛쏅뒗 ?쒓컙?낅땲??
+        // 媛먮룆???낅젰???좉렐 ?λ㈃?먯꽌???대룞, ?먰봽, E ?곹샇?묒슜??紐⑤몢 諛쏆? ?딆뒿?덈떎.
         RefreshGroundedState();
 
         if (!IsInputEnabled || _isMovementLocked)
@@ -153,8 +153,8 @@ public class OOTechJaeikController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        // FixedUpdate는 무대 장치 담당입니다.
-        // Rigidbody2D 이동과 중력은 물리 프레임에서 처리해야 계단/천장 콜리더와 안정적으로 맞물립니다.
+        // FixedUpdate??臾대? ?μ튂 ?대떦?낅땲??
+        // Rigidbody2D ?대룞怨?以묐젰? 臾쇰━ ?꾨젅?꾩뿉??泥섎━?댁빞 怨꾨떒/泥쒖옣 肄쒕━?붿? ?덉젙?곸쑝濡?留욌Ъ由쎈땲??
         RefreshGroundedState();
         ApplyHorizontalMovement();
         ApplyGravityScale();
@@ -195,7 +195,7 @@ public class OOTechJaeikController : MonoBehaviour
     }
 
     /// <summary>
-    /// 튜토리얼/대화 중에는 플레이어 이동을 잠급니다.
+    /// ?쒗넗由ъ뼹/???以묒뿉???뚮젅?댁뼱 ?대룞???좉툒?덈떎.
     /// </summary>
     public void LockMovement()
     {
@@ -203,7 +203,7 @@ public class OOTechJaeikController : MonoBehaviour
     }
 
     /// <summary>
-    /// 튜토리얼/대화가 끝나면 플레이어 이동을 다시 허용합니다.
+    /// ?쒗넗由ъ뼹/??붽? ?앸굹硫??뚮젅?댁뼱 ?대룞???ㅼ떆 ?덉슜?⑸땲??
     /// </summary>
     public void UnlockMovement()
     {
@@ -211,7 +211,7 @@ public class OOTechJaeikController : MonoBehaviour
     }
 
     /// <summary>
-    /// 입력 자체를 켜고 끕니다. 꺼질 때는 현재 이동과 클릭 이동 목표를 함께 정리합니다.
+    /// ?낅젰 ?먯껜瑜?耳쒓퀬 ?뺣땲?? 爰쇱쭏 ?뚮뒗 ?꾩옱 ?대룞怨??대┃ ?대룞 紐⑺몴瑜??④퍡 ?뺣━?⑸땲??
     /// </summary>
     public void SetInputEnabled(bool enabled)
     {
@@ -226,7 +226,7 @@ public class OOTechJaeikController : MonoBehaviour
     }
 
     /// <summary>
-    /// 외부 감독 스크립트가 이동 잠금 상태를 직접 지정할 때 사용합니다.
+    /// ?몃? 媛먮룆 ?ㅽ겕由쏀듃媛 ?대룞 ?좉툑 ?곹깭瑜?吏곸젒 吏?뺥븷 ???ъ슜?⑸땲??
     /// </summary>
     public void SetMovementLocked(bool isLocked)
     {
@@ -244,7 +244,7 @@ public class OOTechJaeikController : MonoBehaviour
     }
 
     /// <summary>
-    /// E키 상호작용 대상, 즉 음식 오브젝트 위치를 연결합니다.
+    /// E???곹샇?묒슜 ??? 利??뚯떇 ?ㅻ툕?앺듃 ?꾩튂瑜??곌껐?⑸땲??
     /// </summary>
     public void SetInteractionTarget(Transform target)
     {
@@ -253,7 +253,7 @@ public class OOTechJaeikController : MonoBehaviour
     }
 
     /// <summary>
-    /// E키가 반응하는 거리 값을 설정합니다.
+    /// E?ㅺ? 諛섏쓳?섎뒗 嫄곕━ 媛믪쓣 ?ㅼ젙?⑸땲??
     /// </summary>
     public void SetInteractionDistance(float distance)
     {
@@ -261,7 +261,7 @@ public class OOTechJaeikController : MonoBehaviour
     }
 
     /// <summary>
-    /// 음식 상호작용이 끝났는지 기록해 E 프롬프트가 다시 뜨지 않게 합니다.
+    /// ?뚯떇 ?곹샇?묒슜???앸궗?붿? 湲곕줉??E ?꾨＼?꾪듃媛 ?ㅼ떆 ?⑥? ?딄쾶 ?⑸땲??
     /// </summary>
     public void SetInteractionCompleted(bool isCompleted)
     {
@@ -272,7 +272,7 @@ public class OOTechJaeikController : MonoBehaviour
     }
 
     /// <summary>
-    /// 음식 E 상호작용이 들어왔을 때 Scenario1Controller가 받을 콜백을 등록합니다.
+    /// ?뚯떇 E ?곹샇?묒슜???ㅼ뼱?붿쓣 ??Scenario1Controller媛 諛쏆쓣 肄쒕갚???깅줉?⑸땲??
     /// </summary>
     public void BindEatInteractionRequestEvent(Action callback)
     {
@@ -281,7 +281,7 @@ public class OOTechJaeikController : MonoBehaviour
     }
 
     /// <summary>
-    /// 음식 E 상호작용 콜백을 해제합니다.
+    /// ?뚯떇 E ?곹샇?묒슜 肄쒕갚???댁젣?⑸땲??
     /// </summary>
     public void UnbindEatInteractionRequestEvent(Action callback)
     {
@@ -289,7 +289,7 @@ public class OOTechJaeikController : MonoBehaviour
     }
 
     /// <summary>
-    /// 먹기 애니메이션을 기본 속도 0.3으로 한 번 재생합니다.
+    /// 癒밴린 ?좊땲硫붿씠?섏쓣 湲곕낯 ?띾룄 0.3?쇰줈 ??踰??ъ깮?⑸땲??
     /// </summary>
     public void PlayEatAnimationOnce(Action onComplete = null)
     {
@@ -297,7 +297,7 @@ public class OOTechJaeikController : MonoBehaviour
     }
 
     /// <summary>
-    /// 먹기 애니메이션을 지정 속도로 한 번 재생하고 끝나면 콜백을 호출합니다.
+    /// 癒밴린 ?좊땲硫붿씠?섏쓣 吏???띾룄濡???踰??ъ깮?섍퀬 ?앸굹硫?肄쒕갚???몄텧?⑸땲??
     /// </summary>
     public void PlayEatAnimationOnce(float animationSpeed, Action onComplete = null)
     {
@@ -305,7 +305,7 @@ public class OOTechJaeikController : MonoBehaviour
     }
 
     /// <summary>
-    /// 변신 애니메이션을 한 번 재생하고 마지막 프레임에 멈춥니다.
+    /// 蹂???좊땲硫붿씠?섏쓣 ??踰??ъ깮?섍퀬 留덉?留??꾨젅?꾩뿉 硫덉땅?덈떎.
     /// </summary>
     public void PlayTransformedAnimationOnce(float animationSpeed, Action onComplete = null)
     {
@@ -313,7 +313,7 @@ public class OOTechJaeikController : MonoBehaviour
     }
 
     /// <summary>
-    /// 점프 애니메이션을 짧은 1회성 연출로 재생합니다.
+    /// ?먰봽 ?좊땲硫붿씠?섏쓣 吏㏃? 1?뚯꽦 ?곗텧濡??ъ깮?⑸땲??
     /// </summary>
     public void PlayJumpingAnimationOnce(Action onComplete = null)
     {
@@ -321,7 +321,7 @@ public class OOTechJaeikController : MonoBehaviour
     }
 
     /// <summary>
-    /// 먹기/변신 같은 1회성 애니메이션 코루틴을 정리합니다.
+    /// 癒밴린/蹂??媛숈? 1?뚯꽦 ?좊땲硫붿씠??肄붾（?댁쓣 ?뺣━?⑸땲??
     /// </summary>
     public void StopOneShotAnimation()
     {
@@ -336,7 +336,7 @@ public class OOTechJaeikController : MonoBehaviour
     }
 
     /// <summary>
-    /// E 상호작용 안내 문구를 숨깁니다.
+    /// E ?곹샇?묒슜 ?덈궡 臾멸뎄瑜??④퉩?덈떎.
     /// </summary>
     public void HideInteractionPrompt()
     {
@@ -356,10 +356,10 @@ public class OOTechJaeikController : MonoBehaviour
             Animator_Jaeik = GetComponent<Animator>();
 
         if (Collider_Jaeik == null)
-            Collider_Jaeik = FindBestBodyCollider();
+            Collider_Jaeik = RequestBestBodyCollider();
     }
 
-    private Collider2D FindBestBodyCollider()
+    private Collider2D RequestBestBodyCollider()
     {
         Collider2D[] colliderArray = GetComponents<Collider2D>();
 
@@ -411,7 +411,7 @@ public class OOTechJaeikController : MonoBehaviour
     }
 
     /// <summary>
-    /// 키보드 입력이 없을 때 마우스 클릭 이동 목표를 확인합니다.
+    /// ?ㅻ낫???낅젰???놁쓣 ??留덉슦???대┃ ?대룞 紐⑺몴瑜??뺤씤?⑸땲??
     /// </summary>
     private void UpdateMoveInput()
     {
@@ -429,7 +429,7 @@ public class OOTechJaeikController : MonoBehaviour
     }
 
     /// <summary>
-    /// 화면을 클릭한 지점을 월드 좌표로 바꿔 재익이 그 방향으로 걷게 합니다.
+    /// ?붾㈃???대┃??吏?먯쓣 ?붾뱶 醫뚰몴濡?諛붽퓭 ?ъ씡??洹?諛⑺뼢?쇰줈 嫄룰쾶 ?⑸땲??
     /// </summary>
     private void TrySetClickMoveTarget()
     {
@@ -469,7 +469,7 @@ public class OOTechJaeikController : MonoBehaviour
     }
 
     /// <summary>
-    /// Space 입력을 받으면 점프 큐를 요청합니다.
+    /// Space ?낅젰??諛쏆쑝硫??먰봽 ?먮? ?붿껌?⑸땲??
     /// </summary>
     private void UpdateJumpInput()
     {
@@ -481,8 +481,8 @@ public class OOTechJaeikController : MonoBehaviour
 
     private void RequestJump()
     {
-        // 점프는 배우를 와이어로 들어 올리는 큐와 비슷합니다.
-        // Space를 누르면 위쪽 속도를 한 번 크게 주고, 이후 낙하는 Physics2D 중력에게 맡깁니다.
+        // ?먰봽??諛곗슦瑜???댁뼱濡??ㅼ뼱 ?щ━???먯? 鍮꾩듂?⑸땲??
+        // Space瑜??꾨Ⅴ硫??꾩そ ?띾룄瑜???踰??ш쾶 二쇨퀬, ?댄썑 ?숉븯??Physics2D 以묐젰?먭쾶 留↔퉩?덈떎.
         if (!CanJump())
             return;
 
@@ -497,7 +497,7 @@ public class OOTechJaeikController : MonoBehaviour
     }
 
     /// <summary>
-    /// 점프 가능 조건을 확인합니다. 바닥에 있거나 아주 짧은 코요테 타임 안에서만 허용합니다.
+    /// ?먰봽 媛??議곌굔???뺤씤?⑸땲?? 諛붾떏???덇굅???꾩＜ 吏㏃? 肄붿슂??????덉뿉?쒕쭔 ?덉슜?⑸땲??
     /// </summary>
     private bool CanJump()
     {
@@ -511,7 +511,7 @@ public class OOTechJaeikController : MonoBehaviour
     }
 
     /// <summary>
-    /// 음식 근처에서 E키를 누르면 상호작용 이벤트를 한 번만 발생시킵니다.
+    /// ?뚯떇 洹쇱쿂?먯꽌 E?ㅻ? ?꾨Ⅴ硫??곹샇?묒슜 ?대깽?몃? ??踰덈쭔 諛쒖깮?쒗궢?덈떎.
     /// </summary>
     private void UpdateInteractionInput()
     {
@@ -530,7 +530,7 @@ public class OOTechJaeikController : MonoBehaviour
     }
 
     /// <summary>
-    /// 재익과 음식 오브젝트 사이의 거리가 상호작용 범위 안인지 확인합니다.
+    /// ?ъ씡怨??뚯떇 ?ㅻ툕?앺듃 ?ъ씠??嫄곕━媛 ?곹샇?묒슜 踰붿쐞 ?덉씤吏 ?뺤씤?⑸땲??
     /// </summary>
     private bool IsNearInteractionTarget()
     {
@@ -542,7 +542,7 @@ public class OOTechJaeikController : MonoBehaviour
     }
 
     /// <summary>
-    /// 음식 근처에 있을 때만 E 안내 문구를 음식 위에 표시합니다.
+    /// ?뚯떇 洹쇱쿂???덉쓣 ?뚮쭔 E ?덈궡 臾멸뎄瑜??뚯떇 ?꾩뿉 ?쒖떆?⑸땲??
     /// </summary>
     private void UpdateInteractionPrompt()
     {
@@ -562,7 +562,7 @@ public class OOTechJaeikController : MonoBehaviour
     }
 
     /// <summary>
-    /// 씬에 E 프롬프트가 없을 경우 재익 자식으로 최소 텍스트 프롬프트를 준비합니다.
+    /// ?ъ뿉 E ?꾨＼?꾪듃媛 ?놁쓣 寃쎌슦 ?ъ씡 ?먯떇?쇰줈 理쒖냼 ?띿뒪???꾨＼?꾪듃瑜?以鍮꾪빀?덈떎.
     /// </summary>
     private void CreateDefaultInteractionPromptIfNeeded()
     {
@@ -594,7 +594,7 @@ public class OOTechJaeikController : MonoBehaviour
     }
 
     /// <summary>
-    /// Rigidbody2D에 가로 이동 속도를 적용합니다.
+    /// Rigidbody2D??媛濡??대룞 ?띾룄瑜??곸슜?⑸땲??
     /// </summary>
     private void ApplyHorizontalMovement()
     {
@@ -618,8 +618,8 @@ public class OOTechJaeikController : MonoBehaviour
 
     private void RefreshGroundedState()
     {
-        // isGrounded는 배우 발이 무대 바닥에 닿았는지 확인하는 장치입니다.
-        // 이 값이 true일 때만 다음 점프를 허용해서 공중 2단 점프를 막습니다.
+        // isGrounded??諛곗슦 諛쒖씠 臾대? 諛붾떏???우븯?붿? ?뺤씤?섎뒗 ?μ튂?낅땲??
+        // ??媛믪씠 true???뚮쭔 ?ㅼ쓬 ?먰봽瑜??덉슜?댁꽌 怨듭쨷 2???먰봽瑜?留됱뒿?덈떎.
         bool isGrounded = CheckGroundByCast();
 
         if (!isGrounded && Rigidbody_Jaeik != null && Mathf.Abs(Rigidbody_Jaeik.linearVelocity.y) < 0.01f)
@@ -685,8 +685,8 @@ public class OOTechJaeikController : MonoBehaviour
 
     private void ApplyGravityScale()
     {
-        // 상승 끝부분에서는 살짝 느리게, 떨어질 때는 더 빠르게 중력을 바꿉니다.
-        // 화면에서는 크게 튀어 오른 뒤 너무 둥둥 떠 보이지 않고 콜리더 위에 빨리 안착합니다.
+        // ?곸듅 ?앸?遺꾩뿉?쒕뒗 ?댁쭩 ?먮━寃? ?⑥뼱吏??뚮뒗 ??鍮좊Ⅴ寃?以묐젰??諛붽퓠?덈떎.
+        // ?붾㈃?먯꽌???ш쾶 ????ㅻⅨ ???덈Т ?λ뫁 ??蹂댁씠吏 ?딄퀬 肄쒕━???꾩뿉 鍮⑤━ ?덉갑?⑸땲??
         if (Rigidbody_Jaeik == null)
             return;
 
@@ -738,7 +738,7 @@ public class OOTechJaeikController : MonoBehaviour
     }
 
     /// <summary>
-    /// 천장에 부딪히면 위쪽 속도를 즉시 0으로 만들어 다시 떨어지게 합니다.
+    /// 泥쒖옣??遺?ろ엳硫??꾩そ ?띾룄瑜?利됱떆 0?쇰줈 留뚮뱾???ㅼ떆 ?⑥뼱吏寃??⑸땲??
     /// </summary>
     private void StopUpwardVelocity()
     {
@@ -749,7 +749,7 @@ public class OOTechJaeikController : MonoBehaviour
     }
 
     /// <summary>
-    /// 이동 방향에 맞춰 스프라이트 좌우 반전을 적용합니다.
+    /// ?대룞 諛⑺뼢??留욎떠 ?ㅽ봽?쇱씠??醫뚯슦 諛섏쟾???곸슜?⑸땲??
     /// </summary>
     private void UpdateSpriteFlip()
     {
@@ -760,7 +760,7 @@ public class OOTechJaeikController : MonoBehaviour
     }
 
     /// <summary>
-    /// 이동/점프/Idle 상태를 현재 입력과 바닥 판정에 맞춰 갱신합니다.
+    /// ?대룞/?먰봽/Idle ?곹깭瑜??꾩옱 ?낅젰怨?諛붾떏 ?먯젙??留욎떠 媛깆떊?⑸땲??
     /// </summary>
     private void UpdateAnimationState()
     {
@@ -780,7 +780,7 @@ public class OOTechJaeikController : MonoBehaviour
     }
 
     /// <summary>
-    /// 먹기/변신처럼 플레이어 입력을 잠그는 1회성 애니메이션을 시작합니다.
+    /// 癒밴린/蹂?좎쿂???뚮젅?댁뼱 ?낅젰???좉렇??1?뚯꽦 ?좊땲硫붿씠?섏쓣 ?쒖옉?⑸땲??
     /// </summary>
     private void StartOneShotAnimation(string stateName, float animationSeconds, float animationSpeed, bool isHoldLastFrame, Action onComplete)
     {
@@ -790,7 +790,7 @@ public class OOTechJaeikController : MonoBehaviour
     }
 
     /// <summary>
-    /// 1회성 애니메이션 동안 이동을 멈추고, 끝나면 Idle 복귀 또는 마지막 프레임 고정을 처리합니다.
+    /// 1?뚯꽦 ?좊땲硫붿씠???숈븞 ?대룞??硫덉텛怨? ?앸굹硫?Idle 蹂듦? ?먮뒗 留덉?留??꾨젅??怨좎젙??泥섎━?⑸땲??
     /// </summary>
     private IEnumerator PlayOneShotAnimationRoutine(string stateName, float animationSeconds, float animationSpeed, bool isHoldLastFrame, Action onComplete)
     {
@@ -896,3 +896,4 @@ public class OOTechJaeikController : MonoBehaviour
         animator.Play(stateName, 0, 0f);
     }
 }
+

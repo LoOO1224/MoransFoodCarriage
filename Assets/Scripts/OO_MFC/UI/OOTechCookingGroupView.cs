@@ -1,17 +1,17 @@
-// =============================================================================
-// OO_MFC 역할 주석
-// - 스크립트: OOTechCookingGroupView.cs
-// - 역할: UI 하이어라키의 버튼, 이미지, 텍스트 참조를 모아 둔 View 컴포넌트입니다.
-// - 감독 관점: 무대 위 소품 위치표입니다. 판단하지 않고 소품을 보여 주는 일만 맡습니다.
-// - 유지보수 포인트: 버튼 동작 판단, 데이터 로딩, 그룹 전환 로직은 Controller나 Manager에 둡니다.
+﻿// =============================================================================
+// OO_MFC ??븷 二쇱꽍
+// - ?ㅽ겕由쏀듃: OOTechCookingGroupView.cs
+// - ??븷: UI ?섏씠?대씪?ㅼ쓽 踰꾪듉, ?대?吏, ?띿뒪??李몄“瑜?紐⑥븘 ??View 而댄룷?뚰듃?낅땲??
+// - 媛먮룆 愿?? 臾대? ???뚰뭹 ?꾩튂?쒖엯?덈떎. ?먮떒?섏? ?딄퀬 ?뚰뭹??蹂댁뿬 二쇰뒗 ?쇰쭔 留≪뒿?덈떎.
+// - ?좎?蹂댁닔 ?ъ씤?? 踰꾪듉 ?숈옉 ?먮떒, ?곗씠??濡쒕뵫, 洹몃９ ?꾪솚 濡쒖쭅? Controller??Manager???〓땲??
 // =============================================================================
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 /// <summary>
-/// CookingGroup 안에 배치된 부엌 UI 소품을 모아 두는 View 컴포넌트입니다.
-/// 가마솥 드롭 영역, 말풍선 가이드, 드래그 잔상 템플릿을 씬 오브젝트로 유지합니다.
+/// CookingGroup ?덉뿉 諛곗튂??遺??UI ?뚰뭹??紐⑥븘 ?먮뒗 View 而댄룷?뚰듃?낅땲??
+/// 媛留덉넡 ?쒕∼ ?곸뿭, 留먰뭾??媛?대뱶, ?쒕옒洹??붿긽 ?쒗뵆由우쓣 ???ㅻ툕?앺듃濡??좎??⑸땲??
 /// </summary>
 [DisallowMultipleComponent]
 public class OOTechCookingGroupView : MonoBehaviour
@@ -66,7 +66,7 @@ public class OOTechCookingGroupView : MonoBehaviour
     public RectTransform DragGhostTemplateRect => Rect_DragGhostTemplate;
 
     /// <summary>
-    /// 인스펙터 참조가 비어 있을 때 자식 이름으로 부엌 UI 소품을 다시 연결합니다.
+    /// ?몄뒪?숉꽣 李몄“媛 鍮꾩뼱 ?덉쓣 ???먯떇 ?대쫫?쇰줈 遺??UI ?뚰뭹???ㅼ떆 ?곌껐?⑸땲??
     /// </summary>
     public void ResolveReferences()
     {
@@ -97,7 +97,7 @@ public class OOTechCookingGroupView : MonoBehaviour
         if (currentObject != null)
             return currentObject;
 
-        Transform targetTransform = FindChildByName(transform, objectName);
+        Transform targetTransform = RequestChildObjectByName(transform, objectName);
         return targetTransform != null ? targetTransform.gameObject : null;
     }
 
@@ -106,7 +106,7 @@ public class OOTechCookingGroupView : MonoBehaviour
         if (currentRect != null)
             return currentRect;
 
-        Transform targetTransform = FindChildByName(transform, objectName);
+        Transform targetTransform = RequestChildObjectByName(transform, objectName);
         return targetTransform as RectTransform;
     }
 
@@ -115,7 +115,7 @@ public class OOTechCookingGroupView : MonoBehaviour
         if (currentButton != null)
             return currentButton;
 
-        Transform targetTransform = FindChildByName(transform, objectName);
+        Transform targetTransform = RequestChildObjectByName(transform, objectName);
         return targetTransform != null ? targetTransform.GetComponent<Button>() : null;
     }
 
@@ -124,7 +124,7 @@ public class OOTechCookingGroupView : MonoBehaviour
         if (currentButton != null)
             return currentButton;
 
-        Transform targetTransform = rootObject != null ? FindChildByName(rootObject.transform, objectName) : null;
+        Transform targetTransform = rootObject != null ? RequestChildObjectByName(rootObject.transform, objectName) : null;
         return targetTransform != null ? targetTransform.GetComponent<Button>() : null;
     }
 
@@ -133,7 +133,7 @@ public class OOTechCookingGroupView : MonoBehaviour
         if (currentText != null)
             return currentText;
 
-        Transform targetTransform = FindChildByName(transform, objectName);
+        Transform targetTransform = RequestChildObjectByName(transform, objectName);
         return targetTransform != null ? targetTransform.GetComponent<TextMeshProUGUI>() : null;
     }
 
@@ -142,11 +142,11 @@ public class OOTechCookingGroupView : MonoBehaviour
         if (currentText != null)
             return currentText;
 
-        Transform targetTransform = rootObject != null ? FindChildByName(rootObject.transform, objectName) : null;
+        Transform targetTransform = rootObject != null ? RequestChildObjectByName(rootObject.transform, objectName) : null;
         return targetTransform != null ? targetTransform.GetComponent<TextMeshProUGUI>() : null;
     }
 
-    private Transform FindChildByName(Transform rootTransform, string objectName)
+    private Transform RequestChildObjectByName(Transform rootTransform, string objectName)
     {
         if (rootTransform == null)
             return null;
@@ -156,7 +156,7 @@ public class OOTechCookingGroupView : MonoBehaviour
 
         for (int index = 0; index < rootTransform.childCount; index++)
         {
-            Transform foundTransform = FindChildByName(rootTransform.GetChild(index), objectName);
+            Transform foundTransform = RequestChildObjectByName(rootTransform.GetChild(index), objectName);
 
             if (foundTransform != null)
                 return foundTransform;
@@ -165,3 +165,4 @@ public class OOTechCookingGroupView : MonoBehaviour
         return null;
     }
 }
+

@@ -1,24 +1,23 @@
-// =============================================================================
-// OO_MFC 역할 주석
-// - 스크립트: UIManagerExtension.cs
-// - 역할: 버튼 클릭처럼 여러 UI 그룹을 잇는 공용 호출을 모아 둡니다.
-// - 영화 비유: 극장 로비의 안내 데스크입니다. 관객이 "시작", "도감", "돌아가기"를 누르면
-//   어떤 무대의 문을 열고 닫을지만 안내하고, 각 무대의 실제 연기는 해당 Controller가 맡습니다.
-// - 유지보수 사인: 새 UI 흐름이 생겨도 여기서는 공통 이동 호출만 두고, 세부 연출은 그룹 컴포넌트로 분리합니다.
+﻿// =============================================================================
+// OO_MFC ??븷 二쇱꽍
+// - ?ㅽ겕由쏀듃: UIManagerExtension.cs
+// - ??븷: 踰꾪듉 ?대┃泥섎읆 ?щ윭 UI 洹몃９???뉖뒗 怨듭슜 ?몄텧??紐⑥븘 ?〓땲??
+// - ?곹솕 鍮꾩쑀: 洹뱀옣 濡쒕퉬???덈궡 ?곗뒪?ъ엯?덈떎. 愿媛앹씠 "?쒖옉", "?꾧컧", "?뚯븘媛湲?瑜??꾨Ⅴ硫?//   ?대뼡 臾대???臾몄쓣 ?닿퀬 ?レ쓣吏留??덈궡?섍퀬, 媛?臾대????ㅼ젣 ?곌린???대떦 Controller媛 留≪뒿?덈떎.
+// - ?좎?蹂댁닔 ?ъ씤: ??UI ?먮쫫???앷꺼???ш린?쒕뒗 怨듯넻 ?대룞 ?몄텧留??먭퀬, ?몃? ?곗텧? 洹몃９ 而댄룷?뚰듃濡?遺꾨━?⑸땲??
 // =============================================================================
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 /// <summary>
 /// UIManagerExtension
-/// 버튼 이벤트에서 자주 쓰는 UI 이동 흐름을 정리한 정적 클래스입니다.
-/// UIManager가 실제 문을 열고 닫는 무대 관리자라면, 이 클래스는 "어느 문으로 갈지"만 정하는 안내판입니다.
+/// 踰꾪듉 ?대깽?몄뿉???먯＜ ?곕뒗 UI ?대룞 ?먮쫫???뺣━???뺤쟻 ?대옒?ㅼ엯?덈떎.
+/// UIManager媛 ?ㅼ젣 臾몄쓣 ?닿퀬 ?ル뒗 臾대? 愿由ъ옄?쇰㈃, ???대옒?ㅻ뒗 "?대뒓 臾몄쑝濡?媛덉?"留??뺥븯???덈궡?먯엯?덈떎.
 /// </summary>
 public static class UIManagerExtension
 {
     /// <summary>
-    /// 시작하기 버튼을 누르면 메인 메뉴를 닫고 Prologue1Group을 엽니다.
-    /// Game View에서는 메인 메뉴가 사라지고 첫 프롤로그 무대가 켜집니다.
+    /// ?쒖옉?섍린 踰꾪듉???꾨Ⅴ硫?硫붿씤 硫붾돱瑜??リ퀬 Prologue1Group???쎈땲??
+    /// Game View?먯꽌??硫붿씤 硫붾돱媛 ?щ씪吏怨?泥??꾨·濡쒓렇 臾대?媛 耳쒖쭛?덈떎.
     /// </summary>
     public static void OnStartButtonClicked()
     {
@@ -26,7 +25,7 @@ public static class UIManagerExtension
 
         if (OOTechUIManager.Inst == null)
         {
-            Debug.LogError("[UIManagerExtension] OOTechUIManager를 찾을 수 없습니다.");
+            Debug.LogError("[UIManagerExtension] OOTechUIManager瑜?李얠쓣 ???놁뒿?덈떎.");
             return;
         }
 
@@ -36,8 +35,8 @@ public static class UIManagerExtension
     }
 
     /// <summary>
-    /// 메인 메뉴의 도감 버튼을 누르면 CodexGroup을 엽니다.
-    /// 현재 도감은 발표 전 안내 모드이므로 목록 대신 안내 문구를 보여줍니다.
+    /// 硫붿씤 硫붾돱???꾧컧 踰꾪듉???꾨Ⅴ硫?CodexGroup???쎈땲??
+    /// ?꾩옱 ?꾧컧? 諛쒗몴 ???덈궡 紐⑤뱶?대?濡?紐⑸줉 ????덈궡 臾멸뎄瑜?蹂댁뿬以띾땲??
     /// </summary>
     public static void OnCodexButtonClicked()
     {
@@ -45,7 +44,7 @@ public static class UIManagerExtension
 
         if (OOTechUIManager.Inst == null)
         {
-            Debug.LogError("[UIManagerExtension] OOTechUIManager를 찾을 수 없습니다.");
+            Debug.LogError("[UIManagerExtension] OOTechUIManager瑜?李얠쓣 ???놁뒿?덈떎.");
             return;
         }
 
@@ -54,8 +53,8 @@ public static class UIManagerExtension
     }
 
     /// <summary>
-    /// 종료 버튼을 누르면 애플리케이션 종료를 요청합니다.
-    /// 에디터에서는 종료 로그만 보이고, 빌드된 게임에서는 프로그램이 닫힙니다.
+    /// 醫낅즺 踰꾪듉???꾨Ⅴ硫??좏뵆由ъ??댁뀡 醫낅즺瑜??붿껌?⑸땲??
+    /// ?먮뵒?곗뿉?쒕뒗 醫낅즺 濡쒓렇留?蹂댁씠怨? 鍮뚮뱶??寃뚯엫?먯꽌???꾨줈洹몃옩???ロ옓?덈떎.
     /// </summary>
     public static void OnExitButtonClicked()
     {
@@ -64,8 +63,8 @@ public static class UIManagerExtension
     }
 
     /// <summary>
-    /// 공용 돌아가기 버튼을 누르면 이전 그룹으로 돌아갑니다.
-    /// Road/Stage에서 도감으로 들어온 경우에는 HUD와 입력 잠금까지 복구합니다.
+    /// 怨듭슜 ?뚯븘媛湲?踰꾪듉???꾨Ⅴ硫??댁쟾 洹몃９?쇰줈 ?뚯븘媛묐땲??
+    /// Road/Stage?먯꽌 ?꾧컧?쇰줈 ?ㅼ뼱??寃쎌슦?먮뒗 HUD? ?낅젰 ?좉툑源뚯? 蹂듦뎄?⑸땲??
     /// </summary>
     public static void OnBackButtonClicked(string previousGroupName = "MainMenuGroup")
     {
@@ -75,7 +74,7 @@ public static class UIManagerExtension
 
         if (OOTechUIManager.Inst == null)
         {
-            Debug.LogError("[UIManagerExtension] OOTechUIManager를 찾을 수 없습니다.");
+            Debug.LogError("[UIManagerExtension] OOTechUIManager瑜?李얠쓣 ???놁뒿?덈떎.");
             return;
         }
 
@@ -87,11 +86,14 @@ public static class UIManagerExtension
     }
 
     /// <summary>
-    /// Stage3 부엌에서 돌아올 때 이전 기록이 Stage2Group으로 남아 있으면 산군 선택지가 끊깁니다.
-    /// Game View에서는 떡/꿀떡을 가진 배우가 반드시 EncounterGroup 무대로 복귀하게 하는 안전 큐입니다.
+    /// Stage3 遺?뚯뿉???뚯븘?????댁쟾 湲곕줉??Stage2Group?쇰줈 ?⑥븘 ?덉쑝硫??곌뎔 ?좏깮吏媛 ?딄퉩?덈떎.
+    /// Game View?먯꽌????轅?≪쓣 媛吏?諛곗슦媛 諛섎뱶??EncounterGroup 臾대?濡?蹂듦??섍쾶 ?섎뒗 ?덉쟾 ?먯엯?덈떎.
     /// </summary>
     private static string ResolveStage3EncounterBackTarget(string requestedGroupName)
     {
+        if (requestedGroupName == "Stage4_2Group")
+            return requestedGroupName;
+
         if (requestedGroupName == "EncounterGroup")
             return requestedGroupName;
 
@@ -105,7 +107,7 @@ public static class UIManagerExtension
         if (!hasStage3QuestItem)
             return requestedGroupName;
 
-        GameObject encounterGroupObject = FindSceneObjectByName("EncounterGroup");
+        GameObject encounterGroupObject = RequestSceneObjectByName("EncounterGroup");
 
         if (encounterGroupObject == null)
             return requestedGroupName;
@@ -115,8 +117,8 @@ public static class UIManagerExtension
     }
 
     /// <summary>
-    /// Road/Stage에서 도감으로 갔다가 돌아오면 HUD와 플레이어 입력을 다시 켭니다.
-    /// 영화로 치면 도감 로비에서 돌아온 뒤, 무대 조명과 배우 동선을 다시 원래 큐로 복구하는 단계입니다.
+    /// Road/Stage?먯꽌 ?꾧컧?쇰줈 媛붾떎媛 ?뚯븘?ㅻ㈃ HUD? ?뚮젅?댁뼱 ?낅젰???ㅼ떆 耳?땲??
+    /// ?곹솕濡?移섎㈃ ?꾧컧 濡쒕퉬?먯꽌 ?뚯븘???? 臾대? 議곕챸怨?諛곗슦 ?숈꽑???ㅼ떆 ?먮옒 ?먮줈 蹂듦뎄?섎뒗 ?④퀎?낅땲??
     /// </summary>
     private static void RestoreRoadHUDIfNeeded(string previousGroupName)
     {
@@ -126,7 +128,7 @@ public static class UIManagerExtension
         GameObject previousGroupObject = OOTechUIManager.Inst.GetCreatedUI(previousGroupName);
 
         if (previousGroupObject == null)
-            previousGroupObject = FindSceneObjectByName(previousGroupName);
+            previousGroupObject = RequestSceneObjectByName(previousGroupName);
 
         if (previousGroupObject == null)
             return;
@@ -145,10 +147,10 @@ public static class UIManagerExtension
     }
 
     /// <summary>
-    /// UIManager 등록 목록에 없던 씬 그룹도 이름으로 찾아옵니다.
-    /// 비활성 그룹까지 찾아야 하므로 씬 루트부터 자식들을 직접 훑습니다.
+    /// UIManager ?깅줉 紐⑸줉???녿뜕 ??洹몃９???대쫫?쇰줈 李얠븘?듬땲??
+    /// 鍮꾪솢??洹몃９源뚯? 李얠븘???섎?濡???猷⑦듃遺???먯떇?ㅼ쓣 吏곸젒 ?묒뒿?덈떎.
     /// </summary>
-    private static GameObject FindSceneObjectByName(string objectName)
+    private static GameObject RequestSceneObjectByName(string objectName)
     {
         Scene activeScene = SceneManager.GetActiveScene();
 
@@ -157,7 +159,7 @@ public static class UIManagerExtension
 
         foreach (GameObject rootObject in activeScene.GetRootGameObjects())
         {
-            GameObject foundObject = FindChildByName(rootObject.transform, objectName);
+            GameObject foundObject = RequestChildObjectByName(rootObject.transform, objectName);
 
             if (foundObject != null)
                 return foundObject;
@@ -166,7 +168,7 @@ public static class UIManagerExtension
         return null;
     }
 
-    private static GameObject FindChildByName(Transform rootTransform, string objectName)
+    private static GameObject RequestChildObjectByName(Transform rootTransform, string objectName)
     {
         if (rootTransform == null)
             return null;
@@ -176,7 +178,7 @@ public static class UIManagerExtension
 
         for (int index = 0; index < rootTransform.childCount; index++)
         {
-            GameObject foundObject = FindChildByName(rootTransform.GetChild(index), objectName);
+            GameObject foundObject = RequestChildObjectByName(rootTransform.GetChild(index), objectName);
 
             if (foundObject != null)
                 return foundObject;
@@ -185,3 +187,4 @@ public static class UIManagerExtension
         return null;
     }
 }
+

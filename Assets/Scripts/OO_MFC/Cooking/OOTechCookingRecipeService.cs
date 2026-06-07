@@ -211,6 +211,12 @@ public class OOTechCookingRecipeService
         if (resultItemId == "OO_KoreanCake_1")
             return selectionModel.RequestGetIngredientAmount("Ing_Rice_01") >= 1 ? 1 : 0;
 
+        if (resultItemId == "OO_CarrotStarch_1")
+            return selectionModel.RequestGetIngredientAmount("Ing_Carrot_01") >= 1 && selectionModel.RequestGetIngredientAmount("OO_KoreanCake_1") >= 1 ? 1 : 0;
+
+        if (resultItemId == "OO_CarrotCake_1")
+            return selectionModel.RequestGetIngredientAmount("OO_CarrotStarch_1") >= 1 ? 1 : 0;
+
         return 1;
     }
 }

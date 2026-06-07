@@ -1,9 +1,9 @@
-// =============================================================================
-// OO_MFC 역할 주석
-// - 스크립트: OOTechRoadHUDController.cs
-// - 역할: 로드맵, 월드맵, 스테이지 전환 흐름을 담당하는 장면 Controller입니다.
-// - 감독 관점: 길 위의 장면 전환 큐시트를 들고 있는 무대감독입니다.
-// - 유지보수 포인트: 배경/버튼/캐릭터 배치는 오브젝트와 View가 맡고, 이 스크립트는 순서 지휘만 맡아야 합니다.
+﻿// =============================================================================
+// OO_MFC ??븷 二쇱꽍
+// - ?ㅽ겕由쏀듃: OOTechRoadHUDController.cs
+// - ??븷: 濡쒕뱶留? ?붾뱶留? ?ㅽ뀒?댁? ?꾪솚 ?먮쫫???대떦?섎뒗 ?λ㈃ Controller?낅땲??
+// - 媛먮룆 愿?? 湲??꾩쓽 ?λ㈃ ?꾪솚 ?먯떆?몃? ?ㅺ퀬 ?덈뒗 臾대?媛먮룆?낅땲??
+// - ?좎?蹂댁닔 ?ъ씤?? 諛곌꼍/踰꾪듉/罹먮┃??諛곗튂???ㅻ툕?앺듃? View媛 留↔퀬, ???ㅽ겕由쏀듃???쒖꽌 吏?섎쭔 留≪븘???⑸땲??
 // =============================================================================
 using System.Collections;
 using System.Collections.Generic;
@@ -23,22 +23,22 @@ public enum OOTechRoadHUDButtonKind
 }
 
 /// <summary>
-/// RoadGroup과 StageGroup이 공유하는 HUD를 지휘합니다.
-/// HUDUIGroup이라는 실제 씬 소품은 사용자가 편집하고, 이 컨트롤러는 버튼/패널/NEW 배지의 큐만 처리합니다.
+/// RoadGroup怨?StageGroup??怨듭쑀?섎뒗 HUD瑜?吏?섑빀?덈떎.
+/// HUDUIGroup?대씪???ㅼ젣 ???뚰뭹? ?ъ슜?먭? ?몄쭛?섍퀬, ??而⑦듃濡ㅻ윭??踰꾪듉/?⑤꼸/NEW 諛곗????먮쭔 泥섎━?⑸땲??
 /// </summary>
 [DisallowMultipleComponent]
 public class OOTechRoadHUDController : MonoBehaviour
 {
-    // 읽는 순서:
-    // 1. PrepareHUD: HUDUIGroup과 View 참조를 준비합니다.
-    // 2. BindButtonEvents 계열: 인벤토리, 도감, 임무, 요리, 월드맵 버튼을 연결합니다.
-    // 3. RequestShowHUDGuide 계열: HUD 튜토리얼 화살표와 안내 패널을 진행합니다.
-    // 4. RefreshInventoryView 계열: 플레이어 Model의 아이템을 화면 슬롯으로 보여줍니다.
-    // 5. RequestSetStageQuestMission 계열: 임무 텍스트와 NEW 표시를 갱신합니다.
-    // 유지보수 주의:
-    // - 버튼/패널 배치는 HUDUIGroup에서 직접 수정합니다.
-    // - 이 스크립트는 HUD 흐름만 맡고, 실제 UI 오브젝트 참조는 OOTechRoadHUDView에 모읍니다.
-    // - 특정 RoadGroup 전용 연출이 늘어나면 Road Controller 쪽으로 옮깁니다.
+    // ?쎈뒗 ?쒖꽌:
+    // 1. PrepareHUD: HUDUIGroup怨?View 李몄“瑜?以鍮꾪빀?덈떎.
+    // 2. BindButtonEvents 怨꾩뿴: ?몃깽?좊━, ?꾧컧, ?꾨Т, ?붾━, ?붾뱶留?踰꾪듉???곌껐?⑸땲??
+    // 3. RequestShowHUDGuide 怨꾩뿴: HUD ?쒗넗由ъ뼹 ?붿궡?쒖? ?덈궡 ?⑤꼸??吏꾪뻾?⑸땲??
+    // 4. RefreshInventoryView 怨꾩뿴: ?뚮젅?댁뼱 Model???꾩씠?쒖쓣 ?붾㈃ ?щ’?쇰줈 蹂댁뿬以띾땲??
+    // 5. RequestSetStageQuestMission 怨꾩뿴: ?꾨Т ?띿뒪?몄? NEW ?쒖떆瑜?媛깆떊?⑸땲??
+    // ?좎?蹂댁닔 二쇱쓽:
+    // - 踰꾪듉/?⑤꼸 諛곗튂??HUDUIGroup?먯꽌 吏곸젒 ?섏젙?⑸땲??
+    // - ???ㅽ겕由쏀듃??HUD ?먮쫫留?留↔퀬, ?ㅼ젣 UI ?ㅻ툕?앺듃 李몄“??OOTechRoadHUDView??紐⑥쓭?덈떎.
+    // - ?뱀젙 RoadGroup ?꾩슜 ?곗텧???섏뼱?섎㈃ Road Controller 履쎌쑝濡???퉩?덈떎.
 
     [Header("Group Names")]
     [SerializeField] private string _ownerGroupName;
@@ -140,8 +140,8 @@ public class OOTechRoadHUDController : MonoBehaviour
     public bool IsOverlayOpen => _isOverlayOpen;
 
     /// <summary>
-    /// 이 HUD가 어느 RoadGroup 또는 StageGroup의 소속인지 기록합니다.
-    /// 월드맵/부엌에서 돌아갈 때 바로 전 무대로 복귀하기 위한 이름표입니다.
+    /// ??HUD媛 ?대뒓 RoadGroup ?먮뒗 StageGroup???뚯냽?몄? 湲곕줉?⑸땲??
+    /// ?붾뱶留?遺?뚯뿉???뚯븘媛???諛붾줈 ??臾대?濡?蹂듦??섍린 ?꾪븳 ?대쫫?쒖엯?덈떎.
     /// </summary>
     public void SetOwnerGroupName(string ownerGroupName)
     {
@@ -149,8 +149,8 @@ public class OOTechRoadHUDController : MonoBehaviour
     }
 
     /// <summary>
-    /// HUDUIGroup의 버튼과 패널을 연결하고 시작 표시 상태를 정리합니다.
-    /// Game View에서는 하단 HUD가 켜지고 인벤토리/임무 패널은 닫힌 상태가 됩니다.
+    /// HUDUIGroup??踰꾪듉怨??⑤꼸???곌껐?섍퀬 ?쒖옉 ?쒖떆 ?곹깭瑜??뺣━?⑸땲??
+    /// Game View?먯꽌???섎떒 HUD媛 耳쒖?怨??몃깽?좊━/?꾨Т ?⑤꼸? ?ロ엺 ?곹깭媛 ?⑸땲??
     /// </summary>
     public void PrepareHUD()
     {
@@ -177,8 +177,8 @@ public class OOTechRoadHUDController : MonoBehaviour
     }
 
     /// <summary>
-    /// HUD 전체를 보이거나 숨깁니다.
-    /// 월드맵에서는 HUD를 끄고, 부엌에서는 필요한 패널만 다시 살립니다.
+    /// HUD ?꾩껜瑜?蹂댁씠嫄곕굹 ?④퉩?덈떎.
+    /// ?붾뱶留듭뿉?쒕뒗 HUD瑜??꾧퀬, 遺?뚯뿉?쒕뒗 ?꾩슂???⑤꼸留??ㅼ떆 ?대┰?덈떎.
     /// </summary>
     public void SetHUDVisible(bool isVisible)
     {
@@ -206,8 +206,8 @@ public class OOTechRoadHUDController : MonoBehaviour
     }
 
     /// <summary>
-    /// 요리하기 버튼의 잠금 상태를 갱신합니다.
-    /// 1st_Road_to_Stage1의 첫 맵에서는 잠겨 있다가 RoadMap1 이후 열립니다.
+    /// ?붾━?섍린 踰꾪듉???좉툑 ?곹깭瑜?媛깆떊?⑸땲??
+    /// 1st_Road_to_Stage1??泥?留듭뿉?쒕뒗 ?좉꺼 ?덈떎媛 RoadMap1 ?댄썑 ?대┰?덈떎.
     /// </summary>
     public void SetCookingUnlocked(bool isUnlocked)
     {
@@ -222,7 +222,7 @@ public class OOTechRoadHUDController : MonoBehaviour
     }
 
     /// <summary>
-    /// 인벤토리에 새 물건이 들어왔다는 NEW 배지를 켜거나 끕니다.
+    /// ?몃깽?좊━????臾쇨굔???ㅼ뼱?붾떎??NEW 諛곗?瑜?耳쒓굅???뺣땲??
     /// </summary>
     public void SetInventoryNewBadgeActive(bool isActive)
     {
@@ -230,7 +230,7 @@ public class OOTechRoadHUDController : MonoBehaviour
     }
 
     /// <summary>
-    /// 도감 갱신을 알리는 NEW 배지를 켜거나 끕니다.
+    /// ?꾧컧 媛깆떊???뚮━??NEW 諛곗?瑜?耳쒓굅???뺣땲??
     /// </summary>
     public void SetCodexNewBadgeActive(bool isActive)
     {
@@ -238,7 +238,7 @@ public class OOTechRoadHUDController : MonoBehaviour
     }
 
     /// <summary>
-    /// 임무 갱신을 알리는 NEW 배지를 켜거나 끕니다.
+    /// ?꾨Т 媛깆떊???뚮━??NEW 諛곗?瑜?耳쒓굅???뺣땲??
     /// </summary>
     public void SetMissionNewBadgeActive(bool isActive)
     {
@@ -246,8 +246,8 @@ public class OOTechRoadHUDController : MonoBehaviour
     }
 
     /// <summary>
-    /// 요리하기가 새로 열렸다는 NEW 배지를 켜거나 끕니다.
-    /// 영화로 비유하면 닫혀 있던 부엌 세트 문이 열렸을 때 관객에게 작은 안내등을 켜 주는 역할입니다.
+    /// ?붾━?섍린媛 ?덈줈 ?대졇?ㅻ뒗 NEW 諛곗?瑜?耳쒓굅???뺣땲??
+    /// ?곹솕濡?鍮꾩쑀?섎㈃ ?ロ? ?덈뜕 遺???명듃 臾몄씠 ?대졇????愿媛앹뿉寃??묒? ?덈궡?깆쓣 耳?二쇰뒗 ??븷?낅땲??
     /// </summary>
     public void SetCookingNewBadgeActive(bool isActive)
     {
@@ -256,7 +256,7 @@ public class OOTechRoadHUDController : MonoBehaviour
     }
 
     /// <summary>
-    /// 요리 임무가 발급되면 임무판에 해야 할 일을 올리고 NEW 표시를 켭니다.
+    /// ?붾━ ?꾨Т媛 諛쒓툒?섎㈃ ?꾨Т?먯뿉 ?댁빞 ???쇱쓣 ?щ━怨?NEW ?쒖떆瑜?耳?땲??
     /// </summary>
     public void RequestSetCookingQuestActive()
     {
@@ -270,7 +270,7 @@ public class OOTechRoadHUDController : MonoBehaviour
     }
 
     /// <summary>
-    /// 야채죽 제작이 끝나면 첫 번째 임무 줄에 취소선과 페이드아웃 연출을 재생합니다.
+    /// ?쇱콈二??쒖옉???앸굹硫?泥?踰덉㎏ ?꾨Т 以꾩뿉 痍⑥냼?좉낵 ?섏씠?쒖븘???곗텧???ъ깮?⑸땲??
     /// </summary>
     public void RequestCompleteCookingQuest()
     {
@@ -292,7 +292,7 @@ public class OOTechRoadHUDController : MonoBehaviour
     }
 
     /// <summary>
-    /// Stage1Group에 도착했을 때 Road 임무를 완료 처리하고 새 StageQuest 문구를 임무판에 표시합니다.
+    /// Stage1Group???꾩갑?덉쓣 ??Road ?꾨Т瑜??꾨즺 泥섎━?섍퀬 ??StageQuest 臾멸뎄瑜??꾨Т?먯뿉 ?쒖떆?⑸땲??
     /// </summary>
     public void RequestSetStageQuestMission(string stageQuestText)
     {
@@ -304,8 +304,8 @@ public class OOTechRoadHUDController : MonoBehaviour
     }
 
     /// <summary>
-    /// RoadGroup마다 기본 길 안내 임무를 교체합니다.
-    /// 영화로 치면 다음 촬영 장소를 적은 콜시트를 HUD 배우에게 새로 붙이는 장면입니다.
+    /// RoadGroup留덈떎 湲곕낯 湲??덈궡 ?꾨Т瑜?援먯껜?⑸땲??
+    /// ?곹솕濡?移섎㈃ ?ㅼ쓬 珥ъ쁺 ?μ냼瑜??곸? 肄쒖떆?몃? HUD 諛곗슦?먭쾶 ?덈줈 遺숈씠???λ㈃?낅땲??
     /// </summary>
     public void RequestSetRoadMissionText(string roadMissionText, bool isShowNewBadge)
     {
@@ -321,7 +321,7 @@ public class OOTechRoadHUDController : MonoBehaviour
     }
 
     /// <summary>
-    /// 현재 플레이어 인벤토리 모델을 다시 읽어 HUD 슬롯을 갱신합니다.
+    /// ?꾩옱 ?뚮젅?댁뼱 ?몃깽?좊━ 紐⑤뜽???ㅼ떆 ?쎌뼱 HUD ?щ’??媛깆떊?⑸땲??
     /// </summary>
     public void RequestRefreshInventoryView()
     {
@@ -329,8 +329,8 @@ public class OOTechRoadHUDController : MonoBehaviour
     }
 
     /// <summary>
-    /// CookingGroup이 직접 열렸거나 HUD 호출 경로가 끊긴 경우에도 부엌용 인벤토리/임무 패널을 강제로 엽니다.
-    /// Game View에서는 요리 장면에 들어오자마자 재료 슬롯을 보고 드래그할 수 있게 만드는 안전 큐입니다.
+    /// CookingGroup??吏곸젒 ?대졇嫄곕굹 HUD ?몄텧 寃쎈줈媛 ?딄릿 寃쎌슦?먮룄 遺?뚯슜 ?몃깽?좊━/?꾨Т ?⑤꼸??媛뺤젣濡??쎈땲??
+    /// Game View?먯꽌???붾━ ?λ㈃???ㅼ뼱?ㅼ옄留덉옄 ?щ즺 ?щ’??蹂닿퀬 ?쒕옒洹명븷 ???덇쾶 留뚮뱶???덉쟾 ?먯엯?덈떎.
     /// </summary>
     public void RequestOpenCookingSupportHUD()
     {
@@ -342,8 +342,8 @@ public class OOTechRoadHUDController : MonoBehaviour
     }
 
     /// <summary>
-    /// 도감처럼 다른 뒤로가기 로직으로 돌아온 경우에도 HUD와 이동 잠금을 복구합니다.
-    /// Game View에서는 숨었던 HUD가 다시 켜지고 MFC 이동 입력이 다시 살아납니다.
+    /// ?꾧컧泥섎읆 ?ㅻⅨ ?ㅻ줈媛湲?濡쒖쭅?쇰줈 ?뚯븘??寃쎌슦?먮룄 HUD? ?대룞 ?좉툑??蹂듦뎄?⑸땲??
+    /// Game View?먯꽌???⑥뿀??HUD媛 ?ㅼ떆 耳쒖?怨?MFC ?대룞 ?낅젰???ㅼ떆 ?댁븘?⑸땲??
     /// </summary>
     public void RequestRestoreFromOverlayReturn()
     {
@@ -371,7 +371,7 @@ public class OOTechRoadHUDController : MonoBehaviour
     }
 
     /// <summary>
-    /// 외부 뒤로가기 버튼이 오버레이를 닫았는지 감지해 HUD 잠금을 자동으로 풉니다.
+    /// ?몃? ?ㅻ줈媛湲?踰꾪듉???ㅻ쾭?덉씠瑜??レ븯?붿? 媛먯???HUD ?좉툑???먮룞?쇰줈 ?됰땲??
     /// </summary>
     private void Update()
     {
@@ -380,8 +380,8 @@ public class OOTechRoadHUDController : MonoBehaviour
     }
 
     /// <summary>
-    /// 특정 HUD 버튼을 화살표로 가리키는 튜토리얼 가이드를 표시합니다.
-    /// Game View에서는 버튼 위에 작은 설명 패널이 뜹니다.
+    /// ?뱀젙 HUD 踰꾪듉???붿궡?쒕줈 媛由ы궎???쒗넗由ъ뼹 媛?대뱶瑜??쒖떆?⑸땲??
+    /// Game View?먯꽌??踰꾪듉 ?꾩뿉 ?묒? ?ㅻ챸 ?⑤꼸???밸땲??
     /// </summary>
     public void ShowHUDGuideStep(OOTechRoadHUDButtonKind buttonKind, string title, string description, UnityAction onNext)
     {
@@ -401,7 +401,7 @@ public class OOTechRoadHUDController : MonoBehaviour
     }
 
     /// <summary>
-    /// 특정 버튼이 아니라 로드 화면 중앙에 짧은 안내 메시지를 띄웁니다.
+    /// ?뱀젙 踰꾪듉???꾨땲??濡쒕뱶 ?붾㈃ 以묒븰??吏㏃? ?덈궡 硫붿떆吏瑜??꾩썎?덈떎.
     /// </summary>
     public void ShowRoadMessage(string title, string description, UnityAction onNext)
     {
@@ -418,7 +418,7 @@ public class OOTechRoadHUDController : MonoBehaviour
     }
 
     /// <summary>
-    /// HUD 포커스 가이드를 닫습니다.
+    /// HUD ?ъ빱??媛?대뱶瑜??レ뒿?덈떎.
     /// </summary>
     public void CloseHUDGuide()
     {
@@ -429,8 +429,8 @@ public class OOTechRoadHUDController : MonoBehaviour
     }
 
     /// <summary>
-    /// 필요하다면 기본 아이템을 인벤토리에 한 번만 지급합니다.
-    /// 튜토리얼 보상 방식과 충돌하지 않도록 인스펙터 플래그가 켜진 경우에만 동작합니다.
+    /// ?꾩슂?섎떎硫?湲곕낯 ?꾩씠?쒖쓣 ?몃깽?좊━????踰덈쭔 吏湲됲빀?덈떎.
+    /// ?쒗넗由ъ뼹 蹂댁긽 諛⑹떇怨?異⑸룎?섏? ?딅룄濡??몄뒪?숉꽣 ?뚮옒洹멸? 耳쒖쭊 寃쎌슦?먮쭔 ?숈옉?⑸땲??
     /// </summary>
     private void PrepareDefaultInventoryItem()
     {
@@ -456,8 +456,8 @@ public class OOTechRoadHUDController : MonoBehaviour
     }
 
     /// <summary>
-    /// 씬에 배치된 HUDUIGroup을 찾고 Canvas 설정을 1920x1080 기준으로 정리합니다.
-    /// 이 메서드는 새 HUD를 만들지 않고, 준비된 소품이 없으면 에러를 남깁니다.
+    /// ?ъ뿉 諛곗튂??HUDUIGroup??李얘퀬 Canvas ?ㅼ젙??1920x1080 湲곗??쇰줈 ?뺣━?⑸땲??
+    /// ??硫붿꽌?쒕뒗 ??HUD瑜?留뚮뱾吏 ?딄퀬, 以鍮꾨맂 ?뚰뭹???놁쑝硫??먮윭瑜??④퉩?덈떎.
     /// </summary>
     private void CreateHUDCanvasIfNeeded()
     {
@@ -473,10 +473,10 @@ public class OOTechRoadHUDController : MonoBehaviour
             Root_HUD = View_HUD.gameObject;
 
         if (Root_HUD == null)
-            Root_HUD = FindChildByName(transform, "HUDUIGroup");
+            Root_HUD = RequestChildObjectByName(transform, "HUDUIGroup");
 
         if (Root_HUD == null)
-            Root_HUD = FindChildByName(transform, "RoadHUDCanvas");
+            Root_HUD = RequestChildObjectByName(transform, "RoadHUDCanvas");
 
         if (Root_HUD == null)
         {
@@ -545,7 +545,7 @@ public class OOTechRoadHUDController : MonoBehaviour
     }
 
     /// <summary>
-    /// OOTechRoadHUDView가 들고 있는 실제 버튼/패널 참조를 컨트롤러 필드에 연결합니다.
+    /// OOTechRoadHUDView媛 ?ㅺ퀬 ?덈뒗 ?ㅼ젣 踰꾪듉/?⑤꼸 李몄“瑜?而⑦듃濡ㅻ윭 ?꾨뱶???곌껐?⑸땲??
     /// </summary>
     private void BindHUDViewReferences()
     {
@@ -597,7 +597,8 @@ public class OOTechRoadHUDController : MonoBehaviour
         if (Text_CookingNewBadge != null || Button_Cooking == null)
             return;
 
-        Transform badgeTransform = Button_Cooking.transform.Find("NewBadge_Cooking");
+        GameObject badgeObjectInButton = OOTechSceneQuery.RequestChildObjectByName(Button_Cooking.transform, "NewBadge_Cooking");
+        Transform badgeTransform = badgeObjectInButton != null ? badgeObjectInButton.transform : null;
 
         if (badgeTransform != null)
             Text_CookingNewBadge = badgeTransform.GetComponent<TextMeshProUGUI>();
@@ -627,7 +628,7 @@ public class OOTechRoadHUDController : MonoBehaviour
     }
 
     /// <summary>
-    /// HUD 버튼 클릭 이벤트를 각각의 기능 큐에 연결합니다.
+    /// HUD 踰꾪듉 ?대┃ ?대깽?몃? 媛곴컖??湲곕뒫 ?먯뿉 ?곌껐?⑸땲??
     /// </summary>
     private void BindHUDButtonEvents()
     {
@@ -661,15 +662,15 @@ public class OOTechRoadHUDController : MonoBehaviour
     }
 
     /// <summary>
-    /// 공유 HUD가 있으면 로컬 중복 HUD가 클릭을 가로막지 않도록 현재 컨트롤러의 HUD를 공유 HUD로 연결합니다.
+    /// 怨듭쑀 HUD媛 ?덉쑝硫?濡쒖뺄 以묐났 HUD媛 ?대┃??媛濡쒕쭑吏 ?딅룄濡??꾩옱 而⑦듃濡ㅻ윭??HUD瑜?怨듭쑀 HUD濡??곌껐?⑸땲??
     /// </summary>
     private OOTechRoadHUDView ResolveSharedHUDView()
     {
-        GameObject sharedSystemObject = FindSceneObjectByName(_sharedHUDSystemGroupName);
-        GameObject sharedHUDObject = sharedSystemObject != null ? FindChildByName(sharedSystemObject.transform, _sharedHUDGroupName) : null;
+        GameObject sharedSystemObject = RequestSceneObjectByName(_sharedHUDSystemGroupName);
+        GameObject sharedHUDObject = sharedSystemObject != null ? RequestChildObjectByName(sharedSystemObject.transform, _sharedHUDGroupName) : null;
 
         if (sharedHUDObject == null)
-            sharedHUDObject = FindSceneObjectByName("GlobalHUDUIGroup");
+            sharedHUDObject = RequestSceneObjectByName("GlobalHUDUIGroup");
 
         if (sharedHUDObject == null)
             return null;
@@ -678,7 +679,7 @@ public class OOTechRoadHUDController : MonoBehaviour
     }
 
     /// <summary>
-    /// 공용 HUD를 쓰는 동안 그룹 자식으로 남아 있는 예전 HUD가 버튼 클릭을 먹지 않도록 비활성화합니다.
+    /// 怨듭슜 HUD瑜??곕뒗 ?숈븞 洹몃９ ?먯떇?쇰줈 ?⑥븘 ?덈뒗 ?덉쟾 HUD媛 踰꾪듉 ?대┃??癒뱀? ?딅룄濡?鍮꾪솢?깊솕?⑸땲??
     /// </summary>
     private void DeactivateLocalHUDViewArrayExceptRoot()
     {
@@ -694,7 +695,7 @@ public class OOTechRoadHUDController : MonoBehaviour
     }
 
     /// <summary>
-    /// 버튼이 보이는데 클릭이 안 되는 상황을 막기 위해 Raycast와 interactable 상태를 복구합니다.
+    /// 踰꾪듉??蹂댁씠?붾뜲 ?대┃?????섎뒗 ?곹솴??留됯린 ?꾪빐 Raycast? interactable ?곹깭瑜?蹂듦뎄?⑸땲??
     /// </summary>
     private void PrepareButtonForClick(Button button)
     {
@@ -721,8 +722,8 @@ public class OOTechRoadHUDController : MonoBehaviour
     }
 
     /// <summary>
-    /// HUD를 1920x1080 게임 화면 위의 Overlay로 고정합니다.
-    /// 로드맵 이미지는 무대 세트이고, HUD는 플레이어가 누르는 객석 쪽 조작판입니다.
+    /// HUD瑜?1920x1080 寃뚯엫 ?붾㈃ ?꾩쓽 Overlay濡?怨좎젙?⑸땲??
+    /// 濡쒕뱶留??대?吏??臾대? ?명듃?닿퀬, HUD???뚮젅?댁뼱媛 ?꾨Ⅴ??媛앹꽍 履?議곗옉?먯엯?덈떎.
     /// </summary>
     private void ApplyBottomHUDLayout()
     {
@@ -770,8 +771,8 @@ public class OOTechRoadHUDController : MonoBehaviour
     }
 
     /// <summary>
-    /// 플레이어 인벤토리 모델을 읽어 슬롯 목록을 다시 그립니다.
-    /// 정적 템플릿 슬롯만 복제하며, HUD 뼈대 자체는 씬 오브젝트를 유지합니다.
+    /// ?뚮젅?댁뼱 ?몃깽?좊━ 紐⑤뜽???쎌뼱 ?щ’ 紐⑸줉???ㅼ떆 洹몃┰?덈떎.
+    /// ?뺤쟻 ?쒗뵆由??щ’留?蹂듭젣?섎ŉ, HUD 堉덈? ?먯껜?????ㅻ툕?앺듃瑜??좎??⑸땲??
     /// </summary>
     private void RefreshInventoryView()
     {
@@ -785,7 +786,7 @@ public class OOTechRoadHUDController : MonoBehaviour
 
         if (itemList.Count == 0)
         {
-            CreateInventoryTextRow("비어 있음");
+            CreateInventoryTextRow("鍮꾩뼱 ?덉쓬");
             return;
         }
 
@@ -837,11 +838,11 @@ public class OOTechRoadHUDController : MonoBehaviour
         }
 
         if (!hasVisibleItem)
-            CreateInventoryTextRow("비어 있음");
+            CreateInventoryTextRow("鍮꾩뼱 ?덉쓬");
     }
 
     /// <summary>
-    /// 인벤토리가 비어 있을 때 안내 문구 슬롯을 표시합니다.
+    /// ?몃깽?좊━媛 鍮꾩뼱 ?덉쓣 ???덈궡 臾멸뎄 ?щ’???쒖떆?⑸땲??
     /// </summary>
     private void CreateInventoryTextRow(string text)
     {
@@ -862,8 +863,8 @@ public class OOTechRoadHUDController : MonoBehaviour
     }
 
     /// <summary>
-    /// 실제 아이템 모델 하나를 인벤토리 슬롯으로 표시합니다.
-    /// 부엌이 열려 있으면 이 슬롯에 드래그 기능도 연결됩니다.
+    /// ?ㅼ젣 ?꾩씠??紐⑤뜽 ?섎굹瑜??몃깽?좊━ ?щ’?쇰줈 ?쒖떆?⑸땲??
+    /// 遺?뚯씠 ?대젮 ?덉쑝硫????щ’???쒕옒洹?湲곕뒫???곌껐?⑸땲??
     /// </summary>
     private void CreateInventoryItemSlot(OOTechItemModel item)
     {
@@ -897,7 +898,7 @@ public class OOTechRoadHUDController : MonoBehaviour
     }
 
     /// <summary>
-    /// 템플릿을 제외한 기존 인벤토리 슬롯 행을 제거합니다.
+    /// ?쒗뵆由우쓣 ?쒖쇅??湲곗〈 ?몃깽?좊━ ?щ’ ?됱쓣 ?쒓굅?⑸땲??
     /// </summary>
     private void ClearInventorySlotRows()
     {
@@ -916,8 +917,8 @@ public class OOTechRoadHUDController : MonoBehaviour
     }
 
     /// <summary>
-    /// Slot_InventoryItemTemplate을 복제해 표시용 슬롯 한 칸을 만듭니다.
-    /// 반복 목록이라서 여기만 런타임 복제를 허용합니다.
+    /// Slot_InventoryItemTemplate??蹂듭젣???쒖떆???щ’ ??移몄쓣 留뚮벊?덈떎.
+    /// 諛섎났 紐⑸줉?대씪???ш린留??고???蹂듭젣瑜??덉슜?⑸땲??
     /// </summary>
     private GameObject CreateInventorySlotRow(string objectName)
     {
@@ -935,8 +936,8 @@ public class OOTechRoadHUDController : MonoBehaviour
     }
 
     /// <summary>
-    /// 인벤토리 ScrollRect를 탄성 없는 스크롤로 고정합니다.
-    /// 영화로 치면 소품 선반이 관객 손을 놓는 순간 원위치로 튀지 않고, 감독이 내려둔 위치에 멈춰 있게 만드는 장치입니다.
+    /// ?몃깽?좊━ ScrollRect瑜??꾩꽦 ?녿뒗 ?ㅽ겕濡ㅻ줈 怨좎젙?⑸땲??
+    /// ?곹솕濡?移섎㈃ ?뚰뭹 ?좊컲??愿媛??먯쓣 ?볥뒗 ?쒓컙 ?먯쐞移섎줈 ?吏 ?딄퀬, 媛먮룆???대젮???꾩튂??硫덉떠 ?덇쾶 留뚮뱶???μ튂?낅땲??
     /// </summary>
     private void ConfigureInventoryScrollView(bool isResetToTop)
     {
@@ -945,7 +946,7 @@ public class OOTechRoadHUDController : MonoBehaviour
 
         if (Scroll_InventorySlots == null && Root_InventoryPanel != null)
         {
-            GameObject scrollObject = FindChildByName(Root_InventoryPanel.transform, "Scroll_InventorySlots");
+            GameObject scrollObject = RequestChildObjectByName(Root_InventoryPanel.transform, "Scroll_InventorySlots");
 
             if (scrollObject != null)
             {
@@ -992,7 +993,7 @@ public class OOTechRoadHUDController : MonoBehaviour
             return;
         }
 
-        GameObject scrollbarObject = FindChildByName(Root_InventoryPanel.transform, "Scrollbar_InventoryLeft");
+        GameObject scrollbarObject = RequestChildObjectByName(Root_InventoryPanel.transform, "Scrollbar_InventoryLeft");
 
         if (scrollbarObject == null)
             return;
@@ -1008,8 +1009,8 @@ public class OOTechRoadHUDController : MonoBehaviour
     }
 
     /// <summary>
-    /// 슬롯 한 줄의 높이를 통일합니다.
-    /// 배우들이 줄 맞춰 서야 아래 줄까지 스크롤 무대에서 정확히 보이기 때문에, 템플릿 복제 직후 크기를 보정합니다.
+    /// ?щ’ ??以꾩쓽 ?믪씠瑜??듭씪?⑸땲??
+    /// 諛곗슦?ㅼ씠 以?留욎떠 ?쒖빞 ?꾨옒 以꾧퉴吏 ?ㅽ겕濡?臾대??먯꽌 ?뺥솗??蹂댁씠湲??뚮Ц?? ?쒗뵆由?蹂듭젣 吏곹썑 ?ш린瑜?蹂댁젙?⑸땲??
     /// </summary>
     private void ApplyInventorySlotRowLayout(GameObject slotObject)
     {
@@ -1030,8 +1031,8 @@ public class OOTechRoadHUDController : MonoBehaviour
     }
 
     /// <summary>
-    /// 아이템 개수에 맞춰 Content 높이를 다시 계산합니다.
-    /// 이 값이 부족하면 아래 배우가 무대 밖에 서 있는 것처럼 마지막 아이템이 마스크 뒤에 가려집니다.
+    /// ?꾩씠??媛쒖닔??留욎떠 Content ?믪씠瑜??ㅼ떆 怨꾩궛?⑸땲??
+    /// ??媛믪씠 遺議깊븯硫??꾨옒 諛곗슦媛 臾대? 諛뽰뿉 ???덈뒗 寃껋쿂??留덉?留??꾩씠?쒖씠 留덉뒪???ㅼ뿉 媛?ㅼ쭛?덈떎.
     /// </summary>
     private void RebuildInventoryScrollView(bool isResetToTop)
     {
@@ -1116,7 +1117,7 @@ public class OOTechRoadHUDController : MonoBehaviour
     }
 
     /// <summary>
-    /// 요리하기 버튼의 표시 상태를 현재 잠금 상태에 맞춥니다.
+    /// ?붾━?섍린 踰꾪듉???쒖떆 ?곹깭瑜??꾩옱 ?좉툑 ?곹깭??留욎땅?덈떎.
     /// </summary>
     private void RefreshCookingButtonView()
     {
@@ -1124,14 +1125,14 @@ public class OOTechRoadHUDController : MonoBehaviour
             Button_Cooking.interactable = true;
 
         if (Image_CookingButton != null)
-            Image_CookingButton.color = _isCookingUnlocked ? new Color(0.22f, 0.22f, 0.22f, 0.96f) : new Color(0.14f, 0.14f, 0.14f, 0.88f);
+            Image_CookingButton.color = _isCookingUnlocked ? new Color(0.94f, 0.72f, 0.42f, 0.94f) : new Color(0.62f, 0.43f, 0.26f, 0.72f);
 
         if (Text_CookingLabel != null)
             Text_CookingLabel.text = "\uC694\uB9AC\uD558\uAE30";
     }
 
     /// <summary>
-    /// 인벤토리 버튼을 누르면 인벤토리 패널을 토글하고 NEW 배지를 확인 처리합니다.
+    /// ?몃깽?좊━ 踰꾪듉???꾨Ⅴ硫??몃깽?좊━ ?⑤꼸???좉??섍퀬 NEW 諛곗?瑜??뺤씤 泥섎━?⑸땲??
     /// </summary>
     private void OnInventoryButtonClicked()
     {
@@ -1142,7 +1143,7 @@ public class OOTechRoadHUDController : MonoBehaviour
     }
 
     /// <summary>
-    /// 도감 버튼을 누르면 CodexGroup으로 이동합니다.
+    /// ?꾧컧 踰꾪듉???꾨Ⅴ硫?CodexGroup?쇰줈 ?대룞?⑸땲??
     /// </summary>
     private void OnCodexButtonClicked()
     {
@@ -1151,7 +1152,7 @@ public class OOTechRoadHUDController : MonoBehaviour
     }
 
     /// <summary>
-    /// 임무 버튼을 누르면 임무 패널을 토글하고 NEW 배지를 확인 처리합니다.
+    /// ?꾨Т 踰꾪듉???꾨Ⅴ硫??꾨Т ?⑤꼸???좉??섍퀬 NEW 諛곗?瑜??뺤씤 泥섎━?⑸땲??
     /// </summary>
     private void OnMissionButtonClicked()
     {
@@ -1162,8 +1163,8 @@ public class OOTechRoadHUDController : MonoBehaviour
     }
 
     /// <summary>
-    /// 요리하기 버튼을 누르면 CookingGroup으로 이동합니다.
-    /// 잠겨 있으면 아직 열리지 않았다는 안내만 보여줍니다.
+    /// ?붾━?섍린 踰꾪듉???꾨Ⅴ硫?CookingGroup?쇰줈 ?대룞?⑸땲??
+    /// ?좉꺼 ?덉쑝硫??꾩쭅 ?대━吏 ?딆븯?ㅻ뒗 ?덈궡留?蹂댁뿬以띾땲??
     /// </summary>
     private void OnCookingButtonClicked()
     {
@@ -1178,7 +1179,7 @@ public class OOTechRoadHUDController : MonoBehaviour
     }
 
     /// <summary>
-    /// 월드맵 버튼을 누르면 WorldMapGroup을 엽니다.
+    /// ?붾뱶留?踰꾪듉???꾨Ⅴ硫?WorldMapGroup???쎈땲??
     /// </summary>
     private void OnWorldMapButtonClicked()
     {
@@ -1186,7 +1187,7 @@ public class OOTechRoadHUDController : MonoBehaviour
     }
 
     /// <summary>
-    /// 메인 메뉴 버튼을 누르면 확인 팝업을 띄웁니다.
+    /// 硫붿씤 硫붾돱 踰꾪듉???꾨Ⅴ硫??뺤씤 ?앹뾽???꾩썎?덈떎.
     /// </summary>
     private void OnMainMenuButtonClicked()
     {
@@ -1202,8 +1203,8 @@ public class OOTechRoadHUDController : MonoBehaviour
     }
 
     /// <summary>
-    /// 인벤토리 안에 수량 조절 안내 문구를 준비합니다.
-    /// 영화로 치면 요리 장면 전에 소품을 몇 개 집는지 알려주는 작은 큐카드입니다.
+    /// ?몃깽?좊━ ?덉뿉 ?섎웾 議곗젅 ?덈궡 臾멸뎄瑜?以鍮꾪빀?덈떎.
+    /// ?곹솕濡?移섎㈃ ?붾━ ?λ㈃ ?꾩뿉 ?뚰뭹??紐?媛?吏묐뒗吏 ?뚮젮二쇰뒗 ?묒? ?먯뭅?쒖엯?덈떎.
     /// </summary>
     private void PrepareInventoryQuantityGuide()
     {
@@ -1233,8 +1234,8 @@ public class OOTechRoadHUDController : MonoBehaviour
     }
 
     /// <summary>
-    /// 예전 중앙 기본 배치로 남아 있는 임무판만 우측 하단으로 옮깁니다.
-    /// 감독이 직접 잡은 커스텀 배치는 건드리지 않습니다.
+    /// ?덉쟾 以묒븰 湲곕낯 諛곗튂濡??⑥븘 ?덈뒗 ?꾨Т?먮쭔 ?곗륫 ?섎떒?쇰줈 ??퉩?덈떎.
+    /// 媛먮룆??吏곸젒 ?≪? 而ㅼ뒪? 諛곗튂??嫄대뱶由ъ? ?딆뒿?덈떎.
     /// </summary>
     private void ApplyMissionPanelBottomRightLayoutIfNeeded()
     {
@@ -1275,7 +1276,7 @@ public class OOTechRoadHUDController : MonoBehaviour
     }
 
     /// <summary>
-    /// 임무판 텍스트를 현재 진행 상태에 맞춰 다시 씁니다.
+    /// ?꾨Т???띿뒪?몃? ?꾩옱 吏꾪뻾 ?곹깭??留욎떠 ?ㅼ떆 ?곷땲??
     /// </summary>
     private void RefreshMissionText()
     {
@@ -1285,21 +1286,21 @@ public class OOTechRoadHUDController : MonoBehaviour
         Text_MissionContent.richText = true;
         string cookingMissionText = CreateCookingMissionText();
 
-        string eastRoadMissionText = _isEastRoadMissionRemoved || string.IsNullOrWhiteSpace(_roadMissionText) ? string.Empty : "○ " + _roadMissionText + "\n";
-        string stageQuestText = string.IsNullOrWhiteSpace(_stageQuestMissionText) ? string.Empty : "○ " + _stageQuestMissionText + "\n";
+        string eastRoadMissionText = _isEastRoadMissionRemoved || string.IsNullOrWhiteSpace(_roadMissionText) ? string.Empty : "??" + _roadMissionText + "\n";
+        string stageQuestText = string.IsNullOrWhiteSpace(_stageQuestMissionText) ? string.Empty : "??" + _stageQuestMissionText + "\n";
         Text_MissionContent.text = "\uD604\uC7AC \uC784\uBB34\n" + cookingMissionText + eastRoadMissionText + stageQuestText;
     }
 
     /// <summary>
-    /// 요리 임무 줄의 현재 표시 상태를 만듭니다.
-    /// 완료 연출 중에는 취소선과 알파값으로 첫 번째 줄만 점점 사라지게 합니다.
+    /// ?붾━ ?꾨Т 以꾩쓽 ?꾩옱 ?쒖떆 ?곹깭瑜?留뚮벊?덈떎.
+    /// ?꾨즺 ?곗텧 以묒뿉??痍⑥냼?좉낵 ?뚰뙆媛믪쑝濡?泥?踰덉㎏ 以꾨쭔 ?먯젏 ?щ씪吏寃??⑸땲??
     /// </summary>
     private string CreateCookingMissionText()
     {
         if (!_isCookingQuestActive || _isCookingMissionRemoved)
             return string.Empty;
 
-        string missionText = "○ 배고픈 모란과 동료들을 위해 요리하세요.";
+        string missionText = "??諛곌퀬??紐⑤?怨??숇즺?ㅼ쓣 ?꾪빐 ?붾━?섏꽭??";
 
         if (!_isCookingQuestComplete)
             return missionText + "\n";
@@ -1309,7 +1310,7 @@ public class OOTechRoadHUDController : MonoBehaviour
     }
 
     /// <summary>
-    /// 완료된 임무 줄을 잠깐 보여준 뒤 천천히 지우고, 남은 임무가 위로 올라오게 합니다.
+    /// ?꾨즺???꾨Т 以꾩쓣 ?좉퉸 蹂댁뿬以 ??泥쒖쿇??吏?곌퀬, ?⑥? ?꾨Т媛 ?꾨줈 ?щ씪?ㅺ쾶 ?⑸땲??
     /// </summary>
     private IEnumerator PlayMissionCompleteEffectRoutine()
     {
@@ -1347,7 +1348,7 @@ public class OOTechRoadHUDController : MonoBehaviour
     }
 
     /// <summary>
-    /// NEW 배지를 켜고 끄며, 켜질 때는 깜빡이는 코루틴을 시작합니다.
+    /// NEW 諛곗?瑜?耳쒓퀬 ?꾨ŉ, 耳쒖쭏 ?뚮뒗 源쒕묀?대뒗 肄붾（?댁쓣 ?쒖옉?⑸땲??
     /// </summary>
     private void SetBadgeActive(TextMeshProUGUI badgeText, bool isActive, ref Coroutine badgeCoroutine)
     {
@@ -1371,7 +1372,7 @@ public class OOTechRoadHUDController : MonoBehaviour
     }
 
     /// <summary>
-    /// NEW 글자의 알파값을 흔들어 플레이어 눈에 띄게 만듭니다.
+    /// NEW 湲?먯쓽 ?뚰뙆媛믪쓣 ?붾뱾???뚮젅?댁뼱 ?덉뿉 ?꾧쾶 留뚮벊?덈떎.
     /// </summary>
     private IEnumerator BlinkNewBadgeRoutine(TextMeshProUGUI badgeText)
     {
@@ -1386,7 +1387,7 @@ public class OOTechRoadHUDController : MonoBehaviour
     }
 
     /// <summary>
-    /// 데이터 매니저에서 재료/요리 이름을 찾고, 없을 때는 튜토리얼용 기본 이름을 반환합니다.
+    /// ?곗씠??留ㅻ땲??먯꽌 ?щ즺/?붾━ ?대쫫??李얘퀬, ?놁쓣 ?뚮뒗 ?쒗넗由ъ뼹??湲곕낯 ?대쫫??諛섑솚?⑸땲??
     /// </summary>
     private string GetIngredientDisplayName(string ingredientDataId)
     {
@@ -1407,13 +1408,13 @@ public class OOTechRoadHUDController : MonoBehaviour
         }
 
         if (ingredientDataId == _defaultInventoryItemId)
-            return "쌀";
+            return "?";
 
         if (ingredientDataId == "Ing_Veggie_01")
-            return "채소";
+            return "梨꾩냼";
 
         if (ingredientDataId == "Ing_Pumpkin_01")
-            return "호박";
+            return "?몃컯";
 
         if (ingredientDataId == "OO_VegetableSoup_1")
             return "야채죽";
@@ -1428,7 +1429,7 @@ public class OOTechRoadHUDController : MonoBehaviour
     }
 
     /// <summary>
-    /// 아이템 카탈로그에서 인벤토리 슬롯에 표시할 Sprite 아이콘을 가져옵니다.
+    /// ?꾩씠??移댄깉濡쒓렇?먯꽌 ?몃깽?좊━ ?щ’???쒖떆??Sprite ?꾩씠肄섏쓣 媛?몄샃?덈떎.
     /// </summary>
     private Sprite GetItemIconSprite(string itemDataId)
     {
@@ -1436,14 +1437,14 @@ public class OOTechRoadHUDController : MonoBehaviour
     }
 
     /// <summary>
-    /// 월드맵, 부엌, 도감 같은 다른 그룹을 열고 이전 그룹 이름을 기록합니다.
+    /// ?붾뱶留? 遺?? ?꾧컧 媛숈? ?ㅻⅨ 洹몃９???닿퀬 ?댁쟾 洹몃９ ?대쫫??湲곕줉?⑸땲??
     /// </summary>
     private bool RequestOpenSceneGroup(string groupName)
     {
         if (string.IsNullOrEmpty(groupName))
             return false;
 
-        GameObject groupObject = FindSceneObjectByName(groupName);
+        GameObject groupObject = RequestSceneObjectByName(groupName);
         string previousGroupName = GetOwnerGroupName();
         OOTechGroupNavigationHistory.SetPreviousGroup(groupName, previousGroupName);
 
@@ -1511,7 +1512,7 @@ public class OOTechRoadHUDController : MonoBehaviour
     }
 
     /// <summary>
-    /// 월드맵/부엌 무대가 열릴 때 이전 로드 배경막보다 앞에 보이도록 SpriteRenderer 정렬값을 보정합니다.
+    /// ?붾뱶留?遺??臾대?媛 ?대┫ ???댁쟾 濡쒕뱶 諛곌꼍留됰낫???욎뿉 蹂댁씠?꾨줉 SpriteRenderer ?뺣젹媛믪쓣 蹂댁젙?⑸땲??
     /// </summary>
     private void PrepareOverlayVisualPriority(GameObject groupObject, string groupName)
     {
@@ -1542,8 +1543,8 @@ public class OOTechRoadHUDController : MonoBehaviour
     }
 
     /// <summary>
-    /// 오버레이 그룹이 열렸을 때 HUD 표시 규칙을 적용합니다.
-    /// 월드맵은 HUD를 끄고, 부엌은 인벤토리/임무 패널을 살립니다.
+    /// ?ㅻ쾭?덉씠 洹몃９???대졇????HUD ?쒖떆 洹쒖튃???곸슜?⑸땲??
+    /// ?붾뱶留듭? HUD瑜??꾧퀬, 遺?뚯? ?몃깽?좊━/?꾨Т ?⑤꼸???대┰?덈떎.
     /// </summary>
     private void HandleOverlayOpened(string groupName)
     {
@@ -1562,7 +1563,7 @@ public class OOTechRoadHUDController : MonoBehaviour
     }
 
     /// <summary>
-    /// 오버레이의 돌아가기 버튼을 누르면 직전 그룹으로 복귀합니다.
+    /// ?ㅻ쾭?덉씠???뚯븘媛湲?踰꾪듉???꾨Ⅴ硫?吏곸쟾 洹몃９?쇰줈 蹂듦??⑸땲??
     /// </summary>
     private void HandleOverlayReturnClicked(string currentGroupName, string previousGroupName)
     {
@@ -1573,8 +1574,8 @@ public class OOTechRoadHUDController : MonoBehaviour
         }
         else
         {
-            GameObject currentGroup = FindSceneObjectByName(currentGroupName);
-            GameObject previousGroup = FindSceneObjectByName(previousGroupName);
+            GameObject currentGroup = RequestSceneObjectByName(currentGroupName);
+            GameObject previousGroup = RequestSceneObjectByName(previousGroupName);
 
             if (currentGroup != null)
                 currentGroup.SetActive(false);
@@ -1593,7 +1594,7 @@ public class OOTechRoadHUDController : MonoBehaviour
     }
 
     /// <summary>
-    /// 부엌에서는 하단 버튼은 숨기고 인벤토리/임무 패널만 요리 보조 HUD로 유지합니다.
+    /// 遺?뚯뿉?쒕뒗 ?섎떒 踰꾪듉? ?④린怨??몃깽?좊━/?꾨Т ?⑤꼸留??붾━ 蹂댁“ HUD濡??좎??⑸땲??
     /// </summary>
     private void OpenCookingSupportHUD()
     {
@@ -1618,8 +1619,8 @@ public class OOTechRoadHUDController : MonoBehaviour
     }
 
     /// <summary>
-    /// 부엌 진입 경로가 HUD 버튼이든 다른 큐시트든, 현재 켜진 CookingGroup Controller를 다시 찾습니다.
-    /// 이 연결이 있어야 인벤토리 슬롯이 조리도구로 드래그될 수 있습니다.
+    /// 遺??吏꾩엯 寃쎈줈媛 HUD 踰꾪듉?대뱺 ?ㅻⅨ ?먯떆?몃뱺, ?꾩옱 耳쒖쭊 CookingGroup Controller瑜??ㅼ떆 李얠뒿?덈떎.
+    /// ???곌껐???덉뼱???몃깽?좊━ ?щ’??議곕━?꾧뎄濡??쒕옒洹몃맆 ???덉뒿?덈떎.
     /// </summary>
     private void ResolveCookingOverlayControllerIfNeeded()
     {
@@ -1628,7 +1629,7 @@ public class OOTechRoadHUDController : MonoBehaviour
 
         Controller_CookingOverlay = null;
 
-        GameObject cookingGroupObject = FindSceneObjectByName(_cookingGroupName);
+        GameObject cookingGroupObject = RequestSceneObjectByName(_cookingGroupName);
 
         if (cookingGroupObject != null)
             Controller_CookingOverlay = cookingGroupObject.GetComponent<OOTechCookingGroupController>();
@@ -1636,7 +1637,7 @@ public class OOTechRoadHUDController : MonoBehaviour
         if (Controller_CookingOverlay != null && Controller_CookingOverlay.gameObject.activeInHierarchy)
             return;
 
-        OOTechCookingGroupController[] cookingControllerArray = FindObjectsByType<OOTechCookingGroupController>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+        List<OOTechCookingGroupController> cookingControllerArray = OOTechSceneQuery.RequestCollectComponents<OOTechCookingGroupController>(true);
 
         foreach (OOTechCookingGroupController cookingController in cookingControllerArray)
         {
@@ -1649,7 +1650,7 @@ public class OOTechRoadHUDController : MonoBehaviour
     }
 
     /// <summary>
-    /// 부엌을 닫으면 HUD를 원래 로드 화면 상태로 되돌립니다.
+    /// 遺?뚯쓣 ?レ쑝硫?HUD瑜??먮옒 濡쒕뱶 ?붾㈃ ?곹깭濡??섎룎由쎈땲??
     /// </summary>
     private void CloseCookingSupportHUD()
     {
@@ -1700,7 +1701,7 @@ public class OOTechRoadHUDController : MonoBehaviour
     }
 
     /// <summary>
-    /// 부엌 지원 모드에서 하단 HUD 버튼과 NEW 배지를 숨기거나 복구합니다.
+    /// 遺??吏??紐⑤뱶?먯꽌 ?섎떒 HUD 踰꾪듉怨?NEW 諛곗?瑜??④린嫄곕굹 蹂듦뎄?⑸땲??
     /// </summary>
     private void SetBottomHUDActive(bool isActive)
     {
@@ -1758,7 +1759,7 @@ public class OOTechRoadHUDController : MonoBehaviour
     }
 
     /// <summary>
-    /// 월드맵/부엌/도감에 배치된 Button_RuntimeReturn을 현재 복귀 목적지에 연결합니다.
+    /// ?붾뱶留?遺???꾧컧??諛곗튂??Button_RuntimeReturn???꾩옱 蹂듦? 紐⑹쟻吏???곌껐?⑸땲??
     /// </summary>
     private void PrepareOverlayReturnButton(GameObject groupObject, string currentGroupName, string previousGroupName)
     {
@@ -1770,7 +1771,7 @@ public class OOTechRoadHUDController : MonoBehaviour
         foreach (BackButtonController backButton in backButtonArray)
             backButton.SetPreviousGroup(previousGroupName);
 
-        GameObject existingReturnButtonObject = FindChildByName(groupObject.transform, "Button_RuntimeReturn");
+        GameObject existingReturnButtonObject = RequestChildObjectByName(groupObject.transform, "Button_RuntimeReturn");
 
         if (existingReturnButtonObject != null)
         {
@@ -1795,7 +1796,7 @@ public class OOTechRoadHUDController : MonoBehaviour
     }
 
     /// <summary>
-    /// 메인 메뉴로 돌아갈지 확인하는 팝업을 엽니다.
+    /// 硫붿씤 硫붾돱濡??뚯븘媛덉? ?뺤씤?섎뒗 ?앹뾽???쎈땲??
     /// </summary>
     private void ShowMainMenuConfirmPopup()
     {
@@ -1812,14 +1813,14 @@ public class OOTechRoadHUDController : MonoBehaviour
     }
 
     /// <summary>
-    /// 확인 팝업에서 예를 누르면 현재 그룹을 닫고 MainMenuGroup을 엽니다.
+    /// ?뺤씤 ?앹뾽?먯꽌 ?덈? ?꾨Ⅴ硫??꾩옱 洹몃９???リ퀬 MainMenuGroup???쎈땲??
     /// </summary>
     private void ConfirmReturnToMainMenu()
     {
         HideMainMenuConfirmPopup();
 
-        GameObject ownerGroup = FindSceneObjectByName(GetOwnerGroupName());
-        GameObject mainMenuGroup = FindSceneObjectByName(_mainMenuGroupName);
+        GameObject ownerGroup = RequestSceneObjectByName(GetOwnerGroupName());
+        GameObject mainMenuGroup = RequestSceneObjectByName(_mainMenuGroupName);
 
         if (OOTechUIManager.Inst != null)
         {
@@ -1843,7 +1844,7 @@ public class OOTechRoadHUDController : MonoBehaviour
     }
 
     /// <summary>
-    /// 씬에 배치된 확인 팝업 버튼을 예/아니오 동작에 연결합니다.
+    /// ?ъ뿉 諛곗튂???뺤씤 ?앹뾽 踰꾪듉?????꾨땲???숈옉???곌껐?⑸땲??
     /// </summary>
     private void CreateConfirmPopupIfNeeded()
     {
@@ -1870,7 +1871,7 @@ public class OOTechRoadHUDController : MonoBehaviour
     }
 
     /// <summary>
-    /// HUD 튜토리얼 화살표와 설명 패널을 선택한 버튼 근처에 배치합니다.
+    /// HUD ?쒗넗由ъ뼹 ?붿궡?쒖? ?ㅻ챸 ?⑤꼸???좏깮??踰꾪듉 洹쇱쿂??諛곗튂?⑸땲??
     /// </summary>
     private void ApplyGuideOverlayLayout(Vector2 targetLocalPosition, string title, string description, UnityAction onNext)
     {
@@ -1964,7 +1965,7 @@ public class OOTechRoadHUDController : MonoBehaviour
     }
 
     /// <summary>
-    /// 예전 Button_GuideNext 소품은 숨기고, HUD 가이드는 패널이나 배경 클릭으로만 다음 큐로 넘깁니다.
+    /// ?덉쟾 Button_GuideNext ?뚰뭹? ?④린怨? HUD 媛?대뱶???⑤꼸?대굹 諛곌꼍 ?대┃?쇰줈留??ㅼ쓬 ?먮줈 ?섍퉩?덈떎.
     /// </summary>
     private void DisableLegacyGuideNextButtonObject()
     {
@@ -2016,7 +2017,7 @@ public class OOTechRoadHUDController : MonoBehaviour
         return targetButton != null ? targetButton.transform as RectTransform : null;
     }
 
-    private GameObject FindSceneObjectByName(string objectName)
+    private GameObject RequestSceneObjectByName(string objectName)
     {
         Scene scene = SceneManager.GetActiveScene();
 
@@ -2025,7 +2026,7 @@ public class OOTechRoadHUDController : MonoBehaviour
 
         foreach (GameObject rootObject in scene.GetRootGameObjects())
         {
-            GameObject foundObject = FindChildByName(rootObject.transform, objectName);
+            GameObject foundObject = RequestChildObjectByName(rootObject.transform, objectName);
 
             if (foundObject != null)
                 return foundObject;
@@ -2036,11 +2037,11 @@ public class OOTechRoadHUDController : MonoBehaviour
 
     private bool IsSceneGroupActive(string groupName)
     {
-        GameObject groupObject = FindSceneObjectByName(groupName);
+        GameObject groupObject = RequestSceneObjectByName(groupName);
         return groupObject != null && groupObject.activeSelf;
     }
 
-    private GameObject FindChildByName(Transform rootTransform, string objectName)
+    private GameObject RequestChildObjectByName(Transform rootTransform, string objectName)
     {
         if (rootTransform == null)
             return null;
@@ -2050,7 +2051,7 @@ public class OOTechRoadHUDController : MonoBehaviour
 
         for (int index = 0; index < rootTransform.childCount; index++)
         {
-            GameObject foundObject = FindChildByName(rootTransform.GetChild(index), objectName);
+            GameObject foundObject = RequestChildObjectByName(rootTransform.GetChild(index), objectName);
 
             if (foundObject != null)
                 return foundObject;
@@ -2059,3 +2060,4 @@ public class OOTechRoadHUDController : MonoBehaviour
         return null;
     }
 }
+

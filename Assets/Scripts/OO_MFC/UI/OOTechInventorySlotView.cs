@@ -1,17 +1,17 @@
-// =============================================================================
-// OO_MFC 역할 주석
-// - 스크립트: OOTechInventorySlotView.cs
-// - 역할: UI 하이어라키의 버튼, 이미지, 텍스트 참조를 모아 둔 View 컴포넌트입니다.
-// - 감독 관점: 무대 위 소품 위치표입니다. 판단하지 않고 소품을 보여 주는 일만 맡습니다.
-// - 유지보수 포인트: 버튼 동작 판단, 데이터 로딩, 그룹 전환 로직은 Controller나 Manager에 둡니다.
+﻿// =============================================================================
+// OO_MFC ??븷 二쇱꽍
+// - ?ㅽ겕由쏀듃: OOTechInventorySlotView.cs
+// - ??븷: UI ?섏씠?대씪?ㅼ쓽 踰꾪듉, ?대?吏, ?띿뒪??李몄“瑜?紐⑥븘 ??View 而댄룷?뚰듃?낅땲??
+// - 媛먮룆 愿?? 臾대? ???뚰뭹 ?꾩튂?쒖엯?덈떎. ?먮떒?섏? ?딄퀬 ?뚰뭹??蹂댁뿬 二쇰뒗 ?쇰쭔 留≪뒿?덈떎.
+// - ?좎?蹂댁닔 ?ъ씤?? 踰꾪듉 ?숈옉 ?먮떒, ?곗씠??濡쒕뵫, 洹몃９ ?꾪솚 濡쒖쭅? Controller??Manager???〓땲??
 // =============================================================================
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 /// <summary>
-/// 인벤토리 슬롯 한 칸의 표시 텍스트를 담당합니다.
-/// Game View에서는 "쌀 x2" 같은 슬롯 문구를 보여주는 작은 소품입니다.
+/// ?몃깽?좊━ ?щ’ ??移몄쓽 ?쒖떆 ?띿뒪?몃? ?대떦?⑸땲??
+/// Game View?먯꽌??"? x2" 媛숈? ?щ’ 臾멸뎄瑜?蹂댁뿬二쇰뒗 ?묒? ?뚰뭹?낅땲??
 /// </summary>
 [DisallowMultipleComponent]
 public class OOTechInventorySlotView : MonoBehaviour
@@ -29,7 +29,7 @@ public class OOTechInventorySlotView : MonoBehaviour
     [SerializeField] private Image Image_Icon;
 
     /// <summary>
-    /// 슬롯 안의 TMP 텍스트를 찾아 저장합니다.
+    /// ?щ’ ?덉쓽 TMP ?띿뒪?몃? 李얠븘 ??ν빀?덈떎.
     /// </summary>
     public void ResolveReferences()
     {
@@ -38,13 +38,13 @@ public class OOTechInventorySlotView : MonoBehaviour
 
         if (Image_Icon == null)
         {
-            Transform iconTransform = FindChildByName(transform, "Image_ItemIcon");
+            Transform iconTransform = RequestChildObjectByName(transform, "Image_ItemIcon");
             Image_Icon = iconTransform != null ? iconTransform.GetComponent<Image>() : null;
         }
     }
 
     /// <summary>
-    /// 슬롯에 표시할 아이템 이름과 수량 문구를 적용합니다.
+    /// ?щ’???쒖떆???꾩씠???대쫫怨??섎웾 臾멸뎄瑜??곸슜?⑸땲??
     /// </summary>
     public void RequestSetupText(string labelText)
     {
@@ -55,7 +55,7 @@ public class OOTechInventorySlotView : MonoBehaviour
     }
 
     /// <summary>
-    /// 슬롯에 아이템 아이콘과 이름/수량 문구를 함께 적용합니다.
+    /// ?щ’???꾩씠???꾩씠肄섍낵 ?대쫫/?섎웾 臾멸뎄瑜??④퍡 ?곸슜?⑸땲??
     /// </summary>
     public void RequestSetupItem(string itemDataId, string labelText, Sprite iconSprite)
     {
@@ -65,8 +65,8 @@ public class OOTechInventorySlotView : MonoBehaviour
     }
 
     /// <summary>
-    /// 인벤토리 슬롯 안에서 정사각형 음식 이미지와 이름/수량 텍스트가 겹치지 않게 배치합니다.
-    /// 영화로 치면 재료 사진은 소품 칸에, 이름표는 그 옆 설명 칸에 붙여 두는 일입니다.
+    /// ?몃깽?좊━ ?щ’ ?덉뿉???뺤궗媛곹삎 ?뚯떇 ?대?吏? ?대쫫/?섎웾 ?띿뒪?멸? 寃뱀튂吏 ?딄쾶 諛곗튂?⑸땲??
+    /// ?곹솕濡?移섎㈃ ?щ즺 ?ъ쭊? ?뚰뭹 移몄뿉, ?대쫫?쒕뒗 洹????ㅻ챸 移몄뿉 遺숈뿬 ?먮뒗 ?쇱엯?덈떎.
     /// </summary>
     private void RequestApplySlotLayout()
     {
@@ -93,8 +93,8 @@ public class OOTechInventorySlotView : MonoBehaviour
     }
 
     /// <summary>
-    /// JSON IconPath로 불러온 Sprite를 슬롯의 Image_ItemIcon 배우에게 전달합니다.
-    /// 아이콘이 아직 없을 때는 ItemCatalogManager가 임시 빈 아이콘을 넘겨 플레이어가 빈 자리를 알아볼 수 있게 합니다.
+    /// JSON IconPath濡?遺덈윭??Sprite瑜??щ’??Image_ItemIcon 諛곗슦?먭쾶 ?꾨떖?⑸땲??
+    /// ?꾩씠肄섏씠 ?꾩쭅 ?놁쓣 ?뚮뒗 ItemCatalogManager媛 ?꾩떆 鍮??꾩씠肄섏쓣 ?섍꺼 ?뚮젅?댁뼱媛 鍮??먮━瑜??뚯븘蹂????덇쾶 ?⑸땲??
     /// </summary>
     private void RequestApplyIconView(Sprite iconSprite)
     {
@@ -112,7 +112,7 @@ public class OOTechInventorySlotView : MonoBehaviour
         Image_Icon.color = iconColor;
     }
 
-    private Transform FindChildByName(Transform rootTransform, string childName)
+    private Transform RequestChildObjectByName(Transform rootTransform, string childName)
     {
         if (rootTransform == null)
             return null;
@@ -122,7 +122,7 @@ public class OOTechInventorySlotView : MonoBehaviour
 
         for (int index = 0; index < rootTransform.childCount; index++)
         {
-            Transform foundTransform = FindChildByName(rootTransform.GetChild(index), childName);
+            Transform foundTransform = RequestChildObjectByName(rootTransform.GetChild(index), childName);
 
             if (foundTransform != null)
                 return foundTransform;
@@ -131,3 +131,4 @@ public class OOTechInventorySlotView : MonoBehaviour
         return null;
     }
 }
+

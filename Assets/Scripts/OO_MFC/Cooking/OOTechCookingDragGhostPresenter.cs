@@ -1,9 +1,9 @@
-// =============================================================================
-// OO_MFC 역할 주석
-// - 스크립트: OOTechCookingDragGhostPresenter.cs
-// - 역할: 플레이어가 재료를 드래그할 때 따라다니는 아이콘 표시를 담당합니다.
-// - 감독 관점: 배우가 손에 들고 있는 소품이 관객에게 잘 보이도록 조명과 크기를 맞추는 소품 담당입니다.
-// - 유지보수 포인트: 드래그 UI를 새로 만들 때 Controller가 아니라 이 Presenter만 수정합니다.
+﻿// =============================================================================
+// OO_MFC ??븷 二쇱꽍
+// - ?ㅽ겕由쏀듃: OOTechCookingDragGhostPresenter.cs
+// - ??븷: ?뚮젅?댁뼱媛 ?щ즺瑜??쒕옒洹명븷 ???곕씪?ㅻ땲???꾩씠肄??쒖떆瑜??대떦?⑸땲??
+// - 媛먮룆 愿?? 諛곗슦媛 ?먯뿉 ?ㅺ퀬 ?덈뒗 ?뚰뭹??愿媛앹뿉寃???蹂댁씠?꾨줉 議곕챸怨??ш린瑜?留욎텛???뚰뭹 ?대떦?낅땲??
+// - ?좎?蹂댁닔 ?ъ씤?? ?쒕옒洹?UI瑜??덈줈 留뚮뱾 ??Controller媛 ?꾨땲????Presenter留??섏젙?⑸땲??
 // =============================================================================
 using TMPro;
 using UnityEngine;
@@ -12,7 +12,7 @@ using UnityEngine.UI;
 public class OOTechCookingDragGhostPresenter
 {
     /// <summary>
-    /// 미리 만들어 둔 DragGhost 템플릿을 복제해 아이콘만 보이게 설정합니다.
+    /// 誘몃━ 留뚮뱾????DragGhost ?쒗뵆由우쓣 蹂듭젣???꾩씠肄섎쭔 蹂댁씠寃??ㅼ젙?⑸땲??
     /// </summary>
     public RectTransform RequestCreateDragGhost(RectTransform rootRect, RectTransform dragGhostTemplate, string itemDataId, Vector2 screenPosition, int itemQuantity, Vector2 iconSize)
     {
@@ -97,11 +97,11 @@ public class OOTechCookingDragGhostPresenter
 
     private Image RequestFindImage(Transform rootTransform, string childName)
     {
-        Transform childTransform = RequestFindChildByName(rootTransform, childName);
+        Transform childTransform = RequestChildTransformByName(rootTransform, childName);
         return childTransform != null ? childTransform.GetComponent<Image>() : null;
     }
 
-    private Transform RequestFindChildByName(Transform rootTransform, string childName)
+    private Transform RequestChildTransformByName(Transform rootTransform, string childName)
     {
         if (rootTransform == null)
             return null;
@@ -111,7 +111,7 @@ public class OOTechCookingDragGhostPresenter
 
         for (int index = 0; index < rootTransform.childCount; index++)
         {
-            Transform foundTransform = RequestFindChildByName(rootTransform.GetChild(index), childName);
+            Transform foundTransform = RequestChildTransformByName(rootTransform.GetChild(index), childName);
 
             if (foundTransform != null)
                 return foundTransform;
@@ -120,3 +120,4 @@ public class OOTechCookingDragGhostPresenter
         return null;
     }
 }
+

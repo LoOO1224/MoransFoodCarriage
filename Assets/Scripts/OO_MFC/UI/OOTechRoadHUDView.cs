@@ -1,17 +1,17 @@
-// =============================================================================
-// OO_MFC 역할 주석
-// - 스크립트: OOTechRoadHUDView.cs
-// - 역할: UI 하이어라키의 버튼, 이미지, 텍스트 참조를 모아 둔 View 컴포넌트입니다.
-// - 감독 관점: 무대 위 소품 위치표입니다. 판단하지 않고 소품을 보여 주는 일만 맡습니다.
-// - 유지보수 포인트: 버튼 동작 판단, 데이터 로딩, 그룹 전환 로직은 Controller나 Manager에 둡니다.
+﻿// =============================================================================
+// OO_MFC ??븷 二쇱꽍
+// - ?ㅽ겕由쏀듃: OOTechRoadHUDView.cs
+// - ??븷: UI ?섏씠?대씪?ㅼ쓽 踰꾪듉, ?대?吏, ?띿뒪??李몄“瑜?紐⑥븘 ??View 而댄룷?뚰듃?낅땲??
+// - 媛먮룆 愿?? 臾대? ???뚰뭹 ?꾩튂?쒖엯?덈떎. ?먮떒?섏? ?딄퀬 ?뚰뭹??蹂댁뿬 二쇰뒗 ?쇰쭔 留≪뒿?덈떎.
+// - ?좎?蹂댁닔 ?ъ씤?? 踰꾪듉 ?숈옉 ?먮떒, ?곗씠??濡쒕뵫, 洹몃９ ?꾪솚 濡쒖쭅? Controller??Manager???〓땲??
 // =============================================================================
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 /// <summary>
-/// HUDUIGroup 안에 배치된 버튼, 패널, NEW 배지를 한 번에 들고 있는 View 컴포넌트입니다.
-/// 감독은 이 View를 통해 실제 씬 소품을 만지고, 정적 HUD 오브젝트는 사용자가 직접 편집할 수 있습니다.
+/// HUDUIGroup ?덉뿉 諛곗튂??踰꾪듉, ?⑤꼸, NEW 諛곗?瑜???踰덉뿉 ?ㅺ퀬 ?덈뒗 View 而댄룷?뚰듃?낅땲??
+/// 媛먮룆? ??View瑜??듯빐 ?ㅼ젣 ???뚰뭹??留뚯?怨? ?뺤쟻 HUD ?ㅻ툕?앺듃???ъ슜?먭? 吏곸젒 ?몄쭛?????덉뒿?덈떎.
 /// </summary>
 [DisallowMultipleComponent]
 public class OOTechRoadHUDView : MonoBehaviour
@@ -90,8 +90,8 @@ public class OOTechRoadHUDView : MonoBehaviour
     public Button MainMenuConfirmNoButton => Button_MainMenuConfirmNo;
 
     /// <summary>
-    /// 인스펙터 참조가 비어 있을 때 자식 이름으로 HUD 소품을 다시 연결합니다.
-    /// Game View에서는 인벤토리, 도감, 임무, 요리하기, 월드맵 버튼이 여기서 잡힙니다.
+    /// ?몄뒪?숉꽣 李몄“媛 鍮꾩뼱 ?덉쓣 ???먯떇 ?대쫫?쇰줈 HUD ?뚰뭹???ㅼ떆 ?곌껐?⑸땲??
+    /// Game View?먯꽌???몃깽?좊━, ?꾧컧, ?꾨Т, ?붾━?섍린, ?붾뱶留?踰꾪듉???ш린???≫옓?덈떎.
     /// </summary>
     public void ResolveReferences()
     {
@@ -120,13 +120,13 @@ public class OOTechRoadHUDView : MonoBehaviour
 
         if (Scroll_InventorySlots == null)
         {
-            Transform scrollTransform = FindChildByName(transform, "Scroll_InventorySlots");
+            Transform scrollTransform = RequestChildObjectByName(transform, "Scroll_InventorySlots");
             Scroll_InventorySlots = scrollTransform != null ? scrollTransform.GetComponent<ScrollRect>() : null;
         }
 
         if (Rect_InventoryContent == null)
         {
-            Transform contentTransform = FindChildByName(transform, "Content");
+            Transform contentTransform = RequestChildObjectByName(transform, "Content");
             Rect_InventoryContent = contentTransform as RectTransform;
         }
 
@@ -150,7 +150,7 @@ public class OOTechRoadHUDView : MonoBehaviour
         if (currentObject != null)
             return currentObject;
 
-        Transform targetTransform = FindChildByName(transform, objectName);
+        Transform targetTransform = RequestChildObjectByName(transform, objectName);
         return targetTransform != null ? targetTransform.gameObject : null;
     }
 
@@ -165,7 +165,7 @@ public class OOTechRoadHUDView : MonoBehaviour
         if (currentButton != null)
             return currentButton;
 
-        Transform targetTransform = FindChildByName(transform, objectName);
+        Transform targetTransform = RequestChildObjectByName(transform, objectName);
         return targetTransform != null ? targetTransform.GetComponent<Button>() : null;
     }
 
@@ -180,7 +180,7 @@ public class OOTechRoadHUDView : MonoBehaviour
         if (currentRect != null)
             return currentRect;
 
-        Transform targetTransform = FindChildByName(transform, objectName);
+        Transform targetTransform = RequestChildObjectByName(transform, objectName);
         return targetTransform as RectTransform;
     }
 
@@ -189,7 +189,7 @@ public class OOTechRoadHUDView : MonoBehaviour
         if (currentText != null)
             return currentText;
 
-        Transform targetTransform = FindChildByName(transform, objectName);
+        Transform targetTransform = RequestChildObjectByName(transform, objectName);
         return targetTransform != null ? targetTransform.GetComponent<TextMeshProUGUI>() : null;
     }
 
@@ -199,7 +199,7 @@ public class OOTechRoadHUDView : MonoBehaviour
         return targetText != null ? targetText : ResolveText(currentText, fallbackName);
     }
 
-    private Transform FindChildByName(Transform rootTransform, string objectName)
+    private Transform RequestChildObjectByName(Transform rootTransform, string objectName)
     {
         if (rootTransform == null)
             return null;
@@ -209,7 +209,7 @@ public class OOTechRoadHUDView : MonoBehaviour
 
         for (int index = 0; index < rootTransform.childCount; index++)
         {
-            Transform foundTransform = FindChildByName(rootTransform.GetChild(index), objectName);
+            Transform foundTransform = RequestChildObjectByName(rootTransform.GetChild(index), objectName);
 
             if (foundTransform != null)
                 return foundTransform;
@@ -218,3 +218,4 @@ public class OOTechRoadHUDView : MonoBehaviour
         return null;
     }
 }
+

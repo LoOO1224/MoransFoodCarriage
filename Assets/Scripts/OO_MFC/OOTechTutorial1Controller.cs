@@ -742,7 +742,8 @@ public class OOTechTutorial1Controller : MonoBehaviour
         if (Group_EButton == null)
             return;
 
-        Transform buttonTransform = Group_EButton.transform.Find("Button");
+        GameObject buttonObject = OOTechSceneQuery.RequestChildObjectByName(Group_EButton.transform, "Button");
+        Transform buttonTransform = buttonObject != null ? buttonObject.transform : null;
 
         if (buttonTransform != null)
             Rect_EButton = buttonTransform as RectTransform;

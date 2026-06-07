@@ -6,7 +6,7 @@ TextureImporter:
   serializedVersion: 13
   mipmaps:
     mipMapMode: 0
-    enableMipMap: 1
+    enableMipMap: 0
     sRGBTexture: 1
     linearTexture: 0
     fadeOut: 0
@@ -37,13 +37,13 @@ TextureImporter:
     filterMode: 1
     aniso: 1
     mipBias: 0
-    wrapU: 0
-    wrapV: 0
+    wrapU: 1
+    wrapV: 1
     wrapW: 0
-  nPOTScale: 1
+  nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 0
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -52,9 +52,9 @@ TextureImporter:
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
-  alphaIsTransparency: 0
+  alphaIsTransparency: 1
   spriteTessellationDetail: -1
-  textureType: 0
+  textureType: 8
   textureShape: 1
   singleChannelComponent: 0
   flipbookRows: 1
@@ -95,12 +95,562 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: Rabbit-rabbit_issleeping_0
+      rect:
+        serializedVersion: 2
+        x: 42
+        y: 1074
+        width: 175
+        height: 63
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2b9481096d8fbb449905147d76eaa7fa
+      internalID: -524477226
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rabbit-rabbit_issleeping_1
+      rect:
+        serializedVersion: 2
+        x: 299
+        y: 1074
+        width: 175
+        height: 62
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5508c4bae4ce0754c80d80da4c8d4dba
+      internalID: 394247639
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rabbit-rabbit_issleeping_2
+      rect:
+        serializedVersion: 2
+        x: 558
+        y: 1074
+        width: 173
+        height: 63
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b90757fc50feffa4e8d10aecc863cbcc
+      internalID: 1180734688
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rabbit-rabbit_issleeping_3
+      rect:
+        serializedVersion: 2
+        x: 827
+        y: 1074
+        width: 160
+        height: 70
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 100c8e3f693ed7c4dab34577abbeda01
+      internalID: 841892720
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rabbit-rabbit_issleeping_4
+      rect:
+        serializedVersion: 2
+        x: 1086
+        y: 1074
+        width: 157
+        height: 74
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 45078667eaf304742bfdb5f85cbb218a
+      internalID: 768402389
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rabbit-rabbit_issleeping_5
+      rect:
+        serializedVersion: 2
+        x: 63
+        y: 818
+        width: 156
+        height: 75
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1ab5ea39830f63e468de119d21f94e96
+      internalID: -2140480711
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rabbit-rabbit_issleeping_6
+      rect:
+        serializedVersion: 2
+        x: 322
+        y: 819
+        width: 153
+        height: 75
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 200d94682f231934cbe9bc22dd3ec9e8
+      internalID: 1615615545
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rabbit-rabbit_issleeping_7
+      rect:
+        serializedVersion: 2
+        x: 578
+        y: 819
+        width: 152
+        height: 76
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fd59eb8d423172242b9a147d2f62ef2b
+      internalID: 506257687
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rabbit-rabbit_issleeping_8
+      rect:
+        serializedVersion: 2
+        x: 834
+        y: 819
+        width: 152
+        height: 77
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: aeaf79135cb8da74e899b8f191b84708
+      internalID: -441980184
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rabbit-rabbit_issleeping_9
+      rect:
+        serializedVersion: 2
+        x: 1091
+        y: 819
+        width: 151
+        height: 77
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bcbd116bd2433704d9fbff6296463b04
+      internalID: 713669202
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rabbit-rabbit_issleeping_10
+      rect:
+        serializedVersion: 2
+        x: 67
+        y: 563
+        width: 151
+        height: 77
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bd3ed826bc5edd2469acdd66fb66e01b
+      internalID: 749886997
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rabbit-rabbit_issleeping_11
+      rect:
+        serializedVersion: 2
+        x: 323
+        y: 563
+        width: 151
+        height: 76
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1d5dcd6688c289f4aa218ac47e132b06
+      internalID: 990467608
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rabbit-rabbit_issleeping_12
+      rect:
+        serializedVersion: 2
+        x: 576
+        y: 563
+        width: 154
+        height: 76
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f36add92d4c4bb24da9ee383e31836ec
+      internalID: -836306831
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rabbit-rabbit_issleeping_13
+      rect:
+        serializedVersion: 2
+        x: 829
+        y: 563
+        width: 157
+        height: 75
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: afb24b533551e624fb53b5ee7b95b471
+      internalID: -207249251
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rabbit-rabbit_issleeping_14
+      rect:
+        serializedVersion: 2
+        x: 1082
+        y: 563
+        width: 161
+        height: 74
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 81c88c0558f4acd419e1a9e04b2db031
+      internalID: -1020362404
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rabbit-rabbit_issleeping_15
+      rect:
+        serializedVersion: 2
+        x: 58
+        y: 307
+        width: 161
+        height: 74
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a15645a6dc2ba6f4c8e536b23e8b9e56
+      internalID: 927934448
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rabbit-rabbit_issleeping_16
+      rect:
+        serializedVersion: 2
+        x: 313
+        y: 307
+        width: 162
+        height: 73
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 01e003d5d2d54d34f94db01d4e712d73
+      internalID: 1336767978
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rabbit-rabbit_issleeping_17
+      rect:
+        serializedVersion: 2
+        x: 569
+        y: 307
+        width: 162
+        height: 73
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7c4295c56f0cafe45b8486e8554ecb1b
+      internalID: -1275818791
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rabbit-rabbit_issleeping_18
+      rect:
+        serializedVersion: 2
+        x: 825
+        y: 307
+        width: 162
+        height: 73
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 66e8002252e3a3c4ba1d2b64ce56277b
+      internalID: -156901960
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rabbit-rabbit_issleeping_19
+      rect:
+        serializedVersion: 2
+        x: 1081
+        y: 307
+        width: 162
+        height: 72
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cee2b6db493975c42a067007d4254e07
+      internalID: -1971268177
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rabbit-rabbit_issleeping_20
+      rect:
+        serializedVersion: 2
+        x: 57
+        y: 51
+        width: 162
+        height: 72
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e75c55fc29ab597458c04dd89584d6ea
+      internalID: -949186380
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rabbit-rabbit_issleeping_21
+      rect:
+        serializedVersion: 2
+        x: 313
+        y: 51
+        width: 162
+        height: 72
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 59ce3c646332b2a4897746395fd89992
+      internalID: 1314808562
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rabbit-rabbit_issleeping_22
+      rect:
+        serializedVersion: 2
+        x: 569
+        y: 51
+        width: 162
+        height: 72
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7bccb52873056b14c96a5e1d430dde80
+      internalID: 124364580
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rabbit-rabbit_issleeping_23
+      rect:
+        serializedVersion: 2
+        x: 825
+        y: 51
+        width: 162
+        height: 72
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8bbef626e564152498c01d58357c1b30
+      internalID: -1393850168
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rabbit-rabbit_issleeping_24
+      rect:
+        serializedVersion: 2
+        x: 1080
+        y: 51
+        width: 163
+        height: 72
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0c24bcfbcc845f9419d475d8fda24a1a
+      internalID: 1479342838
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 6d65afa8d7f9ce44dbfbfc00f068d8ce
     internalID: 0
     vertices: []
     indices: 
@@ -108,8 +658,35 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
-    nameFileIdTable: {}
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      Rabbit-rabbit_issleeping_0: -524477226
+      Rabbit-rabbit_issleeping_1: 394247639
+      Rabbit-rabbit_issleeping_10: 749886997
+      Rabbit-rabbit_issleeping_11: 990467608
+      Rabbit-rabbit_issleeping_12: -836306831
+      Rabbit-rabbit_issleeping_13: -207249251
+      Rabbit-rabbit_issleeping_14: -1020362404
+      Rabbit-rabbit_issleeping_15: 927934448
+      Rabbit-rabbit_issleeping_16: 1336767978
+      Rabbit-rabbit_issleeping_17: -1275818791
+      Rabbit-rabbit_issleeping_18: -156901960
+      Rabbit-rabbit_issleeping_19: -1971268177
+      Rabbit-rabbit_issleeping_2: 1180734688
+      Rabbit-rabbit_issleeping_20: -949186380
+      Rabbit-rabbit_issleeping_21: 1314808562
+      Rabbit-rabbit_issleeping_22: 124364580
+      Rabbit-rabbit_issleeping_23: -1393850168
+      Rabbit-rabbit_issleeping_24: 1479342838
+      Rabbit-rabbit_issleeping_3: 841892720
+      Rabbit-rabbit_issleeping_4: 768402389
+      Rabbit-rabbit_issleeping_5: -2140480711
+      Rabbit-rabbit_issleeping_6: 1615615545
+      Rabbit-rabbit_issleeping_7: 506257687
+      Rabbit-rabbit_issleeping_8: -441980184
+      Rabbit-rabbit_issleeping_9: 713669202
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

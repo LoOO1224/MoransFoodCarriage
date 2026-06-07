@@ -69,7 +69,8 @@ public class OOTechDialogueLayout : MonoBehaviour
 
         if (Rect_SpeakerName == null)
         {
-            Transform speakerName = transform.Find("SpeakerNameText");
+            GameObject speakerNameObject = OOTechSceneQuery.RequestChildObjectByName(transform, "SpeakerNameText");
+            Transform speakerName = speakerNameObject != null ? speakerNameObject.transform : null;
             Rect_SpeakerName = speakerName as RectTransform;
         }
 

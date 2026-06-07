@@ -1,19 +1,19 @@
-// =============================================================================
-// OO_MFC 역할 주석
-// - 스크립트: OOTechWorldMapOverlayController.cs
-// - 역할: WorldMapGroup이 열렸을 때 카메라를 월드맵 배경에 맞추고 안내창을 관리합니다.
-// - 영화 비유: 월드맵 무대가 열리면 촬영감독이 전체 세트를 한눈에 잡고,
-//   안내 스태프가 "초상화 워프 기능은 발표 전 업데이트 예정" 팻말을 잠깐 보여줍니다.
-// - 유지보수 포인트: 실제 안내창 오브젝트는 WorldMapGuideUIGroup에 두고,
-//   이 Controller는 켜기/끄기와 카메라 지휘만 담당합니다.
+﻿// =============================================================================
+// OO_MFC ??븷 二쇱꽍
+// - ?ㅽ겕由쏀듃: OOTechWorldMapOverlayController.cs
+// - ??븷: WorldMapGroup???대졇????移대찓?쇰? ?붾뱶留?諛곌꼍??留욎텛怨??덈궡李쎌쓣 愿由ы빀?덈떎.
+// - ?곹솕 鍮꾩쑀: ?붾뱶留?臾대?媛 ?대━硫?珥ъ쁺媛먮룆???꾩껜 ?명듃瑜??쒕늿???↔퀬,
+//   ?덈궡 ?ㅽ깭?꾧? "珥덉긽???뚰봽 湲곕뒫? 諛쒗몴 ???낅뜲?댄듃 ?덉젙" ?삳쭚???좉퉸 蹂댁뿬以띾땲??
+// - ?좎?蹂댁닔 ?ъ씤?? ?ㅼ젣 ?덈궡李??ㅻ툕?앺듃??WorldMapGuideUIGroup???먭퀬,
+//   ??Controller??耳쒓린/?꾧린? 移대찓??吏?섎쭔 ?대떦?⑸땲??
 // =============================================================================
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 /// <summary>
-/// WorldMapGroup 전용 오버레이 진행을 담당합니다.
-/// Game View에서는 월드맵 전체가 보이고, 안내창을 클릭하면 창만 닫힌 뒤 돌아가기 버튼으로 이전 장면에 복귀합니다.
+/// WorldMapGroup ?꾩슜 ?ㅻ쾭?덉씠 吏꾪뻾???대떦?⑸땲??
+/// Game View?먯꽌???붾뱶留??꾩껜媛 蹂댁씠怨? ?덈궡李쎌쓣 ?대┃?섎㈃ 李쎈쭔 ?ロ엺 ???뚯븘媛湲?踰꾪듉?쇰줈 ?댁쟾 ?λ㈃??蹂듦??⑸땲??
 /// </summary>
 [DisallowMultipleComponent]
 public class OOTechWorldMapOverlayController : MonoBehaviour
@@ -25,6 +25,8 @@ public class OOTechWorldMapOverlayController : MonoBehaviour
 
     [Header("Drag")]
     [SerializeField] private bool _isEnableMapDrag = true;
+    [SerializeField] private float _wheelZoomSpeed = 0.18f;
+    [SerializeField] private float _minimumZoomRatio = 0.55f;
 
     [Header("Guide")]
     [SerializeField] private bool _isShowAnnouncementOnOpen = true;
@@ -32,12 +34,13 @@ public class OOTechWorldMapOverlayController : MonoBehaviour
     [SerializeField] private int _guideSortingOrder = 1680;
     [SerializeField] private string _guideTitle = "월드맵";
     [TextArea(3, 8)]
-    [SerializeField] private string _guideDescription = "월드맵은 발표 전 업데이트 예정입니다.\n각 스테이지의 중요 인물들 초상화를 걸고, 클릭하면 그곳으로 바로 워프되는 기능을 구현 예정입니다.";
+    [SerializeField] private string _guideDescription = "?붾뱶留듭? 諛쒗몴 ???낅뜲?댄듃 ?덉젙?낅땲??\n媛??ㅽ뀒?댁???以묒슂 ?몃Ъ??珥덉긽?붾? 嫄멸퀬, ?대┃?섎㈃ 洹멸납?쇰줈 諛붾줈 ?뚰봽?섎뒗 湲곕뒫??援ы쁽 ?덉젙?낅땲??";
 
     private CameraFollowController Camera_Follow;
     private OOTechWorldMapOverlayView View_Overlay;
     private GameObject Root_GuideCanvas;
     private Bounds _mapBounds;
+    private float _baseMapOrthographicSize;
     private bool _hasMapBounds;
     private bool _hasSavedCameraState;
     private bool _isDraggingMap;
@@ -50,11 +53,12 @@ public class OOTechWorldMapOverlayController : MonoBehaviour
     private Vector3 _dragStartCameraPosition;
 
     /// <summary>
-    /// 월드맵 무대가 열릴 때 전체 지도에 카메라를 맞추고 안내창을 켭니다.
+    /// ?붾뱶留?臾대?媛 ?대┫ ???꾩껜 吏?꾩뿉 移대찓?쇰? 留욎텛怨??덈궡李쎌쓣 耳?땲??
     /// </summary>
     private void OnEnable()
     {
         _isGuideClosed = false;
+        ApplyStageClearPortraitState();
         ApplyWorldMapCameraView();
 
         if (_isShowAnnouncementOnOpen)
@@ -64,7 +68,7 @@ public class OOTechWorldMapOverlayController : MonoBehaviour
     }
 
     /// <summary>
-    /// 월드맵 무대를 닫을 때 카메라를 이전 Road/Stage 시점으로 돌려놓습니다.
+    /// ?붾뱶留?臾대?瑜??レ쓣 ??移대찓?쇰? ?댁쟾 Road/Stage ?쒖젏?쇰줈 ?뚮젮?볦뒿?덈떎.
     /// </summary>
     private void OnDisable()
     {
@@ -74,16 +78,17 @@ public class OOTechWorldMapOverlayController : MonoBehaviour
     }
 
     /// <summary>
-    /// 안내창 클릭 닫기와 월드맵 드래그 입력을 매 프레임 확인합니다.
+    /// ?덈궡李??대┃ ?リ린? ?붾뱶留??쒕옒洹??낅젰??留??꾨젅???뺤씤?⑸땲??
     /// </summary>
     private void Update()
     {
         HandleGuideCloseInput();
+        HandleWheelZoomInput();
         HandleMapDragInput();
     }
 
     /// <summary>
-    /// 월드맵 배경 SpriteRenderer가 화면에 한눈에 들어오도록 카메라 위치와 크기를 맞춥니다.
+    /// ?붾뱶留?諛곌꼍 SpriteRenderer媛 ?붾㈃???쒕늿???ㅼ뼱?ㅻ룄濡?移대찓???꾩튂? ?ш린瑜?留욎땅?덈떎.
     /// </summary>
     public void ApplyWorldMapCameraView()
     {
@@ -114,13 +119,37 @@ public class OOTechWorldMapOverlayController : MonoBehaviour
         if (_maximumOrthographicSize > 0f)
             targetSize = Mathf.Min(targetSize, _maximumOrthographicSize);
 
+        _baseMapOrthographicSize = Mathf.Max(0.1f, targetSize);
+
         Vector3 cameraPosition = _mapBounds.center;
         cameraPosition.z = Camera_Main.transform.position.z;
 
         Camera_Main.orthographic = true;
-        Camera_Main.orthographicSize = Mathf.Max(0.1f, targetSize);
+        Camera_Main.orthographicSize = _baseMapOrthographicSize;
         Camera_Main.transform.position = cameraPosition;
         ClampCameraToMapBounds();
+    }
+
+    private void ApplyStageClearPortraitState()
+    {
+        ApplySingleStagePortraitState("Stage1", "S1_1", "S1_2");
+        ApplySingleStagePortraitState("Stage2", "S2_1", "S2_2");
+        ApplySingleStagePortraitState("Stage3", "S3_1", "S3_2");
+    }
+
+    private void ApplySingleStagePortraitState(string stageId, string aliveObjectName, string clearObjectName)
+    {
+        bool isCleared = OOTechGameManager.Inst != null && OOTechGameManager.Inst.IsStageCleared(stageId);
+        SetChildActive(aliveObjectName, !isCleared);
+        SetChildActive(clearObjectName, isCleared);
+    }
+
+    private void SetChildActive(string childName, bool isActive)
+    {
+        Transform childTransform = RequestChildObjectByName(transform, childName);
+
+        if (childTransform != null)
+            childTransform.gameObject.SetActive(isActive);
     }
 
     private void RestoreCameraView()
@@ -306,9 +335,48 @@ public class OOTechWorldMapOverlayController : MonoBehaviour
         ClampCameraToMapBounds();
     }
 
+    private void HandleWheelZoomInput()
+    {
+        if (Camera_Main == null || !_hasMapBounds || !Camera_Main.orthographic)
+            return;
+
+        if (Root_GuideCanvas != null && Root_GuideCanvas.activeInHierarchy)
+            return;
+
+        float scrollDelta = Input.mouseScrollDelta.y;
+
+        if (Mathf.Abs(scrollDelta) <= 0.01f)
+            return;
+
+        float minimumSize = _baseMapOrthographicSize * Mathf.Clamp(_minimumZoomRatio, 0.1f, 1f);
+        float maximumSize = _maximumOrthographicSize > 0f ? _maximumOrthographicSize : _baseMapOrthographicSize;
+        float targetSize = Camera_Main.orthographicSize * (1f - scrollDelta * _wheelZoomSpeed);
+        Camera_Main.orthographicSize = Mathf.Clamp(targetSize, minimumSize, maximumSize);
+        ClampCameraToMapBounds();
+    }
+
     private bool IsPointerOverUI()
     {
         return EventSystem.current != null && EventSystem.current.IsPointerOverGameObject();
+    }
+
+    private Transform RequestChildObjectByName(Transform rootTransform, string objectName)
+    {
+        if (rootTransform == null || string.IsNullOrWhiteSpace(objectName))
+            return null;
+
+        if (rootTransform.name == objectName)
+            return rootTransform;
+
+        for (int index = 0; index < rootTransform.childCount; index++)
+        {
+            Transform foundTransform = RequestChildObjectByName(rootTransform.GetChild(index), objectName);
+
+            if (foundTransform != null)
+                return foundTransform;
+        }
+
+        return null;
     }
 
     private void ClampCameraToMapBounds()
@@ -334,3 +402,4 @@ public class OOTechWorldMapOverlayController : MonoBehaviour
         Camera_Main.transform.position = cameraPosition;
     }
 }
+

@@ -1,32 +1,33 @@
-// =============================================================================
-// OO_MFC 역할 주석
-// - 스크립트: OOTechSenario1Controller.cs
-// - 역할: 해당 그룹의 튜토리얼/시나리오 진행 순서를 담당하는 장면 Controller입니다.
-// - 감독 관점: 배우 등장, 대사, 카메라 포커스, 다음 장면 이동을 큐시트 순서대로 지휘합니다.
-// - 유지보수 포인트: 캐릭터 이동/아이템/버튼 생성 같은 세부 책임은 별도 컴포넌트로 분리해야 합니다.
+﻿// =============================================================================
+// OO_MFC ??븷 二쇱꽍
+// - ?ㅽ겕由쏀듃: OOTechSenario1Controller.cs
+// - ??븷: ?대떦 洹몃９???쒗넗由ъ뼹/?쒕굹由ъ삤 吏꾪뻾 ?쒖꽌瑜??대떦?섎뒗 ?λ㈃ Controller?낅땲??
+// - 媛먮룆 愿?? 諛곗슦 ?깆옣, ??? 移대찓???ъ빱?? ?ㅼ쓬 ?λ㈃ ?대룞???먯떆???쒖꽌?濡?吏?섑빀?덈떎.
+// - ?좎?蹂댁닔 ?ъ씤?? 罹먮┃???대룞/?꾩씠??踰꾪듉 ?앹꽦 媛숈? ?몃? 梨낆엫? 蹂꾨룄 而댄룷?뚰듃濡?遺꾨━?댁빞 ?⑸땲??
 // =============================================================================
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 /// <summary>
-/// Senario1Group 전체 흐름을 지휘하는 콜시트 컨트롤러입니다.
-/// 시작 튜토리얼, 재익 조작, 음식 상호작용, 변신, 카메라 포커스, 대화, 완료 버튼 순서를 관리합니다.
+/// Senario1Group ?꾩껜 ?먮쫫??吏?섑븯??肄쒖떆??而⑦듃濡ㅻ윭?낅땲??
+/// ?쒖옉 ?쒗넗由ъ뼹, ?ъ씡 議곗옉, ?뚯떇 ?곹샇?묒슜, 蹂?? 移대찓???ъ빱?? ??? ?꾨즺 踰꾪듉 ?쒖꽌瑜?愿由ы빀?덈떎.
 /// </summary>
 public class OOTechSenario1Controller : MonoBehaviour
 {
-    // 읽는 순서:
-    // 1. OnEnable/Start 계열: Senario1Group 입장 직후 카메라, 배경, Jaeik 조작 잠금을 준비합니다.
-    // 2. TutorialGuide 관련 메서드: 시작 안내 문구를 데이터 드리븐으로 띄우고 조작을 해제합니다.
-    // 3. Jaeik 상호작용 관련 메서드: 음식 근처 E 입력, 먹기 애니메이션, 변신 연출을 진행합니다.
-    // 4. DialogueSequence 관련 메서드: 나레이션, 재익군, 춘양, 모란 대사를 순서대로 진행합니다.
-    // 5. CameraFocus 관련 메서드: 현재 말하는 배우에게 카메라 포커스를 넘깁니다.
-    // 유지보수 주의:
-    // - 캐릭터 이동은 OOTechJaeikController 같은 캐릭터 컴포넌트에 맡깁니다.
-    // - 배경/캐릭터 참조는 OOTechSceneContext와 OOTechSceneObject 역할표를 우선 사용합니다.
-    // - 이 Controller가 UI 생성까지 맡기 시작하면 버그가 커지므로, UI는 별도 View/Group에서 관리합니다.
+    // ?쎈뒗 ?쒖꽌:
+    // 1. OnEnable/Start 怨꾩뿴: Senario1Group ?낆옣 吏곹썑 移대찓?? 諛곌꼍, Jaeik 議곗옉 ?좉툑??以鍮꾪빀?덈떎.
+    // 2. TutorialGuide 愿??硫붿꽌?? ?쒖옉 ?덈궡 臾멸뎄瑜??곗씠???쒕━釉먯쑝濡??꾩슦怨?議곗옉???댁젣?⑸땲??
+    // 3. Jaeik ?곹샇?묒슜 愿??硫붿꽌?? ?뚯떇 洹쇱쿂 E ?낅젰, 癒밴린 ?좊땲硫붿씠?? 蹂???곗텧??吏꾪뻾?⑸땲??
+    // 4. DialogueSequence 愿??硫붿꽌?? ?섎젅?댁뀡, ?ъ씡援? 異섏뼇, 紐⑤? ??щ? ?쒖꽌?濡?吏꾪뻾?⑸땲??
+    // 5. CameraFocus 愿??硫붿꽌?? ?꾩옱 留먰븯??諛곗슦?먭쾶 移대찓???ъ빱?ㅻ? ?섍퉩?덈떎.
+    // ?좎?蹂댁닔 二쇱쓽:
+    // - 罹먮┃???대룞? OOTechJaeikController 媛숈? 罹먮┃??而댄룷?뚰듃??留↔퉩?덈떎.
+    // - 諛곌꼍/罹먮┃??李몄“??OOTechSceneContext? OOTechSceneObject ??븷?쒕? ?곗꽑 ?ъ슜?⑸땲??
+    // - ??Controller媛 UI ?앹꽦源뚯? 留↔린 ?쒖옉?섎㈃ 踰꾧렇媛 而ㅼ?誘濡? UI??蹂꾨룄 View/Group?먯꽌 愿由ы빀?덈떎.
 
     private const string _roleJaeik = "Jaeik";
     private const string _roleQuestObject = "QuestObject";
@@ -172,7 +173,7 @@ public class OOTechSenario1Controller : MonoBehaviour
     private float _originCameraOrthographicSize;
 
     /// <summary>
-    /// Scenario1 무대가 켜지면 전체 진행 루틴을 시작합니다.
+    /// Scenario1 臾대?媛 耳쒖?硫??꾩껜 吏꾪뻾 猷⑦떞???쒖옉?⑸땲??
     /// </summary>
     private void OnEnable()
     {
@@ -181,7 +182,7 @@ public class OOTechSenario1Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// Scenario1 무대가 꺼질 때 코루틴, UI, 시간 정지, 이펙트를 모두 정리합니다.
+    /// Scenario1 臾대?媛 爰쇱쭏 ??肄붾（?? UI, ?쒓컙 ?뺤?, ?댄럺?몃? 紐⑤몢 ?뺣━?⑸땲??
     /// </summary>
     private void OnDisable()
     {
@@ -197,8 +198,8 @@ public class OOTechSenario1Controller : MonoBehaviour
 
     private IEnumerator StartSenario1GroupRoutine()
     {
-        // 이 루틴은 Senario1Group의 콜시트입니다.
-        // 무대가 열리면 세트와 배우를 초기 위치로 세팅하고, 튜토리얼 안내가 끝난 뒤에만 조작권을 넘깁니다.
+        // ??猷⑦떞? Senario1Group??肄쒖떆?몄엯?덈떎.
+        // 臾대?媛 ?대━硫??명듃? 諛곗슦瑜?珥덇린 ?꾩튂濡??명똿?섍퀬, ?쒗넗由ъ뼹 ?덈궡媛 ?앸궃 ?ㅼ뿉留?議곗옉沅뚯쓣 ?섍퉩?덈떎.
         _isInitialGuideFinished = false;
         _isQuestSequenceStarted = false;
 
@@ -222,42 +223,42 @@ public class OOTechSenario1Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// 씬에 있는 배우, 배경, UI, BGM 참조를 모두 수집합니다.
-    /// 역할표가 있으면 먼저 쓰고, 없으면 이름 검색으로 보조합니다.
+    /// ?ъ뿉 ?덈뒗 諛곗슦, 諛곌꼍, UI, BGM 李몄“瑜?紐⑤몢 ?섏쭛?⑸땲??
+    /// ??븷?쒓? ?덉쑝硫?癒쇱? ?곌퀬, ?놁쑝硫??대쫫 寃?됱쑝濡?蹂댁“?⑸땲??
     /// </summary>
     private void CacheAllReferences()
     {
         CacheSceneContextReference();
 
         if (Transform_Jaeik == null)
-            Transform_Jaeik = FindChildTransform(_jaeikObjectName);
+            Transform_Jaeik = RequestChildTransform(_jaeikObjectName);
 
         if (Transform_QuestObject == null)
-            Transform_QuestObject = FindChildTransform(_questObjectName);
+            Transform_QuestObject = RequestChildTransform(_questObjectName);
 
         if (Transform_InteractionCube == null)
             Transform_InteractionCube = Transform_QuestObject;
 
         if (Transform_MrJaeik == null)
-            Transform_MrJaeik = FindChildTransform(_mrJaeikObjectName);
+            Transform_MrJaeik = RequestChildTransform(_mrJaeikObjectName);
 
         if (Transform_Chunyang == null)
-            Transform_Chunyang = FindChildTransform(_chunyangObjectName);
+            Transform_Chunyang = RequestChildTransform(_chunyangObjectName);
 
         if (Transform_Chunyang == null)
-            Transform_Chunyang = FindChildTransform(_chunyangFallbackObjectName);
+            Transform_Chunyang = RequestChildTransform(_chunyangFallbackObjectName);
 
         if (Transform_Moran == null)
-            Transform_Moran = FindChildTransform(_moranObjectName);
+            Transform_Moran = RequestChildTransform(_moranObjectName);
 
         if (Transform_Moran == null)
-            Transform_Moran = FindChildTransform(_moranFallbackObjectName);
+            Transform_Moran = RequestChildTransform(_moranFallbackObjectName);
 
         if (Object_Senario1Background == null)
-            Object_Senario1Background = FindChildGameObject(_backgroundObjectName);
+            Object_Senario1Background = RequestChildGameObject(_backgroundObjectName);
 
         if (Object_Senario1Background2 == null)
-            Object_Senario1Background2 = FindChildGameObject(_background2ObjectName);
+            Object_Senario1Background2 = RequestChildGameObject(_background2ObjectName);
 
         if (SpriteRenderer_Jaeik == null && Transform_Jaeik != null)
             SpriteRenderer_Jaeik = Transform_Jaeik.GetComponent<SpriteRenderer>();
@@ -271,8 +272,8 @@ public class OOTechSenario1Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// OOTechSceneObject 역할표를 먼저 읽습니다.
-    /// 예전 씬 복사본을 위해 이름 검색은 뒤쪽 보조망으로만 남겨 둡니다.
+    /// OOTechSceneObject ??븷?쒕? 癒쇱? ?쎌뒿?덈떎.
+    /// ?덉쟾 ??蹂듭궗蹂몄쓣 ?꾪빐 ?대쫫 寃?됱? ?ㅼそ 蹂댁“留앹쑝濡쒕쭔 ?④꺼 ?〓땲??
     /// </summary>
     private void CacheSceneContextReference()
     {
@@ -313,7 +314,7 @@ public class OOTechSenario1Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// Jaeik 오브젝트에 이동/점프/상호작용 컨트롤러를 연결합니다.
+    /// Jaeik ?ㅻ툕?앺듃???대룞/?먰봽/?곹샇?묒슜 而⑦듃濡ㅻ윭瑜??곌껐?⑸땲??
     /// </summary>
     private void CacheJaeikController()
     {
@@ -356,7 +357,7 @@ public class OOTechSenario1Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// 메인 카메라와 CameraFollowController를 찾아 카메라 큐에 사용할 준비를 합니다.
+    /// 硫붿씤 移대찓?쇱? CameraFollowController瑜?李얠븘 移대찓???먯뿉 ?ъ슜??以鍮꾨? ?⑸땲??
     /// </summary>
     private void CacheCameraReference()
     {
@@ -371,8 +372,8 @@ public class OOTechSenario1Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// Scenario1Group이 시작될 때 사용할 기본 카메라 크기를 배경 기준으로 계산합니다.
-    /// 이전 Road/Stage의 넓은 촬영 값이 남아 있으면 캐릭터 무대가 너무 멀리 보이므로, 이 그룹의 배경 크기를 기준 렌즈로 씁니다.
+    /// Scenario1Group???쒖옉?????ъ슜??湲곕낯 移대찓???ш린瑜?諛곌꼍 湲곗??쇰줈 怨꾩궛?⑸땲??
+    /// ?댁쟾 Road/Stage???볦? 珥ъ쁺 媛믪씠 ?⑥븘 ?덉쑝硫?罹먮┃??臾대?媛 ?덈Т 硫由?蹂댁씠誘濡? ??洹몃９??諛곌꼍 ?ш린瑜?湲곗? ?뚯쫰濡??곷땲??
     /// </summary>
     private float ResolveScenarioCameraSize()
     {
@@ -390,10 +391,10 @@ public class OOTechSenario1Controller : MonoBehaviour
 
     private SpriteRenderer ResolveScenarioBackgroundRenderer()
     {
-        GameObject backgroundObject = Object_Senario1Background != null ? Object_Senario1Background : FindChildGameObject(_backgroundObjectName);
+        GameObject backgroundObject = Object_Senario1Background != null ? Object_Senario1Background : RequestChildGameObject(_backgroundObjectName);
 
         if (backgroundObject == null)
-            backgroundObject = Object_Senario1Background2 != null ? Object_Senario1Background2 : FindChildGameObject(_background2ObjectName);
+            backgroundObject = Object_Senario1Background2 != null ? Object_Senario1Background2 : RequestChildGameObject(_background2ObjectName);
 
         return backgroundObject != null ? backgroundObject.GetComponentInChildren<SpriteRenderer>(true) : null;
     }
@@ -421,7 +422,7 @@ public class OOTechSenario1Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// DialogueGroup과 TutorialGuideGroup을 찾아 데이터 표시용 UI로 연결합니다.
+    /// DialogueGroup怨?TutorialGuideGroup??李얠븘 ?곗씠???쒖떆??UI濡??곌껐?⑸땲??
     /// </summary>
     private void CacheUIReference()
     {
@@ -442,13 +443,13 @@ public class OOTechSenario1Controller : MonoBehaviour
     {
         GameObject uiObject = null;
 
-        uiObject = FindChildGameObject(groupName);
+        uiObject = RequestChildGameObject(groupName);
 
         if (OOTechUIManager.Inst != null)
             uiObject = uiObject != null ? uiObject : OOTechUIManager.Inst.GetCreatedUI(groupName);
 
         if (uiObject == null)
-            uiObject = FindSceneGameObject(groupName);
+            uiObject = RequestSceneGameObject(groupName);
 
         return uiObject;
     }
@@ -464,7 +465,7 @@ public class OOTechSenario1Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// Scenario1 연출 시간 값을 요구사항 기준으로 고정합니다.
+    /// Scenario1 ?곗텧 ?쒓컙 媛믪쓣 ?붽뎄?ы빆 湲곗??쇰줈 怨좎젙?⑸땲??
     /// </summary>
     private void ApplyRequiredScenarioTiming()
     {
@@ -476,13 +477,13 @@ public class OOTechSenario1Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// 재익이 움직이기 전 첫 무대 상태를 만듭니다.
-    /// 배경1과 Jaeik은 보이고, 변신 후 등장할 배우들은 무대 뒤에 둡니다.
+    /// ?ъ씡???吏곸씠湲???泥?臾대? ?곹깭瑜?留뚮벊?덈떎.
+    /// 諛곌꼍1怨?Jaeik? 蹂댁씠怨? 蹂?????깆옣??諛곗슦?ㅼ? 臾대? ?ㅼ뿉 ?〓땲??
     /// </summary>
     private void PrepareInitialState()
     {
-        // 첫 장면 세팅:
-        // 배경1은 켜고 배경2, Mr.Jaeik, Chunyang, Moran은 뒤에 등장할 배우라서 아직 무대 뒤에 둡니다.
+        // 泥??λ㈃ ?명똿:
+        // 諛곌꼍1? 耳쒓퀬 諛곌꼍2, Mr.Jaeik, Chunyang, Moran? ?ㅼ뿉 ?깆옣??諛곗슦?쇱꽌 ?꾩쭅 臾대? ?ㅼ뿉 ?〓땲??
         HideCommonSkipButton();
         HideEffectOverlay();
         HideOpeningUIGroup();
@@ -515,8 +516,8 @@ public class OOTechSenario1Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// Coliider_ 계열 오브젝트가 흰 벽처럼 보이지 않도록 Renderer를 끕니다.
-    /// Collider 자체는 살아 있어서 투명 벽으로 충돌합니다.
+    /// Coliider_ 怨꾩뿴 ?ㅻ툕?앺듃媛 ??踰쎌쿂??蹂댁씠吏 ?딅룄濡?Renderer瑜??뺣땲??
+    /// Collider ?먯껜???댁븘 ?덉뼱???щ챸 踰쎌쑝濡?異⑸룎?⑸땲??
     /// </summary>
     private void HideScenarioColliderRenderer()
     {
@@ -540,7 +541,7 @@ public class OOTechSenario1Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// 배경 오브젝트의 활성화, Animator, SpriteRenderer 상태를 초기화합니다.
+    /// 諛곌꼍 ?ㅻ툕?앺듃???쒖꽦?? Animator, SpriteRenderer ?곹깭瑜?珥덇린?뷀빀?덈떎.
     /// </summary>
     private void PrepareBackgroundObject(GameObject backgroundObject, bool isActive)
     {
@@ -568,7 +569,7 @@ public class OOTechSenario1Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// 대화 장면에 등장할 캐릭터의 Idle 애니메이션을 미리 준비합니다.
+    /// ????λ㈃???깆옣??罹먮┃?곗쓽 Idle ?좊땲硫붿씠?섏쓣 誘몃━ 以鍮꾪빀?덈떎.
     /// </summary>
     private void PrepareCharacterIdleAnimation(Transform target, string idleStateName, AnimationClip idleClip = null)
     {
@@ -597,7 +598,7 @@ public class OOTechSenario1Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// UIManager가 TutorialGuideGroup과 DialogueGroup을 열 수 있도록 등록합니다.
+    /// UIManager媛 TutorialGuideGroup怨?DialogueGroup???????덈룄濡??깅줉?⑸땲??
     /// </summary>
     private void RegisterRuntimeUIGroup()
     {
@@ -612,7 +613,7 @@ public class OOTechSenario1Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// Jaeik에게 음식 상호작용 대상과 E키 콜백을 연결합니다.
+    /// Jaeik?먭쾶 ?뚯떇 ?곹샇?묒슜 ??곴낵 E??肄쒕갚???곌껐?⑸땲??
     /// </summary>
     private void PrepareForPlayerControl()
     {
@@ -627,7 +628,7 @@ public class OOTechSenario1Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// 대화/연출 중 Jaeik 조작권을 잠급니다.
+    /// ????곗텧 以?Jaeik 議곗옉沅뚯쓣 ?좉툒?덈떎.
     /// </summary>
     private void LockJaeikControl()
     {
@@ -640,7 +641,7 @@ public class OOTechSenario1Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// 시작 가이드가 끝난 뒤 Jaeik 조작권을 플레이어에게 넘깁니다.
+    /// ?쒖옉 媛?대뱶媛 ?앸궃 ??Jaeik 議곗옉沅뚯쓣 ?뚮젅?댁뼱?먭쾶 ?섍퉩?덈떎.
     /// </summary>
     private void UnlockJaeikControl()
     {
@@ -652,7 +653,7 @@ public class OOTechSenario1Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// 시작 튜토리얼을 마치고 시간 정지를 풀어 실제 플레이를 시작합니다.
+    /// ?쒖옉 ?쒗넗由ъ뼹??留덉튂怨??쒓컙 ?뺤?瑜?????ㅼ젣 ?뚮젅?대? ?쒖옉?⑸땲??
     /// </summary>
     private void FinishInitialGuide()
     {
@@ -667,7 +668,7 @@ public class OOTechSenario1Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// 음식 근처에서 E 상호작용이 들어오면 변신 퀘스트 루틴을 한 번 시작합니다.
+    /// ?뚯떇 洹쇱쿂?먯꽌 E ?곹샇?묒슜???ㅼ뼱?ㅻ㈃ 蹂???섏뒪??猷⑦떞????踰??쒖옉?⑸땲??
     /// </summary>
     private void OnEatInteractionRequested()
     {
@@ -678,12 +679,12 @@ public class OOTechSenario1Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// 먹기 애니메이션, 변신 이펙트, 배경 교체, 후속 데이터 대화를 순서대로 실행합니다.
+    /// 癒밴린 ?좊땲硫붿씠?? 蹂???댄럺?? 諛곌꼍 援먯껜, ?꾩냽 ?곗씠????붾? ?쒖꽌?濡??ㅽ뻾?⑸땲??
     /// </summary>
     private IEnumerator PlayQuestSequenceRoutine()
     {
-        // 음식과 상호작용한 순간부터는 플레이어 입력을 잠급니다.
-        // 배우가 애드리브로 움직이지 않게 막고, 카메라/효과/애니메이션 큐를 순서대로 실행하는 구간입니다.
+        // ?뚯떇怨??곹샇?묒슜???쒓컙遺?곕뒗 ?뚮젅?댁뼱 ?낅젰???좉툒?덈떎.
+        // 諛곗슦媛 ?좊뱶由щ툕濡??吏곸씠吏 ?딄쾶 留됯퀬, 移대찓???④낵/?좊땲硫붿씠???먮? ?쒖꽌?濡??ㅽ뻾?섎뒗 援ш컙?낅땲??
         _isQuestSequenceStarted = true;
         LockJaeikControl();
 
@@ -711,7 +712,7 @@ public class OOTechSenario1Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// Jaeik_isEatting 애니메이션을 재생하고 끝날 때까지 기다립니다.
+    /// Jaeik_isEatting ?좊땲硫붿씠?섏쓣 ?ъ깮?섍퀬 ?앸궇 ?뚭퉴吏 湲곕떎由쎈땲??
     /// </summary>
     private IEnumerator PlayEatAnimationAndWait()
     {
@@ -726,7 +727,7 @@ public class OOTechSenario1Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// 변신 스프라이트 1사이클 동안 카메라를 줌인하고, 끝나면 원래 크기로 줌아웃합니다.
+    /// 蹂???ㅽ봽?쇱씠??1?ъ씠???숈븞 移대찓?쇰? 以뚯씤?섍퀬, ?앸굹硫??먮옒 ?ш린濡?以뚯븘?껎빀?덈떎.
     /// </summary>
     private IEnumerator PlayTransformedZoomAnimationAndWait()
     {
@@ -745,7 +746,7 @@ public class OOTechSenario1Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// 음식 상호작용 이후 필요하면 Jaeik 스프라이트를 교체합니다.
+    /// ?뚯떇 ?곹샇?묒슜 ?댄썑 ?꾩슂?섎㈃ Jaeik ?ㅽ봽?쇱씠?몃? 援먯껜?⑸땲??
     /// </summary>
     private void ChangeJaeikAppearance()
     {
@@ -754,7 +755,7 @@ public class OOTechSenario1Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// 전체 화면 깜빡임으로 변신 에너지가 터지는 연출을 만듭니다.
+    /// ?꾩껜 ?붾㈃ 源쒕묀?꾩쑝濡?蹂???먮꼫吏媛 ?곗????곗텧??留뚮벊?덈떎.
     /// </summary>
     private IEnumerator PlayTransformationBlinkRoutine()
     {
@@ -780,7 +781,7 @@ public class OOTechSenario1Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// 배경 교체 전후로 검은 페이드 인/아웃을 재생합니다.
+    /// 諛곌꼍 援먯껜 ?꾪썑濡?寃? ?섏씠?????꾩썐???ъ깮?⑸땲??
     /// </summary>
     private IEnumerator PlayBlackFadeRoutine()
     {
@@ -800,7 +801,7 @@ public class OOTechSenario1Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// 화면 전체 오버레이 색과 알파를 보간해 플래시/페이드 효과를 만듭니다.
+    /// ?붾㈃ ?꾩껜 ?ㅻ쾭?덉씠 ?됯낵 ?뚰뙆瑜?蹂닿컙???뚮옒???섏씠???④낵瑜?留뚮벊?덈떎.
     /// </summary>
     private IEnumerator FadeEffectOverlay(Color color, float startAlpha, float endAlpha, float duration)
     {
@@ -819,18 +820,18 @@ public class OOTechSenario1Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// Senario1Background를 끄고 Senario1Background2를 켭니다.
+    /// Senario1Background瑜??꾧퀬 Senario1Background2瑜?耳?땲??
     /// </summary>
     private void SwitchToSecondBackground()
     {
-        // 세트 전환:
-        // 배경1 무대막을 내리고 배경2 무대막을 올립니다.
+        // ?명듃 ?꾪솚:
+        // 諛곌꼍1 臾대?留됱쓣 ?대━怨?諛곌꼍2 臾대?留됱쓣 ?щ┰?덈떎.
         PrepareBackgroundObject(Object_Senario1Background, false);
         PrepareBackgroundObject(Object_Senario1Background2, true);
     }
 
     /// <summary>
-    /// 변신 후 원래 Jaeik을 끄고 Mr.Jaeik을 켠 뒤 카메라 포커스를 옮깁니다.
+    /// 蹂?????먮옒 Jaeik???꾧퀬 Mr.Jaeik??耳???移대찓???ъ빱?ㅻ? ??퉩?덈떎.
     /// </summary>
     private void ActivateMrJaeik()
     {
@@ -854,24 +855,24 @@ public class OOTechSenario1Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// 변신 후 나레이션, 재익군/춘양/모란 대화, 완료 가이드, 넘어가기 버튼을 순서대로 실행합니다.
+    /// 蹂?????섎젅?댁뀡, ?ъ씡援?異섏뼇/紐⑤? ??? ?꾨즺 媛?대뱶, ?섏뼱媛湲?踰꾪듉???쒖꽌?濡??ㅽ뻾?⑸땲??
     /// </summary>
     private IEnumerator PlayAfterTransformDataSequenceRoutine()
     {
-        // 감독 노트:
-        // 변신이 끝난 뒤 첫 쇼트는 배우 대사가 아니라 나레이션입니다.
-        // 무대 위에 Mr.Jaeik 배우를 세워둔 상태에서 관객에게 상황 설명을 한 컷만 먼저 보여줍니다.
+        // 媛먮룆 ?명듃:
+        // 蹂?좎씠 ?앸궃 ??泥??쇳듃??諛곗슦 ??ш? ?꾨땲???섎젅?댁뀡?낅땲??
+        // 臾대? ?꾩뿉 Mr.Jaeik 諛곗슦瑜??몄썙???곹깭?먯꽌 愿媛앹뿉寃??곹솴 ?ㅻ챸????而룸쭔 癒쇱? 蹂댁뿬以띾땲??
         yield return OpenNarrationAsDialogueAndWait(_narrationAfterTransformId, _narratorSpeakerId);
 
-        // 나레이션 컷이 끝나면 같은 DialogueGroup을 재사용해서,
-        // 화자만 Mr.Jaeik으로 바꾸고 재익군의 첫 대사를 데이터에서 꺼내 재생합니다.
+        // ?섎젅?댁뀡 而룹씠 ?앸굹硫?媛숈? DialogueGroup???ъ궗?⑺빐??
+        // ?붿옄留?Mr.Jaeik?쇰줈 諛붽씀怨??ъ씡援곗쓽 泥???щ? ?곗씠?곗뿉??爰쇰궡 ?ъ깮?⑸땲??
         yield return OpenDialogueAndWait(_dialogueMrJaeikFirstId, _mrJaeikSpeakerId, Transform_MrJaeik, true);
 
         CloseDialogueGroup();
         yield return new WaitForSeconds(0.25f);
 
-        // 다음 장면은 춘양 등장이므로 패널을 잠깐 닫고,
-        // 카메라 조명을 춘양 배우에게 넘긴 뒤 다시 대사 패널을 엽니다.
+        // ?ㅼ쓬 ?λ㈃? 異섏뼇 ?깆옣?대?濡??⑤꼸???좉퉸 ?リ퀬,
+        // 移대찓??議곕챸??異섏뼇 諛곗슦?먭쾶 ?섍릿 ???ㅼ떆 ????⑤꼸???쎈땲??
         SetObjectActive(Transform_Chunyang, true);
         RequestRestoreVisibleCharacterView(Transform_Chunyang, _chunyangVisibleSortingOrder);
         PrepareCharacterIdleAnimation(Transform_Chunyang, _chunyangIdleStateName, Clip_ChunyangIdle);
@@ -883,8 +884,8 @@ public class OOTechSenario1Controller : MonoBehaviour
         yield return new WaitForSeconds(_cameraFocusWaitSeconds);
         yield return OpenDialogueAndWait(_dialogueChunyangFirstId, _chunyangSpeakerId, Transform_Chunyang, false);
 
-        // 여기부터는 대사 패널을 닫지 않고 유지합니다.
-        // 배우가 말할 때마다 카메라 포커스와 화자 이름만 교체해서 한 씬처럼 이어 보이게 합니다.
+        // ?ш린遺?곕뒗 ????⑤꼸???レ? ?딄퀬 ?좎??⑸땲??
+        // 諛곗슦媛 留먰븷 ?뚮쭏??移대찓???ъ빱?ㅼ? ?붿옄 ?대쫫留?援먯껜?댁꽌 ???ъ쿂???댁뼱 蹂댁씠寃??⑸땲??
         yield return OpenDialogueAndWait(_dialogueMrJaeikSecondId, _mrJaeikSpeakerId, Transform_MrJaeik, false);
 
         SetObjectActive(Transform_Moran, true);
@@ -899,7 +900,7 @@ public class OOTechSenario1Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// Narration 데이터를 DialogueUI가 표시할 수 있는 대화 형태로 바꿔 한 파트 보여줍니다.
+    /// Narration ?곗씠?곕? DialogueUI媛 ?쒖떆?????덈뒗 ????뺥깭濡?諛붽퓭 ???뚰듃 蹂댁뿬以띾땲??
     /// </summary>
     private IEnumerator OpenNarrationAsDialogueAndWait(string narrationId, string speakerCharacterId)
     {
@@ -916,7 +917,7 @@ public class OOTechSenario1Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// 특정 화자의 Dialogue 데이터를 띄우고, 카메라를 해당 배우에게 이동시킨 뒤 기다립니다.
+    /// ?뱀젙 ?붿옄??Dialogue ?곗씠?곕? ?꾩슦怨? 移대찓?쇰? ?대떦 諛곗슦?먭쾶 ?대룞?쒗궓 ??湲곕떎由쎈땲??
     /// </summary>
     private IEnumerator OpenDialogueAndWait(string dialogueId, string speakerCharacterId, Transform focusTarget, bool isSnapCamera)
     {
@@ -933,7 +934,7 @@ public class OOTechSenario1Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// DialogueUI에 데이터를 표시하고 플레이어가 이어가기 할 때까지 기다립니다.
+    /// DialogueUI???곗씠?곕? ?쒖떆?섍퀬 ?뚮젅?댁뼱媛 ?댁뼱媛湲????뚭퉴吏 湲곕떎由쎈땲??
     /// </summary>
     private IEnumerator ShowDialogueDataAndWait(OO_Dialogue dialogueData)
     {
@@ -948,12 +949,12 @@ public class OOTechSenario1Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// Narration의 첫 텍스트를 Dialogue 형태로 감싸 화자 이름을 붙입니다.
+    /// Narration??泥??띿뒪?몃? Dialogue ?뺥깭濡?媛먯떥 ?붿옄 ?대쫫??遺숈엯?덈떎.
     /// </summary>
     private OO_Dialogue CreateDialogueFromNarration(OO_Narration narrationData, string speakerCharacterId)
     {
-        // OO_Narration 하나를 DialogueGroup이 읽을 수 있는 임시 대본 카드로 바꿉니다.
-        // 여기서는 narration_prologue_07의 첫 파트만 사용해서 한 번만 넘기게 합니다.
+        // OO_Narration ?섎굹瑜?DialogueGroup???쎌쓣 ???덈뒗 ?꾩떆 ?蹂?移대뱶濡?諛붽퓠?덈떎.
+        // ?ш린?쒕뒗 narration_prologue_07??泥??뚰듃留??ъ슜?댁꽌 ??踰덈쭔 ?섍린寃??⑸땲??
         string text = GetFirstNarrationPartText(narrationData);
 
         return new OO_Dialogue
@@ -984,7 +985,7 @@ public class OOTechSenario1Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// Dialogue 데이터에 데이터 드리븐 화자 이름을 보정해 반환합니다.
+    /// Dialogue ?곗씠?곗뿉 ?곗씠???쒕━釉??붿옄 ?대쫫??蹂댁젙??諛섑솚?⑸땲??
     /// </summary>
     private OO_Dialogue GetDialogueDataWithSpeaker(string dialogueId, string speakerCharacterId)
     {
@@ -1017,7 +1018,7 @@ public class OOTechSenario1Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// TutorialGuideGroup을 열고 튜토리얼 데이터 한 건을 표시한 뒤 완료까지 기다립니다.
+    /// TutorialGuideGroup???닿퀬 ?쒗넗由ъ뼹 ?곗씠????嫄댁쓣 ?쒖떆?????꾨즺源뚯? 湲곕떎由쎈땲??
     /// </summary>
     private IEnumerator OpenTutorialGuideAndWait(string tutorialId, bool isEmphasis)
     {
@@ -1111,7 +1112,7 @@ public class OOTechSenario1Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// 카메라를 즉시 Jaeik에게 맞춰 Scenario1 시작 초점이 어긋나지 않게 합니다.
+    /// 移대찓?쇰? 利됱떆 Jaeik?먭쾶 留욎떠 Scenario1 ?쒖옉 珥덉젏???닿툔?섏? ?딄쾶 ?⑸땲??
     /// </summary>
     private void FocusCameraOnJaeikImmediately()
     {
@@ -1119,7 +1120,7 @@ public class OOTechSenario1Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// CameraFollowController의 타겟을 해당 배우로 바꾸고, 필요하면 카메라를 즉시 스냅합니다.
+    /// CameraFollowController???寃잛쓣 ?대떦 諛곗슦濡?諛붽씀怨? ?꾩슂?섎㈃ 移대찓?쇰? 利됱떆 ?ㅻ깄?⑸땲??
     /// </summary>
     private void FocusCamera(Transform target, bool isSnapImmediately)
     {
@@ -1149,7 +1150,7 @@ public class OOTechSenario1Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// 카메라 orthographicSize를 보간해 변신 줌인/줌아웃을 만듭니다.
+    /// 移대찓??orthographicSize瑜?蹂닿컙??蹂??以뚯씤/以뚯븘?껋쓣 留뚮벊?덈떎.
     /// </summary>
     private IEnumerator ZoomCameraRoutine(float startSize, float endSize, float duration)
     {
@@ -1189,7 +1190,7 @@ public class OOTechSenario1Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// 전체 화면 이펙트용 Canvas와 Image 오버레이를 준비합니다.
+    /// ?꾩껜 ?붾㈃ ?댄럺?몄슜 Canvas? Image ?ㅻ쾭?덉씠瑜?以鍮꾪빀?덈떎.
     /// </summary>
     private void CreateEffectOverlayIfNeeded()
     {
@@ -1245,7 +1246,7 @@ public class OOTechSenario1Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// 임무 완료 후 공용 넘어가기 버튼을 보여줍니다.
+    /// ?꾨Т ?꾨즺 ??怨듭슜 ?섏뼱媛湲?踰꾪듉??蹂댁뿬以띾땲??
     /// </summary>
     private void ShowCommonSkipButton()
     {
@@ -1270,7 +1271,7 @@ public class OOTechSenario1Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// CommonSkipButton 프리팹을 Scenario1Group 자식으로 한 번만 생성합니다.
+    /// CommonSkipButton ?꾨━?뱀쓣 Scenario1Group ?먯떇?쇰줈 ??踰덈쭔 ?앹꽦?⑸땲??
     /// </summary>
     private void CreateCommonSkipButtonIfNeeded()
     {
@@ -1299,7 +1300,7 @@ public class OOTechSenario1Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// GameDataManager와 UIManager가 준비될 때까지 기다립니다.
+    /// GameDataManager? UIManager媛 以鍮꾨맆 ?뚭퉴吏 湲곕떎由쎈땲??
     /// </summary>
     private IEnumerator WaitForManagersReady()
     {
@@ -1308,7 +1309,7 @@ public class OOTechSenario1Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// 튜토리얼 안내 중 게임 진행을 멈추기 위해 TimeScale을 0으로 둡니다.
+    /// ?쒗넗由ъ뼹 ?덈궡 以?寃뚯엫 吏꾪뻾??硫덉텛湲??꾪빐 TimeScale??0?쇰줈 ?〓땲??
     /// </summary>
     private void FreezeTimeForTutorial()
     {
@@ -1316,7 +1317,7 @@ public class OOTechSenario1Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// 튜토리얼 종료 후 TimeScale을 1로 복구합니다.
+    /// ?쒗넗由ъ뼹 醫낅즺 ??TimeScale??1濡?蹂듦뎄?⑸땲??
     /// </summary>
     private void RestoreTimeScale()
     {
@@ -1330,8 +1331,8 @@ public class OOTechSenario1Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// 등장 배우의 SpriteRenderer를 다시 보이는 상태로 정리합니다.
-    /// 영화로 치면 무대 위에 올라온 배우가 배경막 뒤에 묻히지 않도록 조명과 앞뒤 순서를 다시 맞추는 큐입니다.
+    /// ?깆옣 諛곗슦??SpriteRenderer瑜??ㅼ떆 蹂댁씠???곹깭濡??뺣━?⑸땲??
+    /// ?곹솕濡?移섎㈃ 臾대? ?꾩뿉 ?щ씪??諛곗슦媛 諛곌꼍留??ㅼ뿉 臾삵엳吏 ?딅룄濡?議곕챸怨??욌뮘 ?쒖꽌瑜??ㅼ떆 留욎텛???먯엯?덈떎.
     /// </summary>
     private void RequestRestoreVisibleCharacterView(Transform target, int minimumSortingOrder)
     {
@@ -1355,13 +1356,13 @@ public class OOTechSenario1Controller : MonoBehaviour
         }
     }
 
-    private Transform FindChildTransform(string objectName)
+    private Transform RequestChildTransform(string objectName)
     {
-        GameObject childObject = FindChildGameObject(objectName);
+        GameObject childObject = RequestChildGameObject(objectName);
         return childObject != null ? childObject.transform : null;
     }
 
-    private GameObject FindChildGameObject(string objectName)
+    private GameObject RequestChildGameObject(string objectName)
     {
         if (string.IsNullOrEmpty(objectName))
             return null;
@@ -1380,22 +1381,25 @@ public class OOTechSenario1Controller : MonoBehaviour
         return null;
     }
 
-    private GameObject FindSceneGameObject(string objectName)
+    private GameObject RequestSceneGameObject(string objectName)
     {
         if (string.IsNullOrEmpty(objectName))
             return null;
 
-        GameObject[] sceneObjectArray = Resources.FindObjectsOfTypeAll<GameObject>();
+        List<GameObject> sceneObjectArray = new List<GameObject>();
+        Scene activeScene = SceneManager.GetActiveScene();
+
+        if (!activeScene.IsValid())
+            return null;
+
+        sceneObjectArray.AddRange(activeScene.GetRootGameObjects());
 
         foreach (GameObject sceneObject in sceneObjectArray)
         {
-            if (sceneObject == null || sceneObject.name != objectName)
-                continue;
+            GameObject foundObject = OOTechSceneQuery.RequestChildObjectByName(sceneObject != null ? sceneObject.transform : null, objectName);
 
-            if (!sceneObject.scene.IsValid() || sceneObject.hideFlags != HideFlags.None)
-                continue;
-
-            return sceneObject;
+            if (foundObject != null)
+                return foundObject;
         }
 
         return null;
@@ -1446,3 +1450,5 @@ public class OOTechSenario1Controller : MonoBehaviour
         _mainRoutine = null;
     }
 }
+
+

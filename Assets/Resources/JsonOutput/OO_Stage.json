@@ -28,5 +28,35 @@
     "QuestDescription": "쌀과 꿀로 꿀떡을 만들어 산군에게 전하라.",
     "RequiredCookId": "OO_HoneyKoreanCake_1",
     "NextRoadGroupId": "4th_Road_to_Stage4"
+  },
+  {
+    "Id": "OO_Stage_2",
+    "Name": "서쪽 도시에 있는 탐관오리의 저택",
+    "StageNumber": 2,
+    "Description": "조선의 서쪽 풍요로운 도시에 위치한 거대한 기계식 저택. 연산군자의 통제력이 약해진 틈을 타, 조정의 명령을 거부하고 제 배만 불린 탐관오리가 백성들의 피땀을 쥐어짜 내어 건설한 탐욕의 산물이다.\n\n저택 내부에는 조선 제일의 기술자들을 강제로 동원해 만든 화려한 자동화 기계 장치들과 웅장한 황금빛 기어들이 밤낮없이 맞물려 돌아가고 있다. 서쪽 도시의 백성들이 극심한 굶주림에 신음하는 와중에도, 이 저택의 거대한 굴뚝에서는 기름진 산해진미를 구워대는 고기 연기와 증기가 끊이지 않고 뿜어져 나온다.",
+    "BackgroundImagePath": "Images/Background/Stage1",
+    "BGMPath": "Audio/BGM/Stage1",
+    "RequiredPreviousStageId": null,
+    "RewardItemIds": null,
+    "StartDialogueGroupId": "dialogue_stage1_start",
+    "QuestTitle": "동쪽 마을의 구원",
+    "QuestDescription": "야채죽을 만들어 굶주린 백성에게 전하라.",
+    "RequiredCookId": "OO_VegetableSoup_1",
+    "NextRoadGroupId": "2nd_Road_to_Stage2"
+  },
+  {
+    "Id": "OO_Stage_4",
+    "Name": "북쪽 토끼와 거북이",
+    "StageNumber": 4,
+    "Description": "조선 북쪽의 농경 지대에서 토끼와 거북이의 기묘한 경주를 해결하고, 마지막 여정으로 나아가는 스테이지입니다.",
+    "BackgroundImagePath": "Images/Stages/Stage4_1Background",
+    "BGMPath": "Audio/BGM/Stage4_BGM",
+    "RequiredPreviousStageId": "OO_Stage_3",
+    "RewardItemIds": null,
+    "StartDialogueGroupId": null,
+    "QuestTitle": "북쪽 들판의 경주",
+    "QuestDescription": "토끼를 유혹할 당근전을 만들어 경주를 끝내고 거북이에게 돌아가라.",
+    "RequiredCookId": "OO_CarrotCake_1",
+    "NextRoadGroupId": "PreFinal_Narration"
   }
 ]

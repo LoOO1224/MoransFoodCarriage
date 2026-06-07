@@ -1,9 +1,9 @@
-// =============================================================================
-// OO_MFC 역할 주석
-// - 스크립트: OOTechStage3GroupController.cs
-// - 역할: Stage3Group의 첫 입장 큐만 지휘하는 얇은 Controller입니다.
-// - 영화 비유: 무대감독은 "마차 입장, 산군 등장, 첫 대사, Encounter 전환" 큐만 부릅니다.
-// - 유지보수 포인트: 배우 찾기는 역할표(OOTechSceneObject), 대사/수치는 OO_Stage3CueSheet 데이터가 담당합니다.
+﻿// =============================================================================
+// OO_MFC ??븷 二쇱꽍
+// - ?ㅽ겕由쏀듃: OOTechStage3GroupController.cs
+// - ??븷: Stage3Group??泥??낆옣 ?먮쭔 吏?섑븯???뉗? Controller?낅땲??
+// - ?곹솕 鍮꾩쑀: 臾대?媛먮룆? "留덉감 ?낆옣, ?곌뎔 ?깆옣, 泥???? Encounter ?꾪솚" ?먮쭔 遺由낅땲??
+// - ?좎?蹂댁닔 ?ъ씤?? 諛곗슦 李얘린????븷??OOTechSceneObject), ????섏튂??OO_Stage3CueSheet ?곗씠?곌? ?대떦?⑸땲??
 // =============================================================================
 using System.Collections;
 #if UNITY_EDITOR
@@ -13,8 +13,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 /// <summary>
-/// Stage3Group의 시작 연출을 담당합니다.
-/// Game View에서는 MFC가 EntryPoint_A까지 이동한 뒤, 산군이 커지며 위협/공격 애니메이션을 보여주고 EncounterGroup으로 넘어갑니다.
+/// Stage3Group???쒖옉 ?곗텧???대떦?⑸땲??
+/// Game View?먯꽌??MFC媛 EntryPoint_A源뚯? ?대룞???? ?곌뎔??而ㅼ?硫??꾪삊/怨듦꺽 ?좊땲硫붿씠?섏쓣 蹂댁뿬二쇨퀬 EncounterGroup?쇰줈 ?섏뼱媛묐땲??
 /// </summary>
 [DisallowMultipleComponent]
 public class OOTechStage3GroupController : MonoBehaviour
@@ -29,7 +29,9 @@ public class OOTechStage3GroupController : MonoBehaviour
 
     [Header("BGM")]
     [SerializeField] private AudioClip _sangunBGM;
+#if UNITY_EDITOR
     [SerializeField] private string _sangunBGMAssetPath = "Assets/Sounds/BGM/Sangun_BGM.mp3";
+#endif
     [SerializeField] private float _sangunBGMDelaySeconds = 3f;
 
     private OO_Stage3CueSheet Data_CueSheet;
@@ -39,7 +41,7 @@ public class OOTechStage3GroupController : MonoBehaviour
     private bool _hasRequestedSangunBGM;
 
     /// <summary>
-    /// 그룹이 켜질 때 Stage3 첫 큐를 시작합니다.
+    /// 洹몃９??耳쒖쭏 ??Stage3 泥??먮? ?쒖옉?⑸땲??
     /// </summary>
     private void OnEnable()
     {
@@ -47,7 +49,7 @@ public class OOTechStage3GroupController : MonoBehaviour
     }
 
     /// <summary>
-    /// 그룹이 꺼질 때 진행 중인 큐를 정리합니다.
+    /// 洹몃９??爰쇱쭏 ??吏꾪뻾 以묒씤 ?먮? ?뺣━?⑸땲??
     /// </summary>
     private void OnDisable()
     {
@@ -59,7 +61,7 @@ public class OOTechStage3GroupController : MonoBehaviour
     }
 
     /// <summary>
-    /// 리허설 중 Stage3 첫 큐를 다시 실행할 수 있게 하는 공개 메서드입니다.
+    /// 由ы뿀??以?Stage3 泥??먮? ?ㅼ떆 ?ㅽ뻾?????덇쾶 ?섎뒗 怨듦컻 硫붿꽌?쒖엯?덈떎.
     /// </summary>
     public void RequestStartStage3OpeningCue()
     {
@@ -132,8 +134,8 @@ public class OOTechStage3GroupController : MonoBehaviour
     }
 
     /// <summary>
-    /// Stage3 입장 후 산군의 기운이 서서히 깔리도록 BGM 큐를 예약합니다.
-    /// 무대 비유로는 배우가 보이기 직전에 오케스트라가 낮게 깔리는 타이밍입니다.
+    /// Stage3 ?낆옣 ???곌뎔??湲곗슫???쒖꽌??源붾━?꾨줉 BGM ?먮? ?덉빟?⑸땲??
+    /// 臾대? 鍮꾩쑀濡쒕뒗 諛곗슦媛 蹂댁씠湲?吏곸쟾???ㅼ??ㅽ듃?쇨? ??쾶 源붾━????대컢?낅땲??
     /// </summary>
     private void RequestPlaySangunBGMAfterDelay()
     {
@@ -184,8 +186,8 @@ public class OOTechStage3GroupController : MonoBehaviour
     }
 
     /// <summary>
-    /// Stage3 배경 전체가 Game View에 들어오도록 카메라를 맞춥니다.
-    /// 촬영감독이 배우 등장 전에 무대 전체 샷을 먼저 잡는 단계입니다.
+    /// Stage3 諛곌꼍 ?꾩껜媛 Game View???ㅼ뼱?ㅻ룄濡?移대찓?쇰? 留욎땅?덈떎.
+    /// 珥ъ쁺媛먮룆??諛곗슦 ?깆옣 ?꾩뿉 臾대? ?꾩껜 ?룹쓣 癒쇱? ?〓뒗 ?④퀎?낅땲??
     /// </summary>
     private void RequestFitCameraToBackground()
     {
@@ -270,7 +272,7 @@ public class OOTechStage3GroupController : MonoBehaviour
     }
 
     /// <summary>
-    /// 산군이 작게 나타난 뒤 원래 크기로 커지며 위협 애니메이션을 켭니다.
+    /// ?곌뎔???묎쾶 ?섑??????먮옒 ?ш린濡?而ㅼ?硫??꾪삊 ?좊땲硫붿씠?섏쓣 耳?땲??
     /// </summary>
     private IEnumerator PlaySangunAppearRoutine(Transform sangunTransform)
     {
@@ -345,7 +347,7 @@ public class OOTechStage3GroupController : MonoBehaviour
         string encounterGroupName = Data_CueSheet != null && !string.IsNullOrEmpty(Data_CueSheet.EncounterGroupId)
             ? Data_CueSheet.EncounterGroupId
             : "EncounterGroup";
-        GameObject encounterGroup = FindSceneObjectByName(encounterGroupName);
+        GameObject encounterGroup = RequestSceneObjectByName(encounterGroupName);
 
         if (encounterGroup != null && OOTechUIManager.Inst != null)
             OOTechUIManager.Inst.RegisterUI(encounterGroupName, encounterGroup);
@@ -377,13 +379,13 @@ public class OOTechStage3GroupController : MonoBehaviour
         return fallbackSeconds;
     }
 
-    private GameObject FindSceneObjectByName(string objectName)
+    private GameObject RequestSceneObjectByName(string objectName)
     {
         Scene scene = SceneManager.GetActiveScene();
 
         foreach (GameObject rootObject in scene.GetRootGameObjects())
         {
-            GameObject foundObject = FindChildByName(rootObject.transform, objectName);
+            GameObject foundObject = RequestChildObjectByName(rootObject.transform, objectName);
 
             if (foundObject != null)
                 return foundObject;
@@ -392,7 +394,7 @@ public class OOTechStage3GroupController : MonoBehaviour
         return null;
     }
 
-    private GameObject FindChildByName(Transform rootTransform, string objectName)
+    private GameObject RequestChildObjectByName(Transform rootTransform, string objectName)
     {
         if (rootTransform == null || string.IsNullOrEmpty(objectName))
             return null;
@@ -402,7 +404,7 @@ public class OOTechStage3GroupController : MonoBehaviour
 
         for (int index = 0; index < rootTransform.childCount; index++)
         {
-            GameObject foundObject = FindChildByName(rootTransform.GetChild(index), objectName);
+            GameObject foundObject = RequestChildObjectByName(rootTransform.GetChild(index), objectName);
 
             if (foundObject != null)
                 return foundObject;
@@ -411,3 +413,4 @@ public class OOTechStage3GroupController : MonoBehaviour
         return null;
     }
 }
+

@@ -1,9 +1,9 @@
-// =============================================================================
-// OO_MFC 역할 주석
-// - 스크립트: OOTechRoadToStage1Controller.cs
-// - 역할: 로드맵, 월드맵, 스테이지 전환 흐름을 담당하는 장면 Controller입니다.
-// - 감독 관점: 길 위의 장면 전환 큐시트를 들고 있는 무대감독입니다.
-// - 유지보수 포인트: 배경/버튼/캐릭터 배치는 오브젝트와 View가 맡고, 이 스크립트는 순서 지휘만 맡아야 합니다.
+﻿// =============================================================================
+// OO_MFC ??븷 二쇱꽍
+// - ?ㅽ겕由쏀듃: OOTechRoadToStage1Controller.cs
+// - ??븷: 濡쒕뱶留? ?붾뱶留? ?ㅽ뀒?댁? ?꾪솚 ?먮쫫???대떦?섎뒗 ?λ㈃ Controller?낅땲??
+// - 媛먮룆 愿?? 湲??꾩쓽 ?λ㈃ ?꾪솚 ?먯떆?몃? ?ㅺ퀬 ?덈뒗 臾대?媛먮룆?낅땲??
+// - ?좎?蹂댁닔 ?ъ씤?? 諛곌꼍/踰꾪듉/罹먮┃??諛곗튂???ㅻ툕?앺듃? View媛 留↔퀬, ???ㅽ겕由쏀듃???쒖꽌 吏?섎쭔 留≪븘???⑸땲??
 // =============================================================================
 using System.Collections;
 using System.Collections.Generic;
@@ -18,21 +18,21 @@ using UnityEngine.InputSystem;
 #endif
 
 /// <summary>
-/// 시작 지점부터 Stage 입구까지 MFC 이동을 지휘하는 RoadGroup 컨트롤러입니다.
-/// 맵 이미지는 무대 배경이고, MFC 배우는 정해진 도로 띠 위에서만 오른쪽으로 이동합니다.
+/// ?쒖옉 吏?먮???Stage ?낃뎄源뚯? MFC ?대룞??吏?섑븯??RoadGroup 而⑦듃濡ㅻ윭?낅땲??
+/// 留??대?吏??臾대? 諛곌꼍?닿퀬, MFC 諛곗슦???뺥빐吏??꾨줈 ???꾩뿉?쒕쭔 ?ㅻⅨ履쎌쑝濡??대룞?⑸땲??
 /// </summary>
 public class OOTechRoadToStage1Controller : MonoBehaviour
 {
-    // 읽는 순서:
-    // 1. OnEnable: 현재 RoadGroup, MFC, 배경 맵, HUD를 준비합니다.
-    // 2. Update/MoveMFC 계열: D키 이동과 도로 띠 안 위치 제한을 처리합니다.
-    // 3. ChangeToNextMapRoutine: StartPointMap -> RoadMap1 -> RoadMap2 -> Stage1EntryMap 전환을 담당합니다.
-    // 4. OpenTargetStageGroup: 마지막 맵 끝에 도달하면 Stage1Group 같은 목표 StageGroup을 켭니다.
-    // 5. PrepareRoadHUD/PlayTutorial: HUD와 초반 튜토리얼/대사 흐름을 연결합니다.
-    // 유지보수 주의:
-    // - 각 RoadGroup의 배경 이미지는 하이어라키에서 직접 교체합니다.
-    // - 다음 StageGroup 이름은 ConfigureRoadFlow와 Inspector 값으로 맞춥니다.
-    // - Road 공통 로직이 늘어나면 RoadBaseController로 분리하는 것이 좋습니다.
+    // ?쎈뒗 ?쒖꽌:
+    // 1. OnEnable: ?꾩옱 RoadGroup, MFC, 諛곌꼍 留? HUD瑜?以鍮꾪빀?덈떎.
+    // 2. Update/MoveMFC 怨꾩뿴: D???대룞怨??꾨줈 ?????꾩튂 ?쒗븳??泥섎━?⑸땲??
+    // 3. ChangeToNextMapRoutine: StartPointMap -> RoadMap1 -> RoadMap2 -> Stage1EntryMap ?꾪솚???대떦?⑸땲??
+    // 4. OpenTargetStageGroup: 留덉?留?留??앹뿉 ?꾨떖?섎㈃ Stage1Group 媛숈? 紐⑺몴 StageGroup??耳?땲??
+    // 5. PrepareRoadHUD/PlayTutorial: HUD? 珥덈컲 ?쒗넗由ъ뼹/????먮쫫???곌껐?⑸땲??
+    // ?좎?蹂댁닔 二쇱쓽:
+    // - 媛?RoadGroup??諛곌꼍 ?대?吏???섏씠?대씪?ㅼ뿉??吏곸젒 援먯껜?⑸땲??
+    // - ?ㅼ쓬 StageGroup ?대쫫? ConfigureRoadFlow? Inspector 媛믪쑝濡?留욎땅?덈떎.
+    // - Road 怨듯넻 濡쒖쭅???섏뼱?섎㈃ RoadBaseController濡?遺꾨━?섎뒗 寃껋씠 醫뗭뒿?덈떎.
 
     private const string _roleMFC = "MFC";
     private const string _roleStartPointMap = "StartPointMap";
@@ -50,7 +50,9 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
     private const string _stage3GroupName = "Stage3Group";
     private const string _stage4GroupName = "Stage4Group";
     private const string _stage4FirstGroupName = "Stage4_1Group";
+    private const string _stage4SecondGroupName = "Stage4_2Group";
     private const string _finalStageGroupName = "FinalStageGroup";
+    private const int _mfcMinimumVisibleSortingOrder = 2000;
 
     [Header("Scene Components")]
     [SerializeField] private OOTechSceneContext Context_Scene;
@@ -121,19 +123,22 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
         "Stage2Group",
         "Stage3Group",
         "Stage4_1Group",
+        "Stage4_2Group",
         "Stage4Group",
         "FinalStageGroup"
     };
 
     [Header("Stage4 BGM")]
     [SerializeField] private AudioClip _stage4BGM;
+#if UNITY_EDITOR
     [SerializeField] private string _stage4BGMAssetPath = "Assets/Sounds/BGM/Stage4_BGM.mp3";
+#endif
 
     [Header("Road Opening Dialogue")]
     [SerializeField] private string _dialogueGroupName = "DialogueGroup";
     [SerializeField] private string _secondRoadGroupName = "2nd_Road_to_Stage2";
     [SerializeField] private string _secondRoadMissionDataId = "Stage2_Road_Quest_01";
-    [SerializeField] private string _secondRoadMissionFallbackText = "서쪽 도시에 가 탐관오리의 자택을 방문하세요.";
+    [SerializeField] private string _secondRoadMissionFallbackText = "?쒖そ ?꾩떆??媛 ?먭??ㅻ━???먰깮??諛⑸Ц?섏꽭??";
     [SerializeField] private string[] _secondRoadOpeningDialogueIdArray =
     {
         "character_Chunyang_06",
@@ -197,6 +202,7 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
         "Stage2Group",
         "Stage3Group",
         "Stage4_1Group",
+        "Stage4_2Group",
         "Stage4Group",
         "FinalStageGroup",
         "EpilogueGroup",
@@ -205,7 +211,7 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
     };
 
     /// <summary>
-    /// 씬 참조, 카메라, HUD, 페이드 소품을 미리 연결합니다.
+    /// ??李몄“, 移대찓?? HUD, ?섏씠???뚰뭹??誘몃━ ?곌껐?⑸땲??
     /// </summary>
     private void Awake()
     {
@@ -217,7 +223,7 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// 같은 RoadGroup 구조를 Stage 번호별로 재사용하기 위해 현재/목표 그룹 이름을 설정합니다.
+    /// 媛숈? RoadGroup 援ъ“瑜?Stage 踰덊샇蹂꾨줈 ?ъ궗?⑺븯湲??꾪빐 ?꾩옱/紐⑺몴 洹몃９ ?대쫫???ㅼ젙?⑸땲??
     /// </summary>
     public void ConfigureRoadFlow(string currentGroupName, string targetStageGroupName)
     {
@@ -232,7 +238,7 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// RoadGroup이 켜지면 MFC를 첫 맵 시작점에 놓고 HUD와 튜토리얼을 시작합니다.
+    /// RoadGroup??耳쒖?硫?MFC瑜?泥?留??쒖옉?먯뿉 ?볤퀬 HUD? ?쒗넗由ъ뼹???쒖옉?⑸땲??
     /// </summary>
     private void OnEnable()
     {
@@ -250,8 +256,8 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// Stage1 완료 보상이 빠진 상태로 2nd_Road에 들어온 경우 인벤토리를 한 번 보정합니다.
-    /// 영화로 치면 이전 장면에서 소품 교환 큐가 누락됐을 때, 다음 무대 입구에서 소품 담당이 빠르게 정산하는 안전 큐입니다.
+    /// Stage1 ?꾨즺 蹂댁긽??鍮좎쭊 ?곹깭濡?2nd_Road???ㅼ뼱??寃쎌슦 ?몃깽?좊━瑜???踰?蹂댁젙?⑸땲??
+    /// ?곹솕濡?移섎㈃ ?댁쟾 ?λ㈃?먯꽌 ?뚰뭹 援먰솚 ?먭? ?꾨씫?먯쓣 ?? ?ㅼ쓬 臾대? ?낃뎄?먯꽌 ?뚰뭹 ?대떦??鍮좊Ⅴ寃??뺤궛?섎뒗 ?덉쟾 ?먯엯?덈떎.
     /// </summary>
     private void RepairStage1RewardInventoryIfNeeded()
     {
@@ -294,7 +300,7 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// RoadGroup이 닫히면 코루틴, 애니메이션, HUD, 페이드 상태를 정리합니다.
+    /// RoadGroup???ロ엳硫?肄붾（?? ?좊땲硫붿씠?? HUD, ?섏씠???곹깭瑜??뺣━?⑸땲??
     /// </summary>
     private void OnDisable()
     {
@@ -314,7 +320,7 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// 튜토리얼/오버레이/페이드 중이 아닐 때 D키 입력으로 MFC를 오른쪽 이동시킵니다.
+    /// ?쒗넗由ъ뼹/?ㅻ쾭?덉씠/?섏씠??以묒씠 ?꾨땺 ??D???낅젰?쇰줈 MFC瑜??ㅻⅨ履??대룞?쒗궢?덈떎.
     /// </summary>
     private void Update()
     {
@@ -382,8 +388,8 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// D키와 오른쪽 방향키를 함께 받습니다.
-    /// 빌드 환경에서 키보드 레이아웃이나 포커스 차이로 한쪽 입력이 흔들려도 Road 배우가 움직일 수 있게 하는 보험입니다.
+    /// D?ㅼ? ?ㅻⅨ履?諛⑺뼢?ㅻ? ?④퍡 諛쏆뒿?덈떎.
+    /// 鍮뚮뱶 ?섍꼍?먯꽌 ?ㅻ낫???덉씠?꾩썐?대굹 ?ъ빱??李⑥씠濡??쒖そ ?낅젰???붾뱾?ㅻ룄 Road 諛곗슦媛 ?吏곸씪 ???덇쾶 ?섎뒗 蹂댄뿕?낅땲??
     /// </summary>
     private bool IsMoveRightPressed()
     {
@@ -391,8 +397,8 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// 기존 Input Manager 방식으로 D/오른쪽 방향키를 읽습니다.
-    /// 빌드 설정이 New Input 전용으로 바뀐 경우 예외가 날 수 있어 안전하게 감쌉니다.
+    /// 湲곗〈 Input Manager 諛⑹떇?쇰줈 D/?ㅻⅨ履?諛⑺뼢?ㅻ? ?쎌뒿?덈떎.
+    /// 鍮뚮뱶 ?ㅼ젙??New Input ?꾩슜?쇰줈 諛붾?寃쎌슦 ?덉쇅媛 ?????덉뼱 ?덉쟾?섍쾶 媛먯뙃?덈떎.
     /// </summary>
     private bool IsLegacyMoveRightPressed()
     {
@@ -411,8 +417,8 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// Unity New Input System 방식으로 D/오른쪽 방향키를 읽습니다.
-    /// 빌드에서 Legacy Input이 흔들릴 때도 키보드 상태를 직접 확인하기 위한 보험입니다.
+    /// Unity New Input System 諛⑹떇?쇰줈 D/?ㅻⅨ履?諛⑺뼢?ㅻ? ?쎌뒿?덈떎.
+    /// 鍮뚮뱶?먯꽌 Legacy Input???붾뱾由??뚮룄 ?ㅻ낫???곹깭瑜?吏곸젒 ?뺤씤?섍린 ?꾪븳 蹂댄뿕?낅땲??
     /// </summary>
     private bool IsNewInputMoveRightPressed()
     {
@@ -429,8 +435,8 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// 튜토리얼, 오프닝 대사, HUD 오버레이가 켜져 있으면 원래는 MFC 조작을 잠급니다.
-    /// 빌드에서 이 값이 풀리지 않으면 D키가 죽은 것처럼 보이므로 한 곳에서 원인을 판정합니다.
+    /// ?쒗넗由ъ뼹, ?ㅽ봽????? HUD ?ㅻ쾭?덉씠媛 耳쒖졇 ?덉쑝硫??먮옒??MFC 議곗옉???좉툒?덈떎.
+    /// 鍮뚮뱶?먯꽌 ??媛믪씠 ?由ъ? ?딆쑝硫?D?ㅺ? 二쎌? 寃껋쿂??蹂댁씠誘濡???怨녹뿉???먯씤???먯젙?⑸땲??
     /// </summary>
     private bool IsRoadInputBlocked()
     {
@@ -445,8 +451,8 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// 빌드에서 키 입력이 잡히지 않는 최악의 경우에도 Road 장면이 멈추지 않게 하는 자동 이동 보험입니다.
-    /// 영화로 보면 배우가 큐 사인을 못 들었을 때 조감독이 정해진 동선대로 밀어 주는 마지막 안전 큐입니다.
+    /// 鍮뚮뱶?먯꽌 ???낅젰???≫엳吏 ?딅뒗 理쒖븙??寃쎌슦?먮룄 Road ?λ㈃??硫덉텛吏 ?딄쾶 ?섎뒗 ?먮룞 ?대룞 蹂댄뿕?낅땲??
+    /// ?곹솕濡?蹂대㈃ 諛곗슦媛 ???ъ씤??紐??ㅼ뿀????議곌컧?낆씠 ?뺥빐吏??숈꽑?濡?諛??二쇰뒗 留덉?留??덉쟾 ?먯엯?덈떎.
     /// </summary>
     private bool IsBuildAutoMoveRequested(bool isMoveRightPressed)
     {
@@ -476,8 +482,8 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// RoadGroup에서 이동 키가 눌렸는데 시간 정지나 오버레이 잔여 상태가 남아 있으면 즉시 복구합니다.
-    /// 요리/도감/월드맵에서 돌아온 뒤에도 배우가 다시 움직일 수 있게 만드는 공통 안전장치입니다.
+    /// RoadGroup?먯꽌 ?대룞 ?ㅺ? ?뚮졇?붾뜲 ?쒓컙 ?뺤????ㅻ쾭?덉씠 ?붿뿬 ?곹깭媛 ?⑥븘 ?덉쑝硫?利됱떆 蹂듦뎄?⑸땲??
+    /// ?붾━/?꾧컧/?붾뱶留듭뿉???뚯븘???ㅼ뿉??諛곗슦媛 ?ㅼ떆 ?吏곸씪 ???덇쾶 留뚮뱶??怨듯넻 ?덉쟾?μ튂?낅땲??
     /// </summary>
     private void RequestRecoverRoadRuntimeStateForMovement()
     {
@@ -503,8 +509,8 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// 빌드에서 RoadMap1 도착 가이드나 오버레이 복귀가 끊기면 이동 입력이 계속 막힐 수 있습니다.
-    /// 플레이어가 D/오른쪽키를 계속 누르고 있으면 남은 잠금 큐를 정리해 MFC 배우가 다시 이동하게 합니다.
+    /// 鍮뚮뱶?먯꽌 RoadMap1 ?꾩갑 媛?대뱶???ㅻ쾭?덉씠 蹂듦?媛 ?딄린硫??대룞 ?낅젰??怨꾩냽 留됲옄 ???덉뒿?덈떎.
+    /// ?뚮젅?댁뼱媛 D/?ㅻⅨ履쏀궎瑜?怨꾩냽 ?꾨Ⅴ怨??덉쑝硫??⑥? ?좉툑 ?먮? ?뺣━??MFC 諛곗슦媛 ?ㅼ떆 ?대룞?섍쾶 ?⑸땲??
     /// </summary>
     private void RequestUnlockBlockedRoadInputIfNeeded()
     {
@@ -534,8 +540,8 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// 이동을 막는 남은 튜토리얼, 대사, HUD 오버레이, 시간 정지 상태를 한 번에 정리합니다.
-    /// 플레이어가 D를 눌렀는데 무대 큐가 닫히지 않은 상황을 복구하는 공통 안전장치입니다.
+    /// ?대룞??留됰뒗 ?⑥? ?쒗넗由ъ뼹, ??? HUD ?ㅻ쾭?덉씠, ?쒓컙 ?뺤? ?곹깭瑜???踰덉뿉 ?뺣━?⑸땲??
+    /// ?뚮젅?댁뼱媛 D瑜??뚮??붾뜲 臾대? ?먭? ?ロ엳吏 ?딆? ?곹솴??蹂듦뎄?섎뒗 怨듯넻 ?덉쟾?μ튂?낅땲??
     /// </summary>
     private void RequestClearBlockedRoadInputState(string reason)
     {
@@ -556,8 +562,8 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// RoadGroup이 끝난 뒤에는 입력 복구가 필요 없지만, 그 전에는 첫 맵도 포함해서 복구를 허용합니다.
-    /// 빌드에서 첫 튜토리얼 패널이 보이지 않고 잠금만 남는 경우가 있어서 첫 맵 제한을 두지 않습니다.
+    /// RoadGroup???앸궃 ?ㅼ뿉???낅젰 蹂듦뎄媛 ?꾩슂 ?놁?留? 洹??꾩뿉??泥?留듬룄 ?ы븿?댁꽌 蹂듦뎄瑜??덉슜?⑸땲??
+    /// 鍮뚮뱶?먯꽌 泥??쒗넗由ъ뼹 ?⑤꼸??蹂댁씠吏 ?딄퀬 ?좉툑留??⑤뒗 寃쎌슦媛 ?덉뼱??泥?留??쒗븳???먯? ?딆뒿?덈떎.
     /// </summary>
     private bool CanUseBlockedInputFailSafe()
     {
@@ -565,8 +571,8 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// MFC 배우와 맵 배경 오브젝트를 씬 이름 또는 역할표로 찾습니다.
-    /// 인스펙터 참조가 있으면 그 값을 우선 사용해 나중에 배경만 교체하기 쉽게 둡니다.
+    /// MFC 諛곗슦? 留?諛곌꼍 ?ㅻ툕?앺듃瑜????대쫫 ?먮뒗 ??븷?쒕줈 李얠뒿?덈떎.
+    /// ?몄뒪?숉꽣 李몄“媛 ?덉쑝硫?洹?媛믪쓣 ?곗꽑 ?ъ슜???섏쨷??諛곌꼍留?援먯껜?섍린 ?쎄쾶 ?〓땲??
     /// </summary>
     public void ResolveSceneReferences()
     {
@@ -666,8 +672,8 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// 4th Road는 StartPointMap 다음에 곧바로 Stage4 진입맵으로 넘어가는 짧은 길입니다.
-    /// 같은 Road 감독을 쓰되, 공연 큐시트만 두 장짜리로 바꿔 끼우는 방식입니다.
+    /// 4th Road??StartPointMap ?ㅼ쓬??怨㏓컮濡?Stage4 吏꾩엯留듭쑝濡??섏뼱媛??吏㏃? 湲몄엯?덈떎.
+    /// 媛숈? Road 媛먮룆???곕릺, 怨듭뿰 ?먯떆?몃쭔 ???μ쭨由щ줈 諛붽퓭 ?쇱슦??諛⑹떇?낅땲??
     /// </summary>
     private GameObject[] CreateMapObjectArrayForCurrentRoad()
     {
@@ -678,8 +684,8 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// 실제로 무대에 존재하는 Road 배경만 큐시트 배열에 넣습니다.
-    /// 영화 비유로는 공연장에 없는 배경막은 큐시트에서 빼고, 준비된 배경막만 순서대로 넘기는 일입니다.
+    /// ?ㅼ젣濡?臾대???議댁옱?섎뒗 Road 諛곌꼍留??먯떆??諛곗뿴???ｌ뒿?덈떎.
+    /// ?곹솕 鍮꾩쑀濡쒕뒗 怨듭뿰?μ뿉 ?녿뒗 諛곌꼍留됱? ?먯떆?몄뿉??鍮쇨퀬, 以鍮꾨맂 諛곌꼍留됰쭔 ?쒖꽌?濡??섍린???쇱엯?덈떎.
     /// </summary>
     private GameObject[] CreateValidMapObjectArray(params GameObject[] mapObjectArray)
     {
@@ -697,8 +703,8 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// 이름 검색보다 먼저 OOTechSceneObject 역할표를 읽습니다.
-    /// Road 감독은 "MFC", "RoadMap1" 같은 역할만 알고, 구체 오브젝트 배치는 배우가 갖습니다.
+    /// ?대쫫 寃?됰낫??癒쇱? OOTechSceneObject ??븷?쒕? ?쎌뒿?덈떎.
+    /// Road 媛먮룆? "MFC", "RoadMap1" 媛숈? ??븷留??뚭퀬, 援ъ껜 ?ㅻ툕?앺듃 諛곗튂??諛곗슦媛 媛뽰뒿?덈떎.
     /// </summary>
     private void CacheSceneContextReference()
     {
@@ -726,7 +732,7 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// 첫 맵을 켜고 MFC를 도로 시작점에 배치해 로드 여행을 준비합니다.
+    /// 泥?留듭쓣 耳쒓퀬 MFC瑜??꾨줈 ?쒖옉?먯뿉 諛곗튂??濡쒕뱶 ?ы뻾??以鍮꾪빀?덈떎.
     /// </summary>
     private void PrepareRoadTrip()
     {
@@ -749,7 +755,7 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// 현재 맵의 도로 띠를 따라 MFC를 오른쪽으로 이동시키고 끝에 닿으면 다음 맵으로 넘깁니다.
+    /// ?꾩옱 留듭쓽 ?꾨줈 ?좊? ?곕씪 MFC瑜??ㅻⅨ履쎌쑝濡??대룞?쒗궎怨??앹뿉 ?우쑝硫??ㅼ쓬 留듭쑝濡??섍퉩?덈떎.
     /// </summary>
     private void MoveMFCRight()
     {
@@ -784,7 +790,7 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// 화면을 어둡게 했다가 다음 맵 또는 StageGroup으로 전환하는 페이드 루틴입니다.
+    /// ?붾㈃???대몼寃??덈떎媛 ?ㅼ쓬 留??먮뒗 StageGroup?쇰줈 ?꾪솚?섎뒗 ?섏씠??猷⑦떞?낅땲??
     /// </summary>
     private IEnumerator ChangeToNextMapRoutine()
     {
@@ -859,8 +865,8 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// 3rd Road에서는 별도 Wormhole 소품에 의존하지 않고 마지막 맵의 중간 큐 지점에서 전환을 시작합니다.
-    /// 영화로 치면 배우가 특정 소품을 밟아야만 컷이 나는 방식이 아니라, 무대 중앙 표시선에 들어오면 조명 전환 큐가 나가는 방식입니다.
+    /// 3rd Road?먯꽌??蹂꾨룄 Wormhole ?뚰뭹???섏〈?섏? ?딄퀬 留덉?留?留듭쓽 以묎컙 ??吏?먯뿉???꾪솚???쒖옉?⑸땲??
+    /// ?곹솕濡?移섎㈃ 諛곗슦媛 ?뱀젙 ?뚰뭹??諛잛븘?쇰쭔 而룹씠 ?섎뒗 諛⑹떇???꾨땲?? 臾대? 以묒븰 ?쒖떆?좎뿉 ?ㅼ뼱?ㅻ㈃ 議곕챸 ?꾪솚 ?먭? ?섍???諛⑹떇?낅땲??
     /// </summary>
     private bool IsMFCAtWormholeCuePoint()
     {
@@ -918,8 +924,8 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// Wormhole에 닿았을 때 강제 인카운터처럼 화면을 짧게 번쩍이며 다음 무대 진입을 알립니다.
-    /// 새 UI를 만들지 않고, 씬에 배치된 FadeOverlay 배우를 잠깐 다른 색 조명처럼 사용합니다.
+    /// Wormhole???우븯????媛뺤젣 ?몄뭅?댄꽣泥섎읆 ?붾㈃??吏㏐쾶 踰덉찉?대ŉ ?ㅼ쓬 臾대? 吏꾩엯???뚮┰?덈떎.
+    /// ??UI瑜?留뚮뱾吏 ?딄퀬, ?ъ뿉 諛곗튂??FadeOverlay 諛곗슦瑜??좉퉸 ?ㅻⅨ ??議곕챸泥섎읆 ?ъ슜?⑸땲??
     /// </summary>
     private IEnumerator PlayWormholeEncounterEffectRoutine()
     {
@@ -943,7 +949,7 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// 현재 인덱스의 맵 배경만 켜고 나머지 배경은 끕니다.
+    /// ?꾩옱 ?몃뜳?ㅼ쓽 留?諛곌꼍留?耳쒓퀬 ?섎㉧吏 諛곌꼍? ?뺣땲??
     /// </summary>
     private void SetOnlyCurrentMapActive()
     {
@@ -958,7 +964,7 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// MFC를 현재 맵 왼쪽 진입 위치와 도로 높이에 맞춥니다.
+    /// MFC瑜??꾩옱 留??쇱そ 吏꾩엯 ?꾩튂? ?꾨줈 ?믪씠??留욎땅?덈떎.
     /// </summary>
     private void PlaceMFCAtMapEntry()
     {
@@ -971,8 +977,8 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// 첫 맵 시작은 사용자가 하이어라키에 둔 MFC_StartPoint 위치표를 우선 사용합니다.
-    /// 위치표가 없으면 현재 배치된 MFC를 그대로 두어 감독이 잡아둔 무대 위치를 존중합니다.
+    /// 泥?留??쒖옉? ?ъ슜?먭? ?섏씠?대씪?ㅼ뿉 ??MFC_StartPoint ?꾩튂?쒕? ?곗꽑 ?ъ슜?⑸땲??
+    /// ?꾩튂?쒓? ?놁쑝硫??꾩옱 諛곗튂??MFC瑜?洹몃?濡??먯뼱 媛먮룆???≪븘??臾대? ?꾩튂瑜?議댁쨷?⑸땲??
     /// </summary>
     private void PlaceMFCAtOpeningPosition()
     {
@@ -1008,7 +1014,7 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// 현재 맵 왼쪽 도로 진입 위치를 계산합니다.
+    /// ?꾩옱 留??쇱そ ?꾨줈 吏꾩엯 ?꾩튂瑜?怨꾩궛?⑸땲??
     /// </summary>
     private Vector3 CalculateMapEntryPosition(SpriteRenderer mapRenderer)
     {
@@ -1020,7 +1026,7 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// MFC 시작 위치표가 현재 배경 안쪽에 있는지 확인합니다.
+    /// MFC ?쒖옉 ?꾩튂?쒓? ?꾩옱 諛곌꼍 ?덉そ???덈뒗吏 ?뺤씤?⑸땲??
     /// </summary>
     private bool IsPositionInsideMapBounds(Vector3 position, SpriteRenderer mapRenderer)
     {
@@ -1037,7 +1043,7 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// 현재 맵 배경 스프라이트가 보이도록 Renderer 상태를 복구합니다.
+    /// ?꾩옱 留?諛곌꼍 ?ㅽ봽?쇱씠?멸? 蹂댁씠?꾨줉 Renderer ?곹깭瑜?蹂듦뎄?⑸땲??
     /// </summary>
     private void EnsureCurrentMapVisible()
     {
@@ -1057,7 +1063,7 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// MFC 배우가 실수로 꺼지거나 투명해진 경우 화면에 보이도록 복구합니다.
+    /// MFC 諛곗슦媛 ?ㅼ닔濡?爰쇱?嫄곕굹 ?щ챸?댁쭊 寃쎌슦 ?붾㈃??蹂댁씠?꾨줉 蹂듦뎄?⑸땲??
     /// </summary>
     private void EnsureMFCVisible()
     {
@@ -1067,29 +1073,42 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
         Object_MFC.SetActive(true);
 
         if (Renderer_MFC == null)
-            Renderer_MFC = Object_MFC.GetComponent<SpriteRenderer>();
+            Renderer_MFC = Object_MFC.GetComponentInChildren<SpriteRenderer>(true);
 
-        if (Renderer_MFC == null)
+        SpriteRenderer[] rendererArray = Object_MFC.GetComponentsInChildren<SpriteRenderer>(true);
+
+        if (rendererArray == null || rendererArray.Length == 0)
             return;
 
-        Renderer_MFC.enabled = true;
-        Renderer_MFC.sortingOrder = Mathf.Max(Renderer_MFC.sortingOrder, _mfcSortingOrder);
+        int safeSortingOrder = Mathf.Max(_mfcSortingOrder, _mfcMinimumVisibleSortingOrder);
 
-        Color color = Renderer_MFC.color;
-
-        if (color.a <= 0.01f)
+        foreach (SpriteRenderer spriteRenderer in rendererArray)
         {
-            color.a = 1f;
-            Renderer_MFC.color = color;
+            if (spriteRenderer == null)
+                continue;
+
+            spriteRenderer.enabled = true;
+            spriteRenderer.sortingOrder = Mathf.Max(spriteRenderer.sortingOrder, safeSortingOrder);
+
+            Color color = spriteRenderer.color;
+
+            if (color.a <= 0.01f)
+            {
+                color.a = 1f;
+                spriteRenderer.color = color;
+            }
         }
     }
 
     /// <summary>
-    /// MFC 걷기 애니메이션을 첫 프레임에 준비합니다.
-    /// 감독이 이동 큐를 줄 때만 실제 애니메이션 속도를 올립니다.
+    /// MFC 嫄룰린 ?좊땲硫붿씠?섏쓣 泥??꾨젅?꾩뿉 以鍮꾪빀?덈떎.
+    /// 媛먮룆???대룞 ?먮? 以??뚮쭔 ?ㅼ젣 ?좊땲硫붿씠???띾룄瑜??щ┰?덈떎.
     /// </summary>
     private void PrepareMFCAnimation()
     {
+        if (Animator_MFC == null)
+            Animator_MFC = Object_MFC != null ? Object_MFC.GetComponentInChildren<Animator>(true) : null;
+
         if (Animator_MFC == null)
             return;
 
@@ -1100,8 +1119,8 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// MFC 걷기 상태를 애니메이터에서 찾아 재생합니다.
-    /// 새 상태명 MFC_isWalking을 우선 쓰고, 아직 이전 컨트롤러라면 MFC 상태로 되돌아갑니다.
+    /// MFC 嫄룰린 ?곹깭瑜??좊땲硫붿씠?곗뿉??李얠븘 ?ъ깮?⑸땲??
+    /// ???곹깭紐?MFC_isWalking???곗꽑 ?곌퀬, ?꾩쭅 ?댁쟾 而⑦듃濡ㅻ윭?쇰㈃ MFC ?곹깭濡??섎룎?꾧컩?덈떎.
     /// </summary>
     private void PlayMFCWalkState(float normalizedTime)
     {
@@ -1129,7 +1148,7 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// D키 이동 중일 때만 MFC 애니메이션이 재생되게 합니다.
+    /// D???대룞 以묒씪 ?뚮쭔 MFC ?좊땲硫붿씠?섏씠 ?ъ깮?섍쾶 ?⑸땲??
     /// </summary>
     private void SetMFCAnimationPlaying(bool isPlaying)
     {
@@ -1140,7 +1159,7 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// 현재 맵 이미지의 세로 크기에서 도로 띠 Y 위치를 계산합니다.
+    /// ?꾩옱 留??대?吏???몃줈 ?ш린?먯꽌 ?꾨줈 ??Y ?꾩튂瑜?怨꾩궛?⑸땲??
     /// </summary>
     private float CalculateRoadLaneY(SpriteRenderer mapRenderer)
     {
@@ -1149,7 +1168,7 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// 현재 맵 오른쪽 끝에서 다음 장면으로 넘어갈 X 위치를 계산합니다.
+    /// ?꾩옱 留??ㅻⅨ履??앹뿉???ㅼ쓬 ?λ㈃?쇰줈 ?섏뼱媛?X ?꾩튂瑜?怨꾩궛?⑸땲??
     /// </summary>
     private float CalculateExitX(SpriteRenderer mapRenderer)
     {
@@ -1172,8 +1191,8 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// 내부 인덱스가 틀어졌을 때 실제 켜져 있는 RoadMap Renderer를 찾아 이동 기준으로 사용합니다.
-    /// 감독의 큐시트 번호가 밀려도, 플레이어가 보고 있는 배경 위에서 MFC가 계속 움직이게 하는 마지막 안전망입니다.
+    /// ?대? ?몃뜳?ㅺ? ??댁죱?????ㅼ젣 耳쒖졇 ?덈뒗 RoadMap Renderer瑜?李얠븘 ?대룞 湲곗??쇰줈 ?ъ슜?⑸땲??
+    /// 媛먮룆???먯떆??踰덊샇媛 諛?ㅻ룄, ?뚮젅?댁뼱媛 蹂닿퀬 ?덈뒗 諛곌꼍 ?꾩뿉??MFC媛 怨꾩냽 ?吏곸씠寃??섎뒗 留덉?留??덉쟾留앹엯?덈떎.
     /// </summary>
     private SpriteRenderer GetVisibleMapRenderer()
     {
@@ -1209,7 +1228,7 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// 카메라 팔로우 대상을 MFC로 바꾸고, 필요하면 즉시 MFC 위치로 스냅합니다.
+    /// 移대찓???붾줈????곸쓣 MFC濡?諛붽씀怨? ?꾩슂?섎㈃ 利됱떆 MFC ?꾩튂濡??ㅻ깄?⑸땲??
     /// </summary>
     private void FocusCameraOnCurrentMap()
     {
@@ -1247,14 +1266,14 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// 씬에 배치된 RoadMapFadeCanvas와 Image_FadeOverlay를 찾아 페이드 소품으로 연결합니다.
+    /// ?ъ뿉 諛곗튂??RoadMapFadeCanvas? Image_FadeOverlay瑜?李얠븘 ?섏씠???뚰뭹?쇰줈 ?곌껐?⑸땲??
     /// </summary>
     private void CreateFadeOverlayIfNeeded()
     {
         if (_fadeCanvas != null)
             return;
 
-        GameObject canvasObject = FindChildByName(transform, "RoadMapFadeCanvas");
+        GameObject canvasObject = RequestChildObjectByName(transform, "RoadMapFadeCanvas");
 
         if (canvasObject == null)
         {
@@ -1273,7 +1292,7 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
         _fadeCanvas.renderMode = RenderMode.ScreenSpaceOverlay;
         _fadeCanvas.sortingOrder = 5000;
 
-        GameObject imageObject = FindChildByName(canvasObject.transform, "Image_FadeOverlay");
+        GameObject imageObject = RequestChildObjectByName(canvasObject.transform, "Image_FadeOverlay");
 
         if (imageObject == null)
         {
@@ -1294,7 +1313,7 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// 검은 페이드 오버레이의 알파를 서서히 바꿔 맵 전환을 연출합니다.
+    /// 寃? ?섏씠???ㅻ쾭?덉씠???뚰뙆瑜??쒖꽌??諛붽퓭 留??꾪솚???곗텧?⑸땲??
     /// </summary>
     private IEnumerator FadeOverlayRoutine(float fromAlpha, float toAlpha, float duration)
     {
@@ -1354,7 +1373,7 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// 현재 그룹의 공용 HUD 컨트롤러를 찾습니다.
+    /// ?꾩옱 洹몃９??怨듭슜 HUD 而⑦듃濡ㅻ윭瑜?李얠뒿?덈떎.
     /// </summary>
     private void CacheHUDReference()
     {
@@ -1366,7 +1385,7 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// Tutorial2Controller를 찾아 HUD 소개와 RoadMap1 도착 안내를 맡깁니다.
+    /// Tutorial2Controller瑜?李얠븘 HUD ?뚭컻? RoadMap1 ?꾩갑 ?덈궡瑜?留↔퉩?덈떎.
     /// </summary>
     private void CacheTutorial2Reference()
     {
@@ -1378,7 +1397,7 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// 로드 화면용 HUD를 준비하고 현재 그룹 규칙에 맞게 요리 버튼 잠금을 적용합니다.
+    /// 濡쒕뱶 ?붾㈃??HUD瑜?以鍮꾪븯怨??꾩옱 洹몃９ 洹쒖튃??留욊쾶 ?붾━ 踰꾪듉 ?좉툑???곸슜?⑸땲??
     /// </summary>
     private void PrepareRoadHUD()
     {
@@ -1393,8 +1412,8 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// RoadGroup 이름에 맞춰 HUD의 길 안내 임무를 데이터로 교체합니다.
-    /// 영화로 치면 이동 장면마다 배우에게 다른 콜시트를 나눠주는 큐입니다.
+    /// RoadGroup ?대쫫??留욎떠 HUD??湲??덈궡 ?꾨Т瑜??곗씠?곕줈 援먯껜?⑸땲??
+    /// ?곹솕濡?移섎㈃ ?대룞 ?λ㈃留덈떎 諛곗슦?먭쾶 ?ㅻⅨ 肄쒖떆?몃? ?섎닠二쇰뒗 ?먯엯?덈떎.
     /// </summary>
     private void ApplyRoadMissionForCurrentGroup()
     {
@@ -1409,7 +1428,7 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// OO_StageQuest에서 임무 설명을 읽고, 데이터가 아직 비어 있으면 안전 문구를 사용합니다.
+    /// OO_StageQuest?먯꽌 ?꾨Т ?ㅻ챸???쎄퀬, ?곗씠?곌? ?꾩쭅 鍮꾩뼱 ?덉쑝硫??덉쟾 臾멸뎄瑜??ъ슜?⑸땲??
     /// </summary>
     private string ResolveStageQuestDescription(string stageQuestDataId, string fallbackText)
     {
@@ -1428,7 +1447,7 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// RoadGroup 진입 시 이전 무대의 전체 화면 UI가 남아 카메라와 버튼을 막지 않도록 정리합니다.
+    /// RoadGroup 吏꾩엯 ???댁쟾 臾대????꾩껜 ?붾㈃ UI媛 ?⑥븘 移대찓?쇱? 踰꾪듉??留됱? ?딅룄濡??뺣━?⑸땲??
     /// </summary>
     private void CloseBlockingSceneGroups()
     {
@@ -1437,7 +1456,7 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
             if (string.IsNullOrEmpty(groupName) || groupName == _currentGroupName)
                 continue;
 
-            GameObject groupObject = FindSceneObjectByName(groupName);
+            GameObject groupObject = RequestSceneObjectByName(groupName);
 
             if (groupObject == null || !groupObject.activeSelf)
                 continue;
@@ -1455,7 +1474,7 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// 1st_Road_to_Stage1 진입 시 HUD 소개 튜토리얼을 시작합니다.
+    /// 1st_Road_to_Stage1 吏꾩엯 ??HUD ?뚭컻 ?쒗넗由ъ뼹???쒖옉?⑸땲??
     /// </summary>
     private void StartOpeningTutorialIfNeeded()
     {
@@ -1471,8 +1490,8 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// 2nd Road 진입 직후 대화 큐시트를 재생합니다.
-    /// Game View에서는 DialoguePanel이 먼저 뜨고, 모든 대사를 넘긴 뒤에야 MFC 이동 입력이 풀립니다.
+    /// 2nd Road 吏꾩엯 吏곹썑 ????먯떆?몃? ?ъ깮?⑸땲??
+    /// Game View?먯꽌??DialoguePanel??癒쇱? ?④퀬, 紐⑤뱺 ??щ? ?섍릿 ?ㅼ뿉??MFC ?대룞 ?낅젰???由쎈땲??
     /// </summary>
     private void StartRoadOpeningDialogueIfNeeded()
     {
@@ -1540,7 +1559,7 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
 
     private bool TryOpenDialogueGroup()
     {
-        GameObject dialogueGroup = FindSceneObjectByName(_dialogueGroupName);
+        GameObject dialogueGroup = RequestSceneObjectByName(_dialogueGroupName);
 
         if (dialogueGroup == null)
         {
@@ -1572,7 +1591,7 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
         if (OOTechUIManager.Inst != null && OOTechUIManager.Inst.CloseUI(_dialogueGroupName))
             return;
 
-        GameObject dialogueGroup = FindSceneObjectByName(_dialogueGroupName);
+        GameObject dialogueGroup = RequestSceneObjectByName(_dialogueGroupName);
 
         if (dialogueGroup != null)
             dialogueGroup.SetActive(false);
@@ -1605,7 +1624,7 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// RoadMap1 이후에는 요리하기 HUD를 사용할 수 있게 엽니다.
+    /// RoadMap1 ?댄썑?먮뒗 ?붾━?섍린 HUD瑜??ъ슜?????덇쾶 ?쎈땲??
     /// </summary>
     private void UnlockCookingIfNeeded()
     {
@@ -1622,7 +1641,7 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// 첫 번째 RoadMap1에 도착했을 때만 요리 안내 대화/튜토리얼을 재생합니다.
+    /// 泥?踰덉㎏ RoadMap1???꾩갑?덉쓣 ?뚮쭔 ?붾━ ?덈궡 ????쒗넗由ъ뼹???ъ깮?⑸땲??
     /// </summary>
     private IEnumerator PlayRoadMapArrivalCueIfNeeded()
     {
@@ -1640,7 +1659,7 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// 로드 마지막 맵 끝에 도달하면 목표 StageGroup만 켜고 나머지 StageGroup은 끕니다.
+    /// 濡쒕뱶 留덉?留?留??앹뿉 ?꾨떖?섎㈃ 紐⑺몴 StageGroup留?耳쒓퀬 ?섎㉧吏 StageGroup? ?뺣땲??
     /// </summary>
     private void OpenTargetStageGroup()
     {
@@ -1664,10 +1683,10 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
 
     private string ResolveActualTargetStageGroupName(string requestedGroupName)
     {
-        if (!string.IsNullOrWhiteSpace(requestedGroupName) && FindSceneObjectByName(requestedGroupName) != null)
+        if (!string.IsNullOrWhiteSpace(requestedGroupName) && RequestSceneObjectByName(requestedGroupName) != null)
             return requestedGroupName;
 
-        if (requestedGroupName == _stage4FirstGroupName && FindSceneObjectByName(_stage4GroupName) != null)
+        if (requestedGroupName == _stage4FirstGroupName && RequestSceneObjectByName(_stage4GroupName) != null)
         {
             Debug.LogWarning("[OOTechRoadToStage1Controller] Stage4_1Group not found. Falling back to Stage4Group.");
             return _stage4GroupName;
@@ -1712,12 +1731,12 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// StageGroup을 열자마자 배경 전체가 Game View에 들어오도록 카메라와 Canvas 기준값을 맞춥니다.
-    /// 촬영감독이 새 무대에 들어가자마자 와이드샷으로 프레임을 다시 잡는 작업입니다.
+    /// StageGroup???댁옄留덉옄 諛곌꼍 ?꾩껜媛 Game View???ㅼ뼱?ㅻ룄濡?移대찓?쇱? Canvas 湲곗?媛믪쓣 留욎땅?덈떎.
+    /// 珥ъ쁺媛먮룆????臾대????ㅼ뼱媛?먮쭏????대뱶?룹쑝濡??꾨젅?꾩쓣 ?ㅼ떆 ?〓뒗 ?묒뾽?낅땲??
     /// </summary>
     private void RequestFitTargetStageCamera(string targetGroupName)
     {
-        GameObject targetGroupObject = FindSceneObjectByName(targetGroupName);
+        GameObject targetGroupObject = RequestSceneObjectByName(targetGroupName);
 
         if (targetGroupObject == null)
             return;
@@ -1798,7 +1817,7 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
         if (string.IsNullOrEmpty(groupName))
             return false;
 
-        GameObject groupObject = FindSceneObjectByName(groupName);
+        GameObject groupObject = RequestSceneObjectByName(groupName);
 
         if (OOTechUIManager.Inst != null && groupObject != null)
         {
@@ -1821,7 +1840,7 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
         return true;
     }
 
-    private GameObject FindSceneObjectByName(string objectName)
+    private GameObject RequestSceneObjectByName(string objectName)
     {
         Scene scene = SceneManager.GetActiveScene();
 
@@ -1830,7 +1849,7 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
 
         foreach (GameObject rootObject in scene.GetRootGameObjects())
         {
-            GameObject foundObject = FindChildByName(rootObject.transform, objectName);
+            GameObject foundObject = RequestChildObjectByName(rootObject.transform, objectName);
 
             if (foundObject != null)
                 return foundObject;
@@ -1839,7 +1858,7 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
         return null;
     }
 
-    private GameObject FindChildByName(Transform rootTransform, string objectName)
+    private GameObject RequestChildObjectByName(Transform rootTransform, string objectName)
     {
         if (rootTransform == null)
             return null;
@@ -1849,7 +1868,7 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
 
         for (int index = 0; index < rootTransform.childCount; index++)
         {
-            GameObject foundObject = FindChildByName(rootTransform.GetChild(index), objectName);
+            GameObject foundObject = RequestChildObjectByName(rootTransform.GetChild(index), objectName);
 
             if (foundObject != null)
                 return foundObject;
@@ -1865,7 +1884,8 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
 
         foreach (string childName in childNameArray)
         {
-            Transform childTransform = transform.Find(childName);
+            GameObject childObject = OOTechSceneQuery.RequestChildObjectByName(transform, childName);
+            Transform childTransform = childObject != null ? childObject.transform : null;
 
             if (childTransform != null)
                 return childTransform.gameObject;
@@ -1875,19 +1895,20 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// 현재 RoadGroup 안에 실제로 배치된 배우를 우선 찾습니다.
-    /// 인스펙터 참조가 비어 있거나 예전 MFC를 가리켜도, 무대 안의 새 MFC를 다시 잡기 위한 안전장치입니다.
+    /// ?꾩옱 RoadGroup ?덉뿉 ?ㅼ젣濡?諛곗튂??諛곗슦瑜??곗꽑 李얠뒿?덈떎.
+    /// ?몄뒪?숉꽣 李몄“媛 鍮꾩뼱 ?덇굅???덉쟾 MFC瑜?媛由ъ폒?? 臾대? ?덉쓽 ??MFC瑜??ㅼ떆 ?↔린 ?꾪븳 ?덉쟾?μ튂?낅땲??
     /// </summary>
     private GameObject ResolveOwnedChild(GameObject assignedObject, params string[] childNameArray)
     {
         foreach (string childName in childNameArray)
         {
-            Transform childTransform = transform.Find(childName);
+            GameObject childObject = OOTechSceneQuery.RequestChildObjectByName(transform, childName);
+            Transform childTransform = childObject != null ? childObject.transform : null;
 
             if (childTransform != null)
                 return childTransform.gameObject;
 
-            GameObject recursiveChildObject = FindChildByName(transform, childName);
+            GameObject recursiveChildObject = RequestChildObjectByName(transform, childName);
 
             if (recursiveChildObject != null)
                 return recursiveChildObject;
@@ -1917,11 +1938,12 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// 현재 선택된 배우 오브젝트에서 컴포넌트를 다시 가져옵니다.
-    /// 배우를 교체했을 때 예전 Animator/SpriteRenderer 참조가 남지 않도록 매번 소유 오브젝트 기준으로 읽습니다.
+    /// ?꾩옱 ?좏깮??諛곗슦 ?ㅻ툕?앺듃?먯꽌 而댄룷?뚰듃瑜??ㅼ떆 媛?몄샃?덈떎.
+    /// 諛곗슦瑜?援먯껜?덉쓣 ???덉쟾 Animator/SpriteRenderer 李몄“媛 ?⑥? ?딅룄濡?留ㅻ쾲 ?뚯쑀 ?ㅻ툕?앺듃 湲곗??쇰줈 ?쎌뒿?덈떎.
     /// </summary>
     private T ResolveOwnedComponent<T>(GameObject targetObject) where T : Component
     {
-        return targetObject != null ? targetObject.GetComponent<T>() : null;
+        return targetObject != null ? targetObject.GetComponentInChildren<T>(true) : null;
     }
 }
+

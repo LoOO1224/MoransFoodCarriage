@@ -1,10 +1,9 @@
-// =============================================================================
-// OO_MFC 역할 주석
-// - 스크립트: OOTechCodexGroupController.cs
-// - 역할: CodexGroup의 도감 목록/상세 패널을 관리합니다.
-// - 영화 비유: 극장 로비의 프로그램북 담당자입니다. 지금은 프로그램북이 완성 전이라
-//   관객에게 "발표 전 업데이트 예정" 안내판만 보여주고, 클릭하면 안내판만 치웁니다.
-// - 유지보수 사인: 실제 도감 공개 시 _isUseAnnouncementOnly를 끄면 OO_Codex.json 목록 모드로 돌아갑니다.
+﻿// =============================================================================
+// OO_MFC ??븷 二쇱꽍
+// - ?ㅽ겕由쏀듃: OOTechCodexGroupController.cs
+// - ??븷: CodexGroup???꾧컧 紐⑸줉/?곸꽭 ?⑤꼸??愿由ы빀?덈떎.
+// - ?곹솕 鍮꾩쑀: 洹뱀옣 濡쒕퉬???꾨줈洹몃옩遺??대떦?먯엯?덈떎. 吏湲덉? ?꾨줈洹몃옩遺곸씠 ?꾩꽦 ?꾩씠??//   愿媛앹뿉寃?"諛쒗몴 ???낅뜲?댄듃 ?덉젙" ?덈궡?먮쭔 蹂댁뿬二쇨퀬, ?대┃?섎㈃ ?덈궡?먮쭔 移섏썎?덈떎.
+// - ?좎?蹂댁닔 ?ъ씤: ?ㅼ젣 ?꾧컧 怨듦컻 ??_isUseAnnouncementOnly瑜??꾨㈃ OO_Codex.json 紐⑸줉 紐⑤뱶濡??뚯븘媛묐땲??
 // =============================================================================
 using System.Collections.Generic;
 using TMPro;
@@ -16,9 +15,9 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 /// <summary>
-/// CodexGroup의 표시 방식을 관리합니다.
-/// 현재 발표 버전에서는 안내문만 보여주며, 창 아무 곳이나 클릭하면 안내창만 닫습니다.
-/// CodexGroup의 원본 배경과 돌아가기 버튼은 유지해서, 돌아가기는 BackButtonController가 담당합니다.
+/// CodexGroup???쒖떆 諛⑹떇??愿由ы빀?덈떎.
+/// ?꾩옱 諛쒗몴 踰꾩쟾?먯꽌???덈궡臾몃쭔 蹂댁뿬二쇰ŉ, 李??꾨Т 怨녹씠???대┃?섎㈃ ?덈궡李쎈쭔 ?レ뒿?덈떎.
+/// CodexGroup???먮낯 諛곌꼍怨??뚯븘媛湲?踰꾪듉? ?좎??댁꽌, ?뚯븘媛湲곕뒗 BackButtonController媛 ?대떦?⑸땲??
 /// </summary>
 [DisallowMultipleComponent]
 public class OOTechCodexGroupController : MonoBehaviour, IPointerClickHandler
@@ -34,16 +33,22 @@ public class OOTechCodexGroupController : MonoBehaviour, IPointerClickHandler
     [SerializeField] private TextMeshProUGUI Text_DetailDescription;
     [SerializeField] private Image Image_DetailPreview;
 
+    [Header("Page")]
+    [SerializeField] private Button Button_PreviousPage;
+    [SerializeField] private Button Button_NextPage;
+    [SerializeField] private TextMeshProUGUI Text_PageLabel;
+
     [Header("Announcement")]
-    [SerializeField] private bool _isUseAnnouncementOnly = true;
+    [SerializeField] private bool _isUseAnnouncementOnly = false;
     [SerializeField] private bool _isCloseAnnouncementByAnyClick = true;
-    [SerializeField] private string _announcementTitle = "도감";
-    [SerializeField] private string _announcementCategory = "발표 전 업데이트 예정";
+    [SerializeField] private string _announcementTitle = "?꾧컧";
+    [SerializeField] private string _announcementCategory = "諛쒗몴 ???낅뜲?댄듃 ?덉젙";
     [TextArea(3, 8)]
-    [SerializeField] private string _announcementDescription = "도감은 발표 전 업데이트 예정입니다.\n캐릭터, 음식, 재료, 지역 정보는 데이터가 확정된 뒤 OO_Codex.xlsx로 정리해 업데이트합니다.";
+    [SerializeField] private string _announcementDescription = "?꾧컧? 諛쒗몴 ???낅뜲?댄듃 ?덉젙?낅땲??\n罹먮┃?? ?뚯떇, ?щ즺, 吏???뺣낫???곗씠?곌? ?뺤젙????OO_Codex.xlsx濡??뺣━???낅뜲?댄듃?⑸땲??";
 
     private readonly List<OOTechCodexEntrySlotView> _spawnedSlotViewList = new List<OOTechCodexEntrySlotView>();
     private GameObject Root_AnnouncementPanel;
+    private int _currentPageIndex;
     private int _openedFrame;
     private bool _isAnnouncementClosed;
 
@@ -52,6 +57,7 @@ public class OOTechCodexGroupController : MonoBehaviour, IPointerClickHandler
         _openedFrame = Time.frameCount;
         _isAnnouncementClosed = false;
         ResolveReferences();
+        BindPageButtons();
 
         if (_isUseAnnouncementOnly)
         {
@@ -64,6 +70,9 @@ public class OOTechCodexGroupController : MonoBehaviour, IPointerClickHandler
 
     private void Update()
     {
+        if (!_isUseAnnouncementOnly)
+            HandlePageKeyboardInput();
+
         if (!CanCloseAnnouncementByClick())
             return;
 
@@ -75,8 +84,8 @@ public class OOTechCodexGroupController : MonoBehaviour, IPointerClickHandler
     }
 
     /// <summary>
-    /// 발표 전 안내 모드에서는 도감 창 아무 곳이나 클릭해도 안내창만 닫습니다.
-    /// Game View에서는 배경 책장이 남고, 플레이어는 돌아가기 버튼으로 이전 무대에 복귀합니다.
+    /// 諛쒗몴 ???덈궡 紐⑤뱶?먯꽌???꾧컧 李??꾨Т 怨녹씠???대┃?대룄 ?덈궡李쎈쭔 ?レ뒿?덈떎.
+    /// Game View?먯꽌??諛곌꼍 梨낆옣???④퀬, ?뚮젅?댁뼱???뚯븘媛湲?踰꾪듉?쇰줈 ?댁쟾 臾대???蹂듦??⑸땲??
     /// </summary>
     public void OnPointerClick(PointerEventData eventData)
     {
@@ -87,8 +96,8 @@ public class OOTechCodexGroupController : MonoBehaviour, IPointerClickHandler
     }
 
     /// <summary>
-    /// 하이어라키에 미리 배치된 Codex UI 배우들을 이름으로 찾아 연결합니다.
-    /// 감독이 매번 소품을 새로 만들지 않고, 무대 위에 놓인 소품에 역할표를 붙이는 단계입니다.
+    /// ?섏씠?대씪?ㅼ뿉 誘몃━ 諛곗튂??Codex UI 諛곗슦?ㅼ쓣 ?대쫫?쇰줈 李얠븘 ?곌껐?⑸땲??
+    /// 媛먮룆??留ㅻ쾲 ?뚰뭹???덈줈 留뚮뱾吏 ?딄퀬, 臾대? ?꾩뿉 ?볦씤 ?뚰뭹????븷?쒕? 遺숈씠???④퀎?낅땲??
     /// </summary>
     private void ResolveReferences()
     {
@@ -105,16 +114,20 @@ public class OOTechCodexGroupController : MonoBehaviour, IPointerClickHandler
         Text_DetailCategory = ResolveText(Text_DetailCategory, "Text_DetailCategory", "Text_Category");
         Text_DetailDescription = ResolveText(Text_DetailDescription, "Text_DetailDescription", "Text_Description");
         Image_DetailPreview = ResolveImage(Image_DetailPreview, "Image_DetailPreview", "Image_Preview");
+        Button_PreviousPage = ResolveButton(Button_PreviousPage, "Button_PreviousPage", "Button_PagePrev");
+        Button_NextPage = ResolveButton(Button_NextPage, "Button_NextPage", "Button_PageNext");
+        Text_PageLabel = ResolveText(Text_PageLabel, "Text_PageLabel", "Text_Page");
         Root_AnnouncementPanel = ResolveGameObject(Root_AnnouncementPanel, "Panel_CodexRoot");
 
         OOTechTMPFontUtility.ApplyProjectFont(Text_DetailTitle);
         OOTechTMPFontUtility.ApplyProjectFont(Text_DetailCategory);
         OOTechTMPFontUtility.ApplyProjectFont(Text_DetailDescription);
+        OOTechTMPFontUtility.ApplyProjectFont(Text_PageLabel);
     }
 
     /// <summary>
-    /// OO_Codex.json의 도감 목록을 스크롤 리스트에 다시 채웁니다.
-    /// 발표 이후 실제 도감이 열릴 때 사용하는 목록 모드입니다.
+    /// OO_Codex.json???꾧컧 紐⑸줉???ㅽ겕濡?由ъ뒪?몄뿉 ?ㅼ떆 梨꾩썎?덈떎.
+    /// 諛쒗몴 ?댄썑 ?ㅼ젣 ?꾧컧???대┫ ???ъ슜?섎뒗 紐⑸줉 紐⑤뱶?낅땲??
     /// </summary>
     public void RequestRefreshCodexList()
     {
@@ -129,9 +142,7 @@ public class OOTechCodexGroupController : MonoBehaviour, IPointerClickHandler
 
         ClearSlotViews();
 
-        List<OO_Codex> codexDataList = OOTechGameDataManager.Inst != null
-            ? OOTechGameDataManager.Inst.GetCodexDataList()
-            : new List<OO_Codex>();
+        List<OO_Codex> codexDataList = CreateCurrentPageCodexDataList();
 
         foreach (OO_Codex codexData in codexDataList)
             CreateSlotView(codexData);
@@ -164,9 +175,178 @@ public class OOTechCodexGroupController : MonoBehaviour, IPointerClickHandler
         _spawnedSlotViewList.Clear();
     }
 
+    private void BindPageButtons()
+    {
+        if (Button_PreviousPage != null)
+        {
+            Button_PreviousPage.onClick.RemoveListener(RequestPreviousPage);
+            Button_PreviousPage.onClick.AddListener(RequestPreviousPage);
+        }
+
+        if (Button_NextPage != null)
+        {
+            Button_NextPage.onClick.RemoveListener(RequestNextPage);
+            Button_NextPage.onClick.AddListener(RequestNextPage);
+        }
+    }
+
+    private void RequestPreviousPage()
+    {
+        _currentPageIndex = Mathf.Max(0, _currentPageIndex - 1);
+        RequestRefreshCodexList();
+    }
+
+    private void RequestNextPage()
+    {
+        _currentPageIndex = Mathf.Min(4, _currentPageIndex + 1);
+        RequestRefreshCodexList();
+    }
+
+    private void HandlePageKeyboardInput()
+    {
+        if (Input.GetKeyDown(KeyCode.LeftArrow))
+            RequestPreviousPage();
+
+        if (Input.GetKeyDown(KeyCode.RightArrow))
+            RequestNextPage();
+    }
+
+    private List<OO_Codex> CreateCurrentPageCodexDataList()
+    {
+        List<OO_Codex> dataList = new List<OO_Codex>();
+
+        if (OOTechGameDataManager.Inst == null)
+            return dataList;
+
+        if (_currentPageIndex == 0)
+            AppendCharacterPage(dataList);
+        else if (_currentPageIndex == 1)
+            AppendCookPage(dataList);
+        else if (_currentPageIndex == 2)
+            AppendIngredientPage(dataList);
+        else if (_currentPageIndex == 3)
+            AppendNarrationPage(dataList);
+        else
+            AppendStagePage(dataList);
+
+        if (Text_PageLabel != null)
+            Text_PageLabel.text = $"{_currentPageIndex + 1}/5 {ResolveCurrentPageName()}";
+
+        return dataList;
+    }
+
+    private void AppendCharacterPage(List<OO_Codex> dataList)
+    {
+        foreach (OO_Character characterData in OOTechGameDataManager.Inst.GetCharacterDataList())
+        {
+            dataList.Add(new OO_Codex
+            {
+                Id = characterData.Id,
+                Category = "캐릭터",
+                Title = string.IsNullOrEmpty(characterData.Name) ? characterData.Id : characterData.Name,
+                Description = string.IsNullOrEmpty(characterData.Description) ? "?ㅻ챸 以鍮?以묒엯?덈떎." : characterData.Description,
+                ImagePath = characterData.ProfileImagePath
+            });
+        }
+    }
+
+    private void AppendCookPage(List<OO_Codex> dataList)
+    {
+        foreach (OO_Cook cookData in OOTechGameDataManager.Inst.GetCookDataList())
+        {
+            dataList.Add(new OO_Codex
+            {
+                Id = cookData.Id,
+                Category = "?붾━",
+                Title = string.IsNullOrEmpty(cookData.Name) ? cookData.Id : cookData.Name,
+                Description = CreateCombinedDescription(cookData.Description, cookData.EffectDescription),
+                ImagePath = cookData.IconPath
+            });
+        }
+    }
+
+    private void AppendIngredientPage(List<OO_Codex> dataList)
+    {
+        foreach (OO_Ingredient ingredientData in OOTechGameDataManager.Inst.GetIngredientDataList())
+        {
+            dataList.Add(new OO_Codex
+            {
+                Id = ingredientData.Id,
+                Category = "?щ즺",
+                Title = string.IsNullOrEmpty(ingredientData.Name) ? ingredientData.Id : ingredientData.Name,
+                Description = string.IsNullOrEmpty(ingredientData.Description) ? "?ㅻ챸 以鍮?以묒엯?덈떎." : ingredientData.Description,
+                ImagePath = ingredientData.IconPath
+            });
+        }
+    }
+
+    private void AppendNarrationPage(List<OO_Codex> dataList)
+    {
+        foreach (OO_Narration narrationData in OOTechGameDataManager.Inst.GetNarrationDataList())
+        {
+            dataList.Add(new OO_Codex
+            {
+                Id = narrationData.Id,
+                Category = "?섎젅?댁뀡",
+                Title = string.IsNullOrEmpty(narrationData.Title) ? narrationData.Id : narrationData.Title,
+                Description = narrationData.NarrationTexts != null && narrationData.NarrationTexts.Count > 0 ? string.Join("\n", narrationData.NarrationTexts) : "?ㅻ챸 以鍮?以묒엯?덈떎.",
+                ImagePath = narrationData.BackgroundImagePaths != null && narrationData.BackgroundImagePaths.Count > 0 ? narrationData.BackgroundImagePaths[0] : string.Empty
+            });
+        }
+    }
+
+    private void AppendStagePage(List<OO_Codex> dataList)
+    {
+        foreach (OO_Stage stageData in OOTechGameDataManager.Inst.GetStageDataList())
+        {
+            dataList.Add(new OO_Codex
+            {
+                Id = stageData.Id,
+                Category = "?ㅽ뀒?댁?",
+                Title = string.IsNullOrEmpty(stageData.Name) ? stageData.Id : stageData.Name,
+                Description = CreateCombinedDescription(stageData.Description, stageData.QuestDescription),
+                ImagePath = stageData.BackgroundImagePath
+            });
+        }
+    }
+
+    private string ResolveCurrentPageName()
+    {
+        if (_currentPageIndex == 0)
+            return "캐릭터";
+
+        if (_currentPageIndex == 1)
+            return "요리";
+
+        if (_currentPageIndex == 2)
+            return "재료";
+
+        if (_currentPageIndex == 3)
+            return "나레이션";
+
+        return "스테이지";
+    }
+
+    private string CreateCombinedDescription(string firstText, string secondText)
+    {
+        string first = string.IsNullOrEmpty(firstText) ? string.Empty : firstText;
+        string second = string.IsNullOrEmpty(secondText) ? string.Empty : secondText;
+
+        if (string.IsNullOrEmpty(first) && string.IsNullOrEmpty(second))
+            return "?ㅻ챸 以鍮?以묒엯?덈떎.";
+
+        if (string.IsNullOrEmpty(first))
+            return second;
+
+        if (string.IsNullOrEmpty(second))
+            return first;
+
+        return first + "\n\n" + second;
+    }
+
     /// <summary>
-    /// 발표 전 도감은 목록을 열지 않고 안내문만 보여줍니다.
-    /// Game View에서는 쌀 하나짜리 임시 목록 대신 "발표 전 업데이트 예정" 문구가 고정됩니다.
+    /// 諛쒗몴 ???꾧컧? 紐⑸줉???댁? ?딄퀬 ?덈궡臾몃쭔 蹂댁뿬以띾땲??
+    /// Game View?먯꽌??? ?섎굹吏쒕━ ?꾩떆 紐⑸줉 ???"諛쒗몴 ???낅뜲?댄듃 ?덉젙" 臾멸뎄媛 怨좎젙?⑸땲??
     /// </summary>
     private void RequestShowAnnouncementOnly()
     {
@@ -223,18 +403,18 @@ public class OOTechCodexGroupController : MonoBehaviour, IPointerClickHandler
     }
 
     /// <summary>
-    /// 선택한 도감 항목의 제목, 분류, 설명, 이미지를 상세 패널에 보여줍니다.
+    /// ?좏깮???꾧컧 ??ぉ???쒕ぉ, 遺꾨쪟, ?ㅻ챸, ?대?吏瑜??곸꽭 ?⑤꼸??蹂댁뿬以띾땲??
     /// </summary>
     private void RequestSelectCodex(OO_Codex codexData)
     {
         if (Text_DetailTitle != null)
-            Text_DetailTitle.text = codexData != null ? codexData.Title : "도감";
+            Text_DetailTitle.text = codexData != null ? codexData.Title : "?꾧컧";
 
         if (Text_DetailCategory != null)
             Text_DetailCategory.text = codexData != null ? codexData.Category : string.Empty;
 
         if (Text_DetailDescription != null)
-            Text_DetailDescription.text = codexData != null ? codexData.Description : "등록된 도감 데이터가 없습니다.";
+            Text_DetailDescription.text = codexData != null ? codexData.Description : "?깅줉???꾧컧 ?곗씠?곌? ?놁뒿?덈떎.";
 
         if (Image_DetailPreview != null)
         {
@@ -281,16 +461,35 @@ public class OOTechCodexGroupController : MonoBehaviour, IPointerClickHandler
         return null;
     }
 
+    private Button ResolveButton(Button currentButton, params string[] nameArray)
+    {
+        if (currentButton != null)
+            return currentButton;
+
+        Button[] buttonArray = GetComponentsInChildren<Button>(true);
+
+        foreach (string buttonName in nameArray)
+        {
+            foreach (Button button in buttonArray)
+            {
+                if (button != null && button.name == buttonName)
+                    return button;
+            }
+        }
+
+        return null;
+    }
+
     private GameObject ResolveGameObject(GameObject currentObject, string objectName)
     {
         if (currentObject != null)
             return currentObject;
 
-        Transform targetTransform = FindChildByName(transform, objectName);
+        Transform targetTransform = RequestChildObjectByName(transform, objectName);
         return targetTransform != null ? targetTransform.gameObject : null;
     }
 
-    private Transform FindChildByName(Transform rootTransform, string objectName)
+    private Transform RequestChildObjectByName(Transform rootTransform, string objectName)
     {
         if (rootTransform == null || string.IsNullOrEmpty(objectName))
             return null;
@@ -300,7 +499,7 @@ public class OOTechCodexGroupController : MonoBehaviour, IPointerClickHandler
 
         for (int index = 0; index < rootTransform.childCount; index++)
         {
-            Transform foundTransform = FindChildByName(rootTransform.GetChild(index), objectName);
+            Transform foundTransform = RequestChildObjectByName(rootTransform.GetChild(index), objectName);
 
             if (foundTransform != null)
                 return foundTransform;
@@ -364,3 +563,4 @@ public class OOTechCodexGroupController : MonoBehaviour, IPointerClickHandler
         return normalizedPath;
     }
 }
+

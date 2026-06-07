@@ -1,9 +1,9 @@
-// =============================================================================
-// OO_MFC 역할 주석
-// - 스크립트: OOTechCookingGroupController.cs
-// - 역할: 요리 시스템의 입력, 조리도구, 레시피 판정을 담당하는 스크립트입니다.
-// - 감독 관점: 부엌 장면에서 재료와 조리도구 배우가 어떤 순서로 만나는지 관리합니다.
-// - 유지보수 포인트: 재료 규칙은 데이터와 DropTarget 역할표로 빼고, UI 배치는 CookingUIGroup에서 직접 수정합니다.
+﻿// =============================================================================
+// OO_MFC ??븷 二쇱꽍
+// - ?ㅽ겕由쏀듃: OOTechCookingGroupController.cs
+// - ??븷: ?붾━ ?쒖뒪?쒖쓽 ?낅젰, 議곕━?꾧뎄, ?덉떆???먯젙???대떦?섎뒗 ?ㅽ겕由쏀듃?낅땲??
+// - 媛먮룆 愿?? 遺???λ㈃?먯꽌 ?щ즺? 議곕━?꾧뎄 諛곗슦媛 ?대뼡 ?쒖꽌濡?留뚮굹?붿? 愿由ы빀?덈떎.
+// - ?좎?蹂댁닔 ?ъ씤?? ?щ즺 洹쒖튃? ?곗씠?곗? DropTarget ??븷?쒕줈 鍮쇨퀬, UI 諛곗튂??CookingUIGroup?먯꽌 吏곸젒 ?섏젙?⑸땲??
 // =============================================================================
 using System.Collections;
 using System.Collections.Generic;
@@ -15,8 +15,8 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 /// <summary>
-/// CookingGroup의 요리 튜토리얼, 가마솥 드래그 판정, 완성 대화를 지휘합니다.
-/// 부엌 UI 소품은 CookingUIGroup에 배치하고, 이 컨트롤러는 재료가 들어가는 순서만 관리합니다.
+/// CookingGroup???붾━ ?쒗넗由ъ뼹, 媛留덉넡 ?쒕옒洹??먯젙, ?꾩꽦 ??붾? 吏?섑빀?덈떎.
+/// 遺??UI ?뚰뭹? CookingUIGroup??諛곗튂?섍퀬, ??而⑦듃濡ㅻ윭???щ즺媛 ?ㅼ뼱媛???쒖꽌留?愿由ы빀?덈떎.
 /// </summary>
 [DisallowMultipleComponent]
 public class OOTechCookingGroupController : MonoBehaviour
@@ -24,16 +24,16 @@ public class OOTechCookingGroupController : MonoBehaviour
     private static bool _isSharedToolGuideCompleted;
     private static bool _isSharedJulguGuideCompleted;
 
-    // 읽는 순서:
-    // 1. OnEnable: 부엌 무대가 열릴 때 카메라, 조리도구, 인벤토리 UI를 준비합니다.
-    // 2. ShowToolGuideSequence: 가마솥과 도마 사용법을 튜토리얼로 보여줍니다.
-    // 3. TryAddIngredientToTool 계열: 드래그한 재료가 올바른 조리도구에 들어갔는지 판정합니다.
-    // 4. TryCompleteCooking 계열: 쌀 + 채소 조합이 완성 음식으로 바뀌는지 확인합니다.
-    // 5. OnDisable: 부엌을 닫을 때 카메라와 HUD 상태를 원래 로드 무대로 되돌립니다.
-    // 유지보수 주의:
-    // - UI 위치와 이미지는 CookingUIGroup에서 직접 수정합니다.
-    // - 새 재료/요리는 가능하면 OO_Ingredient, OO_Recipe, OO_Cook 데이터로 추가합니다.
-    // - 이 Controller가 더 커지면 조리 판정, 튜토리얼, 인벤토리 표시를 별도 컴포넌트로 분리해야 합니다.
+    // ?쎈뒗 ?쒖꽌:
+    // 1. OnEnable: 遺??臾대?媛 ?대┫ ??移대찓?? 議곕━?꾧뎄, ?몃깽?좊━ UI瑜?以鍮꾪빀?덈떎.
+    // 2. ShowToolGuideSequence: 媛留덉넡怨??꾨쭏 ?ъ슜踰뺤쓣 ?쒗넗由ъ뼹濡?蹂댁뿬以띾땲??
+    // 3. TryAddIngredientToTool 怨꾩뿴: ?쒕옒洹명븳 ?щ즺媛 ?щ컮瑜?議곕━?꾧뎄???ㅼ뼱媛붾뒗吏 ?먯젙?⑸땲??
+    // 4. TryCompleteCooking 怨꾩뿴: ? + 梨꾩냼 議고빀???꾩꽦 ?뚯떇?쇰줈 諛붾뚮뒗吏 ?뺤씤?⑸땲??
+    // 5. OnDisable: 遺?뚯쓣 ?レ쓣 ??移대찓?쇱? HUD ?곹깭瑜??먮옒 濡쒕뱶 臾대?濡??섎룎由쎈땲??
+    // ?좎?蹂댁닔 二쇱쓽:
+    // - UI ?꾩튂? ?대?吏??CookingUIGroup?먯꽌 吏곸젒 ?섏젙?⑸땲??
+    // - ???щ즺/?붾━??媛?ν븯硫?OO_Ingredient, OO_Recipe, OO_Cook ?곗씠?곕줈 異붽??⑸땲??
+    // - ??Controller媛 ??而ㅼ?硫?議곕━ ?먯젙, ?쒗넗由ъ뼹, ?몃깽?좊━ ?쒖떆瑜?蹂꾨룄 而댄룷?뚰듃濡?遺꾨━?댁빞 ?⑸땲??
 
     [Header("Data Id")]
     [SerializeField] private string _cookingCueSheetId = "Cooking_CueSheet_01";
@@ -57,8 +57,10 @@ public class OOTechCookingGroupController : MonoBehaviour
     private string _koreanCakeCookId = "OO_KoreanCake_1";
     private string _kimchIngredientId = "Ing_Kimch_01";
     private string _chiliPepperIngredientId = "Ing_ChiliPepper_01";
-    private string[] _defaultCauldronAcceptedIngredientIdArray = { "Ing_Rice_01", "Ing_Kimch_01" };
-    private string[] _defaultCuttingboardAcceptedIngredientIdArray = { "Ing_Veggie_01", "Ing_Pumpkin_01", "Ing_ChiliPepper_01" };
+    private string _carrotIngredientId = "Ing_Carrot_01";
+    private string _carrotStarchCookId = "OO_CarrotStarch_1";
+    private string[] _defaultCauldronAcceptedIngredientIdArray = { "Ing_Rice_01", "Ing_Kimch_01", "OO_CarrotStarch_1" };
+    private string[] _defaultCuttingboardAcceptedIngredientIdArray = { "Ing_Veggie_01", "Ing_Pumpkin_01", "Ing_ChiliPepper_01", "Ing_Carrot_01" };
     private string[] _defaultJulguAcceptedIngredientIdArray = { "Ing_Rice_01" };
     private int _stage1PumpkinSoupExchangeCount = 10;
     private int _stage1ChiefRewardCount = 10;
@@ -100,7 +102,7 @@ public class OOTechCookingGroupController : MonoBehaviour
     private readonly OOTechCookingRecipeService _recipeService = new OOTechCookingRecipeService();
     private readonly OOTechCookingDragGhostPresenter _dragGhostPresenter = new OOTechCookingDragGhostPresenter();
     private readonly OOTechCookingIngredientSelectionModel _selectionModel = new OOTechCookingIngredientSelectionModel();
-    private string _defaultStatusText = "재료를 집어 알맞은 조리도구 위에 올려주세요.";
+    private string _defaultStatusText = "?щ즺瑜?吏묒뼱 ?뚮쭪? 議곕━?꾧뎄 ?꾩뿉 ?щ젮二쇱꽭??";
 
     private CameraFollowController Camera_Follow;
     private bool _hasSavedCameraState;
@@ -161,7 +163,7 @@ public class OOTechCookingGroupController : MonoBehaviour
     private Coroutine Coroutine_KoreanCakeInventoryRepair;
 
     /// <summary>
-    /// 부엌 무대가 열리면 카메라를 Kitchen 배경에 맞추고 가마솥 가이드를 시작합니다.
+    /// 遺??臾대?媛 ?대━硫?移대찓?쇰? Kitchen 諛곌꼍??留욎텛怨?媛留덉넡 媛?대뱶瑜??쒖옉?⑸땲??
     /// </summary>
     private void OnEnable()
     {
@@ -176,6 +178,7 @@ public class OOTechCookingGroupController : MonoBehaviour
         PrepareCookingView();
         UpdateHoneyCakeCombineUnlockState();
         PrepareEncounterReturnButtonIfNeeded();
+        PrepareStage4ReturnButtonIfNeeded();
         ResolveRoleComponents();
         RequestOpenCookingSupportHUDIfNeeded();
         StartCoroutine(RequestOpenCookingSupportHUDNextFrameRoutine());
@@ -201,12 +204,17 @@ public class OOTechCookingGroupController : MonoBehaviour
     }
 
     /// <summary>
-    /// HUD 버튼 호출 경로가 끊겨도 CookingGroup 진입 시 인벤토리와 임무 패널을 다시 엽니다.
-    /// Game View에서는 부엌 입장 직후 재료 슬롯이 보이고 드래그 입력을 받을 수 있게 하는 안전장치입니다.
+    /// HUD 踰꾪듉 ?몄텧 寃쎈줈媛 ?딄꺼??CookingGroup 吏꾩엯 ???몃깽?좊━? ?꾨Т ?⑤꼸???ㅼ떆 ?쎈땲??
+    /// Game View?먯꽌??遺???낆옣 吏곹썑 ?щ즺 ?щ’??蹂댁씠怨??쒕옒洹??낅젰??諛쏆쓣 ???덇쾶 ?섎뒗 ?덉쟾?μ튂?낅땲??
     /// </summary>
     private void RequestOpenCookingSupportHUDIfNeeded()
     {
-        OOTechRoadHUDController hudController = FindAnyObjectByType<OOTechRoadHUDController>(FindObjectsInactive.Include);
+        OOTechRoadHUDController hudController = OOTechSceneQuery.RequestFirstComponent<OOTechRoadHUDController>(
+            delegate (OOTechRoadHUDController targetHUD)
+            {
+                return targetHUD != null && targetHUD.gameObject.activeInHierarchy;
+            },
+            true);
 
         if (hudController == null)
             return;
@@ -215,7 +223,7 @@ public class OOTechCookingGroupController : MonoBehaviour
     }
 
     /// <summary>
-    /// CookingGroup이 켜진 바로 다음 프레임에도 HUD를 다시 엽니다. 무대 전환 직후 배우와 소품 등록 순서가 어긋나도 인벤토리 드래그를 복구하는 보험입니다.
+    /// CookingGroup??耳쒖쭊 諛붾줈 ?ㅼ쓬 ?꾨젅?꾩뿉??HUD瑜??ㅼ떆 ?쎈땲?? 臾대? ?꾪솚 吏곹썑 諛곗슦? ?뚰뭹 ?깅줉 ?쒖꽌媛 ?닿툔?섎룄 ?몃깽?좊━ ?쒕옒洹몃? 蹂듦뎄?섎뒗 蹂댄뿕?낅땲??
     /// </summary>
     private IEnumerator RequestOpenCookingSupportHUDNextFrameRoutine()
     {
@@ -224,11 +232,11 @@ public class OOTechCookingGroupController : MonoBehaviour
     }
 
     /// <summary>
-    /// 매 프레임 UI 드롭 영역과 화살표가 실제 가마솥 위치를 따라가도록 보정합니다.
+    /// 留??꾨젅??UI ?쒕∼ ?곸뿭怨??붿궡?쒓? ?ㅼ젣 媛留덉넡 ?꾩튂瑜??곕씪媛?꾨줉 蹂댁젙?⑸땲??
     /// </summary>
     /// <summary>
-    /// Stage3 산군 부엌에서는 절구를 직접 클릭해 쌀 1개를 떡 1개로 바꿉니다.
-    /// 드래그 판정이 흔들려도 Game View 진행이 막히지 않도록, 절구 배우가 자기 역할을 직접 수행하는 경로입니다.
+    /// Stage3 ?곌뎔 遺?뚯뿉?쒕뒗 ?덇뎄瑜?吏곸젒 ?대┃??? 1媛쒕? ??1媛쒕줈 諛붽퓠?덈떎.
+    /// ?쒕옒洹??먯젙???붾뱾?ㅻ룄 Game View 吏꾪뻾??留됲엳吏 ?딅룄濡? ?덇뎄 諛곗슦媛 ?먭린 ??븷??吏곸젒 ?섑뻾?섎뒗 寃쎈줈?낅땲??
     /// </summary>
     private void Update()
     {
@@ -270,7 +278,7 @@ public class OOTechCookingGroupController : MonoBehaviour
     }
 
     /// <summary>
-    /// 부엌 무대가 닫히면 대화, 배지 깜빡임, 카메라 상태를 원래 로드 장면으로 복구합니다.
+    /// 遺??臾대?媛 ?ロ엳硫???? 諛곗? 源쒕묀?? 移대찓???곹깭瑜??먮옒 濡쒕뱶 ?λ㈃?쇰줈 蹂듦뎄?⑸땲??
     /// </summary>
     private void OnDisable()
     {
@@ -287,8 +295,8 @@ public class OOTechCookingGroupController : MonoBehaviour
     }
 
     /// <summary>
-    /// Stage1 촌장 보상 교환이 누락된 채 부엌에 들어온 경우 인벤토리를 보정합니다.
-    /// 영화로 치면 부엌 장면 시작 전에 소품 담당이 호박죽을 회수하고, 다음 요리에 필요한 청양고추와 김치를 올려두는 큐입니다.
+    /// Stage1 珥뚯옣 蹂댁긽 援먰솚???꾨씫??梨?遺?뚯뿉 ?ㅼ뼱??寃쎌슦 ?몃깽?좊━瑜?蹂댁젙?⑸땲??
+    /// ?곹솕濡?移섎㈃ 遺???λ㈃ ?쒖옉 ?꾩뿉 ?뚰뭹 ?대떦???몃컯二쎌쓣 ?뚯닔?섍퀬, ?ㅼ쓬 ?붾━???꾩슂??泥?뼇怨좎텛? 源移섎? ?щ젮?먮뒗 ?먯엯?덈떎.
     /// </summary>
     private void RepairStage1RewardInventoryIfNeeded()
     {
@@ -323,9 +331,15 @@ public class OOTechCookingGroupController : MonoBehaviour
         return previousGroupName == "EncounterGroup";
     }
 
+    private bool IsOpenedFromStage4_2Group()
+    {
+        string previousGroupName = OOTechGroupNavigationHistory.GetPreviousGroup(gameObject.name, string.Empty);
+        return previousGroupName == "Stage4_2Group";
+    }
+
     /// <summary>
-    /// EncounterGroup에서 열린 부엌은 돌아가기 버튼을 반드시 EncounterGroup으로 고정합니다.
-    /// 이전 Stage2 복귀 리스너가 남아 있어도 이 장면에서는 산군 무대로 돌아가야 합니다.
+    /// EncounterGroup?먯꽌 ?대┛ 遺?뚯? ?뚯븘媛湲?踰꾪듉??諛섎뱶??EncounterGroup?쇰줈 怨좎젙?⑸땲??
+    /// ?댁쟾 Stage2 蹂듦? 由ъ뒪?덇? ?⑥븘 ?덉뼱?????λ㈃?먯꽌???곌뎔 臾대?濡??뚯븘媛???⑸땲??
     /// </summary>
     private void PrepareEncounterReturnButtonIfNeeded()
     {
@@ -337,7 +351,7 @@ public class OOTechCookingGroupController : MonoBehaviour
         foreach (BackButtonController backButton in backButtonArray)
             backButton.SetPreviousGroup("EncounterGroup");
 
-        Transform returnButtonTransform = FindChildByName(transform, "Button_RuntimeReturn");
+        Transform returnButtonTransform = RequestChildObjectByName(transform, "Button_RuntimeReturn");
 
         if (returnButtonTransform == null)
             return;
@@ -362,17 +376,32 @@ public class OOTechCookingGroupController : MonoBehaviour
             return;
         }
 
-        GameObject encounterGroupObject = FindSceneObjectByName("EncounterGroup");
+        GameObject encounterGroupObject = RequestSceneObjectByName("EncounterGroup");
 
         gameObject.SetActive(false);
 
         if (encounterGroupObject != null)
-            encounterGroupObject.SetActive(true);
+        encounterGroupObject.SetActive(true);
     }
 
     /// <summary>
-    /// 외부 드래그 슬롯이 현재 부엌이 산군 Encounter 전용 부엌인지 확인할 때 사용합니다.
-    /// 이 장면에서는 쌀을 절구에 1개씩만 넣게 하여 수량 선택 사고를 막습니다.
+    /// Stage4_2?먯꽌 ?대┛ 遺?뚯? ?좊겮 ?섏뒪??以묎컙 ?꾩튂濡??뚯븘媛???⑸땲??
+    /// ?뚯븘媛湲?踰꾪듉???댁쟾 Stage??Road濡??ν븯硫??먯떆?멸? ?딄린誘濡? ???λ㈃?먯꽌??Stage4_2Group?쇰줈 怨좎젙?⑸땲??
+    /// </summary>
+    private void PrepareStage4ReturnButtonIfNeeded()
+    {
+        if (!IsOpenedFromStage4_2Group())
+            return;
+
+        BackButtonController[] backButtonArray = GetComponentsInChildren<BackButtonController>(true);
+
+        foreach (BackButtonController backButton in backButtonArray)
+            backButton.SetPreviousGroup("Stage4_2Group");
+    }
+
+    /// <summary>
+    /// ?몃? ?쒕옒洹??щ’???꾩옱 遺?뚯씠 ?곌뎔 Encounter ?꾩슜 遺?뚯씤吏 ?뺤씤?????ъ슜?⑸땲??
+    /// ???λ㈃?먯꽌??????덇뎄??1媛쒖뵫留??ｊ쾶 ?섏뿬 ?섎웾 ?좏깮 ?ш퀬瑜?留됱뒿?덈떎.
     /// </summary>
     public bool IsStage3EncounterCooking()
     {
@@ -380,8 +409,8 @@ public class OOTechCookingGroupController : MonoBehaviour
     }
 
     /// <summary>
-    /// Stage3 부엌 진입 시 이전 튜토리얼 시작 보상이 다시 보정되어 쌀/채소가 12개로 되돌아가는 경우를 막습니다.
-    /// 이미 떡이나 꿀떡을 만든 뒤에는 플레이어 진행 수량을 건드리지 않습니다.
+    /// Stage3 遺??吏꾩엯 ???댁쟾 ?쒗넗由ъ뼹 ?쒖옉 蹂댁긽???ㅼ떆 蹂댁젙?섏뼱 ?/梨꾩냼媛 12媛쒕줈 ?섎룎?꾧???寃쎌슦瑜?留됱뒿?덈떎.
+    /// ?대? ?≪씠??轅?≪쓣 留뚮뱺 ?ㅼ뿉???뚮젅?댁뼱 吏꾪뻾 ?섎웾??嫄대뱶由ъ? ?딆뒿?덈떎.
     /// </summary>
     private void NormalizeStage3CookingInventoryIfNeeded()
     {
@@ -400,7 +429,7 @@ public class OOTechCookingGroupController : MonoBehaviour
 
     private void ClampInventoryItemCount(List<OOTechItemModel> itemList, string itemDataId, int maxCount)
     {
-        OOTechItemModel itemModel = FindInventoryItemModel(itemList, itemDataId);
+        OOTechItemModel itemModel = RequestInventoryItemModel(itemList, itemDataId);
 
         if (itemModel == null)
             return;
@@ -424,8 +453,8 @@ public class OOTechCookingGroupController : MonoBehaviour
     }
 
     /// <summary>
-    /// OO_CookingCueSheet 데이터에서 부엌 장면의 기본 숫자와 ID를 읽어 적용합니다.
-    /// 영화 비유로는 공연 시작 전에 조감독이 큐시트를 보고 조명 밝기, 카메라 거리, 안내판 속도를 맞추는 단계입니다.
+    /// OO_CookingCueSheet ?곗씠?곗뿉??遺???λ㈃??湲곕낯 ?レ옄? ID瑜??쎌뼱 ?곸슜?⑸땲??
+    /// ?곹솕 鍮꾩쑀濡쒕뒗 怨듭뿰 ?쒖옉 ?꾩뿉 議곌컧?낆씠 ?먯떆?몃? 蹂닿퀬 議곕챸 諛앷린, 移대찓??嫄곕━, ?덈궡???띾룄瑜?留욎텛???④퀎?낅땲??
     /// </summary>
     private void ApplyCookingCueSheetData()
     {
@@ -466,7 +495,7 @@ public class OOTechCookingGroupController : MonoBehaviour
     }
 
     /// <summary>
-    /// 플레이어가 재료 슬롯을 드래그할 때 손에 든 것처럼 보이는 임시 잔상 UI를 만듭니다.
+    /// ?뚮젅?댁뼱媛 ?щ즺 ?щ’???쒕옒洹명븷 ???먯뿉 ??寃껋쿂??蹂댁씠???꾩떆 ?붿긽 UI瑜?留뚮벊?덈떎.
     /// </summary>
     public RectTransform CreateDragGhost(string itemDataId, Vector2 screenPosition)
     {
@@ -474,8 +503,8 @@ public class OOTechCookingGroupController : MonoBehaviour
     }
 
     /// <summary>
-    /// 선택한 수량을 표시한 드래그 잔상 UI를 만듭니다.
-    /// Game View에서는 음식 아이콘만 손에 들고, 여러 개를 집었을 때만 작게 xN 표시가 붙습니다.
+    /// ?좏깮???섎웾???쒖떆???쒕옒洹??붿긽 UI瑜?留뚮벊?덈떎.
+    /// Game View?먯꽌???뚯떇 ?꾩씠肄섎쭔 ?먯뿉 ?ㅺ퀬, ?щ윭 媛쒕? 吏묒뿀???뚮쭔 ?묎쾶 xN ?쒖떆媛 遺숈뒿?덈떎.
     /// </summary>
     public RectTransform CreateDragGhost(string itemDataId, Vector2 screenPosition, int itemQuantity)
     {
@@ -492,8 +521,8 @@ public class OOTechCookingGroupController : MonoBehaviour
     }
 
     /// <summary>
-    /// CookingGroup 원점이 멀리 밀려 있으면 Kitchen/Cauldron 세트만 가까운 로컬 좌표로 다시 정리합니다.
-    /// Game View의 월드 위치는 유지하고, 감독이 Scene View에서 편집하기 쉬운 무대 좌표로 되돌립니다.
+    /// CookingGroup ?먯젏??硫由?諛???덉쑝硫?Kitchen/Cauldron ?명듃留?媛源뚯슫 濡쒖뺄 醫뚰몴濡??ㅼ떆 ?뺣━?⑸땲??
+    /// Game View???붾뱶 ?꾩튂???좎??섍퀬, 媛먮룆??Scene View?먯꽌 ?몄쭛?섍린 ?ъ슫 臾대? 醫뚰몴濡??섎룎由쎈땲??
     /// </summary>
     private void NormalizeCookingGroupTransformIfNeeded()
     {
@@ -518,7 +547,7 @@ public class OOTechCookingGroupController : MonoBehaviour
     }
 
     /// <summary>
-    /// 마우스 포인터가 실제 가마솥 또는 UI 드롭 영역 안에 있는지 확인합니다.
+    /// 留덉슦???ъ씤?곌? ?ㅼ젣 媛留덉넡 ?먮뒗 UI ?쒕∼ ?곸뿭 ?덉뿉 ?덈뒗吏 ?뺤씤?⑸땲??
     /// </summary>
     public bool IsPointerInsideCauldron(Vector2 screenPosition)
     {
@@ -536,7 +565,7 @@ public class OOTechCookingGroupController : MonoBehaviour
     }
 
     /// <summary>
-    /// 마우스 포인터가 도마 위에 있는지 확인합니다.
+    /// 留덉슦???ъ씤?곌? ?꾨쭏 ?꾩뿉 ?덈뒗吏 ?뺤씤?⑸땲??
     /// </summary>
     public bool IsPointerInsideCuttingboard(Vector2 screenPosition)
     {
@@ -554,8 +583,8 @@ public class OOTechCookingGroupController : MonoBehaviour
     }
 
     /// <summary>
-    /// 마우스 포인터가 절구 위에 있는지 확인합니다.
-    /// Stage3에서는 쌀을 절구에 올려 떡을 만들기 때문에 월드 오브젝트 기준으로 판정합니다.
+    /// 留덉슦???ъ씤?곌? ?덇뎄 ?꾩뿉 ?덈뒗吏 ?뺤씤?⑸땲??
+    /// Stage3?먯꽌??????덇뎄???щ젮 ?≪쓣 留뚮뱾湲??뚮Ц???붾뱶 ?ㅻ툕?앺듃 湲곗??쇰줈 ?먯젙?⑸땲??
     /// </summary>
     public bool IsPointerInsideJulgu(Vector2 screenPosition)
     {
@@ -564,7 +593,7 @@ public class OOTechCookingGroupController : MonoBehaviour
     }
 
     /// <summary>
-    /// 재료를 놓은 화면 좌표가 어느 조리도구 위인지 판정하고, 맞는 역할표에만 투입합니다.
+    /// ?щ즺瑜??볦? ?붾㈃ 醫뚰몴媛 ?대뒓 議곕━?꾧뎄 ?꾩씤吏 ?먯젙?섍퀬, 留욌뒗 ??븷?쒖뿉留??ъ엯?⑸땲??
     /// </summary>
     public void RequestDropIngredientAtPosition(string itemDataId, Vector2 screenPosition)
     {
@@ -572,14 +601,14 @@ public class OOTechCookingGroupController : MonoBehaviour
     }
 
     /// <summary>
-    /// 선택한 수량만큼 재료를 놓은 위치의 조리도구에 올립니다.
-    /// 기본은 1개이며, 플레이어가 Ctrl+휠로 올린 수량만큼만 소비합니다.
+    /// ?좏깮???섎웾留뚰겮 ?щ즺瑜??볦? ?꾩튂??議곕━?꾧뎄???щ┰?덈떎.
+    /// 湲곕낯? 1媛쒖씠硫? ?뚮젅?댁뼱媛 Ctrl+?좊줈 ?щ┛ ?섎웾留뚰겮留??뚮퉬?⑸땲??
     /// </summary>
     public void RequestDropIngredientAtPosition(string itemDataId, Vector2 screenPosition, int itemQuantity)
     {
         if (!_isToolGuideComplete)
         {
-            SetStatus("조리도구 안내를 확인한 뒤 재료를 넣어주세요.");
+            SetStatus("議곕━?꾧뎄 ?덈궡瑜??뺤씤?????щ즺瑜??ｌ뼱二쇱꽭??");
             return;
         }
 
@@ -597,35 +626,35 @@ public class OOTechCookingGroupController : MonoBehaviour
 
         if (dropToolType == OOTechCookingDropToolType.Cauldron)
         {
-            RequestDropIngredientToTool(itemDataId, itemQuantity, Tool_Cauldron, _cauldronObjectName, "가마솥");
+            RequestDropIngredientToTool(itemDataId, itemQuantity, Tool_Cauldron, _cauldronObjectName, "媛留덉넡");
             return;
         }
 
         if (dropToolType == OOTechCookingDropToolType.Cuttingboard)
         {
-            RequestDropIngredientToTool(itemDataId, itemQuantity, Tool_Cuttingboard, _cuttingboardObjectName, "도마");
+            RequestDropIngredientToTool(itemDataId, itemQuantity, Tool_Cuttingboard, _cuttingboardObjectName, "?꾨쭏");
             return;
         }
 
         if (dropToolType == OOTechCookingDropToolType.Julgu)
         {
-            RequestDropIngredientToTool(itemDataId, itemQuantity, Tool_Julgu, _julguObjectName, "절구");
+            RequestDropIngredientToTool(itemDataId, itemQuantity, Tool_Julgu, _julguObjectName, "?덇뎄");
             return;
         }
 
         if (IsOpenedFromEncounterGroup() && itemDataId == _riceIngredientId && Tool_Julgu != null)
         {
-            RequestDropIngredientToTool(itemDataId, itemQuantity, Tool_Julgu, _julguObjectName, "절구");
+            RequestDropIngredientToTool(itemDataId, itemQuantity, Tool_Julgu, _julguObjectName, "?덇뎄");
             Debug.LogWarning("[OOTechCookingGroupController] Julgu pointer fallback accepted rice for Stage3 cooking.");
             return;
         }
 
-        SetStatus("재료를 조리도구 위에 올려놓으세요.");
+        SetStatus("?щ즺瑜?議곕━?꾧뎄 ?꾩뿉 ?щ젮?볦쑝?몄슂.");
     }
 
     /// <summary>
-    /// 가마솥에 재료 하나를 넣어 달라는 요청을 처리합니다.
-    /// 성공하면 인벤토리에서 1개를 빼고 냄비 상태를 갱신합니다.
+    /// 媛留덉넡???щ즺 ?섎굹瑜??ｌ뼱 ?щ씪???붿껌??泥섎━?⑸땲??
+    /// ?깃났?섎㈃ ?몃깽?좊━?먯꽌 1媛쒕? 鍮쇨퀬 ?꾨퉬 ?곹깭瑜?媛깆떊?⑸땲??
     /// </summary>
     public void RequestDropIngredient(string itemDataId)
     {
@@ -634,19 +663,19 @@ public class OOTechCookingGroupController : MonoBehaviour
 
         if (OOTechGameManager.Inst == null || OOTechGameManager.Inst.GetItemCount(itemDataId) <= 0)
         {
-            SetStatus("인벤토리에 재료가 없습니다.");
+            SetStatus("?몃깽?좊━???щ즺媛 ?놁뒿?덈떎.");
             return;
         }
 
         if (!CanAcceptIngredient(itemDataId))
         {
-            SetStatus("지금 가마솥에 넣을 수 있는 재료가 아닙니다.");
+            SetStatus("吏湲?媛留덉넡???ｌ쓣 ???덈뒗 ?щ즺媛 ?꾨떃?덈떎.");
             return;
         }
 
         if (!OOTechGameManager.Inst.RemoveItem(itemDataId, 1))
         {
-            SetStatus("재료를 꺼낼 수 없습니다.");
+            SetStatus("?щ즺瑜?爰쇰궪 ???놁뒿?덈떎.");
             return;
         }
 
@@ -657,7 +686,7 @@ public class OOTechCookingGroupController : MonoBehaviour
     }
 
     /// <summary>
-    /// 실제 조리도구 역할표를 확인한 뒤 재료를 소비하고 레시피 판정을 요청합니다.
+    /// ?ㅼ젣 議곕━?꾧뎄 ??븷?쒕? ?뺤씤?????щ즺瑜??뚮퉬?섍퀬 ?덉떆???먯젙???붿껌?⑸땲??
     /// </summary>
     private void RequestDropIngredientToTool(string itemDataId, int itemQuantity, OOTechCookingToolDropTarget toolTarget, string fallbackToolId, string fallbackToolName)
     {
@@ -668,7 +697,7 @@ public class OOTechCookingGroupController : MonoBehaviour
 
         if (OOTechGameManager.Inst == null || OOTechGameManager.Inst.GetItemCount(itemDataId) <= 0)
         {
-            SetStatus("인벤토리에 재료가 없습니다.");
+            SetStatus("?몃깽?좊━???щ즺媛 ?놁뒿?덈떎.");
             return;
         }
 
@@ -685,19 +714,19 @@ public class OOTechCookingGroupController : MonoBehaviour
 
         if (!CanToolAcceptIngredient(itemDataId, toolTarget, fallbackToolId))
         {
-            SetStatus("올바르지 않은 재료입니다!");
+            SetStatus("?щ컮瑜댁? ?딆? ?щ즺?낅땲??");
             return;
         }
 
         if (!CanAcceptIngredient(itemDataId))
         {
-            SetStatus("이미 들어갔거나 레시피에 맞지 않는 재료입니다.");
+            SetStatus("?대? ?ㅼ뼱媛붽굅???덉떆?쇱뿉 留욎? ?딅뒗 ?щ즺?낅땲??");
             return;
         }
 
         if (!OOTechGameManager.Inst.RemoveItem(itemDataId, dropQuantity))
         {
-            SetStatus("재료를 꺼낼 수 없습니다.");
+            SetStatus("?щ즺瑜?爰쇰궪 ???놁뒿?덈떎.");
             return;
         }
 
@@ -708,13 +737,13 @@ public class OOTechCookingGroupController : MonoBehaviour
 
         RefreshInventorySlots();
         RefreshPotView();
-        SetStatus($"{GetItemDisplayName(itemDataId)} {dropQuantity}개를 {GetToolDisplayName(toolTarget, fallbackToolName)}에 올렸습니다.");
+        SetStatus($"{GetItemDisplayName(itemDataId)} {dropQuantity}媛쒕? {GetToolDisplayName(toolTarget, fallbackToolName)}???щ졇?듬땲??");
         TryCompleteCooking();
     }
 
     /// <summary>
-    /// Stage3 절구는 쌀을 넣는 순간 떡으로 바로 바뀌는 특수 조리도구입니다.
-    /// 레시피 매니저 연결이 늦어져도 Game View 진행이 끊기지 않도록, 절구+쌀 조합은 여기서 즉시 완성 처리합니다.
+    /// Stage3 ?덇뎄??????ｋ뒗 ?쒓컙 ?≪쑝濡?諛붾줈 諛붾뚮뒗 ?뱀닔 議곕━?꾧뎄?낅땲??
+    /// ?덉떆??留ㅻ땲? ?곌껐????뼱?몃룄 Game View 吏꾪뻾???딄린吏 ?딅룄濡? ?덇뎄+? 議고빀? ?ш린??利됱떆 ?꾩꽦 泥섎━?⑸땲??
     /// </summary>
     private bool TryCompleteJulguKoreanCakeImmediately(string itemDataId, int dropQuantity, string fallbackToolId)
     {
@@ -732,15 +761,15 @@ public class OOTechCookingGroupController : MonoBehaviour
         NotifyRoadHUDInventoryRefresh();
         NotifyRoadHUDInventoryNewBadge();
         HideGuideBubble();
-        SetStatus($"떡 {resultCount}개 완성! 인벤토리에 추가되었습니다.");
+        SetStatus($"??{resultCount}媛??꾩꽦! ?몃깽?좊━??異붽??섏뿀?듬땲??");
         Debug.Log($"[OOTechCookingGroupController] Julgu made KoreanCake. rice={dropQuantity}, result={resultCount}");
         RequestStartKoreanCakeInventoryRepair();
         return true;
     }
 
     /// <summary>
-    /// Stage3 절구 전용 직접 변환입니다.
-    /// 쌀 차감과 떡 추가를 같은 인벤토리 리스트 안에서 즉시 처리해, 중간 큐나 UI 갱신 순서 때문에 떡이 사라지는 일을 막습니다.
+    /// Stage3 ?덇뎄 ?꾩슜 吏곸젒 蹂?섏엯?덈떎.
+    /// ? 李④컧怨???異붽?瑜?媛숈? ?몃깽?좊━ 由ъ뒪???덉뿉??利됱떆 泥섎━?? 以묎컙 ?먮굹 UI 媛깆떊 ?쒖꽌 ?뚮Ц???≪씠 ?щ씪吏???쇱쓣 留됱뒿?덈떎.
     /// </summary>
     private bool TryConvertRiceToKoreanCakeOnJulgu(string itemDataId, string fallbackToolId)
     {
@@ -752,16 +781,16 @@ public class OOTechCookingGroupController : MonoBehaviour
 
         if (OOTechGameManager.Inst == null)
         {
-            SetStatus("인벤토리 매니저가 없어 떡을 만들 수 없습니다.");
+            SetStatus("?몃깽?좊━ 留ㅻ땲?媛 ?놁뼱 ?≪쓣 留뚮뱾 ???놁뒿?덈떎.");
             return true;
         }
 
         List<OOTechItemModel> itemList = OOTechGameManager.Inst.GetPlayerItemList();
-        OOTechItemModel riceItem = FindInventoryItemModel(itemList, _riceIngredientId);
+        OOTechItemModel riceItem = RequestInventoryItemModel(itemList, _riceIngredientId);
 
         if (riceItem == null || riceItem.ItemStackCount <= 0)
         {
-            SetStatus("쌀이 부족합니다.");
+            SetStatus("???遺議깊빀?덈떎.");
             RequestLogInventorySnapshot("Julgu failed - rice missing");
             return true;
         }
@@ -771,7 +800,7 @@ public class OOTechCookingGroupController : MonoBehaviour
         if (riceItem.ItemStackCount <= 0)
             itemList.Remove(riceItem);
 
-        OOTechItemModel cakeItem = FindInventoryItemModel(itemList, _koreanCakeCookId);
+        OOTechItemModel cakeItem = RequestInventoryItemModel(itemList, _koreanCakeCookId);
 
         if (cakeItem == null)
         {
@@ -795,21 +824,21 @@ public class OOTechCookingGroupController : MonoBehaviour
         NotifyRoadHUDInventoryRefresh();
         NotifyRoadHUDInventoryNewBadge();
         HideGuideBubble();
-        SetStatus("떡 1개 완성! 인벤토리에 추가되었습니다.");
+        SetStatus("??1媛??꾩꽦! ?몃깽?좊━??異붽??섏뿀?듬땲??");
         RequestStartKoreanCakeInventoryRepair();
         Debug.LogWarning("[OOTechCookingGroupController] Direct Julgu transaction completed. Rice -1, KoreanCake +1.");
         return true;
     }
 
     /// <summary>
-    /// 절구 전용 최종 안전 처리입니다.
-    /// 가마솥/도마 레시피 흐름, 선택 모델, Bridge 연결을 전부 우회하고 현재 HUD가 읽는 GameManager 인벤토리를 직접 수정합니다.
+    /// ?덇뎄 ?꾩슜 理쒖쥌 ?덉쟾 泥섎━?낅땲??
+    /// 媛留덉넡/?꾨쭏 ?덉떆???먮쫫, ?좏깮 紐⑤뜽, Bridge ?곌껐???꾨? ?고쉶?섍퀬 ?꾩옱 HUD媛 ?쎈뒗 GameManager ?몃깽?좊━瑜?吏곸젒 ?섏젙?⑸땲??
     /// </summary>
     private bool RequestForceJulguRiceToKoreanCake()
     {
         if (OOTechGameManager.Inst == null)
         {
-            SetStatus("인벤토리 매니저가 없어 떡을 만들 수 없습니다.");
+            SetStatus("?몃깽?좊━ 留ㅻ땲?媛 ?놁뼱 ?≪쓣 留뚮뱾 ???놁뒿?덈떎.");
             Debug.LogError("[OOTechCookingGroupController] Julgu force convert failed. OOTechGameManager.Inst is missing.");
             return true;
         }
@@ -818,7 +847,7 @@ public class OOTechCookingGroupController : MonoBehaviour
 
         if (!hasConverted)
         {
-            SetStatus("쌀이 부족합니다.");
+            SetStatus("???遺議깊빀?덈떎.");
             Debug.LogWarning("[OOTechCookingGroupController] Julgu force convert failed. Rice is missing in OOTechGameManager.Inst.");
             return true;
         }
@@ -831,7 +860,7 @@ public class OOTechCookingGroupController : MonoBehaviour
         NotifyRoadHUDInventoryNewBadge();
         RequestOpenCookingSupportHUDIfNeeded();
         HideGuideBubble();
-        SetStatus("떡 1개 완성! 인벤토리에 추가되었습니다.");
+        SetStatus("??1媛??꾩꽦! ?몃깽?좊━??異붽??섏뿀?듬땲??");
         RequestStartKoreanCakeInventoryRepair();
         Debug.LogWarning("[OOTechCookingGroupController] Julgu independent system completed. Rice -1, KoreanCake +1.");
         return true;
@@ -840,7 +869,7 @@ public class OOTechCookingGroupController : MonoBehaviour
     private bool RequestForceJulguRiceToKoreanCake(OOTechGameManager gameManager)
     {
         List<OOTechItemModel> itemList = gameManager.GetPlayerItemList();
-        OOTechItemModel riceItem = FindInventoryItemModel(itemList, _riceIngredientId);
+        OOTechItemModel riceItem = RequestInventoryItemModel(itemList, _riceIngredientId);
 
         if (riceItem == null || riceItem.ItemStackCount <= 0)
             return false;
@@ -850,7 +879,7 @@ public class OOTechCookingGroupController : MonoBehaviour
         if (riceItem.ItemStackCount <= 0)
             itemList.Remove(riceItem);
 
-        OOTechItemModel cakeItem = FindInventoryItemModel(itemList, _koreanCakeCookId);
+        OOTechItemModel cakeItem = RequestInventoryItemModel(itemList, _koreanCakeCookId);
 
         if (cakeItem == null)
         {
@@ -891,7 +920,7 @@ public class OOTechCookingGroupController : MonoBehaviour
         }
     }
 
-    private OOTechItemModel FindInventoryItemModel(List<OOTechItemModel> itemList, string itemDataId)
+    private OOTechItemModel RequestInventoryItemModel(List<OOTechItemModel> itemList, string itemDataId)
     {
         if (itemList == null || string.IsNullOrEmpty(itemDataId))
             return null;
@@ -906,8 +935,8 @@ public class OOTechCookingGroupController : MonoBehaviour
     }
 
     /// <summary>
-    /// 절구 완성 직후 HUD가 같은 프레임에서 이전 목록을 붙잡는 경우가 있어, 짧게 재확인 루틴을 돌립니다.
-    /// 무대 비유로는 소품 담당자가 떡을 창고에 넣은 뒤 객석 진열대까지 올라왔는지 세 번 확인하는 절차입니다.
+    /// ?덇뎄 ?꾩꽦 吏곹썑 HUD媛 媛숈? ?꾨젅?꾩뿉???댁쟾 紐⑸줉??遺숈옟??寃쎌슦媛 ?덉뼱, 吏㏐쾶 ?ы솗??猷⑦떞???뚮┰?덈떎.
+    /// 臾대? 鍮꾩쑀濡쒕뒗 ?뚰뭹 ?대떦?먭? ?≪쓣 李쎄퀬???ｌ? ??媛앹꽍 吏꾩뿴?源뚯? ?щ씪?붾뒗吏 ??踰??뺤씤?섎뒗 ?덉감?낅땲??
     /// </summary>
     private void RequestStartKoreanCakeInventoryRepair()
     {
@@ -940,8 +969,8 @@ public class OOTechCookingGroupController : MonoBehaviour
     }
 
     /// <summary>
-    /// GameManager.AddItem 호출 뒤에도 수량이 늘지 않으면 인벤토리 모델에 직접 삽입합니다.
-    /// Game View 진행을 막는 핵심 보상은 이중 안전장치로 보장합니다.
+    /// GameManager.AddItem ?몄텧 ?ㅼ뿉???섎웾???섏? ?딆쑝硫??몃깽?좊━ 紐⑤뜽??吏곸젒 ?쎌엯?⑸땲??
+    /// Game View 吏꾪뻾??留됰뒗 ?듭떖 蹂댁긽? ?댁쨷 ?덉쟾?μ튂濡?蹂댁옣?⑸땲??
     /// </summary>
     private void RequestForceAddInventoryItem(string itemDataId, int count)
     {
@@ -985,8 +1014,8 @@ public class OOTechCookingGroupController : MonoBehaviour
     }
 
     /// <summary>
-    /// CookingGroup 상단에 레시피 조합 버튼과 두 칸짜리 조합판을 준비합니다.
-    /// Game View에서는 ChoicePanel 대신 플레이어가 직접 떡과 꿀을 올려 꿀떡을 만드는 작은 조합대입니다.
+    /// CookingGroup ?곷떒???덉떆??議고빀 踰꾪듉怨???移몄쭨由?議고빀?먯쓣 以鍮꾪빀?덈떎.
+    /// Game View?먯꽌??ChoicePanel ????뚮젅?댁뼱媛 吏곸젒 ?↔낵 轅???щ젮 轅?≪쓣 留뚮뱶???묒? 議고빀??낅땲??
     /// </summary>
     private void EnsureHoneyCakeCombineUI()
     {
@@ -995,18 +1024,18 @@ public class OOTechCookingGroupController : MonoBehaviour
 
         GameObject buttonObject = CreateCookingUIObject(Rect_Root, "Button_HoneyCakeCombine");
         RectTransform buttonRect = buttonObject.GetComponent<RectTransform>();
-        SetCookingUIRect(buttonRect, new Vector2(1f, 1f), new Vector2(1f, 1f), new Vector2(-190f, -128f), new Vector2(260f, 64f));
+        SetCookingUIRect(buttonRect, new Vector2(1f, 1f), new Vector2(1f, 1f), new Vector2(-190f, -150f), new Vector2(260f, 64f));
         Image buttonImage = RequestGetOrAddImage(buttonObject, new Color(1f, 0.92f, 0.45f, 0.96f));
         buttonImage.raycastTarget = true;
         Button_HoneyCakeCombine = RequestGetOrAddButton(buttonObject);
         Button_HoneyCakeCombine.onClick.RemoveAllListeners();
         Button_HoneyCakeCombine.onClick.AddListener(ToggleHoneyCakeCombinePanel);
-        TextMeshProUGUI buttonText = CreateCookingUIText(buttonObject.transform, "Text_Label", "레시피 조합", 30f, Color.black);
+        TextMeshProUGUI buttonText = CreateCookingUIText(buttonObject.transform, "Text_Label", "?덉떆??議고빀", 30f, Color.black);
         SetCookingUIRect(buttonText.rectTransform, Vector2.zero, Vector2.one, Vector2.zero, Vector2.zero);
 
         Root_HoneyCakeCombinePanel = CreateCookingUIObject(Rect_Root, "Panel_HoneyCakeCombine");
         RectTransform panelRect = Root_HoneyCakeCombinePanel.GetComponent<RectTransform>();
-        SetCookingUIRect(panelRect, new Vector2(1f, 1f), new Vector2(1f, 1f), new Vector2(-320f, -224f), new Vector2(560f, 116f));
+        SetCookingUIRect(panelRect, new Vector2(1f, 1f), new Vector2(1f, 1f), new Vector2(-320f, -250f), new Vector2(560f, 130f));
         Image panelImage = RequestGetOrAddImage(Root_HoneyCakeCombinePanel, new Color(0f, 0f, 0f, 0.58f));
         panelImage.raycastTarget = true;
 
@@ -1014,7 +1043,7 @@ public class OOTechCookingGroupController : MonoBehaviour
         TextMeshProUGUI plusText = CreateCookingUIText(Root_HoneyCakeCombinePanel.transform, "Text_Plus", "+", 42f, Color.white);
         SetCookingUIRect(plusText.rectTransform, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(0f, -6f), new Vector2(50f, 72f));
         Image_HoneyCakeSlotB = CreateCombineSlot(Root_HoneyCakeCombinePanel.transform, "Image_CombineSlotB", new Vector2(126f, -6f));
-        Text_HoneyCakeGuide = CreateCookingUIText(Root_HoneyCakeCombinePanel.transform, "Text_Guide", "떡과 꿀을 빈 칸에 끌어다 놓으면 꿀떡이 완성됩니다.", 22f, Color.white);
+        Text_HoneyCakeGuide = CreateCookingUIText(Root_HoneyCakeCombinePanel.transform, "Text_Guide", "??轅? 轅?? ?밴렐+?≪? ?밴렐?꾨텇???⑸땲??", 22f, Color.white);
         SetCookingUIRect(Text_HoneyCakeGuide.rectTransform, new Vector2(0.5f, 1f), new Vector2(0.5f, 1f), new Vector2(0f, -12f), new Vector2(520f, 32f));
 
         Root_HoneyCakeCombinePanel.SetActive(false);
@@ -1022,12 +1051,12 @@ public class OOTechCookingGroupController : MonoBehaviour
     }
 
     /// <summary>
-    /// 꿀떡 조합 버튼은 EncounterGroup에서 부엌으로 들어온 장면에서만 열어 둡니다.
-    /// 무대 비유로는 산군 장면에서만 쓰는 특수 소품이라, 다른 공연에서는 소품함을 잠가 두는 처리입니다.
+    /// 轅??議고빀 踰꾪듉? EncounterGroup?먯꽌 遺?뚯쑝濡??ㅼ뼱???λ㈃?먯꽌留??댁뼱 ?〓땲??
+    /// 臾대? 鍮꾩쑀濡쒕뒗 ?곌뎔 ?λ㈃?먯꽌留??곕뒗 ?뱀닔 ?뚰뭹?대씪, ?ㅻⅨ 怨듭뿰?먯꽌???뚰뭹?⑥쓣 ?좉? ?먮뒗 泥섎━?낅땲??
     /// </summary>
     private void UpdateHoneyCakeCombineUnlockState()
     {
-        bool isUnlocked = IsOpenedFromEncounterGroup();
+        bool isUnlocked = IsRecipeCombineUnlocked();
 
         if (Button_HoneyCakeCombine != null)
             Button_HoneyCakeCombine.gameObject.SetActive(isUnlocked);
@@ -1061,7 +1090,7 @@ public class OOTechCookingGroupController : MonoBehaviour
         if (Root_HoneyCakeCombinePanel == null)
             return;
 
-        if (!IsOpenedFromEncounterGroup())
+        if (!IsRecipeCombineUnlocked())
         {
             Root_HoneyCakeCombinePanel.SetActive(false);
             return;
@@ -1071,17 +1100,17 @@ public class OOTechCookingGroupController : MonoBehaviour
         Root_HoneyCakeCombinePanel.SetActive(isActive);
 
         if (isActive)
-            SetStatus("떡과 꿀을 조합 칸에 끌어다 놓으세요.");
+            SetStatus("??轅 ?먮뒗 ?밴렐+?≪쓣 議고빀 移몄뿉 ?щ젮 二쇱꽭??");
     }
 
     private bool TryDropIngredientToHoneyCakeCombine(string itemDataId, Vector2 screenPosition)
     {
-        if (!IsOpenedFromEncounterGroup() || Root_HoneyCakeCombinePanel == null || !Root_HoneyCakeCombinePanel.activeSelf)
+        if (!IsRecipeCombineUnlocked() || Root_HoneyCakeCombinePanel == null || !Root_HoneyCakeCombinePanel.activeSelf)
             return false;
 
-        if (itemDataId != _koreanCakeCookId && itemDataId != _honeyIngredientId)
+        if (itemDataId != _koreanCakeCookId && itemDataId != _honeyIngredientId && itemDataId != _carrotIngredientId)
         {
-            SetStatus("꿀떡 조합에는 떡과 꿀만 넣을 수 있습니다.");
+            SetStatus("?덉떆??議고빀?먮뒗 ?? 轅, ?밴렐留??ｌ쓣 ???덉뒿?덈떎.");
             return true;
         }
 
@@ -1099,13 +1128,13 @@ public class OOTechCookingGroupController : MonoBehaviour
 
         if (!string.IsNullOrEmpty(currentSlotItemId))
         {
-            SetStatus("이미 재료가 들어간 칸입니다.");
+            SetStatus("?대? ?щ즺媛 ?ㅼ뼱媛?移몄엯?덈떎.");
             return true;
         }
 
         if (OOTechGameManager.Inst == null || !OOTechGameManager.Inst.RemoveItem(itemDataId, 1))
         {
-            SetStatus("인벤토리에 재료가 부족합니다.");
+            SetStatus("?몃깽?좊━???щ즺媛 遺議깊빀?덈떎.");
             return true;
         }
 
@@ -1125,12 +1154,30 @@ public class OOTechCookingGroupController : MonoBehaviour
     {
         bool hasKoreanCake = _honeyCakeSlotAItemId == _koreanCakeCookId || _honeyCakeSlotBItemId == _koreanCakeCookId;
         bool hasHoney = _honeyCakeSlotAItemId == _honeyIngredientId || _honeyCakeSlotBItemId == _honeyIngredientId;
+        bool hasCarrot = _honeyCakeSlotAItemId == _carrotIngredientId || _honeyCakeSlotBItemId == _carrotIngredientId;
 
-        if (!hasKoreanCake || !hasHoney || OOTechGameManager.Inst == null)
+        if (!hasKoreanCake || OOTechGameManager.Inst == null)
             return;
 
-        RequestForceAddInventoryItem(_honeyKoreanCakeCookId, 1);
-        RequestMoveInventoryItemToTop(_honeyKoreanCakeCookId);
+        string resultItemId = string.Empty;
+        string resultText = string.Empty;
+
+        if (hasHoney)
+        {
+            resultItemId = _honeyKoreanCakeCookId;
+            resultText = "轅??1媛??꾩꽦! ?몃깽?좊━??異붽??섏뿀?듬땲??";
+        }
+        else if (hasCarrot)
+        {
+            resultItemId = _carrotStarchCookId;
+            resultText = "?밴렐?꾨텇 1媛??꾩꽦! ?몃깽?좊━??異붽??섏뿀?듬땲??";
+        }
+
+        if (string.IsNullOrEmpty(resultItemId))
+            return;
+
+        RequestForceAddInventoryItem(resultItemId, 1);
+        RequestMoveInventoryItemToTop(resultItemId);
         _honeyCakeSlotAItemId = string.Empty;
         _honeyCakeSlotBItemId = string.Empty;
         ClearHoneyCakeSlot(Image_HoneyCakeSlotA);
@@ -1140,8 +1187,17 @@ public class OOTechCookingGroupController : MonoBehaviour
         SetInventoryNewBadgeActive(true);
         NotifyRoadHUDInventoryNewBadge();
         RequestOpenCookingSupportHUDIfNeeded();
-        SetStatus("꿀떡 1개 완성! 인벤토리에 추가되었습니다.");
-        RequestLogInventorySnapshot("After HoneyKoreanCake combine");
+        SetStatus(resultText);
+        RequestLogInventorySnapshot($"After RecipeCombine {resultItemId}");
+    }
+
+    /// <summary>
+    /// ?덉떆??議고빀?먯? Stage3 ?곌뎔 議곗슦? Stage4 ?좊겮 ?섏뒪??遺?뚯뿉?쒕쭔 ?대┰?덈떎.
+    /// ?곹솕濡?移섎㈃ ?뱀닔 ?뚰뭹???꾩슂???λ㈃?먯꽌留?臾대? ?꾩뿉 ?щ젮 ?ㅻⅨ ?λ㈃??議곗옉??諛⑺빐?섏? ?딄쾶 ?섎뒗 ?μ튂?낅땲??
+    /// </summary>
+    private bool IsRecipeCombineUnlocked()
+    {
+        return IsOpenedFromEncounterGroup() || IsOpenedFromStage4_2Group();
     }
 
     private void ClearHoneyCakeSlot(Image slotImage)
@@ -1208,8 +1264,8 @@ public class OOTechCookingGroupController : MonoBehaviour
     }
 
     /// <summary>
-    /// 방금 만든 아이템을 인벤토리 맨 위로 올립니다.
-    /// Game View에서는 떡 슬롯이 스크롤 아래에 숨어 보이지 않는 상황을 막는 장치입니다.
+    /// 諛⑷툑 留뚮뱺 ?꾩씠?쒖쓣 ?몃깽?좊━ 留??꾨줈 ?щ┰?덈떎.
+    /// Game View?먯꽌?????щ’???ㅽ겕濡??꾨옒???⑥뼱 蹂댁씠吏 ?딅뒗 ?곹솴??留됰뒗 ?μ튂?낅땲??
     /// </summary>
     private void RequestMoveInventoryItemToTop(string itemDataId)
     {
@@ -1235,8 +1291,8 @@ public class OOTechCookingGroupController : MonoBehaviour
     }
 
     /// <summary>
-    /// 조리 직후 인벤토리 모델 전체를 로그로 남깁니다.
-    /// 떡이 모델에 들어갔는지, UI 슬롯 생성에서 빠지는지 분리해서 확인합니다.
+    /// 議곕━ 吏곹썑 ?몃깽?좊━ 紐⑤뜽 ?꾩껜瑜?濡쒓렇濡??④퉩?덈떎.
+    /// ?≪씠 紐⑤뜽???ㅼ뼱媛붾뒗吏, UI ?щ’ ?앹꽦?먯꽌 鍮좎??붿? 遺꾨━?댁꽌 ?뺤씤?⑸땲??
     /// </summary>
     private void RequestLogInventorySnapshot(string reason)
     {
@@ -1268,7 +1324,7 @@ public class OOTechCookingGroupController : MonoBehaviour
     }
 
     /// <summary>
-    /// 현재까지 들어간 재료 조합이 완성 레시피인지 확인하고, 성공 시 완성 음식을 인벤토리에 넣습니다.
+    /// ?꾩옱源뚯? ?ㅼ뼱媛??щ즺 議고빀???꾩꽦 ?덉떆?쇱씤吏 ?뺤씤?섍퀬, ?깃났 ???꾩꽦 ?뚯떇???몃깽?좊━???ｌ뒿?덈떎.
     /// </summary>
     private void TryCompleteCooking()
     {
@@ -1276,7 +1332,7 @@ public class OOTechCookingGroupController : MonoBehaviour
 
         if (cookingResult == null || !cookingResult.IsSuccess)
         {
-            SetStatus("재료가 가마솥에 들어갔습니다. 다음 재료를 넣어주세요.");
+            SetStatus("?щ즺媛 媛留덉넡???ㅼ뼱媛붿뒿?덈떎. ?ㅼ쓬 ?щ즺瑜??ｌ뼱二쇱꽭??");
             return;
         }
 
@@ -1290,7 +1346,7 @@ public class OOTechCookingGroupController : MonoBehaviour
 
         if (!IsRecipeToolMatched(cookingResult.ResultItemId))
         {
-            SetStatus("올바른 조리도구가 아닙니다!");
+            SetStatus("?щ컮瑜?議곕━?꾧뎄媛 ?꾨떃?덈떎!");
             return;
         }
 
@@ -1304,18 +1360,18 @@ public class OOTechCookingGroupController : MonoBehaviour
         NotifyRoadHUDInventoryNewBadge();
         HideGuideBubble();
         RequestPlayCookingCompleteDialogue(cookingResult.ResultItemId);
-        SetStatus($"{cookName} 완성! 인벤토리에 새 음식이 들어갔습니다.");
+        SetStatus($"{cookName} ?꾩꽦! ?몃깽?좊━?????뚯떇???ㅼ뼱媛붿뒿?덈떎.");
     }
 
     /// <summary>
-    /// 지금 선택한 재료가 레시피의 중간 단계로 허용되는지 확인합니다.
+    /// 吏湲??좏깮???щ즺媛 ?덉떆?쇱쓽 以묎컙 ?④퀎濡??덉슜?섎뒗吏 ?뺤씤?⑸땲??
     /// </summary>
     /// <summary>
-    /// 재료가 해당 조리도구의 역할표와 맞는지 확인합니다.
+    /// ?щ즺媛 ?대떦 議곕━?꾧뎄????븷?쒖? 留욌뒗吏 ?뺤씤?⑸땲??
     /// </summary>
     /// <summary>
-    /// 호박죽 튜토리얼은 쌀 10개와 호박 10개를 한 번에 조리하는 장면입니다.
-    /// 첫 재료 1개씩은 이미 제거되었으므로, 남은 재료를 확인해 추가 9회분까지 함께 차감합니다.
+    /// ?몃컯二??쒗넗由ъ뼹? ? 10媛쒖? ?몃컯 10媛쒕? ??踰덉뿉 議곕━?섎뒗 ?λ㈃?낅땲??
+    /// 泥??щ즺 1媛쒖뵫? ?대? ?쒓굅?섏뿀?쇰?濡? ?⑥? ?щ즺瑜??뺤씤??異붽? 9?뚮텇源뚯? ?④퍡 李④컧?⑸땲??
     /// </summary>
     private int CalculateCookingResultCount(string resultItemId)
     {
@@ -1323,8 +1379,8 @@ public class OOTechCookingGroupController : MonoBehaviour
     }
 
     /// <summary>
-    /// 조리도구에 올라간 재료 이름표와 실제 개수를 기록합니다.
-    /// 같은 재료를 여러 번 넣어도 레시피 판정용 이름표는 하나만 두고, 수량만 누적합니다.
+    /// 議곕━?꾧뎄???щ씪媛??щ즺 ?대쫫?쒖? ?ㅼ젣 媛쒖닔瑜?湲곕줉?⑸땲??
+    /// 媛숈? ?щ즺瑜??щ윭 踰??ｌ뼱???덉떆???먯젙???대쫫?쒕뒗 ?섎굹留??먭퀬, ?섎웾留??꾩쟻?⑸땲??
     /// </summary>
     private void RegisterSelectedIngredient(string itemDataId, int itemQuantity)
     {
@@ -1337,7 +1393,7 @@ public class OOTechCookingGroupController : MonoBehaviour
     }
 
     /// <summary>
-    /// 조리도구에 올라간 특정 재료의 개수를 반환합니다.
+    /// 議곕━?꾧뎄???щ씪媛??뱀젙 ?щ즺??媛쒖닔瑜?諛섑솚?⑸땲??
     /// </summary>
     private int GetSelectedIngredientAmount(string itemDataId)
     {
@@ -1353,8 +1409,8 @@ public class OOTechCookingGroupController : MonoBehaviour
     }
 
     /// <summary>
-    /// 완성 후보 레시피가 요구한 조리도구와 실제 드롭 위치가 일치하는지 확인합니다.
-    /// 쌀 하나만 보고 떡을 만들던 버그를 막고, 쌀이 Julgu 위에 있을 때만 떡 레시피를 통과시킵니다.
+    /// ?꾩꽦 ?꾨낫 ?덉떆?쇨? ?붽뎄??議곕━?꾧뎄? ?ㅼ젣 ?쒕∼ ?꾩튂媛 ?쇱튂?섎뒗吏 ?뺤씤?⑸땲??
+    /// ? ?섎굹留?蹂닿퀬 ?≪쓣 留뚮뱾??踰꾧렇瑜?留됯퀬, ???Julgu ?꾩뿉 ?덉쓣 ?뚮쭔 ???덉떆?쇰? ?듦낵?쒗궢?덈떎.
     /// </summary>
     private bool IsRecipeToolMatched(string resultItemId)
     {
@@ -1394,8 +1450,8 @@ public class OOTechCookingGroupController : MonoBehaviour
     }
 
     /// <summary>
-    /// 선택 수량이 완성에 필요한 양보다 많으면 남은 재료를 인벤토리로 돌려줍니다.
-    /// 감독 비유로는 요리에 쓰지 않은 소품을 소품 창고로 되돌려 낭비를 막는 장면입니다.
+    /// ?좏깮 ?섎웾???꾩꽦???꾩슂???묐낫??留롮쑝硫??⑥? ?щ즺瑜??몃깽?좊━濡??뚮젮以띾땲??
+    /// 媛먮룆 鍮꾩쑀濡쒕뒗 ?붾━???곗? ?딆? ?뚰뭹???뚰뭹 李쎄퀬濡??섎룎????퉬瑜?留됰뒗 ?λ㈃?낅땲??
     /// </summary>
     private void RefundUnusedSelectedIngredients(string resultItemId, int resultCount)
     {
@@ -1415,7 +1471,7 @@ public class OOTechCookingGroupController : MonoBehaviour
     }
 
     /// <summary>
-    /// 완성 음식 하나에 실제로 소비되는 재료 수량표를 만듭니다.
+    /// ?꾩꽦 ?뚯떇 ?섎굹???ㅼ젣濡??뚮퉬?섎뒗 ?щ즺 ?섎웾?쒕? 留뚮벊?덈떎.
     /// </summary>
     private Dictionary<string, int> CreateUsedIngredientAmountDic(string resultItemId, int resultCount)
     {
@@ -1423,7 +1479,7 @@ public class OOTechCookingGroupController : MonoBehaviour
     }
 
     /// <summary>
-    /// 아직 수량이 부족할 때 플레이어에게 필요한 조작을 안내합니다.
+    /// ?꾩쭅 ?섎웾??遺議깊븷 ???뚮젅?댁뼱?먭쾶 ?꾩슂??議곗옉???덈궡?⑸땲??
     /// </summary>
     private string GetCookingQuantityGuide(string resultItemId)
     {
@@ -1478,7 +1534,7 @@ public class OOTechCookingGroupController : MonoBehaviour
     }
 
     /// <summary>
-    /// 데이터가 아직 완성되지 않았을 때도 쌀+채소/호박 튜토리얼이 동작하도록 하는 안전망입니다.
+    /// ?곗씠?곌? ?꾩쭅 ?꾩꽦?섏? ?딆븯???뚮룄 ?+梨꾩냼/?몃컯 ?쒗넗由ъ뼹???숈옉?섎룄濡??섎뒗 ?덉쟾留앹엯?덈떎.
     /// </summary>
     private bool IsFallbackIngredientAccepted(string itemDataId)
     {
@@ -1486,37 +1542,48 @@ public class OOTechCookingGroupController : MonoBehaviour
             itemDataId != _vegetableIngredientId &&
             itemDataId != _pumpkinIngredientId &&
             itemDataId != _kimchIngredientId &&
-            itemDataId != _chiliPepperIngredientId)
+            itemDataId != _chiliPepperIngredientId &&
+            itemDataId != _carrotIngredientId &&
+            itemDataId != _koreanCakeCookId &&
+            itemDataId != _carrotStarchCookId)
             return false;
 
         if (itemDataId == _vegetableIngredientId ||
             itemDataId == _pumpkinIngredientId ||
-            itemDataId == _chiliPepperIngredientId)
+            itemDataId == _chiliPepperIngredientId ||
+            itemDataId == _carrotIngredientId)
         {
             return !_selectionModel.SelectedIngredientIdList.Contains(_vegetableIngredientId) &&
                    !_selectionModel.SelectedIngredientIdList.Contains(_pumpkinIngredientId) &&
-                   !_selectionModel.SelectedIngredientIdList.Contains(_chiliPepperIngredientId);
+                   !_selectionModel.SelectedIngredientIdList.Contains(_chiliPepperIngredientId) &&
+                   !_selectionModel.SelectedIngredientIdList.Contains(_carrotIngredientId);
         }
 
         if (itemDataId == _riceIngredientId || itemDataId == _kimchIngredientId)
             return !_selectionModel.SelectedIngredientIdList.Contains(_riceIngredientId) && !_selectionModel.SelectedIngredientIdList.Contains(_kimchIngredientId);
 
+        if (itemDataId == _koreanCakeCookId)
+            return !_selectionModel.SelectedIngredientIdList.Contains(_koreanCakeCookId);
+
+        if (itemDataId == _carrotStarchCookId)
+            return !_selectionModel.SelectedIngredientIdList.Contains(_carrotStarchCookId);
+
         return !_selectionModel.SelectedIngredientIdList.Contains(itemDataId);
     }
 
     /// <summary>
-    /// 요리 매니저가 씬에 없으면 최소 동작을 위해 매니저 오브젝트를 준비합니다.
+    /// ?붾━ 留ㅻ땲?媛 ?ъ뿉 ?놁쑝硫?理쒖냼 ?숈옉???꾪빐 留ㅻ땲? ?ㅻ툕?앺듃瑜?以鍮꾪빀?덈떎.
     /// </summary>
     private void EnsureCookingManager()
     {
         if (OOTechCookingManager.Inst != null)
             return;
 
-        Debug.LogError("[OOTechCookingGroupController] OOTechCookingManager is missing. 씬에 배치된 CookingManager 오브젝트를 확인하세요.");
+        Debug.LogError("[OOTechCookingGroupController] OOTechCookingManager is missing. ?ъ뿉 諛곗튂??CookingManager ?ㅻ툕?앺듃瑜??뺤씤?섏꽭??");
     }
 
     /// <summary>
-    /// CookingUIGroup의 View 컴포넌트에서 말풍선, 드롭 영역, 텍스트 소품을 연결합니다.
+    /// CookingUIGroup??View 而댄룷?뚰듃?먯꽌 留먰뭾?? ?쒕∼ ?곸뿭, ?띿뒪???뚰뭹???곌껐?⑸땲??
     /// </summary>
     private void PrepareCookingView()
     {
@@ -1592,8 +1659,8 @@ public class OOTechCookingGroupController : MonoBehaviour
     }
 
     /// <summary>
-    /// 부엌 무대의 보조 담당 컴포넌트를 찾고 필요한 UI 참조를 넘깁니다.
-    /// 감독이 모든 안내판을 직접 들지 않고, 인벤토리 연락 담당과 결과 연출 담당에게 역할표를 붙이는 단계입니다.
+    /// 遺??臾대???蹂댁“ ?대떦 而댄룷?뚰듃瑜?李얘퀬 ?꾩슂??UI 李몄“瑜??섍퉩?덈떎.
+    /// 媛먮룆??紐⑤뱺 ?덈궡?먯쓣 吏곸젒 ?ㅼ? ?딄퀬, ?몃깽?좊━ ?곕씫 ?대떦怨?寃곌낵 ?곗텧 ?대떦?먭쾶 ??븷?쒕? 遺숈씠???④퀎?낅땲??
     /// </summary>
     private void ResolveRoleComponents()
     {
@@ -1606,7 +1673,7 @@ public class OOTechCookingGroupController : MonoBehaviour
     }
 
     /// <summary>
-    /// CookingUIGroup 루트 Canvas가 0 스케일이나 잘못된 Rect로 저장되었을 때 화면 전체 UI 기준으로 복구합니다.
+    /// CookingUIGroup 猷⑦듃 Canvas媛 0 ?ㅼ??쇱씠???섎せ??Rect濡???λ릺?덉쓣 ???붾㈃ ?꾩껜 UI 湲곗??쇰줈 蹂듦뎄?⑸땲??
     /// </summary>
     private void NormalizeCookingCanvasRoot()
     {
@@ -1622,14 +1689,14 @@ public class OOTechCookingGroupController : MonoBehaviour
     }
 
     /// <summary>
-    /// CookingGroup 자식인 Cauldron 오브젝트의 Transform, Renderer, Collider를 찾습니다.
+    /// CookingGroup ?먯떇??Cauldron ?ㅻ툕?앺듃??Transform, Renderer, Collider瑜?李얠뒿?덈떎.
     /// </summary>
     private void ResolveCauldronReference()
     {
         if (Transform_Cauldron != null && Transform_Cauldron.gameObject.scene.IsValid())
             return;
 
-        Transform_Cauldron = FindChildByName(transform, _cauldronObjectName);
+        Transform_Cauldron = RequestChildObjectByName(transform, _cauldronObjectName);
         Renderer_Cauldron = null;
         Collider_Cauldron = null;
 
@@ -1651,7 +1718,7 @@ public class OOTechCookingGroupController : MonoBehaviour
         if (Tool_Cauldron == null)
             Tool_Cauldron = Transform_Cauldron.gameObject.AddComponent<OOTechCookingToolDropTarget>();
 
-        OO_CookingTool toolData = _toolResolver.RequestSetupTool(Tool_Cauldron, _cauldronObjectName, "가마솥", _defaultCauldronAcceptedIngredientIdArray, _cauldronDropAreaPadding);
+        OO_CookingTool toolData = _toolResolver.RequestSetupTool(Tool_Cauldron, _cauldronObjectName, "媛留덉넡", _defaultCauldronAcceptedIngredientIdArray, _cauldronDropAreaPadding);
 
         if (toolData != null)
         {
@@ -1663,14 +1730,14 @@ public class OOTechCookingGroupController : MonoBehaviour
     }
 
     /// <summary>
-    /// CookingGroup 자식 Cuttingboard 오브젝트의 Transform, Renderer, Collider, 역할표를 찾습니다.
+    /// CookingGroup ?먯떇 Cuttingboard ?ㅻ툕?앺듃??Transform, Renderer, Collider, ??븷?쒕? 李얠뒿?덈떎.
     /// </summary>
     private void ResolveCuttingboardReference()
     {
         if (Transform_Cuttingboard != null && Transform_Cuttingboard.gameObject.scene.IsValid())
             return;
 
-        Transform_Cuttingboard = FindChildByName(transform, _cuttingboardObjectName);
+        Transform_Cuttingboard = RequestChildObjectByName(transform, _cuttingboardObjectName);
         Renderer_Cuttingboard = null;
         Collider_Cuttingboard = null;
         Tool_Cuttingboard = null;
@@ -1693,7 +1760,7 @@ public class OOTechCookingGroupController : MonoBehaviour
         if (Tool_Cuttingboard == null)
             Tool_Cuttingboard = Transform_Cuttingboard.gameObject.AddComponent<OOTechCookingToolDropTarget>();
 
-        OO_CookingTool toolData = _toolResolver.RequestSetupTool(Tool_Cuttingboard, _cuttingboardObjectName, "도마", _defaultCuttingboardAcceptedIngredientIdArray, _cuttingboardDropAreaPadding);
+        OO_CookingTool toolData = _toolResolver.RequestSetupTool(Tool_Cuttingboard, _cuttingboardObjectName, "?꾨쭏", _defaultCuttingboardAcceptedIngredientIdArray, _cuttingboardDropAreaPadding);
 
         if (toolData != null)
         {
@@ -1705,15 +1772,15 @@ public class OOTechCookingGroupController : MonoBehaviour
     }
 
     /// <summary>
-    /// CookingGroup 자식 Julgu 오브젝트의 Transform, Renderer, Collider, 역할표를 찾습니다.
-    /// 절구는 Stage3부터 추가되는 조리도구이므로 없으면 경고 없이 기존 요리 흐름을 유지합니다.
+    /// CookingGroup ?먯떇 Julgu ?ㅻ툕?앺듃??Transform, Renderer, Collider, ??븷?쒕? 李얠뒿?덈떎.
+    /// ?덇뎄??Stage3遺??異붽??섎뒗 議곕━?꾧뎄?대?濡??놁쑝硫?寃쎄퀬 ?놁씠 湲곗〈 ?붾━ ?먮쫫???좎??⑸땲??
     /// </summary>
     private void ResolveJulguReference()
     {
         if (Transform_Julgu != null && Transform_Julgu.gameObject.scene.IsValid())
             return;
 
-        Transform_Julgu = FindChildByName(transform, _julguObjectName);
+        Transform_Julgu = RequestChildObjectByName(transform, _julguObjectName);
         Renderer_Julgu = null;
         Collider_Julgu = null;
         Tool_Julgu = null;
@@ -1736,7 +1803,7 @@ public class OOTechCookingGroupController : MonoBehaviour
         if (Tool_Julgu == null)
             Tool_Julgu = Transform_Julgu.gameObject.AddComponent<OOTechCookingToolDropTarget>();
 
-        OO_CookingTool toolData = _toolResolver.RequestSetupTool(Tool_Julgu, _julguObjectName, "절구", _defaultJulguAcceptedIngredientIdArray, _julguDropAreaPadding);
+        OO_CookingTool toolData = _toolResolver.RequestSetupTool(Tool_Julgu, _julguObjectName, "?덇뎄", _defaultJulguAcceptedIngredientIdArray, _julguDropAreaPadding);
 
         if (toolData != null)
         {
@@ -1748,7 +1815,7 @@ public class OOTechCookingGroupController : MonoBehaviour
     }
 
     /// <summary>
-    /// 화면 좌표를 실제 월드 좌표로 바꿔 가마솥 Collider 또는 Sprite Bounds 안인지 확인합니다.
+    /// ?붾㈃ 醫뚰몴瑜??ㅼ젣 ?붾뱶 醫뚰몴濡?諛붽퓭 媛留덉넡 Collider ?먮뒗 Sprite Bounds ?덉씤吏 ?뺤씤?⑸땲??
     /// </summary>
     private bool IsPointerInsideSceneTool(Vector2 screenPosition, OOTechCookingToolDropTarget toolTarget, Transform toolTransform, SpriteRenderer toolRenderer, Collider2D toolCollider, float dropAreaPadding)
     {
@@ -1815,7 +1882,7 @@ public class OOTechCookingGroupController : MonoBehaviour
     }
 
     /// <summary>
-    /// 실제 가마솥 크기를 화면 UI 좌표로 변환해 드롭 영역을 맞춥니다.
+    /// ?ㅼ젣 媛留덉넡 ?ш린瑜??붾㈃ UI 醫뚰몴濡?蹂?섑빐 ?쒕∼ ?곸뿭??留욎땅?덈떎.
     /// </summary>
     private void UpdateCauldronDropArea()
     {
@@ -1911,7 +1978,7 @@ public class OOTechCookingGroupController : MonoBehaviour
     }
 
     /// <summary>
-    /// 로드 HUD의 인벤토리 패널을 다시 그리도록 요청합니다.
+    /// 濡쒕뱶 HUD???몃깽?좊━ ?⑤꼸???ㅼ떆 洹몃━?꾨줉 ?붿껌?⑸땲??
     /// </summary>
     private void RefreshInventorySlots()
     {
@@ -1919,7 +1986,7 @@ public class OOTechCookingGroupController : MonoBehaviour
     }
 
     /// <summary>
-    /// 가마솥 안에 들어간 재료 목록을 텍스트로 보여줍니다.
+    /// 媛留덉넡 ?덉뿉 ?ㅼ뼱媛??щ즺 紐⑸줉???띿뒪?몃줈 蹂댁뿬以띾땲??
     /// </summary>
     private void RefreshPotView()
     {
@@ -1946,7 +2013,7 @@ public class OOTechCookingGroupController : MonoBehaviour
     }
 
     /// <summary>
-    /// 처음 부엌에 들어왔을 때 가마솥 사용법 말풍선과 화살표를 보여줍니다.
+    /// 泥섏쓬 遺?뚯뿉 ?ㅼ뼱?붿쓣 ??媛留덉넡 ?ъ슜踰?留먰뭾?좉낵 ?붿궡?쒕? 蹂댁뿬以띾땲??
     /// </summary>
     private void ShowToolGuideSequence()
     {
@@ -1990,8 +2057,8 @@ public class OOTechCookingGroupController : MonoBehaviour
     }
 
     /// <summary>
-    /// Stage3에서 새로 열린 절구 사용법만 단독으로 안내합니다.
-    /// Game View에서는 기존 안내 말풍선을 재사용하고 화살표만 Julgu 위로 옮깁니다.
+    /// Stage3?먯꽌 ?덈줈 ?대┛ ?덇뎄 ?ъ슜踰뺣쭔 ?⑤룆?쇰줈 ?덈궡?⑸땲??
+    /// Game View?먯꽌??湲곗〈 ?덈궡 留먰뭾?좎쓣 ?ъ궗?⑺븯怨??붿궡?쒕쭔 Julgu ?꾨줈 ??퉩?덈떎.
     /// </summary>
     private IEnumerator PlayJulguGuideRoutine()
     {
@@ -2008,7 +2075,7 @@ public class OOTechCookingGroupController : MonoBehaviour
         _isJulguGuideActive = false;
         _toolGuideCoroutine = null;
         SetGuidePointerActive(false);
-        SetStatus("절구는 마우스클릭으로 인벤토리의 쌀을 떡으로 만들 수 있습니다!");
+        SetStatus("?덇뎄??留덉슦?ㅽ겢由?쑝濡??몃깽?좊━??????≪쑝濡?留뚮뱾 ???덉뒿?덈떎!");
     }
 
     private void StopToolGuideRoutine()
@@ -2051,7 +2118,7 @@ public class OOTechCookingGroupController : MonoBehaviour
     }
 
     /// <summary>
-    /// Tutorial 데이터에서 가마솥 설명을 읽고, 없으면 기본 안내 문구를 사용합니다.
+    /// Tutorial ?곗씠?곗뿉??媛留덉넡 ?ㅻ챸???쎄퀬, ?놁쑝硫?湲곕낯 ?덈궡 臾멸뎄瑜??ъ슜?⑸땲??
     /// </summary>
     private void ShowCuttingboardGuide(UnityAction onConfirm)
     {
@@ -2109,46 +2176,46 @@ public class OOTechCookingGroupController : MonoBehaviour
 
     private void GetCauldronGuideData(out string title, out string description)
     {
-        string fallbackDescription = "왼쪽 인벤토리의 쌀과 채소를 가운데 가마솥과 도마로 끌어다 놓으세요.\n기본은 하나씩 집습니다. 여러 개를 집으려면 슬롯 위에서 Ctrl+마우스 휠로 수량을 조절하세요.\n쌀 + 채소가 준비되면 야채죽이 완성됩니다.";
+        string fallbackDescription = "?쇱そ ?몃깽?좊━???怨?梨꾩냼瑜?媛?대뜲 媛留덉넡怨??꾨쭏濡??뚯뼱???볦쑝?몄슂.\n湲곕낯? ?섎굹??吏묒뒿?덈떎. ?щ윭 媛쒕? 吏묒쑝?ㅻ㈃ ?щ’ ?꾩뿉??Ctrl+留덉슦???좊줈 ?섎웾??議곗젅?섏꽭??\n? + 梨꾩냼媛 以鍮꾨릺硫??쇱콈二쎌씠 ?꾩꽦?⑸땲??";
 
         if (Cue_Guide != null)
         {
-            Cue_Guide.RequestGetGuideData(_cauldronTutorialId, "가마솥", fallbackDescription, out title, out description);
+            Cue_Guide.RequestGetGuideData(_cauldronTutorialId, "媛留덉넡", fallbackDescription, out title, out description);
             return;
         }
 
-        title = "가마솥";
+        title = "媛留덉넡";
         description = fallbackDescription;
     }
 
     /// <summary>
-    /// 말풍선 제목과 본문 텍스트를 적용합니다.
+    /// 留먰뭾???쒕ぉ怨?蹂몃Ц ?띿뒪?몃? ?곸슜?⑸땲??
     /// </summary>
     private void GetCuttingboardGuideData(out string title, out string description)
     {
-        string fallbackDescription = "채소는 도마에 올려놓으세요.\n가마솥에 쌀, 도마에 채소가 준비되면 야채죽이 완성됩니다.";
+        string fallbackDescription = "梨꾩냼???꾨쭏???щ젮?볦쑝?몄슂.\n媛留덉넡???, ?꾨쭏??梨꾩냼媛 以鍮꾨릺硫??쇱콈二쎌씠 ?꾩꽦?⑸땲??";
 
         if (Cue_Guide != null)
         {
-            Cue_Guide.RequestGetGuideData(_cuttingboardTutorialId, "도마", fallbackDescription, out title, out description);
+            Cue_Guide.RequestGetGuideData(_cuttingboardTutorialId, "?꾨쭏", fallbackDescription, out title, out description);
             return;
         }
 
-        title = "도마";
+        title = "?꾨쭏";
         description = fallbackDescription;
     }
 
     private void GetJulguGuideData(out string title, out string description)
     {
-        string fallbackDescription = "절구는 마우스클릭으로 인벤토리의 쌀을 떡으로 만들 수 있습니다!";
+        string fallbackDescription = "?덇뎄??留덉슦?ㅽ겢由?쑝濡??몃깽?좊━??????≪쑝濡?留뚮뱾 ???덉뒿?덈떎!";
 
         if (Cue_Guide != null)
         {
-            Cue_Guide.RequestGetGuideData(_julguTutorialId, "절구", fallbackDescription, out title, out description);
+            Cue_Guide.RequestGetGuideData(_julguTutorialId, "?덇뎄", fallbackDescription, out title, out description);
             return;
         }
 
-        title = "절구";
+        title = "?덇뎄";
         description = fallbackDescription;
     }
 
@@ -2177,7 +2244,7 @@ public class OOTechCookingGroupController : MonoBehaviour
     }
 
     /// <summary>
-    /// 요리 성공처럼 다음 컷으로 바로 넘어가야 할 때 현재 안내 말풍선과 화살표를 정리합니다.
+    /// ?붾━ ?깃났泥섎읆 ?ㅼ쓬 而룹쑝濡?諛붾줈 ?섏뼱媛???????꾩옱 ?덈궡 留먰뭾?좉낵 ?붿궡?쒕? ?뺣━?⑸땲??
     /// </summary>
     private void HideGuideBubble()
     {
@@ -2203,7 +2270,7 @@ public class OOTechCookingGroupController : MonoBehaviour
     }
 
     /// <summary>
-    /// 씬에 배치된 가마솥 화살표만 켜고 위치를 갱신합니다.
+    /// ?ъ뿉 諛곗튂??媛留덉넡 ?붿궡?쒕쭔 耳쒓퀬 ?꾩튂瑜?媛깆떊?⑸땲??
     /// </summary>
     private void CreateGuidePointersIfNeeded()
     {
@@ -2305,8 +2372,8 @@ public class OOTechCookingGroupController : MonoBehaviour
     }
 
     /// <summary>
-    /// 실제 Cauldron 오브젝트의 윗부분을 UI 로컬 좌표로 바꿉니다.
-    /// 화살표가 드롭 영역이 아니라 가마솥 소품 바로 위를 가리키게 하는 기준점입니다.
+    /// ?ㅼ젣 Cauldron ?ㅻ툕?앺듃???쀫?遺꾩쓣 UI 濡쒖뺄 醫뚰몴濡?諛붽퓠?덈떎.
+    /// ?붿궡?쒓? ?쒕∼ ?곸뿭???꾨땲??媛留덉넡 ?뚰뭹 諛붾줈 ?꾨? 媛由ы궎寃??섎뒗 湲곗??먯엯?덈떎.
     /// </summary>
     private bool TryGetCauldronTopLocalPoint(out Vector2 localPoint)
     {
@@ -2409,7 +2476,7 @@ public class OOTechCookingGroupController : MonoBehaviour
     }
 
     /// <summary>
-    /// 부엌 안의 NEW 배지를 켜거나 끄고, 켜질 때는 깜빡이게 합니다.
+    /// 遺???덉쓽 NEW 諛곗?瑜?耳쒓굅???꾧퀬, 耳쒖쭏 ?뚮뒗 源쒕묀?닿쾶 ?⑸땲??
     /// </summary>
     private void SetInventoryNewBadgeActive(bool isActive)
     {
@@ -2424,7 +2491,7 @@ public class OOTechCookingGroupController : MonoBehaviour
     }
 
     /// <summary>
-    /// 열려 있는 Road HUD들에게 인벤토리 NEW 배지를 켜 달라고 알립니다.
+    /// ?대젮 ?덈뒗 Road HUD?ㅼ뿉寃??몃깽?좊━ NEW 諛곗?瑜?耳??щ씪怨??뚮┰?덈떎.
     /// </summary>
     private void NotifyRoadHUDInventoryNewBadge()
     {
@@ -2434,7 +2501,9 @@ public class OOTechCookingGroupController : MonoBehaviour
             return;
         }
 
-        foreach (OOTechRoadHUDController hudController in FindObjectsByType<OOTechRoadHUDController>(FindObjectsInactive.Include, FindObjectsSortMode.None))
+        List<OOTechRoadHUDController> hudControllerArray = OOTechSceneQuery.RequestCollectComponents<OOTechRoadHUDController>(true);
+
+        foreach (OOTechRoadHUDController hudController in hudControllerArray)
         {
             if (hudController == null || !hudController.gameObject.activeInHierarchy)
                 continue;
@@ -2445,7 +2514,7 @@ public class OOTechCookingGroupController : MonoBehaviour
     }
 
     /// <summary>
-    /// 열려 있는 Road HUD들에게 인벤토리 목록을 다시 그려 달라고 알립니다.
+    /// ?대젮 ?덈뒗 Road HUD?ㅼ뿉寃??몃깽?좊━ 紐⑸줉???ㅼ떆 洹몃젮 ?щ씪怨??뚮┰?덈떎.
     /// </summary>
     private void NotifyRoadHUDInventoryRefresh()
     {
@@ -2455,7 +2524,9 @@ public class OOTechCookingGroupController : MonoBehaviour
             return;
         }
 
-        foreach (OOTechRoadHUDController hudController in FindObjectsByType<OOTechRoadHUDController>(FindObjectsInactive.Include, FindObjectsSortMode.None))
+        List<OOTechRoadHUDController> hudControllerArray = OOTechSceneQuery.RequestCollectComponents<OOTechRoadHUDController>(true);
+
+        foreach (OOTechRoadHUDController hudController in hudControllerArray)
         {
             if (hudController == null || !hudController.gameObject.activeInHierarchy)
                 continue;
@@ -2465,7 +2536,7 @@ public class OOTechCookingGroupController : MonoBehaviour
     }
 
     /// <summary>
-    /// 야채죽 제작이 끝났다고 Road HUD에 알려 임무판 체크 표시를 갱신합니다.
+    /// ?쇱콈二??쒖옉???앸궗?ㅺ퀬 Road HUD???뚮젮 ?꾨Т??泥댄겕 ?쒖떆瑜?媛깆떊?⑸땲??
     /// </summary>
     private void NotifyRoadHUDCookingQuestComplete()
     {
@@ -2474,11 +2545,11 @@ public class OOTechCookingGroupController : MonoBehaviour
     }
 
     /// <summary>
-    /// 합창 대사가 끝난 뒤 플레이어에게 임무가 완료되었음을 짧게 안내합니다.
+    /// ?⑹갹 ??ш? ?앸궃 ???뚮젅?댁뼱?먭쾶 ?꾨Т媛 ?꾨즺?섏뿀?뚯쓣 吏㏐쾶 ?덈궡?⑸땲??
     /// </summary>
     private void ShowCookingMissionCompleteGuide()
     {
-        ApplyGuideText("임무 완수", "야채죽을 완성했습니다.\n임무 UI에 완료 표시가 추가되었습니다.");
+        ApplyGuideText("?꾨Т ?꾩닔", "?쇱콈二쎌쓣 ?꾩꽦?덉뒿?덈떎.\n?꾨Т UI???꾨즺 ?쒖떆媛 異붽??섏뿀?듬땲??");
         SetGuidePointerActive(false);
 
         if (Button_GuideConfirm == null)
@@ -2492,7 +2563,7 @@ public class OOTechCookingGroupController : MonoBehaviour
     }
 
     /// <summary>
-    /// 요리 완성 후 세 인물이 함께 말하는 DialogueGroup 대사를 시작합니다.
+    /// ?붾━ ?꾩꽦 ?????몃Ъ???④퍡 留먰븯??DialogueGroup ??щ? ?쒖옉?⑸땲??
     /// </summary>
     private void RequestPlayCookingCompleteDialogue(string resultItemId)
     {
@@ -2501,8 +2572,8 @@ public class OOTechCookingGroupController : MonoBehaviour
     }
 
     /// <summary>
-    /// 첫 요리 튜토리얼의 완성 음식은 대사로 먹은 뒤 인벤토리에서 1개 제거합니다.
-    /// Game View에서는 "잘 먹었습니다" 대사가 끝난 다음 야채죽 슬롯이 사라집니다.
+    /// 泥??붾━ ?쒗넗由ъ뼹???꾩꽦 ?뚯떇? ??щ줈 癒뱀? ???몃깽?좊━?먯꽌 1媛??쒓굅?⑸땲??
+    /// Game View?먯꽌??"??癒뱀뿀?듬땲?? ??ш? ?앸궃 ?ㅼ쓬 ?쇱콈二??щ’???щ씪吏묐땲??
     /// </summary>
     private void ConsumeCookingCompleteResult(string resultItemId)
     {
@@ -2524,7 +2595,7 @@ public class OOTechCookingGroupController : MonoBehaviour
     }
 
     /// <summary>
-    /// 부엌 카메라가 Kitchen 배경 전체를 담도록 Orthographic Size와 위치를 조정합니다.
+    /// 遺??移대찓?쇨? Kitchen 諛곌꼍 ?꾩껜瑜??대룄濡?Orthographic Size? ?꾩튂瑜?議곗젙?⑸땲??
     /// </summary>
     private void ApplyKitchenCameraView()
     {
@@ -2533,7 +2604,7 @@ public class OOTechCookingGroupController : MonoBehaviour
         if (Camera_Main == null)
             return;
 
-        SpriteRenderer kitchenRenderer = FindChildRenderer("Kitchen");
+        SpriteRenderer kitchenRenderer = RequestChildRenderer("Kitchen");
 
         if (kitchenRenderer == null)
             return;
@@ -2557,8 +2628,8 @@ public class OOTechCookingGroupController : MonoBehaviour
     }
 
     /// <summary>
-    /// CookingGroup이 열릴 때 부엌 무대와 조리도구 SpriteRenderer를 가장 앞쪽으로 올립니다.
-    /// Game View에서는 이전 Road/Stage 배경이 뒤에 남아 있어도 Kitchen 화면이 덮이지 않게 하는 보험 장치입니다.
+    /// CookingGroup???대┫ ??遺??臾대?? 議곕━?꾧뎄 SpriteRenderer瑜?媛???욎そ?쇰줈 ?щ┰?덈떎.
+    /// Game View?먯꽌???댁쟾 Road/Stage 諛곌꼍???ㅼ뿉 ?⑥븘 ?덉뼱??Kitchen ?붾㈃????씠吏 ?딄쾶 ?섎뒗 蹂댄뿕 ?μ튂?낅땲??
     /// </summary>
     private void ApplyCookingRenderPriority()
     {
@@ -2594,7 +2665,7 @@ public class OOTechCookingGroupController : MonoBehaviour
     }
 
     /// <summary>
-    /// 부엌을 닫을 때 이전 로드 장면의 카메라 위치와 Follow 상태로 복구합니다.
+    /// 遺?뚯쓣 ?レ쓣 ???댁쟾 濡쒕뱶 ?λ㈃??移대찓???꾩튂? Follow ?곹깭濡?蹂듦뎄?⑸땲??
     /// </summary>
     private void RestoreCameraView()
     {
@@ -2612,7 +2683,7 @@ public class OOTechCookingGroupController : MonoBehaviour
     }
 
     /// <summary>
-    /// 카메라를 부엌용으로 바꾸기 전에 원래 상태를 한 번 저장합니다.
+    /// 移대찓?쇰? 遺?뚯슜?쇰줈 諛붽씀湲??꾩뿉 ?먮옒 ?곹깭瑜???踰???ν빀?덈떎.
     /// </summary>
     private void SaveCameraStateIfNeeded()
     {
@@ -2635,9 +2706,9 @@ public class OOTechCookingGroupController : MonoBehaviour
             Camera_Main.TryGetComponent(out Camera_Follow);
     }
 
-    private SpriteRenderer FindChildRenderer(string childName)
+    private SpriteRenderer RequestChildRenderer(string childName)
     {
-        Transform childTransform = FindChildByName(transform, childName);
+        Transform childTransform = RequestChildObjectByName(transform, childName);
 
         if (childTransform != null && childTransform.TryGetComponent(out SpriteRenderer childRenderer))
             return childRenderer;
@@ -2645,7 +2716,7 @@ public class OOTechCookingGroupController : MonoBehaviour
         return GetComponentInChildren<SpriteRenderer>(true);
     }
 
-    private Transform FindChildByName(Transform rootTransform, string childName)
+    private Transform RequestChildObjectByName(Transform rootTransform, string childName)
     {
         if (rootTransform == null)
             return null;
@@ -2655,7 +2726,7 @@ public class OOTechCookingGroupController : MonoBehaviour
 
         for (int index = 0; index < rootTransform.childCount; index++)
         {
-            Transform foundTransform = FindChildByName(rootTransform.GetChild(index), childName);
+            Transform foundTransform = RequestChildObjectByName(rootTransform.GetChild(index), childName);
 
             if (foundTransform != null)
                 return foundTransform;
@@ -2664,7 +2735,7 @@ public class OOTechCookingGroupController : MonoBehaviour
         return null;
     }
 
-    private GameObject FindSceneObjectByName(string objectName)
+    private GameObject RequestSceneObjectByName(string objectName)
     {
         Scene scene = SceneManager.GetActiveScene();
 
@@ -2673,7 +2744,7 @@ public class OOTechCookingGroupController : MonoBehaviour
 
         foreach (GameObject rootObject in scene.GetRootGameObjects())
         {
-            Transform foundTransform = FindChildByName(rootObject.transform, objectName);
+            Transform foundTransform = RequestChildObjectByName(rootObject.transform, objectName);
 
             if (foundTransform != null)
                 return foundTransform.gameObject;
@@ -2701,19 +2772,19 @@ public class OOTechCookingGroupController : MonoBehaviour
         }
 
         if (itemDataId == _riceIngredientId)
-            return "쌀";
+            return "?";
 
         if (itemDataId == _vegetableIngredientId)
-            return "채소";
+            return "梨꾩냼";
 
         if (itemDataId == _pumpkinIngredientId)
-            return "호박";
+            return "?몃컯";
 
         if (itemDataId == "Ing_ChiliPepper_01")
-            return "청양고추";
+            return "泥?뼇怨좎텛";
 
         if (itemDataId == "Ing_Fish_01")
-            return "조기";
+            return "議곌린";
 
         if (itemDataId == "Ing_Kimch_01")
             return "김치";
@@ -2725,7 +2796,7 @@ public class OOTechCookingGroupController : MonoBehaviour
             return "야채죽";
 
         if (itemDataId == "OO_GrilledFishMeal_1")
-            return "조기밥상";
+            return "議곌린諛μ긽";
 
         if (itemDataId == "OO_KimchiStew_1")
             return "김치찌개";
@@ -2734,7 +2805,7 @@ public class OOTechCookingGroupController : MonoBehaviour
     }
 
     /// <summary>
-    /// 부엌 하단 상태 문구를 갱신합니다.
+    /// 遺???섎떒 ?곹깭 臾멸뎄瑜?媛깆떊?⑸땲??
     /// </summary>
     public void RequestShowCookingStatus(string statusText)
     {
@@ -2747,3 +2818,5 @@ public class OOTechCookingGroupController : MonoBehaviour
             Text_Status.text = statusText;
     }
 }
+
+

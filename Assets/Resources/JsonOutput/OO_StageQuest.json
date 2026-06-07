@@ -75,5 +75,16 @@
     "RequiredCount": 1,
     "RewardItemIds": "Ing_Carrot_01",
     "NextGroupId": "4th_Road_to_Stage4"
+  },
+  {
+    "Id": "Stage4__Quest_01",
+    "StageId": "OO_Stage_4",
+    "Name": "토끼를 잠들게 하고 거북이에게 돌아가세요",
+    "Description": "토끼를 찾고, 당근전으로 유혹해 잠들게 한 뒤 거북이에게 돌아가세요.",
+    "ObjectiveType": "Stage4RabbitQuest",
+    "ObjectiveId": "OO_CarrotCake_1",
+    "RequiredCount": 1,
+    "RewardItemIds": null,
+    "NextGroupId": "PreFinal_Narration"
   }
 ]

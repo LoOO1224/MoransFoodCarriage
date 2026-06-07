@@ -1,9 +1,9 @@
-// =============================================================================
-// OO_MFC 역할 주석
-// - 스크립트: OOTechStage3DialogueCue.cs
-// - 역할: Stage3/EncounterGroup에서 DialogueGroup과 ChoicePanel을 열고 결과를 기다리는 대사 큐 담당입니다.
-// - 영화 비유: 무대감독이 대본을 직접 읽지 않고, 대사 조감독에게 "이 대사/선택지 진행"만 맡기는 구조입니다.
-// - 유지보수 포인트: 장면 Controller는 데이터 ID만 넘기고, UI 탐색/열기/닫기는 이 컴포넌트 안에 둡니다.
+﻿// =============================================================================
+// OO_MFC ??븷 二쇱꽍
+// - ?ㅽ겕由쏀듃: OOTechStage3DialogueCue.cs
+// - ??븷: Stage3/EncounterGroup?먯꽌 DialogueGroup怨?ChoicePanel???닿퀬 寃곌낵瑜?湲곕떎由щ뒗 ??????대떦?낅땲??
+// - ?곹솕 鍮꾩쑀: 臾대?媛먮룆???蹂몄쓣 吏곸젒 ?쎌? ?딄퀬, ???議곌컧?낆뿉寃?"??????좏깮吏 吏꾪뻾"留?留↔린??援ъ“?낅땲??
+// - ?좎?蹂댁닔 ?ъ씤?? ?λ㈃ Controller???곗씠??ID留??섍린怨? UI ?먯깋/?닿린/?リ린????而댄룷?뚰듃 ?덉뿉 ?〓땲??
 // =============================================================================
 using System;
 using System.Collections;
@@ -11,8 +11,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 /// <summary>
-/// Stage3에서 데이터 기반 대사와 선택지를 출력합니다.
-/// Game View에서는 기존 DialogueGroup을 재사용하므로 새 패널을 즉석 생성하지 않습니다.
+/// Stage3?먯꽌 ?곗씠??湲곕컲 ??ъ? ?좏깮吏瑜?異쒕젰?⑸땲??
+/// Game View?먯꽌??湲곗〈 DialogueGroup???ъ궗?⑺븯誘濡????⑤꼸??利됱꽍 ?앹꽦?섏? ?딆뒿?덈떎.
 /// </summary>
 [DisallowMultipleComponent]
 public class OOTechStage3DialogueCue : MonoBehaviour
@@ -25,7 +25,7 @@ public class OOTechStage3DialogueCue : MonoBehaviour
     private GameObject Object_DialogueGroup;
 
     /// <summary>
-    /// 지정한 Dialogue ID를 열고 플레이어가 넘길 때까지 기다립니다.
+    /// 吏?뺥븳 Dialogue ID瑜??닿퀬 ?뚮젅?댁뼱媛 ?섍만 ?뚭퉴吏 湲곕떎由쎈땲??
     /// </summary>
     public IEnumerator RequestShowDialogueAndWait(string dialogueId)
     {
@@ -51,7 +51,44 @@ public class OOTechStage3DialogueCue : MonoBehaviour
     }
 
     /// <summary>
-    /// 지정한 Choice ID를 열고 예/아니오 선택 결과를 반환합니다.
+    /// 吏?뺥븳 Narration ID瑜?湲곗〈 DialogueGroup???꾩슦怨??뚮젅?댁뼱媛 ?섍만 ?뚭퉴吏 湲곕떎由쎈땲??
+    /// ?곹솕濡?移섎㈃ ???ㅽ겕由곗쓣 留뚮뱾吏 ?딄퀬 媛숈? ?먮쭑?먯뿉 ?대젅?댁뀡 ?蹂몃쭔 ?쇱썙 ?ｋ뒗 諛⑹떇?낅땲??
+    /// </summary>
+    public IEnumerator RequestShowNarrationAndWait(string narrationId, string fallbackText = "")
+    {
+        DialogueUI dialogueUI = ResolveDialogueUI();
+
+        if (dialogueUI == null)
+            yield break;
+
+        OO_Narration narrationData = OOTechGameDataManager.Inst != null ? OOTechGameDataManager.Inst.GetNarrationData(narrationId) : null;
+
+        if (narrationData == null)
+        {
+            if (string.IsNullOrEmpty(fallbackText))
+            {
+                Debug.LogWarning($"[OOTechStage3DialogueCue] Narration data missing: {narrationId}");
+                yield break;
+            }
+
+            narrationData = new OO_Narration
+            {
+                Id = narrationId,
+                Title = "?섎젅?댁뀡",
+                NarrationTexts = new System.Collections.Generic.List<string> { fallbackText }
+            };
+        }
+
+        bool isDone = false;
+        dialogueUI.RequestRoadViewLayout();
+        dialogueUI.ShowNarration(narrationData, delegate { isDone = true; });
+
+        yield return WaitUntilDoneOrTimeout(isDoneFunc: () => isDone, $"Narration timeout: {narrationId}");
+        RequestCloseDialogue();
+    }
+
+    /// <summary>
+    /// 吏?뺥븳 Choice ID瑜??닿퀬 ???꾨땲???좏깮 寃곌낵瑜?諛섑솚?⑸땲??
     /// </summary>
     public IEnumerator RequestShowChoiceAndWait(string choiceId, Action<int> onChoiceSelected)
     {
@@ -83,7 +120,7 @@ public class OOTechStage3DialogueCue : MonoBehaviour
     }
 
     /// <summary>
-    /// 열려 있는 DialogueGroup을 닫습니다.
+    /// ?대젮 ?덈뒗 DialogueGroup???レ뒿?덈떎.
     /// </summary>
     public void RequestCloseDialogue()
     {
@@ -140,18 +177,18 @@ public class OOTechStage3DialogueCue : MonoBehaviour
         Object_DialogueGroup = OOTechUIManager.Inst != null ? OOTechUIManager.Inst.GetCreatedUI(_dialogueGroupName) : null;
 
         if (Object_DialogueGroup == null)
-            Object_DialogueGroup = FindSceneObjectByName(_dialogueGroupName);
+            Object_DialogueGroup = RequestSceneObjectByName(_dialogueGroupName);
 
         return Object_DialogueGroup;
     }
 
-    private GameObject FindSceneObjectByName(string objectName)
+    private GameObject RequestSceneObjectByName(string objectName)
     {
         Scene scene = SceneManager.GetActiveScene();
 
         foreach (GameObject rootObject in scene.GetRootGameObjects())
         {
-            GameObject foundObject = FindChildByName(rootObject.transform, objectName);
+            GameObject foundObject = RequestChildObjectByName(rootObject.transform, objectName);
 
             if (foundObject != null)
                 return foundObject;
@@ -160,7 +197,7 @@ public class OOTechStage3DialogueCue : MonoBehaviour
         return null;
     }
 
-    private GameObject FindChildByName(Transform rootTransform, string objectName)
+    private GameObject RequestChildObjectByName(Transform rootTransform, string objectName)
     {
         if (rootTransform == null || string.IsNullOrEmpty(objectName))
             return null;
@@ -170,7 +207,7 @@ public class OOTechStage3DialogueCue : MonoBehaviour
 
         for (int index = 0; index < rootTransform.childCount; index++)
         {
-            GameObject foundObject = FindChildByName(rootTransform.GetChild(index), objectName);
+            GameObject foundObject = RequestChildObjectByName(rootTransform.GetChild(index), objectName);
 
             if (foundObject != null)
                 return foundObject;
@@ -179,3 +216,4 @@ public class OOTechStage3DialogueCue : MonoBehaviour
         return null;
     }
 }
+

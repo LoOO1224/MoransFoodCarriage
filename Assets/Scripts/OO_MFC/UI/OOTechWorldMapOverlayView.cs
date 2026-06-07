@@ -1,17 +1,17 @@
-// =============================================================================
-// OO_MFC 역할 주석
-// - 스크립트: OOTechWorldMapOverlayView.cs
-// - 역할: UI 하이어라키의 버튼, 이미지, 텍스트 참조를 모아 둔 View 컴포넌트입니다.
-// - 감독 관점: 무대 위 소품 위치표입니다. 판단하지 않고 소품을 보여 주는 일만 맡습니다.
-// - 유지보수 포인트: 버튼 동작 판단, 데이터 로딩, 그룹 전환 로직은 Controller나 Manager에 둡니다.
+﻿// =============================================================================
+// OO_MFC ??븷 二쇱꽍
+// - ?ㅽ겕由쏀듃: OOTechWorldMapOverlayView.cs
+// - ??븷: UI ?섏씠?대씪?ㅼ쓽 踰꾪듉, ?대?吏, ?띿뒪??李몄“瑜?紐⑥븘 ??View 而댄룷?뚰듃?낅땲??
+// - 媛먮룆 愿?? 臾대? ???뚰뭹 ?꾩튂?쒖엯?덈떎. ?먮떒?섏? ?딄퀬 ?뚰뭹??蹂댁뿬 二쇰뒗 ?쇰쭔 留≪뒿?덈떎.
+// - ?좎?蹂댁닔 ?ъ씤?? 踰꾪듉 ?숈옉 ?먮떒, ?곗씠??濡쒕뵫, 洹몃９ ?꾪솚 濡쒖쭅? Controller??Manager???〓땲??
 // =============================================================================
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 /// <summary>
-/// WorldMapGroup의 드래그 안내 말풍선 UI를 들고 있는 View 컴포넌트입니다.
-/// 월드맵 자체는 무대 배경이고, 이 View는 플레이어에게 조작법을 알려주는 안내 소품입니다.
+/// WorldMapGroup???쒕옒洹??덈궡 留먰뭾??UI瑜??ㅺ퀬 ?덈뒗 View 而댄룷?뚰듃?낅땲??
+/// ?붾뱶留??먯껜??臾대? 諛곌꼍?닿퀬, ??View???뚮젅?댁뼱?먭쾶 議곗옉踰뺤쓣 ?뚮젮二쇰뒗 ?덈궡 ?뚰뭹?낅땲??
 /// </summary>
 [DisallowMultipleComponent]
 public class OOTechWorldMapOverlayView : MonoBehaviour
@@ -30,7 +30,7 @@ public class OOTechWorldMapOverlayView : MonoBehaviour
     public Button GuideCloseButton => Button_GuideClose;
 
     /// <summary>
-    /// 월드맵 안내 말풍선과 닫기 버튼을 자식 오브젝트에서 연결합니다.
+    /// ?붾뱶留??덈궡 留먰뭾?좉낵 ?リ린 踰꾪듉???먯떇 ?ㅻ툕?앺듃?먯꽌 ?곌껐?⑸땲??
     /// </summary>
     public void ResolveReferences()
     {
@@ -46,7 +46,7 @@ public class OOTechWorldMapOverlayView : MonoBehaviour
         if (currentObject != null)
             return currentObject;
 
-        Transform targetTransform = FindChildByName(transform, objectName);
+        Transform targetTransform = RequestChildObjectByName(transform, objectName);
         return targetTransform != null ? targetTransform.gameObject : null;
     }
 
@@ -55,7 +55,7 @@ public class OOTechWorldMapOverlayView : MonoBehaviour
         if (currentButton != null)
             return currentButton;
 
-        Transform targetTransform = FindChildByName(transform, objectName);
+        Transform targetTransform = RequestChildObjectByName(transform, objectName);
         return targetTransform != null ? targetTransform.GetComponent<Button>() : null;
     }
 
@@ -64,11 +64,11 @@ public class OOTechWorldMapOverlayView : MonoBehaviour
         if (currentText != null)
             return currentText;
 
-        Transform targetTransform = FindChildByName(transform, objectName);
+        Transform targetTransform = RequestChildObjectByName(transform, objectName);
         return targetTransform != null ? targetTransform.GetComponent<TextMeshProUGUI>() : null;
     }
 
-    private Transform FindChildByName(Transform rootTransform, string objectName)
+    private Transform RequestChildObjectByName(Transform rootTransform, string objectName)
     {
         if (rootTransform == null)
             return null;
@@ -78,7 +78,7 @@ public class OOTechWorldMapOverlayView : MonoBehaviour
 
         for (int index = 0; index < rootTransform.childCount; index++)
         {
-            Transform foundTransform = FindChildByName(rootTransform.GetChild(index), objectName);
+            Transform foundTransform = RequestChildObjectByName(rootTransform.GetChild(index), objectName);
 
             if (foundTransform != null)
                 return foundTransform;
@@ -87,3 +87,4 @@ public class OOTechWorldMapOverlayView : MonoBehaviour
         return null;
     }
 }
+

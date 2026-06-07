@@ -282,7 +282,7 @@
   {
     "Id": "character_LeeMongRyong_03",
     "SpeakerName": "이몽령",
-    "Text": "(떠내려가는 탐관오리를 보며 헛기침을 하다가, 이내 춘향을 돌아보며) \"덕분에 큰 소동 없이 의로운 일을 마쳤소. ……춘양아, 그동안 무탈하였느냐. 내 오느라 너무 늦었다. 그간 고생이 많았구나.\"",
+    "Text": "(강으로 달려가는 탐관오리를 보며 헛기침을 하다가, 이내 춘향을 돌아보며) \"덕분에 큰 소동 없이 의로운 일을 마쳤소. ……춘양아, 그동안 무탈하였느냐. 내 오느라 너무 늦었다. 그간 고생이 많았구나.\"",
     "NextDialogueId": null,
     "SelectionNameList": null,
     "SelectionDialogueIdList": null,
@@ -322,7 +322,7 @@
   {
     "Id": "character_Chunyang_09",
     "SpeakerName": "춘양",
-    "Text": "\"(흐르는 눈물을 닦고 입을 가리며 수줍게 미소 짓는다) 나으리의 깊은 뜻을 어찌 거스르겠나이다. 서방님께서 주신 영약과 이 비단결 같은 동료들이 있으니, 제 앞길에 두려울 것이 없사옵니다. 부디 몸조심하시옵소서. 이 모험의 끝에서, 더 밝아진 세상에서 반드시 다시 만나기를 기약하겠나이다.\"",
+    "Text": "\"나으리의 깊은 뜻을 어찌 거스르겠나이다. 서방님께서 주신 영약과 이 비단결 같은 동료들이 있으니, 제 앞길에 두려울 것이 없사옵니다. 부디 몸조심하시옵소서. 이 모험의 끝에서, 더 밝아진 세상에서 반드시 다시 만나기를 기약하겠나이다.\"",
     "NextDialogueId": null,
     "SelectionNameList": null,
     "SelectionDialogueIdList": null,
@@ -373,6 +373,126 @@
     "Id": "character_Sangun_04",
     "SpeakerName": "산군",
     "Text": "“어흐응……! 내 평생 이토록 달콤하고 쫄깃한 떡은 처음이로구나. 사람을 해치며 날뛰던 가슴속 불길이 온데간데없이 가라앉는구나. 미안한 마음을 담아, 깊은 숲의 기운을 머금은 당근을 줄 터이니 받아 가거라.”",
+    "NextDialogueId": null,
+    "SelectionNameList": null,
+    "SelectionDialogueIdList": null,
+    "TexturePath": null,
+    "VoicePath": null
+  },
+  {
+    "Id": null,
+    "SpeakerName": null,
+    "Text": null,
+    "NextDialogueId": null,
+    "SelectionNameList": null,
+    "SelectionDialogueIdList": null,
+    "TexturePath": null,
+    "VoicePath": null
+  },
+  {
+    "Id": "character_Turtle_01",
+    "SpeakerName": "거북이",
+    "Text": "“아이고, 이보시오 요리사 양반! 용왕님의 병을 고치려면 저 얄미운 토끼 녀석의 간이 절실히 필요하다오. 달리기 경주로 담판을 지으려 했건만, 발이 어찌나 빠른지 등껍질이 터지도록 뛰어도 도저히 잡을 수가 없으니 내 신세가 처량하구려…….”",
+    "NextDialogueId": null,
+    "SelectionNameList": null,
+    "SelectionDialogueIdList": null,
+    "TexturePath": null,
+    "VoicePath": null
+  },
+  {
+    "Id": "character_Turtle_02",
+    "SpeakerName": "거북이",
+    "Text": "\"……하여 내 조심스레 청하건대, 저 얄미운 토끼 녀석을 음식으로 꼬여내 주지 않겠소? 듣자 하니 녀석이 노릇노릇한 당근전을 자다가도 깰 만큼 좋아한다 하더이다. 내 요청을 들어주어 녀석을 배불리 잠재워만 준다면, 용궁의 이름으로 귀한 보상을 내리겠소!”",
+    "NextDialogueId": null,
+    "SelectionNameList": null,
+    "SelectionDialogueIdList": null,
+    "TexturePath": null,
+    "VoicePath": null
+  },
+  {
+    "Id": "character_Rabbit_01",
+    "SpeakerName": "토끼",
+    "Text": "\"백날 뛰어봐야 결과는 뻔한데, 거북이 녀석은 참 미련하기도 하지. 내 발걸음 반의반도 못 따라오면서 용왕님 핑계 대는 것도 이젠 지겹다니까.”",
+    "NextDialogueId": null,
+    "SelectionNameList": null,
+    "SelectionDialogueIdList": null,
+    "TexturePath": null,
+    "VoicePath": null
+  },
+  {
+    "Id": "character_Rabbit_02",
+    "SpeakerName": "토끼 ",
+    "Text": "“꼼짝 마! 거북 영감의 얄팍한 수작에 넘어간 모양인데, 다 티 나니까 다가오지 마요. 내 간이 탐난다고 덥석 청을 들어주다니 참 나…….”",
+    "NextDialogueId": null,
+    "SelectionNameList": null,
+    "SelectionDialogueIdList": null,
+    "TexturePath": null,
+    "VoicePath": null
+  },
+  {
+    "Id": "character_Rabbit_03",
+    "SpeakerName": "토끼",
+    "Text": "(킁킁, 코를 격하게 씰룩이며) “……음? 잠깐, 이게 무슨 냄새지? 고소하면서도 달콤하고, 기름진 이 완벽한 향은……?!”",
+    "NextDialogueId": null,
+    "SelectionNameList": null,
+    "SelectionDialogueIdList": null,
+    "TexturePath": null,
+    "VoicePath": null
+  },
+  {
+    "Id": "character_Rabbit_04",
+    "SpeakerName": "토끼",
+    "Text": "(침을 꿀꺽 삼키며 짐짓 엄숙하게) “흐, 흥! 거북이 녀석의 꼬임수인 건 알지만…… 음식이 무슨 죄가 있겠어? 정 날 잡고 싶다면, 거기 보이는 나뭇그루터기 위에 그 노릇노릇한 ‘당근전’을 얌전히 올려놓으시지!”",
+    "NextDialogueId": null,
+    "SelectionNameList": null,
+    "SelectionDialogueIdList": null,
+    "TexturePath": null,
+    "VoicePath": null
+  },
+  {
+    "Id": "character_Turtle_03",
+    "SpeakerName": "거북이",
+    "Text": "“허어, 기적이로세! 그 얄미운 토끼 녀석이 저렇게 행복한 표정으로 쿨쿨 잠들다니……! 요리사 양반의 솜씨 덕분에 드디어 용궁의 시름을 덜게 되었소.”",
+    "NextDialogueId": null,
+    "SelectionNameList": null,
+    "SelectionDialogueIdList": null,
+    "TexturePath": null,
+    "VoicePath": null
+  },
+  {
+    "Id": "character_Turtle_04",
+    "SpeakerName": "거북이",
+    "Text": "“참으로 고맙소. 내 감사의 뜻을 담아, 저 깊은 심해에서만 자라는 신비로운 ‘해산물’을 드리리다. 여정에 큰 보탬이 되기를 바라오.",
+    "NextDialogueId": null,
+    "SelectionNameList": null,
+    "SelectionDialogueIdList": null,
+    "TexturePath": null,
+    "VoicePath": null
+  },
+  {
+    "Id": "character_YeonSanJa_01",
+    "SpeakerName": "연산자군",
+    "Text": "“네놈이 감히 요상한 역당 무리를 이끌고 팔도를 누비며 과인의 민심을 어지럽힌다는 그 음식 도적이렷다! 오냐, 내 오늘 마지막 기회를 주마. 당장 과인의 메마른 입맛을 만족시킬 수라를 올려라! 만약 조금이라도 기대를 저버린다면, 네놈의 그 요상한 나무덩이 목줄기는 물론이고, 저 미개한 나무목과 가녀린 춘양의 목까지 모조리 잘라 당장 광화문 거리에 높이 매달 것이다!”",
+    "NextDialogueId": null,
+    "SelectionNameList": null,
+    "SelectionDialogueIdList": null,
+    "TexturePath": null,
+    "VoicePath": null
+  },
+  {
+    "Id": "character_YeonSanJa_02",
+    "SpeakerName": "연산자군",
+    "Text": "“……이, 이 맛은 대체 무엇이란 말이냐? 바다의 깊은 숨결과 산의 정취가 혀끝에서 기어처럼 완벽하게 맞물려 돌아가는구나……! 뜨거운 증기가 온몸의 혈관을 깨우듯, 과인의 막힌 숨통이 트이는구나. 아아…… 내가 그동안 탐욕과 분노라는 차가운 쇠사슬에 묶여 눈이 멀었었구나.\"",
+    "NextDialogueId": null,
+    "SelectionNameList": null,
+    "SelectionDialogueIdList": null,
+    "TexturePath": null,
+    "VoicePath": null
+  },
+  {
+    "Id": "character_YeonSanJa_03",
+    "SpeakerName": "연산자군",
+    "Text": "\"장금과 영심이를 잃은 슬픔에 눈이 멀어 백성들을 짓밟았으니, 참으로 부끄럽도다! 내 마음의 오랜 병이 비로소 씻은 듯이 나았구나!\n\n여봐라! 오늘부로 온 나라의 가혹한 수탈을 당장 멈추고, 굶주린 백성들이 배불리 먹을 수 있도록 구휼미를 아낌없이 풀 것이다! 자, 파티…… 가 아니라, 조선 팔도가 들썩일 성대한 잔치를 열어라!!”",
     "NextDialogueId": null,
     "SelectionNameList": null,
     "SelectionDialogueIdList": null,

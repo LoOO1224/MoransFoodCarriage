@@ -1,0 +1,1591 @@
+fileFormatVersion: 2
+guid: c5a9d7ff0725cd546b80f031d71e083f
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 0
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: YSJ_isEatting_ClosedUP_0
+      rect:
+        serializedVersion: 2
+        x: 75
+        y: 1830
+        width: 103
+        height: 185
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c210d2653daec3244b45262f307e03a2
+      internalID: -60234840
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: YSJ_isEatting_ClosedUP_1
+      rect:
+        serializedVersion: 2
+        x: 331
+        y: 1830
+        width: 102
+        height: 185
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c5d232d4048b55147a6acd4af046ac20
+      internalID: -1631539440
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: YSJ_isEatting_ClosedUP_2
+      rect:
+        serializedVersion: 2
+        x: 587
+        y: 1830
+        width: 103
+        height: 185
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4243c9c5b71662744a920ad271bb61ac
+      internalID: -1523972212
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: YSJ_isEatting_ClosedUP_3
+      rect:
+        serializedVersion: 2
+        x: 844
+        y: 1830
+        width: 101
+        height: 185
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 589bcb771cc8f1545aecaba31c8b4c87
+      internalID: -1108558688
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: YSJ_isEatting_ClosedUP_4
+      rect:
+        serializedVersion: 2
+        x: 1100
+        y: 1830
+        width: 101
+        height: 185
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f26f806cc1ac0e143b3f2782d8cb6753
+      internalID: -1271770803
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: YSJ_isEatting_ClosedUP_5
+      rect:
+        serializedVersion: 2
+        x: 1355
+        y: 1830
+        width: 102
+        height: 186
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4c019a35413ab2542a777eb38d931c47
+      internalID: 221111554
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: YSJ_isEatting_ClosedUP_6
+      rect:
+        serializedVersion: 2
+        x: 1612
+        y: 1830
+        width: 101
+        height: 186
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7689d584828075540964356fa82ce04a
+      internalID: -2015785679
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: YSJ_isEatting_ClosedUP_7
+      rect:
+        serializedVersion: 2
+        x: 1867
+        y: 1830
+        width: 103
+        height: 185
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 672fef8f3a11986439a1f21ca998423a
+      internalID: 1325833016
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: YSJ_isEatting_ClosedUP_8
+      rect:
+        serializedVersion: 2
+        x: 75
+        y: 1574
+        width: 103
+        height: 184
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 51c5bcdccb426b44cbac4c251f20ac90
+      internalID: 946229888
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: YSJ_isEatting_ClosedUP_9
+      rect:
+        serializedVersion: 2
+        x: 332
+        y: 1574
+        width: 101
+        height: 183
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bd6f51d4ca17d9d4c8b9971de3e1c8e1
+      internalID: -707376543
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: YSJ_isEatting_ClosedUP_10
+      rect:
+        serializedVersion: 2
+        x: 588
+        y: 1574
+        width: 101
+        height: 183
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a87e8cad31429ca468772e94f2e6115e
+      internalID: 1885942192
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: YSJ_isEatting_ClosedUP_11
+      rect:
+        serializedVersion: 2
+        x: 844
+        y: 1574
+        width: 102
+        height: 182
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fb68edb0f966f8844aa5d4bf6498b9cc
+      internalID: -556553090
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: YSJ_isEatting_ClosedUP_12
+      rect:
+        serializedVersion: 2
+        x: 1100
+        y: 1574
+        width: 102
+        height: 180
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a67958acbd5738b43a1ba1559b6d0daf
+      internalID: 354045751
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: YSJ_isEatting_ClosedUP_13
+      rect:
+        serializedVersion: 2
+        x: 1355
+        y: 1574
+        width: 103
+        height: 179
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4781ae3607559344da5a965046b7b4b5
+      internalID: 1364258545
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: YSJ_isEatting_ClosedUP_14
+      rect:
+        serializedVersion: 2
+        x: 1611
+        y: 1574
+        width: 103
+        height: 179
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 56f8c12719326db47ad7cae9d34a11e6
+      internalID: 2088507478
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: YSJ_isEatting_ClosedUP_15
+      rect:
+        serializedVersion: 2
+        x: 1866
+        y: 1574
+        width: 104
+        height: 178
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 08235790078f48a4383e809d930f7c9b
+      internalID: -1014310738
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: YSJ_isEatting_ClosedUP_16
+      rect:
+        serializedVersion: 2
+        x: 74
+        y: 1318
+        width: 104
+        height: 177
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b9872bbca5a4d5a49b3a716ee5f8dece
+      internalID: -1496376506
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: YSJ_isEatting_ClosedUP_17
+      rect:
+        serializedVersion: 2
+        x: 329
+        y: 1318
+        width: 105
+        height: 179
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8f2f85d16819cf248ab57e1f8fdca5f5
+      internalID: -1497192274
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: YSJ_isEatting_ClosedUP_18
+      rect:
+        serializedVersion: 2
+        x: 585
+        y: 1318
+        width: 105
+        height: 179
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f3016bae8d4dd1e48a1bf5463fb0fb49
+      internalID: -1688866072
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: YSJ_isEatting_ClosedUP_19
+      rect:
+        serializedVersion: 2
+        x: 841
+        y: 1318
+        width: 104
+        height: 179
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ecf27829f9d5dd4438c76aea172f5506
+      internalID: 18815407
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: YSJ_isEatting_ClosedUP_20
+      rect:
+        serializedVersion: 2
+        x: 1097
+        y: 1318
+        width: 104
+        height: 179
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c778c145b2aecd14798667aa0b76a374
+      internalID: 153390988
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: YSJ_isEatting_ClosedUP_21
+      rect:
+        serializedVersion: 2
+        x: 1353
+        y: 1318
+        width: 105
+        height: 180
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f40415a87b9d645438f423b7a9824182
+      internalID: 443079905
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: YSJ_isEatting_ClosedUP_22
+      rect:
+        serializedVersion: 2
+        x: 1609
+        y: 1318
+        width: 104
+        height: 180
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dcecf15df05cafe4a882b3adb141cfe4
+      internalID: -1693651505
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: YSJ_isEatting_ClosedUP_23
+      rect:
+        serializedVersion: 2
+        x: 1865
+        y: 1318
+        width: 104
+        height: 180
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ac096b258c3b8ce408f5583a708f75df
+      internalID: 1129581725
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: YSJ_isEatting_ClosedUP_24
+      rect:
+        serializedVersion: 2
+        x: 74
+        y: 1062
+        width: 104
+        height: 180
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f946739491bbb7b4bb7f6e17e5abe6b2
+      internalID: 917162171
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: YSJ_isEatting_ClosedUP_25
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 1062
+        width: 104
+        height: 181
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f2d40850de78dd6469b0d12221e8234b
+      internalID: -358242382
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: YSJ_isEatting_ClosedUP_26
+      rect:
+        serializedVersion: 2
+        x: 586
+        y: 1062
+        width: 103
+        height: 183
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5270911e70a10b24b83d3f275f8424a6
+      internalID: -2049895916
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: YSJ_isEatting_ClosedUP_27
+      rect:
+        serializedVersion: 2
+        x: 842
+        y: 1062
+        width: 103
+        height: 183
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8f6d4df8763744a4b8be204074130102
+      internalID: -1469349153
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: YSJ_isEatting_ClosedUP_28
+      rect:
+        serializedVersion: 2
+        x: 1098
+        y: 1062
+        width: 103
+        height: 183
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 199df9ae64442b74a8d3bf98cf66ad51
+      internalID: -1461875539
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: YSJ_isEatting_ClosedUP_29
+      rect:
+        serializedVersion: 2
+        x: 1354
+        y: 1062
+        width: 104
+        height: 184
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9eed1afa154402a43adadb55865ac427
+      internalID: -1966717117
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: YSJ_isEatting_ClosedUP_30
+      rect:
+        serializedVersion: 2
+        x: 1610
+        y: 1062
+        width: 104
+        height: 184
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6543ebe251be76747b866f56a559445b
+      internalID: 2089810882
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: YSJ_isEatting_ClosedUP_31
+      rect:
+        serializedVersion: 2
+        x: 1866
+        y: 1062
+        width: 104
+        height: 184
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d2828852bb840e442ad94d25ec13188c
+      internalID: 1674161286
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: YSJ_isEatting_ClosedUP_32
+      rect:
+        serializedVersion: 2
+        x: 74
+        y: 806
+        width: 104
+        height: 184
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9de895a0248602047bd8b6e423a839de
+      internalID: 1547457806
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: YSJ_isEatting_ClosedUP_33
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 806
+        width: 103
+        height: 184
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 46382c15964df074da985c57b7598500
+      internalID: -2092202849
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: YSJ_isEatting_ClosedUP_34
+      rect:
+        serializedVersion: 2
+        x: 586
+        y: 806
+        width: 103
+        height: 184
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 00011184a3e1e7a41a519c55e990f12f
+      internalID: -944596183
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: YSJ_isEatting_ClosedUP_35
+      rect:
+        serializedVersion: 2
+        x: 842
+        y: 806
+        width: 103
+        height: 184
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cf5a0456bbe971e43b6825ef0f7b1170
+      internalID: -997801432
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: YSJ_isEatting_ClosedUP_36
+      rect:
+        serializedVersion: 2
+        x: 1098
+        y: 806
+        width: 104
+        height: 184
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 343b6d1b8d0a8fb459f47569842b1931
+      internalID: 76427430
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: YSJ_isEatting_ClosedUP_37
+      rect:
+        serializedVersion: 2
+        x: 1354
+        y: 806
+        width: 103
+        height: 184
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e2fee412f0538ce468306c3b3e41cbe7
+      internalID: 60982724
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: YSJ_isEatting_ClosedUP_38
+      rect:
+        serializedVersion: 2
+        x: 1610
+        y: 806
+        width: 103
+        height: 184
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a2ba421ce6fb2fb439f28be4f0faef2c
+      internalID: -359806324
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: YSJ_isEatting_ClosedUP_39
+      rect:
+        serializedVersion: 2
+        x: 1866
+        y: 806
+        width: 103
+        height: 184
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7c119c465cea2554694a356fa5f46225
+      internalID: -677866678
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: YSJ_isEatting_ClosedUP_40
+      rect:
+        serializedVersion: 2
+        x: 75
+        y: 550
+        width: 103
+        height: 183
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: de5ca42767f066d40b1cb149e63cfbc4
+      internalID: 106177033
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: YSJ_isEatting_ClosedUP_41
+      rect:
+        serializedVersion: 2
+        x: 331
+        y: 550
+        width: 103
+        height: 183
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f04e99aa70098cc4b9c13c1d8fc83916
+      internalID: 1268144731
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: YSJ_isEatting_ClosedUP_42
+      rect:
+        serializedVersion: 2
+        x: 587
+        y: 550
+        width: 102
+        height: 181
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3deb98630633c424eaec668a38a7fb90
+      internalID: 226951042
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: YSJ_isEatting_ClosedUP_43
+      rect:
+        serializedVersion: 2
+        x: 844
+        y: 550
+        width: 102
+        height: 180
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5a11f1f4ccf0ad14692c93cc982e091d
+      internalID: 1854495706
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: YSJ_isEatting_ClosedUP_44
+      rect:
+        serializedVersion: 2
+        x: 1100
+        y: 550
+        width: 101
+        height: 180
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fe4706d98023a704998f17a6ffd38884
+      internalID: 1775371969
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: YSJ_isEatting_ClosedUP_45
+      rect:
+        serializedVersion: 2
+        x: 1356
+        y: 550
+        width: 101
+        height: 180
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 298ee9570ec5f304080ecb3a9a654013
+      internalID: 941013811
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: YSJ_isEatting_ClosedUP_46
+      rect:
+        serializedVersion: 2
+        x: 1611
+        y: 550
+        width: 103
+        height: 180
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 82cbdd344fba0d0479ad363e94343c97
+      internalID: 932405590
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: YSJ_isEatting_ClosedUP_47
+      rect:
+        serializedVersion: 2
+        x: 1867
+        y: 550
+        width: 103
+        height: 180
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3a3cd4406a8fee845bf6561aeeb27a93
+      internalID: -2082993386
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: YSJ_isEatting_ClosedUP_48
+      rect:
+        serializedVersion: 2
+        x: 74
+        y: 294
+        width: 104
+        height: 181
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: aa631e1f484c40840ad18f83d7dce890
+      internalID: -947239029
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: YSJ_isEatting_ClosedUP_49
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 294
+        width: 103
+        height: 181
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: db7dedf16912e91498bbe0d207b0dd09
+      internalID: -983477070
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: YSJ_isEatting_ClosedUP_50
+      rect:
+        serializedVersion: 2
+        x: 586
+        y: 294
+        width: 103
+        height: 181
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d457b5e91a3021248829f02de733b7c0
+      internalID: -683577250
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: YSJ_isEatting_ClosedUP_51
+      rect:
+        serializedVersion: 2
+        x: 842
+        y: 294
+        width: 103
+        height: 181
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1a4329f89e34cc24998e153ded55501e
+      internalID: 1853677399
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: YSJ_isEatting_ClosedUP_52
+      rect:
+        serializedVersion: 2
+        x: 1098
+        y: 294
+        width: 103
+        height: 183
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8600d2d1eca856d44885695269ea8b20
+      internalID: 363384404
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: YSJ_isEatting_ClosedUP_53
+      rect:
+        serializedVersion: 2
+        x: 1355
+        y: 294
+        width: 103
+        height: 183
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 752998e84f7de2340834ea4ca1930f6a
+      internalID: -803499283
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: YSJ_isEatting_ClosedUP_54
+      rect:
+        serializedVersion: 2
+        x: 1611
+        y: 294
+        width: 102
+        height: 183
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1995bc1adb9bc2a418e15ed653be0ec7
+      internalID: -1605126312
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: YSJ_isEatting_ClosedUP_55
+      rect:
+        serializedVersion: 2
+        x: 1867
+        y: 294
+        width: 103
+        height: 182
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9b5972bd11b59264b9ac492c715e4b18
+      internalID: 979036772
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: YSJ_isEatting_ClosedUP_56
+      rect:
+        serializedVersion: 2
+        x: 74
+        y: 38
+        width: 104
+        height: 180
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 59275b13124ba6745a0f28218ea39f46
+      internalID: 321500089
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: YSJ_isEatting_ClosedUP_57
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 38
+        width: 104
+        height: 179
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d7f82e194ed1462428217699eff2d1f5
+      internalID: -687503071
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: YSJ_isEatting_ClosedUP_58
+      rect:
+        serializedVersion: 2
+        x: 586
+        y: 38
+        width: 104
+        height: 179
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fa01def7e8db4e94ab644a45fb0ed095
+      internalID: 712889000
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: YSJ_isEatting_ClosedUP_59
+      rect:
+        serializedVersion: 2
+        x: 842
+        y: 38
+        width: 104
+        height: 179
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9412aa4315b8b3d4082b27ae1986a177
+      internalID: 736920341
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: YSJ_isEatting_ClosedUP_60
+      rect:
+        serializedVersion: 2
+        x: 1098
+        y: 38
+        width: 104
+        height: 179
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b68ed9050a15f0a4d80efcdedd5b2bf3
+      internalID: 429454955
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: YSJ_isEatting_ClosedUP_61
+      rect:
+        serializedVersion: 2
+        x: 1353
+        y: 38
+        width: 105
+        height: 179
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a079ab66597db584dbd04819ddc25c2c
+      internalID: -55909437
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: YSJ_isEatting_ClosedUP_62
+      rect:
+        serializedVersion: 2
+        x: 1609
+        y: 38
+        width: 105
+        height: 179
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8dd4d5a2437f22947bbb4307b151efbe
+      internalID: -1884876172
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: YSJ_isEatting_ClosedUP_63
+      rect:
+        serializedVersion: 2
+        x: 1865
+        y: 38
+        width: 105
+        height: 179
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 78daf24983da115429be7c966c492be6
+      internalID: 1306621783
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 0f7183aed7953ba41bb20f46431ed22e
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      YSJ_isEatting_ClosedUP_0: -60234840
+      YSJ_isEatting_ClosedUP_1: -1631539440
+      YSJ_isEatting_ClosedUP_10: 1885942192
+      YSJ_isEatting_ClosedUP_11: -556553090
+      YSJ_isEatting_ClosedUP_12: 354045751
+      YSJ_isEatting_ClosedUP_13: 1364258545
+      YSJ_isEatting_ClosedUP_14: 2088507478
+      YSJ_isEatting_ClosedUP_15: -1014310738
+      YSJ_isEatting_ClosedUP_16: -1496376506
+      YSJ_isEatting_ClosedUP_17: -1497192274
+      YSJ_isEatting_ClosedUP_18: -1688866072
+      YSJ_isEatting_ClosedUP_19: 18815407
+      YSJ_isEatting_ClosedUP_2: -1523972212
+      YSJ_isEatting_ClosedUP_20: 153390988
+      YSJ_isEatting_ClosedUP_21: 443079905
+      YSJ_isEatting_ClosedUP_22: -1693651505
+      YSJ_isEatting_ClosedUP_23: 1129581725
+      YSJ_isEatting_ClosedUP_24: 917162171
+      YSJ_isEatting_ClosedUP_25: -358242382
+      YSJ_isEatting_ClosedUP_26: -2049895916
+      YSJ_isEatting_ClosedUP_27: -1469349153
+      YSJ_isEatting_ClosedUP_28: -1461875539
+      YSJ_isEatting_ClosedUP_29: -1966717117
+      YSJ_isEatting_ClosedUP_3: -1108558688
+      YSJ_isEatting_ClosedUP_30: 2089810882
+      YSJ_isEatting_ClosedUP_31: 1674161286
+      YSJ_isEatting_ClosedUP_32: 1547457806
+      YSJ_isEatting_ClosedUP_33: -2092202849
+      YSJ_isEatting_ClosedUP_34: -944596183
+      YSJ_isEatting_ClosedUP_35: -997801432
+      YSJ_isEatting_ClosedUP_36: 76427430
+      YSJ_isEatting_ClosedUP_37: 60982724
+      YSJ_isEatting_ClosedUP_38: -359806324
+      YSJ_isEatting_ClosedUP_39: -677866678
+      YSJ_isEatting_ClosedUP_4: -1271770803
+      YSJ_isEatting_ClosedUP_40: 106177033
+      YSJ_isEatting_ClosedUP_41: 1268144731
+      YSJ_isEatting_ClosedUP_42: 226951042
+      YSJ_isEatting_ClosedUP_43: 1854495706
+      YSJ_isEatting_ClosedUP_44: 1775371969
+      YSJ_isEatting_ClosedUP_45: 941013811
+      YSJ_isEatting_ClosedUP_46: 932405590
+      YSJ_isEatting_ClosedUP_47: -2082993386
+      YSJ_isEatting_ClosedUP_48: -947239029
+      YSJ_isEatting_ClosedUP_49: -983477070
+      YSJ_isEatting_ClosedUP_5: 221111554
+      YSJ_isEatting_ClosedUP_50: -683577250
+      YSJ_isEatting_ClosedUP_51: 1853677399
+      YSJ_isEatting_ClosedUP_52: 363384404
+      YSJ_isEatting_ClosedUP_53: -803499283
+      YSJ_isEatting_ClosedUP_54: -1605126312
+      YSJ_isEatting_ClosedUP_55: 979036772
+      YSJ_isEatting_ClosedUP_56: 321500089
+      YSJ_isEatting_ClosedUP_57: -687503071
+      YSJ_isEatting_ClosedUP_58: 712889000
+      YSJ_isEatting_ClosedUP_59: 736920341
+      YSJ_isEatting_ClosedUP_6: -2015785679
+      YSJ_isEatting_ClosedUP_60: 429454955
+      YSJ_isEatting_ClosedUP_61: -55909437
+      YSJ_isEatting_ClosedUP_62: -1884876172
+      YSJ_isEatting_ClosedUP_63: 1306621783
+      YSJ_isEatting_ClosedUP_7: 1325833016
+      YSJ_isEatting_ClosedUP_8: 946229888
+      YSJ_isEatting_ClosedUP_9: -707376543
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -101,7 +101,8 @@ public class OOTechDialogueSpeakerNameBackdrop : MonoBehaviour
         if (Rect_SpeakerName != null)
             return;
 
-        Transform speakerNameTransform = transform.Find(_speakerNameObjectName);
+        GameObject speakerNameObject = OOTechSceneQuery.RequestChildObjectByName(transform, _speakerNameObjectName);
+        Transform speakerNameTransform = speakerNameObject != null ? speakerNameObject.transform : null;
 
         if (speakerNameTransform == null)
             speakerNameTransform = GetComponentInChildren<RectTransform>(true);

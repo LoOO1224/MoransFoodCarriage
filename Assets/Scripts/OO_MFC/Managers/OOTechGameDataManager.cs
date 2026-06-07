@@ -1,34 +1,34 @@
-// =============================================================================
-// OO_MFC 역할 주석
-// - 스크립트: OOTechGameDataManager.cs
-// - 역할: 여러 장면에서 함께 쓰는 공통 Manager입니다.
-// - 감독 관점: 각 부서에 공통 창구를 열어 주는 제작 본부입니다.
-// - 유지보수 포인트: 특정 장면의 세부 연출을 직접 처리하지 말고, 공통 조회/등록/요청 API만 유지합니다.
+﻿// =============================================================================
+// OO_MFC ??븷 二쇱꽍
+// - ?ㅽ겕由쏀듃: OOTechGameDataManager.cs
+// - ??븷: ?щ윭 ?λ㈃?먯꽌 ?④퍡 ?곕뒗 怨듯넻 Manager?낅땲??
+// - 媛먮룆 愿?? 媛?遺?쒖뿉 怨듯넻 李쎄뎄瑜??댁뼱 二쇰뒗 ?쒖옉 蹂몃??낅땲??
+// - ?좎?蹂댁닔 ?ъ씤?? ?뱀젙 ?λ㈃???몃? ?곗텧??吏곸젒 泥섎━?섏? 留먭퀬, 怨듯넻 議고쉶/?깅줉/?붿껌 API留??좎??⑸땲??
 // =============================================================================
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// OO_MFC에서 사용하는 Static Data Json을 로드하고 조회하는 매니저입니다.
-/// Json 파일은 Resources/OO_MFC/Data 아래에 두며, 런타임 진행 데이터는 GameManager의 Model에서 따로 관리합니다.
+/// OO_MFC?먯꽌 ?ъ슜?섎뒗 Static Data Json??濡쒕뱶?섍퀬 議고쉶?섎뒗 留ㅻ땲??낅땲??
+/// Json ?뚯씪? Resources/OO_MFC/Data ?꾨옒???먮ŉ, ?고???吏꾪뻾 ?곗씠?곕뒗 GameManager??Model?먯꽌 ?곕줈 愿由ы빀?덈떎.
 /// </summary>
 public class OOTechGameDataManager : MonoBehaviour
 {
-    // 읽는 순서:
-    // 1. Awake/RequestLoadAllData 계열: Resources/JsonOutput에 있는 JSON 파일을 읽어 Dictionary에 등록합니다.
-    // 2. LoadOO_XXX 계열: 각 엑셀 테이블에서 나온 JSON을 해당 Data 클래스로 변환합니다.
-    // 3. CreateXXXData 계열: 문자열로 들어온 JSON 값을 int, List<string> 같은 Unity 자료형으로 정리합니다.
-    // 4. GetXXXData 계열: Controller와 UI가 ID로 static data를 안전하게 조회합니다.
-    // 5. NormalizeJsonText/List 계열: 엑셀 빈칸, null, 구분자 문자열을 게임에서 쓰기 좋은 값으로 바꿉니다.
-    // 유지보수 주의:
-    // - 새 엑셀 파일을 추가하면 Data 클래스, JsonData 클래스, Load 메서드, Get 메서드를 함께 추가합니다.
-    // - 플레이 중 바뀌는 값은 여기 넣지 말고 Model/GameManager 쪽으로 보냅니다.
-    // - 데이터 ID가 틀리면 화면이 비거나 화자가 잘못 나오므로, 경고 로그를 지우지 말고 원인을 추적합니다.
+    // ?쎈뒗 ?쒖꽌:
+    // 1. Awake/RequestLoadAllData 怨꾩뿴: Resources/JsonOutput???덈뒗 JSON ?뚯씪???쎌뼱 Dictionary???깅줉?⑸땲??
+    // 2. LoadOO_XXX 怨꾩뿴: 媛??묒? ?뚯씠釉붿뿉???섏삩 JSON???대떦 Data ?대옒?ㅻ줈 蹂?섑빀?덈떎.
+    // 3. CreateXXXData 怨꾩뿴: 臾몄옄?대줈 ?ㅼ뼱??JSON 媛믪쓣 int, List<string> 媛숈? Unity ?먮즺?뺤쑝濡??뺣━?⑸땲??
+    // 4. GetXXXData 怨꾩뿴: Controller? UI媛 ID濡?static data瑜??덉쟾?섍쾶 議고쉶?⑸땲??
+    // 5. NormalizeJsonText/List 怨꾩뿴: ?묒? 鍮덉뭏, null, 援щ텇??臾몄옄?댁쓣 寃뚯엫?먯꽌 ?곌린 醫뗭? 媛믪쑝濡?諛붽퓠?덈떎.
+    // ?좎?蹂댁닔 二쇱쓽:
+    // - ???묒? ?뚯씪??異붽??섎㈃ Data ?대옒?? JsonData ?대옒?? Load 硫붿꽌?? Get 硫붿꽌?쒕? ?④퍡 異붽??⑸땲??
+    // - ?뚮젅??以?諛붾뚮뒗 媛믪? ?ш린 ?ｌ? 留먭퀬 Model/GameManager 履쎌쑝濡?蹂대깄?덈떎.
+    // - ?곗씠??ID媛 ?由щ㈃ ?붾㈃??鍮꾧굅???붿옄媛 ?섎せ ?섏삤誘濡? 寃쎄퀬 濡쒓렇瑜?吏?곗? 留먭퀬 ?먯씤??異붿쟻?⑸땲??
 
     public static OOTechGameDataManager Inst { get; private set; }
 
-    // ==================== 데이터 Dictionary ====================
+    // ==================== ?곗씠??Dictionary ====================
     private readonly Dictionary<string, OO_Narration> _narrationDic = new Dictionary<string, OO_Narration>();
     private readonly Dictionary<string, OO_Character> _characterDic = new Dictionary<string, OO_Character>();
     private readonly Dictionary<string, OO_Dialogue> _dialogueDic = new Dictionary<string, OO_Dialogue>();
@@ -45,9 +45,12 @@ public class OOTechGameDataManager : MonoBehaviour
     private readonly Dictionary<string, OO_StageQuest> _stageQuestDic = new Dictionary<string, OO_StageQuest>();
     private readonly Dictionary<string, OO_Stage2CueSheet> _stage2CueSheetDic = new Dictionary<string, OO_Stage2CueSheet>();
     private readonly Dictionary<string, OO_Stage3CueSheet> _stage3CueSheetDic = new Dictionary<string, OO_Stage3CueSheet>();
+    private readonly Dictionary<string, OO_SpeechBubble> _speechBubbleDic = new Dictionary<string, OO_SpeechBubble>();
+    private readonly Dictionary<string, OO_Stage4CueSheet> _stage4CueSheetDic = new Dictionary<string, OO_Stage4CueSheet>();
+    private readonly Dictionary<string, OO_FinalCueSheet> _finalCueSheetDic = new Dictionary<string, OO_FinalCueSheet>();
 
     /// <summary>
-    /// 중복 매니저를 정리하고 Static Data를 로드합니다.
+    /// 以묐났 留ㅻ땲?瑜??뺣━?섍퀬 Static Data瑜?濡쒕뱶?⑸땲??
     /// </summary>
     private void Awake()
     {
@@ -64,7 +67,7 @@ public class OOTechGameDataManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 매니저가 파괴될 때 전역 참조를 비웁니다.
+    /// 留ㅻ땲?媛 ?뚭눼?????꾩뿭 李몄“瑜?鍮꾩썎?덈떎.
     /// </summary>
     private void OnDestroy()
     {
@@ -72,15 +75,15 @@ public class OOTechGameDataManager : MonoBehaviour
             Inst = null;
     }
 
-    // ==================== 데이터 로드 ====================
+    // ==================== ?곗씠??濡쒕뱶 ====================
 
     /// <summary>
-    /// 게임 시작에 필요한 모든 Static Data를 로드합니다.
-    /// Character는 Dialogue의 화자 이름 보정에 쓰일 수 있어 Dialogue보다 먼저 로드합니다.
+    /// 寃뚯엫 ?쒖옉???꾩슂??紐⑤뱺 Static Data瑜?濡쒕뱶?⑸땲??
+    /// Character??Dialogue???붿옄 ?대쫫 蹂댁젙???곗씪 ???덉뼱 Dialogue蹂대떎 癒쇱? 濡쒕뱶?⑸땲??
     /// </summary>
     public void LoadAllData()
     {
-        Debug.Log("[OOTechGameDataManager] 모든 데이터 로드 시작");
+        Debug.Log("[OOTechGameDataManager] 紐⑤뱺 ?곗씠??濡쒕뱶 ?쒖옉");
 
         LoadNarrationData();
         LoadCharacterData();
@@ -98,12 +101,15 @@ public class OOTechGameDataManager : MonoBehaviour
         LoadStageQuestData();
         LoadStage2CueSheetData();
         LoadStage3CueSheetData();
+        LoadSpeechBubbleData();
+        LoadStage4CueSheetData();
+        LoadFinalCueSheetData();
 
-        Debug.Log("[OOTechGameDataManager] 모든 데이터 로드 완료");
+        Debug.Log("[OOTechGameDataManager] 紐⑤뱺 ?곗씠??濡쒕뱶 ?꾨즺");
     }
 
     /// <summary>
-    /// OO_Narration.json을 읽어 프롤로그/나레이션 대본으로 등록합니다.
+    /// OO_Narration.json???쎌뼱 ?꾨·濡쒓렇/?섎젅?댁뀡 ?蹂몄쑝濡??깅줉?⑸땲??
     /// </summary>
     private void LoadNarrationData()
     {
@@ -127,11 +133,11 @@ public class OOTechGameDataManager : MonoBehaviour
             }
         }
 
-        Debug.Log($"[OOTechGameDataManager] Narration 데이터 로드 완료: {_narrationDic.Count}개");
+        Debug.Log($"[OOTechGameDataManager] Narration data loaded: {_narrationDic.Count}");
     }
 
     /// <summary>
-    /// OO_Character.json을 읽어 화자 이름과 캐릭터 정보를 등록합니다.
+    /// OO_Character.json???쎌뼱 ?붿옄 ?대쫫怨?罹먮┃???뺣낫瑜??깅줉?⑸땲??
     /// </summary>
     private void LoadCharacterData()
     {
@@ -155,11 +161,11 @@ public class OOTechGameDataManager : MonoBehaviour
             }
         }
 
-        Debug.Log($"[OOTechGameDataManager] Character 데이터 로드 완료: {_characterDic.Count}개");
+        Debug.Log($"[OOTechGameDataManager] Character data loaded: {_characterDic.Count}");
     }
 
     /// <summary>
-    /// OO_Dialogue.json을 읽어 캐릭터 대사를 등록합니다.
+    /// OO_Dialogue.json???쎌뼱 罹먮┃????щ? ?깅줉?⑸땲??
     /// </summary>
     private void LoadDialogueData()
     {
@@ -183,11 +189,11 @@ public class OOTechGameDataManager : MonoBehaviour
             }
         }
 
-        Debug.Log($"[OOTechGameDataManager] Dialogue 데이터 로드 완료: {_dialogueDic.Count}개");
+        Debug.Log($"[OOTechGameDataManager] Dialogue data loaded: {_dialogueDic.Count}");
     }
 
     /// <summary>
-    /// OO_DialogueGroup.json을 읽어 여러 인물이 동시에 말하는 대사 묶음을 등록합니다.
+    /// OO_DialogueGroup.json???쎌뼱 ?щ윭 ?몃Ъ???숈떆??留먰븯?????臾띠쓬???깅줉?⑸땲??
     /// </summary>
     private void LoadDialogueGroupData()
     {
@@ -211,15 +217,15 @@ public class OOTechGameDataManager : MonoBehaviour
             }
         }
 
-        Debug.Log($"[OOTechGameDataManager] DialogueGroup 데이터 로드 완료: {_dialogueGroupDic.Count}개");
+        Debug.Log($"[OOTechGameDataManager] DialogueGroup data loaded: {_dialogueGroupDic.Count}");
     }
 
     /// <summary>
-    /// OO_Tutorial.json을 읽어 HUD/가이드 설명 데이터를 등록합니다.
+    /// OO_Tutorial.json???쎌뼱 HUD/媛?대뱶 ?ㅻ챸 ?곗씠?곕? ?깅줉?⑸땲??
     /// </summary>
     /// <summary>
-    /// OO_Choice.json을 읽어 선택지가 붙은 상호작용 큐시트를 등록합니다.
-    /// 영화 비유로는 일반 대본 옆에 "관객 선택 분기표"를 따로 꽂아 두는 단계입니다.
+    /// OO_Choice.json???쎌뼱 ?좏깮吏媛 遺숈? ?곹샇?묒슜 ?먯떆?몃? ?깅줉?⑸땲??
+    /// ?곹솕 鍮꾩쑀濡쒕뒗 ?쇰컲 ?蹂??놁뿉 "愿媛??좏깮 遺꾧린??瑜??곕줈 苑귥븘 ?먮뒗 ?④퀎?낅땲??
     /// </summary>
     private void LoadChoiceData()
     {
@@ -247,8 +253,8 @@ public class OOTechGameDataManager : MonoBehaviour
     }
 
     /// <summary>
-    /// OO_Codex.json을 읽어 도감 항목을 등록합니다.
-    /// 영화로 치면 나중에 관객이 다시 펼쳐볼 프로그램북의 항목들을 미리 정리하는 단계입니다.
+    /// OO_Codex.json???쎌뼱 ?꾧컧 ??ぉ???깅줉?⑸땲??
+    /// ?곹솕濡?移섎㈃ ?섏쨷??愿媛앹씠 ?ㅼ떆 ?쇱퀜蹂??꾨줈洹몃옩遺곸쓽 ??ぉ?ㅼ쓣 誘몃━ ?뺣━?섎뒗 ?④퀎?낅땲??
     /// </summary>
     private void LoadCodexData()
     {
@@ -297,11 +303,11 @@ public class OOTechGameDataManager : MonoBehaviour
             }
         }
 
-        Debug.Log($"[OOTechGameDataManager] Tutorial 데이터 로드 완료: {_tutorialDic.Count}개");
+        Debug.Log($"[OOTechGameDataManager] Tutorial data loaded: {_tutorialDic.Count}");
     }
 
     /// <summary>
-    /// OO_Ingredient.json을 읽어 쌀, 채소 같은 재료 데이터를 등록합니다.
+    /// OO_Ingredient.json???쎌뼱 ?, 梨꾩냼 媛숈? ?щ즺 ?곗씠?곕? ?깅줉?⑸땲??
     /// </summary>
     private void LoadIngredientData()
     {
@@ -325,13 +331,13 @@ public class OOTechGameDataManager : MonoBehaviour
             }
         }
 
-        Debug.Log($"[OOTechGameDataManager] Ingredient 데이터 로드 완료: {_ingredientDic.Count}개");
+        Debug.Log($"[OOTechGameDataManager] Ingredient data loaded: {_ingredientDic.Count}");
     }
 
-    // ==================== 데이터 생성 ====================
+    // ==================== ?곗씠???앹꽦 ====================
 
     /// <summary>
-    /// OO_Recipe.json을 읽어 재료 조합과 결과 음식 규칙을 등록합니다.
+    /// OO_Recipe.json???쎌뼱 ?щ즺 議고빀怨?寃곌낵 ?뚯떇 洹쒖튃???깅줉?⑸땲??
     /// </summary>
     private void LoadRecipeData()
     {
@@ -359,8 +365,8 @@ public class OOTechGameDataManager : MonoBehaviour
     }
 
     /// <summary>
-    /// OO_CookingTool.json을 읽어 가마솥, 도마 같은 조리도구 역할표를 등록합니다.
-    /// 영화 비유로는 소품팀이 만든 실제 조리도구마다 "받을 수 있는 재료" 표를 붙이는 단계입니다.
+    /// OO_CookingTool.json???쎌뼱 媛留덉넡, ?꾨쭏 媛숈? 議곕━?꾧뎄 ??븷?쒕? ?깅줉?⑸땲??
+    /// ?곹솕 鍮꾩쑀濡쒕뒗 ?뚰뭹???留뚮뱺 ?ㅼ젣 議곕━?꾧뎄留덈떎 "諛쏆쓣 ???덈뒗 ?щ즺" ?쒕? 遺숈씠???④퀎?낅땲??
     /// </summary>
     private void LoadCookingToolData()
     {
@@ -388,8 +394,8 @@ public class OOTechGameDataManager : MonoBehaviour
     }
 
     /// <summary>
-    /// OO_CookingCueSheet.json을 읽어 CookingGroup의 공통 연출 큐를 등록합니다.
-    /// 감독 비유로는 부엌 장면의 카메라, 조명, 안내 화살표 타이밍표를 제작 본부에 꽂아 두는 단계입니다.
+    /// OO_CookingCueSheet.json???쎌뼱 CookingGroup??怨듯넻 ?곗텧 ?먮? ?깅줉?⑸땲??
+    /// 媛먮룆 鍮꾩쑀濡쒕뒗 遺???λ㈃??移대찓?? 議곕챸, ?덈궡 ?붿궡????대컢?쒕? ?쒖옉 蹂몃???苑귥븘 ?먮뒗 ?④퀎?낅땲??
     /// </summary>
     private void LoadCookingCueSheetData()
     {
@@ -417,7 +423,7 @@ public class OOTechGameDataManager : MonoBehaviour
     }
 
     /// <summary>
-    /// OO_Cook.json을 읽어 완성 음식 데이터를 등록합니다.
+    /// OO_Cook.json???쎌뼱 ?꾩꽦 ?뚯떇 ?곗씠?곕? ?깅줉?⑸땲??
     /// </summary>
     private void LoadCookData()
     {
@@ -445,7 +451,7 @@ public class OOTechGameDataManager : MonoBehaviour
     }
 
     /// <summary>
-    /// OO_Stage.json을 읽어 스테이지 이름, 설명, 이동 정보를 등록합니다.
+    /// OO_Stage.json???쎌뼱 ?ㅽ뀒?댁? ?대쫫, ?ㅻ챸, ?대룞 ?뺣낫瑜??깅줉?⑸땲??
     /// </summary>
     private void LoadStageData()
     {
@@ -473,7 +479,7 @@ public class OOTechGameDataManager : MonoBehaviour
     }
 
     /// <summary>
-    /// OO_StageQuest.json을 읽어 StageGroup HUD에 표시할 임무 데이터를 등록합니다.
+    /// OO_StageQuest.json???쎌뼱 StageGroup HUD???쒖떆???꾨Т ?곗씠?곕? ?깅줉?⑸땲??
     /// </summary>
     private void LoadStageQuestData()
     {
@@ -501,7 +507,7 @@ public class OOTechGameDataManager : MonoBehaviour
     }
 
     /// <summary>
-    /// OO_Stage2CueSheet.json을 읽어 Stage2Group의 연출 큐시트를 등록합니다.
+    /// OO_Stage2CueSheet.json???쎌뼱 Stage2Group???곗텧 ?먯떆?몃? ?깅줉?⑸땲??
     /// </summary>
     private void LoadStage2CueSheetData()
     {
@@ -529,7 +535,7 @@ public class OOTechGameDataManager : MonoBehaviour
     }
 
     /// <summary>
-    /// OO_Stage3CueSheet.json을 읽어 Stage3Group/EncounterGroup의 연출 큐시트를 등록합니다.
+    /// OO_Stage3CueSheet.json???쎌뼱 Stage3Group/EncounterGroup???곗텧 ?먯떆?몃? ?깅줉?⑸땲??
     /// </summary>
     private void LoadStage3CueSheetData()
     {
@@ -557,7 +563,92 @@ public class OOTechGameDataManager : MonoBehaviour
     }
 
     /// <summary>
-    /// JSON 한 줄을 OO_Narration 모델로 변환합니다.
+    /// OO_SpeechBubble.json???쎌뼱 Rabbit 媛숈? 諛곗슦??癒몃━ ??留먰뭾???蹂몄쑝濡??깅줉?⑸땲??
+    /// 媛먮룆 鍮꾩쑀濡쒕뒗 ???????⑤꼸???꾨땲?? 諛곗슦媛 ?吏곸씠硫?以묒뼹嫄곕━??吏㏃? 履쎌?瑜?紐⑥쑝???④퀎?낅땲??
+    /// </summary>
+    private void LoadSpeechBubbleData()
+    {
+        _speechBubbleDic.Clear();
+
+        foreach (TextAsset jsonFile in LoadDataTextAssetArray("OO_SpeechBubble"))
+        {
+            OOTechSpeechBubbleJsonWrapper wrapper = JsonUtility.FromJson<OOTechSpeechBubbleJsonWrapper>(WrapJsonArray(jsonFile.text));
+
+            if (wrapper == null || wrapper.Items == null)
+                continue;
+
+            foreach (OOTechSpeechBubbleJsonData jsonData in wrapper.Items)
+            {
+                OO_SpeechBubble speechBubbleData = CreateSpeechBubbleData(jsonData);
+
+                if (speechBubbleData == null || string.IsNullOrEmpty(speechBubbleData.Id))
+                    continue;
+
+                _speechBubbleDic[speechBubbleData.Id] = speechBubbleData;
+            }
+        }
+
+        Debug.Log($"[OOTechGameDataManager] SpeechBubble data loaded: {_speechBubbleDic.Count}");
+    }
+
+    /// <summary>
+    /// OO_Stage4CueSheet.json???쎌뼱 Stage4 ?좊겮/嫄곕턿???먯떆?몃줈 ?깅줉?⑸땲??
+    /// </summary>
+    private void LoadStage4CueSheetData()
+    {
+        _stage4CueSheetDic.Clear();
+
+        foreach (TextAsset jsonFile in LoadDataTextAssetArray("OO_Stage4CueSheet"))
+        {
+            OOTechStage4CueSheetJsonWrapper wrapper = JsonUtility.FromJson<OOTechStage4CueSheetJsonWrapper>(WrapJsonArray(jsonFile.text));
+
+            if (wrapper == null || wrapper.Items == null)
+                continue;
+
+            foreach (OOTechStage4CueSheetJsonData jsonData in wrapper.Items)
+            {
+                OO_Stage4CueSheet cueSheetData = CreateStage4CueSheetData(jsonData);
+
+                if (cueSheetData == null || string.IsNullOrEmpty(cueSheetData.Id))
+                    continue;
+
+                _stage4CueSheetDic[cueSheetData.Id] = cueSheetData;
+            }
+        }
+
+        Debug.Log($"[OOTechGameDataManager] Stage4CueSheet data loaded: {_stage4CueSheetDic.Count}");
+    }
+
+    /// <summary>
+    /// OO_FinalCueSheet.json???쎌뼱 理쒖쥌 而룹떊/?붾뵫 ?먯떆?몃줈 ?깅줉?⑸땲??
+    /// </summary>
+    private void LoadFinalCueSheetData()
+    {
+        _finalCueSheetDic.Clear();
+
+        foreach (TextAsset jsonFile in LoadDataTextAssetArray("OO_FinalCueSheet"))
+        {
+            OOTechFinalCueSheetJsonWrapper wrapper = JsonUtility.FromJson<OOTechFinalCueSheetJsonWrapper>(WrapJsonArray(jsonFile.text));
+
+            if (wrapper == null || wrapper.Items == null)
+                continue;
+
+            foreach (OOTechFinalCueSheetJsonData jsonData in wrapper.Items)
+            {
+                OO_FinalCueSheet cueSheetData = CreateFinalCueSheetData(jsonData);
+
+                if (cueSheetData == null || string.IsNullOrEmpty(cueSheetData.Id))
+                    continue;
+
+                _finalCueSheetDic[cueSheetData.Id] = cueSheetData;
+            }
+        }
+
+        Debug.Log($"[OOTechGameDataManager] FinalCueSheet data loaded: {_finalCueSheetDic.Count}");
+    }
+
+    /// <summary>
+    /// JSON ??以꾩쓣 OO_Narration 紐⑤뜽濡?蹂?섑빀?덈떎.
     /// </summary>
     private OO_Narration CreateNarrationData(OOTechNarrationJsonData jsonData)
     {
@@ -579,7 +670,7 @@ public class OOTechGameDataManager : MonoBehaviour
     }
 
     /// <summary>
-    /// JSON 한 줄을 OO_Dialogue 모델로 변환하고 화자 이름을 보정합니다.
+    /// JSON ??以꾩쓣 OO_Dialogue 紐⑤뜽濡?蹂?섑븯怨??붿옄 ?대쫫??蹂댁젙?⑸땲??
     /// </summary>
     private OO_Dialogue CreateDialogueData(OOTechDialogueJsonData jsonData)
     {
@@ -602,7 +693,7 @@ public class OOTechGameDataManager : MonoBehaviour
     }
 
     /// <summary>
-    /// JSON 한 줄을 여러 화자 대사 묶음 모델로 변환합니다.
+    /// JSON ??以꾩쓣 ?щ윭 ?붿옄 ???臾띠쓬 紐⑤뜽濡?蹂?섑빀?덈떎.
     /// </summary>
     private OO_DialogueGroup CreateDialogueGroupData(OOTechDialogueGroupJsonData jsonData)
     {
@@ -625,11 +716,11 @@ public class OOTechGameDataManager : MonoBehaviour
     }
 
     /// <summary>
-    /// JSON 한 줄을 튜토리얼 가이드 모델로 변환합니다.
+    /// JSON ??以꾩쓣 ?쒗넗由ъ뼹 媛?대뱶 紐⑤뜽濡?蹂?섑빀?덈떎.
     /// </summary>
     /// <summary>
-    /// JSON 한 줄을 OO_Choice 모델로 바꿉니다.
-    /// 감독 비유로는 엑셀 큐시트 한 줄을 실제 무대에서 실행할 선택 분기 카드로 옮기는 과정입니다.
+    /// JSON ??以꾩쓣 OO_Choice 紐⑤뜽濡?諛붽퓠?덈떎.
+    /// 媛먮룆 鍮꾩쑀濡쒕뒗 ?묒? ?먯떆????以꾩쓣 ?ㅼ젣 臾대??먯꽌 ?ㅽ뻾???좏깮 遺꾧린 移대뱶濡???린??怨쇱젙?낅땲??
     /// </summary>
     private OO_Choice CreateChoiceData(OOTechChoiceJsonData jsonData)
     {
@@ -661,8 +752,8 @@ public class OOTechGameDataManager : MonoBehaviour
     }
 
     /// <summary>
-    /// JSON 행을 도감 카드 데이터로 정리합니다.
-    /// 영화로 치면 캐릭터/음식/지역 소개 카드의 제목, 설명, 사진 경로를 한 장의 큐카드로 만드는 단계입니다.
+    /// JSON ?됱쓣 ?꾧컧 移대뱶 ?곗씠?곕줈 ?뺣━?⑸땲??
+    /// ?곹솕濡?移섎㈃ 罹먮┃???뚯떇/吏???뚭컻 移대뱶???쒕ぉ, ?ㅻ챸, ?ъ쭊 寃쎈줈瑜????μ쓽 ?먯뭅?쒕줈 留뚮뱶???④퀎?낅땲??
     /// </summary>
     private OO_Codex CreateCodexData(OO_Codex jsonData)
     {
@@ -707,7 +798,7 @@ public class OOTechGameDataManager : MonoBehaviour
     }
 
     /// <summary>
-    /// JSON 한 줄을 재료 모델로 변환합니다.
+    /// JSON ??以꾩쓣 ?щ즺 紐⑤뜽濡?蹂?섑빀?덈떎.
     /// </summary>
     private OO_Ingredient CreateIngredientData(OOTechIngredientJsonData jsonData)
     {
@@ -728,7 +819,7 @@ public class OOTechGameDataManager : MonoBehaviour
     }
 
     /// <summary>
-    /// JSON 한 줄을 레시피 모델로 변환합니다.
+    /// JSON ??以꾩쓣 ?덉떆??紐⑤뜽濡?蹂?섑빀?덈떎.
     /// </summary>
     private OO_Recipe CreateRecipeData(OOTechRecipeJsonData jsonData)
     {
@@ -766,7 +857,7 @@ public class OOTechGameDataManager : MonoBehaviour
     }
 
     /// <summary>
-    /// JSON 한 줄을 조리도구 역할표로 변환합니다.
+    /// JSON ??以꾩쓣 議곕━?꾧뎄 ??븷?쒕줈 蹂?섑빀?덈떎.
     /// </summary>
     private OO_CookingTool CreateCookingToolData(OOTechCookingToolJsonData jsonData)
     {
@@ -788,7 +879,7 @@ public class OOTechGameDataManager : MonoBehaviour
     }
 
     /// <summary>
-    /// JSON 한 줄을 CookingGroup 큐시트로 변환합니다.
+    /// JSON ??以꾩쓣 CookingGroup ?먯떆?몃줈 蹂?섑빀?덈떎.
     /// </summary>
     private OO_CookingCueSheet CreateCookingCueSheetData(OOTechCookingCueSheetJsonData jsonData)
     {
@@ -822,8 +913,8 @@ public class OOTechGameDataManager : MonoBehaviour
     }
 
     /// <summary>
-    /// JSON 한 줄을 Stage3 큐시트 모델로 변환합니다.
-    /// 산군 장면에서 필요한 대사, 선택지, 보상, 연출 시간을 한 번에 정리합니다.
+    /// JSON ??以꾩쓣 Stage3 ?먯떆??紐⑤뜽濡?蹂?섑빀?덈떎.
+    /// ?곌뎔 ?λ㈃?먯꽌 ?꾩슂????? ?좏깮吏, 蹂댁긽, ?곗텧 ?쒓컙????踰덉뿉 ?뺣━?⑸땲??
     /// </summary>
     private OO_Stage3CueSheet CreateStage3CueSheetData(OOTechStage3CueSheetJsonData jsonData)
     {
@@ -873,7 +964,109 @@ public class OOTechGameDataManager : MonoBehaviour
     }
 
     /// <summary>
-    /// JSON 한 줄을 완성 음식 모델로 변환합니다.
+    /// JSON ??以꾩쓣 留먰뭾???곗씠?곕줈 蹂?섑빀?덈떎.
+    /// 留먰뭾?좎? DialoguePanel怨??ㅻⅤ寃?諛곗슦 癒몃━ ?꾩뿉????댄븨?섎?濡??쒖떆 ?쒓컙怨?諛섎났 ?щ????④퍡 ?뺣━?⑸땲??
+    /// </summary>
+    private OO_SpeechBubble CreateSpeechBubbleData(OOTechSpeechBubbleJsonData jsonData)
+    {
+        if (jsonData == null)
+            return null;
+
+        return new OO_SpeechBubble
+        {
+            Id = NormalizeJsonText(jsonData.Id),
+            Name = NormalizeJsonText(jsonData.Name),
+            Description = NormalizeJsonText(jsonData.Description),
+            SpeakerCharacterId = NormalizeJsonText(jsonData.SpeakerCharacterId),
+            Text = NormalizeJsonText(GetFirstNotEmpty(jsonData.Text, jsonData.Description)),
+            TypingSpeed = ParseFloat(GetFirstNotEmpty(jsonData.TypingSpeed, "1")),
+            DisplaySeconds = ParseFloat(GetFirstNotEmpty(jsonData.DisplaySeconds, "2")),
+            IsLoop = ParseBool(jsonData.IsLoop),
+            IsWhisper = ParseBool(jsonData.IsWhisper)
+        };
+    }
+
+    /// <summary>
+    /// JSON ??以꾩쓣 Stage4 ?먯떆???곗씠?곕줈 蹂?섑빀?덈떎.
+    /// Controller????移대뱶??ID留?蹂닿퀬 Turtle/Rabbit 諛곗슦?먭쾶 ?꾩슂????븷??留↔퉩?덈떎.
+    /// </summary>
+    private OO_Stage4CueSheet CreateStage4CueSheetData(OOTechStage4CueSheetJsonData jsonData)
+    {
+        if (jsonData == null)
+            return null;
+
+        return new OO_Stage4CueSheet
+        {
+            Id = NormalizeJsonText(jsonData.Id),
+            Name = NormalizeJsonText(jsonData.Name),
+            Description = NormalizeJsonText(jsonData.Description),
+            Stage4_1GroupName = NormalizeJsonText(GetFirstNotEmpty(jsonData.Stage4_1GroupName, "Stage4_1Group")),
+            Stage4_2GroupName = NormalizeJsonText(GetFirstNotEmpty(jsonData.Stage4_2GroupName, "Stage4_2Group")),
+            PreFinalGroupName = NormalizeJsonText(GetFirstNotEmpty(jsonData.PreFinalGroupName, "PreFinal_Narration")),
+            TurtleRoleId = NormalizeJsonText(GetFirstNotEmpty(jsonData.TurtleRoleId, "Turtle")),
+            RabbitRoleId = NormalizeJsonText(GetFirstNotEmpty(jsonData.RabbitRoleId, "Rabbit")),
+            SleepingRabbitRoleId = NormalizeJsonText(GetFirstNotEmpty(jsonData.SleepingRabbitRoleId, "Rabbit_isSleeping")),
+            MoranRoleId = NormalizeJsonText(GetFirstNotEmpty(jsonData.MoranRoleId, "Moran")),
+            StumpRoleId = NormalizeJsonText(GetFirstNotEmpty(jsonData.StumpRoleId, "Stump")),
+            Stump2RoleId = NormalizeJsonText(GetFirstNotEmpty(jsonData.Stump2RoleId, "Stump2")),
+            StopPointARoleId = NormalizeJsonText(GetFirstNotEmpty(jsonData.StopPointARoleId, "StopPoint_A")),
+            TurtleDialogueIdList = NormalizeJsonText(GetFirstNotEmpty(jsonData.TurtleDialogueIdList, "character_Turtle_01|character_Turtle_02")),
+            TurtleClearDialogueIdList = NormalizeJsonText(GetFirstNotEmpty(jsonData.TurtleClearDialogueIdList, "character_Turtle_03|character_Turtle_04")),
+            RabbitIntroDialogueId = NormalizeJsonText(GetFirstNotEmpty(jsonData.RabbitIntroDialogueId, "character_Rabbit_01")),
+            RabbitStopDialogueId = NormalizeJsonText(GetFirstNotEmpty(jsonData.RabbitStopDialogueId, "character_Rabbit_02")),
+            RabbitCarrotCakeDialogueIdList = NormalizeJsonText(GetFirstNotEmpty(jsonData.RabbitCarrotCakeDialogueIdList, "character_Rabbit_03|character_Rabbit_04")),
+            RabbitSpeechBubbleIdList = NormalizeJsonText(GetFirstNotEmpty(jsonData.RabbitSpeechBubbleIdList, "character_Rabbit_01|character_Rabbit_02|character_Rabbit_03|character_Rabbit_04|character_Rabbit_05")),
+            RabbitSleepingBubbleId = NormalizeJsonText(GetFirstNotEmpty(jsonData.RabbitSleepingBubbleId, "character_Rabbit_06")),
+            StageQuestId = NormalizeJsonText(GetFirstNotEmpty(jsonData.StageQuestId, "Stage4__Quest_01")),
+            CarrotIngredientId = NormalizeJsonText(GetFirstNotEmpty(jsonData.CarrotIngredientId, "Ing_Carrot_01")),
+            KoreanCakeItemId = NormalizeJsonText(GetFirstNotEmpty(jsonData.KoreanCakeItemId, "OO_KoreanCake_1")),
+            CarrotStarchItemId = NormalizeJsonText(GetFirstNotEmpty(jsonData.CarrotStarchItemId, "OO_CarrotStarch_1")),
+            CarrotCakeItemId = NormalizeJsonText(GetFirstNotEmpty(jsonData.CarrotCakeItemId, "OO_CarrotCake_1")),
+            Stage4BGMPath = NormalizeJsonText(GetFirstNotEmpty(jsonData.Stage4BGMPath, "Audio/BGM/Stage4_BGM")),
+            NextTutorialNarrationId = NormalizeJsonText(GetFirstNotEmpty(jsonData.NextTutorialNarrationId, "narration_tutorial_15")),
+            InteractionDistance = ParseFloat(GetFirstNotEmpty(jsonData.InteractionDistance, "95")),
+            RabbitRunSpeed = ParseFloat(GetFirstNotEmpty(jsonData.RabbitRunSpeed, "480")),
+            RabbitReachTimeoutSeconds = ParseFloat(GetFirstNotEmpty(jsonData.RabbitReachTimeoutSeconds, "3"))
+        };
+    }
+
+    /// <summary>
+    /// JSON ??以꾩쓣 Final 援ш컙 ?먯떆???곗씠?곕줈 蹂?섑빀?덈떎.
+    /// YeonSanJa ?쒓린???곗씠?곌? 怨쇨굅 ?대쫫怨??욎뿬 ?덉뼱??Controller?먯꽌 fallback?쇰줈 ?덉쟾?섍쾶 泥섎━?⑸땲??
+    /// </summary>
+    private OO_FinalCueSheet CreateFinalCueSheetData(OOTechFinalCueSheetJsonData jsonData)
+    {
+        if (jsonData == null)
+            return null;
+
+        return new OO_FinalCueSheet
+        {
+            Id = NormalizeJsonText(jsonData.Id),
+            Name = NormalizeJsonText(jsonData.Name),
+            Description = NormalizeJsonText(jsonData.Description),
+            PreFinalGroupName = NormalizeJsonText(GetFirstNotEmpty(jsonData.PreFinalGroupName, "PreFinal_Narration")),
+            FinalStageGroupName = NormalizeJsonText(GetFirstNotEmpty(jsonData.FinalStageGroupName, "FinalStageGroup")),
+            EpilogueGroupName = NormalizeJsonText(GetFirstNotEmpty(jsonData.EpilogueGroupName, "EpilogueGroup")),
+            EndingCreditGroupName = NormalizeJsonText(GetFirstNotEmpty(jsonData.EndingCreditGroupName, "EndingCreditGroup")),
+            MainMenuGroupName = NormalizeJsonText(GetFirstNotEmpty(jsonData.MainMenuGroupName, "MainMenuGroup")),
+            PreFinalNarrationId = NormalizeJsonText(GetFirstNotEmpty(jsonData.PreFinalNarrationId, "narration_prologue_08")),
+            EpilogueNarrationId = NormalizeJsonText(GetFirstNotEmpty(jsonData.EpilogueNarrationId, "narration_Epilogue_01")),
+            FinalOpeningDialogueId = NormalizeJsonText(GetFirstNotEmpty(jsonData.FinalOpeningDialogueId, "character_YeonSanJa_01")),
+            FinalHappyDialogueIdList = NormalizeJsonText(GetFirstNotEmpty(jsonData.FinalHappyDialogueIdList, "character_YeonSanJa_02|character_YeonSanJa_03")),
+            MoranRoleId = NormalizeJsonText(GetFirstNotEmpty(jsonData.MoranRoleId, "Moran")),
+            YeonSanJaRoleId = NormalizeJsonText(GetFirstNotEmpty(jsonData.YeonSanJaRoleId, "YeonSanJa")),
+            EndPointRoleId = NormalizeJsonText(GetFirstNotEmpty(jsonData.EndPointRoleId, "End_Point")),
+            FinalStageBGMPath = NormalizeJsonText(GetFirstNotEmpty(jsonData.FinalStageBGMPath, "Audio/BGM/FinalStage_BGM")),
+            MoranMoveSpeed = ParseFloat(GetFirstNotEmpty(jsonData.MoranMoveSpeed, "180")),
+            MoranStuckFallbackSeconds = ParseFloat(GetFirstNotEmpty(jsonData.MoranStuckFallbackSeconds, "1.5")),
+            MoranEndScale = ParseFloat(GetFirstNotEmpty(jsonData.MoranEndScale, "0.6")),
+            CameraZoomSize = ParseFloat(GetFirstNotEmpty(jsonData.CameraZoomSize, "280")),
+            YeonSanJaEatingSpeed = ParseFloat(GetFirstNotEmpty(jsonData.YeonSanJaEatingSpeed, "0.5"))
+        };
+    }
+
+    /// <summary>
+    /// JSON ??以꾩쓣 ?꾩꽦 ?뚯떇 紐⑤뜽濡?蹂?섑빀?덈떎.
     /// </summary>
     private OO_Cook CreateCookData(OOTechCookJsonData jsonData)
     {
@@ -895,7 +1088,7 @@ public class OOTechGameDataManager : MonoBehaviour
     }
 
     /// <summary>
-    /// JSON 한 줄을 스테이지 모델로 변환합니다.
+    /// JSON ??以꾩쓣 ?ㅽ뀒?댁? 紐⑤뜽濡?蹂?섑빀?덈떎.
     /// </summary>
     private OO_Stage CreateStageData(OOTechStageJsonData jsonData)
     {
@@ -923,7 +1116,7 @@ public class OOTechGameDataManager : MonoBehaviour
     }
 
     /// <summary>
-    /// JSON 한 줄을 스테이지 임무 모델로 변환합니다.
+    /// JSON ??以꾩쓣 ?ㅽ뀒?댁? ?꾨Т 紐⑤뜽濡?蹂?섑빀?덈떎.
     /// </summary>
     private OO_StageQuest CreateStageQuestData(OOTechStageQuestJsonData jsonData)
     {
@@ -947,8 +1140,8 @@ public class OOTechGameDataManager : MonoBehaviour
     }
 
     /// <summary>
-    /// JSON 한 줄을 Stage2 큐시트 모델로 변환합니다.
-    /// 무대감독용 엑셀 한 줄을 실제 Stage2Controller가 읽을 큐 카드로 바꿉니다.
+    /// JSON ??以꾩쓣 Stage2 ?먯떆??紐⑤뜽濡?蹂?섑빀?덈떎.
+    /// 臾대?媛먮룆???묒? ??以꾩쓣 ?ㅼ젣 Stage2Controller媛 ?쎌쓣 ??移대뱶濡?諛붽퓠?덈떎.
     /// </summary>
     private OO_Stage2CueSheet CreateStage2CueSheetData(OOTechStage2CueSheetJsonData jsonData)
     {
@@ -1011,11 +1204,11 @@ public class OOTechGameDataManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Dialogue 데이터의 화자 ID를 Character 데이터의 실제 이름으로 바꿉니다.
+    /// Dialogue ?곗씠?곗쓽 ?붿옄 ID瑜?Character ?곗씠?곗쓽 ?ㅼ젣 ?대쫫?쇰줈 諛붽퓠?덈떎.
     /// </summary>
     /// <summary>
-    /// Character ID를 화면에 표시할 실제 이름으로 바꿉니다.
-    /// 여러 데이터 타입에서 같이 쓰는 배우 이름 캐스팅 보조 함수입니다.
+    /// Character ID瑜??붾㈃???쒖떆???ㅼ젣 ?대쫫?쇰줈 諛붽퓠?덈떎.
+    /// ?щ윭 ?곗씠????낆뿉??媛숈씠 ?곕뒗 諛곗슦 ?대쫫 罹먯뒪??蹂댁“ ?⑥닔?낅땲??
     /// </summary>
     private string ResolveCharacterName(string characterId, string fallbackName)
     {
@@ -1046,8 +1239,8 @@ public class OOTechGameDataManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Dialogue 행에 화자 칸이 비어 있어도 ID 접두사로 배우 이름표를 추론합니다.
-    /// 예: character_Moran_04는 모란 캐릭터 데이터 character_Moran_02를 화자로 사용합니다.
+    /// Dialogue ?됱뿉 ?붿옄 移몄씠 鍮꾩뼱 ?덉뼱??ID ?묐몢?щ줈 諛곗슦 ?대쫫?쒕? 異붾줎?⑸땲??
+    /// ?? character_Moran_04??紐⑤? 罹먮┃???곗씠??character_Moran_02瑜??붿옄濡??ъ슜?⑸땲??
     /// </summary>
     private string InferSpeakerCharacterIdFromDialogueId(string dialogueId)
     {
@@ -1071,10 +1264,10 @@ public class OOTechGameDataManager : MonoBehaviour
         return string.Empty;
     }
 
-    // ==================== 변환 유틸 ====================
+    // ==================== 蹂???좏떥 ====================
 
     /// <summary>
-    /// JsonUtility가 배열을 읽을 수 있도록 배열 JSON을 Items 래퍼로 감쌉니다.
+    /// JsonUtility媛 諛곗뿴???쎌쓣 ???덈룄濡?諛곗뿴 JSON??Items ?섑띁濡?媛먯뙃?덈떎.
     /// </summary>
     private string WrapJsonArray(string jsonText)
     {
@@ -1090,7 +1283,7 @@ public class OOTechGameDataManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Resources/OO_MFC/Data와 Resources/JsonOutput에서 데이터 TextAsset을 찾습니다.
+    /// Resources/OO_MFC/Data? Resources/JsonOutput?먯꽌 ?곗씠??TextAsset??李얠뒿?덈떎.
     /// </summary>
     private List<TextAsset> LoadDataTextAssetArray(string dataName)
     {
@@ -1110,7 +1303,7 @@ public class OOTechGameDataManager : MonoBehaviour
         }
 
         if (textAssetList.Count == 0)
-            Debug.LogWarning($"[OOTechGameDataManager] {dataName}.json 파일을 찾을 수 없습니다.");
+            Debug.LogWarning($"[OOTechGameDataManager] {dataName}.json ?뚯씪??李얠쓣 ???놁뒿?덈떎.");
 
         return textAssetList;
     }
@@ -1121,8 +1314,8 @@ public class OOTechGameDataManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 엑셀에서 들어온 숫자 문자열을 float로 바꿉니다.
-    /// 속도와 연출 시간처럼 소수점이 필요한 큐시트 값을 읽을 때 사용합니다.
+    /// ?묒??먯꽌 ?ㅼ뼱???レ옄 臾몄옄?댁쓣 float濡?諛붽퓠?덈떎.
+    /// ?띾룄? ?곗텧 ?쒓컙泥섎읆 ?뚯닔?먯씠 ?꾩슂???먯떆??媛믪쓣 ?쎌쓣 ???ъ슜?⑸땲??
     /// </summary>
     private float ParseFloat(string value)
     {
@@ -1132,6 +1325,21 @@ public class OOTechGameDataManager : MonoBehaviour
             return 0f;
 
         return float.TryParse(normalizedValue, System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out float result) ? result : 0f;
+    }
+
+    /// <summary>
+    /// Excel/JSON?먯꽌 ?ㅼ뼱??true, 1, yes, ??媛숈? 媛믪쓣 bool濡??뺣━?⑸땲??
+    /// 留먰뭾??諛섎났 ?щ?泥섎읆 ?묒? ?곗텧 ?ㅼ쐞移섎? 肄붾뱶 ?섏젙 ?놁씠 耳쒓퀬 ?????ъ슜?⑸땲??
+    /// </summary>
+    private bool ParseBool(string value)
+    {
+        string normalizedValue = NormalizeJsonText(value).ToLowerInvariant();
+
+        return normalizedValue == "true" ||
+               normalizedValue == "1" ||
+               normalizedValue == "yes" ||
+               normalizedValue == "y" ||
+               normalizedValue == "예";
     }
 
     private List<string> CreateTextList(string rawText)
@@ -1223,98 +1431,98 @@ public class OOTechGameDataManager : MonoBehaviour
         return normalizedText.Trim();
     }
 
-    // ==================== 데이터 조회 ====================
+    // ==================== ?곗씠??議고쉶 ====================
 
     /// <summary>
-    /// 나레이션 데이터를 ID로 조회합니다.
+    /// ?섎젅?댁뀡 ?곗씠?곕? ID濡?議고쉶?⑸땲??
     /// </summary>
     /// <summary>
-    /// ID로 나레이션 데이터를 조회합니다.
+    /// ID濡??섎젅?댁뀡 ?곗씠?곕? 議고쉶?⑸땲??
     /// </summary>
     public OO_Narration GetNarrationData(string id)
     {
         if (string.IsNullOrEmpty(id))
         {
-            Debug.LogWarning("[OOTechGameDataManager] 조회할 Narration ID가 비어 있습니다.");
+            Debug.LogWarning("[OOTechGameDataManager] 議고쉶??Narration ID媛 鍮꾩뼱 ?덉뒿?덈떎.");
             return null;
         }
 
         if (_narrationDic.TryGetValue(id, out OO_Narration data))
             return data;
 
-        Debug.LogWarning($"[OOTechGameDataManager] Narration 데이터를 찾을 수 없음: {id}");
+        Debug.LogWarning($"[OOTechGameDataManager] Narration ?곗씠?곕? 李얠쓣 ???놁쓬: {id}");
         return null;
     }
 
     /// <summary>
-    /// 캐릭터 데이터를 ID로 조회합니다.
+    /// 罹먮┃???곗씠?곕? ID濡?議고쉶?⑸땲??
     /// </summary>
     /// <summary>
-    /// ID로 캐릭터 데이터를 조회합니다.
+    /// ID濡?罹먮┃???곗씠?곕? 議고쉶?⑸땲??
     /// </summary>
     public OO_Character GetCharacterData(string id)
     {
         if (string.IsNullOrEmpty(id))
         {
-            Debug.LogWarning("[OOTechGameDataManager] 조회할 Character ID가 비어 있습니다.");
+            Debug.LogWarning("[OOTechGameDataManager] 議고쉶??Character ID媛 鍮꾩뼱 ?덉뒿?덈떎.");
             return null;
         }
 
         if (_characterDic.TryGetValue(id, out OO_Character data))
             return data;
 
-        Debug.LogWarning($"[OOTechGameDataManager] Character 데이터를 찾을 수 없음: {id}");
+        Debug.LogWarning($"[OOTechGameDataManager] Character ?곗씠?곕? 李얠쓣 ???놁쓬: {id}");
         return null;
     }
 
     /// <summary>
-    /// 캐릭터 대화 데이터를 ID로 조회합니다.
+    /// 罹먮┃??????곗씠?곕? ID濡?議고쉶?⑸땲??
     /// </summary>
     /// <summary>
-    /// ID로 대사 데이터를 조회합니다.
+    /// ID濡?????곗씠?곕? 議고쉶?⑸땲??
     /// </summary>
     public OO_Dialogue GetDialogueData(string id)
     {
         if (string.IsNullOrEmpty(id))
         {
-            Debug.LogWarning("[OOTechGameDataManager] 조회할 Dialogue ID가 비어 있습니다.");
+            Debug.LogWarning("[OOTechGameDataManager] 議고쉶??Dialogue ID媛 鍮꾩뼱 ?덉뒿?덈떎.");
             return null;
         }
 
         if (_dialogueDic.TryGetValue(id, out OO_Dialogue data))
             return data;
 
-        Debug.LogWarning($"[OOTechGameDataManager] Dialogue 데이터를 찾을 수 없음: {id}");
+        Debug.LogWarning($"[OOTechGameDataManager] Dialogue ?곗씠?곕? 李얠쓣 ???놁쓬: {id}");
         return null;
     }
 
     /// <summary>
-    /// ID로 동시 대사 그룹 데이터를 조회합니다.
+    /// ID濡??숈떆 ???洹몃９ ?곗씠?곕? 議고쉶?⑸땲??
     /// </summary>
     public OO_DialogueGroup GetDialogueGroupData(string id)
     {
         if (string.IsNullOrEmpty(id))
         {
-            Debug.LogWarning("[OOTechGameDataManager] 조회할 DialogueGroup ID가 비어 있습니다.");
+            Debug.LogWarning("[OOTechGameDataManager] 議고쉶??DialogueGroup ID媛 鍮꾩뼱 ?덉뒿?덈떎.");
             return null;
         }
 
         if (_dialogueGroupDic.TryGetValue(id, out OO_DialogueGroup data))
             return data;
 
-        Debug.LogWarning($"[OOTechGameDataManager] DialogueGroup 데이터를 찾을 수 없음: {id}");
+        Debug.LogWarning($"[OOTechGameDataManager] DialogueGroup ?곗씠?곕? 李얠쓣 ???놁쓬: {id}");
         return null;
     }
 
     /// <summary>
-    /// 튜토리얼 안내 데이터를 ID로 조회합니다.
+    /// ?쒗넗由ъ뼹 ?덈궡 ?곗씠?곕? ID濡?議고쉶?⑸땲??
     /// </summary>
     /// <summary>
-    /// ID로 튜토리얼 데이터를 조회합니다.
+    /// ID濡??쒗넗由ъ뼹 ?곗씠?곕? 議고쉶?⑸땲??
     /// </summary>
     /// <summary>
-    /// ID로 선택지 데이터를 조회합니다.
-    /// Controller는 선택지 문장을 직접 들고 있지 않고 이 창구만 통해 큐시트를 꺼냅니다.
+    /// ID濡??좏깮吏 ?곗씠?곕? 議고쉶?⑸땲??
+    /// Controller???좏깮吏 臾몄옣??吏곸젒 ?ㅺ퀬 ?덉? ?딄퀬 ??李쎄뎄留??듯빐 ?먯떆?몃? 爰쇰깄?덈떎.
     /// </summary>
     public OO_Choice GetChoiceData(string id)
     {
@@ -1325,7 +1533,7 @@ public class OOTechGameDataManager : MonoBehaviour
     }
 
     /// <summary>
-    /// ID로 도감 항목을 조회합니다.
+    /// ID濡??꾧컧 ??ぉ??議고쉶?⑸땲??
     /// </summary>
     public OO_Codex GetCodexData(string id)
     {
@@ -1336,8 +1544,8 @@ public class OOTechGameDataManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 현재 등록된 모든 도감 항목을 리스트로 반환합니다.
-    /// Game View에서는 CodexGroup의 스크롤 목록이 이 데이터를 사용합니다.
+    /// ?꾩옱 ?깅줉??紐⑤뱺 ?꾧컧 ??ぉ??由ъ뒪?몃줈 諛섑솚?⑸땲??
+    /// Game View?먯꽌??CodexGroup???ㅽ겕濡?紐⑸줉?????곗씠?곕? ?ъ슜?⑸땲??
     /// </summary>
     public List<OO_Codex> GetCodexDataList()
     {
@@ -1350,40 +1558,40 @@ public class OOTechGameDataManager : MonoBehaviour
     {
         if (string.IsNullOrEmpty(id))
         {
-            Debug.LogWarning("[OOTechGameDataManager] 조회할 Tutorial ID가 비어 있습니다.");
+            Debug.LogWarning("[OOTechGameDataManager] 議고쉶??Tutorial ID媛 鍮꾩뼱 ?덉뒿?덈떎.");
             return null;
         }
 
         if (_tutorialDic.TryGetValue(id, out OO_Tutorial data))
             return data;
 
-        Debug.LogWarning($"[OOTechGameDataManager] Tutorial 데이터를 찾을 수 없음: {id}");
+        Debug.LogWarning($"[OOTechGameDataManager] Tutorial ?곗씠?곕? 李얠쓣 ???놁쓬: {id}");
         return null;
     }
 
     /// <summary>
-    /// ID로 재료 데이터를 조회합니다.
+    /// ID濡??щ즺 ?곗씠?곕? 議고쉶?⑸땲??
     /// </summary>
     public OO_Ingredient GetIngredientData(string id)
     {
         if (string.IsNullOrEmpty(id))
         {
-            Debug.LogWarning("[OOTechGameDataManager] 조회할 Ingredient ID가 비어 있습니다.");
+            Debug.LogWarning("[OOTechGameDataManager] 議고쉶??Ingredient ID媛 鍮꾩뼱 ?덉뒿?덈떎.");
             return null;
         }
 
         if (_ingredientDic.TryGetValue(id, out OO_Ingredient data))
             return data;
 
-        Debug.LogWarning($"[OOTechGameDataManager] Ingredient 데이터를 찾을 수 없음: {id}");
+        Debug.LogWarning($"[OOTechGameDataManager] Ingredient ?곗씠?곕? 李얠쓣 ???놁쓬: {id}");
         return null;
     }
     /// <summary>
-    /// ID로 레시피 데이터를 조회합니다.
+    /// ID濡??덉떆???곗씠?곕? 議고쉶?⑸땲??
     /// </summary>
     /// <summary>
-    /// 재료 데이터가 있는지만 조용히 확인합니다.
-    /// 영화로 비유하면 창고에 쌀 배우가 있는지 확인만 하고, 없다고 공연장 전체에 경고 방송을 하지 않는 조회입니다.
+    /// ?щ즺 ?곗씠?곌? ?덈뒗吏留?議곗슜???뺤씤?⑸땲??
+    /// ?곹솕濡?鍮꾩쑀?섎㈃ 李쎄퀬??? 諛곗슦媛 ?덈뒗吏 ?뺤씤留??섍퀬, ?녿떎怨?怨듭뿰???꾩껜??寃쎄퀬 諛⑹넚???섏? ?딅뒗 議고쉶?낅땲??
     /// </summary>
     public bool TryGetIngredientData(string id, out OO_Ingredient data)
     {
@@ -1404,7 +1612,7 @@ public class OOTechGameDataManager : MonoBehaviour
     }
 
     /// <summary>
-    /// ID로 조리도구 역할표 데이터를 조회합니다.
+    /// ID濡?議곕━?꾧뎄 ??븷???곗씠?곕? 議고쉶?⑸땲??
     /// </summary>
     public OO_CookingTool GetCookingToolData(string id)
     {
@@ -1415,7 +1623,7 @@ public class OOTechGameDataManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 조리도구 역할표가 있는지만 조용히 확인합니다.
+    /// 議곕━?꾧뎄 ??븷?쒓? ?덈뒗吏留?議곗슜???뺤씤?⑸땲??
     /// </summary>
     public bool TryGetCookingToolData(string id, out OO_CookingTool data)
     {
@@ -1428,7 +1636,7 @@ public class OOTechGameDataManager : MonoBehaviour
     }
 
     /// <summary>
-    /// ID로 CookingGroup 큐시트 데이터를 조회합니다.
+    /// ID濡?CookingGroup ?먯떆???곗씠?곕? 議고쉶?⑸땲??
     /// </summary>
     public OO_CookingCueSheet GetCookingCueSheetData(string id)
     {
@@ -1439,7 +1647,7 @@ public class OOTechGameDataManager : MonoBehaviour
     }
 
     /// <summary>
-    /// ID로 완성 음식 데이터를 조회합니다.
+    /// ID濡??꾩꽦 ?뚯떇 ?곗씠?곕? 議고쉶?⑸땲??
     /// </summary>
     public OO_Cook GetCookData(string id)
     {
@@ -1450,11 +1658,11 @@ public class OOTechGameDataManager : MonoBehaviour
     }
 
     /// <summary>
-    /// ID로 스테이지 데이터를 조회합니다.
+    /// ID濡??ㅽ뀒?댁? ?곗씠?곕? 議고쉶?⑸땲??
     /// </summary>
     /// <summary>
-    /// 완성 음식 데이터가 있는지만 조용히 확인합니다.
-    /// 재료와 완성 음식을 같은 인벤토리 슬롯에 보여줄 때 불필요한 경고 로그를 줄이기 위한 안전 조회입니다.
+    /// ?꾩꽦 ?뚯떇 ?곗씠?곌? ?덈뒗吏留?議곗슜???뺤씤?⑸땲??
+    /// ?щ즺? ?꾩꽦 ?뚯떇??媛숈? ?몃깽?좊━ ?щ’??蹂댁뿬以???遺덊븘?뷀븳 寃쎄퀬 濡쒓렇瑜?以꾩씠湲??꾪븳 ?덉쟾 議고쉶?낅땲??
     /// </summary>
     public bool TryGetCookData(string id, out OO_Cook data)
     {
@@ -1475,7 +1683,7 @@ public class OOTechGameDataManager : MonoBehaviour
     }
 
     /// <summary>
-    /// ID로 스테이지 임무 데이터를 조회합니다.
+    /// ID濡??ㅽ뀒?댁? ?꾨Т ?곗씠?곕? 議고쉶?⑸땲??
     /// </summary>
     public OO_StageQuest GetStageQuestData(string id)
     {
@@ -1486,7 +1694,7 @@ public class OOTechGameDataManager : MonoBehaviour
     }
 
     /// <summary>
-    /// ID로 Stage2 큐시트 데이터를 조회합니다.
+    /// ID濡?Stage2 ?먯떆???곗씠?곕? 議고쉶?⑸땲??
     /// </summary>
     public OO_Stage2CueSheet GetStage2CueSheetData(string id)
     {
@@ -1497,7 +1705,7 @@ public class OOTechGameDataManager : MonoBehaviour
     }
 
     /// <summary>
-    /// ID로 Stage3 큐시트 데이터를 조회합니다.
+    /// ID濡?Stage3 ?먯떆???곗씠?곕? 議고쉶?⑸땲??
     /// </summary>
     public OO_Stage3CueSheet GetStage3CueSheetData(string id)
     {
@@ -1507,18 +1715,77 @@ public class OOTechGameDataManager : MonoBehaviour
         return _stage3CueSheetDic.TryGetValue(id, out OO_Stage3CueSheet data) ? data : null;
     }
 
+    public OO_SpeechBubble GetSpeechBubbleData(string id)
+    {
+        if (string.IsNullOrEmpty(id))
+            return null;
+
+        return _speechBubbleDic.TryGetValue(id, out OO_SpeechBubble data) ? data : null;
+    }
+
+    public OO_Stage4CueSheet GetStage4CueSheetData(string id)
+    {
+        if (string.IsNullOrEmpty(id))
+            return null;
+
+        return _stage4CueSheetDic.TryGetValue(id, out OO_Stage4CueSheet data) ? data : null;
+    }
+
+    public OO_FinalCueSheet GetFinalCueSheetData(string id)
+    {
+        if (string.IsNullOrEmpty(id))
+            return null;
+
+        return _finalCueSheetDic.TryGetValue(id, out OO_FinalCueSheet data) ? data : null;
+    }
+
     /// <summary>
-    /// 현재 등록된 모든 레시피를 반환합니다.
+    /// ?꾩옱 ?깅줉??紐⑤뱺 ?덉떆?쇰? 諛섑솚?⑸땲??
     /// </summary>
     public List<OO_Recipe> GetRecipeDataList()
     {
         return new List<OO_Recipe>(_recipeDic.Values);
     }
 
+    public List<OO_Character> GetCharacterDataList()
+    {
+        List<OO_Character> dataList = new List<OO_Character>(_characterDic.Values);
+        dataList.Sort((leftData, rightData) => string.Compare(leftData != null ? leftData.Id : string.Empty, rightData != null ? rightData.Id : string.Empty, StringComparison.Ordinal));
+        return dataList;
+    }
+
+    public List<OO_Cook> GetCookDataList()
+    {
+        List<OO_Cook> dataList = new List<OO_Cook>(_cookDic.Values);
+        dataList.Sort((leftData, rightData) => string.Compare(leftData != null ? leftData.Id : string.Empty, rightData != null ? rightData.Id : string.Empty, StringComparison.Ordinal));
+        return dataList;
+    }
+
+    public List<OO_Ingredient> GetIngredientDataList()
+    {
+        List<OO_Ingredient> dataList = new List<OO_Ingredient>(_ingredientDic.Values);
+        dataList.Sort((leftData, rightData) => string.Compare(leftData != null ? leftData.Id : string.Empty, rightData != null ? rightData.Id : string.Empty, StringComparison.Ordinal));
+        return dataList;
+    }
+
+    public List<OO_Narration> GetNarrationDataList()
+    {
+        List<OO_Narration> dataList = new List<OO_Narration>(_narrationDic.Values);
+        dataList.Sort((leftData, rightData) => string.Compare(leftData != null ? leftData.Id : string.Empty, rightData != null ? rightData.Id : string.Empty, StringComparison.Ordinal));
+        return dataList;
+    }
+
+    public List<OO_Stage> GetStageDataList()
+    {
+        List<OO_Stage> dataList = new List<OO_Stage>(_stageDic.Values);
+        dataList.Sort((leftData, rightData) => string.Compare(leftData != null ? leftData.Id : string.Empty, rightData != null ? rightData.Id : string.Empty, StringComparison.Ordinal));
+        return dataList;
+    }
+
     /// <summary>
-    /// 투입된 재료 목록과 완전히 일치하는 레시피를 찾습니다.
+    /// ?ъ엯???щ즺 紐⑸줉怨??꾩쟾???쇱튂?섎뒗 ?덉떆?쇰? 李얠뒿?덈떎.
     /// </summary>
-    public OO_Recipe FindRecipeByIngredientList(List<string> ingredientIdList)
+    public OO_Recipe RequestRecipeByIngredientList(List<string> ingredientIdList)
     {
         if (ingredientIdList == null || ingredientIdList.Count == 0)
             return null;
@@ -1962,3 +2229,97 @@ public class OOTechStage3CueSheetJsonData
     public string EncounterWaitSeconds;
     public string DeathMessage;
 }
+
+[Serializable]
+public class OOTechSpeechBubbleJsonWrapper
+{
+    public OOTechSpeechBubbleJsonData[] Items;
+}
+
+[Serializable]
+public class OOTechSpeechBubbleJsonData
+{
+    public string Id;
+    public string Name;
+    public string Description;
+    public string SpeakerCharacterId;
+    public string Text;
+    public string TypingSpeed;
+    public string DisplaySeconds;
+    public string IsLoop;
+    public string IsWhisper;
+}
+
+[Serializable]
+public class OOTechStage4CueSheetJsonWrapper
+{
+    public OOTechStage4CueSheetJsonData[] Items;
+}
+
+[Serializable]
+public class OOTechStage4CueSheetJsonData
+{
+    public string Id;
+    public string Name;
+    public string Description;
+    public string Stage4_1GroupName;
+    public string Stage4_2GroupName;
+    public string PreFinalGroupName;
+    public string TurtleRoleId;
+    public string RabbitRoleId;
+    public string SleepingRabbitRoleId;
+    public string MoranRoleId;
+    public string StumpRoleId;
+    public string Stump2RoleId;
+    public string StopPointARoleId;
+    public string TurtleDialogueIdList;
+    public string TurtleClearDialogueIdList;
+    public string RabbitIntroDialogueId;
+    public string RabbitStopDialogueId;
+    public string RabbitCarrotCakeDialogueIdList;
+    public string RabbitSpeechBubbleIdList;
+    public string RabbitSleepingBubbleId;
+    public string StageQuestId;
+    public string CarrotIngredientId;
+    public string KoreanCakeItemId;
+    public string CarrotStarchItemId;
+    public string CarrotCakeItemId;
+    public string Stage4BGMPath;
+    public string NextTutorialNarrationId;
+    public string InteractionDistance;
+    public string RabbitRunSpeed;
+    public string RabbitReachTimeoutSeconds;
+}
+
+[Serializable]
+public class OOTechFinalCueSheetJsonWrapper
+{
+    public OOTechFinalCueSheetJsonData[] Items;
+}
+
+[Serializable]
+public class OOTechFinalCueSheetJsonData
+{
+    public string Id;
+    public string Name;
+    public string Description;
+    public string PreFinalGroupName;
+    public string FinalStageGroupName;
+    public string EpilogueGroupName;
+    public string EndingCreditGroupName;
+    public string MainMenuGroupName;
+    public string PreFinalNarrationId;
+    public string EpilogueNarrationId;
+    public string FinalOpeningDialogueId;
+    public string FinalHappyDialogueIdList;
+    public string MoranRoleId;
+    public string YeonSanJaRoleId;
+    public string EndPointRoleId;
+    public string FinalStageBGMPath;
+    public string MoranMoveSpeed;
+    public string MoranStuckFallbackSeconds;
+    public string MoranEndScale;
+    public string CameraZoomSize;
+    public string YeonSanJaEatingSpeed;
+}
+

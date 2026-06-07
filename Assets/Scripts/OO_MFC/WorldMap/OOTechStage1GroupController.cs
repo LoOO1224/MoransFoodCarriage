@@ -1,9 +1,9 @@
-// =============================================================================
-// OO_MFC 역할 주석
-// - 스크립트: OOTechStage1GroupController.cs
-// - 역할: Stage1Group의 큐시트 진행을 맡는 Controller입니다.
-// - 영화 비유: 무대감독은 "1막 배경 켜기, 촌장 등장, 수레 선택지, 임무 완료" 순서만 지휘합니다.
-// - 유지보수 포인트: 표식은 Marker, 상호작용 판정은 Actor, 대사/선택지/임무 문장은 DataManager에 맡깁니다.
+﻿// =============================================================================
+// OO_MFC ??븷 二쇱꽍
+// - ?ㅽ겕由쏀듃: OOTechStage1GroupController.cs
+// - ??븷: Stage1Group???먯떆??吏꾪뻾??留〓뒗 Controller?낅땲??
+// - ?곹솕 鍮꾩쑀: 臾대?媛먮룆? "1留?諛곌꼍 耳쒓린, 珥뚯옣 ?깆옣, ?섎젅 ?좏깮吏, ?꾨Т ?꾨즺" ?쒖꽌留?吏?섑빀?덈떎.
+// - ?좎?蹂댁닔 ?ъ씤?? ?쒖떇? Marker, ?곹샇?묒슜 ?먯젙? Actor, ????좏깮吏/?꾨Т 臾몄옣? DataManager??留↔퉩?덈떎.
 // =============================================================================
 using System;
 using System.Collections;
@@ -17,8 +17,8 @@ using UnityEditor;
 #endif
 
 /// <summary>
-/// Stage1Group의 1-1, 1-2, 1-3 장면 이동과 촌장/수레 상호작용을 지휘합니다.
-/// Game View에서는 Moran이 좌우로 이동하고, 촌장과 수레 위의 노란 세모를 따라가 상호작용합니다.
+/// Stage1Group??1-1, 1-2, 1-3 ?λ㈃ ?대룞怨?珥뚯옣/?섎젅 ?곹샇?묒슜??吏?섑빀?덈떎.
+/// Game View?먯꽌??Moran??醫뚯슦濡??대룞?섍퀬, 珥뚯옣怨??섎젅 ?꾩쓽 ?몃? ?몃え瑜??곕씪媛 ?곹샇?묒슜?⑸땲??
 /// </summary>
 [DisallowMultipleComponent]
 public class OOTechStage1GroupController : MonoBehaviour
@@ -69,7 +69,9 @@ public class OOTechStage1GroupController : MonoBehaviour
 
     [Header("BGM")]
     [SerializeField] private AudioClip _stage1BGM;
+#if UNITY_EDITOR
     [SerializeField] private string _stage1BGMAssetPath = "Assets/Sounds/BGM/Stage1Group_BGM.mp3";
+#endif
 
     [Header("Entry Tutorial")]
     [SerializeField] private string _tutorialGuideGroupName = "TutorialGuideGroup";
@@ -87,8 +89,8 @@ public class OOTechStage1GroupController : MonoBehaviour
     [SerializeField] private string _villageChiefNextQuestDataId = "Stage1_Quest_02";
     [SerializeField] private string _pumpkinCookingQuestDataId = "Stage1_Quest_03";
     [SerializeField] private string _returnChiefQuestDataId = "Stage1_Quest_04";
-    [SerializeField] private string _pumpkinCookingQuestFallbackText = "호박과 쌀로 호박죽 10그릇을 만드세요.";
-    [SerializeField] private string _returnChiefQuestFallbackText = "호박죽 10그릇을 완성했습니다. 동쪽 마을의 촌장에게 돌아가세요.";
+    [SerializeField] private string _pumpkinCookingQuestFallbackText = "?몃컯怨??濡??몃컯二?10洹몃쫯??留뚮뱶?몄슂.";
+    [SerializeField] private string _returnChiefQuestFallbackText = "?몃컯二?10洹몃쫯???꾩꽦?덉뒿?덈떎. ?숈そ 留덉쓣??珥뚯옣?먭쾶 ?뚯븘媛?몄슂.";
 
     [Header("Inventory Item")]
     [SerializeField] private string _pumpkinIngredientId = "Ing_Pumpkin_01";
@@ -110,8 +112,8 @@ public class OOTechStage1GroupController : MonoBehaviour
     [SerializeField] private Color _cartMarkerColor = Color.red;
 
     [Header("Stage Clear")]
-    [SerializeField] private string _stageClearTitle = "동쪽 마을 임무 완수";
-    [SerializeField] private string _stageClearMessage = "촌장이 감사의 뜻으로 청양고추 10개와 김치 10개를 건넸습니다. 다음 길로 나설 준비가 끝났습니다.";
+    [SerializeField] private string _stageClearTitle = "?숈そ 留덉쓣 ?꾨Т ?꾩닔";
+    [SerializeField] private string _stageClearMessage = "珥뚯옣??媛먯궗???살쑝濡?泥?뼇怨좎텛 10媛쒖? 源移?10媛쒕? 嫄대꽭?듬땲?? ?ㅼ쓬 湲몃줈 ?섏꽕 以鍮꾧? ?앸궗?듬땲??";
     [SerializeField] private string _nextRoadGroupName = "2nd_Road_to_Stage2";
 
     private GameObject Object_StageMap1;
@@ -155,7 +157,7 @@ public class OOTechStage1GroupController : MonoBehaviour
     private string _currentAnimationStateName;
 
     /// <summary>
-    /// Stage1Group이 켜지면 첫 무대와 배우들을 정렬하고 입장 튜토리얼을 시작합니다.
+    /// Stage1Group??耳쒖?硫?泥?臾대?? 諛곗슦?ㅼ쓣 ?뺣젹?섍퀬 ?낆옣 ?쒗넗由ъ뼹???쒖옉?⑸땲??
     /// </summary>
     private void OnEnable()
     {
@@ -172,7 +174,7 @@ public class OOTechStage1GroupController : MonoBehaviour
     }
 
     /// <summary>
-    /// Stage1Group이 꺼지면 배우들의 이벤트 연결과 카메라 상태를 원위치로 돌립니다.
+    /// Stage1Group??爰쇱?硫?諛곗슦?ㅼ쓽 ?대깽???곌껐怨?移대찓???곹깭瑜??먯쐞移섎줈 ?뚮┰?덈떎.
     /// </summary>
     private void OnDisable()
     {
@@ -193,7 +195,7 @@ public class OOTechStage1GroupController : MonoBehaviour
     }
 
     /// <summary>
-    /// 매 프레임 Moran 이동, 상호작용 가능 상태, 호박죽 완성 조건을 갱신합니다.
+    /// 留??꾨젅??Moran ?대룞, ?곹샇?묒슜 媛???곹깭, ?몃컯二??꾩꽦 議곌굔??媛깆떊?⑸땲??
     /// </summary>
     private void Update()
     {
@@ -227,12 +229,12 @@ public class OOTechStage1GroupController : MonoBehaviour
 
     private void ResolveReferences()
     {
-        Object_StageMap1 = FindChildByName(transform, _stageMap1Name);
-        Object_StageMap2 = FindChildByName(transform, _stageMap2Name);
-        Object_StageMap3 = FindChildByName(transform, _stageMap3Name);
-        Object_Moran = FindChildByName(transform, _moranObjectName);
-        Object_VillageChief = FindChildByName(transform, _villageChiefObjectName);
-        Object_Cart = FindChildByName(transform, _cartObjectName);
+        Object_StageMap1 = RequestChildObjectByName(transform, _stageMap1Name);
+        Object_StageMap2 = RequestChildObjectByName(transform, _stageMap2Name);
+        Object_StageMap3 = RequestChildObjectByName(transform, _stageMap3Name);
+        Object_Moran = RequestChildObjectByName(transform, _moranObjectName);
+        Object_VillageChief = RequestChildObjectByName(transform, _villageChiefObjectName);
+        Object_Cart = RequestChildObjectByName(transform, _cartObjectName);
 
         if (Object_Moran != null)
         {
@@ -252,8 +254,8 @@ public class OOTechStage1GroupController : MonoBehaviour
     }
 
     /// <summary>
-    /// Stage1Group이 열릴 때 전용 BGM을 SoundManager에게 요청합니다.
-    /// 장면 배우가 AudioSource를 직접 잡지 않고, 음향 감독에게 음악 큐만 전달하는 구조입니다.
+    /// Stage1Group???대┫ ???꾩슜 BGM??SoundManager?먭쾶 ?붿껌?⑸땲??
+    /// ?λ㈃ 諛곗슦媛 AudioSource瑜?吏곸젒 ?≪? ?딄퀬, ?뚰뼢 媛먮룆?먭쾶 ?뚯븙 ?먮쭔 ?꾨떖?섎뒗 援ъ“?낅땲??
     /// </summary>
     private void RequestPlayStage1BGM()
     {
@@ -316,10 +318,10 @@ public class OOTechStage1GroupController : MonoBehaviour
 
     private void ResolveStageNameText()
     {
-        GameObject stageNameObject = FindChildByName(transform, _stageNameObjectName);
+        GameObject stageNameObject = RequestChildObjectByName(transform, _stageNameObjectName);
 
         if (stageNameObject == null)
-            stageNameObject = FindSceneObjectByName(_stageNameObjectName);
+            stageNameObject = RequestSceneObjectByName(_stageNameObjectName);
 
         Text_StageName = stageNameObject != null ? stageNameObject.GetComponentInChildren<TextMeshProUGUI>(true) : null;
 
@@ -329,7 +331,7 @@ public class OOTechStage1GroupController : MonoBehaviour
 
     private void DisablePlaceholderCanvas()
     {
-        GameObject placeholderCanvas = FindChildByName(transform, _placeholderCanvasName);
+        GameObject placeholderCanvas = RequestChildObjectByName(transform, _placeholderCanvasName);
 
         if (placeholderCanvas != null)
             placeholderCanvas.SetActive(false);
@@ -344,7 +346,7 @@ public class OOTechStage1GroupController : MonoBehaviour
         HUD_Road.PrepareHUD();
         HUD_Road.SetCookingUnlocked(true);
         HUD_Road.SetHUDVisible(true);
-        RequestUpdateStageQuestWithFallback(_stageQuestDataId, "동쪽 마을의 촌장을 만나세요.");
+        RequestUpdateStageQuestWithFallback(_stageQuestDataId, "?숈そ 留덉쓣??珥뚯옣??留뚮굹?몄슂.");
     }
 
     private void PrepareStage()
@@ -360,8 +362,8 @@ public class OOTechStage1GroupController : MonoBehaviour
     }
 
     /// <summary>
-    /// NPC와 수레 배우에게 상호작용 역할표를 붙입니다.
-    /// 표식은 별도 Marker가 맡기 때문에 Actor에는 E 버튼 오브젝트를 연결하지 않습니다.
+    /// NPC? ?섎젅 諛곗슦?먭쾶 ?곹샇?묒슜 ??븷?쒕? 遺숈엯?덈떎.
+    /// ?쒖떇? 蹂꾨룄 Marker媛 留↔린 ?뚮Ц??Actor?먮뒗 E 踰꾪듉 ?ㅻ툕?앺듃瑜??곌껐?섏? ?딆뒿?덈떎.
     /// </summary>
     private void PrepareInteractionActors()
     {
@@ -434,10 +436,10 @@ public class OOTechStage1GroupController : MonoBehaviour
         if (targetObject == null)
             return null;
 
-        GameObject markerObject = FindChildByName(transform, markerObjectName);
+        GameObject markerObject = RequestChildObjectByName(transform, markerObjectName);
 
         if (markerObject == null)
-            markerObject = FindSceneObjectByName(markerObjectName);
+            markerObject = RequestSceneObjectByName(markerObjectName);
 
         if (markerObject == null)
         {
@@ -502,8 +504,8 @@ public class OOTechStage1GroupController : MonoBehaviour
     }
 
     /// <summary>
-    /// Stage1 입장 튜토리얼을 데이터 기반으로 띄우고, 실패하면 대체 안내판을 띄웁니다.
-    /// 감독 비유로는 정식 안내 배우가 무대에 못 올라오면 예비 안내판을 즉시 세워 공연을 멈추지 않는 장치입니다.
+    /// Stage1 ?낆옣 ?쒗넗由ъ뼹???곗씠??湲곕컲?쇰줈 ?꾩슦怨? ?ㅽ뙣?섎㈃ ?泥??덈궡?먯쓣 ?꾩썎?덈떎.
+    /// 媛먮룆 鍮꾩쑀濡쒕뒗 ?뺤떇 ?덈궡 諛곗슦媛 臾대???紐??щ씪?ㅻ㈃ ?덈퉬 ?덈궡?먯쓣 利됱떆 ?몄썙 怨듭뿰??硫덉텛吏 ?딅뒗 ?μ튂?낅땲??
     /// </summary>
     private IEnumerator ShowEntryTutorialRoutine()
     {
@@ -569,7 +571,7 @@ public class OOTechStage1GroupController : MonoBehaviour
         }
 
         if (tutorialGroup == null)
-            tutorialGroup = FindSceneObjectByName(_tutorialGuideGroupName);
+            tutorialGroup = RequestSceneObjectByName(_tutorialGuideGroupName);
 
         if (tutorialGroup == null)
             return null;
@@ -580,8 +582,8 @@ public class OOTechStage1GroupController : MonoBehaviour
     }
 
     /// <summary>
-    /// TutorialGuideGroup이 다른 UI 뒤에 묻히지 않도록 Canvas 우선순위를 올립니다.
-    /// Game View에서는 입장 안내가 HUD와 배경보다 앞에서 보이게 됩니다.
+    /// TutorialGuideGroup???ㅻⅨ UI ?ㅼ뿉 臾삵엳吏 ?딅룄濡?Canvas ?곗꽑?쒖쐞瑜??щ┰?덈떎.
+    /// Game View?먯꽌???낆옣 ?덈궡媛 HUD? 諛곌꼍蹂대떎 ?욎뿉??蹂댁씠寃??⑸땲??
     /// </summary>
     private void ForceTutorialGuideVisible(GameObject tutorialGroup)
     {
@@ -624,8 +626,8 @@ public class OOTechStage1GroupController : MonoBehaviour
     }
 
     /// <summary>
-    /// 정식 TutorialGuideGroup이 실제로 Game View에 표시될 준비가 됐는지 확인합니다.
-    /// false면 입력 잠금만 남지 않도록 fallback 안내판을 켭니다.
+    /// ?뺤떇 TutorialGuideGroup???ㅼ젣濡?Game View???쒖떆??以鍮꾧? ?먮뒗吏 ?뺤씤?⑸땲??
+    /// false硫??낅젰 ?좉툑留??⑥? ?딅룄濡?fallback ?덈궡?먯쓣 耳?땲??
     /// </summary>
     private bool IsTutorialGuideActuallyVisible()
     {
@@ -646,8 +648,8 @@ public class OOTechStage1GroupController : MonoBehaviour
     }
 
     /// <summary>
-    /// 정식 튜토리얼 UI가 실종됐을 때만 사용하는 안전 안내판입니다.
-    /// 클릭하면 FinishEntryTutorial을 호출해서 플레이어가 정지 상태에 갇히지 않습니다.
+    /// ?뺤떇 ?쒗넗由ъ뼹 UI媛 ?ㅼ쥌?먯쓣 ?뚮쭔 ?ъ슜?섎뒗 ?덉쟾 ?덈궡?먯엯?덈떎.
+    /// ?대┃?섎㈃ FinishEntryTutorial???몄텧?댁꽌 ?뚮젅?댁뼱媛 ?뺤? ?곹깭??媛뉙엳吏 ?딆뒿?덈떎.
     /// </summary>
     private void ShowEntryTutorialFallback(string title, string body)
     {
@@ -749,7 +751,7 @@ public class OOTechStage1GroupController : MonoBehaviour
         }
 
         if (dialogueGroup == null)
-            dialogueGroup = FindSceneObjectByName(_dialogueGroupName);
+            dialogueGroup = RequestSceneObjectByName(_dialogueGroupName);
 
         if (dialogueGroup == null)
             return null;
@@ -763,7 +765,7 @@ public class OOTechStage1GroupController : MonoBehaviour
         if (OOTechUIManager.Inst != null && OOTechUIManager.Inst.CloseUI(_dialogueGroupName))
             return;
 
-        GameObject dialogueGroup = FindSceneObjectByName(_dialogueGroupName);
+        GameObject dialogueGroup = RequestSceneObjectByName(_dialogueGroupName);
 
         if (dialogueGroup != null)
             dialogueGroup.SetActive(false);
@@ -778,7 +780,7 @@ public class OOTechStage1GroupController : MonoBehaviour
     }
 
     /// <summary>
-    /// 촌장과 대화합니다. 처음에는 의뢰, 호박죽 10개 이후에는 보상과 Stage1 완료 연출로 갈라집니다.
+    /// 珥뚯옣怨???뷀빀?덈떎. 泥섏쓬?먮뒗 ?섎ː, ?몃컯二?10媛??댄썑?먮뒗 蹂댁긽怨?Stage1 ?꾨즺 ?곗텧濡?媛덈씪吏묐땲??
     /// </summary>
     private IEnumerator PlayVillageChiefDialogueRoutine()
     {
@@ -799,7 +801,7 @@ public class OOTechStage1GroupController : MonoBehaviour
         if (isFinalTalk)
             yield return CompleteVillageChiefFinalRewardRoutine();
         else
-            RequestUpdateStageQuestWithFallback(_villageChiefNextQuestDataId, "촌장의 부탁을 듣고 마을에 필요한 음식을 준비하세요.");
+            RequestUpdateStageQuestWithFallback(_villageChiefNextQuestDataId, "珥뚯옣??遺?곸쓣 ?ｊ퀬 留덉쓣???꾩슂???뚯떇??以鍮꾪븯?몄슂.");
 
         _isDialoguePlaying = false;
         _isInputLocked = false;
@@ -815,7 +817,7 @@ public class OOTechStage1GroupController : MonoBehaviour
     }
 
     /// <summary>
-    /// Stage1-2 수레 선택지입니다. 예를 누르면 시간이 흐른 연출 뒤 Stage1-3으로 넘어가고 호박 10개가 들어옵니다.
+    /// Stage1-2 ?섎젅 ?좏깮吏?낅땲?? ?덈? ?꾨Ⅴ硫??쒓컙???먮Ⅸ ?곗텧 ??Stage1-3?쇰줈 ?섏뼱媛怨??몃컯 10媛쒓? ?ㅼ뼱?듬땲??
     /// </summary>
     private IEnumerator PlayCartChoiceRoutine()
     {
@@ -985,8 +987,8 @@ public class OOTechStage1GroupController : MonoBehaviour
     }
 
     /// <summary>
-    /// 촌장에게 호박죽 10개를 넘기고 Stage2 요리에 필요한 청양고추와 김치를 받습니다.
-    /// 영화로 치면 배우가 소품 담당에게 완성된 음식 소품을 반납하고, 다음 장면 소품을 받아 가는 교환 큐입니다.
+    /// 珥뚯옣?먭쾶 ?몃컯二?10媛쒕? ?섍린怨?Stage2 ?붾━???꾩슂??泥?뼇怨좎텛? 源移섎? 諛쏆뒿?덈떎.
+    /// ?곹솕濡?移섎㈃ 諛곗슦媛 ?뚰뭹 ?대떦?먭쾶 ?꾩꽦???뚯떇 ?뚰뭹??諛섎궔?섍퀬, ?ㅼ쓬 ?λ㈃ ?뚰뭹??諛쏆븘 媛??援먰솚 ?먯엯?덈떎.
     /// </summary>
     private bool RequestExchangePumpkinSoupForChiefReward()
     {
@@ -1013,8 +1015,8 @@ public class OOTechStage1GroupController : MonoBehaviour
     }
 
     /// <summary>
-    /// 보상 아이템이 이미 일부 들어와 있어도 목표 수량까지만 채웁니다.
-    /// 같은 장면이 반복 실행되어도 보상이 중복으로 불어나는 일을 막기 위한 안전장치입니다.
+    /// 蹂댁긽 ?꾩씠?쒖씠 ?대? ?쇰? ?ㅼ뼱? ?덉뼱??紐⑺몴 ?섎웾源뚯?留?梨꾩썎?덈떎.
+    /// 媛숈? ?λ㈃??諛섎났 ?ㅽ뻾?섏뼱??蹂댁긽??以묐났?쇰줈 遺덉뼱?섎뒗 ?쇱쓣 留됯린 ?꾪븳 ?덉쟾?μ튂?낅땲??
     /// </summary>
     private void AddInventoryItemToTargetCount(string itemDataId, int targetCount)
     {
@@ -1197,10 +1199,10 @@ public class OOTechStage1GroupController : MonoBehaviour
         else if (_currentMapIndex == 2)
             mapObject = Object_StageMap3;
 
-        return FindBestMapRenderer(mapObject);
+        return RequestBestMapRenderer(mapObject);
     }
 
-    private SpriteRenderer FindBestMapRenderer(GameObject mapObject)
+    private SpriteRenderer RequestBestMapRenderer(GameObject mapObject)
     {
         if (mapObject == null)
             return null;
@@ -1311,8 +1313,8 @@ public class OOTechStage1GroupController : MonoBehaviour
     }
 
     /// <summary>
-    /// Animator Controller에 Victory Trigger가 있으면 함께 발동합니다.
-    /// Game View에서는 직접 Play와 Transition Trigger를 같이 써서 Victory가 Idle에 덮이지 않게 합니다.
+    /// Animator Controller??Victory Trigger媛 ?덉쑝硫??④퍡 諛쒕룞?⑸땲??
+    /// Game View?먯꽌??吏곸젒 Play? Transition Trigger瑜?媛숈씠 ?⑥꽌 Victory媛 Idle????씠吏 ?딄쾶 ?⑸땲??
     /// </summary>
     private void RequestSetMoranTrigger(string triggerName)
     {
@@ -1366,7 +1368,7 @@ public class OOTechStage1GroupController : MonoBehaviour
             yield break;
 
         OO_Stage stageData = OOTechGameDataManager.Inst != null ? OOTechGameDataManager.Inst.GetStageData(_stageDataId) : null;
-        Text_StageName.text = stageData != null && !string.IsNullOrEmpty(stageData.Name) ? stageData.Name : "동쪽 마을";
+        Text_StageName.text = stageData != null && !string.IsNullOrEmpty(stageData.Name) ? stageData.Name : "?숈そ 留덉쓣";
         Text_StageName.gameObject.SetActive(true);
 
         yield return FadeTextRoutine(0f, 1f, _stageTitleFadeSeconds);
@@ -1427,12 +1429,12 @@ public class OOTechStage1GroupController : MonoBehaviour
     }
 
     /// <summary>
-    /// Stage1 무대에 미리 놓인 페이드 소품을 찾아 연결합니다.
-    /// 영화 비유로는 암전 조명을 새로 만드는 것이 아니라, 조명팀이 설치해 둔 암전 장치를 큐시트에 연결하는 단계입니다.
+    /// Stage1 臾대???誘몃━ ?볦씤 ?섏씠???뚰뭹??李얠븘 ?곌껐?⑸땲??
+    /// ?곹솕 鍮꾩쑀濡쒕뒗 ?붿쟾 議곕챸???덈줈 留뚮뱶??寃껋씠 ?꾨땲?? 議곕챸????ㅼ튂?????붿쟾 ?μ튂瑜??먯떆?몄뿉 ?곌껐?섎뒗 ?④퀎?낅땲??
     /// </summary>
     private bool ResolveFadeCanvasFromScene()
     {
-        GameObject canvasObject = FindChildByName(transform, "Canvas_Stage1Fade");
+        GameObject canvasObject = RequestChildObjectByName(transform, "Canvas_Stage1Fade");
 
         if (canvasObject == null)
             return false;
@@ -1518,12 +1520,12 @@ public class OOTechStage1GroupController : MonoBehaviour
     }
 
     /// <summary>
-    /// Stage1 무대에 미리 놓인 임무완수 패널을 찾아 연결합니다.
-    /// Game View에서는 임무 완료 후 이 Canvas가 켜지고, 버튼은 다음 Road 그룹을 여는 큐를 호출합니다.
+    /// Stage1 臾대???誘몃━ ?볦씤 ?꾨Т?꾩닔 ?⑤꼸??李얠븘 ?곌껐?⑸땲??
+    /// Game View?먯꽌???꾨Т ?꾨즺 ????Canvas媛 耳쒖?怨? 踰꾪듉? ?ㅼ쓬 Road 洹몃９???щ뒗 ?먮? ?몄텧?⑸땲??
     /// </summary>
     private bool ResolveClearCanvasFromScene()
     {
-        GameObject canvasObject = FindChildByName(transform, "Canvas_Stage1Clear");
+        GameObject canvasObject = RequestChildObjectByName(transform, "Canvas_Stage1Clear");
 
         if (canvasObject == null)
             return false;
@@ -1546,8 +1548,8 @@ public class OOTechStage1GroupController : MonoBehaviour
     }
 
     /// <summary>
-    /// Stage1 임무완수 패널에 현재 보상 문구를 반영합니다.
-    /// 영화 비유로는 공연 마지막 자막판에 실제 지급된 소품 이름을 다시 적어 관객에게 보여주는 단계입니다.
+    /// Stage1 ?꾨Т?꾩닔 ?⑤꼸???꾩옱 蹂댁긽 臾멸뎄瑜?諛섏쁺?⑸땲??
+    /// ?곹솕 鍮꾩쑀濡쒕뒗 怨듭뿰 留덉?留??먮쭑?먯뿉 ?ㅼ젣 吏湲됰맂 ?뚰뭹 ?대쫫???ㅼ떆 ?곸뼱 愿媛앹뿉寃?蹂댁뿬二쇰뒗 ?④퀎?낅땲??
     /// </summary>
     private void ApplyClearPanelText()
     {
@@ -1647,7 +1649,7 @@ public class OOTechStage1GroupController : MonoBehaviour
     {
         if (OOTechUIManager.Inst != null)
         {
-            GameObject nextGroup = FindSceneObjectByName(_nextRoadGroupName);
+            GameObject nextGroup = RequestSceneObjectByName(_nextRoadGroupName);
 
             if (nextGroup != null)
                 OOTechUIManager.Inst.RegisterUI(_nextRoadGroupName, nextGroup);
@@ -1657,7 +1659,7 @@ public class OOTechStage1GroupController : MonoBehaviour
             return;
         }
 
-        GameObject nextGroupObject = FindSceneObjectByName(_nextRoadGroupName);
+        GameObject nextGroupObject = RequestSceneObjectByName(_nextRoadGroupName);
         gameObject.SetActive(false);
 
         if (nextGroupObject != null)
@@ -1670,13 +1672,13 @@ public class OOTechStage1GroupController : MonoBehaviour
         return characterData != null && !string.IsNullOrEmpty(characterData.Name) ? characterData.Name : fallbackName;
     }
 
-    private GameObject FindSceneObjectByName(string objectName)
+    private GameObject RequestSceneObjectByName(string objectName)
     {
         Scene scene = SceneManager.GetActiveScene();
 
         foreach (GameObject rootObject in scene.GetRootGameObjects())
         {
-            GameObject foundObject = FindChildByName(rootObject.transform, objectName);
+            GameObject foundObject = RequestChildObjectByName(rootObject.transform, objectName);
 
             if (foundObject != null)
                 return foundObject;
@@ -1685,7 +1687,7 @@ public class OOTechStage1GroupController : MonoBehaviour
         return null;
     }
 
-    private GameObject FindChildByName(Transform rootTransform, string objectName)
+    private GameObject RequestChildObjectByName(Transform rootTransform, string objectName)
     {
         if (rootTransform == null || string.IsNullOrEmpty(objectName))
             return null;
@@ -1695,7 +1697,7 @@ public class OOTechStage1GroupController : MonoBehaviour
 
         for (int index = 0; index < rootTransform.childCount; index++)
         {
-            GameObject foundObject = FindChildByName(rootTransform.GetChild(index), objectName);
+            GameObject foundObject = RequestChildObjectByName(rootTransform.GetChild(index), objectName);
 
             if (foundObject != null)
                 return foundObject;
@@ -1704,3 +1706,5 @@ public class OOTechStage1GroupController : MonoBehaviour
         return null;
     }
 }
+
+

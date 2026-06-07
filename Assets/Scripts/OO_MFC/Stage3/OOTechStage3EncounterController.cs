@@ -150,7 +150,12 @@ public class OOTechStage3EncounterController : MonoBehaviour
         if (Cue_Camera == null)
             Cue_Camera = gameObject.AddComponent<OOTechStage2CameraCue>();
 
-        HUD_Road = HUD_Road != null ? HUD_Road : FindAnyObjectByType<OOTechRoadHUDController>(FindObjectsInactive.Include);
+        HUD_Road = HUD_Road != null ? HUD_Road : OOTechSceneQuery.RequestFirstComponent<OOTechRoadHUDController>(
+            delegate (OOTechRoadHUDController targetHUD)
+            {
+                return targetHUD != null && targetHUD.gameObject.activeInHierarchy;
+            },
+            true);
         Button_NextStage = Button_NextStage != null ? Button_NextStage : ResolveNextStageButton();
         Object_ClearCanvas = Object_ClearCanvas != null ? Object_ClearCanvas : ResolveClearCanvasObject();
     }
@@ -197,7 +202,7 @@ public class OOTechStage3EncounterController : MonoBehaviour
 
         foreach (string previousGroupName in previousGroupNameArray)
         {
-            GameObject previousGroupObject = FindSceneObjectByName(previousGroupName);
+            GameObject previousGroupObject = RequestSceneObjectByName(previousGroupName);
 
             if (previousGroupObject == null || previousGroupObject == gameObject)
                 continue;
@@ -307,7 +312,7 @@ public class OOTechStage3EncounterController : MonoBehaviour
         if (Actor_MrJaeik == null)
             return;
 
-        SpriteRenderer[] rendererArray = FindObjectsByType<SpriteRenderer>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+        List<SpriteRenderer> rendererArray = OOTechSceneQuery.RequestCollectComponents<SpriteRenderer>(true);
 
         foreach (SpriteRenderer spriteRenderer in rendererArray)
         {
@@ -602,7 +607,7 @@ public class OOTechStage3EncounterController : MonoBehaviour
     /// </summary>
     private GameObject ResolveOrCreateDeathOverlay()
     {
-        GameObject overlayObject = FindChildByName(transform, "Canvas_Stage3DeathOverlay");
+        GameObject overlayObject = RequestChildObjectByName(transform, "Canvas_Stage3DeathOverlay");
 
         if (overlayObject == null)
             overlayObject = new GameObject("Canvas_Stage3DeathOverlay", typeof(RectTransform), typeof(Canvas), typeof(CanvasScaler), typeof(GraphicRaycaster));
@@ -700,7 +705,7 @@ public class OOTechStage3EncounterController : MonoBehaviour
 
     private void RequestOpenCookingGroup()
     {
-        GameObject cookingGroup = FindSceneObjectByName(_cookingGroupName);
+        GameObject cookingGroup = RequestSceneObjectByName(_cookingGroupName);
         OOTechGroupNavigationHistory.SetPreviousGroup(_cookingGroupName, gameObject.name);
 
         if (cookingGroup != null && OOTechUIManager.Inst != null)
@@ -744,7 +749,7 @@ public class OOTechStage3EncounterController : MonoBehaviour
         if (cookingGroup == null)
             return null;
 
-        GameObject returnButtonObject = FindChildByName(cookingGroup.transform, "Button_RuntimeReturn");
+        GameObject returnButtonObject = RequestChildObjectByName(cookingGroup.transform, "Button_RuntimeReturn");
 
         if (returnButtonObject == null)
             return null;
@@ -767,7 +772,7 @@ public class OOTechStage3EncounterController : MonoBehaviour
             return;
         }
 
-        GameObject cookingGroup = FindSceneObjectByName(_cookingGroupName);
+        GameObject cookingGroup = RequestSceneObjectByName(_cookingGroupName);
 
         if (cookingGroup != null)
             cookingGroup.SetActive(false);
@@ -791,7 +796,7 @@ public class OOTechStage3EncounterController : MonoBehaviour
     {
         if (OOTechUIManager.Inst != null)
         {
-            GameObject nextGroup = FindSceneObjectByName(nextGroupName);
+            GameObject nextGroup = RequestSceneObjectByName(nextGroupName);
 
             if (nextGroup != null)
                 OOTechUIManager.Inst.RegisterUI(nextGroupName, nextGroup);
@@ -801,8 +806,8 @@ public class OOTechStage3EncounterController : MonoBehaviour
             return;
         }
 
-        GameObject currentGroup = FindSceneObjectByName(currentGroupName);
-        GameObject nextGroupObject = FindSceneObjectByName(nextGroupName);
+        GameObject currentGroup = RequestSceneObjectByName(currentGroupName);
+        GameObject nextGroupObject = RequestSceneObjectByName(nextGroupName);
 
         if (currentGroup != null)
             currentGroup.SetActive(false);
@@ -1043,7 +1048,7 @@ public class OOTechStage3EncounterController : MonoBehaviour
 
     private Button ResolveOrCreateStage3ClearButton()
     {
-        GameObject canvasObject = FindChildByName(transform, _stageClearCanvasName);
+        GameObject canvasObject = RequestChildObjectByName(transform, _stageClearCanvasName);
 
         if (canvasObject == null)
         {
@@ -1101,7 +1106,7 @@ public class OOTechStage3EncounterController : MonoBehaviour
 
     private GameObject ResolveOrCreateUIObject(Transform parentTransform, string objectName)
     {
-        GameObject targetObject = FindChildByName(parentTransform, objectName);
+        GameObject targetObject = RequestChildObjectByName(parentTransform, objectName);
 
         if (targetObject != null)
             return targetObject;
@@ -1154,13 +1159,13 @@ public class OOTechStage3EncounterController : MonoBehaviour
         rectTransform.sizeDelta = sizeDelta;
     }
 
-    private GameObject FindSceneObjectByName(string objectName)
+    private GameObject RequestSceneObjectByName(string objectName)
     {
         Scene scene = SceneManager.GetActiveScene();
 
         foreach (GameObject rootObject in scene.GetRootGameObjects())
         {
-            GameObject foundObject = FindChildByName(rootObject.transform, objectName);
+            GameObject foundObject = RequestChildObjectByName(rootObject.transform, objectName);
 
             if (foundObject != null)
                 return foundObject;
@@ -1169,7 +1174,7 @@ public class OOTechStage3EncounterController : MonoBehaviour
         return null;
     }
 
-    private GameObject FindChildByName(Transform rootTransform, string objectName)
+    private GameObject RequestChildObjectByName(Transform rootTransform, string objectName)
     {
         if (rootTransform == null || string.IsNullOrEmpty(objectName))
             return null;
@@ -1179,7 +1184,7 @@ public class OOTechStage3EncounterController : MonoBehaviour
 
         for (int index = 0; index < rootTransform.childCount; index++)
         {
-            GameObject foundObject = FindChildByName(rootTransform.GetChild(index), objectName);
+            GameObject foundObject = RequestChildObjectByName(rootTransform.GetChild(index), objectName);
 
             if (foundObject != null)
                 return foundObject;
@@ -1188,3 +1193,4 @@ public class OOTechStage3EncounterController : MonoBehaviour
         return null;
     }
 }
+

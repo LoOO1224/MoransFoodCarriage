@@ -1,9 +1,9 @@
-// =============================================================================
-// OO_MFC 역할 주석
-// - 스크립트: OOTechStage2GroupController.cs
-// - 역할: Stage2Group의 큐시트 순서만 지휘하는 Controller입니다.
-// - 영화 비유: 무대감독은 "세 배우 입장 -> 악덕오리 대사 -> 몽룡 등장 -> 요리 임무 -> 퇴장" 큐만 부릅니다.
-// - 유지보수 포인트: 배우 이동은 OOTechStageActorMotion, UI는 HUD/Dialog, 데이터는 GameDataManager가 맡습니다.
+﻿// =============================================================================
+// OO_MFC ??븷 二쇱꽍
+// - ?ㅽ겕由쏀듃: OOTechStage2GroupController.cs
+// - ??븷: Stage2Group???먯떆???쒖꽌留?吏?섑븯??Controller?낅땲??
+// - ?곹솕 鍮꾩쑀: 臾대?媛먮룆? "??諛곗슦 ?낆옣 -> ?낅뜒?ㅻ━ ???-> 紐쎈！ ?깆옣 -> ?붾━ ?꾨Т -> ?댁옣" ?먮쭔 遺由낅땲??
+// - ?좎?蹂댁닔 ?ъ씤?? 諛곗슦 ?대룞? OOTechStageActorMotion, UI??HUD/Dialog, ?곗씠?곕뒗 GameDataManager媛 留≪뒿?덈떎.
 // =============================================================================
 using System;
 using System.Collections;
@@ -17,8 +17,8 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 /// <summary>
-/// Stage2Group의 전체 진행 순서를 관리합니다.
-/// Controller는 장면 순서를 지휘하고, 실제 배우 연기는 각 오브젝트의 역할 컴포넌트가 수행합니다.
+/// Stage2Group???꾩껜 吏꾪뻾 ?쒖꽌瑜?愿由ы빀?덈떎.
+/// Controller???λ㈃ ?쒖꽌瑜?吏?섑븯怨? ?ㅼ젣 諛곗슦 ?곌린??媛??ㅻ툕?앺듃????븷 而댄룷?뚰듃媛 ?섑뻾?⑸땲??
 /// </summary>
 [DisallowMultipleComponent]
 public class OOTechStage2GroupController : MonoBehaviour
@@ -46,7 +46,7 @@ public class OOTechStage2GroupController : MonoBehaviour
     private string _entryPointEId = "EntryPoint_E";
     private string _tempColliderRoleId = "Collider_Temp";
     private string _roadMissionDataId = "Stage2_Road_Quest_01";
-    private string _roadMissionFallbackText = "서쪽 도시에 가 탐관오리의 자택을 방문하세요.";
+    private string _roadMissionFallbackText = "?쒖そ ?꾩떆??媛 ?먭??ㅻ━???먰깮??諛⑸Ц?섏꽭??";
     private string _stageQuestDataId = "Stage2_Quest_01";
     private string _greedyDuckFirstDialogueId = "character_GreedyDuck_01";
     private string _greedyDuckSecondDialogueId = "character_GreedyDuck_02";
@@ -70,8 +70,8 @@ public class OOTechStage2GroupController : MonoBehaviour
     private string _placeholderCanvasName = "Canvas_StagePlaceholder";
     private string _nextButtonName = "Button_NextStage";
     private string _stageClearCanvasName = "Canvas_Stage2Clear";
-    private string _stageClearTitle = "서쪽 도시 임무 완수";
-    private string _stageClearMessage = "이몽령이 여정의 보탬으로 쌀 10 가마니와 꿀 10 단지를 건넸습니다. 다음 길로 나설 준비가 끝났습니다.";
+    private string _stageClearTitle = "?쒖そ ?꾩떆 ?꾨Т ?꾩닔";
+    private string _stageClearMessage = "?대そ?뱀씠 ?ъ젙??蹂댄꺃?쇰줈 ? 10 媛留덈땲? 轅 10 ?⑥?瑜?嫄대꽭?듬땲?? ?ㅼ쓬 湲몃줈 ?섏꽕 以鍮꾧? ?앸궗?듬땲??";
     private float _entryMoveSpeed = 145f;
     private float _greedyDuckEscapeSpeed = 820f;
     private float _minimumGreedyDuckEscapeSpeed = 720f;
@@ -116,7 +116,7 @@ public class OOTechStage2GroupController : MonoBehaviour
     private OO_Stage2CueSheet Data_CueSheet;
 
     /// <summary>
-    /// Stage2Group이 켜지면 모든 배우의 역할표를 찾고 큐시트를 시작합니다.
+    /// Stage2Group??耳쒖?硫?紐⑤뱺 諛곗슦????븷?쒕? 李얘퀬 ?먯떆?몃? ?쒖옉?⑸땲??
     /// </summary>
     private void OnEnable()
     {
@@ -130,7 +130,7 @@ public class OOTechStage2GroupController : MonoBehaviour
     }
 
     /// <summary>
-    /// Stage2Group이 꺼질 때 입력, 마커, 코루틴, 카메라 상태를 정리합니다.
+    /// Stage2Group??爰쇱쭏 ???낅젰, 留덉빱, 肄붾（?? 移대찓???곹깭瑜??뺣━?⑸땲??
     /// </summary>
     private void OnDisable()
     {
@@ -151,7 +151,7 @@ public class OOTechStage2GroupController : MonoBehaviour
     }
 
     /// <summary>
-    /// 플레이어 조작 단계에서 김치찌개 보유 여부와 GreedyDuck 상호작용 가능 상태를 갱신합니다.
+    /// ?뚮젅?댁뼱 議곗옉 ?④퀎?먯꽌 源移섏컡媛?蹂댁쑀 ?щ?? GreedyDuck ?곹샇?묒슜 媛???곹깭瑜?媛깆떊?⑸땲??
     /// </summary>
     private void Update()
     {
@@ -212,7 +212,7 @@ public class OOTechStage2GroupController : MonoBehaviour
         if (actor != null)
             return actor;
 
-        GameObject fallbackObject = FindChildByName(transform, _greedyDuckFallbackObjectName);
+        GameObject fallbackObject = RequestChildObjectByName(transform, _greedyDuckFallbackObjectName);
 
         if (fallbackObject == null)
             return null;
@@ -225,7 +225,7 @@ public class OOTechStage2GroupController : MonoBehaviour
         GameObject greedyDuckObject = ResolveRoleObject(_greedyDuckRoleId);
 
         if (greedyDuckObject == null)
-            greedyDuckObject = FindChildByName(transform, _greedyDuckFallbackObjectName);
+            greedyDuckObject = RequestChildObjectByName(transform, _greedyDuckFallbackObjectName);
 
         return greedyDuckObject != null ? greedyDuckObject.GetComponent<OOTechVisibleSpriteGuard>() : null;
     }
@@ -240,7 +240,7 @@ public class OOTechStage2GroupController : MonoBehaviour
                 return roleObject;
         }
 
-        return FindChildByName(transform, roleId);
+        return RequestChildObjectByName(transform, roleId);
     }
 
     private Transform ResolveRoleTransform(string roleId)
@@ -260,7 +260,7 @@ public class OOTechStage2GroupController : MonoBehaviour
     }
 
     /// <summary>
-    /// 배경 전체가 카메라에 들어오도록 맞추고, 기존 따라가기 카메라는 잠시 끕니다.
+    /// 諛곌꼍 ?꾩껜媛 移대찓?쇱뿉 ?ㅼ뼱?ㅻ룄濡?留욎텛怨? 湲곗〈 ?곕씪媛湲?移대찓?쇰뒗 ?좎떆 ?뺣땲??
     /// </summary>
     private void PrepareStageView()
     {
@@ -324,8 +324,8 @@ public class OOTechStage2GroupController : MonoBehaviour
     }
 
     /// <summary>
-    /// OO_Stage2CueSheet 데이터에서 Stage2 공연 큐시트를 찾습니다.
-    /// JSON이 아직 컨버팅되지 않았으면 기존 fallback 값으로 공연을 이어갑니다.
+    /// OO_Stage2CueSheet ?곗씠?곗뿉??Stage2 怨듭뿰 ?먯떆?몃? 李얠뒿?덈떎.
+    /// JSON???꾩쭅 而⑤쾭?낅릺吏 ?딆븯?쇰㈃ 湲곗〈 fallback 媛믪쑝濡?怨듭뿰???댁뼱媛묐땲??
     /// </summary>
     private void ResolveCueSheetData()
     {
@@ -336,8 +336,8 @@ public class OOTechStage2GroupController : MonoBehaviour
     }
 
     /// <summary>
-    /// 엑셀 큐시트 값을 Stage2Controller의 실행 변수에 적용합니다.
-    /// 영화 비유로는 오늘 공연 큐시트에 적힌 배우 이름표, 대사 번호, 조명 시간을 무대감독 책상에 펼쳐 놓는 단계입니다.
+    /// ?묒? ?먯떆??媛믪쓣 Stage2Controller???ㅽ뻾 蹂?섏뿉 ?곸슜?⑸땲??
+    /// ?곹솕 鍮꾩쑀濡쒕뒗 ?ㅻ뒛 怨듭뿰 ?먯떆?몄뿉 ?곹엺 諛곗슦 ?대쫫?? ???踰덊샇, 議곕챸 ?쒓컙??臾대?媛먮룆 梨낆긽???쇱퀜 ?볥뒗 ?④퀎?낅땲??
     /// </summary>
     private void ApplyCueSheetData()
     {
@@ -426,8 +426,8 @@ public class OOTechStage2GroupController : MonoBehaviour
     }
 
     /// <summary>
-    /// Stage2 클리어 보상을 데이터 목록으로 갱신합니다.
-    /// 영화로 치면 마지막 커튼콜 뒤 관객에게 나눠줄 선물 목록을 큐시트에서 읽는 단계입니다.
+    /// Stage2 ?대━??蹂댁긽???곗씠??紐⑸줉?쇰줈 媛깆떊?⑸땲??
+    /// ?곹솕濡?移섎㈃ 留덉?留?而ㅽ듉肄???愿媛앹뿉寃??섎닠以??좊Ъ 紐⑸줉???먯떆?몄뿉???쎈뒗 ?④퀎?낅땲??
     /// </summary>
     private void ApplyRewardListIfValid(OO_Stage2CueSheet cueSheetData)
     {
@@ -470,8 +470,8 @@ public class OOTechStage2GroupController : MonoBehaviour
     }
 
     /// <summary>
-    /// Stage2 큐시트 본문입니다.
-    /// 각 줄은 감독 큐이고, 실제 이동/애니메이션/UI 출력은 역할 컴포넌트와 매니저에게 요청합니다.
+    /// Stage2 ?먯떆??蹂몃Ц?낅땲??
+    /// 媛?以꾩? 媛먮룆 ?먯씠怨? ?ㅼ젣 ?대룞/?좊땲硫붿씠??UI 異쒕젰? ??븷 而댄룷?뚰듃? 留ㅻ땲??먭쾶 ?붿껌?⑸땲??
     /// </summary>
     private IEnumerator PlayStage2CueRoutine()
     {
@@ -501,8 +501,8 @@ public class OOTechStage2GroupController : MonoBehaviour
     }
 
     /// <summary>
-    /// 이몽룡 등장 이후의 BGM으로 교체합니다.
-    /// 영화로 치면 주인공 등장의 테마 음악을 새로 큐하는 장면입니다.
+    /// ?대そ猷??깆옣 ?댄썑??BGM?쇰줈 援먯껜?⑸땲??
+    /// ?곹솕濡?移섎㈃ 二쇱씤怨??깆옣???뚮쭏 ?뚯븙???덈줈 ?먰븯???λ㈃?낅땲??
     /// </summary>
     private void RequestPlayArrivedBGM()
     {
@@ -636,7 +636,7 @@ public class OOTechStage2GroupController : MonoBehaviour
     {
         yield return ShowDialogueAndWait(_moranQuestDialogueId);
         if (Service_Reward != null)
-            Service_Reward.RequestUpdateStageQuest(HUD_Road, _stageQuestDataId, "김치와 청양고추로 김치찌개를 만들고 악덕오리에게 가져가세요.");
+            Service_Reward.RequestUpdateStageQuest(HUD_Road, _stageQuestDataId, "源移섏? 泥?뼇怨좎텛濡?源移섏컡媛쒕? 留뚮뱾怨??낅뜒?ㅻ━?먭쾶 媛?멸??몄슂.");
     }
 
     private void StartPlayerQuestPhase()
@@ -665,7 +665,7 @@ public class OOTechStage2GroupController : MonoBehaviour
     }
 
     /// <summary>
-    /// 김치찌개를 받은 GreedyDuck이 불타며 퇴장하고 Stage2를 완료하는 마지막 큐입니다.
+    /// 源移섏컡媛쒕? 諛쏆? GreedyDuck??遺덊?硫??댁옣?섍퀬 Stage2瑜??꾨즺?섎뒗 留덉?留??먯엯?덈떎.
     /// </summary>
     private IEnumerator PlayGreedyDuckClearRoutine()
     {
@@ -746,8 +746,8 @@ public class OOTechStage2GroupController : MonoBehaviour
     }
 
     /// <summary>
-    /// OO_StageQuest에서 임무 설명을 꺼냅니다.
-    /// 무대감독은 대사를 직접 쓰지 않고, 기획팀이 적어 둔 큐시트 문장을 읽어 HUD에 넘깁니다.
+    /// OO_StageQuest?먯꽌 ?꾨Т ?ㅻ챸??爰쇰깄?덈떎.
+    /// 臾대?媛먮룆? ??щ? 吏곸젒 ?곗? ?딄퀬, 湲고쉷????곸뼱 ???먯떆??臾몄옣???쎌뼱 HUD???섍퉩?덈떎.
     /// </summary>
     private string RequestResolveStageQuestDescription(string stageQuestDataId, string fallbackText)
     {
@@ -820,15 +820,15 @@ public class OOTechStage2GroupController : MonoBehaviour
     }
 
     /// <summary>
-    /// Stage2가 다시 열릴 때 GreedyDuck 배우를 보이는 상태로 복구합니다.
-    /// 이전 리허설에서 퇴장하며 꺼진 조명과 의상을 다시 켜서 첫 장면에 탐관오리가 보이게 합니다.
+    /// Stage2媛 ?ㅼ떆 ?대┫ ??GreedyDuck 諛곗슦瑜?蹂댁씠???곹깭濡?蹂듦뎄?⑸땲??
+    /// ?댁쟾 由ы뿀?ㅼ뿉???댁옣?섎ŉ 爰쇱쭊 議곕챸怨??섏긽???ㅼ떆 耳쒖꽌 泥??λ㈃???먭??ㅻ━媛 蹂댁씠寃??⑸땲??
     /// </summary>
     private void RestoreGreedyDuckView()
     {
         GameObject greedyDuckObject = Actor_GreedyDuck != null ? Actor_GreedyDuck.gameObject : ResolveRoleObject(_greedyDuckRoleId);
 
         if (greedyDuckObject == null)
-            greedyDuckObject = FindChildByName(transform, _greedyDuckFallbackObjectName);
+            greedyDuckObject = RequestChildObjectByName(transform, _greedyDuckFallbackObjectName);
 
         if (greedyDuckObject == null)
         {
@@ -881,8 +881,8 @@ public class OOTechStage2GroupController : MonoBehaviour
     }
 
     /// <summary>
-    /// Stage2 클리어 전에는 GreedyDuck이 게임 진행의 핵심 배우라 주기적으로 표시 상태를 확인합니다.
-    /// 영화로 치면 탐관오리 배우가 무대에서 사라지면 다음 장면이 막히므로, 조명 담당에게 계속 상태 체크를 맡기는 안전장치입니다.
+    /// Stage2 ?대━???꾩뿉??GreedyDuck??寃뚯엫 吏꾪뻾???듭떖 諛곗슦??二쇨린?곸쑝濡??쒖떆 ?곹깭瑜??뺤씤?⑸땲??
+    /// ?곹솕濡?移섎㈃ ?먭??ㅻ━ 諛곗슦媛 臾대??먯꽌 ?щ씪吏硫??ㅼ쓬 ?λ㈃??留됲엳誘濡? 議곕챸 ?대떦?먭쾶 怨꾩냽 ?곹깭 泥댄겕瑜?留↔린???덉쟾?μ튂?낅땲??
     /// </summary>
     private void MaintainGreedyDuckVisibility()
     {
@@ -899,8 +899,8 @@ public class OOTechStage2GroupController : MonoBehaviour
     }
 
     /// <summary>
-    /// GreedyDuck이 EntryPoint_E로 퇴장할 때만 임시 발판 Collider를 켜고, 퇴장 후 다시 끕니다.
-    /// 영화로 치면 배우가 무대 밖으로 안전하게 나가도록 잠깐 놓는 이동용 받침대입니다.
+    /// GreedyDuck??EntryPoint_E濡??댁옣???뚮쭔 ?꾩떆 諛쒗뙋 Collider瑜?耳쒓퀬, ?댁옣 ???ㅼ떆 ?뺣땲??
+    /// ?곹솕濡?移섎㈃ 諛곗슦媛 臾대? 諛뽰쑝濡??덉쟾?섍쾶 ?섍??꾨줉 ?좉퉸 ?볥뒗 ?대룞??諛쏆묠??낅땲??
     /// </summary>
     private void RequestSetTempColliderActive(bool isActive)
     {
@@ -913,16 +913,16 @@ public class OOTechStage2GroupController : MonoBehaviour
 
     private void ResolveClearButton()
     {
-        GameObject canvasObject = FindChildByName(transform, _stageClearCanvasName);
+        GameObject canvasObject = RequestChildObjectByName(transform, _stageClearCanvasName);
 
         if (canvasObject == null)
-            canvasObject = FindChildByName(transform, _placeholderCanvasName);
+            canvasObject = RequestChildObjectByName(transform, _placeholderCanvasName);
 
         if (canvasObject == null)
             return;
 
         Object_ClearCanvas = canvasObject;
-        Button_NextStage = FindChildByName(canvasObject.transform, _nextButtonName)?.GetComponent<Button>();
+        Button_NextStage = RequestChildObjectByName(canvasObject.transform, _nextButtonName)?.GetComponent<Button>();
 
         if (Button_NextStage == null)
             Button_NextStage = canvasObject.GetComponentInChildren<Button>(true);
@@ -943,8 +943,8 @@ public class OOTechStage2GroupController : MonoBehaviour
     }
 
     /// <summary>
-    /// Stage2 임무완수 패널에 보상 문구를 반영합니다.
-    /// Stage1의 엔딩 자막판과 같은 역할이며, Game View에서는 보상 안내와 넘어가기 버튼을 함께 보여줍니다.
+    /// Stage2 ?꾨Т?꾩닔 ?⑤꼸??蹂댁긽 臾멸뎄瑜?諛섏쁺?⑸땲??
+    /// Stage1???붾뵫 ?먮쭑?먭낵 媛숈? ??븷?대ŉ, Game View?먯꽌??蹂댁긽 ?덈궡? ?섏뼱媛湲?踰꾪듉???④퍡 蹂댁뿬以띾땲??
     /// </summary>
     private void ApplyStage2ClearPanelText()
     {
@@ -969,7 +969,7 @@ public class OOTechStage2GroupController : MonoBehaviour
             canvasScaler.matchWidthOrHeight = 0.5f;
         }
 
-        RectTransform clearPanelRect = FindChildByName(Object_ClearCanvas.transform, "Panel_StageClear")?.GetComponent<RectTransform>();
+        RectTransform clearPanelRect = RequestChildObjectByName(Object_ClearCanvas.transform, "Panel_StageClear")?.GetComponent<RectTransform>();
 
         if (clearPanelRect != null)
         {
@@ -1023,7 +1023,7 @@ public class OOTechStage2GroupController : MonoBehaviour
     {
         if (OOTechUIManager.Inst != null)
         {
-            GameObject nextGroup = FindSceneObjectByName(_nextRoadGroupName);
+            GameObject nextGroup = RequestSceneObjectByName(_nextRoadGroupName);
 
             if (nextGroup != null)
                 OOTechUIManager.Inst.RegisterUI(_nextRoadGroupName, nextGroup);
@@ -1033,7 +1033,7 @@ public class OOTechStage2GroupController : MonoBehaviour
             return;
         }
 
-        GameObject nextGroupObject = FindSceneObjectByName(_nextRoadGroupName);
+        GameObject nextGroupObject = RequestSceneObjectByName(_nextRoadGroupName);
         gameObject.SetActive(false);
 
         if (nextGroupObject != null)
@@ -1056,7 +1056,7 @@ public class OOTechStage2GroupController : MonoBehaviour
         return fallbackSeconds;
     }
 
-    private GameObject FindChildByName(Transform rootTransform, string objectName)
+    private GameObject RequestChildObjectByName(Transform rootTransform, string objectName)
     {
         if (rootTransform == null || string.IsNullOrEmpty(objectName))
             return null;
@@ -1066,7 +1066,7 @@ public class OOTechStage2GroupController : MonoBehaviour
 
         for (int index = 0; index < rootTransform.childCount; index++)
         {
-            GameObject foundObject = FindChildByName(rootTransform.GetChild(index), objectName);
+            GameObject foundObject = RequestChildObjectByName(rootTransform.GetChild(index), objectName);
 
             if (foundObject != null)
                 return foundObject;
@@ -1075,13 +1075,13 @@ public class OOTechStage2GroupController : MonoBehaviour
         return null;
     }
 
-    private GameObject FindSceneObjectByName(string objectName)
+    private GameObject RequestSceneObjectByName(string objectName)
     {
         Scene scene = SceneManager.GetActiveScene();
 
         foreach (GameObject rootObject in scene.GetRootGameObjects())
         {
-            GameObject foundObject = FindChildByName(rootObject.transform, objectName);
+            GameObject foundObject = RequestChildObjectByName(rootObject.transform, objectName);
 
             if (foundObject != null)
                 return foundObject;
@@ -1090,3 +1090,4 @@ public class OOTechStage2GroupController : MonoBehaviour
         return null;
     }
 }
+

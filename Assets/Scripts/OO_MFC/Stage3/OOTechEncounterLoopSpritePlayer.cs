@@ -192,10 +192,14 @@ public class OOTechEncounterLoopSpritePlayer : MonoBehaviour
         if (!_isUseDedicatedRenderer || Renderer_Source == null)
             return;
 
-        Transform dedicatedTransform = transform.Find(DedicatedRendererName);
+        GameObject dedicatedObjectByName = OOTechSceneQuery.RequestChildObjectByName(transform, DedicatedRendererName);
+        Transform dedicatedTransform = dedicatedObjectByName != null ? dedicatedObjectByName.transform : null;
 
         if (dedicatedTransform == null)
-            dedicatedTransform = transform.Find("Runtime_EncounterLoopRenderer");
+        {
+            GameObject runtimeObjectByName = OOTechSceneQuery.RequestChildObjectByName(transform, "Runtime_EncounterLoopRenderer");
+            dedicatedTransform = runtimeObjectByName != null ? runtimeObjectByName.transform : null;
+        }
 
         GameObject dedicatedObject = dedicatedTransform != null ? dedicatedTransform.gameObject : null;
 
@@ -229,10 +233,14 @@ public class OOTechEncounterLoopSpritePlayer : MonoBehaviour
 
     private SpriteRenderer ResolveDedicatedSpriteRenderer()
     {
-        Transform dedicatedTransform = transform.Find(DedicatedRendererName);
+        GameObject dedicatedObjectByName = OOTechSceneQuery.RequestChildObjectByName(transform, DedicatedRendererName);
+        Transform dedicatedTransform = dedicatedObjectByName != null ? dedicatedObjectByName.transform : null;
 
         if (dedicatedTransform == null)
-            dedicatedTransform = transform.Find("Runtime_EncounterLoopRenderer");
+        {
+            GameObject runtimeObjectByName = OOTechSceneQuery.RequestChildObjectByName(transform, "Runtime_EncounterLoopRenderer");
+            dedicatedTransform = runtimeObjectByName != null ? runtimeObjectByName.transform : null;
+        }
 
         return dedicatedTransform != null ? dedicatedTransform.GetComponent<SpriteRenderer>() : null;
     }

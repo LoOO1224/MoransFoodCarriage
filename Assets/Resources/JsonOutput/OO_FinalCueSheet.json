@@ -1,0 +1,25 @@
+[
+  {
+    "Id": "Final_CueSheet_01",
+    "Name": "Final Route Cue",
+    "Description": "PreFinal, FinalStage, Epilogue, EndingCredit 연결 큐시트입니다.",
+    "PreFinalGroupName": "PreFinal_Narration",
+    "FinalStageGroupName": "FinalStageGroup",
+    "EpilogueGroupName": "EpilogueGroup",
+    "EndingCreditGroupName": "EndingCreditGroup",
+    "MainMenuGroupName": "MainMenuGroup",
+    "PreFinalNarrationId": "narration_prologue_08",
+    "EpilogueNarrationId": "narration_Epilogue_01",
+    "FinalOpeningDialogueId": "character_YeonSanJa_01",
+    "FinalHappyDialogueIdList": "character_YeonSanJa_02|character_YeonSanJa_03",
+    "MoranRoleId": "Moran",
+    "YeonSanJaRoleId": "YeonSanJa",
+    "EndPointRoleId": "End_Point",
+    "FinalStageBGMPath": "Audio/BGM/FinalStage_BGM",
+    "MoranMoveSpeed": 180,
+    "MoranStuckFallbackSeconds": 1.5,
+    "MoranEndScale": 0.6,
+    "CameraZoomSize": 280,
+    "YeonSanJaEatingSpeed": 0.5
+  }
+]

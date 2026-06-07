@@ -1,9 +1,9 @@
-// =============================================================================
-// OO_MFC 역할 주석
-// - 스크립트: OOTechGroupNavigationHistory.cs
-// - 역할: UI 표시와 입력 연결을 담당하는 UI 컴포넌트입니다.
-// - 감독 관점: 관객에게 보이는 패널과 버튼의 무대 동선을 담당합니다.
-// - 유지보수 포인트: 사용자가 직접 편집할 UI는 하이어라키/프리팹에 두고, 코드에서 즉석 생성하지 않습니다.
+﻿// =============================================================================
+// OO_MFC ??븷 二쇱꽍
+// - ?ㅽ겕由쏀듃: OOTechGroupNavigationHistory.cs
+// - ??븷: UI ?쒖떆? ?낅젰 ?곌껐???대떦?섎뒗 UI 而댄룷?뚰듃?낅땲??
+// - 媛먮룆 愿?? 愿媛앹뿉寃?蹂댁씠???⑤꼸怨?踰꾪듉??臾대? ?숈꽑???대떦?⑸땲??
+// - ?좎?蹂댁닔 ?ъ씤?? ?ъ슜?먭? 吏곸젒 ?몄쭛??UI???섏씠?대씪???꾨━?뱀뿉 ?먭퀬, 肄붾뱶?먯꽌 利됱꽍 ?앹꽦?섏? ?딆뒿?덈떎.
 // =============================================================================
 using System.Collections.Generic;
 using UnityEngine;
@@ -37,7 +37,7 @@ public static class OOTechGroupNavigationHistory
         return defaultGroupName;
     }
 
-    public static string FindRootGroupName(Transform childTransform)
+    public static string RequestRootGroupName(Transform childTransform)
     {
         if (childTransform == null)
             return string.Empty;
@@ -50,3 +50,4 @@ public static class OOTechGroupNavigationHistory
         return rootTransform.name;
     }
 }
+

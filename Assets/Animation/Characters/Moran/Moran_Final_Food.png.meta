@@ -1,0 +1,1637 @@
+fileFormatVersion: 2
+guid: aace13747acc2454f89c41b05d855390
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 0
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Moran_Final_Food_0
+      rect:
+        serializedVersion: 2
+        x: 39
+        y: 1819
+        width: 182
+        height: 199
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9e2aa729755f95747ad8ce7fbe6f754e
+      internalID: -747841550
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moran_Final_Food_1
+      rect:
+        serializedVersion: 2
+        x: 291
+        y: 1819
+        width: 181
+        height: 212
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e96bbf3b11be14d48a2f3475c82ec145
+      internalID: 1919859499
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moran_Final_Food_2
+      rect:
+        serializedVersion: 2
+        x: 544
+        y: 1819
+        width: 181
+        height: 216
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bc58d61c03c4246448293aab946e92a5
+      internalID: 584062274
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moran_Final_Food_3
+      rect:
+        serializedVersion: 2
+        x: 795
+        y: 1819
+        width: 180
+        height: 221
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9342398a1fdfaab448b0998317ef7485
+      internalID: -1570305167
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moran_Final_Food_4
+      rect:
+        serializedVersion: 2
+        x: 1048
+        y: 1819
+        width: 181
+        height: 226
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a85df6b0da5234647be30b3727b572db
+      internalID: -925194058
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moran_Final_Food_5
+      rect:
+        serializedVersion: 2
+        x: 1299
+        y: 1819
+        width: 181
+        height: 229
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4b6653260adcd6949a7994fef3e7d217
+      internalID: -2076570170
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moran_Final_Food_6
+      rect:
+        serializedVersion: 2
+        x: 1553
+        y: 1819
+        width: 180
+        height: 228
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: df9fdf66ddc195444a58c44547dd47c4
+      internalID: 1006676388
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moran_Final_Food_7
+      rect:
+        serializedVersion: 2
+        x: 1805
+        y: 1819
+        width: 181
+        height: 221
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3f6208c4677fe434c805bc47f6591c75
+      internalID: -286157758
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moran_Final_Food_8
+      rect:
+        serializedVersion: 2
+        x: 11
+        y: 1563
+        width: 181
+        height: 225
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 78bc5cbc8e7a0cc488b7d01727c316a6
+      internalID: 1846051681
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moran_Final_Food_9
+      rect:
+        serializedVersion: 2
+        x: 264
+        y: 1562
+        width: 181
+        height: 225
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1ffd7e72bcc3c1a4bb22c63b1b603bde
+      internalID: 832357808
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moran_Final_Food_10
+      rect:
+        serializedVersion: 2
+        x: 518
+        y: 1563
+        width: 180
+        height: 229
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e499074873c0f834d9ff89258edf13e3
+      internalID: 1108922488
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moran_Final_Food_11
+      rect:
+        serializedVersion: 2
+        x: 770
+        y: 1563
+        width: 181
+        height: 222
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 37d26756d50320448b4ab7b4e7fc62d4
+      internalID: 1779418252
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moran_Final_Food_12
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 1563
+        width: 180
+        height: 226
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 21d45f5fc1b301e42872d3c4649379af
+      internalID: 1302366346
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moran_Final_Food_13
+      rect:
+        serializedVersion: 2
+        x: 1280
+        y: 1563
+        width: 178
+        height: 223
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c350524fd6b81344ca366fdaa2311a1f
+      internalID: 1072106599
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moran_Final_Food_14
+      rect:
+        serializedVersion: 2
+        x: 1536
+        y: 1563
+        width: 178
+        height: 224
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d20dbc8e643984349a4053e0039c68f9
+      internalID: 37817938
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moran_Final_Food_15
+      rect:
+        serializedVersion: 2
+        x: 1792
+        y: 1563
+        width: 178
+        height: 229
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3106b261612a9dc449a57040015dc1e7
+      internalID: 1527630901
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moran_Final_Food_16
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1307
+        width: 178
+        height: 229
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e381dcd0389e2c849b682c79e5f54baf
+      internalID: -249387738
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moran_Final_Food_17
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 1307
+        width: 180
+        height: 229
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1bd20daf13bac1e4b8537cc09e671e4e
+      internalID: -1266343934
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moran_Final_Food_18
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 1307
+        width: 182
+        height: 228
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6e20ea372e18cd643acc32e1e2190940
+      internalID: -1854273059
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moran_Final_Food_19
+      rect:
+        serializedVersion: 2
+        x: 773
+        y: 1307
+        width: 181
+        height: 196
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cf0b1b62a5531d448b07f30b3d6fe38b
+      internalID: -625239235
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moran_Final_Food_20
+      rect:
+        serializedVersion: 2
+        x: 1031
+        y: 1307
+        width: 182
+        height: 214
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 914bb0ffef68e3a4486105b2fa006aa3
+      internalID: 1751724688
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moran_Final_Food_21
+      rect:
+        serializedVersion: 2
+        x: 1292
+        y: 1307
+        width: 181
+        height: 229
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e455632efa346494e958ecfe620e7ffb
+      internalID: -1289714311
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moran_Final_Food_22
+      rect:
+        serializedVersion: 2
+        x: 1553
+        y: 1307
+        width: 181
+        height: 228
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7afebce21b5e6714a95ca8111c100e27
+      internalID: 1384256185
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moran_Final_Food_23
+      rect:
+        serializedVersion: 2
+        x: 1812
+        y: 1307
+        width: 181
+        height: 228
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: af6c2dbd04bbcb8469e3424752518a70
+      internalID: 815023369
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moran_Final_Food_24
+      rect:
+        serializedVersion: 2
+        x: 25
+        y: 1051
+        width: 181
+        height: 229
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7800d663c09eba24c8769b9aff98e5e1
+      internalID: 826248516
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moran_Final_Food_25
+      rect:
+        serializedVersion: 2
+        x: 283
+        y: 1050
+        width: 181
+        height: 230
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a6f03dbf7703ec54594d9a40ba017278
+      internalID: 981485983
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moran_Final_Food_26
+      rect:
+        serializedVersion: 2
+        x: 543
+        y: 1050
+        width: 182
+        height: 225
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f521401e2b46ae54eb3128b8ac9eff29
+      internalID: -461773955
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moran_Final_Food_27
+      rect:
+        serializedVersion: 2
+        x: 802
+        y: 1050
+        width: 181
+        height: 224
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f624c04e696e643408d3cb1088959e50
+      internalID: -273607307
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moran_Final_Food_28
+      rect:
+        serializedVersion: 2
+        x: 1062
+        y: 1050
+        width: 181
+        height: 189
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6dae0d27b5b268443b59da3fd077ee0f
+      internalID: -1638098105
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moran_Final_Food_29
+      rect:
+        serializedVersion: 2
+        x: 1320
+        y: 1050
+        width: 181
+        height: 230
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f4aa20ad46383da4c9520b21dbc1c330
+      internalID: 1958097478
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moran_Final_Food_30
+      rect:
+        serializedVersion: 2
+        x: 1579
+        y: 1050
+        width: 183
+        height: 230
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 69c7727cd3c70ee418888ad6b8f16425
+      internalID: 78558981
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moran_Final_Food_31
+      rect:
+        serializedVersion: 2
+        x: 1838
+        y: 1050
+        width: 181
+        height: 229
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 96385311b1d4ce7478d046f64364fc37
+      internalID: -897639031
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moran_Final_Food_32
+      rect:
+        serializedVersion: 2
+        x: 49
+        y: 795
+        width: 181
+        height: 222
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4794e9af14c4c0b4f9185c423c4e9c81
+      internalID: 1271695781
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moran_Final_Food_33
+      rect:
+        serializedVersion: 2
+        x: 305
+        y: 795
+        width: 181
+        height: 226
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 88ae046953a6f214981961ac4944ba32
+      internalID: 1062746084
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moran_Final_Food_34
+      rect:
+        serializedVersion: 2
+        x: 559
+        y: 795
+        width: 181
+        height: 229
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6f37e44ae2d17bd40aeefb483637716e
+      internalID: 1475383443
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moran_Final_Food_35
+      rect:
+        serializedVersion: 2
+        x: 814
+        y: 795
+        width: 181
+        height: 224
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 89954683bd016844791979c753f98975
+      internalID: 2018377701
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moran_Final_Food_36
+      rect:
+        serializedVersion: 2
+        x: 1067
+        y: 795
+        width: 182
+        height: 225
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cf167002ae0382e45a18d60488848f93
+      internalID: -1400677177
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moran_Final_Food_37
+      rect:
+        serializedVersion: 2
+        x: 1322
+        y: 795
+        width: 181
+        height: 226
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f055f3681e6e1494ba6c5d6fa5704fea
+      internalID: 1298754695
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moran_Final_Food_38
+      rect:
+        serializedVersion: 2
+        x: 1575
+        y: 795
+        width: 182
+        height: 179
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1e63e5ded881d774daf208142147249b
+      internalID: -1693978501
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moran_Final_Food_39
+      rect:
+        serializedVersion: 2
+        x: 1831
+        y: 795
+        width: 181
+        height: 229
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 32355861e719fbf4997364ebe3bb6997
+      internalID: -1085028622
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moran_Final_Food_40
+      rect:
+        serializedVersion: 2
+        x: 39
+        y: 539
+        width: 181
+        height: 226
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e86fa24df359c09449c5ba69718dff3f
+      internalID: 1311484538
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moran_Final_Food_41
+      rect:
+        serializedVersion: 2
+        x: 295
+        y: 539
+        width: 181
+        height: 221
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7d18b46ba8f45334e82947d7612bdce4
+      internalID: 319176337
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moran_Final_Food_42
+      rect:
+        serializedVersion: 2
+        x: 551
+        y: 539
+        width: 181
+        height: 221
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 81c8ebcaaecd7f14c927c0fb4a8278ba
+      internalID: -431257830
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moran_Final_Food_43
+      rect:
+        serializedVersion: 2
+        x: 807
+        y: 539
+        width: 182
+        height: 226
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: caf09cbc94e2faf42a55fdf466e5c6be
+      internalID: -433769007
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moran_Final_Food_44
+      rect:
+        serializedVersion: 2
+        x: 1064
+        y: 539
+        width: 181
+        height: 229
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b43d9f7a35f241d4c9ee35da75cf7613
+      internalID: 1501531495
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moran_Final_Food_45
+      rect:
+        serializedVersion: 2
+        x: 1321
+        y: 539
+        width: 181
+        height: 186
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 227818fa84517c84ea4faa3ddb625c51
+      internalID: 536632361
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moran_Final_Food_46
+      rect:
+        serializedVersion: 2
+        x: 1452
+        y: 725
+        width: 14
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6febe8c998a66304d89ae2f239285e8b
+      internalID: -229356963
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moran_Final_Food_47
+      rect:
+        serializedVersion: 2
+        x: 1577
+        y: 539
+        width: 181
+        height: 229
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c89a996efb85f0a44950c3bd403a911b
+      internalID: -1109356365
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moran_Final_Food_48
+      rect:
+        serializedVersion: 2
+        x: 1833
+        y: 539
+        width: 181
+        height: 227
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: abf7a3580939d74498072d5ca70a659b
+      internalID: 381152941
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moran_Final_Food_49
+      rect:
+        serializedVersion: 2
+        x: 40
+        y: 283
+        width: 181
+        height: 229
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cd3961dae3a543442bbc5adf6c1d9d68
+      internalID: -783940674
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moran_Final_Food_50
+      rect:
+        serializedVersion: 2
+        x: 295
+        y: 283
+        width: 181
+        height: 229
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 533db70f958b1a744a038d20fdc5c891
+      internalID: 1244536611
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moran_Final_Food_51
+      rect:
+        serializedVersion: 2
+        x: 550
+        y: 283
+        width: 181
+        height: 224
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2501c493b70370b45b65d5bd7cbc14ea
+      internalID: 455403471
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moran_Final_Food_52
+      rect:
+        serializedVersion: 2
+        x: 803
+        y: 283
+        width: 182
+        height: 226
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4947c0dd38dcb2d42a7a444466472700
+      internalID: -1953925949
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moran_Final_Food_53
+      rect:
+        serializedVersion: 2
+        x: 1059
+        y: 283
+        width: 182
+        height: 214
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d1087a78e03af954d8415e0f4da5fbeb
+      internalID: 1651832602
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moran_Final_Food_54
+      rect:
+        serializedVersion: 2
+        x: 1315
+        y: 283
+        width: 182
+        height: 214
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 603b2477167fd20419678ddfb591693b
+      internalID: -1303992175
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moran_Final_Food_55
+      rect:
+        serializedVersion: 2
+        x: 1571
+        y: 283
+        width: 182
+        height: 229
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a3d7909392d697e48b5335d1d37902a7
+      internalID: 80323654
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moran_Final_Food_56
+      rect:
+        serializedVersion: 2
+        x: 1830
+        y: 283
+        width: 180
+        height: 229
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0d9ddf6e7b239d8479ad47c8af8be44a
+      internalID: -2110406650
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moran_Final_Food_57
+      rect:
+        serializedVersion: 2
+        x: 39
+        y: 27
+        width: 181
+        height: 222
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 581040796478efb4c9ea52f8e1a48881
+      internalID: 804023301
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moran_Final_Food_58
+      rect:
+        serializedVersion: 2
+        x: 295
+        y: 27
+        width: 182
+        height: 184
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6392bf57809db824faf2a63d94682c41
+      internalID: -849789292
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moran_Final_Food_59
+      rect:
+        serializedVersion: 2
+        x: 552
+        y: 27
+        width: 181
+        height: 160
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c95acce9b3473a6498874edcafb9061a
+      internalID: -1016308096
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moran_Final_Food_60
+      rect:
+        serializedVersion: 2
+        x: 673
+        y: 181
+        width: 28
+        height: 72
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b9d4787758463d647a4913b3b7b3c47d
+      internalID: 1460678858
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moran_Final_Food_61
+      rect:
+        serializedVersion: 2
+        x: 808
+        y: 27
+        width: 181
+        height: 229
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 04a6b886fc897a14f83d64c1aa5a193c
+      internalID: -948350090
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moran_Final_Food_62
+      rect:
+        serializedVersion: 2
+        x: 1064
+        y: 27
+        width: 181
+        height: 229
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9fd7f660f3540c442a1795f6a64147e0
+      internalID: -1406643366
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moran_Final_Food_63
+      rect:
+        serializedVersion: 2
+        x: 1319
+        y: 27
+        width: 182
+        height: 227
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 51dc9f00fe82f2f40826533bd97b91d3
+      internalID: -87262925
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moran_Final_Food_64
+      rect:
+        serializedVersion: 2
+        x: 1575
+        y: 27
+        width: 182
+        height: 221
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bec4d1df079753b42bc21818eeb3a778
+      internalID: 170179907
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moran_Final_Food_65
+      rect:
+        serializedVersion: 2
+        x: 1831
+        y: 27
+        width: 182
+        height: 229
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bcb29baaba1f8a64aa22cbcac4734ef0
+      internalID: -555756310
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: cc53fa4ac15663a46a9d8441f2ddcbed
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      Moran_Final_Food_0: -747841550
+      Moran_Final_Food_1: 1919859499
+      Moran_Final_Food_10: 1108922488
+      Moran_Final_Food_11: 1779418252
+      Moran_Final_Food_12: 1302366346
+      Moran_Final_Food_13: 1072106599
+      Moran_Final_Food_14: 37817938
+      Moran_Final_Food_15: 1527630901
+      Moran_Final_Food_16: -249387738
+      Moran_Final_Food_17: -1266343934
+      Moran_Final_Food_18: -1854273059
+      Moran_Final_Food_19: -625239235
+      Moran_Final_Food_2: 584062274
+      Moran_Final_Food_20: 1751724688
+      Moran_Final_Food_21: -1289714311
+      Moran_Final_Food_22: 1384256185
+      Moran_Final_Food_23: 815023369
+      Moran_Final_Food_24: 826248516
+      Moran_Final_Food_25: 981485983
+      Moran_Final_Food_26: -461773955
+      Moran_Final_Food_27: -273607307
+      Moran_Final_Food_28: -1638098105
+      Moran_Final_Food_29: 1958097478
+      Moran_Final_Food_3: -1570305167
+      Moran_Final_Food_30: 78558981
+      Moran_Final_Food_31: -897639031
+      Moran_Final_Food_32: 1271695781
+      Moran_Final_Food_33: 1062746084
+      Moran_Final_Food_34: 1475383443
+      Moran_Final_Food_35: 2018377701
+      Moran_Final_Food_36: -1400677177
+      Moran_Final_Food_37: 1298754695
+      Moran_Final_Food_38: -1693978501
+      Moran_Final_Food_39: -1085028622
+      Moran_Final_Food_4: -925194058
+      Moran_Final_Food_40: 1311484538
+      Moran_Final_Food_41: 319176337
+      Moran_Final_Food_42: -431257830
+      Moran_Final_Food_43: -433769007
+      Moran_Final_Food_44: 1501531495
+      Moran_Final_Food_45: 536632361
+      Moran_Final_Food_46: -229356963
+      Moran_Final_Food_47: -1109356365
+      Moran_Final_Food_48: 381152941
+      Moran_Final_Food_49: -783940674
+      Moran_Final_Food_5: -2076570170
+      Moran_Final_Food_50: 1244536611
+      Moran_Final_Food_51: 455403471
+      Moran_Final_Food_52: -1953925949
+      Moran_Final_Food_53: 1651832602
+      Moran_Final_Food_54: -1303992175
+      Moran_Final_Food_55: 80323654
+      Moran_Final_Food_56: -2110406650
+      Moran_Final_Food_57: 804023301
+      Moran_Final_Food_58: -849789292
+      Moran_Final_Food_59: -1016308096
+      Moran_Final_Food_6: 1006676388
+      Moran_Final_Food_60: 1460678858
+      Moran_Final_Food_61: -948350090
+      Moran_Final_Food_62: -1406643366
+      Moran_Final_Food_63: -87262925
+      Moran_Final_Food_64: 170179907
+      Moran_Final_Food_65: -555756310
+      Moran_Final_Food_7: -286157758
+      Moran_Final_Food_8: 1846051681
+      Moran_Final_Food_9: 832357808
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
