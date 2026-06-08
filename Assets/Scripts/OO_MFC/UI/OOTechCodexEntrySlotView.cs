@@ -54,6 +54,7 @@ public class OOTechCodexEntrySlotView : MonoBehaviour
         }
 
         ApplySlotBackgroundStyle();
+        ApplySlotLayout();
 
         BindButtonEvent();
         gameObject.SetActive(true);
@@ -95,7 +96,29 @@ public class OOTechCodexEntrySlotView : MonoBehaviour
             return;
 
         Image_Background.color = _slotBackgroundColor;
+        Image_Background.type = Image.Type.Sliced;
         Image_Background.raycastTarget = true;
+    }
+
+    /// <summary>
+    /// 도감 한 줄 카드가 서로 겹치지 않도록 최소 높이를 고정합니다.
+    /// Game View에서는 캐릭터 이름들이 한 덩어리로 쌓이지 않고, 각각 클릭 가능한 캡슐 줄로 보입니다.
+    /// </summary>
+    private void ApplySlotLayout()
+    {
+        RectTransform rectTransform = transform as RectTransform;
+
+        if (rectTransform != null)
+            rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 72f);
+
+        LayoutElement layoutElement = GetComponent<LayoutElement>();
+
+        if (layoutElement == null)
+            layoutElement = gameObject.AddComponent<LayoutElement>();
+
+        layoutElement.minHeight = 72f;
+        layoutElement.preferredHeight = 72f;
+        layoutElement.flexibleHeight = 0f;
     }
 
     private TextMeshProUGUI RequestText(params string[] nameArray)

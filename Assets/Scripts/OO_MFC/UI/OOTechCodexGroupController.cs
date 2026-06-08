@@ -67,6 +67,7 @@ public class OOTechCodexGroupController : MonoBehaviour, IPointerClickHandler
             return;
         }
 
+        RequestSetCodexPageNavigationActive(true);
         RequestSetCodexContentActive(true);
         RequestRefreshCodexList();
     }
@@ -195,12 +196,14 @@ public class OOTechCodexGroupController : MonoBehaviour, IPointerClickHandler
     private void RequestPreviousPage()
     {
         _currentPageIndex = Mathf.Max(0, _currentPageIndex - 1);
+        RequestSetCodexContentActive(true);
         RequestRefreshCodexList();
     }
 
     private void RequestNextPage()
     {
         _currentPageIndex = Mathf.Min(4, _currentPageIndex + 1);
+        RequestSetCodexContentActive(true);
         RequestRefreshCodexList();
     }
 
@@ -232,7 +235,7 @@ public class OOTechCodexGroupController : MonoBehaviour, IPointerClickHandler
             AppendStagePage(dataList);
 
         if (Text_PageLabel != null)
-            Text_PageLabel.text = $"[{ResolveCurrentPageName()}]";
+            Text_PageLabel.text = ResolveCurrentPageName();
 
         return dataList;
     }
@@ -510,6 +513,11 @@ public class OOTechCodexGroupController : MonoBehaviour, IPointerClickHandler
     /// 도감 바깥을 클릭했을 때 이전 그룹으로 복귀합니다.
     /// BackButton이 실패해도 UIManager와 NavigationHistory를 한 번 더 확인하는 보험입니다.
     /// </summary>
+    public void RequestCloseCodexGroupByButton()
+    {
+        RequestCloseCodexGroup();
+    }
+
     private void RequestCloseCodexGroup()
     {
         string previousGroupName = OOTechGroupNavigationHistory.GetPreviousGroup(gameObject.name, "MainMenuGroup");
@@ -538,7 +546,23 @@ public class OOTechCodexGroupController : MonoBehaviour, IPointerClickHandler
     /// </summary>
     private void RequestHideCodexContentOnly()
     {
-        RequestSetCodexContentActive(false);
+        bool isAlreadyHidden = true;
+
+        if (Scroll_CodexList != null && Scroll_CodexList.gameObject.activeSelf)
+            isAlreadyHidden = false;
+
+        if (Rect_DetailPanel != null && Rect_DetailPanel.gameObject.activeSelf)
+            isAlreadyHidden = false;
+
+        if (isAlreadyHidden)
+            return;
+
+        if (Scroll_CodexList != null)
+            Scroll_CodexList.gameObject.SetActive(false);
+
+        if (Rect_DetailPanel != null)
+            Rect_DetailPanel.gameObject.SetActive(false);
+
         Debug.Log("[OOTechCodexGroupController] Codex content panels hidden by outside click.");
     }
 
@@ -549,7 +573,14 @@ public class OOTechCodexGroupController : MonoBehaviour, IPointerClickHandler
 
         if (Rect_DetailPanel != null)
             Rect_DetailPanel.gameObject.SetActive(isActive);
+    }
 
+    /// <summary>
+    /// 도감 페이지 이동 UI만 켜둡니다.
+    /// Game View에서는 목록을 숨긴 뒤에도 페이지 버튼을 눌러 다시 내용을 열 수 있어야 합니다.
+    /// </summary>
+    private void RequestSetCodexPageNavigationActive(bool isActive)
+    {
         if (Button_PreviousPage != null)
             Button_PreviousPage.gameObject.SetActive(isActive);
 

@@ -47,6 +47,9 @@ public class OOTechTutorialGuideUI : MonoBehaviour
     [SerializeField] private string _guideTitle = "튜토리얼 가이드";
     [SerializeField] private string _nextButtonText = "이어가기";
     [SerializeField] private bool _isCreateDefaultViewOnAwake = true;
+    [SerializeField] private Color _guideTitleColor = new Color(1f, 0.86f, 0.18f, 1f);
+    [SerializeField] private Color _guideBodyColor = Color.white;
+    [SerializeField] private Color _guideButtonTextColor = Color.white;
 
     [Header("Complete Emphasis Effect")]
     [SerializeField] private Color _titleEmphasisColorA = Color.white;
@@ -388,8 +391,11 @@ public class OOTechTutorialGuideUI : MonoBehaviour
     /// </summary>
     private void SetTitle(string title)
     {
-        if (Text_Title != null)
-            Text_Title.text = title;
+        if (Text_Title == null)
+            return;
+
+        Text_Title.text = title;
+        Text_Title.color = _guideTitleColor;
     }
 
     /// <summary>
@@ -402,7 +408,7 @@ public class OOTechTutorialGuideUI : MonoBehaviour
             Text_Dialogue.text = dialogueText ?? string.Empty;
             Text_Dialogue.gameObject.SetActive(true);
             Text_Dialogue.enabled = true;
-            Text_Dialogue.color = new Color(Text_Dialogue.color.r, Text_Dialogue.color.g, Text_Dialogue.color.b, 1f);
+            Text_Dialogue.color = _guideBodyColor;
             Text_Dialogue.canvasRenderer.SetAlpha(1f);
             Text_Dialogue.textWrappingMode = TextWrappingModes.Normal;
             Text_Dialogue.overflowMode = TextOverflowModes.Overflow;
@@ -420,8 +426,11 @@ public class OOTechTutorialGuideUI : MonoBehaviour
     /// </summary>
     private void SetNextButtonText(string buttonText)
     {
-        if (Text_NextButton != null)
-            Text_NextButton.text = buttonText;
+        if (Text_NextButton == null)
+            return;
+
+        Text_NextButton.text = buttonText;
+        Text_NextButton.color = _guideButtonTextColor;
     }
 
     // ==================== 기본 뷰 생성 ====================
@@ -496,7 +505,7 @@ public class OOTechTutorialGuideUI : MonoBehaviour
         titleRect.sizeDelta = new Vector2(-120f, 55f);
 
         Text_Title = titleObject.AddComponent<TextMeshProUGUI>();
-        ApplyTextStyle(Text_Title, 44f, new Color(0.12f, 0.08f, 0.05f, 1f), TextAlignmentOptions.Center);
+        ApplyTextStyle(Text_Title, 44f, _guideTitleColor, TextAlignmentOptions.Center);
         Text_Title.text = _guideTitle;
     }
 
@@ -541,7 +550,7 @@ public class OOTechTutorialGuideUI : MonoBehaviour
         textRect.sizeDelta = Vector2.zero;
 
         Text_Dialogue = textObject.AddComponent<TextMeshProUGUI>();
-        ApplyTextStyle(Text_Dialogue, 36f, new Color(0.12f, 0.08f, 0.05f, 1f), TextAlignmentOptions.TopLeft);
+        ApplyTextStyle(Text_Dialogue, 36f, _guideBodyColor, TextAlignmentOptions.TopLeft);
 
         Scroll_Dialogue.viewport = viewportRect;
         Scroll_Dialogue.content = Rect_DialogueContent;
@@ -576,7 +585,7 @@ public class OOTechTutorialGuideUI : MonoBehaviour
         StretchFullScreen(textRect);
 
         Text_NextButton = textObject.AddComponent<TextMeshProUGUI>();
-        ApplyTextStyle(Text_NextButton, 30f, new Color(0.12f, 0.08f, 0.05f, 1f), TextAlignmentOptions.Center);
+        ApplyTextStyle(Text_NextButton, 30f, _guideButtonTextColor, TextAlignmentOptions.Center);
         Text_NextButton.text = _nextButtonText;
     }
 

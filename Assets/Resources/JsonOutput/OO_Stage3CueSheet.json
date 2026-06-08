@@ -3,6 +3,8 @@
     "Id": "Stage3_CueSheet_01",
     "StageId": "OO_Stage_3",
     "RoadGroupId": "3rd_Road_to_Stage3",
+    "RoadMissionDataId": "Stage3_Road_Quest_01",
+    "RoadMissionFallbackText": "남쪽 숲으로 가세요!",
     "StageGroupId": "Stage3Group",
     "EncounterGroupId": "EncounterGroup",
     "MFCRoleId": "MFC",

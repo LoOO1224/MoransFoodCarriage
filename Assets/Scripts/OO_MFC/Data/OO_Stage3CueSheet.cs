@@ -17,6 +17,8 @@ public class OO_Stage3CueSheet : GameDataBase
 {
     public string StageId;                         // Stage 데이터 ID
     public string RoadGroupId;                     // 이전 RoadGroup 이름
+    public string RoadMissionDataId;               // Road mission data ID
+    public string RoadMissionFallbackText;         // Road mission fallback text
     public string StageGroupId;                    // Stage3Group 이름
     public string EncounterGroupId;                // EncounterGroup 이름
     public string MFCRoleId;                       // 마차 역할 ID

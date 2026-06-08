@@ -66,10 +66,21 @@
     "NextGroupId": "Stage2Group"
   },
   {
+    "Id": "Stage3_Road_Quest_01",
+    "StageId": "OO_Stage_3",
+    "Name": "남쪽 숲 이동",
+    "Description": "남쪽 숲으로 가세요!",
+    "ObjectiveType": "GoToStage",
+    "ObjectiveId": "Stage3Group",
+    "RequiredCount": 1,
+    "RewardItemIds": null,
+    "NextGroupId": "Stage3Group"
+  },
+  {
     "Id": "Stage3__Quest_01",
     "StageId": "OO_Stage_3",
-    "Name": "산군을 위해 꿀떡을 만들자",
-    "Description": "절구에 쌀을 넣어 떡을 만들고, 꿀과 합쳐 꿀떡을 완성한 뒤 산군에게 전하세요.",
+    "Name": "산군을 위해 꿀떡을 만드세요!",
+    "Description": "산군을 위해 꿀떡을 만드세요! 레시피 조합을 통해 만들 수 있습니다",
     "ObjectiveType": "CookAndGiveItem",
     "ObjectiveId": "OO_HoneyKoreanCake_1",
     "RequiredCount": 1,

@@ -145,7 +145,7 @@ public class OOTechCookingIngredientDragItem : MonoBehaviour, IBeginDragHandler,
         if (Text_Label == null)
             return;
 
-        string quantityText = _dragQuantity > 1 ? $" / 吏묎린 x{_dragQuantity}" : string.Empty;
+        string quantityText = _dragQuantity > 1 ? $" / 집기 x{_dragQuantity}" : string.Empty;
         Text_Label.text = $"{_itemName} x{_itemCount}{quantityText}";
     }
 

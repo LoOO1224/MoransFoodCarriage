@@ -55,7 +55,8 @@ public class OOTechDialogueLayout : MonoBehaviour
     {
         CacheComponentReferences();
         ApplyRoadViewPanelLayout();
-        ApplySpeakerNameLayout();
+        // 화자 이름과 배경판은 씬에서 직접 잡은 상대 위치를 유지합니다.
+        // 텍스트만 따로 움직이면 Road View 대화에서 이름과 배경판이 어긋납니다.
         ApplyNextButtonLayout();
     }
 

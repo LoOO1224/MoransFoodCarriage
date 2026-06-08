@@ -926,6 +926,8 @@ public class OOTechGameDataManager : MonoBehaviour
             Id = NormalizeJsonText(jsonData.Id),
             StageId = NormalizeJsonText(jsonData.StageId),
             RoadGroupId = NormalizeJsonText(jsonData.RoadGroupId),
+            RoadMissionDataId = NormalizeJsonText(jsonData.RoadMissionDataId),
+            RoadMissionFallbackText = NormalizeJsonText(jsonData.RoadMissionFallbackText),
             StageGroupId = NormalizeJsonText(jsonData.StageGroupId),
             EncounterGroupId = NormalizeJsonText(jsonData.EncounterGroupId),
             MFCRoleId = NormalizeJsonText(jsonData.MFCRoleId),
@@ -2196,6 +2198,8 @@ public class OOTechStage3CueSheetJsonData
     public string Id;
     public string StageId;
     public string RoadGroupId;
+    public string RoadMissionDataId;
+    public string RoadMissionFallbackText;
     public string StageGroupId;
     public string EncounterGroupId;
     public string MFCRoleId;
