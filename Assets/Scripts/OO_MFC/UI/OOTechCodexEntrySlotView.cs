@@ -26,6 +26,7 @@ public class OOTechCodexEntrySlotView : MonoBehaviour
     [Header("Style")]
     [SerializeField] private Color _slotBackgroundColor = new Color(0.68f, 0.84f, 0.54f, 0.82f);
     [SerializeField] private Color _slotTextColor = new Color(0.08f, 0.07f, 0.04f, 1f);
+    [SerializeField] private float _slotHeight = 44f;
 
     private OO_Codex _codexData;
     private Action<OO_Codex> _onSelected;
@@ -109,16 +110,38 @@ public class OOTechCodexEntrySlotView : MonoBehaviour
         RectTransform rectTransform = transform as RectTransform;
 
         if (rectTransform != null)
-            rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 72f);
+        {
+            rectTransform.anchorMin = new Vector2(0f, rectTransform.anchorMin.y);
+            rectTransform.anchorMax = new Vector2(1f, rectTransform.anchorMax.y);
+            rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, _slotHeight);
+        }
 
         LayoutElement layoutElement = GetComponent<LayoutElement>();
 
         if (layoutElement == null)
             layoutElement = gameObject.AddComponent<LayoutElement>();
 
-        layoutElement.minHeight = 72f;
-        layoutElement.preferredHeight = 72f;
+        layoutElement.minHeight = _slotHeight;
+        layoutElement.preferredHeight = _slotHeight;
         layoutElement.flexibleHeight = 0f;
+
+        if (Text_Title != null)
+        {
+            RectTransform titleRect = Text_Title.rectTransform;
+            titleRect.anchorMin = Vector2.zero;
+            titleRect.anchorMax = Vector2.one;
+            titleRect.offsetMin = new Vector2(12f, 0f);
+            titleRect.offsetMax = new Vector2(-12f, 0f);
+            Text_Title.textWrappingMode = TextWrappingModes.NoWrap;
+            Text_Title.overflowMode = TextOverflowModes.Ellipsis;
+            Text_Title.fontSize = Mathf.Clamp(Text_Title.fontSize <= 0f ? 28f : Text_Title.fontSize, 22f, 30f);
+        }
+    }
+
+    public void RequestSetSlotHeight(float slotHeight)
+    {
+        _slotHeight = Mathf.Max(28f, slotHeight);
+        ApplySlotLayout();
     }
 
     private TextMeshProUGUI RequestText(params string[] nameArray)

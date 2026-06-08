@@ -37,6 +37,7 @@ public class OOTechEndingCreditController : MonoBehaviour
     [SerializeField] private Vector2 _logoSize = new Vector2(360f, 190f);
     [SerializeField] private float _logoSpacingBelowThanks = 36f;
     [SerializeField] private float _creditBottomPadding = 140f;
+    [SerializeField] private Vector2 _mainMenuButtonSize = new Vector2(420f, 96f);
     [SerializeField] private string _mainMenuBGMAssetPath = "Assets/Sounds/BGM/MainMenu_BGM.mp3";
 
     [TextArea(12, 30)]
@@ -155,7 +156,7 @@ public class OOTechEndingCreditController : MonoBehaviour
         Text_Credit = ResolveExistingText(Rect_CreditRoot, "Text_Credit", resolvedCreditText, 38f, _creditTextSize);
         Rect_Logo = ResolveExistingLogo(Rect_CreditRoot);
         ArrangeCreditContent();
-        Button_MainMenu = ResolveExistingMainMenuButton(canvas.transform);
+        Button_MainMenu = ResolveOrCreateMainMenuButton(canvas.transform);
 
         if (Button_MainMenu != null)
             Button_MainMenu.gameObject.SetActive(false);
@@ -298,25 +299,130 @@ public class OOTechEndingCreditController : MonoBehaviour
         Rect_Logo.SetAsLastSibling();
     }
 
-    private Button ResolveExistingMainMenuButton(Transform parentTransform)
+    private Button ResolveOrCreateMainMenuButton(Transform parentTransform)
     {
         Transform foundTransform = RequestChildObjectByName(parentTransform, "Button_ReturnMainMenu");
         Button button = foundTransform != null ? foundTransform.GetComponent<Button>() : null;
 
         if (button == null)
         {
-            Debug.LogError("[OOTechEndingCreditController] Button_ReturnMainMenu is missing.");
-            return null;
+            GameObject buttonObject = new GameObject("Button_ReturnMainMenu", typeof(RectTransform), typeof(Image), typeof(Button));
+            buttonObject.transform.SetParent(parentTransform, false);
+            button = buttonObject.GetComponent<Button>();
         }
 
-        TextMeshProUGUI label = ResolveExistingText(button.transform, "Text_Label", "메인 메뉴로 돌아가기", 34f, button.GetComponent<RectTransform>().sizeDelta);
+        RectTransform buttonRect = button.GetComponent<RectTransform>();
+        buttonRect.anchorMin = new Vector2(0.5f, 0.5f);
+        buttonRect.anchorMax = new Vector2(0.5f, 0.5f);
+        buttonRect.pivot = new Vector2(0.5f, 0.5f);
+        buttonRect.anchoredPosition = Vector2.zero;
+        buttonRect.sizeDelta = _mainMenuButtonSize;
+        buttonRect.localScale = Vector3.one;
+        buttonRect.SetAsLastSibling();
+
+        Image buttonImage = button.GetComponent<Image>();
+
+        if (buttonImage == null)
+            buttonImage = button.gameObject.AddComponent<Image>();
+
+        Sprite reusableSprite = ResolveReusableButtonSprite(buttonImage);
+
+        if (reusableSprite != null)
+        {
+            buttonImage.sprite = reusableSprite;
+            buttonImage.type = Image.Type.Sliced;
+            buttonImage.color = Color.white;
+        }
+        else
+        {
+            buttonImage.color = new Color(0.95f, 0.55f, 0.2f, 1f);
+        }
+
+        buttonImage.raycastTarget = true;
+        button.targetGraphic = buttonImage;
+
+        TextMeshProUGUI label = ResolveOrCreateButtonLabel(button.transform);
 
         if (label != null)
+        {
+            RectTransform labelRect = label.rectTransform;
+            labelRect.anchorMin = Vector2.zero;
+            labelRect.anchorMax = Vector2.one;
+            labelRect.offsetMin = Vector2.zero;
+            labelRect.offsetMax = Vector2.zero;
+            label.text = "메인 메뉴로 돌아가기";
+            label.fontSize = 34f;
+            label.alignment = TextAlignmentOptions.Center;
+            label.enableAutoSizing = true;
+            label.fontSizeMin = 24f;
+            label.fontSizeMax = 34f;
             label.color = Color.black;
+            label.raycastTarget = false;
+            OOTechTMPFontUtility.ApplyProjectFont(label);
+        }
 
         button.onClick.RemoveAllListeners();
         button.onClick.AddListener(ReturnToMainMenu);
         return button;
+    }
+
+    private TextMeshProUGUI ResolveOrCreateButtonLabel(Transform parentTransform)
+    {
+        Transform labelTransform = RequestChildObjectByName(parentTransform, "Text_Label");
+        TextMeshProUGUI label = labelTransform != null ? labelTransform.GetComponent<TextMeshProUGUI>() : null;
+
+        if (label != null)
+            return label;
+
+        GameObject labelObject = new GameObject("Text_Label", typeof(RectTransform));
+        labelObject.transform.SetParent(parentTransform, false);
+        return labelObject.AddComponent<TextMeshProUGUI>();
+    }
+
+    private Sprite ResolveReusableButtonSprite(Image excludedImage)
+    {
+        string[] preferredButtonNameArray =
+        {
+            "Button_RuntimeReturn",
+            "Button_MainMenuUI",
+            "Button_MainMenu",
+            "Button_ReturnMainMenu",
+            "Button_Yes",
+            "Button_No"
+        };
+
+        Image[] imageArray = Resources.FindObjectsOfTypeAll<Image>();
+
+        for (int nameIndex = 0; nameIndex < preferredButtonNameArray.Length; nameIndex++)
+        {
+            string preferredName = preferredButtonNameArray[nameIndex];
+
+            foreach (Image image in imageArray)
+            {
+                if (image == null || image == excludedImage || image.sprite == null)
+                    continue;
+
+                if (!image.gameObject.scene.IsValid())
+                    continue;
+
+                if (image.name == preferredName)
+                    return image.sprite;
+            }
+        }
+
+        foreach (Image image in imageArray)
+        {
+            if (image == null || image == excludedImage || image.sprite == null)
+                continue;
+
+            if (!image.gameObject.scene.IsValid())
+                continue;
+
+            if (image.GetComponent<Button>() != null)
+                return image.sprite;
+        }
+
+        return null;
     }
 
     private void ShowMainMenuButton()
@@ -324,17 +430,24 @@ public class OOTechEndingCreditController : MonoBehaviour
         _isFinished = true;
 
         if (Button_MainMenu != null)
+        {
             Button_MainMenu.gameObject.SetActive(true);
+            Button_MainMenu.transform.SetAsLastSibling();
+        }
     }
 
     private void ReturnToMainMenu()
     {
-        if (OOTechUIManager.Inst == null)
-            return;
-
         RequestPlayMainMenuBGM();
-        OOTechUIManager.Inst.CloseUI(gameObject.name);
-        OOTechUIManager.Inst.OpenUI(_mainMenuGroupName);
+
+        if (OOTechUIManager.Inst != null)
+        {
+            OOTechUIManager.Inst.CloseUI(gameObject.name);
+            OOTechUIManager.Inst.OpenUI(_mainMenuGroupName);
+            return;
+        }
+
+        gameObject.SetActive(false);
     }
 
     private void RequestPlayMainMenuBGM()

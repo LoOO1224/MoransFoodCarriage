@@ -182,6 +182,7 @@ public class OOTechCookingGroupController : MonoBehaviour
         ResolveCauldronReference();
         ResolveCuttingboardReference();
         ResolveJulguReference();
+        RequestEnsureJulguUnlockedForCurrentContext();
         ApplyKitchenCameraView();
         ApplyCookingRenderPriority();
         PrepareCookingView();
@@ -201,6 +202,7 @@ public class OOTechCookingGroupController : MonoBehaviour
         {
             _isToolGuideComplete = true;
             HideGuideBubble();
+            RequestEnsureJulguUnlockedForCurrentContext();
             RequestPrepareStage4RecipeCombineUIIfNeeded();
             RequestOpenCookingSupportHUDIfNeeded();
             return;
@@ -370,7 +372,10 @@ public class OOTechCookingGroupController : MonoBehaviour
     /// </summary>
     private void Update()
     {
-        if (!IsOpenedFromEncounterGroup() || !_isToolGuideComplete || Transform_Julgu == null)
+        if (IsJulguUnlockedCookingContext())
+            RequestEnsureJulguUnlockedForCurrentContext();
+
+        if (!IsJulguUnlockedCookingContext() || !_isToolGuideComplete || Transform_Julgu == null)
             return;
 
         if (!Input.GetMouseButtonDown(0))
@@ -484,6 +489,11 @@ public class OOTechCookingGroupController : MonoBehaviour
             || HasInventoryItem(_carrotIngredientId)
             || HasInventoryItem(_carrotStarchCookId)
             || HasInventoryItem(_carrotCakeCookId);
+    }
+
+    private bool IsJulguUnlockedCookingContext()
+    {
+        return IsOpenedFromEncounterGroup() || IsStage4CarrotCakeCookingContext();
     }
 
     private bool HasInventoryItem(string itemDataId)
@@ -835,10 +845,10 @@ public class OOTechCookingGroupController : MonoBehaviour
             return;
         }
 
-        if (IsOpenedFromEncounterGroup() && itemDataId == _riceIngredientId && IsPointerInsideJulguInteractionArea(screenPosition))
+        if (IsJulguUnlockedCookingContext() && itemDataId == _riceIngredientId && IsPointerInsideJulguInteractionArea(screenPosition))
         {
             SetStatus("절구는 더블 클릭으로 사용합니다. 쌀을 들지 말고 절구를 두 번 눌러주세요.");
-            Debug.LogWarning("[OOTechCookingGroupController] Julgu drag was blocked. Stage3 Julgu now uses double-click only.");
+            Debug.LogWarning("[OOTechCookingGroupController] Julgu drag was blocked. Julgu now uses double-click in unlocked cooking contexts.");
             return;
         }
 
@@ -865,7 +875,7 @@ public class OOTechCookingGroupController : MonoBehaviour
             return;
         }
 
-        if (IsOpenedFromEncounterGroup() && itemDataId == _riceIngredientId && Tool_Julgu != null)
+        if (IsJulguUnlockedCookingContext() && itemDataId == _riceIngredientId && Tool_Julgu != null)
         {
             SetStatus("절구는 더블 클릭으로 사용합니다. 쌀을 들지 말고 절구를 두 번 눌러주세요.");
             return;
@@ -2092,6 +2102,43 @@ public class OOTechCookingGroupController : MonoBehaviour
             if (!string.IsNullOrEmpty(toolData.GuideTutorialId))
                 _julguTutorialId = toolData.GuideTutorialId;
         }
+    }
+
+    private void RequestEnsureJulguUnlockedForCurrentContext()
+    {
+        if (!IsJulguUnlockedCookingContext())
+            return;
+
+        ResolveJulguReference();
+
+        if (Transform_Julgu == null)
+            return;
+
+        if (!Transform_Julgu.gameObject.activeSelf)
+            Transform_Julgu.gameObject.SetActive(true);
+
+        if (Renderer_Julgu != null)
+        {
+            if (!Renderer_Julgu.gameObject.activeSelf)
+                Renderer_Julgu.gameObject.SetActive(true);
+
+            Renderer_Julgu.enabled = true;
+            Renderer_Julgu.forceRenderingOff = false;
+            Color julguColor = Renderer_Julgu.color;
+            julguColor.a = 1f;
+            Renderer_Julgu.color = julguColor;
+        }
+
+        if (Collider_Julgu != null)
+        {
+            if (!Collider_Julgu.gameObject.activeSelf)
+                Collider_Julgu.gameObject.SetActive(true);
+
+            Collider_Julgu.enabled = true;
+        }
+
+        if (Tool_Julgu != null)
+            Tool_Julgu.enabled = true;
     }
 
     /// <summary>

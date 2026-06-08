@@ -108,6 +108,7 @@ public class OOTechStage4GroupController : MonoBehaviour
     private void Update()
     {
         RequestKeepPresentationInsuranceAlive();
+        RequestKeepStage4_1RabbitVisible();
 
         if (_isRunningSequence)
             return;
@@ -197,11 +198,18 @@ public class OOTechStage4GroupController : MonoBehaviour
     private void PrepareStage4_1()
     {
         RequestSetActive(Transform_Turtle, true);
-        RequestSetActive(Transform_Rabbit, false);
+        RequestSetActive(Transform_Rabbit, !_isRabbitSleeping);
         RequestSetActive(Transform_RabbitSleeping, false);
 
         if (!_isTurtleQuestAccepted && !_isRabbitSleeping)
             RequestPlayActorState(Transform_Turtle, "Turtle_Idle", 1f, true);
+
+        if (!_isRabbitSleeping)
+        {
+            RequestForceActorVisible(Transform_Rabbit, 2100);
+            RequestPlayActorState(Transform_Rabbit, "Rabbit_isJoking", 1f, false);
+            RequestHideSpeechBubble(Transform_Rabbit);
+        }
 
         if (_isRabbitSleeping)
             RequestSetMission("토끼가 잠이 들었습니다. 거북이에게 돌아가세요!", true);
@@ -226,6 +234,18 @@ public class OOTechStage4GroupController : MonoBehaviour
 
         RequestForceActorVisible(Transform_Moran, 2200);
         RequestForcePresentationHUD();
+    }
+
+    private void RequestKeepStage4_1RabbitVisible()
+    {
+        if (gameObject.name != ResolveStage4_1GroupName() || _isRabbitSleeping || Transform_Rabbit == null)
+            return;
+
+        if (!Transform_Rabbit.gameObject.activeSelf || !IsRenderableActor(Transform_Rabbit))
+        {
+            RequestForceActorVisible(Transform_Rabbit, 2100);
+            RequestPlayActorState(Transform_Rabbit, "Rabbit_isJoking", 1f, false);
+        }
     }
 
     private void PrepareStage4_2()

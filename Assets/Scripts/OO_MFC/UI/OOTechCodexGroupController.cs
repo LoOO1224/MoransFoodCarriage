@@ -33,6 +33,7 @@ public class OOTechCodexGroupController : MonoBehaviour, IPointerClickHandler
     [SerializeField] private TextMeshProUGUI Text_DetailCategory;
     [SerializeField] private TextMeshProUGUI Text_DetailDescription;
     [SerializeField] private Image Image_DetailPreview;
+    [SerializeField] private ScrollRect Scroll_DetailDescription;
 
     [Header("Page")]
     [SerializeField] private Button Button_PreviousPage;
@@ -47,6 +48,11 @@ public class OOTechCodexGroupController : MonoBehaviour, IPointerClickHandler
     [SerializeField] private string _announcementCategory = "발표 전 업데이트 예정";
     [TextArea(3, 8)]
     [SerializeField] private string _announcementDescription = "도감은 발표 전 업데이트 예정입니다.\n캐릭터, 음식, 재료, 나레이션, 스테이지 정보를 데이터 기반으로 정리합니다.";
+
+    [Header("Layout")]
+    [SerializeField] private float _codexListSlotHeight = 44f;
+    [SerializeField] private float _codexListSlotSpacing = 2f;
+    [SerializeField] private Vector2 _detailDescriptionPadding = new Vector2(18f, 18f);
 
     private readonly List<OOTechCodexEntrySlotView> _spawnedSlotViewList = new List<OOTechCodexEntrySlotView>();
     private GameObject Root_AnnouncementPanel;
@@ -126,6 +132,9 @@ public class OOTechCodexGroupController : MonoBehaviour, IPointerClickHandler
         OOTechTMPFontUtility.ApplyProjectFont(Text_DetailCategory);
         OOTechTMPFontUtility.ApplyProjectFont(Text_DetailDescription);
         OOTechTMPFontUtility.ApplyProjectFont(Text_PageLabel);
+
+        EnsureCodexListScrollLayout();
+        EnsureDetailDescriptionScrollLayout();
     }
 
     /// <summary>
@@ -153,6 +162,11 @@ public class OOTechCodexGroupController : MonoBehaviour, IPointerClickHandler
         if (View_SlotTemplate != null)
             View_SlotTemplate.gameObject.SetActive(false);
 
+        Canvas.ForceUpdateCanvases();
+
+        if (Scroll_CodexList != null)
+            Scroll_CodexList.verticalNormalizedPosition = 1f;
+
         if (codexDataList.Count > 0)
             RequestSelectCodex(codexDataList[0]);
         else
@@ -164,6 +178,7 @@ public class OOTechCodexGroupController : MonoBehaviour, IPointerClickHandler
         OOTechCodexEntrySlotView slotView = Instantiate(View_SlotTemplate, Rect_CodexContent);
         slotView.name = $"Slot_Codex_{codexData.Id}";
         slotView.RequestSetup(codexData, RequestSelectCodex);
+        slotView.RequestSetSlotHeight(_codexListSlotHeight);
         _spawnedSlotViewList.Add(slotView);
     }
 
@@ -376,10 +391,13 @@ public class OOTechCodexGroupController : MonoBehaviour, IPointerClickHandler
         if (Text_DetailDescription != null)
             Text_DetailDescription.text = _announcementDescription;
 
+        RefreshDetailDescriptionScrollPosition();
+        RequestForceDetailTextsVisible(null);
+
         if (Image_DetailPreview != null)
         {
             Image_DetailPreview.sprite = null;
-            Image_DetailPreview.enabled = false;
+            Image_DetailPreview.enabled = true;
         }
 
         Debug.Log("[OOTechCodexGroupController] Codex list is locked for presentation. Click anywhere to close.");
@@ -416,16 +434,263 @@ public class OOTechCodexGroupController : MonoBehaviour, IPointerClickHandler
             Text_DetailTitle.text = codexData != null ? codexData.Title : "도감";
 
         if (Text_DetailCategory != null)
-            Text_DetailCategory.text = string.Empty;
+            Text_DetailCategory.text = codexData != null ? ResolveDisplayCategory(codexData.Category) : ResolveCurrentPageName();
 
         if (Text_DetailDescription != null)
             Text_DetailDescription.text = codexData != null ? codexData.Description : "등록된 도감 데이터가 없습니다.";
 
+        RefreshDetailDescriptionScrollPosition();
+
         if (Image_DetailPreview != null)
         {
-            Image_DetailPreview.sprite = codexData != null ? ResolveSprite(codexData.ImagePath) : null;
-            Image_DetailPreview.enabled = Image_DetailPreview.sprite != null;
+            Image_DetailPreview.sprite = null;
+            Image_DetailPreview.enabled = true;
         }
+
+        RequestForceDetailTextsVisible(codexData);
+    }
+
+    private string ResolveDisplayCategory(string category)
+    {
+        if (string.IsNullOrWhiteSpace(category))
+            return ResolveCurrentPageName();
+
+        if (category == "Character")
+            return "캐릭터";
+
+        if (category == "Food" || category == "Cook")
+            return "음식";
+
+        if (category == "Ingredient")
+            return "재료";
+
+        if (category == "Story" || category == "Narration")
+            return "스토리";
+
+        if (category == "Region" || category == "Stage")
+            return "스테이지";
+
+        return category;
+    }
+
+    private void EnsureCodexListScrollLayout()
+    {
+        if (Scroll_CodexList == null)
+            return;
+
+        Scroll_CodexList.horizontal = false;
+        Scroll_CodexList.vertical = true;
+        Scroll_CodexList.movementType = ScrollRect.MovementType.Clamped;
+
+        RectTransform scrollRect = Scroll_CodexList.transform as RectTransform;
+        RectTransform viewportRect = Scroll_CodexList.viewport;
+
+        if (viewportRect == null)
+        {
+            Transform viewportTransform = RequestChildObjectByName(Scroll_CodexList.transform, "Viewport");
+            viewportRect = viewportTransform as RectTransform;
+        }
+
+        if (viewportRect != null)
+        {
+            Scroll_CodexList.viewport = viewportRect;
+            RectMask2D viewportMask = viewportRect.GetComponent<RectMask2D>();
+
+            if (viewportMask == null)
+                viewportMask = viewportRect.gameObject.AddComponent<RectMask2D>();
+        }
+
+        if (Rect_CodexContent == null)
+            Rect_CodexContent = Scroll_CodexList.content;
+
+        if (Rect_CodexContent == null && viewportRect != null)
+        {
+            GameObject contentObject = new GameObject("Content", typeof(RectTransform));
+            contentObject.transform.SetParent(viewportRect, false);
+            Rect_CodexContent = contentObject.GetComponent<RectTransform>();
+            Scroll_CodexList.content = Rect_CodexContent;
+        }
+
+        if (Rect_CodexContent == null)
+            return;
+
+        Rect_CodexContent.anchorMin = new Vector2(0f, 1f);
+        Rect_CodexContent.anchorMax = new Vector2(1f, 1f);
+        Rect_CodexContent.pivot = new Vector2(0.5f, 1f);
+        Rect_CodexContent.anchoredPosition = Vector2.zero;
+
+        VerticalLayoutGroup layoutGroup = Rect_CodexContent.GetComponent<VerticalLayoutGroup>();
+
+        if (layoutGroup == null)
+            layoutGroup = Rect_CodexContent.gameObject.AddComponent<VerticalLayoutGroup>();
+
+        layoutGroup.childAlignment = TextAnchor.UpperLeft;
+        layoutGroup.childControlWidth = true;
+        layoutGroup.childControlHeight = true;
+        layoutGroup.childForceExpandWidth = true;
+        layoutGroup.childForceExpandHeight = false;
+        layoutGroup.spacing = _codexListSlotSpacing;
+        layoutGroup.padding = new RectOffset(0, 0, 0, 0);
+
+        ContentSizeFitter sizeFitter = Rect_CodexContent.GetComponent<ContentSizeFitter>();
+
+        if (sizeFitter == null)
+            sizeFitter = Rect_CodexContent.gameObject.AddComponent<ContentSizeFitter>();
+
+        sizeFitter.horizontalFit = ContentSizeFitter.FitMode.Unconstrained;
+        sizeFitter.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
+
+        if (scrollRect != null && viewportRect != null)
+        {
+            viewportRect.anchorMin = Vector2.zero;
+            viewportRect.anchorMax = Vector2.one;
+            viewportRect.offsetMin = Vector2.zero;
+            viewportRect.offsetMax = Vector2.zero;
+        }
+    }
+
+    private void EnsureDetailDescriptionScrollLayout()
+    {
+        if (Image_DetailPreview == null || Text_DetailDescription == null)
+            return;
+
+        RectTransform previewRect = Image_DetailPreview.transform as RectTransform;
+
+        if (previewRect == null)
+            return;
+
+        Image_DetailPreview.enabled = true;
+        Image_DetailPreview.raycastTarget = false;
+        previewRect.SetAsFirstSibling();
+
+        if (Image_DetailPreview.sprite == null)
+            Image_DetailPreview.color = new Color(1f, 0.94f, 0.72f, 0.82f);
+
+        RectMask2D mask = Image_DetailPreview.GetComponent<RectMask2D>();
+
+        if (mask == null)
+            mask = Image_DetailPreview.gameObject.AddComponent<RectMask2D>();
+
+        if (Scroll_DetailDescription == null)
+            Scroll_DetailDescription = Image_DetailPreview.GetComponent<ScrollRect>();
+
+        if (Scroll_DetailDescription == null)
+            Scroll_DetailDescription = Image_DetailPreview.gameObject.AddComponent<ScrollRect>();
+
+        Transform existingContentTransform = RequestChildObjectByName(previewRect, "Content_DetailDescription");
+        RectTransform contentRect = existingContentTransform as RectTransform;
+
+        if (contentRect == null)
+        {
+            GameObject contentObject = new GameObject("Content_DetailDescription", typeof(RectTransform));
+            contentObject.transform.SetParent(previewRect, false);
+            contentRect = contentObject.GetComponent<RectTransform>();
+        }
+
+        Text_DetailDescription.transform.SetParent(contentRect, false);
+
+        Scroll_DetailDescription.viewport = previewRect;
+        Scroll_DetailDescription.content = contentRect;
+        Scroll_DetailDescription.horizontal = false;
+        Scroll_DetailDescription.vertical = true;
+        Scroll_DetailDescription.movementType = ScrollRect.MovementType.Clamped;
+
+        contentRect.anchorMin = new Vector2(0f, 1f);
+        contentRect.anchorMax = new Vector2(1f, 1f);
+        contentRect.pivot = new Vector2(0.5f, 1f);
+        contentRect.anchoredPosition = Vector2.zero;
+        contentRect.offsetMin = new Vector2(_detailDescriptionPadding.x, 0f);
+        contentRect.offsetMax = new Vector2(-_detailDescriptionPadding.x, 0f);
+
+        ContentSizeFitter contentSizeFitter = contentRect.GetComponent<ContentSizeFitter>();
+
+        if (contentSizeFitter == null)
+            contentSizeFitter = contentRect.gameObject.AddComponent<ContentSizeFitter>();
+
+        contentSizeFitter.horizontalFit = ContentSizeFitter.FitMode.Unconstrained;
+        contentSizeFitter.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
+
+        RectTransform textRect = Text_DetailDescription.rectTransform;
+        textRect.anchorMin = new Vector2(0f, 1f);
+        textRect.anchorMax = new Vector2(1f, 1f);
+        textRect.pivot = new Vector2(0.5f, 1f);
+        textRect.anchoredPosition = new Vector2(0f, -_detailDescriptionPadding.y);
+        textRect.offsetMin = new Vector2(0f, textRect.offsetMin.y);
+        textRect.offsetMax = new Vector2(0f, textRect.offsetMax.y);
+
+        Text_DetailDescription.textWrappingMode = TextWrappingModes.Normal;
+        Text_DetailDescription.overflowMode = TextOverflowModes.Overflow;
+        Text_DetailDescription.alignment = TextAlignmentOptions.TopLeft;
+        Text_DetailDescription.raycastTarget = false;
+        Text_DetailDescription.color = new Color(0.08f, 0.07f, 0.04f, 1f);
+        Text_DetailDescription.fontSize = Mathf.Clamp(Text_DetailDescription.fontSize <= 0f ? 28f : Text_DetailDescription.fontSize, 22f, 32f);
+        Text_DetailDescription.gameObject.SetActive(true);
+        Text_DetailDescription.transform.SetAsLastSibling();
+    }
+
+    private void RefreshDetailDescriptionScrollPosition()
+    {
+        EnsureDetailDescriptionScrollLayout();
+
+        if (Text_DetailDescription != null)
+            Text_DetailDescription.ForceMeshUpdate();
+
+        Canvas.ForceUpdateCanvases();
+
+        if (Scroll_DetailDescription != null)
+        {
+            RectTransform contentRect = Scroll_DetailDescription.content;
+
+            if (contentRect != null && Text_DetailDescription != null)
+            {
+                RectTransform textRect = Text_DetailDescription.rectTransform;
+                float preferredHeight = Mathf.Max(120f, Text_DetailDescription.preferredHeight + _detailDescriptionPadding.y * 2f);
+                contentRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, preferredHeight);
+                textRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, preferredHeight - _detailDescriptionPadding.y * 2f);
+            }
+
+            Scroll_DetailDescription.verticalNormalizedPosition = 1f;
+        }
+    }
+
+    private void RequestForceDetailTextsVisible(OO_Codex codexData)
+    {
+        if (Text_DetailTitle != null)
+        {
+            Text_DetailTitle.gameObject.SetActive(true);
+            Text_DetailTitle.text = codexData != null ? codexData.Title : string.IsNullOrWhiteSpace(Text_DetailTitle.text) ? "도감" : Text_DetailTitle.text;
+            Text_DetailTitle.color = new Color(0.05f, 0.04f, 0.03f, 1f);
+            Text_DetailTitle.alignment = TextAlignmentOptions.Center;
+            Text_DetailTitle.raycastTarget = false;
+            OOTechTMPFontUtility.ApplyProjectFont(Text_DetailTitle);
+            Text_DetailTitle.transform.SetAsLastSibling();
+        }
+
+        if (Text_DetailCategory != null)
+        {
+            Text_DetailCategory.gameObject.SetActive(true);
+            Text_DetailCategory.text = codexData != null ? ResolveDisplayCategory(codexData.Category) : string.IsNullOrWhiteSpace(Text_DetailCategory.text) ? ResolveCurrentPageName() : Text_DetailCategory.text;
+            Text_DetailCategory.color = new Color(0.08f, 0.07f, 0.04f, 1f);
+            Text_DetailCategory.alignment = TextAlignmentOptions.Center;
+            Text_DetailCategory.raycastTarget = false;
+            OOTechTMPFontUtility.ApplyProjectFont(Text_DetailCategory);
+            Text_DetailCategory.transform.SetAsLastSibling();
+        }
+
+        if (Text_DetailDescription != null)
+        {
+            Text_DetailDescription.gameObject.SetActive(true);
+            Text_DetailDescription.text = codexData != null ? codexData.Description : string.IsNullOrWhiteSpace(Text_DetailDescription.text) ? "등록된 도감 데이터가 없습니다." : Text_DetailDescription.text;
+            Text_DetailDescription.color = new Color(0.08f, 0.07f, 0.04f, 1f);
+            Text_DetailDescription.textWrappingMode = TextWrappingModes.Normal;
+            Text_DetailDescription.overflowMode = TextOverflowModes.Overflow;
+            Text_DetailDescription.alignment = TextAlignmentOptions.TopLeft;
+            Text_DetailDescription.raycastTarget = false;
+            OOTechTMPFontUtility.ApplyProjectFont(Text_DetailDescription);
+            Text_DetailDescription.transform.SetAsLastSibling();
+        }
+
+        Canvas.ForceUpdateCanvases();
     }
 
     private TextMeshProUGUI ResolveText(TextMeshProUGUI currentText, params string[] nameArray)
