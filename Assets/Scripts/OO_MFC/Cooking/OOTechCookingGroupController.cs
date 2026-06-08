@@ -160,6 +160,8 @@ public class OOTechCookingGroupController : MonoBehaviour
     private UnityAction _guideConfirmAction;
     private bool _isToolGuideComplete;
     private bool _isJulguGuideActive;
+    private float _lastJulguClickTime = -10f;
+    private float _julguDoubleClickSeconds = 0.35f;
     private Coroutine Coroutine_KoreanCakeInventoryRepair;
 
     /// <summary>
@@ -251,7 +253,15 @@ public class OOTechCookingGroupController : MonoBehaviour
         if (!IsPointerInsideJulguInteractionArea(Input.mousePosition))
             return;
 
-        TryConvertRiceToKoreanCakeOnJulgu(_riceIngredientId, _julguObjectName);
+        if (Time.unscaledTime - _lastJulguClickTime <= _julguDoubleClickSeconds)
+        {
+            _lastJulguClickTime = -10f;
+            TryConvertRiceToKoreanCakeOnJulgu(_riceIngredientId, _julguObjectName);
+            return;
+        }
+
+        _lastJulguClickTime = Time.unscaledTime;
+        SetStatus("절구를 더블 클릭하면 쌀 1개가 떡 1개로 바뀝니다.");
     }
 
     private bool IsPointerInsideJulguInteractionArea(Vector2 screenPosition)
@@ -616,8 +626,8 @@ public class OOTechCookingGroupController : MonoBehaviour
 
         if (IsOpenedFromEncounterGroup() && itemDataId == _riceIngredientId && IsPointerInsideJulguInteractionArea(screenPosition))
         {
-            TryConvertRiceToKoreanCakeOnJulgu(_riceIngredientId, _julguObjectName);
-            Debug.LogWarning("[OOTechCookingGroupController] Julgu independent system accepted rice before normal drop flow.");
+            SetStatus("절구는 더블 클릭으로 사용합니다. 쌀을 들지 말고 절구를 두 번 눌러주세요.");
+            Debug.LogWarning("[OOTechCookingGroupController] Julgu drag was blocked. Stage3 Julgu now uses double-click only.");
             return;
         }
 
@@ -640,14 +650,13 @@ public class OOTechCookingGroupController : MonoBehaviour
 
         if (dropToolType == OOTechCookingDropToolType.Julgu)
         {
-            RequestDropIngredientToTool(itemDataId, itemQuantity, Tool_Julgu, _julguObjectName, "절구");
+            SetStatus("절구는 더블 클릭으로 사용합니다. 쌀을 들지 말고 절구를 두 번 눌러주세요.");
             return;
         }
 
         if (IsOpenedFromEncounterGroup() && itemDataId == _riceIngredientId && Tool_Julgu != null)
         {
-            RequestDropIngredientToTool(itemDataId, itemQuantity, Tool_Julgu, _julguObjectName, "절구");
-            Debug.LogWarning("[OOTechCookingGroupController] Julgu pointer fallback accepted rice for Stage3 cooking.");
+            SetStatus("절구는 더블 클릭으로 사용합니다. 쌀을 들지 말고 절구를 두 번 눌러주세요.");
             return;
         }
 
@@ -2077,7 +2086,7 @@ public class OOTechCookingGroupController : MonoBehaviour
         _isJulguGuideActive = false;
         _toolGuideCoroutine = null;
         SetGuidePointerActive(false);
-        SetStatus("절구 안내를 확인했습니다. 절구를 클릭하면 쌀 1개가 떡 1개로 바뀝니다.");
+        SetStatus("절구 안내를 확인했습니다. 절구를 더블 클릭하면 쌀 1개가 떡 1개로 바뀝니다.");
     }
 
     private void StopToolGuideRoutine()
@@ -2209,7 +2218,7 @@ public class OOTechCookingGroupController : MonoBehaviour
 
     private void GetJulguGuideData(out string title, out string description)
     {
-        string fallbackDescription = "절구는 마우스 클릭으로 인벤토리의 쌀을 떡으로 만들 수 있습니다!";
+        string fallbackDescription = "절구는 쌀을 떡으로 만들 수 있는 조리기구입니다. 더블 클릭 하면 쌀이 자동으로\n떡이 되어 인벤토리에 추가됩니다.";
 
         if (Cue_Guide != null)
         {

@@ -76,8 +76,8 @@ public class OOTechRoadHUDController : MonoBehaviour
     [SerializeField] private float _newBadgeMinimumAlpha = 0.25f;
 
     [Header("Mission Effect")]
-    [SerializeField] private float _missionCompleteHoldDuration = 0.25f;
-    [SerializeField] private float _missionCompleteFadeDuration = 0.85f;
+    [SerializeField] private float _missionCompleteHoldDuration = 0.85f;
+    [SerializeField] private float _missionCompleteFadeDuration = 1.65f;
 
     private GameObject Root_HUD;
     private RectTransform Rect_HUD;
@@ -138,6 +138,7 @@ public class OOTechRoadHUDController : MonoBehaviour
     private Coroutine _cookingNewBadgeCoroutine;
     private Coroutine _missionCompleteEffectCoroutine;
     private Coroutine _autoOpenNewPanelCoroutine;
+    private readonly List<OOTechRoadHUDButtonKind> _pendingAutoOpenButtonKindList = new List<OOTechRoadHUDButtonKind>();
 
     public bool IsCookingUnlocked => _isCookingUnlocked;
     public bool IsOverlayOpen => _isOverlayOpen;
@@ -374,6 +375,24 @@ public class OOTechRoadHUDController : MonoBehaviour
         BindHUDViewReferences();
         ResolveCookingOverlayControllerIfNeeded();
         OpenCookingSupportHUD();
+    }
+
+    /// <summary>
+    /// 선택지/대화가 시작된 뒤 인벤토리 패널이 대사를 가리는 상황을 막기 위해 잠시 후 닫습니다.
+    /// 부엌에 다시 들어오면 RequestOpenCookingSupportHUD가 다시 열어 주므로 조리 흐름은 막히지 않습니다.
+    /// </summary>
+    public void RequestCloseInventoryPanelAfterDelay(float delaySeconds)
+    {
+        if (!isActiveAndEnabled)
+            return;
+
+        StartCoroutine(CloseInventoryPanelAfterDelayRoutine(delaySeconds));
+    }
+
+    private IEnumerator CloseInventoryPanelAfterDelayRoutine(float delaySeconds)
+    {
+        yield return new WaitForSecondsRealtime(Mathf.Max(0f, delaySeconds));
+        SetInventoryPanelActive(false);
     }
 
     /// <summary>
@@ -1228,44 +1247,94 @@ public class OOTechRoadHUDController : MonoBehaviour
         if (!isActiveAndEnabled)
             return;
 
-        if (_autoOpenNewPanelCoroutine != null)
-            StopCoroutine(_autoOpenNewPanelCoroutine);
+        if (IsAutoOpenTargetAlreadyVisible(buttonKind))
+            return;
 
-        _autoOpenNewPanelCoroutine = StartCoroutine(PlayAutoOpenNewPanelRoutine(buttonKind));
+        if (!_pendingAutoOpenButtonKindList.Contains(buttonKind))
+            _pendingAutoOpenButtonKindList.Add(buttonKind);
+
+        SortAutoOpenQueue();
+
+        if (_autoOpenNewPanelCoroutine == null)
+            _autoOpenNewPanelCoroutine = StartCoroutine(PlayAutoOpenNewPanelRoutine());
     }
 
     /// <summary>
-    /// NEW 뱃지가 붙은 UI를 다음 프레임에 한 번 열어 줍니다.
-    /// 버튼 클릭 이벤트를 직접 호출하지 않고 전용 메서드로 처리해, 요리하기처럼 자동 진입하면 안 되는 버튼을 분리합니다.
+    /// NEW 뱃지가 붙은 UI를 우선순위대로 한 번씩 열어 줍니다.
+    /// 인벤토리, 임무, 월드맵이 동시에 갱신될 때 마지막 요청이 앞 요청을 끊지 않도록 큐로 처리합니다.
     /// </summary>
-    private IEnumerator PlayAutoOpenNewPanelRoutine(OOTechRoadHUDButtonKind buttonKind)
+    private IEnumerator PlayAutoOpenNewPanelRoutine()
     {
-        yield return null;
-
-        if (!gameObject.activeInHierarchy)
-            yield break;
-
-        if (buttonKind == OOTechRoadHUDButtonKind.Inventory)
+        while (_pendingAutoOpenButtonKindList.Count > 0)
         {
-            RefreshInventoryView();
-            SetInventoryPanelActive(true);
-            SetMissionPanelActive(false);
-            yield break;
+            yield return null;
+
+            if (!gameObject.activeInHierarchy)
+                break;
+
+            SortAutoOpenQueue();
+            OOTechRoadHUDButtonKind buttonKind = _pendingAutoOpenButtonKindList[0];
+            _pendingAutoOpenButtonKindList.RemoveAt(0);
+
+            if (buttonKind == OOTechRoadHUDButtonKind.Inventory)
+            {
+                RefreshInventoryView();
+                SetInventoryPanelActive(true);
+                SetMissionPanelActive(false);
+                yield return new WaitForSecondsRealtime(0.15f);
+                continue;
+            }
+
+            if (buttonKind == OOTechRoadHUDButtonKind.Mission)
+            {
+                RefreshMissionText();
+                SetMissionPanelActive(true);
+                SetInventoryPanelActive(false);
+                yield return new WaitForSecondsRealtime(0.15f);
+                continue;
+            }
+
+            if (buttonKind == OOTechRoadHUDButtonKind.WorldMap)
+            {
+                OnWorldMapButtonClicked();
+                yield return new WaitForSecondsRealtime(0.15f);
+            }
         }
+
+        _autoOpenNewPanelCoroutine = null;
+    }
+
+    private void SortAutoOpenQueue()
+    {
+        _pendingAutoOpenButtonKindList.Sort(delegate (OOTechRoadHUDButtonKind firstKind, OOTechRoadHUDButtonKind secondKind)
+        {
+            return GetAutoOpenPriority(firstKind).CompareTo(GetAutoOpenPriority(secondKind));
+        });
+    }
+
+    private int GetAutoOpenPriority(OOTechRoadHUDButtonKind buttonKind)
+    {
+        if (buttonKind == OOTechRoadHUDButtonKind.Inventory)
+            return 0;
 
         if (buttonKind == OOTechRoadHUDButtonKind.Mission)
-        {
-            RefreshMissionText();
-            SetMissionPanelActive(true);
-            SetInventoryPanelActive(false);
-            yield break;
-        }
+            return 1;
 
         if (buttonKind == OOTechRoadHUDButtonKind.WorldMap)
-        {
-            OnWorldMapButtonClicked();
-            yield break;
-        }
+            return 2;
+
+        return 99;
+    }
+
+    private bool IsAutoOpenTargetAlreadyVisible(OOTechRoadHUDButtonKind buttonKind)
+    {
+        if (buttonKind == OOTechRoadHUDButtonKind.Inventory)
+            return Root_InventoryPanel != null && Root_InventoryPanel.activeInHierarchy;
+
+        if (buttonKind == OOTechRoadHUDButtonKind.Mission)
+            return Root_MissionPanel != null && Root_MissionPanel.activeInHierarchy;
+
+        return false;
     }
 
     /// <summary>
@@ -1388,7 +1457,7 @@ public class OOTechRoadHUDController : MonoBehaviour
             return missionText + "\n";
 
         string alphaHex = Mathf.Clamp(Mathf.RoundToInt(_missionCompleteEffectAlpha * 255f), 0, 255).ToString("X2");
-        return $"<color=#FFFFFF{alphaHex}><s>{missionText}</s></color>\n";
+        return $"<color=#202020{alphaHex}><s>{missionText}</s></color>\n";
     }
 
     /// <summary>

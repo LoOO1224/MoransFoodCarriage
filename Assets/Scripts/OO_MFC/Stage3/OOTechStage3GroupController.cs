@@ -334,10 +334,10 @@ public class OOTechStage3GroupController : MonoBehaviour
             return;
 
         animator.speed = Mathf.Max(0.01f, speed);
-        int stateHash = Animator.StringToHash(stateName);
+        string resolvedStateName = ResolveAnimatorStateName(animator, stateName);
 
-        if (animator.HasState(0, stateHash))
-            animator.Play(stateName, 0, 0f);
+        if (!string.IsNullOrEmpty(resolvedStateName))
+            animator.Play(resolvedStateName, 0, 0f);
         else
             Debug.LogWarning($"[OOTechStage3GroupController] Missing Sangun animation state: {stateName}", animator);
     }
@@ -372,11 +372,64 @@ public class OOTechStage3GroupController : MonoBehaviour
 
         foreach (AnimationClip clip in animator.runtimeAnimatorController.animationClips)
         {
-            if (clip != null && clip.name == clipName)
+            if (clip != null && IsSameAnimationName(clip.name, clipName))
                 return Mathf.Max(0.1f, clip.length);
         }
 
         return fallbackSeconds;
+    }
+
+    /// <summary>
+    /// 산군 애니메이션 이름이 살짝 다르게 등록되어도 같은 장면으로 연결합니다.
+    /// Game View에서는 철자 차이 때문에 산군이 멈추지 않고 위협-공격-대기 순서로 진행됩니다.
+    /// </summary>
+    private string ResolveAnimatorStateName(Animator animator, string requestedStateName)
+    {
+        if (animator == null || string.IsNullOrEmpty(requestedStateName))
+            return string.Empty;
+
+        string[] candidateNameArray = CreateAnimationCandidateNameArray(requestedStateName);
+
+        foreach (string candidateName in candidateNameArray)
+        {
+            if (string.IsNullOrEmpty(candidateName))
+                continue;
+
+            int stateHash = Animator.StringToHash(candidateName);
+
+            if (animator.HasState(0, stateHash))
+                return candidateName;
+        }
+
+        return string.Empty;
+    }
+
+    private bool IsSameAnimationName(string clipName, string requestedStateName)
+    {
+        foreach (string candidateName in CreateAnimationCandidateNameArray(requestedStateName))
+        {
+            if (clipName == candidateName)
+                return true;
+        }
+
+        return false;
+    }
+
+    private string[] CreateAnimationCandidateNameArray(string requestedStateName)
+    {
+        if (requestedStateName == "Sangun_isThreatening")
+            return new[] { "Sangun_isThreatening", "Sangun_isThreathening" };
+
+        if (requestedStateName == "Sangun_isThreathening")
+            return new[] { "Sangun_isThreathening", "Sangun_isThreatening" };
+
+        if (requestedStateName == "Sangun_Idle")
+            return new[] { "Sangun_Idle", "Sangun_idle", "Sangun_Idle_0" };
+
+        if (requestedStateName == "Sangun_idle")
+            return new[] { "Sangun_idle", "Sangun_Idle", "Sangun_Idle_0" };
+
+        return new[] { requestedStateName };
     }
 
     private GameObject RequestSceneObjectByName(string objectName)

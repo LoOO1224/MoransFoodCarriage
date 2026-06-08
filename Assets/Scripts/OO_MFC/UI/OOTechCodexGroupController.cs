@@ -67,6 +67,7 @@ public class OOTechCodexGroupController : MonoBehaviour, IPointerClickHandler
             return;
         }
 
+        RequestSetCodexContentActive(true);
         RequestRefreshCodexList();
     }
 
@@ -82,7 +83,7 @@ public class OOTechCodexGroupController : MonoBehaviour, IPointerClickHandler
             RequestCloseAnnouncementPanel();
 
         if (!_isUseAnnouncementOnly && _isCloseCodexByOutsideClick && Input.GetMouseButtonDown(0) && !IsPointerInsideCodexContent(Input.mousePosition))
-            RequestCloseCodexGroup();
+            RequestHideCodexContentOnly();
     }
 
     /// <summary>
@@ -231,7 +232,7 @@ public class OOTechCodexGroupController : MonoBehaviour, IPointerClickHandler
             AppendStagePage(dataList);
 
         if (Text_PageLabel != null)
-            Text_PageLabel.text = $"{_currentPageIndex + 1}/5 {ResolveCurrentPageName()}";
+            Text_PageLabel.text = $"[{ResolveCurrentPageName()}]";
 
         return dataList;
     }
@@ -317,13 +318,13 @@ public class OOTechCodexGroupController : MonoBehaviour, IPointerClickHandler
             return "캐릭터";
 
         if (_currentPageIndex == 1)
-            return "요리";
+            return "음식";
 
         if (_currentPageIndex == 2)
             return "재료";
 
         if (_currentPageIndex == 3)
-            return "나레이션";
+            return "스토리";
 
         return "스테이지";
     }
@@ -412,7 +413,7 @@ public class OOTechCodexGroupController : MonoBehaviour, IPointerClickHandler
             Text_DetailTitle.text = codexData != null ? codexData.Title : "도감";
 
         if (Text_DetailCategory != null)
-            Text_DetailCategory.text = codexData != null ? codexData.Category : string.Empty;
+            Text_DetailCategory.text = string.Empty;
 
         if (Text_DetailDescription != null)
             Text_DetailDescription.text = codexData != null ? codexData.Description : "등록된 도감 데이터가 없습니다.";
@@ -529,6 +530,34 @@ public class OOTechCodexGroupController : MonoBehaviour, IPointerClickHandler
 
         if (previousGroupObject != null)
             previousGroupObject.SetActive(true);
+    }
+
+    /// <summary>
+    /// 도감의 목록/설명 창만 닫고, 배경과 돌아가기 버튼은 유지합니다.
+    /// Game View에서는 도감 창 바깥을 눌렀을 때 플레이어가 갇히지 않고 배경을 볼 수 있습니다.
+    /// </summary>
+    private void RequestHideCodexContentOnly()
+    {
+        RequestSetCodexContentActive(false);
+        Debug.Log("[OOTechCodexGroupController] Codex content panels hidden by outside click.");
+    }
+
+    private void RequestSetCodexContentActive(bool isActive)
+    {
+        if (Scroll_CodexList != null)
+            Scroll_CodexList.gameObject.SetActive(isActive);
+
+        if (Rect_DetailPanel != null)
+            Rect_DetailPanel.gameObject.SetActive(isActive);
+
+        if (Button_PreviousPage != null)
+            Button_PreviousPage.gameObject.SetActive(isActive);
+
+        if (Button_NextPage != null)
+            Button_NextPage.gameObject.SetActive(isActive);
+
+        if (Text_PageLabel != null)
+            Text_PageLabel.gameObject.SetActive(isActive);
     }
 
     private Button ResolveButton(Button currentButton, params string[] nameArray)

@@ -130,7 +130,12 @@ public class OOTechStage4GroupController : MonoBehaviour
         Renderer_Background = ResolveBackgroundRenderer();
 
         if (Transform_Moran != null)
+        {
             Controller_MoranMove = Transform_Moran.GetComponent<OOTechStageMoranFreeMoveController>();
+
+            if (Controller_MoranMove == null)
+                Controller_MoranMove = Transform_Moran.gameObject.AddComponent<OOTechStageMoranFreeMoveController>();
+        }
 
         if (View_ClearPanel == null)
             View_ClearPanel = GetComponentInChildren<OOTechStage4ClearPanelView>(true);
@@ -164,6 +169,9 @@ public class OOTechStage4GroupController : MonoBehaviour
         RequestSetActive(Transform_Turtle, true);
         RequestSetActive(Transform_Rabbit, false);
         RequestSetActive(Transform_RabbitSleeping, false);
+
+        if (!_isTurtleQuestAccepted && !_isRabbitSleeping)
+            RequestPlayActorState(Transform_Turtle, "Turtle_Idle", 1f, true);
 
         if (_isRabbitSleeping)
             RequestSetMission("토끼가 잠이 들었습니다. 거북이에게 돌아가세요!", true);
@@ -452,18 +460,24 @@ public class OOTechStage4GroupController : MonoBehaviour
 
     private bool IsMoranAtRightEdge()
     {
-        if (Transform_Moran == null || Renderer_Background == null)
+        if (Transform_Moran == null)
             return false;
 
-        return Transform_Moran.position.x >= Renderer_Background.bounds.max.x - 18f;
+        if (Renderer_Background != null)
+            return Transform_Moran.position.x >= Renderer_Background.bounds.max.x - 18f;
+
+        return Transform_Moran.position.x >= 8.8f;
     }
 
     private bool IsMoranAtLeftEdge()
     {
-        if (Transform_Moran == null || Renderer_Background == null)
+        if (Transform_Moran == null)
             return false;
 
-        return Transform_Moran.position.x <= Renderer_Background.bounds.min.x + 18f;
+        if (Renderer_Background != null)
+            return Transform_Moran.position.x <= Renderer_Background.bounds.min.x + 18f;
+
+        return Transform_Moran.position.x <= -8.8f;
     }
 
     private void ClampMoranBeforeStump()
@@ -590,7 +604,9 @@ public class OOTechStage4GroupController : MonoBehaviour
     {
         SpriteRenderer[] rendererArray = GetComponentsInChildren<SpriteRenderer>(true);
         SpriteRenderer bestRenderer = null;
+        SpriteRenderer largestRenderer = null;
         float bestArea = 0f;
+        float largestArea = 0f;
 
         foreach (SpriteRenderer spriteRenderer in rendererArray)
         {
@@ -599,10 +615,16 @@ public class OOTechStage4GroupController : MonoBehaviour
 
             string objectName = spriteRenderer.gameObject.name;
 
+            float area = Mathf.Abs(spriteRenderer.bounds.size.x * spriteRenderer.bounds.size.y);
+
+            if (area > largestArea)
+            {
+                largestRenderer = spriteRenderer;
+                largestArea = area;
+            }
+
             if (!objectName.Contains("Background") && !objectName.Contains("Backound"))
                 continue;
-
-            float area = Mathf.Abs(spriteRenderer.bounds.size.x * spriteRenderer.bounds.size.y);
 
             if (area <= bestArea)
                 continue;
@@ -611,7 +633,7 @@ public class OOTechStage4GroupController : MonoBehaviour
             bestArea = area;
         }
 
-        return bestRenderer;
+        return bestRenderer != null ? bestRenderer : largestRenderer;
     }
 
     private void RequestSwitchGroup(string closingGroupName, string openingGroupName)

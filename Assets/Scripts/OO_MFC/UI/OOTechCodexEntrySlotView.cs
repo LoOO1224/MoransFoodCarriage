@@ -20,7 +20,12 @@ public class OOTechCodexEntrySlotView : MonoBehaviour
     [Header("View")]
     [SerializeField] private TextMeshProUGUI Text_Category;
     [SerializeField] private TextMeshProUGUI Text_Title;
+    [SerializeField] private Image Image_Background;
     [SerializeField] private Button Button_Select;
+
+    [Header("Style")]
+    [SerializeField] private Color _slotBackgroundColor = new Color(0.68f, 0.84f, 0.54f, 0.82f);
+    [SerializeField] private Color _slotTextColor = new Color(0.08f, 0.07f, 0.04f, 1f);
 
     private OO_Codex _codexData;
     private Action<OO_Codex> _onSelected;
@@ -36,10 +41,19 @@ public class OOTechCodexEntrySlotView : MonoBehaviour
         _onSelected = onSelected;
 
         if (Text_Category != null)
-            Text_Category.text = codexData != null ? codexData.Category : string.Empty;
+        {
+            Text_Category.text = string.Empty;
+            Text_Category.gameObject.SetActive(false);
+        }
 
         if (Text_Title != null)
+        {
             Text_Title.text = codexData != null ? codexData.Title : string.Empty;
+            Text_Title.color = _slotTextColor;
+            Text_Title.alignment = TextAlignmentOptions.MidlineLeft;
+        }
+
+        ApplySlotBackgroundStyle();
 
         BindButtonEvent();
         gameObject.SetActive(true);
@@ -55,6 +69,12 @@ public class OOTechCodexEntrySlotView : MonoBehaviour
         if (Button_Select == null)
             Button_Select = GetComponent<Button>();
 
+        if (Image_Background == null)
+            Image_Background = GetComponent<Image>();
+
+        if (Image_Background == null && Button_Select != null)
+            Image_Background = Button_Select.GetComponent<Image>();
+
         if (Text_Title == null)
             Text_Title = RequestText("Text_Title", "Text_Label");
 
@@ -63,6 +83,19 @@ public class OOTechCodexEntrySlotView : MonoBehaviour
 
         OOTechTMPFontUtility.ApplyProjectFont(Text_Category);
         OOTechTMPFontUtility.ApplyProjectFont(Text_Title);
+    }
+
+    /// <summary>
+    /// 도감 목록 한 줄을 연녹색 표지처럼 정리합니다.
+    /// Game View에서는 반복되는 "캐릭터" 꼬리표 없이 이름만 읽기 쉬운 줄로 보입니다.
+    /// </summary>
+    private void ApplySlotBackgroundStyle()
+    {
+        if (Image_Background == null)
+            return;
+
+        Image_Background.color = _slotBackgroundColor;
+        Image_Background.raycastTarget = true;
     }
 
     private TextMeshProUGUI RequestText(params string[] nameArray)

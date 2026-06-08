@@ -24,8 +24,6 @@ public class OOTechDialogueSpeakerNameBackdrop : MonoBehaviour
     [SerializeField] private Vector2 _padding = new Vector2(32f, 18f);
 
     private RectTransform Rect_SpeakerName;
-    private RectTransform Rect_Backdrop;
-    private Image Image_Backdrop;
     private TextMeshProUGUI Text_SpeakerName;
     private string _currentSpeakerName;
 
@@ -69,28 +67,14 @@ public class OOTechDialogueSpeakerNameBackdrop : MonoBehaviour
     }
 
     /// <summary>
-    /// SpeakerNameText 뒤에 들어갈 Image_SpeakerNameBackdrop 오브젝트를 준비합니다.
+    /// SpeakerNameText를 찾고, 이전 작업에서 만들어진 중복 이름표 배경을 끕니다.
+    /// 영화로 치면 배우 이름표를 두 장 겹쳐 붙이지 않도록 소품팀이 남은 종이를 걷어내는 과정입니다.
     /// </summary>
     private void PrepareBackdrop()
     {
         ApplyRequestedStyle();
         CacheSpeakerNameReference();
-
-        if (Rect_SpeakerName == null)
-            return;
-
-        if (Rect_Backdrop != null)
-            return;
-
-        GameObject backdropObject = new GameObject("Image_SpeakerNameBackdrop", typeof(RectTransform));
-        backdropObject.layer = Rect_SpeakerName.gameObject.layer;
-        backdropObject.transform.SetParent(Rect_SpeakerName.parent, false);
-        backdropObject.transform.SetSiblingIndex(Rect_SpeakerName.GetSiblingIndex());
-
-        Rect_Backdrop = backdropObject.transform as RectTransform;
-        Image_Backdrop = backdropObject.AddComponent<Image>();
-        Image_Backdrop.color = _backdropColor;
-        Image_Backdrop.raycastTarget = false;
+        DisableGeneratedBackdropObjects();
     }
 
     /// <summary>
@@ -115,25 +99,30 @@ public class OOTechDialogueSpeakerNameBackdrop : MonoBehaviour
     }
 
     /// <summary>
-    /// 흰색 50% 반투명 배경과 검은 화자 이름 색상을 적용합니다.
+    /// 화자 이름 색상만 안정적으로 적용합니다.
+    /// 배경판은 씬에 배치된 기존 UI를 쓰고, 코드가 새 오브젝트를 만들지 않습니다.
     /// </summary>
     private void ApplyBackdropLayout()
     {
-        if (Rect_SpeakerName == null || Rect_Backdrop == null)
-            return;
-
-        Rect_Backdrop.anchorMin = Rect_SpeakerName.anchorMin;
-        Rect_Backdrop.anchorMax = Rect_SpeakerName.anchorMax;
-        Rect_Backdrop.pivot = Rect_SpeakerName.pivot;
-        Rect_Backdrop.anchoredPosition = Rect_SpeakerName.anchoredPosition;
-        Rect_Backdrop.localScale = Rect_SpeakerName.localScale;
-        Rect_Backdrop.sizeDelta = Rect_SpeakerName.sizeDelta + _padding;
-
-        if (Image_Backdrop != null)
-            Image_Backdrop.color = ResolveBackdropColor(_currentSpeakerName);
-
         if (Text_SpeakerName != null)
             Text_SpeakerName.color = _speakerNameColor;
+    }
+
+    /// <summary>
+    /// 예전 런타임 생성 코드가 남긴 Image_SpeakerNameBackdrop을 끕니다.
+    /// 사용자가 배치한 원래 SpeakerNameText 구조는 건드리지 않습니다.
+    /// </summary>
+    private void DisableGeneratedBackdropObjects()
+    {
+        Transform[] childTransformArray = GetComponentsInChildren<Transform>(true);
+
+        foreach (Transform childTransform in childTransformArray)
+        {
+            if (childTransform == null || childTransform.name != "Image_SpeakerNameBackdrop")
+                continue;
+
+            childTransform.gameObject.SetActive(false);
+        }
     }
 
     /// <summary>

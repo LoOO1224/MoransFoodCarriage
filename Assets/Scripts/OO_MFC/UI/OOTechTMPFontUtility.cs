@@ -21,6 +21,7 @@ public static class OOTechTMPFontUtility
 {
     private const string _fontAssetPath = "Assets/Fonts/ChosunCentennial SDF.asset";
     private const string _fontResourcePath = "ChosunCentennial SDF";
+    private const string _fontResourcePathInFolder = "Fonts/ChosunCentennial SDF";
 
     private static TMP_FontAsset Font_Project;
 
@@ -30,6 +31,9 @@ public static class OOTechTMPFontUtility
             return Font_Project;
 
         Font_Project = Resources.Load<TMP_FontAsset>(_fontResourcePath);
+
+        if (Font_Project == null)
+            Font_Project = Resources.Load<TMP_FontAsset>(_fontResourcePathInFolder);
 
 #if UNITY_EDITOR
         if (Font_Project == null)

@@ -542,6 +542,8 @@ public class OOTechStage3EncounterController : MonoBehaviour
             selectedIndex = index;
         });
 
+        RequestCloseInventoryAfterChoiceDelay();
+
         if (selectedIndex == 0)
             yield return PlayDeathRoutine();
         else
@@ -555,6 +557,8 @@ public class OOTechStage3EncounterController : MonoBehaviour
         {
             selectedIndex = index;
         });
+
+        RequestCloseInventoryAfterChoiceDelay();
 
         if (selectedIndex != 0)
         {
@@ -573,6 +577,18 @@ public class OOTechStage3EncounterController : MonoBehaviour
             : "character_Sangun_04";
         yield return Cue_Dialogue.RequestShowDialogueAndWait(clearDialogueId);
         yield return PlayStageClearRoutine();
+    }
+
+    /// <summary>
+    /// 선택지 이후 인벤토리 패널이 다음 대사 위를 덮지 않도록 잠깐 뒤 닫습니다.
+    /// CookingGroup에 다시 들어갈 때는 HUD가 다시 인벤토리를 열어 주므로 조리 진행은 막히지 않습니다.
+    /// </summary>
+    private void RequestCloseInventoryAfterChoiceDelay()
+    {
+        if (HUD_Road == null)
+            return;
+
+        HUD_Road.RequestCloseInventoryPanelAfterDelay(1.5f);
     }
 
     private IEnumerator PlayDeathRoutine()

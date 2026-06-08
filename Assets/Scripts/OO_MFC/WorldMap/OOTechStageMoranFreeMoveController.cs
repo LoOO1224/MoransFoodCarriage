@@ -23,6 +23,7 @@ public class OOTechStageMoranFreeMoveController : MonoBehaviour
     [SerializeField] private float _runSpeed = 4.8f;
     [SerializeField, Range(0f, 1f)] private float _laneNormalizedHeight = 0.2f;
     [SerializeField] private float _edgeMargin = 0.65f;
+    [SerializeField] private float _fallbackMoveHalfWidth = 9.2f;
 
     [Header("Animation")]
     [SerializeField] private string _idleStateName = "Moran_idle";
@@ -56,9 +57,6 @@ public class OOTechStageMoranFreeMoveController : MonoBehaviour
     private void Update()
     {
         ResolveComponents();
-
-        if (Renderer_Background == null)
-            return;
 
         float horizontalInput = ReadHorizontalInput();
         bool isMoving = Mathf.Abs(horizontalInput) > 0.01f;
@@ -114,10 +112,10 @@ public class OOTechStageMoranFreeMoveController : MonoBehaviour
     {
         float input = 0f;
 
-        if (Input.GetKey(_moveLeftKey))
+        if (Input.GetKey(_moveLeftKey) || Input.GetKey(KeyCode.LeftArrow))
             input -= 1f;
 
-        if (Input.GetKey(_moveRightKey))
+        if (Input.GetKey(_moveRightKey) || Input.GetKey(KeyCode.RightArrow))
             input += 1f;
 
 #if ENABLE_INPUT_SYSTEM
@@ -154,13 +152,22 @@ public class OOTechStageMoranFreeMoveController : MonoBehaviour
         if (Mathf.Abs(horizontalInput) <= 0.01f)
             return;
 
-        Bounds bounds = Renderer_Background.bounds;
         float speed = isRunning ? _runSpeed : _walkSpeed;
         Vector3 position = transform.position;
 
         position.x += horizontalInput * speed * Time.deltaTime;
-        position.x = Mathf.Clamp(position.x, bounds.min.x + _edgeMargin, bounds.max.x - _edgeMargin);
-        position.y = Mathf.Lerp(bounds.min.y, bounds.max.y, _laneNormalizedHeight);
+
+        if (Renderer_Background != null)
+        {
+            Bounds bounds = Renderer_Background.bounds;
+            position.x = Mathf.Clamp(position.x, bounds.min.x + _edgeMargin, bounds.max.x - _edgeMargin);
+            position.y = Mathf.Lerp(bounds.min.y, bounds.max.y, _laneNormalizedHeight);
+        }
+        else
+        {
+            position.x = Mathf.Clamp(position.x, -_fallbackMoveHalfWidth, _fallbackMoveHalfWidth);
+        }
+
         transform.position = position;
 
         if (Renderer_Moran != null)
@@ -206,6 +213,8 @@ public class OOTechStageMoranFreeMoveController : MonoBehaviour
         SpriteRenderer[] rendererArray = rootTransform.GetComponentsInChildren<SpriteRenderer>(true);
         SpriteRenderer bestRenderer = null;
         float bestArea = 0f;
+        SpriteRenderer largestRenderer = null;
+        float largestArea = 0f;
 
         foreach (SpriteRenderer spriteRenderer in rendererArray)
         {
@@ -214,10 +223,16 @@ public class OOTechStageMoranFreeMoveController : MonoBehaviour
 
             string objectName = spriteRenderer.gameObject.name;
 
+            float area = spriteRenderer.bounds.size.x * spriteRenderer.bounds.size.y;
+
+            if (area > largestArea)
+            {
+                largestRenderer = spriteRenderer;
+                largestArea = area;
+            }
+
             if (!objectName.Contains("Background") && !objectName.Contains("Backound"))
                 continue;
-
-            float area = spriteRenderer.bounds.size.x * spriteRenderer.bounds.size.y;
 
             if (area <= bestArea)
                 continue;
@@ -226,6 +241,6 @@ public class OOTechStageMoranFreeMoveController : MonoBehaviour
             bestArea = area;
         }
 
-        return bestRenderer;
+        return bestRenderer != null ? bestRenderer : largestRenderer;
     }
 }
