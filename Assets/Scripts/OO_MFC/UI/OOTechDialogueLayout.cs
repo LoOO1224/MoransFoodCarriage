@@ -26,6 +26,12 @@ public class OOTechDialogueLayout : MonoBehaviour
     [Header("Road View Layout")]
     [SerializeField] private Vector2 _roadViewPanelSizeDelta = new Vector2(1320f, 360f);
     [SerializeField] private Vector2 _roadViewPanelAnchoredPosition = new Vector2(0f, 110f);
+    [SerializeField] private Vector2 _roadViewNextButtonOffset = new Vector2(20f, 0f);
+
+    [Header("Cut Scene Bottom Layout")]
+    [SerializeField] private Vector2 _cutSceneBottomPanelSizeDelta = new Vector2(1320f, 300f);
+    [SerializeField] private Vector2 _cutSceneBottomPanelAnchoredPosition = new Vector2(0f, 0f);
+    [SerializeField] private Vector2 _cutSceneBottomNextButtonAnchoredPosition = new Vector2(-10f, 24f);
 
     private RectTransform Rect_Panel;
     private RectTransform Rect_SpeakerName;
@@ -58,6 +64,13 @@ public class OOTechDialogueLayout : MonoBehaviour
         // 화자 이름과 배경판은 씬에서 직접 잡은 상대 위치를 유지합니다.
         // 텍스트만 따로 움직이면 Road View 대화에서 이름과 배경판이 어긋납니다.
         ApplyNextButtonLayout();
+    }
+
+    public void ApplyCutSceneBottomLayout()
+    {
+        CacheComponentReferences();
+        ApplyCutSceneBottomPanelLayout();
+        ApplyCutSceneBottomNextButtonLayout();
     }
 
     /// <summary>
@@ -116,6 +129,19 @@ public class OOTechDialogueLayout : MonoBehaviour
         Rect_Panel.localScale = Vector3.one;
     }
 
+    private void ApplyCutSceneBottomPanelLayout()
+    {
+        if (Rect_Panel == null)
+            return;
+
+        Rect_Panel.anchorMin = new Vector2(0.5f, 0f);
+        Rect_Panel.anchorMax = new Vector2(0.5f, 0f);
+        Rect_Panel.pivot = new Vector2(0.5f, 0f);
+        Rect_Panel.anchoredPosition = _cutSceneBottomPanelAnchoredPosition;
+        Rect_Panel.sizeDelta = _cutSceneBottomPanelSizeDelta;
+        Rect_Panel.localScale = Vector3.one;
+    }
+
     /// <summary>
     /// 화자 이름표를 대화창 위쪽에 붙여 읽기 쉽게 만듭니다.
     /// </summary>
@@ -143,7 +169,20 @@ public class OOTechDialogueLayout : MonoBehaviour
         Rect_NextButton.anchorMin = new Vector2(1f, 0f);
         Rect_NextButton.anchorMax = new Vector2(1f, 0f);
         Rect_NextButton.pivot = new Vector2(1f, 0f);
-        Rect_NextButton.anchoredPosition = _nextButtonAnchoredPosition;
+        Rect_NextButton.anchoredPosition = _nextButtonAnchoredPosition + _roadViewNextButtonOffset;
+        Rect_NextButton.sizeDelta = _nextButtonSize;
+        Rect_NextButton.localScale = Vector3.one;
+    }
+
+    private void ApplyCutSceneBottomNextButtonLayout()
+    {
+        if (Rect_NextButton == null)
+            return;
+
+        Rect_NextButton.anchorMin = new Vector2(1f, 0f);
+        Rect_NextButton.anchorMax = new Vector2(1f, 0f);
+        Rect_NextButton.pivot = new Vector2(1f, 0f);
+        Rect_NextButton.anchoredPosition = _cutSceneBottomNextButtonAnchoredPosition;
         Rect_NextButton.sizeDelta = _nextButtonSize;
         Rect_NextButton.localScale = Vector3.one;
     }

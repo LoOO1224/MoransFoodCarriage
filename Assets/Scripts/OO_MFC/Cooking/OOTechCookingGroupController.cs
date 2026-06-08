@@ -59,6 +59,7 @@ public class OOTechCookingGroupController : MonoBehaviour
     private string _chiliPepperIngredientId = "Ing_ChiliPepper_01";
     private string _carrotIngredientId = "Ing_Carrot_01";
     private string _carrotStarchCookId = "OO_CarrotStarch_1";
+    private string _carrotCakeCookId = "OO_CarrotCake_1";
     private string[] _defaultCauldronAcceptedIngredientIdArray = { "Ing_Rice_01", "Ing_Kimch_01", "OO_CarrotStarch_1" };
     private string[] _defaultCuttingboardAcceptedIngredientIdArray = { "Ing_Veggie_01", "Ing_Pumpkin_01", "Ing_ChiliPepper_01", "Ing_Carrot_01" };
     private string[] _defaultJulguAcceptedIngredientIdArray = { "Ing_Rice_01" };
@@ -185,6 +186,7 @@ public class OOTechCookingGroupController : MonoBehaviour
         ApplyCookingRenderPriority();
         PrepareCookingView();
         UpdateHoneyCakeCombineUnlockState();
+        RequestPrepareStage4RecipeCombineUIIfNeeded();
         PrepareEncounterReturnButtonIfNeeded();
         PrepareStage4ReturnButtonIfNeeded();
         ResolveRoleComponents();
@@ -194,6 +196,15 @@ public class OOTechCookingGroupController : MonoBehaviour
         NormalizeStage3CookingInventoryIfNeeded();
         RefreshInventorySlots();
         RefreshPotView();
+
+        if (IsStage4CarrotCakeCookingContext())
+        {
+            _isToolGuideComplete = true;
+            HideGuideBubble();
+            RequestPrepareStage4RecipeCombineUIIfNeeded();
+            RequestOpenCookingSupportHUDIfNeeded();
+            return;
+        }
 
         if (IsOpenedFromEncounterGroup() && !_isSharedJulguGuideCompleted && Transform_Julgu != null)
         {
@@ -226,6 +237,13 @@ public class OOTechCookingGroupController : MonoBehaviour
         ApplyContextMissionToRoadHUD(hudController);
         hudController.RequestOpenCookingSupportHUD();
         hudController.RequestRefreshInventoryView();
+
+        if (IsStage4CarrotCakeCookingContext())
+        {
+            string guideText = ResolveStage4RecipeGuideText();
+            hudController.RequestEnableStage4PresentationHUD("Stage4_2Group", ResolveStage4CarrotCakeMissionText(), "당근전 조리 가이드", guideText, true, true);
+            hudController.ShowPersistentRoadMessageTopCenter("당근전 조리 가이드", guideText);
+        }
     }
 
     private OOTechRoadHUDController ResolveBestRoadHUDForCookingSupport()
@@ -264,13 +282,64 @@ public class OOTechCookingGroupController : MonoBehaviour
 
     private void ApplyContextMissionToRoadHUD(OOTechRoadHUDController hudController)
     {
-        if (hudController == null || !IsOpenedFromEncounterGroup())
+        if (hudController == null)
+            return;
+
+        if (IsStage4CarrotCakeCookingContext())
+        {
+            string guideText = ResolveStage4RecipeGuideText();
+            hudController.RequestEnableStage4PresentationHUD("Stage4_2Group", ResolveStage4CarrotCakeMissionText(), "당근전 조리 가이드", guideText, true, true);
+            return;
+        }
+
+        if (!IsOpenedFromEncounterGroup())
             return;
 
         OO_Stage3CueSheet cueSheetData = OOTechGameDataManager.Inst != null ? OOTechGameDataManager.Inst.GetStage3CueSheetData("Stage3_CueSheet_01") : null;
         string questDataId = cueSheetData != null ? cueSheetData.StageQuestId : "Stage3__Quest_01";
         string missionText = ResolveStageQuestDescription(questDataId, "산군을 위해 꿀떡을 만드세요! 레시피 조합을 통해 만들 수 있습니다");
         hudController.RequestSetStageQuestMission(missionText);
+    }
+
+    private string ResolveStage4CarrotCakeMissionText()
+    {
+        return "토끼를 유혹하기 위한 당근전을 만드세요.";
+    }
+
+    private string ResolveStage4RecipeGuideText()
+    {
+        string starchGuide = ResolveRecipeGuideByResultItemId(
+            _carrotStarchCookId,
+            "레시피 조합 버튼을 누른 뒤 떡 1개와 당근 1개를 조합 칸에 올려 당근전분을 만드세요.");
+        string carrotCakeGuide = ResolveRecipeGuideByResultItemId(
+            _carrotCakeCookId,
+            "당근전분 1개를 인벤토리에서 집어 가마솥에 드래그하면 당근전이 완성됩니다.");
+
+        return starchGuide + "\n" + carrotCakeGuide;
+    }
+
+    private string ResolveRecipeGuideByResultItemId(string resultItemId, string fallbackText)
+    {
+        OO_Recipe recipeData = _recipeService.RequestFindRecipeByResultItemId(resultItemId);
+
+        if (recipeData != null)
+        {
+            if (IsReadableStage4RecipeText(recipeData.QuantityGuideText))
+                return recipeData.QuantityGuideText;
+
+            if (IsReadableStage4RecipeText(recipeData.Description))
+                return recipeData.Description;
+        }
+
+        return fallbackText;
+    }
+
+    private bool IsReadableStage4RecipeText(string value)
+    {
+        if (string.IsNullOrWhiteSpace(value))
+            return false;
+
+        return value.Contains("당근") || value.Contains("떡") || value.Contains("가마솥") || value.Contains("레시피");
     }
 
     private string ResolveStageQuestDescription(string stageQuestDataId, string fallbackText)
@@ -406,6 +475,24 @@ public class OOTechCookingGroupController : MonoBehaviour
         return previousGroupName == "Stage4_2Group";
     }
 
+    private bool IsStage4CarrotCakeCookingContext()
+    {
+        string previousGroupName = OOTechGroupNavigationHistory.GetPreviousGroup(gameObject.name, string.Empty);
+        return previousGroupName == "4th_Road_to_Stage4"
+            || previousGroupName == "Stage4_1Group"
+            || previousGroupName == "Stage4_2Group"
+            || HasInventoryItem(_carrotIngredientId)
+            || HasInventoryItem(_carrotStarchCookId)
+            || HasInventoryItem(_carrotCakeCookId);
+    }
+
+    private bool HasInventoryItem(string itemDataId)
+    {
+        return OOTechGameManager.Inst != null
+            && !string.IsNullOrEmpty(itemDataId)
+            && OOTechGameManager.Inst.GetItemCount(itemDataId) > 0;
+    }
+
     /// <summary>
     /// EncounterGroup?먯꽌 ?대┛ 遺?뚯? ?뚯븘媛湲?踰꾪듉??諛섎뱶??EncounterGroup?쇰줈 怨좎젙?⑸땲??
     /// ?댁쟾 Stage2 蹂듦? 由ъ뒪?덇? ?⑥븘 ?덉뼱?????λ㈃?먯꽌???곌뎔 臾대?濡??뚯븘媛???⑸땲??
@@ -470,13 +557,69 @@ public class OOTechCookingGroupController : MonoBehaviour
     /// </summary>
     private void PrepareStage4ReturnButtonIfNeeded()
     {
-        if (!IsOpenedFromStage4_2Group())
+        if (!IsOpenedFromStage4_2Group() && !IsStage4CarrotCakeCookingContext())
             return;
 
         BackButtonController[] backButtonArray = GetComponentsInChildren<BackButtonController>(true);
 
         foreach (BackButtonController backButton in backButtonArray)
             backButton.SetPreviousGroup("Stage4_2Group");
+
+        Transform returnButtonTransform = RequestChildObjectByName(transform, "Button_RuntimeReturn");
+
+        if (returnButtonTransform == null)
+            return;
+
+        Button returnButton = returnButtonTransform.GetComponent<Button>();
+
+        if (returnButton == null)
+            return;
+
+        returnButton.onClick.RemoveAllListeners();
+        returnButton.onClick.AddListener(ReturnToStage4_2Group);
+    }
+
+    private void ReturnToStage4_2Group()
+    {
+        OOTechGroupNavigationHistory.SetPreviousGroup(gameObject.name, "Stage4_2Group");
+
+        GameObject stage4_2GroupObject = RequestSceneObjectByName("Stage4_2Group");
+
+        if (OOTechUIManager.Inst != null)
+        {
+            if (stage4_2GroupObject != null)
+                OOTechUIManager.Inst.RegisterUI("Stage4_2Group", stage4_2GroupObject);
+
+            OOTechUIManager.Inst.CloseUI(gameObject.name);
+        }
+        else
+        {
+            gameObject.SetActive(false);
+        }
+
+        if (gameObject.activeSelf)
+            gameObject.SetActive(false);
+
+        if (stage4_2GroupObject != null)
+        {
+            stage4_2GroupObject.SetActive(true);
+
+            OOTechStage4GroupController stage4Controller = stage4_2GroupObject.GetComponent<OOTechStage4GroupController>();
+
+            if (stage4Controller != null)
+            {
+                stage4Controller.RequestResolveStage4_2CookingReturn(true);
+                stage4Controller.RequestPlayRabbitCarrotCakeReadyIfAvailable();
+            }
+        }
+    }
+
+    public void RequestForceKitchenPresentationOpen()
+    {
+        ApplyKitchenCameraView();
+        ApplyCookingRenderPriority();
+        RequestOpenCookingSupportHUDIfNeeded();
+        RequestPrepareStage4RecipeCombineUIIfNeeded();
     }
 
     /// <summary>
@@ -811,6 +954,9 @@ public class OOTechCookingGroupController : MonoBehaviour
 
         RegisterSelectedIngredient(itemDataId, dropQuantity, RequestResolveToolId(toolTarget, fallbackToolId));
 
+        if (TryCompleteStage4CarrotCakeImmediately(itemDataId, dropQuantity, fallbackToolId))
+            return;
+
         if (TryCompleteJulguKoreanCakeImmediately(itemDataId, dropQuantity, fallbackToolId))
             return;
 
@@ -818,6 +964,30 @@ public class OOTechCookingGroupController : MonoBehaviour
         RefreshPotView();
         SetStatus($"{GetItemDisplayName(itemDataId)} {dropQuantity}개를 {GetToolDisplayName(toolTarget, fallbackToolName)}에 올렸습니다.");
         TryCompleteCooking();
+    }
+
+    private bool TryCompleteStage4CarrotCakeImmediately(string itemDataId, int dropQuantity, string fallbackToolId)
+    {
+        if (!IsStage4CarrotCakeCookingContext())
+            return false;
+
+        if (fallbackToolId != _cauldronObjectName || itemDataId != _carrotStarchCookId)
+            return false;
+
+        RequestForceAddInventoryItem(_carrotCakeCookId, 1);
+        RequestMoveInventoryItemToTop(_carrotCakeCookId);
+        RequestLogInventorySnapshot("After Stage4 CarrotCake immediate complete");
+        _selectionModel.RequestClear();
+        RefreshInventorySlots();
+        RefreshPotView();
+        SetInventoryNewBadgeActive(true);
+        NotifyRoadHUDInventoryRefresh();
+        NotifyRoadHUDInventoryNewBadge();
+        RequestOpenCookingSupportHUDIfNeeded();
+        HideGuideBubble();
+        SetStatus("당근전 완성! 인벤토리에 음식이 들어갔습니다.");
+        Debug.Log($"[OOTechCookingGroupController] Stage4 made CarrotCake immediately. starch={dropQuantity}, result={_carrotCakeCookId}");
+        return true;
     }
 
     /// <summary>
@@ -1153,6 +1323,33 @@ public class OOTechCookingGroupController : MonoBehaviour
             Root_HoneyCakeCombinePanel.SetActive(false);
     }
 
+    private void RequestPrepareStage4RecipeCombineUIIfNeeded()
+    {
+        if (!IsStage4CarrotCakeCookingContext())
+            return;
+
+        EnsureHoneyCakeCombineUI();
+        UpdateHoneyCakeCombineUnlockState();
+
+        if (Button_HoneyCakeCombine != null)
+        {
+            Button_HoneyCakeCombine.gameObject.SetActive(true);
+            Button_HoneyCakeCombine.interactable = true;
+            Button_HoneyCakeCombine.transform.SetAsLastSibling();
+        }
+
+        if (Root_HoneyCakeCombinePanel != null)
+        {
+            Root_HoneyCakeCombinePanel.SetActive(true);
+            Root_HoneyCakeCombinePanel.transform.SetAsLastSibling();
+        }
+
+        if (Text_HoneyCakeGuide != null)
+            Text_HoneyCakeGuide.text = ResolveStage4RecipeGuideText();
+
+        SetStatus("떡과 당근은 레시피 조합에서 당근전분으로 만들고, 당근전분은 가마솥에 넣어 당근전으로 완성하세요.");
+    }
+
     private Image CreateCombineSlot(Transform parentTransform, string objectName, Vector2 anchoredPosition)
     {
         GameObject slotObject = CreateCookingUIObject(parentTransform, objectName);
@@ -1276,7 +1473,7 @@ public class OOTechCookingGroupController : MonoBehaviour
     /// </summary>
     private bool IsRecipeCombineUnlocked()
     {
-        return IsOpenedFromEncounterGroup() || IsOpenedFromStage4_2Group();
+        return IsOpenedFromEncounterGroup() || IsStage4CarrotCakeCookingContext();
     }
 
     private void ClearHoneyCakeSlot(Image slotImage)
@@ -1430,7 +1627,11 @@ public class OOTechCookingGroupController : MonoBehaviour
         }
 
         RefundUnusedSelectedIngredients(cookingResult.ResultItemId, resultCount);
-        OOTechGameManager.Inst.AddItem(cookingResult.ResultItemId, resultCount);
+        if (cookingResult.ResultItemId == _carrotCakeCookId)
+            RequestForceAddInventoryItem(cookingResult.ResultItemId, resultCount);
+        else
+            OOTechGameManager.Inst.AddItem(cookingResult.ResultItemId, resultCount);
+
         string cookName = GetItemDisplayName(cookingResult.ResultItemId);
         _selectionModel.RequestClear();
         RefreshInventorySlots();

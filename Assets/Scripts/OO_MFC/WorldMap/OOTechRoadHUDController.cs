@@ -124,6 +124,9 @@ public class OOTechRoadHUDController : MonoBehaviour
     private bool _isCookingUnlocked;
     private bool _isOverlayOpen;
     private bool _isCookingOverlayOpen;
+    private bool _isStage4PresentationHUDLockedOpen;
+    private bool _isStage4CookingSupportLockedOpen;
+    private bool _isStage4PersistentGuideLockedOpen;
     private bool _isCookingQuestActive;
     private bool _isCookingQuestComplete;
     private bool _isCookingMissionRemoved;
@@ -142,6 +145,9 @@ public class OOTechRoadHUDController : MonoBehaviour
     private readonly List<OOTechRoadHUDButtonKind> _pendingAutoOpenButtonKindList = new List<OOTechRoadHUDButtonKind>();
 
     public bool IsCookingUnlocked => _isCookingUnlocked;
+    public bool IsStage4PresentationHUDLockedOpen => _isStage4PresentationHUDLockedOpen;
+    public bool IsStage4CookingSupportLockedOpen => _isStage4CookingSupportLockedOpen;
+    public bool IsStage4PersistentGuideLockedOpen => _isStage4PersistentGuideLockedOpen;
     public bool IsOverlayOpen => _isOverlayOpen;
     public string OwnerGroupName => string.IsNullOrEmpty(_ownerGroupName) ? gameObject.name : _ownerGroupName;
 
@@ -152,6 +158,66 @@ public class OOTechRoadHUDController : MonoBehaviour
     public void SetOwnerGroupName(string ownerGroupName)
     {
         _ownerGroupName = ownerGroupName;
+    }
+
+    public void RequestEnableStage4PresentationHUD(string ownerGroupName, string missionText, string guideTitle, string guideBody)
+    {
+        RequestEnableStage4PresentationHUD(ownerGroupName, missionText, guideTitle, guideBody, false, false);
+    }
+
+    public void RequestEnableStage4PresentationHUD(string ownerGroupName, string missionText, string guideTitle, string guideBody, bool isForceCookingSupportOpen, bool isPersistentGuide)
+    {
+        if (!string.IsNullOrEmpty(ownerGroupName))
+            _ownerGroupName = ownerGroupName;
+
+        bool wasLockedOpen = _isStage4PresentationHUDLockedOpen;
+        _isStage4PresentationHUDLockedOpen = true;
+
+        if (isForceCookingSupportOpen)
+            _isStage4CookingSupportLockedOpen = true;
+        else if (!_isCookingOverlayOpen)
+            _isStage4CookingSupportLockedOpen = false;
+
+        if (isPersistentGuide)
+            _isStage4PersistentGuideLockedOpen = true;
+        else if (!_isCookingOverlayOpen)
+            _isStage4PersistentGuideLockedOpen = false;
+
+        if (!wasLockedOpen)
+            PrepareHUD();
+
+        SetHUDVisible(true);
+        SetBottomHUDActive(true);
+        SetCookingUnlocked(true, true);
+        RefreshInventoryView();
+
+        if (!string.IsNullOrWhiteSpace(missionText))
+        {
+            _isEastRoadMissionRemoved = true;
+            _stageQuestMissionText = missionText;
+            RefreshMissionText();
+            SetMissionNewBadgeActive(true, false);
+        }
+
+        if (isForceCookingSupportOpen)
+        {
+            SetInventoryPanelActive(true);
+            SetMissionPanelActive(true);
+        }
+
+        bool hasGuideText = !string.IsNullOrWhiteSpace(guideTitle) || !string.IsNullOrWhiteSpace(guideBody);
+
+        if (hasGuideText)
+        {
+            if (isPersistentGuide)
+                ShowPersistentRoadMessageTopCenter(guideTitle, guideBody);
+            else if (!wasLockedOpen)
+                ShowRoadMessageTopCenter(guideTitle, guideBody, null);
+        }
+        else if (!isPersistentGuide)
+        {
+            CloseHUDGuide();
+        }
     }
 
     /// <summary>
@@ -192,11 +258,29 @@ public class OOTechRoadHUDController : MonoBehaviour
     /// </summary>
     public void SetHUDVisible(bool isVisible)
     {
+        if (_isStage4PresentationHUDLockedOpen)
+            isVisible = true;
+
         if (isVisible)
             RequestActivateParentChain(Root_HUD);
 
         if (Root_HUD != null)
             Root_HUD.SetActive(isVisible);
+    }
+
+    public void RequestForceHideForCutScene()
+    {
+        _isStage4PresentationHUDLockedOpen = false;
+        _isStage4CookingSupportLockedOpen = false;
+        _isStage4PersistentGuideLockedOpen = false;
+        _isCookingOverlayOpen = false;
+        Controller_CookingOverlay = null;
+        CloseHUDGuide();
+        SetInventoryPanelActive(false);
+        SetMissionPanelActive(false);
+
+        if (Root_HUD != null)
+            Root_HUD.SetActive(false);
     }
 
     private void RequestActivateParentChain(GameObject targetObject)
@@ -390,6 +474,9 @@ public class OOTechRoadHUDController : MonoBehaviour
     /// </summary>
     public void RequestCloseInventoryPanelAfterDelay(float delaySeconds)
     {
+        if (_isStage4PresentationHUDLockedOpen)
+            return;
+
         if (!isActiveAndEnabled)
             return;
 
@@ -404,6 +491,9 @@ public class OOTechRoadHUDController : MonoBehaviour
 
     public void RequestForceCloseInventoryPanelForEncounterReturn()
     {
+        if (_isStage4PresentationHUDLockedOpen)
+            return;
+
         CancelPendingInventoryAutoOpen();
         SetInventoryPanelActive(false);
 
@@ -446,6 +536,9 @@ public class OOTechRoadHUDController : MonoBehaviour
 
     public void RequestCloseInventoryAndMissionPanelsAfterDelay(float delaySeconds)
     {
+        if (_isStage4PresentationHUDLockedOpen)
+            return;
+
         if (!isActiveAndEnabled)
             return;
 
@@ -468,7 +561,11 @@ public class OOTechRoadHUDController : MonoBehaviour
         _isOverlayOpen = false;
 
         if (_isCookingOverlayOpen)
+        {
+            _isStage4CookingSupportLockedOpen = false;
+            _isStage4PersistentGuideLockedOpen = false;
             CloseCookingSupportHUD();
+        }
         else
             Controller_CookingOverlay = null;
 
@@ -535,11 +632,40 @@ public class OOTechRoadHUDController : MonoBehaviour
         ApplyGuideOverlayLayout(new Vector2(0f, 260f), title, description, onNext);
     }
 
+    public void ShowRoadMessageTopCenter(string title, string description, UnityAction onNext)
+    {
+        CreateGuideOverlayIfNeeded();
+
+        if (Root_GuideOverlay == null)
+        {
+            onNext?.Invoke();
+            return;
+        }
+
+        Root_GuideOverlay.SetActive(true);
+        ApplyGuideOverlayLayout(new Vector2(0f, 620f), title, description, onNext);
+    }
+
+    public void ShowPersistentRoadMessageTopCenter(string title, string description)
+    {
+        CreateGuideOverlayIfNeeded();
+
+        if (Root_GuideOverlay == null)
+            return;
+
+        _isStage4PersistentGuideLockedOpen = true;
+        Root_GuideOverlay.SetActive(true);
+        ApplyGuideOverlayLayout(new Vector2(0f, 620f), title, description, null, true);
+    }
+
     /// <summary>
     /// HUD ?ъ빱??媛?대뱶瑜??レ뒿?덈떎.
     /// </summary>
     public void CloseHUDGuide()
     {
+        if (_isStage4PersistentGuideLockedOpen)
+            return;
+
         _guideClickAction = null;
 
         if (Root_GuideOverlay != null)
@@ -1031,7 +1157,10 @@ public class OOTechRoadHUDController : MonoBehaviour
             if (Slot_InventoryItemTemplate != null && childTransform.gameObject == Slot_InventoryItemTemplate)
                 continue;
 
-            Destroy(childTransform.gameObject);
+            if (Application.isPlaying)
+                Destroy(childTransform.gameObject);
+            else
+                DestroyImmediate(childTransform.gameObject);
         }
     }
 
@@ -1411,6 +1540,9 @@ public class OOTechRoadHUDController : MonoBehaviour
 
     private void SetInventoryPanelActive(bool isActive)
     {
+        if (_isStage4CookingSupportLockedOpen)
+            isActive = true;
+
         if (Root_InventoryPanel != null)
             Root_InventoryPanel.SetActive(isActive);
 
@@ -1441,6 +1573,9 @@ public class OOTechRoadHUDController : MonoBehaviour
 
     private void SetMissionPanelActive(bool isActive)
     {
+        if (_isStage4CookingSupportLockedOpen)
+            isActive = true;
+
         ApplyMissionPanelBottomRightLayoutIfNeeded();
         RefreshMissionText();
 
@@ -1582,7 +1717,7 @@ public class OOTechRoadHUDController : MonoBehaviour
         badgeColor.a = 1f;
         badgeText.color = badgeColor;
 
-        if (isActive)
+        if (isActive && isActiveAndEnabled)
             badgeCoroutine = StartCoroutine(BlinkNewBadgeRoutine(badgeText));
     }
 
@@ -1677,6 +1812,9 @@ public class OOTechRoadHUDController : MonoBehaviour
 
         PrepareOverlayController(groupName, groupObject);
 
+        if (groupName == _cookingGroupName)
+            return RequestOpenCookingGroupDirect(groupObject, previousGroupName);
+
         if (OOTechUIManager.Inst != null && groupObject != null)
         {
             OOTechUIManager.Inst.RegisterUI(groupName, groupObject);
@@ -1686,6 +1824,7 @@ public class OOTechRoadHUDController : MonoBehaviour
                 PrepareOverlayReturnButton(groupObject, groupName, previousGroupName);
                 PrepareOverlayVisualPriority(groupObject, groupName);
                 HandleOverlayOpened(groupName);
+                DeactivatePreviousGroupForCooking(groupName, previousGroupName);
                 return true;
             }
         }
@@ -1697,6 +1836,7 @@ public class OOTechRoadHUDController : MonoBehaviour
             PrepareOverlayReturnButton(createdGroup, groupName, previousGroupName);
             PrepareOverlayVisualPriority(createdGroup, groupName);
             HandleOverlayOpened(groupName);
+            DeactivatePreviousGroupForCooking(groupName, previousGroupName);
             return true;
         }
 
@@ -1710,7 +1850,65 @@ public class OOTechRoadHUDController : MonoBehaviour
         PrepareOverlayReturnButton(groupObject, groupName, previousGroupName);
         PrepareOverlayVisualPriority(groupObject, groupName);
         HandleOverlayOpened(groupName);
+        DeactivatePreviousGroupForCooking(groupName, previousGroupName);
         return true;
+    }
+
+    private bool RequestOpenCookingGroupDirect(GameObject cookingGroupObject, string previousGroupName)
+    {
+        if (cookingGroupObject == null)
+        {
+            Debug.LogWarning($"[OOTechRoadHUDController] Scene group not found: {_cookingGroupName}");
+            return false;
+        }
+
+        if (OOTechUIManager.Inst != null)
+            OOTechUIManager.Inst.RegisterUI(_cookingGroupName, cookingGroupObject);
+
+        cookingGroupObject.SetActive(true);
+        PrepareOverlayController(_cookingGroupName, cookingGroupObject);
+        PrepareOverlayReturnButton(cookingGroupObject, _cookingGroupName, previousGroupName);
+        PrepareOverlayVisualPriority(cookingGroupObject, _cookingGroupName);
+        HandleOverlayOpened(_cookingGroupName);
+        DeactivatePreviousGroupForCooking(_cookingGroupName, previousGroupName);
+        ForceDeactivateStage4GroupsForCooking(previousGroupName);
+
+        cookingGroupObject.SetActive(true);
+        if (Controller_CookingOverlay != null)
+            Controller_CookingOverlay.RequestForceKitchenPresentationOpen();
+
+        ForceDeactivateStage4GroupsForCooking(previousGroupName);
+        return true;
+    }
+
+    private void DeactivatePreviousGroupForCooking(string openedGroupName, string previousGroupName)
+    {
+        if (openedGroupName != _cookingGroupName || string.IsNullOrEmpty(previousGroupName))
+            return;
+
+        GameObject previousGroupObject = RequestSceneObjectByName(previousGroupName);
+
+        if (previousGroupObject == null || previousGroupObject == gameObject)
+            return;
+
+        previousGroupObject.SetActive(false);
+    }
+
+    private void ForceDeactivateStage4GroupsForCooking(string previousGroupName)
+    {
+        ForceDeactivateSceneGroup("Stage4_2Group");
+        ForceDeactivateSceneGroup("Stage4_1Group");
+        ForceDeactivateSceneGroup("4th_Road_to_Stage4");
+    }
+
+    private void ForceDeactivateSceneGroup(string groupName)
+    {
+        GameObject groupObject = RequestSceneObjectByName(groupName);
+
+        if (groupObject == null)
+            return;
+
+        groupObject.SetActive(false);
     }
 
     private string GetOwnerGroupName()
@@ -1794,6 +1992,12 @@ public class OOTechRoadHUDController : MonoBehaviour
     /// </summary>
     private void HandleOverlayReturnClicked(string currentGroupName, string previousGroupName)
     {
+        if (currentGroupName == _cookingGroupName)
+        {
+            RequestReturnFromCookingGroupDirect(currentGroupName, previousGroupName);
+            return;
+        }
+
         if (OOTechUIManager.Inst != null)
         {
             OOTechUIManager.Inst.CloseUI(currentGroupName);
@@ -1818,6 +2022,43 @@ public class OOTechRoadHUDController : MonoBehaviour
             _isOverlayOpen = false;
             CloseCookingSupportHUD();
         }
+    }
+
+    private void RequestReturnFromCookingGroupDirect(string currentGroupName, string previousGroupName)
+    {
+        GameObject currentGroup = RequestSceneObjectByName(currentGroupName);
+        GameObject previousGroup = RequestSceneObjectByName(previousGroupName);
+
+        if (currentGroup != null)
+            currentGroup.SetActive(false);
+
+        if (previousGroup != null)
+        {
+            if (OOTechUIManager.Inst != null)
+                OOTechUIManager.Inst.RegisterUI(previousGroupName, previousGroup);
+
+            previousGroup.SetActive(true);
+
+            OOTechStage4GroupController stage4Controller = previousGroup.GetComponent<OOTechStage4GroupController>();
+
+            if (stage4Controller != null)
+            {
+                stage4Controller.RequestResolveStage4_2CookingReturn(true);
+                stage4Controller.RequestPlayRabbitCarrotCakeReadyIfAvailable();
+            }
+        }
+
+        _isOverlayOpen = false;
+        _isCookingOverlayOpen = false;
+        Controller_CookingOverlay = null;
+
+        if (Canvas_HUD != null)
+            Canvas_HUD.sortingOrder = _sortingOrder;
+
+        SetHUDVisible(true);
+        SetBottomHUDActive(true);
+        RefreshInventoryView();
+        RefreshMissionText();
     }
 
     /// <summary>
@@ -1881,6 +2122,12 @@ public class OOTechRoadHUDController : MonoBehaviour
     /// </summary>
     private void CloseCookingSupportHUD()
     {
+        if (_isStage4CookingSupportLockedOpen)
+        {
+            OpenCookingSupportHUD();
+            return;
+        }
+
         if (!_isCookingOverlayOpen)
             return;
 
@@ -1932,6 +2179,9 @@ public class OOTechRoadHUDController : MonoBehaviour
     /// </summary>
     private void SetBottomHUDActive(bool isActive)
     {
+        if (_isStage4PresentationHUDLockedOpen)
+            isActive = true;
+
         if (Root_BottomBar != null)
             Root_BottomBar.SetActive(isActive);
 
@@ -2102,6 +2352,11 @@ public class OOTechRoadHUDController : MonoBehaviour
     /// </summary>
     private void ApplyGuideOverlayLayout(Vector2 targetLocalPosition, string title, string description, UnityAction onNext)
     {
+        ApplyGuideOverlayLayout(targetLocalPosition, title, description, onNext, false);
+    }
+
+    private void ApplyGuideOverlayLayout(Vector2 targetLocalPosition, string title, string description, UnityAction onNext, bool isPersistent)
+    {
         if (Rect_FocusArrow != null)
             Rect_FocusArrow.anchoredPosition = new Vector2(targetLocalPosition.x, Mathf.Clamp(targetLocalPosition.y + 100f, 170f, 930f));
 
@@ -2113,6 +2368,15 @@ public class OOTechRoadHUDController : MonoBehaviour
 
         if (Text_GuideBody != null)
             Text_GuideBody.text = string.IsNullOrEmpty(description) ? "\uC774 \uAE30\uB2A5\uC740 \uB098\uC911\uC5D0 \uB370\uC774\uD130\uB85C \uAD50\uCCB4\uB429\uB2C8\uB2E4." : description;
+
+        if (isPersistent)
+        {
+            _guideClickAction = null;
+            DisableLegacyGuideNextButtonObject();
+            DisableGuideClickArea(ResolveGuideTextPanelButton());
+            DisableGuideClickArea(ResolveGuideOverlayButton());
+            return;
+        }
 
         UnityAction guideNextAction = delegate
         {
@@ -2129,6 +2393,9 @@ public class OOTechRoadHUDController : MonoBehaviour
 
     private void UpdateHUDGuideClickInput()
     {
+        if (_isStage4PersistentGuideLockedOpen)
+            return;
+
         if (_guideClickAction == null || Root_GuideOverlay == null || !Root_GuideOverlay.activeInHierarchy)
             return;
 
@@ -2189,6 +2456,22 @@ public class OOTechRoadHUDController : MonoBehaviour
 
         guideClickButton.onClick.RemoveAllListeners();
         guideClickButton.onClick.AddListener(guideNextAction);
+        guideClickButton.interactable = true;
+
+        if (guideClickButton.targetGraphic != null)
+            guideClickButton.targetGraphic.raycastTarget = true;
+    }
+
+    private void DisableGuideClickArea(Button guideClickButton)
+    {
+        if (guideClickButton == null)
+            return;
+
+        guideClickButton.onClick.RemoveAllListeners();
+        guideClickButton.interactable = false;
+
+        if (guideClickButton.targetGraphic != null)
+            guideClickButton.targetGraphic.raycastTarget = false;
     }
 
     /// <summary>

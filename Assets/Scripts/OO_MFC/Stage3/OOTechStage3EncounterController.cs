@@ -69,6 +69,7 @@ public class OOTechStage3EncounterController : MonoBehaviour
         RequestPrepareEncounterBackground();
         RequestFitCameraToEncounterBackground();
         RequestDisableForeignMrJaeikRenderers();
+        RequestKeepStage3ClearVictoryActorsAlive();
     }
 
     /// <summary>
@@ -182,6 +183,13 @@ public class OOTechStage3EncounterController : MonoBehaviour
         RequestDisableDuplicateNamedActors("Mr.Jaeik", Actor_MrJaeik);
 
         RequestPlayActorState(Actor_Sangun, "Sangun_Idle", 1f, false);
+
+        if (_isQuestCleared)
+        {
+            RequestPlayStage3ClearVictoryActors(true);
+            return;
+        }
+
         RequestPlayActorState(Actor_Moran, "Moran_isScared", 0.6f, false);
         RequestPlayActorState(Actor_MrJaeik, _mrJaeikThreateningStateName, 0.6f, false);
     }
@@ -665,6 +673,9 @@ public class OOTechStage3EncounterController : MonoBehaviour
     private IEnumerator PlayStageClearRoutine()
     {
         _isQuestCleared = true;
+        RequestPlayStage3ClearVictoryActors(true);
+        yield return MoveSangunOffStageRoutine();
+
         GiveClearReward();
         RefreshHUDInventory();
         RequestUpdateStageQuestAsComplete();
@@ -672,10 +683,39 @@ public class OOTechStage3EncounterController : MonoBehaviour
         if (OOTechGameManager.Inst != null)
             OOTechGameManager.Inst.MarkStageCleared("Stage3");
 
-        yield return MoveSangunOffStageRoutine();
-        RequestPlayActorState(Actor_Moran, "Moran_Victory", 1f, true);
-        RequestPlayActorState(Actor_MrJaeik, "Mr.Jaeik_Victory", 1f, true);
         SetNextButtonActive(true);
+        RequestPlayStage3ClearVictoryActors(false);
+    }
+
+    private void RequestKeepStage3ClearVictoryActorsAlive()
+    {
+        if (!_isQuestCleared)
+            return;
+
+        RequestPlayStage3ClearVictoryActors(false);
+    }
+
+    private void RequestPlayStage3ClearVictoryActors(bool isForceReplay)
+    {
+        RequestPlayStage3VictoryState(Actor_Moran, "Moran_Victory", null, isForceReplay);
+        RequestPlayStage3VictoryState(Actor_MrJaeik, "Mr.Jaeik_Victory", "Mr_Jaeik_Victory", isForceReplay);
+    }
+
+    private void RequestPlayStage3VictoryState(OOTechStageActorMotion actor, string primaryStateName, string fallbackStateName, bool isForceReplay)
+    {
+        if (actor == null)
+            return;
+
+        actor.RequestForceVisibleRenderer();
+
+        if (isForceReplay && actor.RequestPlayVictory(1f))
+            return;
+
+        if (RequestPlayActorState(actor, primaryStateName, 1f, isForceReplay))
+            return;
+
+        if (!string.IsNullOrEmpty(fallbackStateName))
+            RequestPlayActorState(actor, fallbackStateName, 1f, isForceReplay);
     }
 
     private IEnumerator MoveSangunOffStageRoutine()

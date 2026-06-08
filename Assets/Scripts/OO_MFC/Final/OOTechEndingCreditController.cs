@@ -7,16 +7,37 @@
 // =============================================================================
 using System.Collections;
 using TMPro;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 using UnityEngine;
 using UnityEngine.UI;
 
 [DisallowMultipleComponent]
 public class OOTechEndingCreditController : MonoBehaviour
 {
+    private const string DefaultCreditText =
+        "Game Development\nChris Wooyoung Cheon\n\n" +
+        "Based Project\nUnityBasic_6 by DaniTech\n\n" +
+        "Development Period\nMay 18 ~ June 9, 2026\n\n" +
+        "AI Coding Assistance\nGemini, ChatGPT, Grok\n\n" +
+        "Art Director\nChris W. Cheon\n" +
+        "(All images created with Gemini, ChatGPT, https://www.autosprite.io/, https://www.genspark.ai)\n\n" +
+        "Sound Director\nChris W. Cheon\n" +
+        "(Sound from Mureka.ai)\n\n" +
+        "Story\nChris W. Cheon\n\n" +
+        "Special Thanks\n단단's 이타심\n송준호 조교님\nDaniel Cho\n\n" +
+        "Thank you for playing!";
+
     [Header("Credit")]
     [SerializeField] private float _scrollSpeed = 68f;
     [SerializeField] private float _logoPauseSeconds = 2.4f;
     [SerializeField] private string _mainMenuGroupName = "MainMenuGroup";
+    [SerializeField] private Vector2 _creditTextSize = new Vector2(1120f, 1120f);
+    [SerializeField] private Vector2 _logoSize = new Vector2(360f, 190f);
+    [SerializeField] private float _logoSpacingBelowThanks = 36f;
+    [SerializeField] private float _creditBottomPadding = 140f;
+    [SerializeField] private string _mainMenuBGMAssetPath = "Assets/Sounds/BGM/MainMenu_BGM.mp3";
 
     [TextArea(12, 30)]
     [SerializeField] private string _creditText =
@@ -36,6 +57,8 @@ public class OOTechEndingCreditController : MonoBehaviour
     private TextMeshProUGUI Text_Credit;
     private RectTransform Rect_Logo;
     private Animator Animator_Logo;
+    private SpriteRenderer Renderer_Logo;
+    private Image Image_Logo;
     private Button Button_MainMenu;
     private bool _isLogoPlayed;
     private bool _isPausedForLogo;
@@ -46,6 +69,7 @@ public class OOTechEndingCreditController : MonoBehaviour
     /// </summary>
     private void OnEnable()
     {
+        RequestPlayMainMenuBGM();
         PrepareCreditView();
         ResetCreditState();
     }
@@ -55,7 +79,12 @@ public class OOTechEndingCreditController : MonoBehaviour
     /// </summary>
     private void Update()
     {
-        if (_isFinished || _isPausedForLogo || Rect_CreditRoot == null)
+        SyncLogoImageFromSpriteRenderer();
+
+        if (_isFinished || Rect_CreditRoot == null)
+            return;
+
+        if (_isPausedForLogo)
             return;
 
         Rect_CreditRoot.anchoredPosition += Vector2.up * _scrollSpeed * Time.deltaTime;
@@ -66,7 +95,7 @@ public class OOTechEndingCreditController : MonoBehaviour
             return;
         }
 
-        if (Rect_CreditRoot.anchoredPosition.y > 1750f)
+        if (Rect_CreditRoot.anchoredPosition.y > ResolveCreditFinishY())
             ShowMainMenuButton();
     }
 
@@ -120,9 +149,12 @@ public class OOTechEndingCreditController : MonoBehaviour
 
         backgroundImage.color = Color.black;
 
+        string resolvedCreditText = ResolveCreditText();
+
         Rect_CreditRoot = ResolveExistingRect(canvas.transform, "CreditRoot");
-        Text_Credit = ResolveExistingText(Rect_CreditRoot, "Text_Credit", _creditText, 38f, new Vector2(1120f, 1120f));
+        Text_Credit = ResolveExistingText(Rect_CreditRoot, "Text_Credit", resolvedCreditText, 38f, _creditTextSize);
         Rect_Logo = ResolveExistingLogo(Rect_CreditRoot);
+        ArrangeCreditContent();
         Button_MainMenu = ResolveExistingMainMenuButton(canvas.transform);
 
         if (Button_MainMenu != null)
@@ -139,7 +171,20 @@ public class OOTechEndingCreditController : MonoBehaviour
             Rect_CreditRoot.anchoredPosition = new Vector2(0f, -760f);
 
         if (Text_Credit != null)
-            Text_Credit.text = _creditText;
+        {
+            Text_Credit.text = ResolveCreditText();
+            ArrangeCreditContent();
+        }
+    }
+
+    private string ResolveCreditText()
+    {
+        if (string.IsNullOrWhiteSpace(_creditText))
+            return DefaultCreditText;
+
+        return _creditText.Contains("UnityBasic_6")
+            ? _creditText
+            : DefaultCreditText;
     }
 
     private RectTransform ResolveExistingRect(Transform parentTransform, string objectName)
@@ -178,6 +223,7 @@ public class OOTechEndingCreditController : MonoBehaviour
         textComponent.fontSize = fontSize;
         textComponent.color = Color.white;
         textComponent.alignment = TextAlignmentOptions.Center;
+        textComponent.overflowMode = TextOverflowModes.Overflow;
         OOTechTMPFontUtility.ApplyProjectFont(textComponent);
         return textComponent;
     }
@@ -204,10 +250,52 @@ public class OOTechEndingCreditController : MonoBehaviour
         logoRect.anchorMin = new Vector2(0.5f, 0.5f);
         logoRect.anchorMax = new Vector2(0.5f, 0.5f);
         logoRect.anchoredPosition = new Vector2(0f, -230f);
-        logoRect.sizeDelta = new Vector2(420f, 220f);
+        logoRect.sizeDelta = _logoSize;
 
         Animator_Logo = logoTransform.GetComponent<Animator>();
+        Renderer_Logo = logoTransform.GetComponent<SpriteRenderer>();
+        Image_Logo = logoTransform.GetComponent<Image>();
+
+        if (Image_Logo == null)
+            Image_Logo = logoTransform.gameObject.AddComponent<Image>();
+
+        Image_Logo.enabled = true;
+        Image_Logo.preserveAspect = true;
+        Image_Logo.raycastTarget = false;
+        SyncLogoImageFromSpriteRenderer();
         return logoRect;
+    }
+
+    private void ArrangeCreditContent()
+    {
+        if (Rect_CreditRoot == null || Text_Credit == null)
+            return;
+
+        Text_Credit.ForceMeshUpdate();
+        float textHeight = Mathf.Max(240f, Text_Credit.preferredHeight + 24f);
+        float rootHeight = textHeight + (Rect_Logo != null ? _logoSize.y + _logoSpacingBelowThanks : 0f) + _creditBottomPadding;
+
+        Rect_CreditRoot.anchorMin = new Vector2(0.5f, 0.5f);
+        Rect_CreditRoot.anchorMax = new Vector2(0.5f, 0.5f);
+        Rect_CreditRoot.pivot = new Vector2(0.5f, 0.5f);
+        Rect_CreditRoot.sizeDelta = new Vector2(Mathf.Max(_creditTextSize.x, _logoSize.x), rootHeight);
+
+        RectTransform textRect = Text_Credit.rectTransform;
+        textRect.anchorMin = new Vector2(0.5f, 1f);
+        textRect.anchorMax = new Vector2(0.5f, 1f);
+        textRect.pivot = new Vector2(0.5f, 1f);
+        textRect.anchoredPosition = Vector2.zero;
+        textRect.sizeDelta = new Vector2(_creditTextSize.x, textHeight);
+
+        if (Rect_Logo == null)
+            return;
+
+        Rect_Logo.anchorMin = new Vector2(0.5f, 1f);
+        Rect_Logo.anchorMax = new Vector2(0.5f, 1f);
+        Rect_Logo.pivot = new Vector2(0.5f, 1f);
+        Rect_Logo.anchoredPosition = new Vector2(0f, -textHeight - _logoSpacingBelowThanks);
+        Rect_Logo.sizeDelta = _logoSize;
+        Rect_Logo.SetAsLastSibling();
     }
 
     private Button ResolveExistingMainMenuButton(Transform parentTransform)
@@ -244,8 +332,48 @@ public class OOTechEndingCreditController : MonoBehaviour
         if (OOTechUIManager.Inst == null)
             return;
 
+        RequestPlayMainMenuBGM();
         OOTechUIManager.Inst.CloseUI(gameObject.name);
         OOTechUIManager.Inst.OpenUI(_mainMenuGroupName);
+    }
+
+    private void RequestPlayMainMenuBGM()
+    {
+        if (OOTechSoundManager.Inst == null)
+            return;
+
+        AudioClip bgmClip = ResolveMainMenuBGMClip();
+
+        if (bgmClip != null)
+            OOTechSoundManager.Inst.PlayBGM(bgmClip, true);
+    }
+
+    private AudioClip ResolveMainMenuBGMClip()
+    {
+        MainMenuBGMPlayer[] playerArray = Resources.FindObjectsOfTypeAll<MainMenuBGMPlayer>();
+
+        foreach (MainMenuBGMPlayer player in playerArray)
+        {
+            if (player == null)
+                continue;
+
+            AudioClip clip = player.ResolveMainMenuBGMClip();
+
+            if (clip != null)
+                return clip;
+        }
+
+        AudioClip resourcesClip = Resources.Load<AudioClip>("Audio/BGM/MainMenu_BGM");
+
+        if (resourcesClip != null)
+            return resourcesClip;
+
+#if UNITY_EDITOR
+        if (!string.IsNullOrWhiteSpace(_mainMenuBGMAssetPath))
+            return AssetDatabase.LoadAssetAtPath<AudioClip>(_mainMenuBGMAssetPath);
+#endif
+
+        return null;
     }
 
     private float GetLogoScreenYFromCenter()
@@ -257,6 +385,22 @@ public class OOTechEndingCreditController : MonoBehaviour
         Rect_Logo.GetWorldCorners(cornerArray);
         float centerY = (cornerArray[0].y + cornerArray[2].y) * 0.5f;
         return centerY - Screen.height * 0.5f;
+    }
+
+    private void SyncLogoImageFromSpriteRenderer()
+    {
+        if (Image_Logo == null || Renderer_Logo == null || Renderer_Logo.sprite == null)
+            return;
+
+        Image_Logo.sprite = Renderer_Logo.sprite;
+    }
+
+    private float ResolveCreditFinishY()
+    {
+        if (Rect_CreditRoot == null)
+            return 1750f;
+
+        return Mathf.Max(1750f, Rect_CreditRoot.rect.height * 0.5f + Screen.height * 0.5f + 120f);
     }
 
     private Transform RequestChildObjectByName(Transform rootTransform, string objectName)

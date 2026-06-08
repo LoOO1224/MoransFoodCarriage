@@ -7,7 +7,11 @@
 // =============================================================================
 using System.Collections;
 using System.Collections.Generic;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 using UnityEngine;
+using UnityEngine.UI;
 
 [DisallowMultipleComponent]
 public class OOTechCutSceneNarrationController : MonoBehaviour
@@ -24,8 +28,10 @@ public class OOTechCutSceneNarrationController : MonoBehaviour
     /// </summary>
     private void OnEnable()
     {
+        DisableLegacyPrologueControllerIfNeeded();
         ResolveComponents();
         ResolveCueSheetData();
+        RequestPlayCutSceneBGM();
         RequestHideHUD();
         FitCameraToLargestBackground();
 
@@ -33,6 +39,14 @@ public class OOTechCutSceneNarrationController : MonoBehaviour
             StopCoroutine(Coroutine_Sequence);
 
         Coroutine_Sequence = StartCoroutine(PlayCutSceneRoutine());
+    }
+
+    private void DisableLegacyPrologueControllerIfNeeded()
+    {
+        PrologueController legacyController = GetComponent<PrologueController>();
+
+        if (legacyController != null && legacyController.enabled)
+            legacyController.enabled = false;
     }
 
     private void OnDisable()
@@ -63,6 +77,8 @@ public class OOTechCutSceneNarrationController : MonoBehaviour
 
         if (Cue_Dialogue == null)
             Cue_Dialogue = gameObject.AddComponent<OOTechStage3DialogueCue>();
+
+        Cue_Dialogue.SetCutSceneBottomLayoutEnabled(true);
     }
 
     private void ResolveCueSheetData()
@@ -72,12 +88,91 @@ public class OOTechCutSceneNarrationController : MonoBehaviour
             : null;
     }
 
+    private void RequestPlayCutSceneBGM()
+    {
+        if (OOTechSoundManager.Inst == null)
+            return;
+
+        AudioClip bgmClip = null;
+
+        if (gameObject.name == ResolvePreFinalGroupName())
+            bgmClip = ResolveFinalStageBGMClip();
+        else
+            bgmClip = ResolveMainMenuBGMClip();
+
+        if (bgmClip != null)
+            OOTechSoundManager.Inst.PlayBGM(bgmClip, true);
+    }
+
+    private AudioClip ResolveFinalStageBGMClip()
+    {
+        string resourcePath = Data_CueSheet != null && !string.IsNullOrEmpty(Data_CueSheet.FinalStageBGMPath)
+            ? Data_CueSheet.FinalStageBGMPath
+            : "Audio/BGM/FinalStage_BGM";
+        AudioClip clip = Resources.Load<AudioClip>(resourcePath);
+
+        if (clip != null)
+            return clip;
+
+#if UNITY_EDITOR
+        clip = AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/Sounds/BGM/FinalStage_BGM.mp3");
+
+        if (clip != null)
+            return clip;
+#endif
+
+        return null;
+    }
+
+    private AudioClip ResolveMainMenuBGMClip()
+    {
+        AudioClip clip = ResolveMainMenuBGMClipFromScene();
+
+        if (clip != null)
+            return clip;
+
+        clip = Resources.Load<AudioClip>("Audio/BGM/MainMenu_BGM");
+
+        if (clip != null)
+            return clip;
+
+#if UNITY_EDITOR
+        clip = AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/Sounds/BGM/MainMenu_BGM.mp3");
+
+        if (clip != null)
+            return clip;
+#endif
+
+        return null;
+    }
+
+    private AudioClip ResolveMainMenuBGMClipFromScene()
+    {
+        MainMenuBGMPlayer[] playerArray = Resources.FindObjectsOfTypeAll<MainMenuBGMPlayer>();
+
+        foreach (MainMenuBGMPlayer player in playerArray)
+        {
+            if (player == null)
+                continue;
+
+            AudioClip clip = player.ResolveMainMenuBGMClip();
+
+            if (clip != null)
+                return clip;
+        }
+
+        return null;
+    }
+
     private void RequestHideHUD()
     {
         List<OOTechRoadHUDController> hudArray = OOTechSceneQuery.RequestCollectComponents<OOTechRoadHUDController>(true);
 
         foreach (OOTechRoadHUDController hudController in hudArray)
-            hudController.SetHUDVisible(false);
+        {
+            if (hudController != null)
+                hudController.RequestForceHideForCutScene();
+        }
     }
 
     private string ResolveNarrationId()
@@ -108,20 +203,24 @@ public class OOTechCutSceneNarrationController : MonoBehaviour
         if (mainCamera == null)
             return;
 
+        bool isUICutScenePrepared = PrepareUICutSceneBackground();
+
         SpriteRenderer backgroundRenderer = ResolveLargestSpriteRenderer();
 
         if (backgroundRenderer == null)
+        {
+            if (isUICutScenePrepared)
+                DisableCameraFollow(mainCamera);
+
             return;
+        }
 
         backgroundRenderer.gameObject.SetActive(true);
         backgroundRenderer.enabled = true;
         backgroundRenderer.sortingLayerName = "Background";
         backgroundRenderer.sortingOrder = -1000;
 
-        CameraFollowController followController = mainCamera.GetComponent<CameraFollowController>();
-
-        if (followController != null)
-            followController.enabled = false;
+        DisableCameraFollow(mainCamera);
 
         Bounds bounds = backgroundRenderer.bounds;
         float sizeByHeight = bounds.extents.y;
@@ -132,6 +231,70 @@ public class OOTechCutSceneNarrationController : MonoBehaviour
         mainCamera.orthographic = true;
         mainCamera.orthographicSize = Mathf.Max(sizeByHeight, sizeByWidth);
         mainCamera.transform.position = cameraPosition;
+    }
+
+    private bool PrepareUICutSceneBackground()
+    {
+        Image backgroundImage = ResolveUICutSceneImage();
+
+        if (backgroundImage == null)
+            return false;
+
+        backgroundImage.gameObject.SetActive(true);
+        backgroundImage.enabled = true;
+        backgroundImage.raycastTarget = false;
+
+        Color color = backgroundImage.color;
+        color.a = 1f;
+        backgroundImage.color = color;
+
+        RectTransform rectTransform = backgroundImage.rectTransform;
+        rectTransform.localScale = Vector3.one;
+        rectTransform.anchorMin = Vector2.zero;
+        rectTransform.anchorMax = Vector2.one;
+        rectTransform.pivot = new Vector2(0.5f, 0.5f);
+        rectTransform.anchoredPosition = Vector2.zero;
+        rectTransform.sizeDelta = Vector2.zero;
+
+        Canvas canvas = backgroundImage.GetComponent<Canvas>();
+
+        if (canvas != null)
+        {
+            canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+            canvas.overrideSorting = true;
+            canvas.sortingOrder = -10;
+        }
+
+        return true;
+    }
+
+    private Image ResolveUICutSceneImage()
+    {
+        Image[] imageArray = GetComponentsInChildren<Image>(true);
+
+        foreach (Image image in imageArray)
+        {
+            if (image == null || image.sprite == null)
+                continue;
+
+            string objectName = image.gameObject.name;
+
+            if (objectName.Contains("CutScene") || objectName.Contains("Background") || objectName.Contains("Backound"))
+                return image;
+        }
+
+        return null;
+    }
+
+    private void DisableCameraFollow(Camera mainCamera)
+    {
+        if (mainCamera == null)
+            return;
+
+        CameraFollowController followController = mainCamera.GetComponent<CameraFollowController>();
+
+        if (followController != null)
+            followController.enabled = false;
     }
 
     private SpriteRenderer ResolveLargestSpriteRenderer()
@@ -159,13 +322,69 @@ public class OOTechCutSceneNarrationController : MonoBehaviour
 
     private void RequestSwitchGroup(string closingGroupName, string openingGroupName)
     {
+        GameObject closingObject = RequestSceneObjectByName(closingGroupName);
+        GameObject openingObject = RequestSceneObjectByName(openingGroupName);
+
         if (OOTechUIManager.Inst != null)
         {
+            if (closingObject != null)
+                OOTechUIManager.Inst.RegisterUI(closingGroupName, closingObject);
+
+            if (openingObject != null)
+                OOTechUIManager.Inst.RegisterUI(openingGroupName, openingObject);
+
             OOTechUIManager.Inst.CloseUI(closingGroupName);
-            OOTechUIManager.Inst.OpenUI(openingGroupName);
-            return;
+
+            if (OOTechUIManager.Inst.OpenUI(openingGroupName))
+                return;
         }
 
-        gameObject.SetActive(false);
+        if (openingObject != null)
+            openingObject.SetActive(true);
+
+        if (closingObject != null)
+            closingObject.SetActive(false);
+        else
+            gameObject.SetActive(false);
+    }
+
+    private GameObject RequestSceneObjectByName(string objectName)
+    {
+        if (string.IsNullOrWhiteSpace(objectName))
+            return null;
+
+        UnityEngine.SceneManagement.Scene scene = UnityEngine.SceneManagement.SceneManager.GetActiveScene();
+
+        if (!scene.IsValid())
+            return null;
+
+        foreach (GameObject rootObject in scene.GetRootGameObjects())
+        {
+            Transform foundTransform = RequestChildObjectByName(rootObject.transform, objectName);
+
+            if (foundTransform != null)
+                return foundTransform.gameObject;
+        }
+
+        return null;
+    }
+
+    private Transform RequestChildObjectByName(Transform rootTransform, string objectName)
+    {
+        if (rootTransform == null || string.IsNullOrWhiteSpace(objectName))
+            return null;
+
+        if (rootTransform.name == objectName)
+            return rootTransform;
+
+        for (int index = 0; index < rootTransform.childCount; index++)
+        {
+            Transform foundTransform = RequestChildObjectByName(rootTransform.GetChild(index), objectName);
+
+            if (foundTransform != null)
+                return foundTransform;
+        }
+
+        return null;
     }
 }

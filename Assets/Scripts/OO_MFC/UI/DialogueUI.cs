@@ -156,6 +156,18 @@ public class DialogueUI : MonoBehaviour
         RaiseCanvasForRoadViewDialogue();
     }
 
+    public void RequestCutSceneBottomLayout()
+    {
+        if (Layout_Dialogue == null)
+            Layout_Dialogue = GetComponent<OOTechDialogueLayout>();
+
+        if (Layout_Dialogue == null)
+            Layout_Dialogue = gameObject.AddComponent<OOTechDialogueLayout>();
+
+        Layout_Dialogue.ApplyCutSceneBottomLayout();
+        RaiseCanvasForRoadViewDialogue();
+    }
+
     /// <summary>
     /// ?꾨줈?앺듃 怨듯넻 ?쒓? ?고듃瑜??붿옄 ?대쫫怨?蹂몃Ц???곸슜?⑸땲??
     /// </summary>

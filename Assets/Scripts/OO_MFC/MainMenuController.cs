@@ -20,15 +20,25 @@ public class MainMenuController : MonoBehaviour
     [SerializeField] private AudioClip _codexBGM;
 
     [Header("Developer Skip")]
-    [SerializeField] private bool _isShowDeveloperSkipButtons = false;
+    [SerializeField] private bool _isShowDeveloperSkipButtons = true;
     [SerializeField] private string _developerRoad1GroupName = "1st_Road_to_Stage1";
     [SerializeField] private string _developerStage1GroupName = "Stage1Group";
     [SerializeField] private string _developerRoad2GroupName = "2nd_Road_to_Stage2";
+    [SerializeField] private bool _isShowDeveloperStage3Button = true;
+    [SerializeField] private string _developerStage3GroupName = "Stage3Group";
+    [SerializeField] private bool _isShowDeveloperStage4Button = true;
+    [SerializeField] private string _developerStage4GroupName = "Stage4_1Group";
+    [SerializeField] private string _developerStage4KoreanCakeItemId = "OO_KoreanCake_1";
+    [SerializeField] private string _developerStage4CarrotItemId = "Ing_Carrot_01";
+    [SerializeField] private int _developerStage4ItemCount = 10;
     [SerializeField] private Vector2 _developerButtonStartPosition = new Vector2(32f, -32f);
     [SerializeField] private Vector2 _developerButtonSize = new Vector2(280f, 54f);
     [SerializeField] private float _developerButtonSpacing = 12f;
+    [SerializeField] private Vector2 _developerStage3ButtonOffset = new Vector2(-32f, -32f);
+    [SerializeField] private Vector2 _developerStage3ButtonSize = new Vector2(240f, 54f);
 
     private RectTransform Root_DeveloperSkipPanel;
+    private RectTransform Root_DeveloperStage3Panel;
 
     private readonly string[] _exclusiveGroupNameArray =
     {
@@ -64,6 +74,7 @@ public class MainMenuController : MonoBehaviour
     private void Awake()
     {
         PrepareDeveloperSkipButtons();
+        PrepareDeveloperStage3Button();
     }
 
     /// <summary>
@@ -73,6 +84,9 @@ public class MainMenuController : MonoBehaviour
     {
         if (Root_DeveloperSkipPanel != null)
             Root_DeveloperSkipPanel.gameObject.SetActive(_isShowDeveloperSkipButtons);
+
+        if (Root_DeveloperStage3Panel != null)
+            Root_DeveloperStage3Panel.gameObject.SetActive(_isShowDeveloperStage3Button || _isShowDeveloperStage4Button);
     }
 
     // ==================== 湲곕낯 硫붾돱 踰꾪듉 ====================
@@ -141,6 +155,33 @@ public class MainMenuController : MonoBehaviour
         Root_DeveloperSkipPanel.gameObject.SetActive(true);
     }
 
+    private void PrepareDeveloperStage3Button()
+    {
+        if (!_isShowDeveloperStage3Button && !_isShowDeveloperStage4Button)
+            return;
+
+        Canvas canvas = GetComponentInChildren<Canvas>(true);
+
+        if (canvas == null)
+            canvas = CreateDeveloperSkipCanvas();
+
+        Root_DeveloperStage3Panel = RequestOrCreateDeveloperStage3Root(canvas.transform);
+        if (_isShowDeveloperStage3Button)
+            CreateDeveloperTopRightButton("Button_DevSkip_Stage3", "DEV Stage 3", new Color(0.05f, 0.16f, 0.32f, 0.92f), 0, delegate
+            {
+                RequestDeveloperSkipToGroup(_developerStage3GroupName);
+            });
+
+        if (_isShowDeveloperStage4Button)
+            CreateDeveloperTopRightButton("Button_DevSkip_Stage4", "DEV Stage 4", new Color(0.16f, 0.36f, 0.12f, 0.94f), _isShowDeveloperStage3Button ? 1 : 0, delegate
+            {
+                PrepareDeveloperStage4Inventory();
+                RequestDeveloperSkipToGroup(_developerStage4GroupName);
+            });
+
+        Root_DeveloperStage3Panel.gameObject.SetActive(true);
+    }
+
     private Canvas CreateDeveloperSkipCanvas()
     {
         GameObject canvasObject = new GameObject("Canvas_MainMenuDeveloperSkip");
@@ -178,6 +219,39 @@ public class MainMenuController : MonoBehaviour
         rootRect.anchoredPosition = _developerButtonStartPosition;
         rootRect.sizeDelta = new Vector2(_developerButtonSize.x, (_developerButtonSize.y + _developerButtonSpacing) * 3f);
         return rootRect;
+    }
+
+    private RectTransform RequestOrCreateDeveloperStage3Root(Transform canvasTransform)
+    {
+        GameObject rootObjectInCanvas = OOTechSceneQuery.RequestChildObjectByName(canvasTransform, "Panel_DeveloperStage3Button");
+        Transform rootTransform = rootObjectInCanvas != null ? rootObjectInCanvas.transform : null;
+
+        if (rootTransform != null)
+        {
+            RectTransform existingRootRect = rootTransform as RectTransform;
+            ApplyDeveloperStageShortcutRootSize(existingRootRect);
+            return rootTransform as RectTransform;
+        }
+
+        GameObject rootObject = new GameObject("Panel_DeveloperStage3Button");
+        rootObject.transform.SetParent(canvasTransform, false);
+
+        RectTransform rootRect = rootObject.AddComponent<RectTransform>();
+        rootRect.anchorMin = new Vector2(1f, 1f);
+        rootRect.anchorMax = new Vector2(1f, 1f);
+        rootRect.pivot = new Vector2(1f, 1f);
+        rootRect.anchoredPosition = _developerStage3ButtonOffset;
+        ApplyDeveloperStageShortcutRootSize(rootRect);
+        return rootRect;
+    }
+
+    private void ApplyDeveloperStageShortcutRootSize(RectTransform rootRect)
+    {
+        if (rootRect == null)
+            return;
+
+        int buttonCount = (_isShowDeveloperStage3Button ? 1 : 0) + (_isShowDeveloperStage4Button ? 1 : 0);
+        rootRect.sizeDelta = new Vector2(_developerStage3ButtonSize.x, (_developerStage3ButtonSize.y + _developerButtonSpacing) * Mathf.Max(1, buttonCount) - _developerButtonSpacing);
     }
 
     private void ClearDeveloperButtonListenerArray()
@@ -234,6 +308,67 @@ public class MainMenuController : MonoBehaviour
             label = CreateDeveloperButtonLabel(buttonObject.transform);
 
         label.text = labelText;
+    }
+
+    private void CreateDeveloperTopRightButton(string objectName, string labelText, Color color, int index, UnityAction clickAction)
+    {
+        GameObject existingButtonObject = OOTechSceneQuery.RequestChildObjectByName(Root_DeveloperStage3Panel, objectName);
+        Transform buttonTransform = existingButtonObject != null ? existingButtonObject.transform : null;
+        GameObject buttonObject = buttonTransform != null ? buttonTransform.gameObject : new GameObject(objectName);
+        buttonObject.transform.SetParent(Root_DeveloperStage3Panel, false);
+
+        RectTransform buttonRect = buttonObject.GetComponent<RectTransform>();
+
+        if (buttonRect == null)
+            buttonRect = buttonObject.AddComponent<RectTransform>();
+
+        buttonRect.anchorMin = new Vector2(0f, 1f);
+        buttonRect.anchorMax = new Vector2(1f, 1f);
+        buttonRect.pivot = new Vector2(0.5f, 1f);
+        buttonRect.anchoredPosition = new Vector2(0f, -index * (_developerStage3ButtonSize.y + _developerButtonSpacing));
+        buttonRect.sizeDelta = new Vector2(0f, _developerStage3ButtonSize.y);
+
+        Image buttonImage = buttonObject.GetComponent<Image>();
+
+        if (buttonImage == null)
+            buttonImage = buttonObject.AddComponent<Image>();
+
+        buttonImage.color = color;
+
+        Button button = buttonObject.GetComponent<Button>();
+
+        if (button == null)
+            button = buttonObject.AddComponent<Button>();
+
+        button.targetGraphic = buttonImage;
+        button.onClick.RemoveAllListeners();
+        button.onClick.AddListener(clickAction);
+
+        TextMeshProUGUI label = buttonObject.GetComponentInChildren<TextMeshProUGUI>(true);
+
+        if (label == null)
+            label = CreateDeveloperButtonLabel(buttonObject.transform);
+
+        label.text = labelText;
+        label.color = Color.white;
+    }
+
+    private void PrepareDeveloperStage4Inventory()
+    {
+        EnsureDeveloperInventoryCount(_developerStage4KoreanCakeItemId, _developerStage4ItemCount);
+        EnsureDeveloperInventoryCount(_developerStage4CarrotItemId, _developerStage4ItemCount);
+    }
+
+    private void EnsureDeveloperInventoryCount(string itemDataId, int targetCount)
+    {
+        if (OOTechGameManager.Inst == null || string.IsNullOrEmpty(itemDataId))
+            return;
+
+        int currentCount = OOTechGameManager.Inst.GetItemCount(itemDataId);
+        int addCount = Mathf.Max(0, targetCount - currentCount);
+
+        if (addCount > 0)
+            OOTechGameManager.Inst.AddItem(itemDataId, addCount);
     }
 
     private TextMeshProUGUI CreateDeveloperButtonLabel(Transform parentTransform)

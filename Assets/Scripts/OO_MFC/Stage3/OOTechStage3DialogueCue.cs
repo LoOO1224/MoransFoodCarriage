@@ -23,11 +23,22 @@ public class OOTechStage3DialogueCue : MonoBehaviour
 
     private DialogueUI UI_Dialogue;
     private GameObject Object_DialogueGroup;
+    private bool _isUseCutSceneBottomLayout;
+
+    public void SetCutSceneBottomLayoutEnabled(bool isEnabled)
+    {
+        _isUseCutSceneBottomLayout = isEnabled;
+    }
 
     /// <summary>
     /// 吏?뺥븳 Dialogue ID瑜??닿퀬 ?뚮젅?댁뼱媛 ?섍만 ?뚭퉴吏 湲곕떎由쎈땲??
     /// </summary>
     public IEnumerator RequestShowDialogueAndWait(string dialogueId)
+    {
+        yield return RequestShowDialogueAndWait(dialogueId, _waitTimeoutSeconds);
+    }
+
+    public IEnumerator RequestShowDialogueAndWait(string dialogueId, float waitTimeoutSeconds)
     {
         DialogueUI dialogueUI = ResolveDialogueUI();
 
@@ -43,10 +54,10 @@ public class OOTechStage3DialogueCue : MonoBehaviour
         }
 
         bool isDone = false;
-        dialogueUI.RequestRoadViewLayout();
+        RequestApplyDialogueLayout(dialogueUI);
         dialogueUI.ShowDialogue(dialogueData, delegate { isDone = true; });
 
-        yield return WaitUntilDoneOrTimeout(isDoneFunc: () => isDone, $"Dialogue timeout: {dialogueId}");
+        yield return WaitUntilDoneOrTimeout(isDoneFunc: () => isDone, $"Dialogue timeout: {dialogueId}", waitTimeoutSeconds);
         RequestCloseDialogue();
     }
 
@@ -80,10 +91,10 @@ public class OOTechStage3DialogueCue : MonoBehaviour
         }
 
         bool isDone = false;
-        dialogueUI.RequestRoadViewLayout();
+        RequestApplyDialogueLayout(dialogueUI);
         dialogueUI.ShowNarration(narrationData, delegate { isDone = true; });
 
-        yield return WaitUntilDoneOrTimeout(isDoneFunc: () => isDone, $"Narration timeout: {narrationId}");
+        yield return WaitUntilDoneOrTimeout(isDoneFunc: () => isDone, $"Narration timeout: {narrationId}", _waitTimeoutSeconds);
         RequestCloseDialogue();
     }
 
@@ -107,14 +118,14 @@ public class OOTechStage3DialogueCue : MonoBehaviour
 
         bool isDone = false;
         int selectedIndex = -1;
-        dialogueUI.RequestRoadViewLayout();
+        RequestApplyDialogueLayout(dialogueUI);
         dialogueUI.ShowChoice(choiceData, delegate (int index)
         {
             selectedIndex = index;
             isDone = true;
         });
 
-        yield return WaitUntilDoneOrTimeout(isDoneFunc: () => isDone, $"Choice timeout: {choiceId}");
+        yield return WaitUntilDoneOrTimeout(isDoneFunc: () => isDone, $"Choice timeout: {choiceId}", _waitTimeoutSeconds);
         RequestCloseDialogue();
         onChoiceSelected?.Invoke(selectedIndex);
     }
@@ -131,11 +142,12 @@ public class OOTechStage3DialogueCue : MonoBehaviour
             OOTechUIManager.Inst.CloseUI(_dialogueGroupName);
     }
 
-    private IEnumerator WaitUntilDoneOrTimeout(Func<bool> isDoneFunc, string timeoutMessage)
+    private IEnumerator WaitUntilDoneOrTimeout(Func<bool> isDoneFunc, string timeoutMessage, float waitTimeoutSeconds)
     {
         float elapsedTime = 0f;
+        float safeTimeoutSeconds = Mathf.Max(0.01f, waitTimeoutSeconds);
 
-        while (!isDoneFunc() && elapsedTime < _waitTimeoutSeconds)
+        while (!isDoneFunc() && elapsedTime < safeTimeoutSeconds)
         {
             elapsedTime += Time.deltaTime;
             yield return null;
@@ -167,6 +179,17 @@ public class OOTechStage3DialogueCue : MonoBehaviour
             UI_Dialogue.gameObject.SetActive(true);
 
         return UI_Dialogue;
+    }
+
+    private void RequestApplyDialogueLayout(DialogueUI dialogueUI)
+    {
+        if (dialogueUI == null)
+            return;
+
+        if (_isUseCutSceneBottomLayout)
+            dialogueUI.RequestCutSceneBottomLayout();
+        else
+            dialogueUI.RequestRoadViewLayout();
     }
 
     private GameObject ResolveDialogueGroupObject()

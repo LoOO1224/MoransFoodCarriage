@@ -6,6 +6,9 @@
 // - 유지보수 포인트: 사운드 전환 규칙이 커지면 SoundManager로 옮기고, 이 스크립트는 AudioClip 참조와 재생 요청만 유지합니다.
 // =============================================================================
 using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 /// <summary>
 /// MainMenuGroup이 켜져 있는 동안 메인 메뉴 BGM을 재생합니다.
@@ -14,16 +17,17 @@ using UnityEngine;
 public class MainMenuBGMPlayer : MonoBehaviour
 {
     [SerializeField] private AudioClip _mainMenuBGM;
+    [SerializeField] private string _mainMenuBGMAssetPath = "Assets/Sounds/BGM/MainMenu_BGM.mp3";
 
     /// <summary>
     /// 메인 메뉴 무대가 열리면 지정된 BGM을 재생합니다.
     /// </summary>
     private void OnEnable()
     {
-        if (OOTechSoundManager.Inst != null && _mainMenuBGM != null)
-        {
-            OOTechSoundManager.Inst.PlayBGM(_mainMenuBGM);
-        }
+        AudioClip bgmClip = ResolveMainMenuBGMClip();
+
+        if (OOTechSoundManager.Inst != null && bgmClip != null)
+            OOTechSoundManager.Inst.PlayBGM(bgmClip);
     }
 
     /// <summary>
@@ -31,9 +35,27 @@ public class MainMenuBGMPlayer : MonoBehaviour
     /// </summary>
     private void OnDisable()
     {
-        if (OOTechSoundManager.Inst != null)
-        {
-            OOTechSoundManager.Inst.StopBGM();
-        }
+        AudioClip bgmClip = ResolveMainMenuBGMClip();
+
+        if (OOTechSoundManager.Inst != null && bgmClip != null)
+            OOTechSoundManager.Inst.StopBGM(bgmClip);
+    }
+
+    public AudioClip ResolveMainMenuBGMClip()
+    {
+        if (_mainMenuBGM != null)
+            return _mainMenuBGM;
+
+        AudioClip resourcesClip = Resources.Load<AudioClip>("Audio/BGM/MainMenu_BGM");
+
+        if (resourcesClip != null)
+            return resourcesClip;
+
+#if UNITY_EDITOR
+        if (!string.IsNullOrWhiteSpace(_mainMenuBGMAssetPath))
+            return AssetDatabase.LoadAssetAtPath<AudioClip>(_mainMenuBGMAssetPath);
+#endif
+
+        return null;
     }
 }

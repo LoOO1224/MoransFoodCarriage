@@ -26,6 +26,9 @@ public class OOTechFinalStageController : MonoBehaviour
     private Transform Transform_EndPoint;
     private SpriteRenderer Renderer_Background;
     private Coroutine Coroutine_Sequence;
+    private bool _hasFullStageCameraView;
+    private Vector3 _fullStageCameraPosition;
+    private float _fullStageCameraSize;
 
     /// <summary>
     /// FinalStageGroup??耳쒖?硫?BGM, 移대찓?? 諛곗슦 ?꾩튂瑜?以鍮꾪븯怨?留덉?留??먮? ?쒖옉?⑸땲??
@@ -57,7 +60,6 @@ public class OOTechFinalStageController : MonoBehaviour
     {
         yield return Cue_Dialogue.RequestShowDialogueAndWait(ResolveExistingDialogueId(CreateOpeningDialogueCandidateList()));
         yield return MoveMoranToEndPointRoutine();
-        yield return ZoomCameraToYeonSanJaRoutine();
         yield return PlayYeonSanJaEatingRoutine();
 
         foreach (string dialogueId in CreateHappyDialogueCandidateList())
@@ -80,8 +82,9 @@ public class OOTechFinalStageController : MonoBehaviour
         Vector3 startPosition = Transform_Moran.position;
         Vector3 startScale = Transform_Moran.localScale;
         float targetScale = Data_CueSheet != null && Data_CueSheet.MoranEndScale > 0f ? Data_CueSheet.MoranEndScale : 0.6f;
-        float speed = Data_CueSheet != null && Data_CueSheet.MoranMoveSpeed > 0f ? Data_CueSheet.MoranMoveSpeed : 180f;
-        float stuckSeconds = Data_CueSheet != null && Data_CueSheet.MoranStuckFallbackSeconds > 0f ? Data_CueSheet.MoranStuckFallbackSeconds : 1.5f;
+        float baseSpeed = Data_CueSheet != null && Data_CueSheet.MoranMoveSpeed > 0f ? Data_CueSheet.MoranMoveSpeed : 180f;
+        float speed = baseSpeed * 0.5f;
+        float stuckSeconds = (Data_CueSheet != null && Data_CueSheet.MoranStuckFallbackSeconds > 0f ? Data_CueSheet.MoranStuckFallbackSeconds : 1.5f) * 1.5f;
         float lastProgressDistance = Vector3.Distance(Transform_Moran.position, Transform_EndPoint.position);
         float stuckTimer = 0f;
 
@@ -112,10 +115,12 @@ public class OOTechFinalStageController : MonoBehaviour
         float fallbackElapsed = 0f;
         Vector3 fallbackStart = Transform_Moran.position;
 
-        while (Vector3.Distance(Transform_Moran.position, Transform_EndPoint.position) > 1f && fallbackElapsed < 1.2f)
+        float fallbackDuration = 2.4f;
+
+        while (Vector3.Distance(Transform_Moran.position, Transform_EndPoint.position) > 1f && fallbackElapsed < fallbackDuration)
         {
             fallbackElapsed += Time.deltaTime;
-            Transform_Moran.position = Vector3.Lerp(fallbackStart, Transform_EndPoint.position, fallbackElapsed / 1.2f);
+            Transform_Moran.position = Vector3.Lerp(fallbackStart, Transform_EndPoint.position, fallbackElapsed / fallbackDuration);
             ApplyMoranPerspectiveScale(startPosition, startScale, targetScale);
             yield return null;
         }
@@ -123,6 +128,7 @@ public class OOTechFinalStageController : MonoBehaviour
         Transform_Moran.position = Transform_EndPoint.position;
         Transform_Moran.localScale = startScale * targetScale;
         RequestPlayActorState(Transform_Moran, "Moran_idle", 1f, false);
+        RequestStopActorAnimation(Transform_Moran);
     }
 
     private void ApplyMoranPerspectiveScale(Vector3 startPosition, Vector3 startScale, float targetScale)
@@ -139,6 +145,11 @@ public class OOTechFinalStageController : MonoBehaviour
 
     private IEnumerator ZoomCameraToYeonSanJaRoutine()
     {
+        yield return ZoomCameraToYeonSanJaRoutine(1.6f);
+    }
+
+    private IEnumerator ZoomCameraToYeonSanJaRoutine(float duration)
+    {
         Camera mainCamera = Camera.main;
 
         if (mainCamera == null || Transform_YeonSanJa == null)
@@ -150,23 +161,54 @@ public class OOTechFinalStageController : MonoBehaviour
         targetPosition.z = startPosition.z;
         float targetSize = Data_CueSheet != null && Data_CueSheet.CameraZoomSize > 0f ? Data_CueSheet.CameraZoomSize : startSize * 0.55f;
         float elapsedTime = 0f;
+        float safeDuration = Mathf.Max(0.1f, duration);
 
-        while (elapsedTime < 0.8f)
+        while (elapsedTime < safeDuration)
         {
             elapsedTime += Time.deltaTime;
-            float t = Mathf.Clamp01(elapsedTime / 0.8f);
+            float t = Mathf.SmoothStep(0f, 1f, Mathf.Clamp01(elapsedTime / safeDuration));
             mainCamera.transform.position = Vector3.Lerp(startPosition, targetPosition, t);
             mainCamera.orthographicSize = Mathf.Lerp(startSize, targetSize, t);
             yield return null;
         }
     }
 
+    private IEnumerator RestoreFullStageCameraRoutine(float duration)
+    {
+        if (!_hasFullStageCameraView)
+            yield break;
+
+        Camera mainCamera = Camera.main;
+
+        if (mainCamera == null)
+            yield break;
+
+        Vector3 startPosition = mainCamera.transform.position;
+        float startSize = mainCamera.orthographicSize;
+        float elapsedTime = 0f;
+        float safeDuration = Mathf.Max(0.1f, duration);
+
+        while (elapsedTime < safeDuration)
+        {
+            elapsedTime += Time.deltaTime;
+            float t = Mathf.SmoothStep(0f, 1f, Mathf.Clamp01(elapsedTime / safeDuration));
+            mainCamera.transform.position = Vector3.Lerp(startPosition, _fullStageCameraPosition, t);
+            mainCamera.orthographicSize = Mathf.Lerp(startSize, _fullStageCameraSize, t);
+            yield return null;
+        }
+
+        mainCamera.transform.position = _fullStageCameraPosition;
+        mainCamera.orthographicSize = _fullStageCameraSize;
+    }
+
     private IEnumerator PlayYeonSanJaEatingRoutine()
     {
         float speed = Data_CueSheet != null && Data_CueSheet.YeonSanJaEatingSpeed > 0f ? Data_CueSheet.YeonSanJaEatingSpeed : 0.5f;
-        RequestPlayActorState(Transform_YeonSanJa, "YeonSanZa_isEatting", speed, true);
-        yield return new WaitForSeconds(2.2f / Mathf.Max(0.01f, speed));
-        RequestPlayActorState(Transform_YeonSanJa, "YeonSanZa_isHappy", 1f, true);
+        yield return ZoomCameraToYeonSanJaRoutine(1.8f);
+        RequestPlayActorStateAny(Transform_YeonSanJa, speed, true, "YeonSanJa_isEatting", "YeonSanZa_isEatting", "YanSanZa_isEatting");
+        yield return new WaitForSeconds(3.2f / Mathf.Max(0.01f, speed));
+        RequestPlayActorStateAny(Transform_YeonSanJa, 1f, true, "YeonSanJa_isHappy", "YeonSanZa_isHappy", "YanSanZa_isHappy");
+        yield return RestoreFullStageCameraRoutine(1.4f);
     }
 
     private void ResolveComponents()
@@ -184,6 +226,8 @@ public class OOTechFinalStageController : MonoBehaviour
 
         if (Cue_Dialogue == null)
             Cue_Dialogue = gameObject.AddComponent<OOTechStage3DialogueCue>();
+
+        Cue_Dialogue.SetCutSceneBottomLayoutEnabled(true);
 
         Transform_Moran = ResolveRoleTransform(ResolveMoranRoleId(), "Moran");
         Transform_YeonSanJa = ResolveRoleTransform(ResolveYeonSanJaRoleId(), "YeonSanJa", "YeonSanZa", "YanSanZa");
@@ -203,7 +247,10 @@ public class OOTechFinalStageController : MonoBehaviour
         List<OOTechRoadHUDController> hudArray = OOTechSceneQuery.RequestCollectComponents<OOTechRoadHUDController>(true);
 
         foreach (OOTechRoadHUDController hudController in hudArray)
-            hudController.SetHUDVisible(false);
+        {
+            if (hudController != null)
+                hudController.RequestForceHideForCutScene();
+        }
     }
 
     private void RequestPlayFinalBGM()
@@ -239,6 +286,10 @@ public class OOTechFinalStageController : MonoBehaviour
         mainCamera.orthographic = true;
         mainCamera.orthographicSize = Mathf.Max(bounds.extents.y, bounds.extents.x / Mathf.Max(0.01f, mainCamera.aspect));
         mainCamera.transform.position = cameraPosition;
+
+        _fullStageCameraPosition = mainCamera.transform.position;
+        _fullStageCameraSize = mainCamera.orthographicSize;
+        _hasFullStageCameraView = true;
     }
 
     private void RequestPlayActorState(Transform actorTransform, string stateName, float speed, bool isForce)
@@ -267,6 +318,52 @@ public class OOTechFinalStageController : MonoBehaviour
         }
 
         Debug.LogWarning($"[OOTechFinalStageController] Animator state missing: {actorTransform.name}/{stateName}");
+    }
+
+    private void RequestStopActorAnimation(Transform actorTransform)
+    {
+        if (actorTransform == null)
+            return;
+
+        Animator animator = actorTransform.GetComponentInChildren<Animator>(true);
+
+        if (animator != null)
+            animator.speed = 0f;
+    }
+
+    private void RequestPlayActorStateAny(Transform actorTransform, float speed, bool isForce, params string[] stateNameArray)
+    {
+        if (actorTransform == null || stateNameArray == null)
+            return;
+
+        Animator animator = actorTransform.GetComponentInChildren<Animator>(true);
+
+        if (animator == null)
+            return;
+
+        animator.enabled = true;
+        animator.speed = Mathf.Max(0.01f, speed);
+        animator.cullingMode = AnimatorCullingMode.AlwaysAnimate;
+
+        foreach (string stateName in stateNameArray)
+        {
+            if (string.IsNullOrEmpty(stateName))
+                continue;
+
+            int stateHash = Animator.StringToHash(stateName);
+
+            for (int layerIndex = 0; layerIndex < animator.layerCount; layerIndex++)
+            {
+                if (!animator.HasState(layerIndex, stateHash))
+                    continue;
+
+                animator.Play(stateHash, layerIndex, isForce ? 0f : animator.GetCurrentAnimatorStateInfo(layerIndex).normalizedTime);
+                return;
+            }
+        }
+
+        if (stateNameArray.Length > 0)
+            Debug.LogWarning($"[OOTechFinalStageController] Animator state missing: {actorTransform.name}/{stateNameArray[0]}");
     }
 
     private Transform ResolveRoleTransform(string roleId, params string[] fallbackNameArray)
@@ -300,6 +397,9 @@ public class OOTechFinalStageController : MonoBehaviour
         {
             if (spriteRenderer == null || spriteRenderer.sprite == null)
                 continue;
+
+            if (spriteRenderer.gameObject.name == "FinalStageBackground")
+                return spriteRenderer;
 
             float area = Mathf.Abs(spriteRenderer.bounds.size.x * spriteRenderer.bounds.size.y);
 

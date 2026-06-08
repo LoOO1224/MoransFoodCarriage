@@ -78,11 +78,42 @@ public static class UIManagerExtension
             return;
         }
 
+        GameObject previousGroupObject = OOTechUIManager.Inst.GetCreatedUI(safePreviousGroupName);
+
+        if (previousGroupObject == null)
+            previousGroupObject = RequestSceneObjectByName(safePreviousGroupName);
+
+        bool wasPreviousGroupAlreadyActive = previousGroupObject != null && previousGroupObject.activeInHierarchy;
+        GameObject cookingGroupObject = OOTechUIManager.Inst.GetCreatedUI("CookingGroup");
+        bool wasCookingGroupActive = cookingGroupObject != null && cookingGroupObject.activeInHierarchy;
+
         OOTechUIManager.Inst.CloseUI("CodexGroup");
         OOTechUIManager.Inst.CloseUI("CookingGroup");
         OOTechUIManager.Inst.CloseUI("WorldMapGroup");
         OOTechUIManager.Inst.OpenUI(safePreviousGroupName);
+        NotifyStage4_2CookingReturnIfNeeded(safePreviousGroupName, wasPreviousGroupAlreadyActive, wasCookingGroupActive);
         RestoreRoadHUDIfNeeded(safePreviousGroupName);
+    }
+
+    private static void NotifyStage4_2CookingReturnIfNeeded(string previousGroupName, bool wasPreviousGroupAlreadyActive, bool wasCookingGroupActive)
+    {
+        if (!wasCookingGroupActive || previousGroupName != "Stage4_2Group")
+            return;
+
+        GameObject stage4_2GroupObject = OOTechUIManager.Inst != null
+            ? OOTechUIManager.Inst.GetCreatedUI(previousGroupName)
+            : null;
+
+        if (stage4_2GroupObject == null)
+            stage4_2GroupObject = RequestSceneObjectByName(previousGroupName);
+
+        if (stage4_2GroupObject == null)
+            return;
+
+        OOTechStage4GroupController stage4Controller = stage4_2GroupObject.GetComponent<OOTechStage4GroupController>();
+
+        if (stage4Controller != null)
+            stage4Controller.RequestResolveStage4_2CookingReturn(wasPreviousGroupAlreadyActive);
     }
 
     /// <summary>

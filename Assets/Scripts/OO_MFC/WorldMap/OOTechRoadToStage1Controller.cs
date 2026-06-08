@@ -1455,6 +1455,9 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
         RequestRoadEntryNewBadgeIfNeeded();
         ApplyRoadMissionForCurrentGroup();
         HUD_Road.SetHUDVisible(true);
+
+        if (IsFourthRoadCurrent())
+            RequestForceStage4PresentationHUDOnRoad();
     }
 
     /// <summary>
@@ -1528,6 +1531,65 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
     private OO_Stage4CueSheet ResolveStage4CueSheetData()
     {
         return OOTechGameDataManager.Inst != null ? OOTechGameDataManager.Inst.GetStage4CueSheetData(_stage4CueSheetDataId) : null;
+    }
+
+    private void RequestForceStage4PresentationHUDOnRoad()
+    {
+        if (HUD_Road == null)
+            return;
+
+        OO_Stage4CueSheet cueSheetData = ResolveStage4CueSheetData();
+        string missionDataId = cueSheetData != null && !string.IsNullOrWhiteSpace(cueSheetData.RoadMissionDataId)
+            ? cueSheetData.RoadMissionDataId
+            : _fourthRoadMissionDataId;
+        string fallbackText = cueSheetData != null && !string.IsNullOrWhiteSpace(cueSheetData.RoadMissionFallbackText)
+            ? cueSheetData.RoadMissionFallbackText
+            : _fourthRoadMissionFallbackText;
+        string missionText = ResolveStageQuestDescription(missionDataId, fallbackText);
+
+        HUD_Road.RequestEnableStage4PresentationHUD(_currentGroupName, missionText, "당근전 조리 가이드", ResolveStage4RecipeGuideText());
+    }
+
+    private string ResolveStage4RecipeGuideText()
+    {
+        string starchGuide = ResolveRecipeGuideByResultItemId(
+            "OO_CarrotStarch_1",
+            "레시피 조합 버튼을 누른 뒤 떡 1개와 당근 1개를 조합 칸에 올려 당근전분을 만드세요.");
+        string carrotCakeGuide = ResolveRecipeGuideByResultItemId(
+            "OO_CarrotCake_1",
+            "당근전분 1개를 인벤토리에서 집어 가마솥에 드래그하면 당근전이 완성됩니다.");
+
+        return starchGuide + "\n" + carrotCakeGuide;
+    }
+
+    private string ResolveRecipeGuideByResultItemId(string resultItemId, string fallbackText)
+    {
+        if (OOTechGameDataManager.Inst == null || string.IsNullOrEmpty(resultItemId))
+            return fallbackText;
+
+        List<OO_Recipe> recipeDataList = OOTechGameDataManager.Inst.GetRecipeDataList();
+
+        foreach (OO_Recipe recipeData in recipeDataList)
+        {
+            if (recipeData == null || recipeData.ResultItemId != resultItemId)
+                continue;
+
+            if (IsReadableStage4RecipeText(recipeData.QuantityGuideText))
+                return recipeData.QuantityGuideText;
+
+            if (IsReadableStage4RecipeText(recipeData.Description))
+                return recipeData.Description;
+        }
+
+        return fallbackText;
+    }
+
+    private bool IsReadableStage4RecipeText(string value)
+    {
+        if (string.IsNullOrWhiteSpace(value))
+            return false;
+
+        return value.Contains("당근") || value.Contains("떡") || value.Contains("가마솥") || value.Contains("레시피");
     }
 
     /// <summary>

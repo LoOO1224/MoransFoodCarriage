@@ -13,6 +13,10 @@ using UnityEngine.InputSystem;
 [DisallowMultipleComponent]
 public class OOTechStageMoranFreeMoveController : MonoBehaviour
 {
+    private const float ReferenceBackgroundWidth = 13.76f;
+    private const float LargeStageBackgroundWidth = 40f;
+    private const float MaximumAutomaticSpeedScale = 160f;
+
     [Header("Input")]
     [SerializeField] private KeyCode _moveLeftKey = KeyCode.A;
     [SerializeField] private KeyCode _moveRightKey = KeyCode.D;
@@ -84,6 +88,8 @@ public class OOTechStageMoranFreeMoveController : MonoBehaviour
             return;
 
         Renderer_Moran.enabled = true;
+        Renderer_Moran.forceRenderingOff = false;
+        Renderer_Moran.sortingLayerName = "Characters";
         Renderer_Moran.sortingOrder = Mathf.Max(Renderer_Moran.sortingOrder, _sortingOrder);
 
         Color color = Renderer_Moran.color;
@@ -102,9 +108,10 @@ public class OOTechStageMoranFreeMoveController : MonoBehaviour
 
         Vector3 position = transform.position;
         Bounds bounds = Renderer_Background.bounds;
+        float edgeMargin = ResolveEffectiveEdgeMargin(bounds);
 
         position.y = Mathf.Lerp(bounds.min.y, bounds.max.y, _laneNormalizedHeight);
-        position.x = Mathf.Clamp(position.x, bounds.min.x + _edgeMargin, bounds.max.x - _edgeMargin);
+        position.x = Mathf.Clamp(position.x, bounds.min.x + edgeMargin, bounds.max.x - edgeMargin);
         transform.position = position;
     }
 
@@ -112,21 +119,23 @@ public class OOTechStageMoranFreeMoveController : MonoBehaviour
     {
         float input = 0f;
 
+#if ENABLE_LEGACY_INPUT_MANAGER
         if (Input.GetKey(_moveLeftKey) || Input.GetKey(KeyCode.LeftArrow))
             input -= 1f;
 
         if (Input.GetKey(_moveRightKey) || Input.GetKey(KeyCode.RightArrow))
             input += 1f;
+#endif
 
 #if ENABLE_INPUT_SYSTEM
         Keyboard keyboard = Keyboard.current;
 
         if (keyboard != null)
         {
-            if (keyboard.leftArrowKey.isPressed)
+            if (keyboard.aKey.isPressed || keyboard.leftArrowKey.isPressed)
                 input -= 1f;
 
-            if (keyboard.rightArrowKey.isPressed)
+            if (keyboard.dKey.isPressed || keyboard.rightArrowKey.isPressed)
                 input += 1f;
         }
 #endif
@@ -136,12 +145,14 @@ public class OOTechStageMoranFreeMoveController : MonoBehaviour
 
     private bool IsRunPressed()
     {
+#if ENABLE_LEGACY_INPUT_MANAGER
         if (Input.GetKey(_runKey))
             return true;
+#endif
 
 #if ENABLE_INPUT_SYSTEM
         Keyboard keyboard = Keyboard.current;
-        return keyboard != null && keyboard.leftShiftKey.isPressed;
+        return keyboard != null && (keyboard.leftShiftKey.isPressed || keyboard.rightShiftKey.isPressed);
 #else
         return false;
 #endif
@@ -152,7 +163,7 @@ public class OOTechStageMoranFreeMoveController : MonoBehaviour
         if (Mathf.Abs(horizontalInput) <= 0.01f)
             return;
 
-        float speed = isRunning ? _runSpeed : _walkSpeed;
+        float speed = ResolveEffectiveMoveSpeed(isRunning);
         Vector3 position = transform.position;
 
         position.x += horizontalInput * speed * Time.deltaTime;
@@ -160,7 +171,8 @@ public class OOTechStageMoranFreeMoveController : MonoBehaviour
         if (Renderer_Background != null)
         {
             Bounds bounds = Renderer_Background.bounds;
-            position.x = Mathf.Clamp(position.x, bounds.min.x + _edgeMargin, bounds.max.x - _edgeMargin);
+            float edgeMargin = ResolveEffectiveEdgeMargin(bounds);
+            position.x = Mathf.Clamp(position.x, bounds.min.x + edgeMargin, bounds.max.x - edgeMargin);
             position.y = Mathf.Lerp(bounds.min.y, bounds.max.y, _laneNormalizedHeight);
         }
         else
@@ -172,6 +184,35 @@ public class OOTechStageMoranFreeMoveController : MonoBehaviour
 
         if (Renderer_Moran != null)
             Renderer_Moran.flipX = horizontalInput < 0f;
+    }
+
+    private float ResolveEffectiveMoveSpeed(bool isRunning)
+    {
+        float baseSpeed = isRunning ? _runSpeed : _walkSpeed;
+
+        if (Renderer_Background == null)
+            return baseSpeed;
+
+        float backgroundWidth = Renderer_Background.bounds.size.x;
+
+        if (backgroundWidth < LargeStageBackgroundWidth)
+            return baseSpeed;
+
+        float speedScale = Mathf.Clamp(backgroundWidth / ReferenceBackgroundWidth, 1f, MaximumAutomaticSpeedScale);
+        return baseSpeed * speedScale;
+    }
+
+    private float ResolveEffectiveEdgeMargin(Bounds backgroundBounds)
+    {
+        float edgeMargin = _edgeMargin;
+
+        if (backgroundBounds.size.x >= LargeStageBackgroundWidth)
+            edgeMargin = Mathf.Max(edgeMargin, Mathf.Min(120f, backgroundBounds.size.x * 0.06f));
+
+        if (Renderer_Moran != null)
+            edgeMargin = Mathf.Max(edgeMargin, Renderer_Moran.bounds.extents.x * 0.35f);
+
+        return Mathf.Min(edgeMargin, Mathf.Max(0.01f, backgroundBounds.extents.x - 0.01f));
     }
 
     private void UpdateAnimation(bool isMoving, bool isRunning)
@@ -191,6 +232,7 @@ public class OOTechStageMoranFreeMoveController : MonoBehaviour
             return;
 
         Animator_Moran.enabled = true;
+        Animator_Moran.cullingMode = AnimatorCullingMode.AlwaysAnimate;
         Animator_Moran.speed = Mathf.Max(0.01f, speed);
 
         if (_currentAnimationStateName == stateName)

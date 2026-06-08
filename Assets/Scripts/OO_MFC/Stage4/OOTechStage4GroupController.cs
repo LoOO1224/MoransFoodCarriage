@@ -10,6 +10,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+#if ENABLE_INPUT_SYSTEM
+using UnityEngine.InputSystem;
+#endif
 
 [DisallowMultipleComponent]
 public class OOTechStage4GroupController : MonoBehaviour
@@ -17,6 +20,13 @@ public class OOTechStage4GroupController : MonoBehaviour
     private const string DefaultCueSheetId = "Stage4_CueSheet_01";
     private const string Stage4_1Name = "Stage4_1Group";
     private const string Stage4_2Name = "Stage4_2Group";
+    private const float StageLaneNormalizedHeight = 0.2f;
+    private const float LargeStageBackgroundWidth = 40f;
+    private const float LargeStageEdgeMargin = 120f;
+    private const float SmallStageEdgeMargin = 18f;
+    private const float EdgeReachTolerance = 2f;
+    private const float EdgeRearmDistance = 48f;
+    private const float Stage4_2VisibleStartViewportX = 0.12f;
 
     [Header("Data")]
     [SerializeField] private string _cueSheetDataId = DefaultCueSheetId;
@@ -49,6 +59,9 @@ public class OOTechStage4GroupController : MonoBehaviour
     private SpriteRenderer Renderer_Background;
     private Coroutine Coroutine_Sequence;
     private bool _isRunningSequence;
+    private bool _isStage4_1RightExitArmed = true;
+    private bool _isStage4_2LeftExitArmed;
+    private Transform Transform_Stage4_2PresentationMoranClone;
 
     /// <summary>
     /// Stage4 洹몃９??耳쒖쭏 ???꾩옱 洹몃９ ?대쫫??留욌뒗 ?먮? 以鍮꾪빀?덈떎.
@@ -94,6 +107,8 @@ public class OOTechStage4GroupController : MonoBehaviour
     /// </summary>
     private void Update()
     {
+        RequestKeepPresentationInsuranceAlive();
+
         if (_isRunningSequence)
             return;
 
@@ -120,7 +135,15 @@ public class OOTechStage4GroupController : MonoBehaviour
             Cue_Dialogue = gameObject.AddComponent<OOTechStage3DialogueCue>();
 
         HUD_Road = GetComponent<OOTechRoadHUDController>();
+
+        if (HUD_Road == null)
+            HUD_Road = gameObject.AddComponent<OOTechRoadHUDController>();
+
         Transform_Moran = ResolveRoleTransform(ResolveMoranRoleId(), "Moran");
+
+        if (gameObject.name == ResolveStage4_2GroupName() || !IsRenderableActor(Transform_Moran))
+            Transform_Moran = RequestEnsureStage4_2PresentationMoran();
+
         Transform_Turtle = ResolveRoleTransform(ResolveTurtleRoleId(), "Turtle");
         Transform_Rabbit = ResolveRoleTransform(ResolveRabbitRoleId(), "Rabbit");
         Transform_RabbitSleeping = ResolveRoleTransform(ResolveSleepingRabbitRoleId(), "Rabbit_isSleeping");
@@ -153,7 +176,11 @@ public class OOTechStage4GroupController : MonoBehaviour
         OOTechStageViewController stageViewController = GetComponent<OOTechStageViewController>();
 
         if (stageViewController != null)
+        {
+            string backgroundObjectName = gameObject.name == ResolveStage4_2GroupName() ? "Stage4_2Background" : "Stage4_1Background";
+            stageViewController.Configure(backgroundObjectName, true);
             stageViewController.enabled = true;
+        }
 
         if (HUD_Road != null)
         {
@@ -161,7 +188,10 @@ public class OOTechStage4GroupController : MonoBehaviour
             HUD_Road.PrepareHUD();
             HUD_Road.SetCookingUnlocked(true, false);
             HUD_Road.SetHUDVisible(true);
+            RequestForcePresentationHUD();
         }
+
+        RequestFitCameraToBackground();
     }
 
     private void PrepareStage4_1()
@@ -181,33 +211,58 @@ public class OOTechStage4GroupController : MonoBehaviour
         if (_isReturnFromStage4_2ToStage4_1)
         {
             PlaceMoranAtRightEdge();
+            _isStage4_1RightExitArmed = false;
             _isReturnFromStage4_2ToStage4_1 = false;
         }
         else if (Transform_Moran != null && !_isTurtleQuestAccepted)
         {
             PlaceMoranAtLeftEdge();
+            _isStage4_1RightExitArmed = true;
         }
+        else
+        {
+            _isStage4_1RightExitArmed = true;
+        }
+
+        RequestForceActorVisible(Transform_Moran, 2200);
+        RequestForcePresentationHUD();
     }
 
     private void PrepareStage4_2()
     {
+        _isStage4_2LeftExitArmed = false;
+        RequestHideSpeechBubble(Transform_Rabbit);
+        RequestHideSpeechBubble(Transform_RabbitSleeping);
         RequestSetActive(Transform_Turtle, false);
         RequestSetActive(Transform_Rabbit, !_isRabbitSleeping);
         RequestSetActive(Transform_RabbitSleeping, _isRabbitSleeping);
         RequestSetActive(Transform_Stump2, false);
 
-        if (_hasStage4_2SavedMoranPosition && Transform_Moran != null)
-            Transform_Moran.position = _stage4_2SavedMoranPosition;
+        PlaceMoranAtStage4_2VisibleStart();
+
+        RequestForceActorVisible(Transform_Moran, 2200);
+        RequestKeepMoranInPresentationStartPositionIfNeeded();
+        PrepareMoranControl(true);
+
+        if (_isRabbitSleeping)
+            RequestForceActorVisible(Transform_RabbitSleeping, 2100);
         else
-            PlaceMoranAtLeftEdge();
+            RequestForceActorVisible(Transform_Rabbit, 2100);
 
         if (_isStopPointATriggered && Transform_StopPointA != null)
             Transform_StopPointA.gameObject.SetActive(false);
 
         if (!_isRabbitSleeping)
+        {
+            RequestPrepareStage4_2CookingQuestHUD();
             StartManagedRoutine(PlayStage4_2IntroRoutine());
+        }
         else
+        {
+            OOTechSpeechBubbleView sleepingBubbleView = ResolveSpeechBubbleView(Transform_RabbitSleeping);
+            sleepingBubbleView?.RequestPlaySpeechBubble(ResolveRabbitSleepingBubbleId(), 1f);
             RequestSetMission("토끼가 잠이 들었습니다. 거북이에게 돌아가세요!", true);
+        }
     }
 
     private void UpdateStage4_1Input()
@@ -215,22 +270,34 @@ public class OOTechStage4GroupController : MonoBehaviour
         if (Transform_Moran == null)
             return;
 
+        bool isInteractionPressed = IsInteractionPressed();
+
         if (_isRabbitSleeping && !_isStage4Cleared && Transform_Turtle != null && IsNear(Transform_Moran, Transform_Turtle))
         {
-            if (Input.GetKeyDown(KeyCode.E))
+            if (isInteractionPressed)
                 StartManagedRoutine(PlayTurtleClearRoutine());
 
             return;
         }
 
-        if (!_isTurtleQuestAccepted && Transform_Turtle != null && IsNear(Transform_Moran, Transform_Turtle) && Input.GetKeyDown(KeyCode.E))
+        if (!_isTurtleQuestAccepted && Transform_Turtle != null && IsNear(Transform_Moran, Transform_Turtle) && isInteractionPressed)
         {
             StartManagedRoutine(PlayTurtleQuestRoutine());
             return;
         }
 
-        if (_isTurtleQuestAccepted && IsMoranAtRightEdge())
+        if (_isTurtleQuestAccepted && !_isStage4_1RightExitArmed)
+        {
+            if (HasMoranMovedAwayFromRightEdge())
+                _isStage4_1RightExitArmed = true;
+
+            return;
+        }
+
+        if (_isTurtleQuestAccepted && _isStage4_1RightExitArmed && IsMoranAtRightEdge())
+        {
             RequestSwitchGroup(gameObject.name, ResolveStage4_2GroupName());
+        }
     }
 
     private void UpdateStage4_2Input()
@@ -238,7 +305,13 @@ public class OOTechStage4GroupController : MonoBehaviour
         if (Transform_Moran == null)
             return;
 
-        if (IsMoranAtLeftEdge())
+        if (!_isStage4_2LeftExitArmed)
+        {
+            if (HasMoranMovedAwayFromLeftEdge())
+                _isStage4_2LeftExitArmed = true;
+        }
+
+        if (_isStage4_2LeftExitArmed && IsMoranAtLeftEdge())
         {
             _isReturnFromStage4_2ToStage4_1 = true;
             RequestSwitchGroup(gameObject.name, ResolveStage4_1GroupName());
@@ -260,7 +333,7 @@ public class OOTechStage4GroupController : MonoBehaviour
         if (_isRabbitCarrotCakeDialoguePlayed && !_isRabbitSleeping)
             ClampMoranBeforeStump();
 
-        if (_isRabbitCarrotCakeDialoguePlayed && !_isRabbitSleeping && Transform_Stump != null && IsNear(Transform_Moran, Transform_Stump) && Input.GetKeyDown(KeyCode.E))
+        if (_isRabbitCarrotCakeDialoguePlayed && !_isRabbitSleeping && Transform_Stump != null && IsNear(Transform_Moran, Transform_Stump) && IsInteractionPressed())
             StartManagedRoutine(PlayStumpCarrotCakeRoutine());
     }
 
@@ -282,7 +355,7 @@ public class OOTechStage4GroupController : MonoBehaviour
         if (_isStopPointATriggered)
             yield break;
 
-        yield return Cue_Dialogue.RequestShowDialogueAndWait(ResolveRabbitIntroDialogueId());
+        yield return Cue_Dialogue.RequestShowDialogueAndWait(ResolveRabbitIntroDialogueId(), 3f);
     }
 
     private IEnumerator PlayStopPointARoutine()
@@ -318,6 +391,7 @@ public class OOTechStage4GroupController : MonoBehaviour
         yield return FadeWaitRoutine(0.35f);
         RequestSetActive(Transform_Stump2, true);
         RequestSetActive(Transform_Stump, true);
+        RequestRaiseStump2AboveStump();
 
         OOTechSpeechBubbleView speechBubbleView = ResolveSpeechBubbleView(Transform_Rabbit);
         speechBubbleView?.RequestPlaySpeechBubble("character_Rabbit_01", 1f);
@@ -425,13 +499,293 @@ public class OOTechStage4GroupController : MonoBehaviour
         HUD_Road.SetMissionNewBadgeActive(isNew);
     }
 
+    private void RequestPrepareStage4_2CookingQuestHUD()
+    {
+        if (HUD_Road == null)
+            HUD_Road = GetComponent<OOTechRoadHUDController>();
+
+        if (HUD_Road == null)
+            return;
+
+        HUD_Road.SetOwnerGroupName(gameObject.name);
+        HUD_Road.PrepareHUD();
+        HUD_Road.SetHUDVisible(true);
+        HUD_Road.SetCookingUnlocked(true, true);
+        HUD_Road.SetCookingNewBadgeActive(true);
+        RequestSetMission(ResolveStage4CarrotCakeMissionText(), true);
+        HUD_Road.RequestEnableStage4PresentationHUD(gameObject.name, ResolveStage4CarrotCakeMissionText(), null, null);
+    }
+
+    private void RequestForcePresentationHUD()
+    {
+        if (HUD_Road == null)
+            HUD_Road = GetComponent<OOTechRoadHUDController>();
+
+        if (HUD_Road == null)
+            return;
+
+        string missionText = _isRabbitSleeping
+            ? "토끼가 잠이 들었습니다. 거북이에게 돌아가세요!"
+            : ResolveStage4CarrotCakeMissionText();
+
+        HUD_Road.RequestEnableStage4PresentationHUD(gameObject.name, missionText, null, null);
+    }
+
+    private void RequestKeepPresentationInsuranceAlive()
+    {
+        if (gameObject.name == ResolveStage4_2GroupName())
+        {
+            Transform_Moran = RequestEnsureStage4_2PresentationMoran();
+            RequestForceActorVisible(Transform_Moran, 2200);
+            RequestKeepMoranInPresentationStartPositionIfNeeded();
+            PrepareMoranControl(true);
+        }
+        else if (gameObject.name == ResolveStage4_1GroupName())
+        {
+            RequestForceActorVisible(Transform_Moran, 2200);
+
+            if (_isStage4Cleared)
+            {
+                PrepareMoranControl(false);
+                RequestKeepStage4ClearVictoryActorsAlive();
+            }
+            else
+            {
+                PrepareMoranControl(true);
+            }
+        }
+
+        RequestForcePresentationHUD();
+    }
+
+    private void RequestKeepStage4ClearVictoryActorsAlive()
+    {
+        if (!_isStage4Cleared)
+            return;
+
+        RequestForceActorVisible(Transform_Moran, 2200);
+        RequestForceActorVisible(Transform_Turtle, 2100);
+        RequestPlayActorState(Transform_Moran, "Moran_Victory", 1f, false);
+        RequestPlayActorState(Transform_Turtle, "Turtle_Victory", 1f, false);
+    }
+
+    private Transform RequestEnsureStage4_2PresentationMoran()
+    {
+        Transform currentMoranTransform = ResolveRoleTransform(ResolveMoranRoleId(), "Moran");
+
+        if (IsRenderableActor(currentMoranTransform))
+            return currentMoranTransform;
+
+        if (Transform_Stage4_2PresentationMoranClone != null)
+            return Transform_Stage4_2PresentationMoranClone;
+
+        Transform sourceMoranTransform = ResolveMoranFromStage4_1();
+
+        if (sourceMoranTransform == null)
+            return currentMoranTransform;
+
+        Transform_Stage4_2PresentationMoranClone = Instantiate(sourceMoranTransform, transform);
+        Transform_Stage4_2PresentationMoranClone.name = "Moran";
+        Transform_Stage4_2PresentationMoranClone.SetAsLastSibling();
+        RequestForceActorVisible(Transform_Stage4_2PresentationMoranClone, 2200);
+        return Transform_Stage4_2PresentationMoranClone;
+    }
+
+    private Transform ResolveMoranFromStage4_1()
+    {
+        GameObject stage4_1Object = RequestSceneObjectByName(ResolveStage4_1GroupName());
+
+        if (stage4_1Object == null)
+            return ResolveSceneWideMoranSource();
+
+        Transform moranTransform = RequestChildObjectByName(stage4_1Object.transform, "Moran");
+
+        if (moranTransform != null)
+            return moranTransform;
+
+        OOTechSceneObject[] sceneObjectArray = stage4_1Object.GetComponentsInChildren<OOTechSceneObject>(true);
+
+        foreach (OOTechSceneObject sceneObject in sceneObjectArray)
+        {
+            if (sceneObject != null && sceneObject.RoleId == ResolveMoranRoleId())
+                return sceneObject.transform;
+        }
+
+        return ResolveSceneWideMoranSource();
+    }
+
+    private Transform ResolveSceneWideMoranSource()
+    {
+        string preferredGroupName = gameObject.name == ResolveStage4_1GroupName()
+            ? ResolveStage4_2GroupName()
+            : ResolveStage4_1GroupName();
+        Transform preferredMoranTransform = ResolveMoranInGroupOnly(preferredGroupName);
+
+        if (IsRenderableActor(preferredMoranTransform))
+            return preferredMoranTransform;
+
+        OOTechSceneObject[] sceneObjectArray = FindObjectsByType<OOTechSceneObject>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+
+        foreach (OOTechSceneObject sceneObject in sceneObjectArray)
+        {
+            if (sceneObject == null || sceneObject.RoleId != ResolveMoranRoleId())
+                continue;
+
+            if (sceneObject.transform == Transform_Moran || sceneObject.transform.IsChildOf(transform) || IsBlockedMoranSource(sceneObject.transform))
+                continue;
+
+            if (IsRenderableActor(sceneObject.transform))
+                return sceneObject.transform;
+        }
+
+        OOTechStageMoranFreeMoveController[] moranControllerArray = FindObjectsByType<OOTechStageMoranFreeMoveController>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+
+        foreach (OOTechStageMoranFreeMoveController moranController in moranControllerArray)
+        {
+            if (moranController == null || moranController.transform == Transform_Moran || moranController.transform.IsChildOf(transform) || IsBlockedMoranSource(moranController.transform))
+                continue;
+
+            if (IsRenderableActor(moranController.transform))
+                return moranController.transform;
+        }
+
+        return null;
+    }
+
+    private Transform ResolveMoranInGroupOnly(string groupName)
+    {
+        GameObject groupObject = RequestSceneObjectByName(groupName);
+
+        if (groupObject == null)
+            return null;
+
+        Transform moranTransform = RequestChildObjectByName(groupObject.transform, "Moran");
+
+        if (IsRenderableActor(moranTransform))
+            return moranTransform;
+
+        OOTechSceneObject[] sceneObjectArray = groupObject.GetComponentsInChildren<OOTechSceneObject>(true);
+
+        foreach (OOTechSceneObject sceneObject in sceneObjectArray)
+        {
+            if (sceneObject != null && sceneObject.RoleId == ResolveMoranRoleId() && IsRenderableActor(sceneObject.transform))
+                return sceneObject.transform;
+        }
+
+        return null;
+    }
+
+    private bool IsBlockedMoranSource(Transform sourceTransform)
+    {
+        Transform currentTransform = sourceTransform;
+
+        while (currentTransform != null)
+        {
+            string objectName = currentTransform.name;
+
+            if (objectName == "FinalStageGroup"
+                || objectName == "Final_Road_to_FinalStage"
+                || objectName == "PreFinal_Narration"
+                || objectName == "EpilogueGroup"
+                || objectName == "EndingCreditGroup")
+                return true;
+
+            currentTransform = currentTransform.parent;
+        }
+
+        return false;
+    }
+
+    private bool IsRenderableActor(Transform actorTransform)
+    {
+        if (actorTransform == null)
+            return false;
+
+        SpriteRenderer spriteRenderer = actorTransform.GetComponentInChildren<SpriteRenderer>(true);
+        return spriteRenderer != null && spriteRenderer.sprite != null;
+    }
+
+    private void RequestKeepMoranInPresentationStartPositionIfNeeded()
+    {
+        if (gameObject.name != ResolveStage4_2GroupName() || Transform_Moran == null || Renderer_Background == null)
+            return;
+
+        Bounds backgroundBounds = Renderer_Background.bounds;
+        Vector3 moranPosition = Transform_Moran.position;
+        bool isOutsideBackground =
+            moranPosition.x < backgroundBounds.min.x ||
+            moranPosition.x > backgroundBounds.max.x ||
+            moranPosition.y < backgroundBounds.min.y ||
+            moranPosition.y > backgroundBounds.max.y;
+
+        if (isOutsideBackground || !IsMoranVisibleInMainCamera())
+            PlaceMoranAtStage4_2VisibleStart();
+    }
+
     private void PrepareMoranControl(bool isEnabled)
     {
-        if (Controller_MoranMove == null && Transform_Moran != null)
+        if ((Controller_MoranMove == null || Controller_MoranMove.transform != Transform_Moran) && Transform_Moran != null)
             Controller_MoranMove = Transform_Moran.GetComponent<OOTechStageMoranFreeMoveController>();
 
         if (Controller_MoranMove != null)
             Controller_MoranMove.enabled = isEnabled;
+    }
+
+    public void RequestResolveStage4_2CookingReturn(bool isKeepCurrentPositionPreferred)
+    {
+        if (gameObject.name != ResolveStage4_2GroupName())
+            return;
+
+        ResolveComponents();
+
+        if (!_isStopPointATriggered)
+        {
+            _isStopPointATriggered = true;
+            RequestSetMission("토끼를 유혹하기 위한 당근전을 만드세요.", true);
+        }
+
+        RequestSetActive(Transform_StopPointA, false);
+
+        if (!isKeepCurrentPositionPreferred)
+            PlaceMoranAtStage4_2CookingReturnFallback();
+
+        RequestForceActorVisible(Transform_Moran, 2200);
+        _isStage4_2LeftExitArmed = false;
+        PrepareMoranControl(true);
+    }
+
+    public void RequestPlayRabbitCarrotCakeReadyIfAvailable()
+    {
+        if (gameObject.name != ResolveStage4_2GroupName())
+            return;
+
+        ResolveCueSheetData();
+        ResolveComponents();
+
+        if (_isRabbitCarrotCakeDialoguePlayed || !HasItem(ResolveCarrotCakeItemId()))
+            return;
+
+        StartManagedRoutine(PlayRabbitCarrotCakeReadyRoutine());
+    }
+
+    private void PlaceMoranAtStage4_2CookingReturnFallback()
+    {
+        if (Transform_Moran == null)
+            return;
+
+        if (_hasStage4_2SavedMoranPosition)
+        {
+            Transform_Moran.position = _stage4_2SavedMoranPosition;
+            return;
+        }
+
+        if (Transform_StopPointA == null)
+            return;
+
+        Vector3 position = Transform_Moran.position;
+        position.x = Transform_StopPointA.position.x;
+        position.y = Transform_StopPointA.position.y;
+        Transform_Moran.position = position;
     }
 
     private void PlaceMoranAtLeftEdge()
@@ -441,9 +795,81 @@ public class OOTechStage4GroupController : MonoBehaviour
 
         Bounds bounds = Renderer_Background.bounds;
         Vector3 position = Transform_Moran.position;
-        position.x = bounds.min.x + 120f;
-        position.y = Mathf.Lerp(bounds.min.y, bounds.max.y, 0.2f);
+        position.x = bounds.min.x + ResolveStageEdgeMargin(bounds);
+        position.y = Mathf.Lerp(bounds.min.y, bounds.max.y, StageLaneNormalizedHeight);
         Transform_Moran.position = position;
+    }
+
+    private void PlaceMoranAtStage4_2VisibleStart()
+    {
+        if (Transform_Moran == null || Renderer_Background == null)
+            return;
+
+        RequestFitCameraToBackground();
+
+        Bounds bounds = Renderer_Background.bounds;
+        Vector3 position = Transform_Moran.position;
+        position.x = bounds.min.x + ResolveStageEdgeMargin(bounds);
+        position.y = Mathf.Lerp(bounds.min.y, bounds.max.y, StageLaneNormalizedHeight);
+
+        Camera mainCamera = Camera.main;
+
+        if (mainCamera != null)
+        {
+            float cameraDepth = Mathf.Abs(mainCamera.transform.position.z - position.z);
+            Vector3 cameraLeftPosition = mainCamera.ViewportToWorldPoint(new Vector3(Stage4_2VisibleStartViewportX, 0.5f, cameraDepth));
+            position.x = cameraLeftPosition.x;
+        }
+
+        float edgeMargin = ResolveStageEdgeMargin(bounds);
+        position.x = Mathf.Clamp(position.x, bounds.min.x + edgeMargin, bounds.max.x - edgeMargin);
+        Transform_Moran.position = position;
+    }
+
+    private bool IsMoranVisibleInMainCamera()
+    {
+        if (Transform_Moran == null)
+            return false;
+
+        Camera mainCamera = Camera.main;
+
+        if (mainCamera == null)
+            return true;
+
+        Vector3 viewportPosition = mainCamera.WorldToViewportPoint(Transform_Moran.position);
+        return viewportPosition.z > 0f
+            && viewportPosition.x >= 0.04f
+            && viewportPosition.x <= 0.96f
+            && viewportPosition.y >= 0.04f
+            && viewportPosition.y <= 0.96f;
+    }
+
+    private void RequestFitCameraToBackground()
+    {
+        if (Renderer_Background == null)
+            return;
+
+        Camera mainCamera = Camera.main;
+
+        if (mainCamera == null)
+            return;
+
+        CameraFollowController cameraFollow = mainCamera.GetComponent<CameraFollowController>();
+
+        if (cameraFollow != null)
+            cameraFollow.enabled = false;
+
+        Bounds bounds = Renderer_Background.bounds;
+        float verticalSize = bounds.extents.y;
+        float horizontalSize = bounds.extents.x / Mathf.Max(0.01f, mainCamera.aspect);
+
+        mainCamera.orthographic = true;
+        mainCamera.orthographicSize = Mathf.Max(verticalSize, horizontalSize);
+
+        Vector3 cameraPosition = mainCamera.transform.position;
+        cameraPosition.x = bounds.center.x;
+        cameraPosition.y = bounds.center.y;
+        mainCamera.transform.position = cameraPosition;
     }
 
     private void PlaceMoranAtRightEdge()
@@ -453,8 +879,8 @@ public class OOTechStage4GroupController : MonoBehaviour
 
         Bounds bounds = Renderer_Background.bounds;
         Vector3 position = Transform_Moran.position;
-        position.x = bounds.max.x - 120f;
-        position.y = Mathf.Lerp(bounds.min.y, bounds.max.y, 0.2f);
+        position.x = bounds.max.x - ResolveStageEdgeMargin(bounds);
+        position.y = Mathf.Lerp(bounds.min.y, bounds.max.y, StageLaneNormalizedHeight);
         Transform_Moran.position = position;
     }
 
@@ -464,7 +890,10 @@ public class OOTechStage4GroupController : MonoBehaviour
             return false;
 
         if (Renderer_Background != null)
-            return Transform_Moran.position.x >= Renderer_Background.bounds.max.x - 18f;
+        {
+            Bounds bounds = Renderer_Background.bounds;
+            return Transform_Moran.position.x >= bounds.max.x - ResolveStageEdgeMargin(bounds) - EdgeReachTolerance;
+        }
 
         return Transform_Moran.position.x >= 8.8f;
     }
@@ -475,9 +904,41 @@ public class OOTechStage4GroupController : MonoBehaviour
             return false;
 
         if (Renderer_Background != null)
-            return Transform_Moran.position.x <= Renderer_Background.bounds.min.x + 18f;
+        {
+            Bounds bounds = Renderer_Background.bounds;
+            return Transform_Moran.position.x <= bounds.min.x + ResolveStageEdgeMargin(bounds) + EdgeReachTolerance;
+        }
 
         return Transform_Moran.position.x <= -8.8f;
+    }
+
+    private bool HasMoranMovedAwayFromRightEdge()
+    {
+        if (Transform_Moran == null || Renderer_Background == null)
+            return true;
+
+        Bounds bounds = Renderer_Background.bounds;
+        return Transform_Moran.position.x < bounds.max.x - ResolveStageEdgeMargin(bounds) - EdgeRearmDistance;
+    }
+
+    private bool HasMoranMovedAwayFromLeftEdge()
+    {
+        if (Transform_Moran == null || Renderer_Background == null)
+            return true;
+
+        Bounds bounds = Renderer_Background.bounds;
+        return Transform_Moran.position.x > bounds.min.x + ResolveStageEdgeMargin(bounds) + EdgeRearmDistance;
+    }
+
+    private float ResolveStageEdgeMargin(Bounds backgroundBounds)
+    {
+        float edgeMargin = backgroundBounds.size.x >= LargeStageBackgroundWidth ? LargeStageEdgeMargin : SmallStageEdgeMargin;
+        SpriteRenderer moranRenderer = Transform_Moran != null ? Transform_Moran.GetComponentInChildren<SpriteRenderer>(true) : null;
+
+        if (moranRenderer != null)
+            edgeMargin = Mathf.Max(edgeMargin, moranRenderer.bounds.extents.x * 0.35f);
+
+        return Mathf.Min(edgeMargin, Mathf.Max(0.01f, backgroundBounds.extents.x - 0.01f));
     }
 
     private void ClampMoranBeforeStump()
@@ -496,7 +957,43 @@ public class OOTechStage4GroupController : MonoBehaviour
             return false;
 
         float distance = Data_CueSheet != null && Data_CueSheet.InteractionDistance > 0f ? Data_CueSheet.InteractionDistance : 95f;
-        return Vector2.Distance(firstTransform.position, secondTransform.position) <= distance;
+
+        if (Vector2.Distance(firstTransform.position, secondTransform.position) <= distance)
+            return true;
+
+        float boundsGap = CalculateRendererBoundsGap(firstTransform, secondTransform);
+        return boundsGap <= distance;
+    }
+
+    private bool IsInteractionPressed()
+    {
+#if ENABLE_LEGACY_INPUT_MANAGER
+        if (Input.GetKeyDown(KeyCode.E))
+            return true;
+#endif
+
+#if ENABLE_INPUT_SYSTEM
+        Keyboard keyboard = Keyboard.current;
+        return keyboard != null && keyboard.eKey.wasPressedThisFrame;
+#else
+        return false;
+#endif
+    }
+
+    private float CalculateRendererBoundsGap(Transform firstTransform, Transform secondTransform)
+    {
+        SpriteRenderer firstRenderer = firstTransform != null ? firstTransform.GetComponentInChildren<SpriteRenderer>(true) : null;
+        SpriteRenderer secondRenderer = secondTransform != null ? secondTransform.GetComponentInChildren<SpriteRenderer>(true) : null;
+
+        if (firstRenderer == null || secondRenderer == null)
+            return float.PositiveInfinity;
+
+        Bounds firstBounds = firstRenderer.bounds;
+        Bounds secondBounds = secondRenderer.bounds;
+        float xGap = Mathf.Max(0f, Mathf.Max(secondBounds.min.x - firstBounds.max.x, firstBounds.min.x - secondBounds.max.x));
+        float yGap = Mathf.Max(0f, Mathf.Max(secondBounds.min.y - firstBounds.max.y, firstBounds.min.y - secondBounds.max.y));
+
+        return new Vector2(xGap, yGap).magnitude;
     }
 
     private void RequestPlayActorState(Transform actorTransform, string stateName, float speed, bool isForce)
@@ -546,6 +1043,12 @@ public class OOTechStage4GroupController : MonoBehaviour
         return speechBubbleTransform.gameObject.AddComponent<OOTechSpeechBubbleView>();
     }
 
+    private void RequestHideSpeechBubble(Transform actorTransform)
+    {
+        OOTechSpeechBubbleView speechBubbleView = ResolveSpeechBubbleView(actorTransform);
+        speechBubbleView?.RequestPrepareHidden();
+    }
+
     private void RequestPlayStage4BGM()
     {
         AudioClip clip = Clip_Stage4BGM;
@@ -559,6 +1062,9 @@ public class OOTechStage4GroupController : MonoBehaviour
 
     private void ShowStage4ClearCanvas()
     {
+        if (TryShowStage4CompleteTutorialGuide())
+            return;
+
         if (View_ClearPanel == null)
             View_ClearPanel = GetComponentInChildren<OOTechStage4ClearPanelView>(true);
 
@@ -571,7 +1077,7 @@ public class OOTechStage4GroupController : MonoBehaviour
 
         if (View_ClearPanel != null)
         {
-            View_ClearPanel.RequestShow("모든 임무 완수!", bodyText, delegate
+            View_ClearPanel.RequestShow("모든 스테이지 임무 완료!", bodyText, delegate
             {
                 RequestSwitchGroup(gameObject.name, ResolvePreFinalGroupName());
             });
@@ -580,6 +1086,74 @@ public class OOTechStage4GroupController : MonoBehaviour
 
         Debug.LogWarning("[OOTechStage4GroupController] Canvas_Stage4Clear is missing. Switching to PreFinal as a fail-safe.");
         RequestSwitchGroup(gameObject.name, ResolvePreFinalGroupName());
+    }
+
+    private bool TryShowStage4CompleteTutorialGuide()
+    {
+        GameObject tutorialGuideGroup = RequestSceneObjectByName("TutorialGuideGroup");
+
+        if (tutorialGuideGroup == null)
+            return false;
+
+        OOTechTutorialGuideUI tutorialGuideUI = tutorialGuideGroup.GetComponentInChildren<OOTechTutorialGuideUI>(true);
+
+        if (tutorialGuideUI == null)
+            return false;
+
+        if (OOTechUIManager.Inst != null)
+            OOTechUIManager.Inst.RegisterUI("TutorialGuideGroup", tutorialGuideGroup);
+
+        tutorialGuideGroup.SetActive(true);
+        RequestForceCanvasVisible(tutorialGuideGroup, 6400);
+
+        OO_Tutorial tutorialData = OOTechGameDataManager.Inst != null
+            ? OOTechGameDataManager.Inst.GetTutorialData(ResolveNextTutorialNarrationId())
+            : null;
+
+        if (tutorialData != null)
+        {
+            OO_Tutorial stage4CompleteTutorialData = new OO_Tutorial
+            {
+                Id = tutorialData.Id,
+                Name = tutorialData.Name,
+                Title = "모든 스테이지 임무 완료!",
+                Description = string.IsNullOrWhiteSpace(tutorialData.Description)
+                    ? "모든 스테이지 임무를 완수했습니다. 마지막 이야기로 이동합니다."
+                    : tutorialData.Description,
+                TargetStageId = tutorialData.TargetStageId,
+                TriggerCondition = tutorialData.TriggerCondition,
+                DialogueGroupId = tutorialData.DialogueGroupId,
+                SkillList = tutorialData.SkillList,
+                UseWeaponId = tutorialData.UseWeaponId,
+                BasicCostumeId = tutorialData.BasicCostumeId
+            };
+
+            tutorialGuideUI.ShowGuide(stage4CompleteTutorialData, delegate
+            {
+                tutorialGuideUI.SetTitleEmphasisActive(false);
+                tutorialGuideUI.CloseGuide();
+                RequestSwitchGroup(gameObject.name, ResolvePreFinalGroupName());
+            });
+        }
+        else
+        {
+            OO_Narration fallbackNarration = new OO_Narration
+            {
+                Id = ResolveNextTutorialNarrationId(),
+                Title = "모든 스테이지 임무 완료!",
+                NarrationTexts = new List<string> { "모든 스테이지 임무를 완수했습니다. 마지막 이야기로 이동합니다." }
+            };
+
+            tutorialGuideUI.ShowGuide(fallbackNarration, delegate
+            {
+                tutorialGuideUI.SetTitleEmphasisActive(false);
+                tutorialGuideUI.CloseGuide();
+                RequestSwitchGroup(gameObject.name, ResolvePreFinalGroupName());
+            });
+        }
+
+        tutorialGuideUI.SetTitleEmphasisActive(true);
+        return true;
     }
 
     private Transform ResolveRoleTransform(string roleId, string fallbackName)
@@ -641,25 +1215,158 @@ public class OOTechStage4GroupController : MonoBehaviour
         if (string.IsNullOrEmpty(openingGroupName))
             return;
 
+        GameObject closingObject = RequestSceneObjectByName(closingGroupName);
+        GameObject openingObject = RequestSceneObjectByName(openingGroupName);
+        PrepareOpeningGroupController(openingObject, openingGroupName);
+
         if (OOTechUIManager.Inst != null)
         {
-            OOTechUIManager.Inst.CloseUI(closingGroupName);
-            OOTechUIManager.Inst.OpenUI(openingGroupName);
-            return;
-        }
+            if (closingObject != null)
+                OOTechUIManager.Inst.RegisterUI(closingGroupName, closingObject);
 
-        GameObject openingObject = RequestSceneObjectByName(openingGroupName);
+            if (openingObject != null)
+                OOTechUIManager.Inst.RegisterUI(openingGroupName, openingObject);
+
+            OOTechUIManager.Inst.CloseUI(closingGroupName);
+
+            if (OOTechUIManager.Inst.OpenUI(openingGroupName))
+                return;
+        }
 
         if (openingObject != null)
             openingObject.SetActive(true);
 
-        gameObject.SetActive(false);
+        if (closingObject != null)
+            closingObject.SetActive(false);
+        else
+            gameObject.SetActive(false);
+    }
+
+    private void PrepareOpeningGroupController(GameObject openingObject, string openingGroupName)
+    {
+        if (openingObject == null || openingGroupName != ResolvePreFinalGroupName())
+            return;
+
+        if (openingObject.GetComponent<OOTechCutSceneNarrationController>() == null)
+            openingObject.AddComponent<OOTechCutSceneNarrationController>();
     }
 
     private void RequestSetActive(Transform targetTransform, bool isActive)
     {
         if (targetTransform != null)
             targetTransform.gameObject.SetActive(isActive);
+    }
+
+    private void RequestForceActorVisible(Transform actorTransform, int minimumSortingOrder)
+    {
+        if (actorTransform == null)
+            return;
+
+        actorTransform.gameObject.SetActive(true);
+        RequestActivateParentChain(actorTransform);
+
+        Vector3 localScale = actorTransform.localScale;
+
+        if (Mathf.Abs(localScale.x) < 0.0001f)
+            localScale.x = 1f;
+
+        if (Mathf.Abs(localScale.y) < 0.0001f)
+            localScale.y = 1f;
+
+        if (Mathf.Abs(localScale.z) < 0.0001f)
+            localScale.z = 1f;
+
+        actorTransform.localScale = localScale;
+
+        SpriteRenderer[] rendererArray = actorTransform.GetComponentsInChildren<SpriteRenderer>(true);
+
+        foreach (SpriteRenderer spriteRenderer in rendererArray)
+        {
+            if (spriteRenderer == null)
+                continue;
+
+            spriteRenderer.enabled = true;
+            spriteRenderer.forceRenderingOff = false;
+            spriteRenderer.sortingLayerName = "Characters";
+
+            Color color = spriteRenderer.color;
+            color.a = 1f;
+            spriteRenderer.color = color;
+
+            if (minimumSortingOrder > 0 && spriteRenderer.sortingOrder < minimumSortingOrder)
+                spriteRenderer.sortingOrder = minimumSortingOrder;
+        }
+
+        Animator animator = actorTransform.GetComponentInChildren<Animator>(true);
+
+        if (animator != null)
+        {
+            animator.enabled = true;
+            animator.cullingMode = AnimatorCullingMode.AlwaysAnimate;
+        }
+    }
+
+    private void RequestRaiseStump2AboveStump()
+    {
+        if (Transform_Stump2 == null)
+            return;
+
+        int baseSortingOrder = 2400;
+        SpriteRenderer stumpRenderer = Transform_Stump != null ? Transform_Stump.GetComponentInChildren<SpriteRenderer>(true) : null;
+
+        if (stumpRenderer != null)
+            baseSortingOrder = Mathf.Max(baseSortingOrder, stumpRenderer.sortingOrder + 5);
+
+        SpriteRenderer[] stump2RendererArray = Transform_Stump2.GetComponentsInChildren<SpriteRenderer>(true);
+
+        foreach (SpriteRenderer spriteRenderer in stump2RendererArray)
+        {
+            if (spriteRenderer == null)
+                continue;
+
+            spriteRenderer.enabled = true;
+            spriteRenderer.forceRenderingOff = false;
+            spriteRenderer.sortingLayerName = "Characters";
+            spriteRenderer.sortingOrder = Mathf.Max(spriteRenderer.sortingOrder, baseSortingOrder);
+
+            Color color = spriteRenderer.color;
+            color.a = 1f;
+            spriteRenderer.color = color;
+        }
+    }
+
+    private void RequestForceCanvasVisible(GameObject rootObject, int sortingOrder)
+    {
+        if (rootObject == null)
+            return;
+
+        Canvas[] canvasArray = rootObject.GetComponentsInChildren<Canvas>(true);
+
+        foreach (Canvas canvas in canvasArray)
+        {
+            if (canvas == null)
+                continue;
+
+            canvas.gameObject.SetActive(true);
+            canvas.overrideSorting = true;
+            canvas.sortingOrder = Mathf.Max(canvas.sortingOrder, sortingOrder);
+        }
+    }
+
+    private void RequestActivateParentChain(Transform targetTransform)
+    {
+        Transform currentTransform = targetTransform;
+
+        while (currentTransform != null)
+        {
+            if (!currentTransform.gameObject.activeSelf)
+                currentTransform.gameObject.SetActive(true);
+
+            if (currentTransform == transform)
+                break;
+
+            currentTransform = currentTransform.parent;
+        }
     }
 
     private bool HasItem(string itemId)
@@ -701,6 +1408,60 @@ public class OOTechStage4GroupController : MonoBehaviour
         return resultList;
     }
 
+    private string ResolveStage4CarrotCakeMissionText()
+    {
+        OO_StageQuest questData = OOTechGameDataManager.Inst != null
+            ? OOTechGameDataManager.Inst.GetStageQuestData(ResolveStageQuestId())
+            : null;
+
+        if (questData != null && IsReadableStage4CarrotCakeText(questData.Description))
+            return questData.Description;
+
+        return "토끼를 유혹하기 위한 당근전을 만드세요.";
+    }
+
+    private string ResolveStage4CarrotCakeGuideText()
+    {
+        string starchGuide = ResolveRecipeGuideByResultItemId(
+            ResolveCarrotStarchItemId(),
+            "레시피 조합 버튼을 누른 뒤 떡 1개와 당근 1개를 조합 칸에 올려 당근전분을 만드세요.");
+        string carrotCakeGuide = ResolveRecipeGuideByResultItemId(
+            ResolveCarrotCakeItemId(),
+            "당근전분 1개를 인벤토리에서 집어 가마솥에 드래그하면 당근전이 완성됩니다.");
+
+        return starchGuide + "\n" + carrotCakeGuide;
+    }
+
+    private string ResolveRecipeGuideByResultItemId(string resultItemId, string fallbackText)
+    {
+        if (OOTechGameDataManager.Inst == null || string.IsNullOrEmpty(resultItemId))
+            return fallbackText;
+
+        List<OO_Recipe> recipeDataList = OOTechGameDataManager.Inst.GetRecipeDataList();
+
+        foreach (OO_Recipe recipeData in recipeDataList)
+        {
+            if (recipeData == null || recipeData.ResultItemId != resultItemId)
+                continue;
+
+            if (IsReadableStage4CarrotCakeText(recipeData.QuantityGuideText))
+                return recipeData.QuantityGuideText;
+
+            if (IsReadableStage4CarrotCakeText(recipeData.Description))
+                return recipeData.Description;
+        }
+
+        return fallbackText;
+    }
+
+    private bool IsReadableStage4CarrotCakeText(string value)
+    {
+        if (string.IsNullOrWhiteSpace(value))
+            return false;
+
+        return value.Contains("당근") || value.Contains("떡") || value.Contains("가마솥") || value.Contains("레시피");
+    }
+
     private string ResolveStage4_1GroupName() => Data_CueSheet != null && !string.IsNullOrEmpty(Data_CueSheet.Stage4_1GroupName) ? Data_CueSheet.Stage4_1GroupName : Stage4_1Name;
     private string ResolveStage4_2GroupName() => Data_CueSheet != null && !string.IsNullOrEmpty(Data_CueSheet.Stage4_2GroupName) ? Data_CueSheet.Stage4_2GroupName : Stage4_2Name;
     private string ResolvePreFinalGroupName() => Data_CueSheet != null && !string.IsNullOrEmpty(Data_CueSheet.PreFinalGroupName) ? Data_CueSheet.PreFinalGroupName : "PreFinal_Narration";
@@ -719,6 +1480,8 @@ public class OOTechStage4GroupController : MonoBehaviour
     private string ResolveRabbitSpeechBubbleIdList() => Data_CueSheet != null && !string.IsNullOrEmpty(Data_CueSheet.RabbitSpeechBubbleIdList) ? Data_CueSheet.RabbitSpeechBubbleIdList : "character_Rabbit_01|character_Rabbit_02|character_Rabbit_03|character_Rabbit_04|character_Rabbit_05";
     private string ResolveRabbitSleepingBubbleId() => Data_CueSheet != null && !string.IsNullOrEmpty(Data_CueSheet.RabbitSleepingBubbleId) ? Data_CueSheet.RabbitSleepingBubbleId : "character_Rabbit_06";
     private string ResolveCarrotCakeItemId() => Data_CueSheet != null && !string.IsNullOrEmpty(Data_CueSheet.CarrotCakeItemId) ? Data_CueSheet.CarrotCakeItemId : "OO_CarrotCake_1";
+    private string ResolveCarrotStarchItemId() => Data_CueSheet != null && !string.IsNullOrEmpty(Data_CueSheet.CarrotStarchItemId) ? Data_CueSheet.CarrotStarchItemId : "OO_CarrotStarch_1";
+    private string ResolveStageQuestId() => Data_CueSheet != null && !string.IsNullOrEmpty(Data_CueSheet.StageQuestId) ? Data_CueSheet.StageQuestId : "Stage4__Quest_01";
     private string ResolveNextTutorialNarrationId() => Data_CueSheet != null && !string.IsNullOrEmpty(Data_CueSheet.NextTutorialNarrationId) ? Data_CueSheet.NextTutorialNarrationId : "narration_tutorial_15";
 
     private Transform RequestChildObjectByName(Transform rootTransform, string objectName)
