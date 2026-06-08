@@ -138,10 +138,12 @@ public class OOTechRoadHUDController : MonoBehaviour
     private Coroutine _cookingNewBadgeCoroutine;
     private Coroutine _missionCompleteEffectCoroutine;
     private Coroutine _autoOpenNewPanelCoroutine;
+    private Coroutine _forceCloseInventoryPanelCoroutine;
     private readonly List<OOTechRoadHUDButtonKind> _pendingAutoOpenButtonKindList = new List<OOTechRoadHUDButtonKind>();
 
     public bool IsCookingUnlocked => _isCookingUnlocked;
     public bool IsOverlayOpen => _isOverlayOpen;
+    public string OwnerGroupName => string.IsNullOrEmpty(_ownerGroupName) ? gameObject.name : _ownerGroupName;
 
     /// <summary>
     /// ??HUD媛 ?대뒓 RoadGroup ?먮뒗 StageGroup???뚯냽?몄? 湲곕줉?⑸땲??
@@ -251,11 +253,11 @@ public class OOTechRoadHUDController : MonoBehaviour
     /// <summary>
     /// ?꾨Т 媛깆떊???뚮━??NEW 諛곗?瑜?耳쒓굅???뺣땲??
     /// </summary>
-    public void SetMissionNewBadgeActive(bool isActive)
+    public void SetMissionNewBadgeActive(bool isActive, bool isAutoOpenPanel = true)
     {
         SetBadgeActive(Text_MissionNewBadge, isActive, ref _missionNewBadgeCoroutine);
 
-        if (isActive)
+        if (isActive && isAutoOpenPanel)
             RequestAutoOpenNewPanel(OOTechRoadHUDButtonKind.Mission);
     }
 
@@ -345,6 +347,11 @@ public class OOTechRoadHUDController : MonoBehaviour
     /// </summary>
     public void RequestSetRoadMissionText(string roadMissionText, bool isShowNewBadge)
     {
+        RequestSetRoadMissionText(roadMissionText, isShowNewBadge, true);
+    }
+
+    public void RequestSetRoadMissionText(string roadMissionText, bool isShowNewBadge, bool isAutoOpenMissionPanel)
+    {
         if (Text_MissionContent == null)
             PrepareHUD();
 
@@ -353,7 +360,7 @@ public class OOTechRoadHUDController : MonoBehaviour
         RefreshMissionText();
 
         if (isShowNewBadge)
-            SetMissionNewBadgeActive(true);
+            SetMissionNewBadgeActive(true, isAutoOpenMissionPanel);
     }
 
     /// <summary>
@@ -393,6 +400,63 @@ public class OOTechRoadHUDController : MonoBehaviour
     {
         yield return new WaitForSecondsRealtime(Mathf.Max(0f, delaySeconds));
         SetInventoryPanelActive(false);
+    }
+
+    public void RequestForceCloseInventoryPanelForEncounterReturn()
+    {
+        CancelPendingInventoryAutoOpen();
+        SetInventoryPanelActive(false);
+
+        if (!isActiveAndEnabled)
+            return;
+
+        if (_forceCloseInventoryPanelCoroutine != null)
+            StopCoroutine(_forceCloseInventoryPanelCoroutine);
+
+        _forceCloseInventoryPanelCoroutine = StartCoroutine(ForceCloseInventoryPanelRoutine());
+    }
+
+    private IEnumerator ForceCloseInventoryPanelRoutine()
+    {
+        float[] delayArray = { 0f, 0.2f, 1f, 2f };
+
+        for (int index = 0; index < delayArray.Length; index++)
+        {
+            float delaySeconds = delayArray[index];
+
+            if (delaySeconds > 0f)
+                yield return new WaitForSecondsRealtime(delaySeconds);
+            else
+                yield return null;
+
+            CancelPendingInventoryAutoOpen();
+            SetInventoryPanelActive(false);
+        }
+
+        _forceCloseInventoryPanelCoroutine = null;
+    }
+
+    private void CancelPendingInventoryAutoOpen()
+    {
+        _pendingAutoOpenButtonKindList.RemoveAll(delegate (OOTechRoadHUDButtonKind buttonKind)
+        {
+            return buttonKind == OOTechRoadHUDButtonKind.Inventory;
+        });
+    }
+
+    public void RequestCloseInventoryAndMissionPanelsAfterDelay(float delaySeconds)
+    {
+        if (!isActiveAndEnabled)
+            return;
+
+        StartCoroutine(CloseInventoryAndMissionPanelsAfterDelayRoutine(delaySeconds));
+    }
+
+    private IEnumerator CloseInventoryAndMissionPanelsAfterDelayRoutine(float delaySeconds)
+    {
+        yield return new WaitForSecondsRealtime(Mathf.Max(0f, delaySeconds));
+        SetInventoryPanelActive(false);
+        SetMissionPanelActive(false);
     }
 
     /// <summary>

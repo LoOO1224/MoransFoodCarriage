@@ -1005,6 +1005,8 @@ public class OOTechGameDataManager : MonoBehaviour
             Stage4_1GroupName = NormalizeJsonText(GetFirstNotEmpty(jsonData.Stage4_1GroupName, "Stage4_1Group")),
             Stage4_2GroupName = NormalizeJsonText(GetFirstNotEmpty(jsonData.Stage4_2GroupName, "Stage4_2Group")),
             PreFinalGroupName = NormalizeJsonText(GetFirstNotEmpty(jsonData.PreFinalGroupName, "PreFinal_Narration")),
+            RoadMissionDataId = NormalizeJsonText(jsonData.RoadMissionDataId),
+            RoadMissionFallbackText = NormalizeJsonText(jsonData.RoadMissionFallbackText),
             TurtleRoleId = NormalizeJsonText(GetFirstNotEmpty(jsonData.TurtleRoleId, "Turtle")),
             RabbitRoleId = NormalizeJsonText(GetFirstNotEmpty(jsonData.RabbitRoleId, "Rabbit")),
             SleepingRabbitRoleId = NormalizeJsonText(GetFirstNotEmpty(jsonData.SleepingRabbitRoleId, "Rabbit_isSleeping")),
@@ -2269,6 +2271,8 @@ public class OOTechStage4CueSheetJsonData
     public string Stage4_1GroupName;
     public string Stage4_2GroupName;
     public string PreFinalGroupName;
+    public string RoadMissionDataId;
+    public string RoadMissionFallbackText;
     public string TurtleRoleId;
     public string RabbitRoleId;
     public string SleepingRabbitRoleId;

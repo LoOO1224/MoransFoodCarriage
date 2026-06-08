@@ -6618,7 +6618,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
+    rgba: 4279179819
   m_fontColor: {r: 0.17, g: 0.1, b: 0.06, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -7887,7 +7887,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
+    rgba: 4278850074
   m_fontColor: {r: 0.1, g: 0.07, b: 0.04, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -9563,7 +9563,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
+    rgba: 4279179819
   m_fontColor: {r: 0.17, g: 0.1, b: 0.06, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -18210,7 +18210,7 @@ RectTransform:
   m_Father: {fileID: 1894881860}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -39120,7 +39120,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
+    rgba: 4279179819
   m_fontColor: {r: 0.17, g: 0.1, b: 0.06, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -41170,7 +41170,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
+    rgba: 4279179819
   m_fontColor: {r: 0.17, g: 0.1, b: 0.06, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -48248,7 +48248,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &900197498
 Transform:
   m_ObjectHideFlags: 0
@@ -48977,7 +48977,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
+    rgba: 4278850074
   m_fontColor: {r: 0.1, g: 0.07, b: 0.04, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -59972,7 +59972,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
+    rgba: 4278850074
   m_fontColor: {r: 0.1, g: 0.07, b: 0.04, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -62689,7 +62689,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
+    rgba: 4278850074
   m_fontColor: {r: 0.1, g: 0.07, b: 0.04, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -67041,6 +67041,14 @@ MonoBehaviour:
   - FinalStageGroup
   _stage4BGM: {fileID: 0}
   _stage4BGMAssetPath: Assets/Sounds/BGM/Stage4_BGM.mp3
+  _stage3CueSheetDataId: Stage3_CueSheet_01
+  _stage4CueSheetDataId: Stage4_CueSheet_01
+  _thirdRoadMissionDataId: Stage3_Road_Quest_01
+  _thirdRoadMissionFallbackText: "\uB0A8\uCABD \uC232\uC73C\uB85C \uAC00\uC138\uC694!"
+  _fourthRoadMissionDataId: Stage4_Road_Quest_01
+  _fourthRoadMissionFallbackText: "\uBD81\uCABD \uB18D\uACBD\uC9C0\uB300\uB85C \uAC00\uC138\uC694."
+  _stage4RewardCarrotIngredientId: Ing_Carrot_01
+  _stage4RewardCarrotCount: 10
   _dialogueGroupName: DialogueGroup
   _secondRoadGroupName: 2nd_Road_to_Stage2
   _secondRoadMissionDataId: Stage2_Road_Quest_01
@@ -73508,7 +73516,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
+    rgba: 4278850074
   m_fontColor: {r: 0.1, g: 0.07, b: 0.04, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -76978,7 +76986,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
+    rgba: 4279179819
   m_fontColor: {r: 0.17, g: 0.1, b: 0.06, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -86996,7 +87004,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1580013269
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -93743,7 +93751,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
+    rgba: 4279179819
   m_fontColor: {r: 0.17, g: 0.1, b: 0.06, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -107115,7 +107123,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
+    rgba: 4278850074
   m_fontColor: {r: 0.1, g: 0.07, b: 0.04, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -116617,6 +116625,14 @@ MonoBehaviour:
   - FinalStageGroup
   _stage4BGM: {fileID: 0}
   _stage4BGMAssetPath: Assets/Sounds/BGM/Stage4_BGM.mp3
+  _stage3CueSheetDataId: Stage3_CueSheet_01
+  _stage4CueSheetDataId: Stage4_CueSheet_01
+  _thirdRoadMissionDataId: Stage3_Road_Quest_01
+  _thirdRoadMissionFallbackText: "\uB0A8\uCABD \uC232\uC73C\uB85C \uAC00\uC138\uC694!"
+  _fourthRoadMissionDataId: Stage4_Road_Quest_01
+  _fourthRoadMissionFallbackText: "\uBD81\uCABD \uB18D\uACBD\uC9C0\uB300\uB85C \uAC00\uC138\uC694."
+  _stage4RewardCarrotIngredientId: Ing_Carrot_01
+  _stage4RewardCarrotCount: 10
   _dialogueGroupName: DialogueGroup
   _secondRoadGroupName: 2nd_Road_to_Stage2
   _secondRoadMissionDataId: Stage2_Road_Quest_01
@@ -117343,6 +117359,14 @@ MonoBehaviour:
   - FinalStageGroup
   _stage4BGM: {fileID: 0}
   _stage4BGMAssetPath: Assets/Sounds/BGM/Stage4_BGM.mp3
+  _stage3CueSheetDataId: Stage3_CueSheet_01
+  _stage4CueSheetDataId: Stage4_CueSheet_01
+  _thirdRoadMissionDataId: Stage3_Road_Quest_01
+  _thirdRoadMissionFallbackText: "\uB0A8\uCABD \uC232\uC73C\uB85C \uAC00\uC138\uC694!"
+  _fourthRoadMissionDataId: Stage4_Road_Quest_01
+  _fourthRoadMissionFallbackText: "\uBD81\uCABD \uB18D\uACBD\uC9C0\uB300\uB85C \uAC00\uC138\uC694."
+  _stage4RewardCarrotIngredientId: Ing_Carrot_01
+  _stage4RewardCarrotCount: 10
   _dialogueGroupName: DialogueGroup
   _secondRoadGroupName: 2nd_Road_to_Stage2
   _secondRoadMissionDataId: Stage2_Road_Quest_01
@@ -118003,7 +118027,7 @@ SpriteRenderer:
   m_SortingLayer: 2
   m_SortingOrder: 100
   m_MaskInteraction: 0
-  m_Sprite: {fileID: -33438775, guid: 739d83e2bd50d0947be0a21d3be5018a, type: 3}
+  m_Sprite: {fileID: -1415516617, guid: 6dd00b6c775449c4886864688c66e353, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -118011,7 +118035,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
 --- !u!95 &3000000034
 Animator:
@@ -118232,6 +118256,14 @@ MonoBehaviour:
   - FinalStageGroup
   _stage4BGM: {fileID: 0}
   _stage4BGMAssetPath: Assets/Sounds/BGM/Stage4_BGM.mp3
+  _stage3CueSheetDataId: Stage3_CueSheet_01
+  _stage4CueSheetDataId: Stage4_CueSheet_01
+  _thirdRoadMissionDataId: Stage3_Road_Quest_01
+  _thirdRoadMissionFallbackText: "\uB0A8\uCABD \uC232\uC73C\uB85C \uAC00\uC138\uC694!"
+  _fourthRoadMissionDataId: Stage4_Road_Quest_01
+  _fourthRoadMissionFallbackText: "\uBD81\uCABD \uB18D\uACBD\uC9C0\uB300\uB85C \uAC00\uC138\uC694."
+  _stage4RewardCarrotIngredientId: Ing_Carrot_01
+  _stage4RewardCarrotCount: 10
   _dialogueGroupName: DialogueGroup
   _secondRoadGroupName: 2nd_Road_to_Stage2
   _secondRoadMissionDataId: Stage2_Road_Quest_01
@@ -118787,7 +118819,7 @@ SpriteRenderer:
   m_SortingLayer: 2
   m_SortingOrder: 2500
   m_MaskInteraction: 0
-  m_Sprite: {fileID: -33438775, guid: 739d83e2bd50d0947be0a21d3be5018a, type: 3}
+  m_Sprite: {fileID: -1415516617, guid: 6dd00b6c775449c4886864688c66e353, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -118795,7 +118827,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
 --- !u!95 &3000002034
 Animator:
@@ -118807,7 +118839,7 @@ Animator:
   m_GameObject: {fileID: 3000002031}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 42aa495d1c020564587cbb4437ab396b, type: 2}
+  m_Controller: {fileID: 9100000, guid: 125a50202de2f0647ad1eb27e4be7c43, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

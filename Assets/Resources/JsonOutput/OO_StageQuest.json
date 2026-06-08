@@ -88,6 +88,17 @@
     "NextGroupId": "4th_Road_to_Stage4"
   },
   {
+    "Id": "Stage4_Road_Quest_01",
+    "StageId": "OO_Stage_4",
+    "Name": "북쪽 농경지대 이동",
+    "Description": "북쪽 농경지대로 가세요.",
+    "ObjectiveType": "GoToStage",
+    "ObjectiveId": "Stage4_1Group",
+    "RequiredCount": 1,
+    "RewardItemIds": null,
+    "NextGroupId": "Stage4_1Group"
+  },
+  {
     "Id": "Stage4__Quest_01",
     "StageId": "OO_Stage_4",
     "Name": "토끼를 잠들게 하고 거북이에게 돌아가세요",

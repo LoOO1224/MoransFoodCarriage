@@ -6,6 +6,8 @@
     "Stage4_1GroupName": "Stage4_1Group",
     "Stage4_2GroupName": "Stage4_2Group",
     "PreFinalGroupName": "PreFinal_Narration",
+    "RoadMissionDataId": "Stage4_Road_Quest_01",
+    "RoadMissionFallbackText": "북쪽 농경지대로 가세요.",
     "TurtleRoleId": "Turtle",
     "RabbitRoleId": "Rabbit",
     "SleepingRabbitRoleId": "Rabbit_isSleeping",

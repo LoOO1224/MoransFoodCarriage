@@ -110,6 +110,12 @@ public class OOTechCookingGroupController : MonoBehaviour
     private float _savedOrthographicSize;
     private bool _savedOrthographic;
     private bool _savedFollowEnabled;
+    private bool _hasGuideBubbleDefaultColor;
+    private bool _hasGuideTitleDefaultColor;
+    private bool _hasGuideBodyDefaultColor;
+    private Color _guideBubbleDefaultColor;
+    private Color _guideTitleDefaultColor;
+    private Color _guideBodyDefaultColor;
 
     private GameObject Root_Canvas;
     private RectTransform Rect_Root;
@@ -211,19 +217,70 @@ public class OOTechCookingGroupController : MonoBehaviour
     /// </summary>
     private void RequestOpenCookingSupportHUDIfNeeded()
     {
-        OOTechRoadHUDController hudController = OOTechSceneQuery.RequestFirstComponent<OOTechRoadHUDController>(
-            delegate (OOTechRoadHUDController targetHUD)
-            {
-                return targetHUD != null;
-            },
-            true);
+        OOTechRoadHUDController hudController = ResolveBestRoadHUDForCookingSupport();
 
         if (hudController == null)
             return;
 
         hudController.SetHUDVisible(true);
+        ApplyContextMissionToRoadHUD(hudController);
         hudController.RequestOpenCookingSupportHUD();
         hudController.RequestRefreshInventoryView();
+    }
+
+    private OOTechRoadHUDController ResolveBestRoadHUDForCookingSupport()
+    {
+        List<OOTechRoadHUDController> hudControllerArray = OOTechSceneQuery.RequestCollectComponents<OOTechRoadHUDController>(true);
+        string previousGroupName = OOTechGroupNavigationHistory.GetPreviousGroup(gameObject.name, string.Empty);
+
+        foreach (OOTechRoadHUDController hudController in hudControllerArray)
+        {
+            if (hudController == null || !hudController.gameObject.activeInHierarchy)
+                continue;
+
+            if (!string.IsNullOrEmpty(previousGroupName) && hudController.OwnerGroupName == previousGroupName)
+                return hudController;
+        }
+
+        foreach (OOTechRoadHUDController hudController in hudControllerArray)
+        {
+            if (hudController == null || !hudController.gameObject.activeInHierarchy)
+                continue;
+
+            return hudController;
+        }
+
+        foreach (OOTechRoadHUDController hudController in hudControllerArray)
+        {
+            if (hudController == null)
+                continue;
+
+            if (!string.IsNullOrEmpty(previousGroupName) && hudController.OwnerGroupName == previousGroupName)
+                return hudController;
+        }
+
+        return hudControllerArray.Count > 0 ? hudControllerArray[0] : null;
+    }
+
+    private void ApplyContextMissionToRoadHUD(OOTechRoadHUDController hudController)
+    {
+        if (hudController == null || !IsOpenedFromEncounterGroup())
+            return;
+
+        OO_Stage3CueSheet cueSheetData = OOTechGameDataManager.Inst != null ? OOTechGameDataManager.Inst.GetStage3CueSheetData("Stage3_CueSheet_01") : null;
+        string questDataId = cueSheetData != null ? cueSheetData.StageQuestId : "Stage3__Quest_01";
+        string missionText = ResolveStageQuestDescription(questDataId, "산군을 위해 꿀떡을 만드세요! 레시피 조합을 통해 만들 수 있습니다");
+        hudController.RequestSetStageQuestMission(missionText);
+    }
+
+    private string ResolveStageQuestDescription(string stageQuestDataId, string fallbackText)
+    {
+        OO_StageQuest questData = OOTechGameDataManager.Inst != null ? OOTechGameDataManager.Inst.GetStageQuestData(stageQuestDataId) : null;
+
+        if (questData != null && !string.IsNullOrWhiteSpace(questData.Description))
+            return questData.Description;
+
+        return fallbackText;
     }
 
     /// <summary>
@@ -385,6 +442,7 @@ public class OOTechCookingGroupController : MonoBehaviour
         {
             OOTechUIManager.Inst.CloseUI(gameObject.name);
             OOTechUIManager.Inst.OpenUI("EncounterGroup");
+            RequestForceCloseEncounterInventoryPanel();
             return;
         }
 
@@ -393,7 +451,17 @@ public class OOTechCookingGroupController : MonoBehaviour
         gameObject.SetActive(false);
 
         if (encounterGroupObject != null)
-        encounterGroupObject.SetActive(true);
+            encounterGroupObject.SetActive(true);
+
+        RequestForceCloseEncounterInventoryPanel();
+    }
+
+    private void RequestForceCloseEncounterInventoryPanel()
+    {
+        OOTechRoadHUDController hudController = ResolveBestRoadHUDForCookingSupport();
+
+        if (hudController != null)
+            hudController.RequestForceCloseInventoryPanelForEncounterReturn();
     }
 
     /// <summary>
@@ -2232,6 +2300,8 @@ public class OOTechCookingGroupController : MonoBehaviour
 
     private void ApplyGuideText(string title, string description)
     {
+        RestoreGuideBubbleDefaultVisualStyle();
+
         if (Root_GuideBubble != null)
             Root_GuideBubble.SetActive(true);
 
@@ -2561,6 +2631,7 @@ public class OOTechCookingGroupController : MonoBehaviour
     private void ShowCookingMissionCompleteGuide()
     {
         ApplyGuideText("임무 완수", "야채죽을 완성했습니다.\n임무 UI에 완료 표시가 추가되었습니다.");
+        ApplyMissionCompleteGuideVisualStyle();
         SetGuidePointerActive(false);
 
         if (Button_GuideConfirm == null)
@@ -2571,6 +2642,67 @@ public class OOTechCookingGroupController : MonoBehaviour
         {
             HideGuideBubble();
         });
+    }
+
+    private void ApplyMissionCompleteGuideVisualStyle()
+    {
+        CacheGuideBubbleDefaultVisualStyle();
+
+        Image guideBubbleImage = Root_GuideBubble != null ? Root_GuideBubble.GetComponent<Image>() : null;
+
+        if (guideBubbleImage == null && Root_GuideBubble != null)
+            guideBubbleImage = Root_GuideBubble.AddComponent<Image>();
+
+        if (guideBubbleImage != null)
+        {
+            guideBubbleImage.color = new Color(0f, 0f, 0f, 0.82f);
+            guideBubbleImage.raycastTarget = true;
+        }
+
+        if (Text_GuideTitle != null)
+            Text_GuideTitle.color = Color.white;
+
+        if (Text_GuideBody != null)
+            Text_GuideBody.color = Color.white;
+    }
+
+    private void CacheGuideBubbleDefaultVisualStyle()
+    {
+        Image guideBubbleImage = Root_GuideBubble != null ? Root_GuideBubble.GetComponent<Image>() : null;
+
+        if (!_hasGuideBubbleDefaultColor && guideBubbleImage != null)
+        {
+            _guideBubbleDefaultColor = guideBubbleImage.color;
+            _hasGuideBubbleDefaultColor = true;
+        }
+
+        if (!_hasGuideTitleDefaultColor && Text_GuideTitle != null)
+        {
+            _guideTitleDefaultColor = Text_GuideTitle.color;
+            _hasGuideTitleDefaultColor = true;
+        }
+
+        if (!_hasGuideBodyDefaultColor && Text_GuideBody != null)
+        {
+            _guideBodyDefaultColor = Text_GuideBody.color;
+            _hasGuideBodyDefaultColor = true;
+        }
+    }
+
+    private void RestoreGuideBubbleDefaultVisualStyle()
+    {
+        CacheGuideBubbleDefaultVisualStyle();
+
+        Image guideBubbleImage = Root_GuideBubble != null ? Root_GuideBubble.GetComponent<Image>() : null;
+
+        if (_hasGuideBubbleDefaultColor && guideBubbleImage != null)
+            guideBubbleImage.color = _guideBubbleDefaultColor;
+
+        if (_hasGuideTitleDefaultColor && Text_GuideTitle != null)
+            Text_GuideTitle.color = _guideTitleDefaultColor;
+
+        if (_hasGuideBodyDefaultColor && Text_GuideBody != null)
+            Text_GuideBody.color = _guideBodyDefaultColor;
     }
 
     /// <summary>

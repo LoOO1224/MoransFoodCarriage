@@ -1,4 +1,4 @@
-﻿%YAML 1.1
+%YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
 --- !u!29 &1
 OcclusionCullingSettings:
@@ -287,7 +287,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: 5963d987d90c5684eae8c73394c2e80d, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.5
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -383,6 +383,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c7e2f72d6c4f9144acaee467368ed60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OOTechSoundManager
+  _bgmVolume: 0.5
+  _sfxVolume: 1
   _bgmSource: {fileID: 6024807}
   _sfxSource: {fileID: 0}
 --- !u!4 &6024809
@@ -3752,8 +3754,11 @@ MonoBehaviour:
   Text_InventoryNewBadge: {fileID: 328947571}
   Text_CodexNewBadge: {fileID: 1109955911}
   Text_MissionNewBadge: {fileID: 62879228}
+  Text_WorldMapNewBadge: {fileID: 0}
   Text_CookingLabel: {fileID: 1323505131}
+  Text_InventoryQuantityGuide: {fileID: 0}
   Image_CookingButton: {fileID: 118154142}
+  Scroll_InventorySlots: {fileID: 0}
   Rect_InventoryContent: {fileID: 1967318099}
   Slot_InventoryItemTemplate: {fileID: 119756780}
   Root_GuideOverlay: {fileID: 192502096}
@@ -5468,6 +5473,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a27a6d7ec9a54d63b3aa6ad65be03b31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OOTechInventorySlotView
+  _iconSize: {x: 72, y: 72}
+  _iconRightPadding: 16
+  _textLeftPadding: 18
+  _textRightGapFromIcon: 12
   Text_Label: {fileID: 1179723185}
   Image_Icon: {fileID: 0}
 --- !u!114 &119756784
@@ -6306,9 +6315,11 @@ MonoBehaviour:
   _padding: 1.04
   _maximumOrthographicSize: 0
   _isEnableMapDrag: 1
-  _isShowDragGuide: 0
+  _wheelZoomSpeed: 0.18
+  _minimumZoomRatio: 0.55
+  _isShowAnnouncementOnOpen: 1
+  _isCloseAnnouncementByAnyClick: 1
   _guideSortingOrder: 1680
-  _referenceResolution: {x: 1920, y: 1080}
   _guideTitle: "\uC6D4\uB4DC\uB9F5"
   _guideDescription: "\uC88C\uD074\uB9AD\uC744 \uB204\uB978 \uCC44 \uB9F5\uC744 \uC6C0\uC9C1\uC5EC
     \uBCFC \uC218 \uC788\uC2B5\uB2C8\uB2E4."
@@ -7489,6 +7500,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a27a6d7ec9a54d63b3aa6ad65be03b31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OOTechInventorySlotView
+  _iconSize: {x: 72, y: 72}
+  _iconRightPadding: 16
+  _textLeftPadding: 18
+  _textRightGapFromIcon: 12
   Text_Label: {fileID: 2015943186}
   Image_Icon: {fileID: 0}
 --- !u!114 &170015980
@@ -8132,9 +8147,14 @@ MonoBehaviour:
   _isMoveLegacyMissionPanelToBottomRight: 1
   _missionPanelBottomRightPosition: {x: -36, y: 132}
   _missionPanelSize: {x: 560, y: 220}
+  _inventorySlotHeight: 76
+  _inventorySlotSpacing: 10
+  _inventoryContentBottomPadding: 18
   _overlaySpriteSortingOrder: 3000
   _newBadgeBlinkSpeed: 7
   _newBadgeMinimumAlpha: 0.25
+  _missionCompleteHoldDuration: 0.85
+  _missionCompleteFadeDuration: 1.65
 --- !u!1 &192502096
 GameObject:
   m_ObjectHideFlags: 0
@@ -9545,6 +9565,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a27a6d7ec9a54d63b3aa6ad65be03b31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OOTechInventorySlotView
+  _iconSize: {x: 72, y: 72}
+  _iconRightPadding: 16
+  _textLeftPadding: 18
+  _textRightGapFromIcon: 12
   Text_Label: {fileID: 948719909}
   Image_Icon: {fileID: 109274974}
 --- !u!114 &224694825
@@ -10530,6 +10554,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a27a6d7ec9a54d63b3aa6ad65be03b31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OOTechInventorySlotView
+  _iconSize: {x: 72, y: 72}
+  _iconRightPadding: 16
+  _textLeftPadding: 18
+  _textRightGapFromIcon: 12
   Text_Label: {fileID: 429467939}
   Image_Icon: {fileID: 0}
 --- !u!114 &247233231
@@ -15078,6 +15106,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a27a6d7ec9a54d63b3aa6ad65be03b31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OOTechInventorySlotView
+  _iconSize: {x: 72, y: 72}
+  _iconRightPadding: 16
+  _textLeftPadding: 18
+  _textRightGapFromIcon: 12
   Text_Label: {fileID: 1352853151}
   Image_Icon: {fileID: 0}
 --- !u!114 &345275397
@@ -17518,9 +17550,14 @@ MonoBehaviour:
   _isMoveLegacyMissionPanelToBottomRight: 1
   _missionPanelBottomRightPosition: {x: -36, y: 132}
   _missionPanelSize: {x: 560, y: 220}
+  _inventorySlotHeight: 76
+  _inventorySlotSpacing: 10
+  _inventoryContentBottomPadding: 18
   _overlaySpriteSortingOrder: 3000
   _newBadgeBlinkSpeed: 7
   _newBadgeMinimumAlpha: 0.25
+  _missionCompleteHoldDuration: 0.85
+  _missionCompleteFadeDuration: 1.65
 --- !u!1 &406629651
 GameObject:
   m_ObjectHideFlags: 0
@@ -29038,6 +29075,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a27a6d7ec9a54d63b3aa6ad65be03b31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OOTechInventorySlotView
+  _iconSize: {x: 72, y: 72}
+  _iconRightPadding: 16
+  _textLeftPadding: 18
+  _textRightGapFromIcon: 12
   Text_Label: {fileID: 498842078}
   Image_Icon: {fileID: 480828892}
 --- !u!114 &623099002
@@ -30034,6 +30075,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a27a6d7ec9a54d63b3aa6ad65be03b31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OOTechInventorySlotView
+  _iconSize: {x: 72, y: 72}
+  _iconRightPadding: 16
+  _textLeftPadding: 18
+  _textRightGapFromIcon: 12
   Text_Label: {fileID: 666820599}
   Image_Icon: {fileID: 322190554}
 --- !u!114 &657370612
@@ -31088,8 +31133,11 @@ MonoBehaviour:
   Text_InventoryNewBadge: {fileID: 1909917789}
   Text_CodexNewBadge: {fileID: 1929681233}
   Text_MissionNewBadge: {fileID: 1586082431}
+  Text_WorldMapNewBadge: {fileID: 0}
   Text_CookingLabel: {fileID: 1811044531}
+  Text_InventoryQuantityGuide: {fileID: 0}
   Image_CookingButton: {fileID: 581832775}
+  Scroll_InventorySlots: {fileID: 0}
   Rect_InventoryContent: {fileID: 923870315}
   Slot_InventoryItemTemplate: {fileID: 345275393}
   Root_GuideOverlay: {fileID: 1298211450}
@@ -33706,6 +33754,9 @@ MonoBehaviour:
   _guideTitle: "\uD29C\uD1A0\uB9AC\uC5BC \uAC00\uC774\uB4DC"
   _nextButtonText: "\uC774\uC5B4\uAC00\uAE30"
   _isCreateDefaultViewOnAwake: 1
+  _guideTitleColor: {r: 1, g: 0.86, b: 0.18, a: 1}
+  _guideBodyColor: {r: 1, g: 1, b: 1, a: 1}
+  _guideButtonTextColor: {r: 1, g: 1, b: 1, a: 1}
   _titleEmphasisColorA: {r: 1, g: 1, b: 1, a: 1}
   _titleEmphasisColorB: {r: 1, g: 0.82, b: 0.05, a: 1}
   _titleEmphasisSpeed: 7
@@ -33837,6 +33888,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a27a6d7ec9a54d63b3aa6ad65be03b31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OOTechInventorySlotView
+  _iconSize: {x: 72, y: 72}
+  _iconRightPadding: 16
+  _textLeftPadding: 18
+  _textRightGapFromIcon: 12
   Text_Label: {fileID: 950483742}
   Image_Icon: {fileID: 0}
 --- !u!114 &726578811
@@ -35042,6 +35097,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a27a6d7ec9a54d63b3aa6ad65be03b31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OOTechInventorySlotView
+  _iconSize: {x: 72, y: 72}
+  _iconRightPadding: 16
+  _textLeftPadding: 18
+  _textRightGapFromIcon: 12
   Text_Label: {fileID: 1901454132}
   Image_Icon: {fileID: 1970727725}
 --- !u!114 &760898754
@@ -37078,17 +37137,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c55ef18a3699bca45882425d3729441e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OOTechCookingGroupController
-  _cauldronTutorialId: narration_tutorial_11
-  _cookingCompleteDialogueGroupId: dialogue_group_cooking_vegetable_porridge_complete_01
-  _dialogueGroupName: DialogueGroup
-  _cauldronObjectName: Cauldron
-  _cauldronDropAreaPadding: 1.18
-  _sortingOrder: 1260
-  _referenceResolution: {x: 1920, y: 1080}
+  _cookingCueSheetId: Cooking_CueSheet_01
   Camera_Main: {fileID: 0}
-  _cameraPadding: 1.04
-  _newBadgeBlinkSpeed: 7
-  _newBadgeMinimumAlpha: 0.25
 --- !u!1 &794965337
 GameObject:
   m_ObjectHideFlags: 0
@@ -38934,6 +38984,9 @@ MonoBehaviour:
   Camera_Follow: {fileID: 431228183}
   Camera_Main: {fileID: 0}
   _cameraFocusWaitSeconds: 0.65
+  _scenarioCameraPadding: 1.02
+  _fallbackScenarioCameraSize: 8
+  _maximumValidScenarioCameraSize: 50
   Group_TutorialGuide: {fileID: 0}
   UI_TutorialGuide: {fileID: 0}
   Group_Dialogue: {fileID: 0}
@@ -38956,6 +39009,7 @@ MonoBehaviour:
   _mrJaeikIdleStateName: Mr.Jaeik_Idle
   _chunyangIdleStateName: Chunyang_Idle
   _moranIdleStateName: Moran_Idle
+  _chunyangVisibleSortingOrder: 70
   Clip_MrJaeikIdle: {fileID: 7400000, guid: 0af22b70ec039954d95327adf65ac67d, type: 2}
   Clip_ChunyangIdle: {fileID: 7400000, guid: e5b688ef516e0b1498ae4f8826478c1d, type: 2}
   BGM_Player: {fileID: 0}
@@ -42114,8 +42168,11 @@ MonoBehaviour:
   Text_InventoryNewBadge: {fileID: 241042456}
   Text_CodexNewBadge: {fileID: 421742817}
   Text_MissionNewBadge: {fileID: 737519683}
+  Text_WorldMapNewBadge: {fileID: 0}
   Text_CookingLabel: {fileID: 1147441351}
+  Text_InventoryQuantityGuide: {fileID: 0}
   Image_CookingButton: {fileID: 988041966}
+  Scroll_InventorySlots: {fileID: 0}
   Rect_InventoryContent: {fileID: 1684843730}
   Slot_InventoryItemTemplate: {fileID: 2067050668}
   Root_GuideOverlay: {fileID: 479800821}
@@ -44067,6 +44124,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a27a6d7ec9a54d63b3aa6ad65be03b31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OOTechInventorySlotView
+  _iconSize: {x: 72, y: 72}
+  _iconRightPadding: 16
+  _textLeftPadding: 18
+  _textRightGapFromIcon: 12
   Text_Label: {fileID: 1784691745}
   Image_Icon: {fileID: 2146331699}
 --- !u!114 &937349046
@@ -46210,8 +46271,11 @@ MonoBehaviour:
   Text_InventoryNewBadge: {fileID: 55782825}
   Text_CodexNewBadge: {fileID: 905230342}
   Text_MissionNewBadge: {fileID: 1916358017}
+  Text_WorldMapNewBadge: {fileID: 0}
   Text_CookingLabel: {fileID: 571057473}
+  Text_InventoryQuantityGuide: {fileID: 0}
   Image_CookingButton: {fileID: 942508751}
+  Scroll_InventorySlots: {fileID: 0}
   Rect_InventoryContent: {fileID: 1597972807}
   Slot_InventoryItemTemplate: {fileID: 760898750}
   Root_GuideOverlay: {fileID: 1504420226}
@@ -48126,6 +48190,9 @@ MonoBehaviour:
   _guideTitle: "\uD29C\uD1A0\uB9AC\uC5BC \uAC00\uC774\uB4DC"
   _nextButtonText: "\uC774\uC5B4\uAC00\uAE30"
   _isCreateDefaultViewOnAwake: 1
+  _guideTitleColor: {r: 1, g: 0.86, b: 0.18, a: 1}
+  _guideBodyColor: {r: 1, g: 1, b: 1, a: 1}
+  _guideButtonTextColor: {r: 1, g: 1, b: 1, a: 1}
   _titleEmphasisColorA: {r: 1, g: 1, b: 1, a: 1}
   _titleEmphasisColorB: {r: 1, g: 0.82, b: 0.05, a: 1}
   _titleEmphasisSpeed: 7
@@ -49729,8 +49796,11 @@ MonoBehaviour:
   Text_InventoryNewBadge: {fileID: 1314389953}
   Text_CodexNewBadge: {fileID: 203473717}
   Text_MissionNewBadge: {fileID: 434601718}
+  Text_WorldMapNewBadge: {fileID: 0}
   Text_CookingLabel: {fileID: 2081999151}
+  Text_InventoryQuantityGuide: {fileID: 0}
   Image_CookingButton: {fileID: 222522137}
+  Scroll_InventorySlots: {fileID: 0}
   Rect_InventoryContent: {fileID: 1463339540}
   Slot_InventoryItemTemplate: {fileID: 247233227}
   Root_GuideOverlay: {fileID: 719829691}
@@ -51371,6 +51441,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a27a6d7ec9a54d63b3aa6ad65be03b31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OOTechInventorySlotView
+  _iconSize: {x: 72, y: 72}
+  _iconRightPadding: 16
+  _textLeftPadding: 18
+  _textRightGapFromIcon: 12
   Text_Label: {fileID: 577166559}
   Image_Icon: {fileID: 1225701830}
 --- !u!114 &1059074501
@@ -51749,6 +51823,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a27a6d7ec9a54d63b3aa6ad65be03b31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OOTechInventorySlotView
+  _iconSize: {x: 72, y: 72}
+  _iconRightPadding: 16
+  _textLeftPadding: 18
+  _textRightGapFromIcon: 12
   Text_Label: {fileID: 2074515687}
   Image_Icon: {fileID: 0}
 --- !u!114 &1070400286
@@ -52402,8 +52480,11 @@ MonoBehaviour:
   Text_InventoryNewBadge: {fileID: 1363354120}
   Text_CodexNewBadge: {fileID: 1822809449}
   Text_MissionNewBadge: {fileID: 451336808}
+  Text_WorldMapNewBadge: {fileID: 0}
   Text_CookingLabel: {fileID: 1719942814}
+  Text_InventoryQuantityGuide: {fileID: 0}
   Image_CookingButton: {fileID: 773813083}
+  Scroll_InventorySlots: {fileID: 0}
   Rect_InventoryContent: {fileID: 2010009340}
   Slot_InventoryItemTemplate: {fileID: 2079951923}
   Root_GuideOverlay: {fileID: 1650019074}
@@ -54163,6 +54244,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a27a6d7ec9a54d63b3aa6ad65be03b31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OOTechInventorySlotView
+  _iconSize: {x: 72, y: 72}
+  _iconRightPadding: 16
+  _textLeftPadding: 18
+  _textRightGapFromIcon: 12
   Text_Label: {fileID: 1936890113}
   Image_Icon: {fileID: 0}
 --- !u!114 &1113184120
@@ -54791,9 +54876,14 @@ MonoBehaviour:
   _isMoveLegacyMissionPanelToBottomRight: 1
   _missionPanelBottomRightPosition: {x: -36, y: 132}
   _missionPanelSize: {x: 560, y: 220}
+  _inventorySlotHeight: 76
+  _inventorySlotSpacing: 10
+  _inventoryContentBottomPadding: 18
   _overlaySpriteSortingOrder: 3000
   _newBadgeBlinkSpeed: 7
   _newBadgeMinimumAlpha: 0.25
+  _missionCompleteHoldDuration: 0.85
+  _missionCompleteFadeDuration: 1.65
 --- !u!1 &1132787505
 GameObject:
   m_ObjectHideFlags: 0
@@ -55208,6 +55298,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a27a6d7ec9a54d63b3aa6ad65be03b31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OOTechInventorySlotView
+  _iconSize: {x: 72, y: 72}
+  _iconRightPadding: 16
+  _textLeftPadding: 18
+  _textRightGapFromIcon: 12
   Text_Label: {fileID: 1511627718}
   Image_Icon: {fileID: 252710279}
 --- !u!114 &1135212876
@@ -60266,9 +60360,14 @@ MonoBehaviour:
   _isMoveLegacyMissionPanelToBottomRight: 1
   _missionPanelBottomRightPosition: {x: -36, y: 132}
   _missionPanelSize: {x: 560, y: 220}
+  _inventorySlotHeight: 76
+  _inventorySlotSpacing: 10
+  _inventoryContentBottomPadding: 18
   _overlaySpriteSortingOrder: 3000
   _newBadgeBlinkSpeed: 7
   _newBadgeMinimumAlpha: 0.25
+  _missionCompleteHoldDuration: 0.85
+  _missionCompleteFadeDuration: 1.65
 --- !u!1 &1247704221
 GameObject:
   m_ObjectHideFlags: 0
@@ -61537,9 +61636,14 @@ MonoBehaviour:
   _isMoveLegacyMissionPanelToBottomRight: 1
   _missionPanelBottomRightPosition: {x: -36, y: 132}
   _missionPanelSize: {x: 560, y: 220}
+  _inventorySlotHeight: 76
+  _inventorySlotSpacing: 10
+  _inventoryContentBottomPadding: 18
   _overlaySpriteSortingOrder: 3000
   _newBadgeBlinkSpeed: 7
   _newBadgeMinimumAlpha: 0.25
+  _missionCompleteHoldDuration: 0.85
+  _missionCompleteFadeDuration: 1.65
 --- !u!1 &1280120708
 GameObject:
   m_ObjectHideFlags: 0
@@ -62751,6 +62855,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a27a6d7ec9a54d63b3aa6ad65be03b31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OOTechInventorySlotView
+  _iconSize: {x: 72, y: 72}
+  _iconRightPadding: 16
+  _textLeftPadding: 18
+  _textRightGapFromIcon: 12
   Text_Label: {fileID: 1581481425}
   Image_Icon: {fileID: 1133657376}
 --- !u!114 &1301525473
@@ -65188,9 +65296,14 @@ MonoBehaviour:
   _isMoveLegacyMissionPanelToBottomRight: 1
   _missionPanelBottomRightPosition: {x: -36, y: 132}
   _missionPanelSize: {x: 560, y: 220}
+  _inventorySlotHeight: 76
+  _inventorySlotSpacing: 10
+  _inventoryContentBottomPadding: 18
   _overlaySpriteSortingOrder: 3000
   _newBadgeBlinkSpeed: 7
   _newBadgeMinimumAlpha: 0.25
+  _missionCompleteHoldDuration: 0.85
+  _missionCompleteFadeDuration: 1.65
 --- !u!1 &1353912547
 GameObject:
   m_ObjectHideFlags: 0
@@ -66749,8 +66862,11 @@ MonoBehaviour:
   Text_InventoryNewBadge: {fileID: 1299786077}
   Text_CodexNewBadge: {fileID: 1848415586}
   Text_MissionNewBadge: {fileID: 203500483}
+  Text_WorldMapNewBadge: {fileID: 0}
   Text_CookingLabel: {fileID: 1560869112}
+  Text_InventoryQuantityGuide: {fileID: 0}
   Image_CookingButton: {fileID: 1497313792}
+  Scroll_InventorySlots: {fileID: 0}
   Rect_InventoryContent: {fileID: 1460029701}
   Slot_InventoryItemTemplate: {fileID: 726578807}
   Root_GuideOverlay: {fileID: 1732151439}
@@ -69545,9 +69661,14 @@ MonoBehaviour:
   _isMoveLegacyMissionPanelToBottomRight: 1
   _missionPanelBottomRightPosition: {x: -36, y: 132}
   _missionPanelSize: {x: 560, y: 220}
+  _inventorySlotHeight: 76
+  _inventorySlotSpacing: 10
+  _inventoryContentBottomPadding: 18
   _overlaySpriteSortingOrder: 3000
   _newBadgeBlinkSpeed: 7
   _newBadgeMinimumAlpha: 0.25
+  _missionCompleteHoldDuration: 0.85
+  _missionCompleteFadeDuration: 1.65
 --- !u!1 &1458467355
 GameObject:
   m_ObjectHideFlags: 0
@@ -70468,8 +70589,11 @@ MonoBehaviour:
   Text_InventoryNewBadge: {fileID: 2035453144}
   Text_CodexNewBadge: {fileID: 916937111}
   Text_MissionNewBadge: {fileID: 25373644}
+  Text_WorldMapNewBadge: {fileID: 0}
   Text_CookingLabel: {fileID: 680320587}
+  Text_InventoryQuantityGuide: {fileID: 0}
   Image_CookingButton: {fileID: 1163252661}
+  Scroll_InventorySlots: {fileID: 0}
   Rect_InventoryContent: {fileID: 1280120709}
   Slot_InventoryItemTemplate: {fileID: 1113184116}
   Root_GuideOverlay: {fileID: 683879230}
@@ -70620,9 +70744,14 @@ MonoBehaviour:
   _isMoveLegacyMissionPanelToBottomRight: 1
   _missionPanelBottomRightPosition: {x: -36, y: 132}
   _missionPanelSize: {x: 560, y: 220}
+  _inventorySlotHeight: 76
+  _inventorySlotSpacing: 10
+  _inventoryContentBottomPadding: 18
   _overlaySpriteSortingOrder: 3000
   _newBadgeBlinkSpeed: 7
   _newBadgeMinimumAlpha: 0.25
+  _missionCompleteHoldDuration: 0.85
+  _missionCompleteFadeDuration: 1.65
 --- !u!1 &1470111283
 GameObject:
   m_ObjectHideFlags: 0
@@ -73544,8 +73673,11 @@ MonoBehaviour:
   Text_InventoryNewBadge: {fileID: 840036518}
   Text_CodexNewBadge: {fileID: 753428670}
   Text_MissionNewBadge: {fileID: 966862299}
+  Text_WorldMapNewBadge: {fileID: 0}
   Text_CookingLabel: {fileID: 12439304}
+  Text_InventoryQuantityGuide: {fileID: 0}
   Image_CookingButton: {fileID: 1024760680}
+  Scroll_InventorySlots: {fileID: 0}
   Rect_InventoryContent: {fileID: 1696531968}
   Slot_InventoryItemTemplate: {fileID: 2026162205}
   Root_GuideOverlay: {fileID: 1630726691}
@@ -75763,6 +75895,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MainMenuController
   _codexBGM: {fileID: 8300000, guid: fd4853c632b114a40885660b0251f55c, type: 3}
+  _isShowDeveloperSkipButtons: 0
+  _developerRoad1GroupName: 1st_Road_to_Stage1
+  _developerStage1GroupName: Stage1Group
+  _developerRoad2GroupName: 2nd_Road_to_Stage2
+  _developerButtonStartPosition: {x: 32, y: -32}
+  _developerButtonSize: {x: 280, y: 54}
+  _developerButtonSpacing: 12
 --- !u!1 &1581481423
 GameObject:
   m_ObjectHideFlags: 0
@@ -77399,13 +77538,20 @@ MonoBehaviour:
   Rect_Root: {fileID: 1620249072}
   Rect_CauldronDropArea: {fileID: 384357304}
   Text_PotContent: {fileID: 865856710}
+  Rect_CuttingboardDropArea: {fileID: 0}
   Root_GuideBubble: {fileID: 1572080589}
   Text_GuideTitle: {fileID: 1286034770}
   Text_GuideBody: {fileID: 1307383665}
   Button_GuideConfirm: {fileID: 2043613316}
+  Root_CuttingboardGuideBubble: {fileID: 0}
+  Text_CuttingboardGuideTitle: {fileID: 0}
+  Text_CuttingboardGuideBody: {fileID: 0}
+  Button_CuttingboardGuideConfirm: {fileID: 0}
   Root_InventoryGuideArrow: {fileID: 1848879147}
   Root_CauldronGuideArrow: {fileID: 2072696839}
+  Root_CuttingboardGuideArrow: {fileID: 0}
   Text_Status: {fileID: 954057313}
+  Text_InventoryNewBadge: {fileID: 0}
   Rect_DragGhostTemplate: {fileID: 875832079}
 --- !u!114 &1620249074
 MonoBehaviour:
@@ -78304,8 +78450,11 @@ MonoBehaviour:
   Text_InventoryNewBadge: {fileID: 492516936}
   Text_CodexNewBadge: {fileID: 897942992}
   Text_MissionNewBadge: {fileID: 1520131179}
+  Text_WorldMapNewBadge: {fileID: 0}
   Text_CookingLabel: {fileID: 701882281}
+  Text_InventoryQuantityGuide: {fileID: 0}
   Image_CookingButton: {fileID: 1844983264}
+  Scroll_InventorySlots: {fileID: 0}
   Rect_InventoryContent: {fileID: 394259280}
   Slot_InventoryItemTemplate: {fileID: 1070400282}
   Root_GuideOverlay: {fileID: 1366473648}
@@ -79147,6 +79296,11 @@ MonoBehaviour:
   _jangYoungSimDialogueId: character_JangYoungSim_01
   _isShowGuideOnEnable: 1
   _isLockPlayerUntilGuideEnd: 1
+  Camera_Main: {fileID: 0}
+  Camera_Follow: {fileID: 0}
+  _tutorialBackgroundName: Tutorial1Background
+  _tutorialCameraPadding: 1.02
+  _fallbackTutorialCameraSize: 8
   _interactionDistance: 2.2
   _minimumInteractionDistance: 3
   _interactionKey: 101
@@ -87186,6 +87340,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a27a6d7ec9a54d63b3aa6ad65be03b31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OOTechInventorySlotView
+  _iconSize: {x: 72, y: 72}
+  _iconRightPadding: 16
+  _textLeftPadding: 18
+  _textRightGapFromIcon: 12
   Text_Label: {fileID: 994805295}
   Image_Icon: {fileID: 513314591}
 --- !u!114 &1839725347
@@ -90287,8 +90445,11 @@ MonoBehaviour:
   Text_InventoryNewBadge: {fileID: 480209041}
   Text_CodexNewBadge: {fileID: 1138364308}
   Text_MissionNewBadge: {fileID: 1915786362}
+  Text_WorldMapNewBadge: {fileID: 0}
   Text_CookingLabel: {fileID: 1956363432}
+  Text_InventoryQuantityGuide: {fileID: 0}
   Image_CookingButton: {fileID: 329742765}
+  Scroll_InventorySlots: {fileID: 0}
   Rect_InventoryContent: {fileID: 1843243245}
   Slot_InventoryItemTemplate: {fileID: 170015976}
   Root_GuideOverlay: {fileID: 1232564716}
@@ -91557,6 +91718,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a27a6d7ec9a54d63b3aa6ad65be03b31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OOTechInventorySlotView
+  _iconSize: {x: 72, y: 72}
+  _iconRightPadding: 16
+  _textLeftPadding: 18
+  _textRightGapFromIcon: 12
   Text_Label: {fileID: 2146242231}
   Image_Icon: {fileID: 2095374263}
 --- !u!114 &1935651995
@@ -92577,6 +92742,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a27a6d7ec9a54d63b3aa6ad65be03b31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OOTechInventorySlotView
+  _iconSize: {x: 72, y: 72}
+  _iconRightPadding: 16
+  _textLeftPadding: 18
+  _textRightGapFromIcon: 12
   Text_Label: {fileID: 494862813}
   Image_Icon: {fileID: 432027772}
 --- !u!114 &1954499390
@@ -94122,9 +94291,14 @@ MonoBehaviour:
   _isMoveLegacyMissionPanelToBottomRight: 1
   _missionPanelBottomRightPosition: {x: -36, y: 132}
   _missionPanelSize: {x: 560, y: 220}
+  _inventorySlotHeight: 76
+  _inventorySlotSpacing: 10
+  _inventoryContentBottomPadding: 18
   _overlaySpriteSortingOrder: 3000
   _newBadgeBlinkSpeed: 7
   _newBadgeMinimumAlpha: 0.25
+  _missionCompleteHoldDuration: 0.85
+  _missionCompleteFadeDuration: 1.65
 --- !u!1 &1986241975
 GameObject:
   m_ObjectHideFlags: 0
@@ -95358,6 +95532,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a27a6d7ec9a54d63b3aa6ad65be03b31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OOTechInventorySlotView
+  _iconSize: {x: 72, y: 72}
+  _iconRightPadding: 16
+  _textLeftPadding: 18
+  _textRightGapFromIcon: 12
   Text_Label: {fileID: 240207880}
   Image_Icon: {fileID: 0}
 --- !u!114 &2026162209
@@ -96236,6 +96414,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a27a6d7ec9a54d63b3aa6ad65be03b31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OOTechInventorySlotView
+  _iconSize: {x: 72, y: 72}
+  _iconRightPadding: 16
+  _textLeftPadding: 18
+  _textRightGapFromIcon: 12
   Text_Label: {fileID: 781702672}
   Image_Icon: {fileID: 0}
 --- !u!114 &2067050672
@@ -97147,6 +97329,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a27a6d7ec9a54d63b3aa6ad65be03b31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OOTechInventorySlotView
+  _iconSize: {x: 72, y: 72}
+  _iconRightPadding: 16
+  _textLeftPadding: 18
+  _textRightGapFromIcon: 12
   Text_Label: {fileID: 1406196754}
   Image_Icon: {fileID: 0}
 --- !u!114 &2079951927
@@ -97752,12 +97938,18 @@ MonoBehaviour:
   Text_SpeakerName: {fileID: 197681012}
   Text_Dialogue: {fileID: 84360927}
   Button_Next: {fileID: 2087772178}
+  Root_ChoicePanel: {fileID: 0}
+  Button_ChoiceYes: {fileID: 0}
+  Button_ChoiceNo: {fileID: 0}
+  Text_ChoiceYes: {fileID: 0}
+  Text_ChoiceNo: {fileID: 0}
   Scroll_Dialogue: {fileID: 2300000002}
   Rect_DialogueContent: {fileID: 2300000021}
   _scrollContentPadding: 16
   _isAdvanceByOutsideClick: 1
   _outsideClickDelay: 0.08
   _roadViewSortingOrder: 1400
+  _narrationSpeakerName: "\uB098\uB808\uC774\uC158"
 --- !u!1 &2091925585
 GameObject:
   m_ObjectHideFlags: 0
@@ -98143,9 +98335,14 @@ MonoBehaviour:
   _isMoveLegacyMissionPanelToBottomRight: 1
   _missionPanelBottomRightPosition: {x: -36, y: 132}
   _missionPanelSize: {x: 560, y: 220}
+  _inventorySlotHeight: 76
+  _inventorySlotSpacing: 10
+  _inventoryContentBottomPadding: 18
   _overlaySpriteSortingOrder: 3000
   _newBadgeBlinkSpeed: 7
   _newBadgeMinimumAlpha: 0.25
+  _missionCompleteHoldDuration: 0.85
+  _missionCompleteFadeDuration: 1.65
 --- !u!1 &2098268783
 GameObject:
   m_ObjectHideFlags: 0
@@ -100114,6 +100311,9 @@ MonoBehaviour:
   _guideTitle: "\uD29C\uD1A0\uB9AC\uC5BC \uAC00\uC774\uB4DC"
   _nextButtonText: "\uC774\uC5B4\uAC00\uAE30"
   _isCreateDefaultViewOnAwake: 1
+  _guideTitleColor: {r: 1, g: 0.86, b: 0.18, a: 1}
+  _guideBodyColor: {r: 1, g: 1, b: 1, a: 1}
+  _guideButtonTextColor: {r: 1, g: 1, b: 1, a: 1}
   _titleEmphasisColorA: {r: 1, g: 1, b: 1, a: 1}
   _titleEmphasisColorB: {r: 1, g: 0.82, b: 0.05, a: 1}
   _titleEmphasisSpeed: 7
@@ -100378,20 +100578,29 @@ MonoBehaviour:
   Object_RoadMap2: {fileID: 110295692}
   Object_Stage1EntryMap: {fileID: 1334811767}
   Transform_MFCStartPoint: {fileID: 2134197917}
+  Object_Wormhole: {fileID: 0}
   _moveRightKey: 100
+  _alternateMoveRightKey: 275
   _moveSpeed: 4.2
   _roadLaneNormalizedHeight: 0.23
   _entryMarginRatio: 0.1
   _exitMarginRatio: 0.08
   _isUseMFCStartPointOnFirstMap: 1
   _mfcWalkStateName: MFC
+  _mfcLegacyWalkStateName: MFC
   _isAnimateMFCOnlyWhileMoving: 1
   _mfcWalkAnimationSpeed: 0.85
+  _mfcSortingOrder: 100
+  _blockedInputHoldSeconds: 1.2
+  _isUseBuildAutoMoveFailSafe: 1
+  _buildAutoMoveDelaySeconds: 1.5
   _fadeOutSeconds: 0.45
   _blackoutHoldSeconds: 0.15
   _fadeInSeconds: 0.55
   _fadeColor: {r: 0, g: 0, b: 0, a: 1}
   _currentGroupName: 1st_Road_to_Stage1
+  _thirdRoadName: 3rd_Road_to_Stage3
+  _thirdRoadTargetStageName: Stage3Group
   _targetStageGroupName: Stage1Group
   _stageGroupNameArray:
   - Stage1Group
@@ -100399,6 +100608,30 @@ MonoBehaviour:
   - Stage3Group
   - Stage4Group
   - FinalStageGroup
+  _stage4BGM: {fileID: 0}
+  _stage4BGMAssetPath: Assets/Sounds/BGM/Stage4_BGM.mp3
+  _dialogueGroupName: DialogueGroup
+  _secondRoadGroupName: 2nd_Road_to_Stage2
+  _secondRoadMissionDataId: Stage2_Road_Quest_01
+  _secondRoadMissionFallbackText: "\uC11C\uCABD \uB3C4\uC2DC\uC5D0 \uAC00 \uD0D0\uAD00\uC624\uB9AC\uC758
+    \uC790\uD0DD\uC744 \uBC29\uBB38\uD558\uC138\uC694."
+  _secondRoadOpeningDialogueIdArray:
+  - character_Chunyang_06
+  - character_Mr.Jaeik_05
+  - character_Chunyang_07
+  - character_Mr.Jaeik_06
+  - character_Moran_06
+  _stage1PumpkinSoupCookId: OO_PumpkinSoup_1
+  _stage1ChiliPepperIngredientId: Ing_ChiliPepper_01
+  _stage1KimchIngredientId: Ing_Kimch_01
+  _stage1RequiredPumpkinSoupCount: 10
+  _stage1ChiefRewardCount: 10
+  _isEnableWormholeEntry: 1
+  _wormholeHitHoldSeconds: 0.2
+  _wormholeMapProgress: 0.5
+  _wormholeEncounterFlashColor: {r: 1, g: 1, b: 1, a: 1}
+  _wormholeEncounterFlashCount: 4
+  _wormholeEncounterFlashSeconds: 0.08
 --- !u!114 &2600000001
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -100413,6 +100646,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::OOTechRoadToStage1BGMPlayer
   _worldMapRoadBGM: {fileID: 8300000, guid: 3f835690340f7e6479998aa69e009745, type: 3}
   _worldMapRoadBGMAssetPath: Assets/Sounds/BGM/WorldMap_Road_BGM.mp3
+  _secondRoadStage2BGM: {fileID: 0}
+  _secondRoadStage2BGMAssetPath: Assets/Sounds/BGM/2_Road__Stage2_BGM.mp3
+  _secondRoadGroupName: 2nd_Road_to_Stage2
 --- !u!212 &2600000003
 SpriteRenderer:
   serializedVersion: 2
@@ -100470,7 +100706,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_SpriteSortPoint: 0
 --- !u!95 &2600000004
 Animator:
@@ -100746,6 +100982,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::OOTechDialogueSpeakerNameBackdrop
   _speakerNameObjectName: SpeakerNameText
   _backdropColor: {r: 1, g: 0.86, b: 0.08, a: 0.62}
+  _narrationBackdropColor: {r: 1, g: 0.93, b: 0.7, a: 0.88}
+  _characterBackdropColor: {r: 1, g: 0.96, b: 0.86, a: 0.78}
   _speakerNameColor: {r: 0, g: 0, b: 0, a: 1}
   _padding: {x: 32, y: 18}
 --- !u!1 &3000000000
@@ -100902,20 +101140,29 @@ MonoBehaviour:
   Object_RoadMap2: {fileID: 3000000015}
   Object_Stage1EntryMap: {fileID: 3000000019}
   Transform_MFCStartPoint: {fileID: 1911688453}
+  Object_Wormhole: {fileID: 0}
   _moveRightKey: 100
+  _alternateMoveRightKey: 275
   _moveSpeed: 4.2
   _roadLaneNormalizedHeight: 0.23
   _entryMarginRatio: 0.1
   _exitMarginRatio: 0.08
   _isUseMFCStartPointOnFirstMap: 1
   _mfcWalkStateName: MFC
+  _mfcLegacyWalkStateName: MFC
   _isAnimateMFCOnlyWhileMoving: 1
   _mfcWalkAnimationSpeed: 0.85
+  _mfcSortingOrder: 100
+  _blockedInputHoldSeconds: 1.2
+  _isUseBuildAutoMoveFailSafe: 1
+  _buildAutoMoveDelaySeconds: 1.5
   _fadeOutSeconds: 0.45
   _blackoutHoldSeconds: 0.15
   _fadeInSeconds: 0.55
   _fadeColor: {r: 0, g: 0, b: 0, a: 1}
   _currentGroupName: 2nd_Road_to_Stage2
+  _thirdRoadName: 3rd_Road_to_Stage3
+  _thirdRoadTargetStageName: Stage3Group
   _targetStageGroupName: Stage2Group
   _stageGroupNameArray:
   - Stage1Group
@@ -100923,6 +101170,30 @@ MonoBehaviour:
   - Stage3Group
   - Stage4Group
   - FinalStageGroup
+  _stage4BGM: {fileID: 0}
+  _stage4BGMAssetPath: Assets/Sounds/BGM/Stage4_BGM.mp3
+  _dialogueGroupName: DialogueGroup
+  _secondRoadGroupName: 2nd_Road_to_Stage2
+  _secondRoadMissionDataId: Stage2_Road_Quest_01
+  _secondRoadMissionFallbackText: "\uC11C\uCABD \uB3C4\uC2DC\uC5D0 \uAC00 \uD0D0\uAD00\uC624\uB9AC\uC758
+    \uC790\uD0DD\uC744 \uBC29\uBB38\uD558\uC138\uC694."
+  _secondRoadOpeningDialogueIdArray:
+  - character_Chunyang_06
+  - character_Mr.Jaeik_05
+  - character_Chunyang_07
+  - character_Mr.Jaeik_06
+  - character_Moran_06
+  _stage1PumpkinSoupCookId: OO_PumpkinSoup_1
+  _stage1ChiliPepperIngredientId: Ing_ChiliPepper_01
+  _stage1KimchIngredientId: Ing_Kimch_01
+  _stage1RequiredPumpkinSoupCount: 10
+  _stage1ChiefRewardCount: 10
+  _isEnableWormholeEntry: 1
+  _wormholeHitHoldSeconds: 0.2
+  _wormholeMapProgress: 0.5
+  _wormholeEncounterFlashColor: {r: 1, g: 1, b: 1, a: 1}
+  _wormholeEncounterFlashCount: 4
+  _wormholeEncounterFlashSeconds: 0.08
 --- !u!114 &3000000005
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -100937,6 +101208,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::OOTechRoadToStage1BGMPlayer
   _worldMapRoadBGM: {fileID: 8300000, guid: 3f835690340f7e6479998aa69e009745, type: 3}
   _worldMapRoadBGMAssetPath: Assets/Sounds/BGM/WorldMap_Road_BGM.mp3
+  _secondRoadStage2BGM: {fileID: 0}
+  _secondRoadStage2BGMAssetPath: Assets/Sounds/BGM/2_Road__Stage2_BGM.mp3
+  _secondRoadGroupName: 2nd_Road_to_Stage2
 --- !u!114 &3000000006
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -101671,7 +101945,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_SpriteSortPoint: 0
 --- !u!95 &3000000034
 Animator:
@@ -101862,20 +102136,29 @@ MonoBehaviour:
   Object_RoadMap2: {fileID: 3000001015}
   Object_Stage1EntryMap: {fileID: 3000001019}
   Transform_MFCStartPoint: {fileID: 1545546844}
+  Object_Wormhole: {fileID: 0}
   _moveRightKey: 100
+  _alternateMoveRightKey: 275
   _moveSpeed: 4.2
   _roadLaneNormalizedHeight: 0.23
   _entryMarginRatio: 0.1
   _exitMarginRatio: 0.08
   _isUseMFCStartPointOnFirstMap: 1
   _mfcWalkStateName: MFC
+  _mfcLegacyWalkStateName: MFC
   _isAnimateMFCOnlyWhileMoving: 1
   _mfcWalkAnimationSpeed: 0.85
+  _mfcSortingOrder: 100
+  _blockedInputHoldSeconds: 1.2
+  _isUseBuildAutoMoveFailSafe: 1
+  _buildAutoMoveDelaySeconds: 1.5
   _fadeOutSeconds: 0.45
   _blackoutHoldSeconds: 0.15
   _fadeInSeconds: 0.55
   _fadeColor: {r: 0, g: 0, b: 0, a: 1}
   _currentGroupName: 3rd_Road_to_Stage3
+  _thirdRoadName: 3rd_Road_to_Stage3
+  _thirdRoadTargetStageName: Stage3Group
   _targetStageGroupName: Stage3Group
   _stageGroupNameArray:
   - Stage1Group
@@ -101883,6 +102166,30 @@ MonoBehaviour:
   - Stage3Group
   - Stage4Group
   - FinalStageGroup
+  _stage4BGM: {fileID: 0}
+  _stage4BGMAssetPath: Assets/Sounds/BGM/Stage4_BGM.mp3
+  _dialogueGroupName: DialogueGroup
+  _secondRoadGroupName: 2nd_Road_to_Stage2
+  _secondRoadMissionDataId: Stage2_Road_Quest_01
+  _secondRoadMissionFallbackText: "\uC11C\uCABD \uB3C4\uC2DC\uC5D0 \uAC00 \uD0D0\uAD00\uC624\uB9AC\uC758
+    \uC790\uD0DD\uC744 \uBC29\uBB38\uD558\uC138\uC694."
+  _secondRoadOpeningDialogueIdArray:
+  - character_Chunyang_06
+  - character_Mr.Jaeik_05
+  - character_Chunyang_07
+  - character_Mr.Jaeik_06
+  - character_Moran_06
+  _stage1PumpkinSoupCookId: OO_PumpkinSoup_1
+  _stage1ChiliPepperIngredientId: Ing_ChiliPepper_01
+  _stage1KimchIngredientId: Ing_Kimch_01
+  _stage1RequiredPumpkinSoupCount: 10
+  _stage1ChiefRewardCount: 10
+  _isEnableWormholeEntry: 1
+  _wormholeHitHoldSeconds: 0.2
+  _wormholeMapProgress: 0.5
+  _wormholeEncounterFlashColor: {r: 1, g: 1, b: 1, a: 1}
+  _wormholeEncounterFlashCount: 4
+  _wormholeEncounterFlashSeconds: 0.08
 --- !u!114 &3000001005
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -101897,6 +102204,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::OOTechRoadToStage1BGMPlayer
   _worldMapRoadBGM: {fileID: 8300000, guid: 3f835690340f7e6479998aa69e009745, type: 3}
   _worldMapRoadBGMAssetPath: Assets/Sounds/BGM/WorldMap_Road_BGM.mp3
+  _secondRoadStage2BGM: {fileID: 0}
+  _secondRoadStage2BGMAssetPath: Assets/Sounds/BGM/2_Road__Stage2_BGM.mp3
+  _secondRoadGroupName: 2nd_Road_to_Stage2
 --- !u!114 &3000001006
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -102631,7 +102941,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_SpriteSortPoint: 0
 --- !u!95 &3000001034
 Animator:
@@ -102822,20 +103132,29 @@ MonoBehaviour:
   Object_RoadMap2: {fileID: 3000002015}
   Object_Stage1EntryMap: {fileID: 3000002019}
   Transform_MFCStartPoint: {fileID: 324769776}
+  Object_Wormhole: {fileID: 0}
   _moveRightKey: 100
+  _alternateMoveRightKey: 275
   _moveSpeed: 4.2
   _roadLaneNormalizedHeight: 0.23
   _entryMarginRatio: 0.1
   _exitMarginRatio: 0.08
   _isUseMFCStartPointOnFirstMap: 1
   _mfcWalkStateName: MFC
+  _mfcLegacyWalkStateName: MFC
   _isAnimateMFCOnlyWhileMoving: 1
   _mfcWalkAnimationSpeed: 0.85
+  _mfcSortingOrder: 100
+  _blockedInputHoldSeconds: 1.2
+  _isUseBuildAutoMoveFailSafe: 1
+  _buildAutoMoveDelaySeconds: 1.5
   _fadeOutSeconds: 0.45
   _blackoutHoldSeconds: 0.15
   _fadeInSeconds: 0.55
   _fadeColor: {r: 0, g: 0, b: 0, a: 1}
   _currentGroupName: 4th_Road_to_Stage4
+  _thirdRoadName: 3rd_Road_to_Stage3
+  _thirdRoadTargetStageName: Stage3Group
   _targetStageGroupName: Stage4Group
   _stageGroupNameArray:
   - Stage1Group
@@ -102843,6 +103162,30 @@ MonoBehaviour:
   - Stage3Group
   - Stage4Group
   - FinalStageGroup
+  _stage4BGM: {fileID: 0}
+  _stage4BGMAssetPath: Assets/Sounds/BGM/Stage4_BGM.mp3
+  _dialogueGroupName: DialogueGroup
+  _secondRoadGroupName: 2nd_Road_to_Stage2
+  _secondRoadMissionDataId: Stage2_Road_Quest_01
+  _secondRoadMissionFallbackText: "\uC11C\uCABD \uB3C4\uC2DC\uC5D0 \uAC00 \uD0D0\uAD00\uC624\uB9AC\uC758
+    \uC790\uD0DD\uC744 \uBC29\uBB38\uD558\uC138\uC694."
+  _secondRoadOpeningDialogueIdArray:
+  - character_Chunyang_06
+  - character_Mr.Jaeik_05
+  - character_Chunyang_07
+  - character_Mr.Jaeik_06
+  - character_Moran_06
+  _stage1PumpkinSoupCookId: OO_PumpkinSoup_1
+  _stage1ChiliPepperIngredientId: Ing_ChiliPepper_01
+  _stage1KimchIngredientId: Ing_Kimch_01
+  _stage1RequiredPumpkinSoupCount: 10
+  _stage1ChiefRewardCount: 10
+  _isEnableWormholeEntry: 1
+  _wormholeHitHoldSeconds: 0.2
+  _wormholeMapProgress: 0.5
+  _wormholeEncounterFlashColor: {r: 1, g: 1, b: 1, a: 1}
+  _wormholeEncounterFlashCount: 4
+  _wormholeEncounterFlashSeconds: 0.08
 --- !u!114 &3000002005
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -102857,6 +103200,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::OOTechRoadToStage1BGMPlayer
   _worldMapRoadBGM: {fileID: 8300000, guid: 3f835690340f7e6479998aa69e009745, type: 3}
   _worldMapRoadBGMAssetPath: Assets/Sounds/BGM/WorldMap_Road_BGM.mp3
+  _secondRoadStage2BGM: {fileID: 0}
+  _secondRoadStage2BGMAssetPath: Assets/Sounds/BGM/2_Road__Stage2_BGM.mp3
+  _secondRoadGroupName: 2nd_Road_to_Stage2
 --- !u!114 &3000002006
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -103591,7 +103937,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_SpriteSortPoint: 0
 --- !u!95 &3000002034
 Animator:
@@ -103782,20 +104128,29 @@ MonoBehaviour:
   Object_RoadMap2: {fileID: 3000003015}
   Object_Stage1EntryMap: {fileID: 3000003019}
   Transform_MFCStartPoint: {fileID: 1747762254}
+  Object_Wormhole: {fileID: 0}
   _moveRightKey: 100
+  _alternateMoveRightKey: 275
   _moveSpeed: 4.2
   _roadLaneNormalizedHeight: 0.23
   _entryMarginRatio: 0.1
   _exitMarginRatio: 0.08
   _isUseMFCStartPointOnFirstMap: 1
   _mfcWalkStateName: MFC
+  _mfcLegacyWalkStateName: MFC
   _isAnimateMFCOnlyWhileMoving: 1
   _mfcWalkAnimationSpeed: 0.85
+  _mfcSortingOrder: 100
+  _blockedInputHoldSeconds: 1.2
+  _isUseBuildAutoMoveFailSafe: 1
+  _buildAutoMoveDelaySeconds: 1.5
   _fadeOutSeconds: 0.45
   _blackoutHoldSeconds: 0.15
   _fadeInSeconds: 0.55
   _fadeColor: {r: 0, g: 0, b: 0, a: 1}
   _currentGroupName: Final_Road_to_FinalStage
+  _thirdRoadName: 3rd_Road_to_Stage3
+  _thirdRoadTargetStageName: Stage3Group
   _targetStageGroupName: FinalStageGroup
   _stageGroupNameArray:
   - Stage1Group
@@ -103803,6 +104158,30 @@ MonoBehaviour:
   - Stage3Group
   - Stage4Group
   - FinalStageGroup
+  _stage4BGM: {fileID: 0}
+  _stage4BGMAssetPath: Assets/Sounds/BGM/Stage4_BGM.mp3
+  _dialogueGroupName: DialogueGroup
+  _secondRoadGroupName: 2nd_Road_to_Stage2
+  _secondRoadMissionDataId: Stage2_Road_Quest_01
+  _secondRoadMissionFallbackText: "\uC11C\uCABD \uB3C4\uC2DC\uC5D0 \uAC00 \uD0D0\uAD00\uC624\uB9AC\uC758
+    \uC790\uD0DD\uC744 \uBC29\uBB38\uD558\uC138\uC694."
+  _secondRoadOpeningDialogueIdArray:
+  - character_Chunyang_06
+  - character_Mr.Jaeik_05
+  - character_Chunyang_07
+  - character_Mr.Jaeik_06
+  - character_Moran_06
+  _stage1PumpkinSoupCookId: OO_PumpkinSoup_1
+  _stage1ChiliPepperIngredientId: Ing_ChiliPepper_01
+  _stage1KimchIngredientId: Ing_Kimch_01
+  _stage1RequiredPumpkinSoupCount: 10
+  _stage1ChiefRewardCount: 10
+  _isEnableWormholeEntry: 1
+  _wormholeHitHoldSeconds: 0.2
+  _wormholeMapProgress: 0.5
+  _wormholeEncounterFlashColor: {r: 1, g: 1, b: 1, a: 1}
+  _wormholeEncounterFlashCount: 4
+  _wormholeEncounterFlashSeconds: 0.08
 --- !u!114 &3000003005
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -103817,6 +104196,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::OOTechRoadToStage1BGMPlayer
   _worldMapRoadBGM: {fileID: 8300000, guid: 3f835690340f7e6479998aa69e009745, type: 3}
   _worldMapRoadBGMAssetPath: Assets/Sounds/BGM/WorldMap_Road_BGM.mp3
+  _secondRoadStage2BGM: {fileID: 0}
+  _secondRoadStage2BGMAssetPath: Assets/Sounds/BGM/2_Road__Stage2_BGM.mp3
+  _secondRoadGroupName: 2nd_Road_to_Stage2
 --- !u!114 &3000003006
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -104551,7 +104933,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_SpriteSortPoint: 0
 --- !u!95 &3000003034
 Animator:

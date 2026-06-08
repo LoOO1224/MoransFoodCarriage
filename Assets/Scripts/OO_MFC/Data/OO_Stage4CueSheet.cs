@@ -19,6 +19,8 @@ public class OO_Stage4CueSheet : GameDataBase
     public string Stage4_1GroupName;
     public string Stage4_2GroupName;
     public string PreFinalGroupName;
+    public string RoadMissionDataId;
+    public string RoadMissionFallbackText;
 
     public string TurtleRoleId;
     public string RabbitRoleId;

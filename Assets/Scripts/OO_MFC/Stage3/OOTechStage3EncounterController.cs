@@ -112,7 +112,7 @@ public class OOTechStage3EncounterController : MonoBehaviour
 
         RequestCloseStage3GroupBehindEncounter();
         PrepareEncounterActors();
-        RequestOpenInventoryForReturnedEncounter();
+        RequestCloseInventoryForReturnedEncounter();
         SetNextButtonActive(false);
 
         if (!_hasInitialSequencePlayed)
@@ -708,10 +708,20 @@ public class OOTechStage3EncounterController : MonoBehaviour
         if (HUD_Road == null)
             return;
 
-        string questText = "떡 1개와 꿀 1개로 꿀떡을 만드세요.";
+        string questText = ResolveStageQuestDescription(Data_CueSheet != null ? Data_CueSheet.StageQuestId : null, "떡 1개와 꿀 1개로 꿀떡을 만드세요.");
 
         HUD_Road.RequestSetStageQuestMission(questText);
         HUD_Road.SetMissionNewBadgeActive(true);
+    }
+
+    private string ResolveStageQuestDescription(string stageQuestDataId, string fallbackText)
+    {
+        OO_StageQuest questData = OOTechGameDataManager.Inst != null ? OOTechGameDataManager.Inst.GetStageQuestData(stageQuestDataId) : null;
+
+        if (questData != null && !string.IsNullOrWhiteSpace(questData.Description))
+            return questData.Description;
+
+        return fallbackText;
     }
 
     private void RequestUpdateStageQuestAsComplete()
@@ -789,6 +799,7 @@ public class OOTechStage3EncounterController : MonoBehaviour
         {
             OOTechUIManager.Inst.CloseUI(_cookingGroupName);
             OOTechUIManager.Inst.OpenUI(gameObject.name);
+            RequestCloseInventoryForReturnedEncounter();
             return;
         }
 
@@ -798,18 +809,15 @@ public class OOTechStage3EncounterController : MonoBehaviour
             cookingGroup.SetActive(false);
 
         gameObject.SetActive(true);
+        RequestCloseInventoryForReturnedEncounter();
     }
 
-    /// <summary>
-    /// CookingGroup에서 EncounterGroup으로 돌아오면 인벤토리를 바로 열어 최신 NEW 아이템을 확인하게 합니다.
-    /// </summary>
-    private void RequestOpenInventoryForReturnedEncounter()
+    private void RequestCloseInventoryForReturnedEncounter()
     {
-        if (_hasInitialSequencePlayed && HUD_Road != null)
-        {
-            HUD_Road.RequestOpenCookingSupportHUD();
-            HUD_Road.RequestRefreshInventoryView();
-        }
+        if (HUD_Road == null)
+            return;
+
+        HUD_Road.RequestForceCloseInventoryPanelForEncounterReturn();
     }
 
     private void RequestSwitchGroup(string currentGroupName, string nextGroupName)

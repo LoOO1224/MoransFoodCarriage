@@ -134,6 +134,16 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
     [SerializeField] private string _stage4BGMAssetPath = "Assets/Sounds/BGM/Stage4_BGM.mp3";
 #endif
 
+    [Header("Road Data")]
+    [SerializeField] private string _stage3CueSheetDataId = "Stage3_CueSheet_01";
+    [SerializeField] private string _stage4CueSheetDataId = "Stage4_CueSheet_01";
+    [SerializeField] private string _thirdRoadMissionDataId = "Stage3_Road_Quest_01";
+    [SerializeField] private string _thirdRoadMissionFallbackText = "남쪽 숲으로 가세요!";
+    [SerializeField] private string _fourthRoadMissionDataId = "Stage4_Road_Quest_01";
+    [SerializeField] private string _fourthRoadMissionFallbackText = "북쪽 농경지대로 가세요.";
+    [SerializeField] private string _stage4RewardCarrotIngredientId = "Ing_Carrot_01";
+    [SerializeField] private int _stage4RewardCarrotCount = 10;
+
     [Header("Road Opening Dialogue")]
     [SerializeField] private string _dialogueGroupName = "DialogueGroup";
     [SerializeField] private string _secondRoadGroupName = "2nd_Road_to_Stage2";
@@ -250,6 +260,7 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
         CloseBlockingSceneGroups();
         PrepareRoadHUD();
         RepairStage1RewardInventoryIfNeeded();
+        RepairStage4RoadInventoryIfNeeded();
         PrepareRoadTrip();
         StartOpeningTutorialIfNeeded();
         StartRoadOpeningDialogueIfNeeded();
@@ -282,6 +293,25 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
         }
 
         Debug.Log("[OOTechRoadToStage1Controller] Stage1 reward inventory was repaired on 2nd_Road_to_Stage2 entry.");
+    }
+
+    private void RepairStage4RoadInventoryIfNeeded()
+    {
+        if (!IsFourthRoadCurrent() || OOTechGameManager.Inst == null)
+            return;
+
+        OO_Stage4CueSheet cueSheetData = ResolveStage4CueSheetData();
+        string carrotIngredientId = cueSheetData != null && !string.IsNullOrWhiteSpace(cueSheetData.CarrotIngredientId)
+            ? cueSheetData.CarrotIngredientId
+            : _stage4RewardCarrotIngredientId;
+
+        AddInventoryItemToTargetCount(carrotIngredientId, _stage4RewardCarrotCount);
+
+        if (HUD_Road != null)
+        {
+            HUD_Road.RequestRefreshInventoryView();
+            HUD_Road.SetInventoryNewBadgeActive(true);
+        }
     }
 
     private void AddInventoryItemToTargetCount(string itemDataId, int targetCount)
@@ -578,7 +608,7 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
     {
         CacheSceneContextReference();
 
-        Object_MFC = ResolveOwnedChild(Object_MFC, "MFC");
+        Object_MFC = ResolveBestMFCObject(Object_MFC);
         Animator_MFC = ResolveOwnedComponent<Animator>(Object_MFC);
         Renderer_MFC = ResolveOwnedComponent<SpriteRenderer>(Object_MFC);
 
@@ -749,6 +779,7 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
         SetMFCActive(true);
         EnsureMFCVisible();
         PlaceMFCAtOpeningPosition();
+        EnsureMFCVisible();
         FocusCameraOnCurrentMap();
         HideFadeOverlay();
         PrepareMFCAnimation();
@@ -987,6 +1018,14 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
 
         SpriteRenderer mapRenderer = GetCurrentMapRenderer();
 
+        if (IsFourthRoadCurrent())
+        {
+            if (mapRenderer != null)
+                Object_MFC.transform.position = CalculateMapEntryPosition(mapRenderer);
+
+            return;
+        }
+
         if (_isUseMFCStartPointOnFirstMap && Transform_MFCStartPoint != null)
         {
             if (mapRenderer == null || IsPositionInsideMapBounds(Transform_MFCStartPoint.position, mapRenderer))
@@ -1007,6 +1046,12 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
 
         if (mapRenderer == null)
             return;
+
+        if (IsFourthRoadCurrent() || !IsPositionInsideMapBounds(Object_MFC.transform.position, mapRenderer))
+        {
+            Object_MFC.transform.position = CalculateMapEntryPosition(mapRenderer);
+            return;
+        }
 
         Vector3 position = Object_MFC.transform.position;
         position.y = CalculateRoadLaneY(mapRenderer);
@@ -1423,6 +1468,9 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
 
         if (_currentGroupName == _thirdRoadGroupName)
             HUD_Road.SetInventoryNewBadgeActive(true);
+
+        if (IsFourthRoadCurrent())
+            HUD_Road.SetInventoryNewBadgeActive(true);
     }
 
     /// <summary>
@@ -1434,11 +1482,52 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
         if (HUD_Road == null)
             return;
 
-        if (_currentGroupName != _secondRoadGroupName)
+        if (_currentGroupName == _secondRoadGroupName)
+        {
+            ApplyRoadMission(_secondRoadMissionDataId, _secondRoadMissionFallbackText);
             return;
+        }
 
-        string roadMissionText = ResolveStageQuestDescription(_secondRoadMissionDataId, _secondRoadMissionFallbackText);
-        HUD_Road.RequestSetRoadMissionText(roadMissionText, true);
+        if (IsThirdRoadCurrent())
+        {
+            OO_Stage3CueSheet cueSheetData = ResolveStage3CueSheetData();
+            string missionDataId = cueSheetData != null && !string.IsNullOrWhiteSpace(cueSheetData.RoadMissionDataId)
+                ? cueSheetData.RoadMissionDataId
+                : _thirdRoadMissionDataId;
+            string fallbackText = cueSheetData != null && !string.IsNullOrWhiteSpace(cueSheetData.RoadMissionFallbackText)
+                ? cueSheetData.RoadMissionFallbackText
+                : _thirdRoadMissionFallbackText;
+            ApplyRoadMission(missionDataId, fallbackText);
+            return;
+        }
+
+        if (IsFourthRoadCurrent())
+        {
+            OO_Stage4CueSheet cueSheetData = ResolveStage4CueSheetData();
+            string missionDataId = cueSheetData != null && !string.IsNullOrWhiteSpace(cueSheetData.RoadMissionDataId)
+                ? cueSheetData.RoadMissionDataId
+                : _fourthRoadMissionDataId;
+            string fallbackText = cueSheetData != null && !string.IsNullOrWhiteSpace(cueSheetData.RoadMissionFallbackText)
+                ? cueSheetData.RoadMissionFallbackText
+                : _fourthRoadMissionFallbackText;
+            ApplyRoadMission(missionDataId, fallbackText, false);
+        }
+    }
+
+    private void ApplyRoadMission(string missionDataId, string fallbackText, bool isAutoOpenMissionPanel = true)
+    {
+        string roadMissionText = ResolveStageQuestDescription(missionDataId, fallbackText);
+        HUD_Road.RequestSetRoadMissionText(roadMissionText, true, isAutoOpenMissionPanel);
+    }
+
+    private OO_Stage3CueSheet ResolveStage3CueSheetData()
+    {
+        return OOTechGameDataManager.Inst != null ? OOTechGameDataManager.Inst.GetStage3CueSheetData(_stage3CueSheetDataId) : null;
+    }
+
+    private OO_Stage4CueSheet ResolveStage4CueSheetData()
+    {
+        return OOTechGameDataManager.Inst != null ? OOTechGameDataManager.Inst.GetStage4CueSheetData(_stage4CueSheetDataId) : null;
     }
 
     /// <summary>
@@ -1932,6 +2021,80 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
             return assignedObject;
 
         return assignedObject;
+    }
+
+    private GameObject ResolveBestMFCObject(GameObject assignedObject)
+    {
+        List<GameObject> candidateList = new List<GameObject>();
+
+        if (assignedObject != null)
+            candidateList.Add(assignedObject);
+
+        Transform[] childTransformArray = GetComponentsInChildren<Transform>(true);
+
+        foreach (Transform childTransform in childTransformArray)
+        {
+            if (childTransform == null || childTransform.name != "MFC")
+                continue;
+
+            if (!candidateList.Contains(childTransform.gameObject))
+                candidateList.Add(childTransform.gameObject);
+        }
+
+        if (candidateList.Count == 0)
+            return ResolveOwnedChild(assignedObject, "MFC");
+
+        GameObject bestObject = candidateList[0];
+        int bestPriority = GetMFCObjectResolvePriority(bestObject, assignedObject);
+
+        for (int index = 1; index < candidateList.Count; index++)
+        {
+            GameObject candidateObject = candidateList[index];
+            int priority = GetMFCObjectResolvePriority(candidateObject, assignedObject);
+
+            if (priority <= bestPriority)
+                continue;
+
+            bestObject = candidateObject;
+            bestPriority = priority;
+        }
+
+        return bestObject;
+    }
+
+    private int GetMFCObjectResolvePriority(GameObject candidateObject, GameObject assignedObject)
+    {
+        if (candidateObject == null)
+            return int.MinValue;
+
+        int priority = 0;
+
+        if (candidateObject.transform != null && candidateObject.transform.IsChildOf(transform))
+            priority += 1000;
+
+        SpriteRenderer spriteRenderer = candidateObject.GetComponentInChildren<SpriteRenderer>(true);
+
+        if (spriteRenderer != null)
+            priority += 100;
+
+        if (spriteRenderer != null && spriteRenderer.sprite != null)
+            priority += 1000;
+
+        Animator animator = candidateObject.GetComponentInChildren<Animator>(true);
+
+        if (animator != null)
+            priority += 50;
+
+        if (animator != null && animator.runtimeAnimatorController != null)
+            priority += 50;
+
+        if (candidateObject.activeSelf)
+            priority += 10;
+
+        if (candidateObject == assignedObject)
+            priority += 1;
+
+        return priority;
     }
 
     private Transform ResolveChildTransform(Transform assignedTransform, params string[] childNameArray)
