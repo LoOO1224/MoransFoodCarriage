@@ -1,17 +1,13 @@
-﻿// =============================================================================
-// OO_MFC ??븷 二쇱꽍
-// - ?ㅽ겕由쏀듃: OOTechStage2GroupController.cs
-// - ??븷: Stage2Group???먯떆???쒖꽌留?吏?섑븯??Controller?낅땲??
-// - ?곹솕 鍮꾩쑀: 臾대?媛먮룆? "??諛곗슦 ?낆옣 -> ?낅뜒?ㅻ━ ???-> 紐쎈！ ?깆옣 -> ?붾━ ?꾨Т -> ?댁옣" ?먮쭔 遺由낅땲??
-// - ?좎?蹂댁닔 ?ъ씤?? 諛곗슦 ?대룞? OOTechStageActorMotion, UI??HUD/Dialog, ?곗씠?곕뒗 GameDataManager媛 留≪뒿?덈떎.
+// =============================================================================
+// OO_MFC 코드 일관화 주석
+// - 스크립트: OOTechStage2GroupController.cs
+// - 역할: Stage2 연출, 대사, 보상, 카메라 큐를 분리해 처리합니다.
+// - 유지보수: 큐시트 데이터와 씬 배치 오브젝트가 함께 맞아야 하므로 데이터 ID와 역할 오브젝트를 같이 확인합니다.
 // =============================================================================
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -514,15 +510,7 @@ public class OOTechStage2GroupController : MonoBehaviour
 
     private AudioClip ResolveAudioClip(AudioClip assignedClip, string assetPath)
     {
-        if (assignedClip != null)
-            return assignedClip;
-
-#if UNITY_EDITOR
-        if (!string.IsNullOrEmpty(assetPath))
-            return AssetDatabase.LoadAssetAtPath<AudioClip>(assetPath);
-#endif
-
-        return null;
+        return OOTechAudioClipResolver.ResolveFromEditorAssetName(assignedClip, assetPath);
     }
 
     private void PlaceEntryActorsOffScreen()
@@ -1093,4 +1081,3 @@ public class OOTechStage2GroupController : MonoBehaviour
         return null;
     }
 }
-

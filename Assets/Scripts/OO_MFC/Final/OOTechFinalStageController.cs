@@ -1,9 +1,8 @@
-﻿// =============================================================================
-// OO_MFC ??븷 二쇱꽍
-// - ?ㅽ겕由쏀듃: OOTechFinalStageController.cs
-// - ??븷: FinalStageGroup?먯꽌 Moran ?먮룞 ?대룞, YeonSanJa ?앹궗/?됰났 ?좊땲硫붿씠?? 留덉?留???щ? 吏꾪뻾?⑸땲??
-// - ?곹솕 鍮꾩쑀: 留덉?留?臾대????숈꽑 媛먮룆?낅땲?? Moran? 怨꾨떒???ㅻⅤ??諛곗슦, YeonSanJa???대줈利덉뾽??諛쏅뒗 諛곗슦?낅땲??
-// - ?좎?蹂댁닔 ?ъ씤?? YeonSanJa/YeonSanZa/YanSanZa ?쇱슜? 肄붾뱶?먯꽌 fallback 泥섎━?섎릺, ?κ린?곸쑝濡?JSON/?ㅻ툕?앺듃 ?대쫫? YeonSanJa濡??듭씪?⑸땲??
+// =============================================================================
+// OO_MFC 코드 일관화 주석
+// - 스크립트: OOTechFinalStageController.cs
+// - 역할: PreFinal, FinalStage, Epilogue, EndingCredit 전환을 담당합니다.
+// - 유지보수: BGM, DialogueGroup, 카메라 위치, 다음 버튼 흐름이 겹치므로 그룹 전환 순서를 유지합니다.
 // =============================================================================
 using System.Collections;
 using System.Collections.Generic;
@@ -255,10 +254,7 @@ public class OOTechFinalStageController : MonoBehaviour
 
     private void RequestPlayFinalBGM()
     {
-        AudioClip clip = Clip_FinalStageBGM;
-
-        if (clip == null)
-            clip = Resources.Load<AudioClip>("Audio/BGM/FinalStage_BGM");
+        AudioClip clip = OOTechAudioClipResolver.Resolve(Clip_FinalStageBGM, "Audio/BGM/FinalStage_BGM");
 
         if (clip != null && OOTechSoundManager.Inst != null)
             OOTechSoundManager.Inst.PlayBGM(clip, true);
@@ -520,4 +516,3 @@ public class OOTechFinalStageController : MonoBehaviour
         gameObject.SetActive(false);
     }
 }
-

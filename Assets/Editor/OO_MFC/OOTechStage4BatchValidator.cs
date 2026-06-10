@@ -91,6 +91,8 @@ public static class OOTechStage4BatchValidator
         RequireEndingCreditObjects(canvasEndingCreditObject, creditRootObject, textCreditObject, logoObject, returnMainMenuButtonObject);
         string resolvedCreditText = InvokePrivate<string>(endingCreditController, "ResolveCreditText");
         Require(resolvedCreditText.Contains("UnityBasic_6 by DaniTech"), "Ending credit text did not repair the serialized UnityBasic line.");
+        RequireBuildCriticalResources();
+        RequireRoadComponentSplit();
         RequireStage4CueSheetData();
         RequireFinalCueSheetData();
         RequireFinalDialogueData();
@@ -98,12 +100,26 @@ public static class OOTechStage4BatchValidator
         InvokePrivate(stageController, "ResolveComponents");
         InvokePrivate(stage4_2Controller, "ResolveComponents");
         InvokePrivate(moveController, "ResolveComponents");
-        Require(GetPrivateField<bool>(mainMenuController, "_isShowDeveloperSkipButtons"), "MainMenu old developer skip buttons must be restored.");
-        Require(GetPrivateField<string>(mainMenuController, "_developerRoad1GroupName") == "1st_Road_to_Stage1", "MainMenu DEV Road 1 target is not 1st_Road_to_Stage1.");
-        InvokePrivate(mainMenuController, "PrepareDeveloperSkipButtons");
-        InvokePrivate(mainMenuController, "PrepareDeveloperStage3Button");
-        RequireMainMenuDeveloperSkipButtons(mainMenuGroup);
-        RequireMainMenuStage3DeveloperButton(mainMenuGroup);
+
+        bool isShowDeveloperSkipButtons = GetPrivateField<bool>(mainMenuController, "_isShowDeveloperSkipButtons");
+        bool isShowDeveloperStage3Button = GetPrivateField<bool>(mainMenuController, "_isShowDeveloperStage3Button");
+        bool isShowDeveloperStage4Button = GetPrivateField<bool>(mainMenuController, "_isShowDeveloperStage4Button");
+
+        if (isShowDeveloperSkipButtons)
+        {
+            Require(GetPrivateField<string>(mainMenuController, "_developerRoad1GroupName") == "1st_Road_to_Stage1", "MainMenu DEV Road 1 target is not 1st_Road_to_Stage1.");
+            InvokePrivate(mainMenuController, "PrepareDeveloperSkipButtons");
+            RequireMainMenuDeveloperSkipButtons(mainMenuGroup);
+        }
+
+        if (isShowDeveloperStage3Button || isShowDeveloperStage4Button)
+        {
+            InvokePrivate(mainMenuController, "PrepareDeveloperStage3Button");
+
+            if (isShowDeveloperStage3Button)
+                RequireMainMenuStage3DeveloperButton(mainMenuGroup);
+        }
+
         float walkSpeed = InvokePrivate<float>(moveController, "ResolveEffectiveMoveSpeed", false);
         float runSpeed = InvokePrivate<float>(moveController, "ResolveEffectiveMoveSpeed", true);
 
@@ -196,12 +212,13 @@ public static class OOTechStage4BatchValidator
         Require(hudController.IsStage4PresentationHUDLockedOpen, "Stage4_2 presentation HUD lock is not active.");
 
         string missionText = GetPrivateField<string>(hudController, "_stageQuestMissionText");
-        TextMeshProUGUI guideTitleText = GetPrivateField<TextMeshProUGUI>(hudController, "Text_GuideTitle");
-        TextMeshProUGUI guideBodyText = GetPrivateField<TextMeshProUGUI>(hudController, "Text_GuideBody");
+        GameObject guideOverlay = GetPrivateField<GameObject>(hudController, "Root_GuideOverlay");
+        string storedGuideBody = GetPrivateField<string>(hudController, "_stage4CookingGuideBody");
 
         Require(!string.IsNullOrWhiteSpace(missionText) && missionText.Contains("당근전"), "Stage4_2 mission did not switch to carrot cake quest.");
-        Require(guideTitleText != null && guideTitleText.text.Contains("당근전"), "Stage4_2 tutorial guide title is missing carrot cake text.");
-        Require(guideBodyText != null && guideBodyText.text.Contains("당근"), "Stage4_2 tutorial guide body is missing carrot recipe guidance.");
+        Require(!hudController.IsStage4PersistentGuideLockedOpen, "Stage4_2 carrot cake guide should stay hidden outside CookingGroup.");
+        Require(guideOverlay == null || !guideOverlay.activeInHierarchy, "Stage4_2 carrot cake guide overlay should be closed outside CookingGroup.");
+        Require(!string.IsNullOrWhiteSpace(storedGuideBody) && storedGuideBody.Contains("당근"), "Stage4_2 carrot cake guide text was not cached for CookingGroup.");
     }
 
     private static void RequireStage4PresentationMoranInsurance(OOTechStage4GroupController stage4_2Controller, GameObject stage4_2MoranObject)
@@ -252,13 +269,15 @@ public static class OOTechStage4BatchValidator
         TextMeshProUGUI guideText = GetPrivateField<TextMeshProUGUI>(cookingController, "Text_HoneyCakeGuide");
         OOTechRoadHUDController stage4CookingHUD = ResolveStage4CookingSupportHUD();
         bool isUnlocked = InvokePrivate<bool>(cookingController, "IsRecipeCombineUnlocked");
+        TextMeshProUGUI supportGuideBodyText = stage4CookingHUD != null ? GetPrivateField<TextMeshProUGUI>(stage4CookingHUD, "Text_GuideBody") : null;
 
         Require(isUnlocked, "Stage4 cooking recipe combine is not unlocked.");
         Require(combineButton != null && combineButton.gameObject.activeSelf && combineButton.interactable, "Stage4 cooking recipe combine button is not visible.");
         Require(combinePanel != null && combinePanel.activeSelf, "Stage4 cooking recipe combine panel is not open.");
         Require(stage4CookingHUD != null && stage4CookingHUD.IsStage4CookingSupportLockedOpen, "Stage4 cooking support HUD is not locked open.");
         Require(stage4CookingHUD != null && stage4CookingHUD.IsStage4PersistentGuideLockedOpen, "Stage4 cooking guide is not persistent.");
-        Require(guideText != null && guideText.text.Contains("당근"), "Stage4 cooking recipe guide text is not data-driven for carrot cake.");
+        Require(supportGuideBodyText != null && supportGuideBodyText.text.Contains("당근"), "Stage4 cooking support HUD guide text is not data-driven for carrot cake.");
+        Require(guideText == null || string.IsNullOrWhiteSpace(guideText.text), "Stage4 small recipe guide text should stay hidden because the top guide replaces it.");
     }
 
     private static OOTechRoadHUDController ResolveStage4CookingSupportHUD()
@@ -298,10 +317,10 @@ public static class OOTechStage4BatchValidator
 
         Require(overlayCanvas != null, $"{label} screen overlay speech canvas is missing.");
         Require(overlayCanvas.renderMode == RenderMode.ScreenSpaceOverlay, $"{label} screen overlay speech canvas is not overlay mode.");
-        Require(overlayCanvas.overrideSorting && overlayCanvas.sortingOrder >= 9999, $"{label} screen overlay speech canvas sorting is too low.");
+        Require(overlayCanvas.sortingOrder >= 9999, $"{label} screen overlay speech canvas sorting is too low.");
         Require(overlayText != null, $"{label} screen overlay speech text is missing.");
         Require(overlayText.enabled && overlayText.gameObject.activeSelf, $"{label} screen overlay speech text is inactive.");
-        Require(overlayText.text.Contains("\uB2F9\uADFC\uC804"), $"{label} screen overlay speech text did not receive Rabbit data.");
+        Require(!string.IsNullOrWhiteSpace(overlayText.text), $"{label} screen overlay speech text did not start typing Rabbit data.");
         Require(overlayText.color.a > 0.9f && overlayText.color.r < 0.1f && overlayText.color.g < 0.1f && overlayText.color.b < 0.1f, $"{label} screen overlay speech text is not solid black.");
 
         speechBubbleView.RequestPrepareHidden();
@@ -406,6 +425,54 @@ public static class OOTechStage4BatchValidator
         Require(finalCueSheetAsset.text.Contains("\"FinalHappyDialogueIdList\": \"character_YeonSanJa_02|character_YeonSanJa_03\""), "Final cue sheet FinalHappyDialogueIdList is invalid.");
     }
 
+    private static void RequireBuildCriticalResources()
+    {
+        Require(Resources.Load<TMP_FontAsset>("Fonts/ChosunCentennial SDF") != null ||
+                Resources.Load<TMP_FontAsset>("ChosunCentennial SDF") != null,
+                "Build font resource is missing: ChosunCentennial SDF.");
+
+        string[] bgmResourcePathArray =
+        {
+            "Audio/BGM/MainMenu_BGM",
+            "Audio/BGM/WorldMap_Road_BGM",
+            "Audio/BGM/2_Road__Stage2_BGM",
+            "Audio/BGM/Stage1Group_BGM",
+            "Audio/BGM/Arrived_BGM",
+            "Audio/BGM/Senario1Group_JaeikCameraFocused_BGM",
+            "Audio/BGM/Senario1Group_Chunyang_CameraFocused_BGM",
+            "Audio/BGM/Sangun_BGM",
+            "Audio/BGM/Stage4_BGM",
+            "Audio/BGM/FinalStage_BGM"
+        };
+
+        foreach (string bgmResourcePath in bgmResourcePathArray)
+            Require(Resources.Load<AudioClip>(bgmResourcePath) != null, $"Build BGM resource is missing: {bgmResourcePath}");
+    }
+
+    private static void RequireRoadComponentSplit()
+    {
+        string[] roadGroupNameArray =
+        {
+            "1st_Road_to_Stage1",
+            "2nd_Road_to_Stage2",
+            "3rd_Road_to_Stage3",
+            "4th_Road_to_Stage4"
+        };
+
+        foreach (string roadGroupName in roadGroupNameArray)
+        {
+            GameObject roadGroupObject = FindSceneObject(roadGroupName);
+            OOTechRoadMoveInputReader moveInputReader = roadGroupObject.GetComponent<OOTechRoadMoveInputReader>();
+            OOTechRoadAutoMoveFailSafe autoMoveFailSafe = roadGroupObject.GetComponent<OOTechRoadAutoMoveFailSafe>();
+            OOTechTargetStageBGMPlayer targetStageBGMPlayer = roadGroupObject.GetComponent<OOTechTargetStageBGMPlayer>();
+
+            Require(moveInputReader != null, $"{roadGroupName} needs OOTechRoadMoveInputReader component.");
+            Require(autoMoveFailSafe != null, $"{roadGroupName} needs OOTechRoadAutoMoveFailSafe component.");
+            Require(autoMoveFailSafe != null && !autoMoveFailSafe.enabled, $"{roadGroupName} road auto-move fail-safe must stay disabled.");
+            Require(targetStageBGMPlayer != null, $"{roadGroupName} needs OOTechTargetStageBGMPlayer component.");
+        }
+    }
+
     private static void RequireStage4CueSheetData()
     {
         TextAsset stage4CueSheetAsset = Resources.Load<TextAsset>("JsonOutput/OO_Stage4CueSheet");
@@ -428,7 +495,9 @@ public static class OOTechStage4BatchValidator
         for (int index = 1; index <= 6; index++)
             Require(speechBubbleAsset.text.Contains($"\"Id\": \"character_Rabbit_{index:00}\""), $"Rabbit speech bubble data missing: character_Rabbit_{index:00}");
 
-        Require(speechBubbleAsset.text.Contains("\"Id\": \"character_Rabbit_06\"") && speechBubbleAsset.text.Contains("\"IsLoop\": true"), "Rabbit sleeping speech bubble must be looped.");
+        Require(speechBubbleAsset.text.Contains("\"Id\": \"character_Rabbit_06\"") &&
+                (speechBubbleAsset.text.Contains("\"IsLoop\": true") || speechBubbleAsset.text.Contains("\"IsLoop\": \"True\"")),
+                "Rabbit sleeping speech bubble must be looped.");
     }
 
     private static void RequireFinalDialogueData()

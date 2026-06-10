@@ -1,21 +1,14 @@
-﻿// =============================================================================
-// OO_MFC ??븷 二쇱꽍
-// - ?ㅽ겕由쏀듃: OOTechRoadToStage1Controller.cs
-// - ??븷: 濡쒕뱶留? ?붾뱶留? ?ㅽ뀒?댁? ?꾪솚 ?먮쫫???대떦?섎뒗 ?λ㈃ Controller?낅땲??
-// - 媛먮룆 愿?? 湲??꾩쓽 ?λ㈃ ?꾪솚 ?먯떆?몃? ?ㅺ퀬 ?덈뒗 臾대?媛먮룆?낅땲??
-// - ?좎?蹂댁닔 ?ъ씤?? 諛곌꼍/踰꾪듉/罹먮┃??諛곗튂???ㅻ툕?앺듃? View媛 留↔퀬, ???ㅽ겕由쏀듃???쒖꽌 吏?섎쭔 留≪븘???⑸땲??
+// =============================================================================
+// OO_MFC 코드 일관화 주석
+// - 스크립트: OOTechRoadToStage1Controller.cs
+// - 역할: 월드맵, 도로, 스테이지 진입, HUD 흐름을 연결합니다.
+// - 유지보수: UIManager 전환과 그룹 활성/비활성 순서가 게임 진행을 결정하므로 호출 순서를 유지합니다.
 // =============================================================================
 using System.Collections;
 using System.Collections.Generic;
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-#if ENABLE_INPUT_SYSTEM
-using UnityEngine.InputSystem;
-#endif
 
 /// <summary>
 /// ?쒖옉 吏?먮???Stage ?낃뎄源뚯? MFC ?대룞??吏?섑븯??RoadGroup 而⑦듃濡ㅻ윭?낅땲??
@@ -58,6 +51,9 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
     [SerializeField] private OOTechSceneContext Context_Scene;
     [SerializeField] private OOTechRoadHUDController HUD_Road;
     [SerializeField] private OOTechTutorial2Controller Tutorial2_Controller;
+    [SerializeField] private OOTechRoadMoveInputReader MoveInput_Reader;
+    [SerializeField] private OOTechRoadAutoMoveFailSafe AutoMove_FailSafe;
+    [SerializeField] private OOTechTargetStageBGMPlayer TargetStage_BGMPlayer;
 
     [HideInInspector]
     [SerializeField] private GameObject Object_MFC;
@@ -86,8 +82,6 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
     [SerializeField] private GameObject Object_Wormhole;
 
     [Header("Road Lane")]
-    [SerializeField] private KeyCode _moveRightKey = KeyCode.D;
-    [SerializeField] private KeyCode _alternateMoveRightKey = KeyCode.RightArrow;
     [SerializeField] private float _moveSpeed = 4.2f;
     [SerializeField, Range(0f, 1f)] private float _roadLaneNormalizedHeight = 0.23f;
     [SerializeField, Range(0f, 0.45f)] private float _entryMarginRatio = 0.1f;
@@ -103,8 +97,6 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
 
     [Header("Build Input Fail Safe")]
     [SerializeField] private float _blockedInputHoldSeconds = 1.2f;
-    [SerializeField] private bool _isUseBuildAutoMoveFailSafe = true;
-    [SerializeField] private float _buildAutoMoveDelaySeconds = 1.5f;
 
     [Header("Map Transition")]
     [SerializeField] private float _fadeOutSeconds = 0.45f;
@@ -128,12 +120,6 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
         "FinalStageGroup"
     };
 
-    [Header("Stage4 BGM")]
-    [SerializeField] private AudioClip _stage4BGM;
-#if UNITY_EDITOR
-    [SerializeField] private string _stage4BGMAssetPath = "Assets/Sounds/BGM/Stage4_BGM.mp3";
-#endif
-
     [Header("Road Data")]
     [SerializeField] private string _stage3CueSheetDataId = "Stage3_CueSheet_01";
     [SerializeField] private string _stage4CueSheetDataId = "Stage4_CueSheet_01";
@@ -149,6 +135,9 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
     [SerializeField] private string _secondRoadGroupName = "2nd_Road_to_Stage2";
     [SerializeField] private string _secondRoadMissionDataId = "Stage2_Road_Quest_01";
     [SerializeField] private string _secondRoadMissionFallbackText = "서쪽 도시에 가 탐관오리의 자택을 방문하세요.";
+    [SerializeField] private string _roadMap1CookingGuideTitle = "요리하기 안내";
+    [TextArea(2, 4)]
+    [SerializeField] private string _roadMap1CookingGuideText = "요리를 해야 다음 길로 넘어갈 수 있습니다. 요리하기 버튼을 눌러 부엌에서 필요한 음식을 완성하세요.";
     [SerializeField] private string[] _secondRoadOpeningDialogueIdArray =
     {
         "character_Chunyang_06",
@@ -183,10 +172,7 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
     private bool _isWormholeTransitionInProgress;
     private float _wormholeHoldSeconds;
     private float _blockedInputPressedSeconds;
-    private float _buildAutoMoveReadySeconds;
     private bool _isBlockedInputFailSafeLogged;
-    private bool _isBuildAutoMoveLogged;
-    private bool _isBuildAutoMoveLockCleared;
     private Coroutine _openingTutorialCoroutine;
     private Coroutine _openingDialogueCoroutine;
     private Canvas _fadeCanvas;
@@ -347,6 +333,9 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
         SetMFCAnimationPlaying(false);
         SetRoadHUDVisible(false);
         HideFadeOverlay();
+
+        if (AutoMove_FailSafe != null)
+            AutoMove_FailSafe.ResetState();
     }
 
     /// <summary>
@@ -354,7 +343,7 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
     /// </summary>
     private void Update()
     {
-        bool isMoveRightPressed = IsMoveRightPressed();
+        bool isMoveRightPressed = MoveInput_Reader != null && MoveInput_Reader.IsMoveRightPressed();
         bool isAutoMoveRequested = IsBuildAutoMoveRequested(isMoveRightPressed);
 
         if (isMoveRightPressed)
@@ -372,10 +361,10 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
         {
             RequestRecoverRoadRuntimeStateForMovement();
 
-            if (!_isBuildAutoMoveLockCleared)
+            if (AutoMove_FailSafe != null && !AutoMove_FailSafe.IsLockCleared)
             {
                 RequestClearBlockedRoadInputState("Build auto-move fail-safe cleared stale road lock.");
-                _isBuildAutoMoveLockCleared = true;
+                AutoMove_FailSafe.MarkLockCleared();
             }
         }
 
@@ -421,49 +410,14 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
     /// D?ㅼ? ?ㅻⅨ履?諛⑺뼢?ㅻ? ?④퍡 諛쏆뒿?덈떎.
     /// 鍮뚮뱶 ?섍꼍?먯꽌 ?ㅻ낫???덉씠?꾩썐?대굹 ?ъ빱??李⑥씠濡??쒖そ ?낅젰???붾뱾?ㅻ룄 Road 諛곗슦媛 ?吏곸씪 ???덇쾶 ?섎뒗 蹂댄뿕?낅땲??
     /// </summary>
-    private bool IsMoveRightPressed()
-    {
-        return IsLegacyMoveRightPressed() || IsNewInputMoveRightPressed();
-    }
-
     /// <summary>
     /// 湲곗〈 Input Manager 諛⑹떇?쇰줈 D/?ㅻⅨ履?諛⑺뼢?ㅻ? ?쎌뒿?덈떎.
     /// 鍮뚮뱶 ?ㅼ젙??New Input ?꾩슜?쇰줈 諛붾?寃쎌슦 ?덉쇅媛 ?????덉뼱 ?덉쟾?섍쾶 媛먯뙃?덈떎.
     /// </summary>
-    private bool IsLegacyMoveRightPressed()
-    {
-        try
-        {
-            return Input.GetKey(_moveRightKey) ||
-                   Input.GetKey(_alternateMoveRightKey) ||
-                   Input.GetKey(KeyCode.D) ||
-                   Input.GetKey(KeyCode.RightArrow) ||
-                   Input.GetAxisRaw("Horizontal") > 0.1f;
-        }
-        catch (System.InvalidOperationException)
-        {
-            return false;
-        }
-    }
-
     /// <summary>
     /// Unity New Input System 諛⑹떇?쇰줈 D/?ㅻⅨ履?諛⑺뼢?ㅻ? ?쎌뒿?덈떎.
     /// 鍮뚮뱶?먯꽌 Legacy Input???붾뱾由??뚮룄 ?ㅻ낫???곹깭瑜?吏곸젒 ?뺤씤?섍린 ?꾪븳 蹂댄뿕?낅땲??
     /// </summary>
-    private bool IsNewInputMoveRightPressed()
-    {
-#if ENABLE_INPUT_SYSTEM
-        Keyboard keyboard = Keyboard.current;
-
-        if (keyboard == null)
-            return false;
-
-        return keyboard.dKey.isPressed || keyboard.rightArrowKey.isPressed;
-#else
-        return false;
-#endif
-    }
-
     /// <summary>
     /// ?쒗넗由ъ뼹, ?ㅽ봽????? HUD ?ㅻ쾭?덉씠媛 耳쒖졇 ?덉쑝硫??먮옒??MFC 議곗옉???좉툒?덈떎.
     /// 鍮뚮뱶?먯꽌 ??媛믪씠 ?由ъ? ?딆쑝硫?D?ㅺ? 二쎌? 寃껋쿂??蹂댁씠誘濡???怨녹뿉???먯씤???먯젙?⑸땲??
@@ -486,29 +440,10 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
     /// </summary>
     private bool IsBuildAutoMoveRequested(bool isMoveRightPressed)
     {
-        if (!_isUseBuildAutoMoveFailSafe || Application.isEditor)
-            return false;
+        CacheRoadHelperComponents();
 
-        if (isMoveRightPressed || _isChangingMap || _isRoadTripComplete || Object_MFC == null)
-        {
-            _buildAutoMoveReadySeconds = 0f;
-            _isBuildAutoMoveLogged = false;
-            _isBuildAutoMoveLockCleared = false;
-            return false;
-        }
-
-        _buildAutoMoveReadySeconds += Time.unscaledDeltaTime;
-
-        if (_buildAutoMoveReadySeconds < _buildAutoMoveDelaySeconds)
-            return false;
-
-        if (!_isBuildAutoMoveLogged)
-        {
-            Debug.LogWarning("[OOTechRoadToStage1Controller] Build auto-move fail-safe started because road input was not received.");
-            _isBuildAutoMoveLogged = true;
-        }
-
-        return true;
+        return AutoMove_FailSafe != null &&
+               AutoMove_FailSafe.RequestAutoMove(isMoveRightPressed, _isChangingMap, _isRoadTripComplete, Object_MFC);
     }
 
     /// <summary>
@@ -573,12 +508,26 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
     /// ?대룞??留됰뒗 ?⑥? ?쒗넗由ъ뼹, ??? HUD ?ㅻ쾭?덉씠, ?쒓컙 ?뺤? ?곹깭瑜???踰덉뿉 ?뺣━?⑸땲??
     /// ?뚮젅?댁뼱媛 D瑜??뚮??붾뜲 臾대? ?먭? ?ロ엳吏 ?딆? ?곹솴??蹂듦뎄?섎뒗 怨듯넻 ?덉쟾?μ튂?낅땲??
     /// </summary>
+    public void RequestRestoreRoadMovementAfterOverlayReturn()
+    {
+        _isRoadTripComplete = false;
+        RequestClearBlockedRoadInputState("Road movement restored after returning from an overlay.", false);
+
+        if (AutoMove_FailSafe != null)
+            AutoMove_FailSafe.ResetState();
+    }
+
     private void RequestClearBlockedRoadInputState(string reason)
+    {
+        RequestClearBlockedRoadInputState(reason, true);
+    }
+
+    private void RequestClearBlockedRoadInputState(string reason, bool isRestoreHUDOverlay)
     {
         StopOpeningTutorial();
         StopRoadOpeningDialogue();
 
-        if (HUD_Road != null && HUD_Road.IsOverlayOpen)
+        if (isRestoreHUDOverlay && HUD_Road != null && HUD_Road.IsOverlayOpen)
             HUD_Road.RequestRestoreFromOverlayReturn();
 
         _isChangingMap = false;
@@ -607,6 +556,7 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
     public void ResolveSceneReferences()
     {
         CacheSceneContextReference();
+        CacheRoadHelperComponents();
 
         Object_MFC = ResolveBestMFCObject(Object_MFC);
         Animator_MFC = ResolveOwnedComponent<Animator>(Object_MFC);
@@ -833,6 +783,7 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
 
         _isChangingMap = true;
         SetMFCAnimationPlaying(false);
+        HUD_Road?.CloseHUDGuide();
         yield return FadeOverlayRoutine(0f, 1f, _fadeOutSeconds);
 
         if (_blackoutHoldSeconds > 0f)
@@ -1821,6 +1772,9 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
 
         _isRoadMap1ArrivalCuePlayed = true;
         yield return Tutorial2_Controller.PlayRoadMap1ArrivalRoutine(HUD_Road);
+
+        if (HUD_Road != null)
+            HUD_Road.ShowRoadMessageTopCenter(_roadMap1CookingGuideTitle, _roadMap1CookingGuideText, null);
     }
 
     /// <summary>
@@ -1862,37 +1816,30 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
 
     private void RequestPlayTargetStageBGM(string targetGroupName)
     {
-        if (targetGroupName != _stage4FirstGroupName && targetGroupName != _stage4GroupName)
-            return;
+        CacheRoadHelperComponents();
 
-        AudioClip bgmClip = ResolveStage4BGMClip();
-
-        if (bgmClip == null)
-        {
-            Debug.LogWarning("[OOTechRoadToStage1Controller] Stage4_BGM clip missing. Assign _stage4BGM or keep it under Resources/Audio/BGM.");
-            return;
-        }
-
-        if (OOTechSoundManager.Inst != null)
-            OOTechSoundManager.Inst.PlayBGM(bgmClip, true);
+        if (TargetStage_BGMPlayer != null)
+            TargetStage_BGMPlayer.RequestPlayForTargetGroup(targetGroupName);
     }
 
-    private AudioClip ResolveStage4BGMClip()
+    private void CacheRoadHelperComponents()
     {
-        if (_stage4BGM != null)
-            return _stage4BGM;
+        if (AutoMove_FailSafe == null)
+            AutoMove_FailSafe = GetComponent<OOTechRoadAutoMoveFailSafe>();
 
-        AudioClip resourcesClip = Resources.Load<AudioClip>("Audio/BGM/Stage4_BGM");
+        if (AutoMove_FailSafe == null)
+            AutoMove_FailSafe = gameObject.AddComponent<OOTechRoadAutoMoveFailSafe>();
 
-        if (resourcesClip != null)
-            return resourcesClip;
+        AutoMove_FailSafe.Configure(true, 1.5f);
 
-#if UNITY_EDITOR
-        if (!string.IsNullOrWhiteSpace(_stage4BGMAssetPath))
-            return AssetDatabase.LoadAssetAtPath<AudioClip>(_stage4BGMAssetPath);
-#endif
+        if (TargetStage_BGMPlayer == null)
+            TargetStage_BGMPlayer = GetComponent<OOTechTargetStageBGMPlayer>();
 
-        return null;
+        if (MoveInput_Reader == null)
+            MoveInput_Reader = GetComponent<OOTechRoadMoveInputReader>();
+
+        if (MoveInput_Reader == null)
+            MoveInput_Reader = gameObject.AddComponent<OOTechRoadMoveInputReader>();
     }
 
     /// <summary>
@@ -2185,4 +2132,3 @@ public class OOTechRoadToStage1Controller : MonoBehaviour
         return targetObject != null ? targetObject.GetComponentInChildren<T>(true) : null;
     }
 }
-

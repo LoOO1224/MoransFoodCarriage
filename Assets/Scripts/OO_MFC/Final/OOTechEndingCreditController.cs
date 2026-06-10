@@ -1,15 +1,11 @@
-﻿// =============================================================================
-// OO_MFC ??븷 二쇱꽍
-// - ?ㅽ겕由쏀듃: OOTechEndingCreditController.cs
-// - ??븷: EndingCreditGroup?먯꽌 寃? 諛곌꼍, ?ㅽ겕濡??щ젅?? PCROOMS 濡쒓퀬 ?좊땲硫붿씠?? 硫붿씤 硫붾돱 蹂듦?瑜??대떦?⑸땲??
-// - ?곹솕 鍮꾩쑀: ?곹솕媛 ?앸궃 ???щ젅???먮쭑怨??쒖옉??濡쒓퀬瑜??щ━???곸쁺 湲곗궗?낅땲??
-// - ?좎?蹂댁닔 ?ъ씤?? ?щ젅??臾멸뎄??諛쒗몴 吏곸쟾 ?섏젙 媛?ν븯?꾨줉 ??怨녹뿉 紐⑥븘 ?먭퀬, 濡쒓퀬 ?ㅻ툕?앺듃??LOGO ?먯떇???곗꽑 ?ъ궗?⑺빀?덈떎.
+// =============================================================================
+// OO_MFC 코드 일관화 주석
+// - 스크립트: OOTechEndingCreditController.cs
+// - 역할: PreFinal, FinalStage, Epilogue, EndingCredit 전환을 담당합니다.
+// - 유지보수: BGM, DialogueGroup, 카메라 위치, 다음 버튼 흐름이 겹치므로 그룹 전환 순서를 유지합니다.
 // =============================================================================
 using System.Collections;
 using TMPro;
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -38,7 +34,6 @@ public class OOTechEndingCreditController : MonoBehaviour
     [SerializeField] private float _logoSpacingBelowThanks = 36f;
     [SerializeField] private float _creditBottomPadding = 140f;
     [SerializeField] private Vector2 _mainMenuButtonSize = new Vector2(420f, 96f);
-    [SerializeField] private string _mainMenuBGMAssetPath = "Assets/Sounds/BGM/MainMenu_BGM.mp3";
 
     [TextArea(12, 30)]
     [SerializeField] private string _creditText =
@@ -463,30 +458,7 @@ public class OOTechEndingCreditController : MonoBehaviour
 
     private AudioClip ResolveMainMenuBGMClip()
     {
-        MainMenuBGMPlayer[] playerArray = Resources.FindObjectsOfTypeAll<MainMenuBGMPlayer>();
-
-        foreach (MainMenuBGMPlayer player in playerArray)
-        {
-            if (player == null)
-                continue;
-
-            AudioClip clip = player.ResolveMainMenuBGMClip();
-
-            if (clip != null)
-                return clip;
-        }
-
-        AudioClip resourcesClip = Resources.Load<AudioClip>("Audio/BGM/MainMenu_BGM");
-
-        if (resourcesClip != null)
-            return resourcesClip;
-
-#if UNITY_EDITOR
-        if (!string.IsNullOrWhiteSpace(_mainMenuBGMAssetPath))
-            return AssetDatabase.LoadAssetAtPath<AudioClip>(_mainMenuBGMAssetPath);
-#endif
-
-        return null;
+        return OOTechAudioClipResolver.ResolveMainMenuBGM();
     }
 
     private float GetLogoScreenYFromCenter()
@@ -535,4 +507,3 @@ public class OOTechEndingCreditController : MonoBehaviour
         return null;
     }
 }
-

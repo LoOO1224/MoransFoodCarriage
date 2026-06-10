@@ -1,10 +1,8 @@
 // =============================================================================
-// OO_MFC 역할 주석
+// OO_MFC 코드 일관화 주석
 // - 스크립트: OOTechSpeechBubbleView.cs
-// - 역할: Rabbit 머리 위 말풍선 안의 텍스트를 OO_SpeechBubble 데이터로 타이핑 출력합니다.
-// - 영화 비유: 배우 머리 위에 붙은 작은 자막 담당 스태프입니다. 감독은 대본 ID만 넘기고,
-//   실제 글자 타이밍과 반복 표시는 이 컴포넌트가 처리합니다.
-// - 유지보수 포인트: 말풍선 문장은 코드에 박지 말고 OO_SpeechBubble.xlsx/JSON에서 관리합니다.
+// - 역할: Stage4 토끼/거북이 마지막 임무와 발표용 진행 보장을 담당합니다.
+// - 유지보수: Moran 표시, SpeechBubble, CookingGroup 왕복 보험은 엔딩 진행에 직접 연결되므로 임의 삭제하지 않습니다.
 // =============================================================================
 using System.Collections;
 using TMPro;
@@ -353,13 +351,10 @@ public class OOTechSpeechBubbleView : MonoBehaviour
 
     private void EnsureScreenOverlayText()
     {
-        if (Text_OverlayBody == null)
-        {
-            Transform existingTextTransform = transform.Find("Canvas_ScreenSpeechBubbleText/Text_ScreenSpeechBubbleBody");
+        Transform existingTextTransform = transform.Find("Canvas_ScreenSpeechBubbleText/Text_ScreenSpeechBubbleBody");
 
-            if (existingTextTransform != null)
-                Text_OverlayBody = existingTextTransform.GetComponent<TextMeshProUGUI>();
-        }
+        if (existingTextTransform != null)
+            Text_OverlayBody = existingTextTransform.GetComponent<TextMeshProUGUI>();
 
         if (Text_OverlayBody == null)
             CreateScreenOverlayText();

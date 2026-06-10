@@ -1,9 +1,8 @@
-﻿// =============================================================================
-// OO_MFC ??븷 二쇱꽍
-// - ?ㅽ겕由쏀듃: UIManagerExtension.cs
-// - ??븷: 踰꾪듉 ?대┃泥섎읆 ?щ윭 UI 洹몃９???뉖뒗 怨듭슜 ?몄텧??紐⑥븘 ?〓땲??
-// - ?곹솕 鍮꾩쑀: 洹뱀옣 濡쒕퉬???덈궡 ?곗뒪?ъ엯?덈떎. 愿媛앹씠 "?쒖옉", "?꾧컧", "?뚯븘媛湲?瑜??꾨Ⅴ硫?//   ?대뼡 臾대???臾몄쓣 ?닿퀬 ?レ쓣吏留??덈궡?섍퀬, 媛?臾대????ㅼ젣 ?곌린???대떦 Controller媛 留≪뒿?덈떎.
-// - ?좎?蹂댁닔 ?ъ씤: ??UI ?먮쫫???앷꺼???ш린?쒕뒗 怨듯넻 ?대룞 ?몄텧留??먭퀬, ?몃? ?곗텧? 洹몃９ 而댄룷?뚰듃濡?遺꾨━?⑸땲??
+// =============================================================================
+// OO_MFC 코드 일관화 주석
+// - 스크립트: UIManagerExtension.cs
+// - 역할: UI 오브젝트 참조, 표시 갱신, 버튼 입력 연결을 담당합니다.
+// - 유지보수: 씬 Hierarchy 이름으로 런타임 참조를 복구하는 코드가 많아 오브젝트 이름 변경에 주의합니다.
 // =============================================================================
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -174,6 +173,15 @@ public static class UIManagerExtension
 
         Time.timeScale = 1f;
         hudController.RequestRestoreFromOverlayReturn();
+
+        OOTechRoadToStage1Controller roadController = previousGroupObject.GetComponent<OOTechRoadToStage1Controller>();
+
+        if (roadController == null)
+            roadController = previousGroupObject.GetComponentInChildren<OOTechRoadToStage1Controller>(true);
+
+        if (roadController != null)
+            roadController.RequestRestoreRoadMovementAfterOverlayReturn();
+
         Debug.Log($"[UIManagerExtension] Road HUD restored after returning to {previousGroupName}.");
     }
 
@@ -218,4 +226,3 @@ public static class UIManagerExtension
         return null;
     }
 }
-

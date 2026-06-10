@@ -1,15 +1,11 @@
 // =============================================================================
-// OO_MFC 역할 주석
+// OO_MFC 코드 일관화 주석
 // - 스크립트: OOTechCutSceneNarrationController.cs
-// - 역할: PreFinal_Narration과 EpilogueGroup의 한 컷짜리 나레이션을 진행합니다.
-// - 영화 비유: 한 장면 배경을 꽉 잡고 내레이션 자막만 넘기는 컷신 조감독입니다.
-// - 유지보수 포인트: 나레이션 ID와 다음 그룹은 OO_FinalCueSheet에서 우선 읽고, 데이터가 없으면 fallback으로 진행합니다.
+// - 역할: PreFinal, FinalStage, Epilogue, EndingCredit 전환을 담당합니다.
+// - 유지보수: BGM, DialogueGroup, 카메라 위치, 다음 버튼 흐름이 겹치므로 그룹 전환 순서를 유지합니다.
 // =============================================================================
 using System.Collections;
 using System.Collections.Generic;
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -109,59 +105,13 @@ public class OOTechCutSceneNarrationController : MonoBehaviour
         string resourcePath = Data_CueSheet != null && !string.IsNullOrEmpty(Data_CueSheet.FinalStageBGMPath)
             ? Data_CueSheet.FinalStageBGMPath
             : "Audio/BGM/FinalStage_BGM";
-        AudioClip clip = Resources.Load<AudioClip>(resourcePath);
 
-        if (clip != null)
-            return clip;
-
-#if UNITY_EDITOR
-        clip = AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/Sounds/BGM/FinalStage_BGM.mp3");
-
-        if (clip != null)
-            return clip;
-#endif
-
-        return null;
+        return OOTechAudioClipResolver.Resolve(null, resourcePath, "Assets/Sounds/BGM/FinalStage_BGM.mp3");
     }
 
     private AudioClip ResolveMainMenuBGMClip()
     {
-        AudioClip clip = ResolveMainMenuBGMClipFromScene();
-
-        if (clip != null)
-            return clip;
-
-        clip = Resources.Load<AudioClip>("Audio/BGM/MainMenu_BGM");
-
-        if (clip != null)
-            return clip;
-
-#if UNITY_EDITOR
-        clip = AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/Sounds/BGM/MainMenu_BGM.mp3");
-
-        if (clip != null)
-            return clip;
-#endif
-
-        return null;
-    }
-
-    private AudioClip ResolveMainMenuBGMClipFromScene()
-    {
-        MainMenuBGMPlayer[] playerArray = Resources.FindObjectsOfTypeAll<MainMenuBGMPlayer>();
-
-        foreach (MainMenuBGMPlayer player in playerArray)
-        {
-            if (player == null)
-                continue;
-
-            AudioClip clip = player.ResolveMainMenuBGMClip();
-
-            if (clip != null)
-                return clip;
-        }
-
-        return null;
+        return OOTechAudioClipResolver.ResolveMainMenuBGM();
     }
 
     private void RequestHideHUD()

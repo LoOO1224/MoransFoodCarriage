@@ -1,14 +1,10 @@
-﻿// =============================================================================
-// OO_MFC ??븷 二쇱꽍
-// - ?ㅽ겕由쏀듃: OOTechStage3GroupController.cs
-// - ??븷: Stage3Group??泥??낆옣 ?먮쭔 吏?섑븯???뉗? Controller?낅땲??
-// - ?곹솕 鍮꾩쑀: 臾대?媛먮룆? "留덉감 ?낆옣, ?곌뎔 ?깆옣, 泥???? Encounter ?꾪솚" ?먮쭔 遺由낅땲??
-// - ?좎?蹂댁닔 ?ъ씤?? 諛곗슦 李얘린????븷??OOTechSceneObject), ????섏튂??OO_Stage3CueSheet ?곗씠?곌? ?대떦?⑸땲??
+// =============================================================================
+// OO_MFC 코드 일관화 주석
+// - 스크립트: OOTechStage3GroupController.cs
+// - 역할: Stage3 산군/Encounter/Cooking 복귀 흐름을 처리합니다.
+// - 유지보수: 인벤토리, 임무 UI, 대사 패널이 겹치는 구간이라 자동 닫힘과 복귀 타이밍을 조심합니다.
 // =============================================================================
 using System.Collections;
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -29,9 +25,7 @@ public class OOTechStage3GroupController : MonoBehaviour
 
     [Header("BGM")]
     [SerializeField] private AudioClip _sangunBGM;
-#if UNITY_EDITOR
     [SerializeField] private string _sangunBGMAssetPath = "Assets/Sounds/BGM/Sangun_BGM.mp3";
-#endif
     [SerializeField] private float _sangunBGMDelaySeconds = 3f;
 
     private OO_Stage3CueSheet Data_CueSheet;
@@ -169,20 +163,7 @@ public class OOTechStage3GroupController : MonoBehaviour
 
     private AudioClip ResolveSangunBGMClip()
     {
-        if (_sangunBGM != null)
-            return _sangunBGM;
-
-        AudioClip resourcesClip = Resources.Load<AudioClip>("Audio/BGM/Sangun_BGM");
-
-        if (resourcesClip != null)
-            return resourcesClip;
-
-#if UNITY_EDITOR
-        if (!string.IsNullOrWhiteSpace(_sangunBGMAssetPath))
-            return AssetDatabase.LoadAssetAtPath<AudioClip>(_sangunBGMAssetPath);
-#endif
-
-        return null;
+        return OOTechAudioClipResolver.Resolve(_sangunBGM, "Audio/BGM/Sangun_BGM", _sangunBGMAssetPath);
     }
 
     /// <summary>
@@ -466,4 +447,3 @@ public class OOTechStage3GroupController : MonoBehaviour
         return null;
     }
 }
-

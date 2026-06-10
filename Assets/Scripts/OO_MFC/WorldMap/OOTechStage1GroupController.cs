@@ -1,9 +1,8 @@
-﻿// =============================================================================
-// OO_MFC ??븷 二쇱꽍
-// - ?ㅽ겕由쏀듃: OOTechStage1GroupController.cs
-// - ??븷: Stage1Group???먯떆??吏꾪뻾??留〓뒗 Controller?낅땲??
-// - ?곹솕 鍮꾩쑀: 臾대?媛먮룆? "1留?諛곌꼍 耳쒓린, 珥뚯옣 ?깆옣, ?섎젅 ?좏깮吏, ?꾨Т ?꾨즺" ?쒖꽌留?吏?섑빀?덈떎.
-// - ?좎?蹂댁닔 ?ъ씤?? ?쒖떇? Marker, ?곹샇?묒슜 ?먯젙? Actor, ????좏깮吏/?꾨Т 臾몄옣? DataManager??留↔퉩?덈떎.
+// =============================================================================
+// OO_MFC 코드 일관화 주석
+// - 스크립트: OOTechStage1GroupController.cs
+// - 역할: 월드맵, 도로, 스테이지 진입, HUD 흐름을 연결합니다.
+// - 유지보수: UIManager 전환과 그룹 활성/비활성 순서가 게임 진행을 결정하므로 호출 순서를 유지합니다.
 // =============================================================================
 using System;
 using System.Collections;
@@ -12,9 +11,6 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
 
 /// <summary>
 /// Stage1Group??1-1, 1-2, 1-3 ?λ㈃ ?대룞怨?珥뚯옣/?섎젅 ?곹샇?묒슜??吏?섑빀?덈떎.
@@ -69,9 +65,7 @@ public class OOTechStage1GroupController : MonoBehaviour
 
     [Header("BGM")]
     [SerializeField] private AudioClip _stage1BGM;
-#if UNITY_EDITOR
     [SerializeField] private string _stage1BGMAssetPath = "Assets/Sounds/BGM/Stage1Group_BGM.mp3";
-#endif
 
     [Header("Entry Tutorial")]
     [SerializeField] private string _tutorialGuideGroupName = "TutorialGuideGroup";
@@ -305,15 +299,7 @@ public class OOTechStage1GroupController : MonoBehaviour
 
     private AudioClip ResolveStage1BGMClip()
     {
-        if (_stage1BGM != null)
-            return _stage1BGM;
-
-#if UNITY_EDITOR
-        if (!string.IsNullOrEmpty(_stage1BGMAssetPath))
-            return AssetDatabase.LoadAssetAtPath<AudioClip>(_stage1BGMAssetPath);
-#endif
-
-        return null;
+        return OOTechAudioClipResolver.Resolve(_stage1BGM, "Audio/BGM/Stage1Group_BGM", _stage1BGMAssetPath);
     }
 
     private void ResolveStageNameText()
@@ -1709,5 +1695,3 @@ public class OOTechStage1GroupController : MonoBehaviour
         return null;
     }
 }
-
-

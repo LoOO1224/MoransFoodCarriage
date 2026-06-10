@@ -1,9 +1,8 @@
-﻿// =============================================================================
-// OO_MFC ??븷 二쇱꽍
-// - ?ㅽ겕由쏀듃: OOTechCodexGroupController.cs
-// - ??븷: CodexGroup???꾧컧 紐⑸줉/?곸꽭 ?⑤꼸??愿由ы빀?덈떎.
-// - ?곹솕 鍮꾩쑀: 洹뱀옣 濡쒕퉬???꾨줈洹몃옩遺??대떦?먯엯?덈떎. 吏湲덉? ?꾨줈洹몃옩遺곸씠 ?꾩꽦 ?꾩씠??//   愿媛앹뿉寃?"諛쒗몴 ???낅뜲?댄듃 ?덉젙" ?덈궡?먮쭔 蹂댁뿬二쇨퀬, ?대┃?섎㈃ ?덈궡?먮쭔 移섏썎?덈떎.
-// - ?좎?蹂댁닔 ?ъ씤: ?ㅼ젣 ?꾧컧 怨듦컻 ??_isUseAnnouncementOnly瑜??꾨㈃ OO_Codex.json 紐⑸줉 紐⑤뱶濡??뚯븘媛묐땲??
+// =============================================================================
+// OO_MFC 코드 일관화 주석
+// - 스크립트: OOTechCodexGroupController.cs
+// - 역할: UI 오브젝트 참조, 표시 갱신, 버튼 입력 연결을 담당합니다.
+// - 유지보수: 씬 Hierarchy 이름으로 런타임 참조를 복구하는 코드가 많아 오브젝트 이름 변경에 주의합니다.
 // =============================================================================
 using System.Collections.Generic;
 using TMPro;
@@ -56,6 +55,8 @@ public class OOTechCodexGroupController : MonoBehaviour, IPointerClickHandler
 
     private readonly List<OOTechCodexEntrySlotView> _spawnedSlotViewList = new List<OOTechCodexEntrySlotView>();
     private GameObject Root_AnnouncementPanel;
+    private TextMeshProUGUI Text_RuntimeDetailDescription;
+    private RectTransform Rect_DetailDescriptionContent;
     private int _currentPageIndex;
     private int _openedFrame;
     private bool _isAnnouncementClosed;
@@ -264,7 +265,7 @@ public class OOTechCodexGroupController : MonoBehaviour, IPointerClickHandler
                 Id = characterData.Id,
                 Category = "캐릭터",
                 Title = string.IsNullOrEmpty(characterData.Name) ? characterData.Id : characterData.Name,
-                Description = string.IsNullOrEmpty(characterData.Description) ? "설명 준비 중입니다." : characterData.Description,
+                Description = ResolveReadableDescription("캐릭터", characterData.Id, characterData.Name, characterData.Description),
                 ImagePath = characterData.ProfileImagePath
             });
         }
@@ -279,7 +280,7 @@ public class OOTechCodexGroupController : MonoBehaviour, IPointerClickHandler
                 Id = cookData.Id,
                 Category = "요리",
                 Title = string.IsNullOrEmpty(cookData.Name) ? cookData.Id : cookData.Name,
-                Description = CreateCombinedDescription(cookData.Description, cookData.EffectDescription),
+                Description = ResolveReadableDescription("요리", cookData.Id, cookData.Name, CreateCombinedDescription(cookData.Description, cookData.EffectDescription)),
                 ImagePath = cookData.IconPath
             });
         }
@@ -294,7 +295,7 @@ public class OOTechCodexGroupController : MonoBehaviour, IPointerClickHandler
                 Id = ingredientData.Id,
                 Category = "재료",
                 Title = string.IsNullOrEmpty(ingredientData.Name) ? ingredientData.Id : ingredientData.Name,
-                Description = string.IsNullOrEmpty(ingredientData.Description) ? "설명 준비 중입니다." : ingredientData.Description,
+                Description = ResolveReadableDescription("재료", ingredientData.Id, ingredientData.Name, ingredientData.Description),
                 ImagePath = ingredientData.IconPath
             });
         }
@@ -309,7 +310,7 @@ public class OOTechCodexGroupController : MonoBehaviour, IPointerClickHandler
                 Id = narrationData.Id,
                 Category = "나레이션",
                 Title = string.IsNullOrEmpty(narrationData.Title) ? narrationData.Id : narrationData.Title,
-                Description = narrationData.NarrationTexts != null && narrationData.NarrationTexts.Count > 0 ? string.Join("\n", narrationData.NarrationTexts) : "설명 준비 중입니다.",
+                Description = ResolveReadableDescription("스토리", narrationData.Id, narrationData.Title, narrationData.NarrationTexts != null && narrationData.NarrationTexts.Count > 0 ? string.Join("\n", narrationData.NarrationTexts) : string.Empty),
                 ImagePath = narrationData.BackgroundImagePaths != null && narrationData.BackgroundImagePaths.Count > 0 ? narrationData.BackgroundImagePaths[0] : string.Empty
             });
         }
@@ -324,7 +325,7 @@ public class OOTechCodexGroupController : MonoBehaviour, IPointerClickHandler
                 Id = stageData.Id,
                 Category = "스테이지",
                 Title = string.IsNullOrEmpty(stageData.Name) ? stageData.Id : stageData.Name,
-                Description = CreateCombinedDescription(stageData.Description, stageData.QuestDescription),
+                Description = ResolveReadableDescription("스테이지", stageData.Id, stageData.Name, CreateCombinedDescription(stageData.Description, stageData.QuestDescription)),
                 ImagePath = stageData.BackgroundImagePath
             });
         }
@@ -364,6 +365,87 @@ public class OOTechCodexGroupController : MonoBehaviour, IPointerClickHandler
         return first + "\n\n" + second;
     }
 
+    private string ResolveReadableDescription(string category, string id, string title, string rawDescription)
+    {
+        if (IsReadableDescription(rawDescription))
+            return rawDescription;
+
+        return ResolvePresentationFallbackDescription(category, id, title);
+    }
+
+    private bool IsReadableDescription(string value)
+    {
+        if (string.IsNullOrWhiteSpace(value))
+            return false;
+
+        string trimmedValue = value.Trim();
+
+        if (trimmedValue == "설명 준비 중입니다.")
+            return false;
+
+        int koreanCount = 0;
+
+        foreach (char character in trimmedValue)
+        {
+            if (character >= '\uAC00' && character <= '\uD7A3')
+                koreanCount++;
+        }
+
+        return koreanCount >= 2;
+    }
+
+    private string ResolvePresentationFallbackDescription(string category, string id, string title)
+    {
+        string key = ((title ?? string.Empty) + "|" + (id ?? string.Empty)).ToLowerInvariant();
+
+        if (key.Contains("모란") || key.Contains("moran"))
+            return "모란은 이야기의 중심을 이끄는 주인공입니다.\n푸드카리지를 타고 각 지역을 지나며 재료를 모으고, 요리를 완성해 사람들과 동물들의 문제를 풀어갑니다.";
+
+        if (key.Contains("춘양"))
+            return "춘양은 프롤로그와 여정 초반에 등장하는 화자입니다.\n따뜻한 말투로 모란의 길을 열어 주며, 플레이어가 세계관과 첫 임무를 이해하도록 안내합니다.";
+
+        if (key.Contains("춘장"))
+            return "춘장은 마을의 중심에 서 있는 인물입니다.\n귀한 쌀과 백성들의 사정을 둘러싼 이야기를 통해 첫 번째 여정의 목표를 선명하게 만들어 줍니다.";
+
+        if (key.Contains("재익") || key.Contains("jaeik"))
+            return "재익군은 모란과 함께 여정을 밀고 나가는 동료입니다.\n위험한 상황에서도 끝까지 곁을 지키며, 산군과의 조우 이후 승리 장면에서 모란과 함께 기쁨을 나눕니다.";
+
+        if (key.Contains("산군") || key.Contains("sangun"))
+            return "산군은 깊은 숲에서 만나는 강력한 존재입니다.\n꿀떡을 통해 마음을 돌릴 수 있으며, 스테이지3의 긴장과 해결을 담당하는 핵심 캐릭터입니다.";
+
+        if (key.Contains("토끼") || key.Contains("rabbit"))
+            return "토끼는 마지막 여정에서 모란을 놀리며 등장하는 장난기 많은 캐릭터입니다.\n당근전으로 유혹해 잠들게 해야 하며, 거북이에게 돌아가는 마지막 임무의 열쇠가 됩니다.";
+
+        if (key.Contains("거북") || key.Contains("turtle"))
+            return "거북이는 Stage4의 의뢰를 이끄는 인물입니다.\n모란에게 토끼를 찾도록 부탁하고, 마지막 보고를 통해 모든 스테이지 임무 완료로 이어 줍니다.";
+
+        if (key.Contains("연산") || key.Contains("yeonsan") || key.Contains("yansan"))
+            return "연산군자는 최종 장면에서 마주하는 인물입니다.\n음식과 이야기가 끝내 닿는 마지막 대상으로, 엔딩 직전의 긴장과 해소를 담당합니다.";
+
+        if (key.Contains("당근전"))
+            return "당근전은 떡과 당근으로 당근전분을 만든 뒤, 가마솥에 넣어 완성하는 Stage4 핵심 음식입니다.\n토끼를 유혹하고 마지막 임무를 진행하기 위해 반드시 필요한 요리입니다.";
+
+        if (key.Contains("꿀떡"))
+            return "꿀떡은 떡과 꿀을 조합해 만드는 음식입니다.\n산군의 마음을 돌리는 데 쓰이며, Stage3의 해결 조건이 되는 중요한 음식입니다.";
+
+        if (key.Contains("떡"))
+            return "떡은 쌀을 절구로 찧어 만드는 기본 음식입니다.\n꿀떡과 당근전분의 재료가 되므로 Stage3 이후 요리 진행에서 계속 중요한 역할을 합니다.";
+
+        if (category == "스토리")
+            return "이 항목은 모란의 여정을 구성하는 이야기 장면입니다.\n대사와 나레이션을 통해 지역의 분위기, 임무의 목적, 다음 장면으로 넘어가는 이유를 전달합니다.";
+
+        if (category == "스테이지")
+            return "이 스테이지는 모란의 푸드카리지 여정 중 하나입니다.\n재료 수집, 요리 제작, 인물과의 상호작용을 통해 다음 목적지로 이어지는 진행 구간입니다.";
+
+        if (category == "요리")
+            return "이 음식은 여정 중 수집한 재료를 조합해 만드는 결과물입니다.\n인벤토리에 들어간 뒤 임무 진행, 보상 교환, 캐릭터 설득에 사용됩니다.";
+
+        if (category == "재료")
+            return "이 재료는 요리를 만들기 위한 기본 아이템입니다.\n인벤토리에 보관되며, 조합 패널이나 조리도구에 넣어 새로운 음식으로 바꿀 수 있습니다.";
+
+        return "이 항목은 모란의 푸드카리지 여정에 등장하는 도감 데이터입니다.\n게임 진행 중 만나는 인물, 장소, 음식, 사건을 정리해 플레이어가 다시 읽어볼 수 있게 합니다.";
+    }
+
     /// <summary>
     /// 諛쒗몴 ???꾧컧? 紐⑸줉???댁? ?딄퀬 ?덈궡臾몃쭔 蹂댁뿬以띾땲??
     /// Game View?먯꽌??? ?섎굹吏쒕━ ?꾩떆 紐⑸줉 ???"諛쒗몴 ???낅뜲?댄듃 ?덉젙" 臾멸뎄媛 怨좎젙?⑸땲??
@@ -391,8 +473,8 @@ public class OOTechCodexGroupController : MonoBehaviour, IPointerClickHandler
         if (Text_DetailDescription != null)
             Text_DetailDescription.text = _announcementDescription;
 
-        RefreshDetailDescriptionScrollPosition();
-        RequestForceDetailTextsVisible(null);
+        RefreshDetailDescriptionScrollPosition(_announcementDescription);
+        RequestForceDetailTextsVisible(null, _announcementDescription);
 
         if (Image_DetailPreview != null)
         {
@@ -430,6 +512,10 @@ public class OOTechCodexGroupController : MonoBehaviour, IPointerClickHandler
     /// </summary>
     private void RequestSelectCodex(OO_Codex codexData)
     {
+        string descriptionText = codexData != null
+            ? ResolveReadableDescription(ResolveDisplayCategory(codexData.Category), codexData.Id, codexData.Title, codexData.Description)
+            : "등록된 도감 데이터가 없습니다.";
+
         if (Text_DetailTitle != null)
             Text_DetailTitle.text = codexData != null ? codexData.Title : "도감";
 
@@ -437,9 +523,9 @@ public class OOTechCodexGroupController : MonoBehaviour, IPointerClickHandler
             Text_DetailCategory.text = codexData != null ? ResolveDisplayCategory(codexData.Category) : ResolveCurrentPageName();
 
         if (Text_DetailDescription != null)
-            Text_DetailDescription.text = codexData != null ? codexData.Description : "등록된 도감 데이터가 없습니다.";
+            Text_DetailDescription.text = descriptionText;
 
-        RefreshDetailDescriptionScrollPosition();
+        RefreshDetailDescriptionScrollPosition(descriptionText);
 
         if (Image_DetailPreview != null)
         {
@@ -447,7 +533,7 @@ public class OOTechCodexGroupController : MonoBehaviour, IPointerClickHandler
             Image_DetailPreview.enabled = true;
         }
 
-        RequestForceDetailTextsVisible(codexData);
+        RequestForceDetailTextsVisible(codexData, descriptionText);
     }
 
     private string ResolveDisplayCategory(string category)
@@ -551,7 +637,7 @@ public class OOTechCodexGroupController : MonoBehaviour, IPointerClickHandler
 
     private void EnsureDetailDescriptionScrollLayout()
     {
-        if (Image_DetailPreview == null || Text_DetailDescription == null)
+        if (Image_DetailPreview == null)
             return;
 
         RectTransform previewRect = Image_DetailPreview.transform as RectTransform;
@@ -571,12 +657,6 @@ public class OOTechCodexGroupController : MonoBehaviour, IPointerClickHandler
         if (mask == null)
             mask = Image_DetailPreview.gameObject.AddComponent<RectMask2D>();
 
-        if (Scroll_DetailDescription == null)
-            Scroll_DetailDescription = Image_DetailPreview.GetComponent<ScrollRect>();
-
-        if (Scroll_DetailDescription == null)
-            Scroll_DetailDescription = Image_DetailPreview.gameObject.AddComponent<ScrollRect>();
-
         Transform existingContentTransform = RequestChildObjectByName(previewRect, "Content_DetailDescription");
         RectTransform contentRect = existingContentTransform as RectTransform;
 
@@ -587,7 +667,15 @@ public class OOTechCodexGroupController : MonoBehaviour, IPointerClickHandler
             contentRect = contentObject.GetComponent<RectTransform>();
         }
 
-        Text_DetailDescription.transform.SetParent(contentRect, false);
+        Rect_DetailDescriptionContent = contentRect;
+
+        if (Scroll_DetailDescription == null)
+            Scroll_DetailDescription = Image_DetailPreview.GetComponent<ScrollRect>();
+
+        if (Scroll_DetailDescription == null)
+            Scroll_DetailDescription = Image_DetailPreview.gameObject.AddComponent<ScrollRect>();
+
+        Text_RuntimeDetailDescription = ResolveOrCreateRuntimeDetailDescription(contentRect);
 
         Scroll_DetailDescription.viewport = previewRect;
         Scroll_DetailDescription.content = contentRect;
@@ -610,7 +698,7 @@ public class OOTechCodexGroupController : MonoBehaviour, IPointerClickHandler
         contentSizeFitter.horizontalFit = ContentSizeFitter.FitMode.Unconstrained;
         contentSizeFitter.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
 
-        RectTransform textRect = Text_DetailDescription.rectTransform;
+        RectTransform textRect = Text_RuntimeDetailDescription.rectTransform;
         textRect.anchorMin = new Vector2(0f, 1f);
         textRect.anchorMax = new Vector2(1f, 1f);
         textRect.pivot = new Vector2(0.5f, 1f);
@@ -618,22 +706,63 @@ public class OOTechCodexGroupController : MonoBehaviour, IPointerClickHandler
         textRect.offsetMin = new Vector2(0f, textRect.offsetMin.y);
         textRect.offsetMax = new Vector2(0f, textRect.offsetMax.y);
 
-        Text_DetailDescription.textWrappingMode = TextWrappingModes.Normal;
-        Text_DetailDescription.overflowMode = TextOverflowModes.Overflow;
-        Text_DetailDescription.alignment = TextAlignmentOptions.TopLeft;
-        Text_DetailDescription.raycastTarget = false;
-        Text_DetailDescription.color = new Color(0.08f, 0.07f, 0.04f, 1f);
-        Text_DetailDescription.fontSize = Mathf.Clamp(Text_DetailDescription.fontSize <= 0f ? 28f : Text_DetailDescription.fontSize, 22f, 32f);
-        Text_DetailDescription.gameObject.SetActive(true);
-        Text_DetailDescription.transform.SetAsLastSibling();
+        ApplyDetailDescriptionTextStyle(Text_RuntimeDetailDescription);
+        Text_RuntimeDetailDescription.gameObject.SetActive(true);
+        Text_RuntimeDetailDescription.transform.SetAsLastSibling();
+
+        if (Text_DetailDescription != null && Text_DetailDescription != Text_RuntimeDetailDescription && Text_DetailDescription.transform.parent != contentRect)
+            Text_DetailDescription.gameObject.SetActive(false);
     }
 
-    private void RefreshDetailDescriptionScrollPosition()
+    private TextMeshProUGUI ResolveOrCreateRuntimeDetailDescription(RectTransform contentRect)
+    {
+        if (contentRect == null)
+            return Text_DetailDescription;
+
+        Transform existingTextTransform = RequestChildObjectByName(contentRect, "Text_DetailDescription_Runtime");
+        TextMeshProUGUI runtimeText = existingTextTransform != null ? existingTextTransform.GetComponent<TextMeshProUGUI>() : null;
+
+        if (runtimeText != null)
+            return runtimeText;
+
+        GameObject textObject = new GameObject("Text_DetailDescription_Runtime", typeof(RectTransform));
+        textObject.transform.SetParent(contentRect, false);
+        runtimeText = textObject.AddComponent<TextMeshProUGUI>();
+        OOTechTMPFontUtility.ApplyProjectFont(runtimeText);
+        return runtimeText;
+    }
+
+    private void ApplyDetailDescriptionTextStyle(TextMeshProUGUI targetText)
+    {
+        if (targetText == null)
+            return;
+
+        targetText.textWrappingMode = TextWrappingModes.Normal;
+        targetText.overflowMode = TextOverflowModes.Overflow;
+        targetText.alignment = TextAlignmentOptions.TopLeft;
+        targetText.raycastTarget = false;
+        targetText.color = new Color(0.04f, 0.035f, 0.025f, 1f);
+        targetText.fontSize = 27f;
+        targetText.lineSpacing = 12f;
+        targetText.margin = Vector4.zero;
+        targetText.gameObject.SetActive(true);
+        OOTechTMPFontUtility.ApplyProjectFont(targetText);
+    }
+
+    private void RefreshDetailDescriptionScrollPosition(string descriptionText = null)
     {
         EnsureDetailDescriptionScrollLayout();
 
-        if (Text_DetailDescription != null)
-            Text_DetailDescription.ForceMeshUpdate();
+        TextMeshProUGUI visibleDescriptionText = Text_RuntimeDetailDescription != null ? Text_RuntimeDetailDescription : Text_DetailDescription;
+
+        if (visibleDescriptionText != null && descriptionText != null)
+            visibleDescriptionText.text = descriptionText;
+
+        if (visibleDescriptionText != null)
+        {
+            ApplyDetailDescriptionTextStyle(visibleDescriptionText);
+            visibleDescriptionText.ForceMeshUpdate();
+        }
 
         Canvas.ForceUpdateCanvases();
 
@@ -641,10 +770,10 @@ public class OOTechCodexGroupController : MonoBehaviour, IPointerClickHandler
         {
             RectTransform contentRect = Scroll_DetailDescription.content;
 
-            if (contentRect != null && Text_DetailDescription != null)
+            if (contentRect != null && visibleDescriptionText != null)
             {
-                RectTransform textRect = Text_DetailDescription.rectTransform;
-                float preferredHeight = Mathf.Max(120f, Text_DetailDescription.preferredHeight + _detailDescriptionPadding.y * 2f);
+                RectTransform textRect = visibleDescriptionText.rectTransform;
+                float preferredHeight = Mathf.Max(180f, visibleDescriptionText.preferredHeight + _detailDescriptionPadding.y * 2f);
                 contentRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, preferredHeight);
                 textRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, preferredHeight - _detailDescriptionPadding.y * 2f);
             }
@@ -653,7 +782,7 @@ public class OOTechCodexGroupController : MonoBehaviour, IPointerClickHandler
         }
     }
 
-    private void RequestForceDetailTextsVisible(OO_Codex codexData)
+    private void RequestForceDetailTextsVisible(OO_Codex codexData, string descriptionText = null)
     {
         if (Text_DetailTitle != null)
         {
@@ -680,14 +809,15 @@ public class OOTechCodexGroupController : MonoBehaviour, IPointerClickHandler
         if (Text_DetailDescription != null)
         {
             Text_DetailDescription.gameObject.SetActive(true);
-            Text_DetailDescription.text = codexData != null ? codexData.Description : string.IsNullOrWhiteSpace(Text_DetailDescription.text) ? "등록된 도감 데이터가 없습니다." : Text_DetailDescription.text;
-            Text_DetailDescription.color = new Color(0.08f, 0.07f, 0.04f, 1f);
-            Text_DetailDescription.textWrappingMode = TextWrappingModes.Normal;
-            Text_DetailDescription.overflowMode = TextOverflowModes.Overflow;
-            Text_DetailDescription.alignment = TextAlignmentOptions.TopLeft;
-            Text_DetailDescription.raycastTarget = false;
-            OOTechTMPFontUtility.ApplyProjectFont(Text_DetailDescription);
-            Text_DetailDescription.transform.SetAsLastSibling();
+            Text_DetailDescription.text = descriptionText ?? (codexData != null ? codexData.Description : string.IsNullOrWhiteSpace(Text_DetailDescription.text) ? "등록된 도감 데이터가 없습니다." : Text_DetailDescription.text);
+            ApplyDetailDescriptionTextStyle(Text_DetailDescription);
+        }
+
+        if (Text_RuntimeDetailDescription != null)
+        {
+            Text_RuntimeDetailDescription.text = descriptionText ?? (codexData != null ? codexData.Description : Text_RuntimeDetailDescription.text);
+            ApplyDetailDescriptionTextStyle(Text_RuntimeDetailDescription);
+            Text_RuntimeDetailDescription.transform.SetAsLastSibling();
         }
 
         Canvas.ForceUpdateCanvases();

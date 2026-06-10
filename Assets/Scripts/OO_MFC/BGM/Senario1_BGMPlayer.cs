@@ -1,15 +1,10 @@
 // =============================================================================
-// OO_MFC 역할 주석
+// OO_MFC 코드 일관화 주석
 // - 스크립트: Senario1_BGMPlayer.cs
-// - 역할: 특정 그룹 또는 장면에서 BGM을 재생하는 음향 큐 스크립트입니다.
-// - 감독 관점: 장면이 켜질 때 어떤 음악을 틀지 알려 주는 음향 스태프입니다.
-// - 유지보수 포인트: 사운드 전환 규칙이 커지면 SoundManager로 옮기고, 이 스크립트는 AudioClip 참조와 재생 요청만 유지합니다.
+// - 역할: 지정된 구간의 배경음악 재생을 SoundManager에 요청합니다.
+// - 유지보수: 같은 BGM을 이어 재생해야 하는 구간에서는 중복 재시작 여부를 확인합니다.
 // =============================================================================
 using UnityEngine;
-
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
 
 /// <summary>
 /// Senario1Group에서 카메라가 누구를 비추는지에 따라 BGM을 전환합니다.
@@ -88,14 +83,6 @@ public class Senario1_BGMPlayer : MonoBehaviour
     /// </summary>
     private AudioClip ResolveClip(AudioClip assignedClip, string editorAssetPath)
     {
-        if (assignedClip != null)
-            return assignedClip;
-
-#if UNITY_EDITOR
-        if (!string.IsNullOrEmpty(editorAssetPath))
-            return AssetDatabase.LoadAssetAtPath<AudioClip>(editorAssetPath);
-#endif
-
-        return null;
+        return OOTechAudioClipResolver.ResolveFromEditorAssetName(assignedClip, editorAssetPath);
     }
 }

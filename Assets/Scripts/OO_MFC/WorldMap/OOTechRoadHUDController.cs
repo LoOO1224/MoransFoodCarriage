@@ -1,9 +1,8 @@
-﻿// =============================================================================
-// OO_MFC ??븷 二쇱꽍
-// - ?ㅽ겕由쏀듃: OOTechRoadHUDController.cs
-// - ??븷: 濡쒕뱶留? ?붾뱶留? ?ㅽ뀒?댁? ?꾪솚 ?먮쫫???대떦?섎뒗 ?λ㈃ Controller?낅땲??
-// - 媛먮룆 愿?? 湲??꾩쓽 ?λ㈃ ?꾪솚 ?먯떆?몃? ?ㅺ퀬 ?덈뒗 臾대?媛먮룆?낅땲??
-// - ?좎?蹂댁닔 ?ъ씤?? 諛곌꼍/踰꾪듉/罹먮┃??諛곗튂???ㅻ툕?앺듃? View媛 留↔퀬, ???ㅽ겕由쏀듃???쒖꽌 吏?섎쭔 留≪븘???⑸땲??
+// =============================================================================
+// OO_MFC 코드 일관화 주석
+// - 스크립트: OOTechRoadHUDController.cs
+// - 역할: 월드맵, 도로, 스테이지 진입, HUD 흐름을 연결합니다.
+// - 유지보수: UIManager 전환과 그룹 활성/비활성 순서가 게임 진행을 결정하므로 호출 순서를 유지합니다.
 // =============================================================================
 using System.Collections;
 using System.Collections.Generic;
@@ -127,6 +126,8 @@ public class OOTechRoadHUDController : MonoBehaviour
     private bool _isStage4PresentationHUDLockedOpen;
     private bool _isStage4CookingSupportLockedOpen;
     private bool _isStage4PersistentGuideLockedOpen;
+    private string _stage4CookingGuideTitle;
+    private string _stage4CookingGuideBody;
     private bool _isCookingQuestActive;
     private bool _isCookingQuestComplete;
     private bool _isCookingMissionRemoved;
@@ -209,14 +210,23 @@ public class OOTechRoadHUDController : MonoBehaviour
 
         if (hasGuideText)
         {
+            _stage4CookingGuideTitle = guideTitle;
+            _stage4CookingGuideBody = guideBody;
+        }
+
+        if (hasGuideText)
+        {
             if (isPersistentGuide)
                 ShowPersistentRoadMessageTopCenter(guideTitle, guideBody);
-            else if (!wasLockedOpen)
-                ShowRoadMessageTopCenter(guideTitle, guideBody, null);
+            else if (_isCookingOverlayOpen || isForceCookingSupportOpen)
+                ShowPersistentRoadMessageTopCenter(guideTitle, guideBody);
+            else
+                CloseHUDGuide();
         }
         else if (!isPersistentGuide)
         {
-            CloseHUDGuide();
+            if (!_isCookingOverlayOpen)
+                CloseHUDGuide();
         }
     }
 
@@ -273,6 +283,8 @@ public class OOTechRoadHUDController : MonoBehaviour
         _isStage4PresentationHUDLockedOpen = false;
         _isStage4CookingSupportLockedOpen = false;
         _isStage4PersistentGuideLockedOpen = false;
+        _stage4CookingGuideTitle = null;
+        _stage4CookingGuideBody = null;
         _isCookingOverlayOpen = false;
         Controller_CookingOverlay = null;
         CloseHUDGuide();
@@ -583,6 +595,7 @@ public class OOTechRoadHUDController : MonoBehaviour
         SetInventoryPanelActive(false);
         SetMissionPanelActive(false);
         SetHUDVisible(true);
+        RequestRestoreOwnerRoadMovement();
     }
 
     /// <summary>
@@ -2046,11 +2059,21 @@ public class OOTechRoadHUDController : MonoBehaviour
                 stage4Controller.RequestResolveStage4_2CookingReturn(true);
                 stage4Controller.RequestPlayRabbitCarrotCakeReadyIfAvailable();
             }
+
+            OOTechRoadToStage1Controller roadController = previousGroup.GetComponent<OOTechRoadToStage1Controller>();
+
+            if (roadController == null)
+                roadController = previousGroup.GetComponentInChildren<OOTechRoadToStage1Controller>(true);
+
+            if (roadController != null)
+                roadController.RequestRestoreRoadMovementAfterOverlayReturn();
         }
 
         _isOverlayOpen = false;
         _isCookingOverlayOpen = false;
+        _isStage4PersistentGuideLockedOpen = false;
         Controller_CookingOverlay = null;
+        CloseHUDGuide();
 
         if (Canvas_HUD != null)
             Canvas_HUD.sortingOrder = _sortingOrder;
@@ -2059,6 +2082,18 @@ public class OOTechRoadHUDController : MonoBehaviour
         SetBottomHUDActive(true);
         RefreshInventoryView();
         RefreshMissionText();
+        RequestRestoreOwnerRoadMovement();
+    }
+
+    private void RequestRestoreOwnerRoadMovement()
+    {
+        OOTechRoadToStage1Controller roadController = GetComponent<OOTechRoadToStage1Controller>();
+
+        if (roadController == null)
+            roadController = GetComponentInChildren<OOTechRoadToStage1Controller>(true);
+
+        if (roadController != null)
+            roadController.RequestRestoreRoadMovementAfterOverlayReturn();
     }
 
     /// <summary>
@@ -2072,6 +2107,7 @@ public class OOTechRoadHUDController : MonoBehaviour
         CloseHUDGuide();
         HideMainMenuConfirmPopup();
         ApplyCookingSupportPanelLayout();
+        ShowStage4CookingGuideInKitchenIfNeeded();
 
         if (Canvas_HUD != null)
             Canvas_HUD.sortingOrder = _sortingOrder + 600;
@@ -2145,6 +2181,26 @@ public class OOTechRoadHUDController : MonoBehaviour
         SetMissionPanelActive(false);
         RefreshInventoryView();
         RefreshMissionText();
+    }
+
+    private void ShowStage4CookingGuideInKitchenIfNeeded()
+    {
+        if (!IsStage4CookingGuideOwner())
+            return;
+
+        string title = string.IsNullOrWhiteSpace(_stage4CookingGuideTitle) ? "당근전 조리 가이드" : _stage4CookingGuideTitle;
+        string body = string.IsNullOrWhiteSpace(_stage4CookingGuideBody)
+            ? "떡과 당근을 레시피 조합에서 당근전분으로 만들고, 당근전분을 가마솥에 넣어 당근전을 완성하세요."
+            : _stage4CookingGuideBody;
+
+        ShowPersistentRoadMessageTopCenter(title, body);
+    }
+
+    private bool IsStage4CookingGuideOwner()
+    {
+        string ownerName = OwnerGroupName;
+        return !string.IsNullOrWhiteSpace(ownerName) &&
+               (ownerName.Contains("Stage4") || ownerName.Contains("4th_Road"));
     }
 
     private void ApplyCookingSupportPanelLayout()
@@ -2570,4 +2626,3 @@ public class OOTechRoadHUDController : MonoBehaviour
         return null;
     }
 }
-

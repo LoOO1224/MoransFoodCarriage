@@ -5,15 +5,11 @@
     "Description": "상자다. 딱히 의미가 있진 않다.",
     "ItemType": "Normal",
     "Grade": "Normal",
-    "MaxStackCount": 20,
-    "SellingPrice": 100,
+    "MaxStackCount": "20",
+    "SellingPrice": "100",
     "IconPath": "Icon/Icon_Item_Box_1",
     "UseItemType": "RandomItemBox",
-    "UseItemParameterList": [
-      "Item_Equip_Hat_1:1",
-      "Item_Corn_1:20",
-      "Item_Gold_1:100"
-    ]
+    "UseItemParameterList": "['Item_Equip_Hat_1:1', 'Item_Corn_1:20', 'Item_Gold_1:100']"
   },
   {
     "Id": "Item_Gold_1",
@@ -21,8 +17,8 @@
     "Description": "지역에 나타나는 금화",
     "ItemType": "Normal",
     "Grade": "Legend",
-    "MaxStackCount": 1000,
-    "SellingPrice": 1000,
+    "MaxStackCount": "1000",
+    "SellingPrice": "1000",
     "IconPath": "Icon/Icon_Item_Gold_1",
     "UseItemType": null,
     "UseItemParameterList": null
@@ -33,13 +29,11 @@
     "Description": "착용하면 공격력이 강해진다.",
     "ItemType": "Equipment",
     "Grade": "Epic",
-    "MaxStackCount": 0,
-    "SellingPrice": 1,
+    "MaxStackCount": "0",
+    "SellingPrice": "1",
     "IconPath": "Icon/Icon_Item_Equip_Hat_1",
     "UseItemType": "StatChangeAtk",
-    "UseItemParameterList": [
-      "700"
-    ]
+    "UseItemParameterList": "['700']"
   },
   {
     "Id": "Item_Corn_1",
@@ -47,13 +41,11 @@
     "Description": "옥수수다",
     "ItemType": "Normal",
     "Grade": "Normal",
-    "MaxStackCount": 100,
-    "SellingPrice": 20,
+    "MaxStackCount": "100",
+    "SellingPrice": "20",
     "IconPath": "Icon/Icon_Item_Corn",
     "UseItemType": "StatChangeHp",
-    "UseItemParameterList": [
-      "20"
-    ]
+    "UseItemParameterList": "['20']"
   },
   {
     "Id": "Item_Potato_1",
@@ -61,12 +53,10 @@
     "Description": "감자다. 딱히 의미가 있진 않다.",
     "ItemType": "Normal",
     "Grade": "Normal",
-    "MaxStackCount": 20,
-    "SellingPrice": 100,
+    "MaxStackCount": "20",
+    "SellingPrice": "100",
     "IconPath": "Icon/Icon_Item_Box_1",
     "UseItemType": "SummonMonster",
-    "UseItemParameterList": [
-      "mob_bear_1:2"
-    ]
+    "UseItemParameterList": "['mob_bear_1:2']"
   }
 ]

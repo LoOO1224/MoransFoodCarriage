@@ -1,11 +1,8 @@
-﻿// =============================================================================
-// OO_MFC ??븷 二쇱꽍
-// - ?ㅽ겕由쏀듃: OOTechStage4GroupController.cs
-// - ??븷: Stage4_1Group怨?Stage4_2Group??嫄곕턿???좊겮 ?먯떆?몃? 吏?섑빀?덈떎.
-// - ?곹솕 鍮꾩쑀: ???ㅽ겕由쏀듃??臾대?媛먮룆?낅땲?? 嫄곕턿?? ?좊겮, 留먰뭾?? HUD瑜?吏곸젒 留뚮뱾吏 ?딄퀬
-//   "吏湲????, "吏湲??대룞", "吏湲??꾨Т 媛깆떊" 媛숈? ?먮쭔 ?꾨떖?⑸땲??
-// - ?좎?蹂댁닔 ?ъ씤?? ???留먰뭾???꾩씠??ID??OO_Stage4CueSheet? 湲곗〈 JSON?먯꽌 ?쎄퀬,
-//   諛곗슦 ?ㅻ툕?앺듃??OOTechSceneObject ??븷?쒕줈 李얠뒿?덈떎.
+// =============================================================================
+// OO_MFC 코드 일관화 주석
+// - 스크립트: OOTechStage4GroupController.cs
+// - 역할: Stage4 토끼/거북이 마지막 임무와 발표용 진행 보장을 담당합니다.
+// - 유지보수: Moran 표시, SpeechBubble, CookingGroup 왕복 보험은 엔딩 진행에 직접 연결되므로 임의 삭제하지 않습니다.
 // =============================================================================
 using System.Collections;
 using System.Collections.Generic;
@@ -58,7 +55,9 @@ public class OOTechStage4GroupController : MonoBehaviour
     private Transform Transform_StopPointA;
     private SpriteRenderer Renderer_Background;
     private Coroutine Coroutine_Sequence;
+    private Coroutine Coroutine_ClearFailSafe;
     private bool _isRunningSequence;
+    private bool _isStage4ClearTransitionRequested;
     private bool _isStage4_1RightExitArmed = true;
     private bool _isStage4_2LeftExitArmed;
     private Transform Transform_Stage4_2PresentationMoranClone;
@@ -96,6 +95,12 @@ public class OOTechStage4GroupController : MonoBehaviour
         {
             StopCoroutine(Coroutine_Sequence);
             Coroutine_Sequence = null;
+        }
+
+        if (Coroutine_ClearFailSafe != null)
+        {
+            StopCoroutine(Coroutine_ClearFailSafe);
+            Coroutine_ClearFailSafe = null;
         }
 
         _isRunningSequence = false;
@@ -533,7 +538,7 @@ public class OOTechStage4GroupController : MonoBehaviour
         HUD_Road.SetCookingUnlocked(true, true);
         HUD_Road.SetCookingNewBadgeActive(true);
         RequestSetMission(ResolveStage4CarrotCakeMissionText(), true);
-        HUD_Road.RequestEnableStage4PresentationHUD(gameObject.name, ResolveStage4CarrotCakeMissionText(), null, null);
+        HUD_Road.RequestEnableStage4PresentationHUD(gameObject.name, ResolveStage4CarrotCakeMissionText(), "당근전 조리 가이드", ResolveStage4CarrotCakeGuideText());
     }
 
     private void RequestForcePresentationHUD()
@@ -548,7 +553,7 @@ public class OOTechStage4GroupController : MonoBehaviour
             ? "토끼가 잠이 들었습니다. 거북이에게 돌아가세요!"
             : ResolveStage4CarrotCakeMissionText();
 
-        HUD_Road.RequestEnableStage4PresentationHUD(gameObject.name, missionText, null, null);
+        HUD_Road.RequestEnableStage4PresentationHUD(gameObject.name, missionText, "당근전 조리 가이드", ResolveStage4CarrotCakeGuideText());
     }
 
     private void RequestKeepPresentationInsuranceAlive()
@@ -575,7 +580,10 @@ public class OOTechStage4GroupController : MonoBehaviour
             }
         }
 
-        RequestForcePresentationHUD();
+        if (_isStage4Cleared)
+            HUD_Road?.RequestForceHideForCutScene();
+        else
+            RequestForcePresentationHUD();
     }
 
     private void RequestKeepStage4ClearVictoryActorsAlive()
@@ -1071,10 +1079,7 @@ public class OOTechStage4GroupController : MonoBehaviour
 
     private void RequestPlayStage4BGM()
     {
-        AudioClip clip = Clip_Stage4BGM;
-
-        if (clip == null)
-            clip = Resources.Load<AudioClip>("Audio/BGM/Stage4_BGM");
+        AudioClip clip = OOTechAudioClipResolver.Resolve(Clip_Stage4BGM, "Audio/BGM/Stage4_BGM");
 
         if (clip != null && OOTechSoundManager.Inst != null)
             OOTechSoundManager.Inst.PlayBGM(clip, true);
@@ -1082,8 +1087,14 @@ public class OOTechStage4GroupController : MonoBehaviour
 
     private void ShowStage4ClearCanvas()
     {
+        _isStage4ClearTransitionRequested = false;
+        HUD_Road?.RequestForceHideForCutScene();
+
         if (TryShowStage4CompleteTutorialGuide())
+        {
+            StartStage4ClearFailSafe();
             return;
+        }
 
         if (View_ClearPanel == null)
             View_ClearPanel = GetComponentInChildren<OOTechStage4ClearPanelView>(true);
@@ -1099,13 +1110,15 @@ public class OOTechStage4GroupController : MonoBehaviour
         {
             View_ClearPanel.RequestShow("모든 스테이지 임무 완료!", bodyText, delegate
             {
-                RequestSwitchGroup(gameObject.name, ResolvePreFinalGroupName());
+                RequestSwitchToPreFinalFromStage4Clear();
             });
+            RequestForceCanvasVisible(View_ClearPanel.gameObject, 6500);
+            StartStage4ClearFailSafe();
             return;
         }
 
         Debug.LogWarning("[OOTechStage4GroupController] Canvas_Stage4Clear is missing. Switching to PreFinal as a fail-safe.");
-        RequestSwitchGroup(gameObject.name, ResolvePreFinalGroupName());
+        RequestSwitchToPreFinalFromStage4Clear();
     }
 
     private bool TryShowStage4CompleteTutorialGuide()
@@ -1124,6 +1137,7 @@ public class OOTechStage4GroupController : MonoBehaviour
             OOTechUIManager.Inst.RegisterUI("TutorialGuideGroup", tutorialGuideGroup);
 
         tutorialGuideGroup.SetActive(true);
+        tutorialGuideUI.gameObject.SetActive(true);
         RequestForceCanvasVisible(tutorialGuideGroup, 6400);
 
         OO_Tutorial tutorialData = OOTechGameDataManager.Inst != null
@@ -1152,7 +1166,7 @@ public class OOTechStage4GroupController : MonoBehaviour
             {
                 tutorialGuideUI.SetTitleEmphasisActive(false);
                 tutorialGuideUI.CloseGuide();
-                RequestSwitchGroup(gameObject.name, ResolvePreFinalGroupName());
+                RequestSwitchToPreFinalFromStage4Clear();
             });
         }
         else
@@ -1168,12 +1182,47 @@ public class OOTechStage4GroupController : MonoBehaviour
             {
                 tutorialGuideUI.SetTitleEmphasisActive(false);
                 tutorialGuideUI.CloseGuide();
-                RequestSwitchGroup(gameObject.name, ResolvePreFinalGroupName());
+                RequestSwitchToPreFinalFromStage4Clear();
             });
         }
 
         tutorialGuideUI.SetTitleEmphasisActive(true);
         return true;
+    }
+
+    private void StartStage4ClearFailSafe()
+    {
+        if (Coroutine_ClearFailSafe != null)
+            StopCoroutine(Coroutine_ClearFailSafe);
+
+        Coroutine_ClearFailSafe = StartCoroutine(Stage4ClearFailSafeRoutine());
+    }
+
+    private IEnumerator Stage4ClearFailSafeRoutine()
+    {
+        yield return new WaitForSecondsRealtime(10f);
+
+        if (_isStage4ClearTransitionRequested)
+            yield break;
+
+        Debug.LogWarning("[OOTechStage4GroupController] Stage4 clear panel did not advance. Moving to PreFinal by fail-safe.");
+        RequestSwitchToPreFinalFromStage4Clear();
+    }
+
+    private void RequestSwitchToPreFinalFromStage4Clear()
+    {
+        if (_isStage4ClearTransitionRequested)
+            return;
+
+        _isStage4ClearTransitionRequested = true;
+
+        if (Coroutine_ClearFailSafe != null)
+        {
+            StopCoroutine(Coroutine_ClearFailSafe);
+            Coroutine_ClearFailSafe = null;
+        }
+
+        RequestSwitchGroup(gameObject.name, ResolvePreFinalGroupName());
     }
 
     private Transform ResolveRoleTransform(string roleId, string fallbackName)
@@ -1539,4 +1588,3 @@ public class OOTechStage4GroupController : MonoBehaviour
         return null;
     }
 }
-

@@ -380,16 +380,6 @@
     "VoicePath": null
   },
   {
-    "Id": null,
-    "SpeakerName": null,
-    "Text": null,
-    "NextDialogueId": null,
-    "SelectionNameList": null,
-    "SelectionDialogueIdList": null,
-    "TexturePath": null,
-    "VoicePath": null
-  },
-  {
     "Id": "character_Turtle_01",
     "SpeakerName": "거북이",
     "Text": "“아이고, 이보시오 요리사 양반! 용왕님의 병을 고치려면 저 얄미운 토끼 녀석의 간이 절실히 필요하다오. 달리기 경주로 담판을 지으려 했건만, 발이 어찌나 빠른지 등껍질이 터지도록 뛰어도 도저히 잡을 수가 없으니 내 신세가 처량하구려…….”",

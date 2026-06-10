@@ -1,9 +1,8 @@
-﻿// =============================================================================
-// OO_MFC ??븷 二쇱꽍
-// - ?ㅽ겕由쏀듃: OOTechCodexEntrySlotView.cs
-// - ??븷: CodexGroup ?ㅽ겕濡?紐⑸줉???꾧컧 ??ぉ ??以꾩쓣 ?쒖떆?⑸땲??
-// - ?곹솕 鍮꾩쑀: ?꾨줈洹몃옩遺?紐⑹감????以꾩엯?덈떎. 媛먮룆???꾨땲?? ?먭린 ?쒕ぉ怨??대┃ ?좏샇留??대떦?⑸땲??
-// - ?좎?蹂댁닔 ?ъ씤: ?곗씠??濡쒕뵫? GameDataManager媛 留↔퀬, ??View??諛쏆? ?곗씠?곕쭔 ?붾㈃??蹂댁뿬以띾땲??
+// =============================================================================
+// OO_MFC 코드 일관화 주석
+// - 스크립트: OOTechCodexEntrySlotView.cs
+// - 역할: UI 오브젝트 참조, 표시 갱신, 버튼 입력 연결을 담당합니다.
+// - 유지보수: 씬 Hierarchy 이름으로 런타임 참조를 복구하는 코드가 많아 오브젝트 이름 변경에 주의합니다.
 // =============================================================================
 using System;
 using TMPro;
@@ -71,14 +70,23 @@ public class OOTechCodexEntrySlotView : MonoBehaviour
         if (Button_Select == null)
             Button_Select = GetComponent<Button>();
 
+        if (Button_Select == null)
+            Button_Select = gameObject.AddComponent<Button>();
+
         if (Image_Background == null)
             Image_Background = GetComponent<Image>();
 
         if (Image_Background == null && Button_Select != null)
             Image_Background = Button_Select.GetComponent<Image>();
 
+        if (Image_Background == null)
+            Image_Background = gameObject.AddComponent<Image>();
+
         if (Text_Title == null)
             Text_Title = RequestText("Text_Title", "Text_Label");
+
+        if (Text_Title == null)
+            Text_Title = CreateTitleText();
 
         if (Text_Category == null)
             Text_Category = RequestText("Text_Category");
@@ -135,7 +143,20 @@ public class OOTechCodexEntrySlotView : MonoBehaviour
             Text_Title.textWrappingMode = TextWrappingModes.NoWrap;
             Text_Title.overflowMode = TextOverflowModes.Ellipsis;
             Text_Title.fontSize = Mathf.Clamp(Text_Title.fontSize <= 0f ? 28f : Text_Title.fontSize, 22f, 30f);
+            Text_Title.color = _slotTextColor;
+            Text_Title.raycastTarget = false;
+            Text_Title.gameObject.SetActive(true);
+            Text_Title.transform.SetAsLastSibling();
         }
+    }
+
+    private TextMeshProUGUI CreateTitleText()
+    {
+        GameObject textObject = new GameObject("Text_Title", typeof(RectTransform));
+        textObject.transform.SetParent(transform, false);
+        TextMeshProUGUI titleText = textObject.AddComponent<TextMeshProUGUI>();
+        OOTechTMPFontUtility.ApplyProjectFont(titleText);
+        return titleText;
     }
 
     public void RequestSetSlotHeight(float slotHeight)

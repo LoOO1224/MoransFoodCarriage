@@ -1,9 +1,8 @@
-﻿// =============================================================================
-// OO_MFC ??븷 二쇱꽍
-// - ?ㅽ겕由쏀듃: OOTechCookingGroupController.cs
-// - ??븷: ?붾━ ?쒖뒪?쒖쓽 ?낅젰, 議곕━?꾧뎄, ?덉떆???먯젙???대떦?섎뒗 ?ㅽ겕由쏀듃?낅땲??
-// - 媛먮룆 愿?? 遺???λ㈃?먯꽌 ?щ즺? 議곕━?꾧뎄 諛곗슦媛 ?대뼡 ?쒖꽌濡?留뚮굹?붿? 愿由ы빀?덈떎.
-// - ?좎?蹂댁닔 ?ъ씤?? ?щ즺 洹쒖튃? ?곗씠?곗? DropTarget ??븷?쒕줈 鍮쇨퀬, UI 諛곗튂??CookingUIGroup?먯꽌 吏곸젒 ?섏젙?⑸땲??
+// =============================================================================
+// OO_MFC 코드 일관화 주석
+// - 스크립트: OOTechCookingGroupController.cs
+// - 역할: CookingGroup의 조리 입력, 도구 판정, 인벤토리 연동을 나누어 담당합니다.
+// - 유지보수: Stage3/Stage4 발표용 진행 보험이 섞여 있으므로 제거 전 실제 리허설 흐름을 반드시 확인합니다.
 // =============================================================================
 using System.Collections;
 using System.Collections.Generic;
@@ -1355,7 +1354,7 @@ public class OOTechCookingGroupController : MonoBehaviour
         }
 
         if (Text_HoneyCakeGuide != null)
-            Text_HoneyCakeGuide.text = ResolveStage4RecipeGuideText();
+            Text_HoneyCakeGuide.text = string.Empty;
 
         SetStatus("떡과 당근은 레시피 조합에서 당근전분으로 만들고, 당근전분은 가마솥에 넣어 당근전으로 완성하세요.");
     }

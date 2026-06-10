@@ -9686,7 +9686,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 21.7, y: 32.6}
+  m_AnchoredPosition: {x: 15, y: 27}
   m_SizeDelta: {x: 254.4, y: 81.1077}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &197681012
@@ -16276,6 +16276,9 @@ GameObject:
   - component: {fileID: 2700000010}
   - component: {fileID: 1456504092}
   - component: {fileID: 1456504091}
+  - component: {fileID: 2700000016}
+  - component: {fileID: 2700000011}
+  - component: {fileID: 2700000017}
   m_Layer: 0
   m_Name: 1st_Road_to_Stage1
   m_TagString: Untagged
@@ -27545,6 +27548,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 547457986}
   m_CullTransparentMesh: 1
+--- !u!114 &547924936
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3000000000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fcfad6239bc6de4489599b2ce0a3351e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OOTechRoadMoveInputReader
+  _moveRightKey: 100
+  _alternateMoveRightKey: 275
 --- !u!1 &550811824
 GameObject:
   m_ObjectHideFlags: 0
@@ -35284,6 +35301,38 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &673571679
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3000000000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24453d75a4ce1e34aa76117b73a5ff94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OOTechTargetStageBGMPlayer
+  _targetGroupNameArray:
+  - Stage4_1Group
+  - Stage4Group
+  _bgmClip: {fileID: 0}
+  _resourcePath: Audio/BGM/Stage4_BGM
+  _editorAssetPath: Assets/Sounds/BGM/Stage4_BGM.mp3
+--- !u!114 &673571680
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3000000000}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e393aa6bd6f906448105e29426b2da1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OOTechRoadAutoMoveFailSafe
+  _isEnabledInBuild: 0
+  _delaySeconds: 1.5
 --- !u!1 &677418618
 GameObject:
   m_ObjectHideFlags: 0
@@ -66580,6 +66629,9 @@ GameObject:
   - component: {fileID: 1245304637}
   - component: {fileID: 1245304636}
   - component: {fileID: 1245304635}
+  - component: {fileID: 1245304644}
+  - component: {fileID: 1245304643}
+  - component: {fileID: 1245304645}
   m_Layer: 0
   m_Name: 3rd_Road_to_Stage3
   m_TagString: Untagged
@@ -66702,6 +66754,9 @@ MonoBehaviour:
   Context_Scene: {fileID: 1245304637}
   HUD_Road: {fileID: 0}
   Tutorial2_Controller: {fileID: 0}
+  MoveInput_Reader: {fileID: 1245304645}
+  AutoMove_FailSafe: {fileID: 1245304644}
+  TargetStage_BGMPlayer: {fileID: 1245304643}
   Object_MFC: {fileID: 74169256}
   Animator_MFC: {fileID: 74169258}
   Renderer_MFC: {fileID: 74169257}
@@ -66713,8 +66768,6 @@ MonoBehaviour:
   Object_Stage1EntryMap: {fileID: 735977200}
   Transform_MFCStartPoint: {fileID: 508066714}
   Object_Wormhole: {fileID: 0}
-  _moveRightKey: 100
-  _alternateMoveRightKey: 275
   _moveSpeed: 4.2
   _roadLaneNormalizedHeight: 0.19000003
   _entryMarginRatio: 0.1
@@ -66726,8 +66779,6 @@ MonoBehaviour:
   _mfcWalkAnimationSpeed: 0.85
   _mfcSortingOrder: 100
   _blockedInputHoldSeconds: 1.2
-  _isUseBuildAutoMoveFailSafe: 1
-  _buildAutoMoveDelaySeconds: 1.5
   _fadeOutSeconds: 0.45
   _blackoutHoldSeconds: 0.15
   _fadeInSeconds: 0.55
@@ -66742,8 +66793,6 @@ MonoBehaviour:
   - Stage3Group
   - Stage4Group
   - FinalStageGroup
-  _stage4BGM: {fileID: 0}
-  _stage4BGMAssetPath: Assets/Sounds/BGM/Stage4_BGM.mp3
   _stage3CueSheetDataId: Stage3_CueSheet_01
   _stage4CueSheetDataId: Stage4_CueSheet_01
   _thirdRoadMissionDataId: Stage3_Road_Quest_01
@@ -66878,6 +66927,52 @@ Transform:
   - {fileID: 649521053}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1245304643
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1245304634}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24453d75a4ce1e34aa76117b73a5ff94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OOTechTargetStageBGMPlayer
+  _targetGroupNameArray:
+  - Stage4_1Group
+  - Stage4Group
+  _bgmClip: {fileID: 0}
+  _resourcePath: Audio/BGM/Stage4_BGM
+  _editorAssetPath: Assets/Sounds/BGM/Stage4_BGM.mp3
+--- !u!114 &1245304644
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1245304634}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e393aa6bd6f906448105e29426b2da1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OOTechRoadAutoMoveFailSafe
+  _isEnabledInBuild: 0
+  _delaySeconds: 1.5
+--- !u!114 &1245304645
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1245304634}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fcfad6239bc6de4489599b2ce0a3351e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OOTechRoadMoveInputReader
+  _moveRightKey: 100
+  _alternateMoveRightKey: 275
 --- !u!114 &1246424356
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -115879,6 +115974,9 @@ MonoBehaviour:
   Context_Scene: {fileID: 2700000010}
   HUD_Road: {fileID: 0}
   Tutorial2_Controller: {fileID: 0}
+  MoveInput_Reader: {fileID: 2700000017}
+  AutoMove_FailSafe: {fileID: 2700000016}
+  TargetStage_BGMPlayer: {fileID: 2700000011}
   Object_MFC: {fileID: 915595932}
   Animator_MFC: {fileID: 915595934}
   Renderer_MFC: {fileID: 915595935}
@@ -115890,8 +115988,6 @@ MonoBehaviour:
   Object_Stage1EntryMap: {fileID: 1334811767}
   Transform_MFCStartPoint: {fileID: 2134197917}
   Object_Wormhole: {fileID: 0}
-  _moveRightKey: 100
-  _alternateMoveRightKey: 275
   _moveSpeed: 4.2
   _roadLaneNormalizedHeight: 0.15
   _entryMarginRatio: 0.1
@@ -115903,8 +115999,6 @@ MonoBehaviour:
   _mfcWalkAnimationSpeed: 0.85
   _mfcSortingOrder: 100
   _blockedInputHoldSeconds: 1.2
-  _isUseBuildAutoMoveFailSafe: 1
-  _buildAutoMoveDelaySeconds: 1.5
   _fadeOutSeconds: 0.45
   _blackoutHoldSeconds: 0.15
   _fadeInSeconds: 0.55
@@ -115919,8 +116013,6 @@ MonoBehaviour:
   - Stage3Group
   - Stage4Group
   - FinalStageGroup
-  _stage4BGM: {fileID: 0}
-  _stage4BGMAssetPath: Assets/Sounds/BGM/Stage4_BGM.mp3
   _stage3CueSheetDataId: Stage3_CueSheet_01
   _stage4CueSheetDataId: Stage4_CueSheet_01
   _thirdRoadMissionDataId: Stage3_Road_Quest_01
@@ -116380,6 +116472,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b403e294562f44b59f31d58d57e28f27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OOTechSceneContext
+--- !u!114 &2700000011
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 341831671}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24453d75a4ce1e34aa76117b73a5ff94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OOTechTargetStageBGMPlayer
+  _targetGroupNameArray:
+  - Stage4_1Group
+  - Stage4Group
+  _bgmClip: {fileID: 0}
+  _resourcePath: Audio/BGM/Stage4_BGM
+  _editorAssetPath: Assets/Sounds/BGM/Stage4_BGM.mp3
 --- !u!114 &2700000012
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -116432,6 +116542,34 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OOTechSceneObject
   _roleId: Stage1EntryMap
+--- !u!114 &2700000016
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 341831671}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e393aa6bd6f906448105e29426b2da1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OOTechRoadAutoMoveFailSafe
+  _isEnabledInBuild: 0
+  _delaySeconds: 1.5
+--- !u!114 &2700000017
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 341831671}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fcfad6239bc6de4489599b2ce0a3351e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OOTechRoadMoveInputReader
+  _moveRightKey: 100
+  _alternateMoveRightKey: 275
 --- !u!114 &2700000020
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -116490,6 +116628,9 @@ GameObject:
   - component: {fileID: 3000000006}
   - component: {fileID: 1246424357}
   - component: {fileID: 1246424356}
+  - component: {fileID: 673571680}
+  - component: {fileID: 673571679}
+  - component: {fileID: 547924936}
   m_Layer: 0
   m_Name: 2nd_Road_to_Stage2
   m_TagString: Untagged
@@ -116617,6 +116758,9 @@ MonoBehaviour:
   Context_Scene: {fileID: 3000000006}
   HUD_Road: {fileID: 0}
   Tutorial2_Controller: {fileID: 0}
+  MoveInput_Reader: {fileID: 547924936}
+  AutoMove_FailSafe: {fileID: 673571680}
+  TargetStage_BGMPlayer: {fileID: 673571679}
   Object_MFC: {fileID: 3000000031}
   Animator_MFC: {fileID: 3000000034}
   Renderer_MFC: {fileID: 3000000033}
@@ -116628,8 +116772,6 @@ MonoBehaviour:
   Object_Stage1EntryMap: {fileID: 3000000019}
   Transform_MFCStartPoint: {fileID: 1911688453}
   Object_Wormhole: {fileID: 0}
-  _moveRightKey: 100
-  _alternateMoveRightKey: 275
   _moveSpeed: 4.2
   _roadLaneNormalizedHeight: 0.15
   _entryMarginRatio: 0.1
@@ -116641,8 +116783,6 @@ MonoBehaviour:
   _mfcWalkAnimationSpeed: 0.85
   _mfcSortingOrder: 100
   _blockedInputHoldSeconds: 1.2
-  _isUseBuildAutoMoveFailSafe: 1
-  _buildAutoMoveDelaySeconds: 1.5
   _fadeOutSeconds: 0.45
   _blackoutHoldSeconds: 0.15
   _fadeInSeconds: 0.55
@@ -116657,8 +116797,6 @@ MonoBehaviour:
   - Stage3Group
   - Stage4Group
   - FinalStageGroup
-  _stage4BGM: {fileID: 0}
-  _stage4BGMAssetPath: Assets/Sounds/BGM/Stage4_BGM.mp3
   _stage3CueSheetDataId: Stage3_CueSheet_01
   _stage4CueSheetDataId: Stage4_CueSheet_01
   _thirdRoadMissionDataId: Stage3_Road_Quest_01
@@ -117388,6 +117526,9 @@ GameObject:
   - component: {fileID: 3000002006}
   - component: {fileID: 1280027473}
   - component: {fileID: 1280027472}
+  - component: {fileID: 3000002012}
+  - component: {fileID: 3000002011}
+  - component: {fileID: 3000002013}
   m_Layer: 0
   m_Name: 4th_Road_to_Stage4
   m_TagString: Untagged
@@ -117514,6 +117655,9 @@ MonoBehaviour:
   Context_Scene: {fileID: 3000002006}
   HUD_Road: {fileID: 0}
   Tutorial2_Controller: {fileID: 0}
+  MoveInput_Reader: {fileID: 3000002013}
+  AutoMove_FailSafe: {fileID: 3000002012}
+  TargetStage_BGMPlayer: {fileID: 3000002011}
   Object_MFC: {fileID: 3000002031}
   Animator_MFC: {fileID: 3000002034}
   Renderer_MFC: {fileID: 3000002033}
@@ -117525,8 +117669,6 @@ MonoBehaviour:
   Object_Stage1EntryMap: {fileID: 3000002019}
   Transform_MFCStartPoint: {fileID: 324769776}
   Object_Wormhole: {fileID: 0}
-  _moveRightKey: 100
-  _alternateMoveRightKey: 275
   _moveSpeed: 4.2
   _roadLaneNormalizedHeight: 0.15
   _entryMarginRatio: 0.1
@@ -117538,8 +117680,6 @@ MonoBehaviour:
   _mfcWalkAnimationSpeed: 0.85
   _mfcSortingOrder: 100
   _blockedInputHoldSeconds: 1.2
-  _isUseBuildAutoMoveFailSafe: 1
-  _buildAutoMoveDelaySeconds: 1.5
   _fadeOutSeconds: 0.45
   _blackoutHoldSeconds: 0.15
   _fadeInSeconds: 0.55
@@ -117554,8 +117694,6 @@ MonoBehaviour:
   - Stage3Group
   - Stage4Group
   - FinalStageGroup
-  _stage4BGM: {fileID: 0}
-  _stage4BGMAssetPath: Assets/Sounds/BGM/Stage4_BGM.mp3
   _stage3CueSheetDataId: Stage3_CueSheet_01
   _stage4CueSheetDataId: Stage4_CueSheet_01
   _thirdRoadMissionDataId: Stage3_Road_Quest_01
@@ -117720,6 +117858,52 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OOTechSceneObject
   _roleId: StartPointMap
+--- !u!114 &3000002011
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3000002000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24453d75a4ce1e34aa76117b73a5ff94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OOTechTargetStageBGMPlayer
+  _targetGroupNameArray:
+  - Stage4_1Group
+  - Stage4Group
+  _bgmClip: {fileID: 0}
+  _resourcePath: Audio/BGM/Stage4_BGM
+  _editorAssetPath: Assets/Sounds/BGM/Stage4_BGM.mp3
+--- !u!114 &3000002012
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3000002000}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e393aa6bd6f906448105e29426b2da1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OOTechRoadAutoMoveFailSafe
+  _isEnabledInBuild: 0
+  _delaySeconds: 1.5
+--- !u!114 &3000002013
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3000002000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fcfad6239bc6de4489599b2ce0a3351e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OOTechRoadMoveInputReader
+  _moveRightKey: 100
+  _alternateMoveRightKey: 275
 --- !u!1 &3000002019
 GameObject:
   m_ObjectHideFlags: 0
